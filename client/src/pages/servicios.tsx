@@ -171,7 +171,7 @@ export default function Servicios() {
               <div className="p-5 sm:p-8 flex-grow">
                 <div className="flex justify-between items-start mb-4">
                   <h3 className="text-xl sm:text-2xl font-black text-brand-dark uppercase tracking-tight">New Mexico</h3>
-                  <span className="bg-brand-lime/20 text-brand-dark text-[8px] sm:text-[10px] font-black px-2 py-1 rounded-full uppercase">Popular</span>
+                  <span className="bg-brand-lime/20 text-brand-dark text-[10px] sm:text-[13px] font-black px-3 py-1.5 rounded-full uppercase">Popular</span>
                 </div>
                 <div className="flex items-baseline gap-1 mb-2">
                   <p className="text-4xl sm:text-5xl font-black text-brand-dark">639€</p>
@@ -209,7 +209,7 @@ export default function Servicios() {
               <div className="p-5 sm:p-8 flex-grow">
                 <div className="flex justify-between items-start mb-4">
                   <h3 className="text-xl sm:text-2xl font-black text-brand-dark uppercase tracking-tight">Wyoming</h3>
-                  <span className="bg-brand-dark text-white text-[8px] sm:text-[10px] font-black px-2 py-1 rounded-full uppercase">Premium</span>
+                  <span className="bg-brand-dark text-white text-[10px] sm:text-[13px] font-black px-3 py-1.5 rounded-full uppercase">Premium</span>
                 </div>
                 <div className="flex items-baseline gap-1 mb-2">
                   <p className="text-4xl sm:text-5xl font-black text-brand-dark">799€</p>
@@ -247,7 +247,7 @@ export default function Servicios() {
               <div className="p-5 sm:p-8 flex-grow">
                 <div className="flex justify-between items-start mb-4">
                   <h3 className="text-xl sm:text-2xl font-black text-brand-dark uppercase tracking-tight">Delaware</h3>
-                  <span className="bg-brand-lime text-brand-dark text-[8px] sm:text-[10px] font-black px-2 py-1 rounded-full uppercase">Startups</span>
+                  <span className="bg-brand-lime text-brand-dark text-[10px] sm:text-[13px] font-black px-3 py-1.5 rounded-full uppercase">Startups</span>
                 </div>
                 <div className="flex items-baseline gap-1 mb-2">
                   <p className="text-4xl sm:text-5xl font-black text-brand-dark">999€</p>
