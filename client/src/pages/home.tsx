@@ -45,13 +45,13 @@ export default function Home() {
       >
         <div className="flex flex-wrap justify-start gap-1.5 sm:gap-4 mb-6 sm:mb-10 w-full max-w-full overflow-hidden">
           <span className="inline-flex items-center px-2.5 py-1 sm:px-6 sm:py-3 rounded-full bg-brand-lime text-brand-dark font-black text-[9px] sm:text-base shadow-md whitespace-nowrap">
-            LLC + EIN en 3 días
+            Apertura Cuenta Mercury & Relay
           </span>
           <span className="inline-flex items-center px-2.5 py-1 sm:px-6 sm:py-3 rounded-full bg-brand-lime text-brand-dark font-black text-[9px] sm:text-base shadow-md whitespace-nowrap">
-            Gestión documental completa
+            Tarjeta Física de Crédito y Débito
           </span>
           <span className="inline-flex items-center px-2.5 py-1 sm:px-6 sm:py-3 rounded-full bg-brand-lime text-brand-dark font-black text-[9px] sm:text-base shadow-md whitespace-nowrap">
-            Tarjeta internacional
+            Gestión Documental Completa
           </span>
         </div>
         <div className="mb-6 sm:mb-10 flex justify-start">
@@ -92,7 +92,7 @@ export default function Home() {
               { badge: "IVA", title: "Eliminamos el IVA en tus servicios digitales", text: "Trabajamos para que tu LLC no cobre IVA a clientes B2B internacionales.", footer: "Tus servicios están exentos." },
               { badge: "Impuestos", title: "Eliminamos el Impuesto de Sociedades", text: "Te constituimos en New Mexico o Wyoming: 0% impuesto estatal.", footer: "Impuesto de Sociedades al 0%." },
               { badge: "Cuotas", title: "Eliminamos la cuota fija mensual", text: "No existe cuota de autónomos. No pagas nada hasta que generes beneficios.", footer: "Sin cuota de autónomos." },
-              { badge: "Banca", title: "Te damos tarjeta física internacional", text: "Te acompañamos en apertura de Mercury o Relay.", footer: "Tarjeta física internacional." },
+              { badge: "Banca", title: "Apertura de cuenta Mercury & Relay", text: "Te acompañamos en la apertura de tus cuentas bancarias USA y obtención de tarjeta física de crédito y débito.", footer: "Tarjeta física internacional." },
             ].map((card, i) => (
               <div key={i} className="bg-white rounded-2xl shadow-md overflow-hidden border border-brand-dark/5 flex flex-col">
                 <div className="p-6 flex-grow">

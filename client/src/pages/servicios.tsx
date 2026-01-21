@@ -85,7 +85,18 @@ export default function Servicios() {
       ]
     },
     {
-      title: "Aspectos Legales y Fiscales",
+      title: "Banca y Cuentas",
+      questions: [
+        {
+          q: "¿Con qué bancos trabajáis?",
+          a: "Somos especialistas en apertura de cuenta Mercury y cuenta Relay Financial. Son los neobancos líderes para LLCs en USA, ofreciendo cuentas bancarias completas, tarjeta física de débito y crédito, y transferencias internacionales sin complicaciones."
+        },
+        {
+          q: "¿Tendré tarjeta física?",
+          a: "Sí, al abrir tu cuenta en Mercury o Relay obtendrás tarjetas físicas de débito y crédito que enviamos a tu domicilio. Perfectas para gestionar los gastos de tu negocio y retirar fondos."
+        },
+      ]
+    },
       questions: [
         {
           q: "¿Qué obligaciones fiscales tiene una LLC?",
