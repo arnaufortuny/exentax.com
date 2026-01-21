@@ -401,7 +401,7 @@ export default function Servicios() {
           <div className="mt-16 text-center">
             <Link href="/faq">
               <Button 
-                className="group bg-brand-lime text-brand-dark font-black text-xl sm:text-2xl px-12 py-8 rounded-full hover:bg-brand-lime/90 transition-all flex items-center justify-center gap-3 mx-auto shadow-xl active:scale-95 border-0 h-auto"
+                className="group bg-brand-lime text-brand-dark font-black text-sm sm:text-base px-8 py-6 rounded-full hover:bg-brand-lime/90 transition-all flex items-center gap-3 mx-auto shadow-xl active:scale-95 border-0"
               >
                 Consulta nuestro FAQ completo
                 <span className="transition-transform group-hover:translate-x-1">→</span>
