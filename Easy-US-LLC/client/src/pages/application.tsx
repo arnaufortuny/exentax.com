@@ -15,6 +15,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useToast } from "@/hooks/use-toast";
 import { Check } from "lucide-react";
 
+import { HelpSection } from "@/components/layout/help-section";
+
 const STATES = ["New Mexico", "Wyoming", "Delaware"];
 const DESIGNATORS = ["LLC", "Limited Liability Company"];
 

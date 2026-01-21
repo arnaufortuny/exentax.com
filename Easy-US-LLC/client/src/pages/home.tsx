@@ -4,6 +4,7 @@ import { useQuery, useMutation } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
+import { HeroSection } from "@/components/layout/hero-section";
 import { apiRequest } from "@/lib/queryClient";
 import type { Product } from "@shared/schema";
 import { HelpSection } from "@/components/layout/help-section";

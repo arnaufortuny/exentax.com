@@ -9,6 +9,8 @@ import { Badge } from "@/components/ui/badge";
 import { Link, useLocation } from "wouter";
 import { motion } from "framer-motion";
 
+import { HelpSection } from "@/components/layout/help-section";
+
 export default function Dashboard() {
   const { user, isAuthenticated, isLoading: authLoading } = useAuth();
   const { data: orders, isLoading: ordersLoading } = useOrders();
@@ -154,6 +156,7 @@ export default function Dashboard() {
         )}
       </main>
 
+      <HelpSection />
       <Footer />
     </div>
   );
