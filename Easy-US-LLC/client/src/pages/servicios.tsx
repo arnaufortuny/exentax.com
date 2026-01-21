@@ -451,11 +451,13 @@ function AsistenciaBancaria() {
   return (
     <section className="py-8 sm:py-14 bg-white">
       <div className="container max-w-7xl mx-auto px-5 sm:px-8">
-        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark text-center uppercase tracking-tight">
-          <span className="text-brand-lime uppercase tracking-widest text-sm font-black block mb-2">BANCOS</span>
-          Asistencia Bancaria
-        </h2>
-        <p className="text-center text-brand-lime font-black uppercase tracking-wide text-base sm:text-lg mt-1 sm:mt-2 mb-6 sm:mb-10">(Ayudamos a abrir cuentas en fintech y bancos, si el cliente lo requiere)</p>
+        <div className="text-center mb-6 sm:mb-10 flex flex-col items-center justify-center">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark uppercase tracking-tight text-center">
+            <span className="text-brand-lime uppercase tracking-widest text-sm font-black block mb-2 text-center">BANCOS</span>
+            Asistencia Bancaria
+          </h2>
+          <p className="text-brand-lime font-black uppercase tracking-wide text-base sm:text-lg mt-1 sm:mt-2 text-center">(Ayudamos a abrir cuentas en fintech y bancos, si el cliente lo requiere)</p>
+        </div>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 mb-5 sm:mb-6">
           {[
             { title: "Mercury", desc: "Te ayudamos paso a paso con tu solicitud de cuenta Mercury." },
@@ -480,11 +482,13 @@ function AsistenciaProcesadores() {
   return (
     <section className="py-8 sm:py-14">
       <div className="container max-w-7xl mx-auto px-5 sm:px-8">
-        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark text-center uppercase tracking-tight">
-          <span className="text-brand-lime uppercase tracking-widest text-sm font-black block mb-2">PAGOS</span>
-          Asistencia con Procesadores
-        </h2>
-        <p className="text-center text-brand-lime font-black uppercase tracking-wide text-base sm:text-lg mt-1 sm:mt-2 mb-6 sm:mb-10">(Te orientamos en activación)</p>
+        <div className="text-center mb-6 sm:mb-10 flex flex-col items-center justify-center">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark uppercase tracking-tight text-center">
+            <span className="text-brand-lime uppercase tracking-widest text-sm font-black block mb-2 text-center">PAGOS</span>
+            Asistencia con Procesadores
+          </h2>
+          <p className="text-brand-lime font-black uppercase tracking-wide text-base sm:text-lg mt-1 sm:mt-2 text-center">(Te orientamos en activación)</p>
+        </div>
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-6 sm:mb-8">
           {[
             { title: "Stripe", desc: "Cómo crear cuenta Stripe conectada a tu LLC." },
@@ -506,11 +510,13 @@ function ServiciosAdicionales() {
   return (
     <section className="py-8 sm:py-14 bg-white">
       <div className="container max-w-7xl mx-auto px-5 sm:px-8">
-        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark text-center uppercase tracking-tight">
-          <span className="text-brand-lime uppercase tracking-widest text-sm font-black block mb-2">EXTRAS</span>
-          Servicios Adicionales
-        </h2>
-        <p className="text-center text-brand-lime font-black uppercase tracking-wide text-base sm:text-lg mt-1 sm:mt-2 mb-6 sm:mb-10">(Servicios a medida para tu LLC)</p>
+        <div className="text-center mb-6 sm:mb-10 flex flex-col items-center justify-center">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark uppercase tracking-tight text-center">
+            <span className="text-brand-lime uppercase tracking-widest text-sm font-black block mb-2 text-center">EXTRAS</span>
+            Servicios Adicionales
+          </h2>
+          <p className="text-brand-lime font-black uppercase tracking-wide text-base sm:text-lg mt-1 sm:mt-2 text-center">(Servicios a medida para tu LLC)</p>
+        </div>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-8">
           {[
             { title: "Apostilla de documentos", desc: "Gestión de apostilla de la Haya para validez internacional." },
@@ -533,12 +539,12 @@ function Soporte() {
   return (
     <section className="py-8 sm:py-14">
       <div className="container max-w-7xl mx-auto px-5 sm:px-8">
-        <div className="text-center mb-6 sm:mb-10">
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark uppercase tracking-tight">
-            <span className="text-brand-lime uppercase tracking-widest text-sm font-black block mb-2">SOPORTE</span>
+        <div className="text-center mb-6 sm:mb-10 flex flex-col items-center justify-center">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark uppercase tracking-tight text-center">
+            <span className="text-brand-lime uppercase tracking-widest text-sm font-black block mb-2 text-center">SOPORTE</span>
             Soporte Ilimitado
           </h2>
-          <p className="text-brand-lime font-black uppercase tracking-wide text-base sm:text-lg mt-1 sm:mt-2">
+          <p className="text-brand-lime font-black uppercase tracking-wide text-base sm:text-lg mt-1 sm:mt-2 text-center">
             (Durante 12 meses incluido)
           </p>
         </div>
@@ -563,18 +569,21 @@ function ComoTrabajamos() {
   return (
     <section className="py-20 sm:py-32 bg-white">
       <div className="container max-w-7xl mx-auto px-5 sm:px-8">
-        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark text-center uppercase tracking-tight">
-          <span className="text-brand-lime uppercase tracking-widest text-sm font-black block mb-2">PROCESO</span>
-          Cómo Trabajamos
-        </h2>
-        <p className="text-center text-brand-lime font-black uppercase tracking-wide text-base sm:text-lg mt-1 sm:mt-2 mb-12 sm:mb-20">(En 5 simples pasos)</p>
+        <div className="text-center mb-12 sm:mb-20 flex flex-col items-center justify-center">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark uppercase tracking-tight text-center">
+            <span className="text-brand-lime uppercase tracking-widest text-sm font-black block mb-2 text-center">PROCESO</span>
+            Cómo Trabajamos
+          </h2>
+          <p className="text-brand-lime font-black uppercase tracking-wide text-base sm:text-lg mt-1 sm:mt-2 text-center">(En 6 simples pasos)</p>
+        </div>
         <div className="max-w-3xl mx-auto">
           {[
-            { num: "1", title: "Eliges estado y pagas", text: "New Mexico, Wyoming o Delaware. Pago seguro." },
-            { num: "2", title: "Formulario rápido", text: "5 minutos. Datos básicos de tu LLC." },
-            { num: "3", title: "Envías foto ID", text: "DNI o pasaporte. Foto con móvil." },
-            { num: "4", title: "Tramitamos todo", text: "Gobierno, EIN, documentos, BOI Report." },
-            { num: "5", title: "Recibes tu LLC", text: "En 2-3 días hábiles todo en tu email." },
+            { num: "1", title: "Elige en que estado constituir tu LLC", text: "New Mexico, Wyoming o Delaware. Pago seguro." },
+            { num: "2", title: "Unas preguntas rapidas y esenciales", text: "5 minutos. Datos básicos de tu LLC." },
+            { num: "3", title: "Foto de tu dni o pasaporte", text: "DNI o pasaporte. Foto con móvil." },
+            { num: "4", title: "Tramitamos la constitución", text: "Secretario de Estado, EIN, todos los documentos." },
+            { num: "5", title: "Recibes tu documentación", text: "En 2-3 días hábiles todo en tu email." },
+            { num: "6", title: "Te ayudamos a abrir pasarelas y cuentas bancarias", text: "Acompañamiento en Mercury, Relay y Stripe." },
           ].map((step, i) => (
             <div key={i} className="flex gap-4 sm:gap-6 mb-6 sm:mb-10 last:mb-0">
               <div className="flex-shrink-0 w-10 h-10 sm:w-14 sm:h-14 bg-brand-lime rounded-full flex items-center justify-center text-brand-dark font-black text-lg sm:text-2xl shadow-md">
@@ -596,12 +605,12 @@ function PorQueEasyUSLLC() {
   return (
     <section className="py-8 sm:py-14 bg-white">
       <div className="container max-w-7xl mx-auto px-5 sm:px-8">
-        <div className="text-center mb-8 sm:mb-12">
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark uppercase tracking-tight">
-            <span className="text-brand-lime uppercase tracking-widest text-sm font-black block mb-2">VALORES</span>
+        <div className="text-center mb-8 sm:mb-12 flex flex-col items-center justify-center">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark uppercase tracking-tight text-center">
+            <span className="text-brand-lime uppercase tracking-widest text-sm font-black block mb-2 text-center">VALORES</span>
             ¿Por qué Easy US LLC?
           </h2>
-          <p className="text-brand-lime font-black uppercase tracking-wide text-base sm:text-lg mt-1 sm:mt-2">
+          <p className="text-brand-lime font-black uppercase tracking-wide text-base sm:text-lg mt-1 sm:mt-2 text-center">
             (Lo que nos hace diferentes)
           </p>
         </div>
