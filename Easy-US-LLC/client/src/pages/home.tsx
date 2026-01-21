@@ -110,13 +110,11 @@ export default function Home() {
 
       <section className="py-20 sm:py-32 bg-white">
         <div className="container max-w-7xl mx-auto px-5 sm:px-8">
-          <div className="text-center mb-12 sm:mb-20">
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark uppercase tracking-tight">
-              <span className="text-brand-lime uppercase tracking-widest text-sm font-black block mb-2">PROCESO</span>
-              Cómo Trabajamos
-            </h2>
-            <p className="text-brand-lime font-black uppercase tracking-wide text-base sm:text-lg mt-1 sm:mt-2">(En 6 simples pasos)</p>
-          </div>
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark text-center uppercase tracking-tight">
+            <span className="text-brand-lime uppercase tracking-widest text-sm font-black block mb-2">PROCESO</span>
+            Cómo Trabajamos
+          </h2>
+          <p className="text-center text-brand-lime font-black uppercase tracking-wide text-base sm:text-lg mt-1 sm:mt-2 mb-12 sm:mb-20">(En 6 simples pasos)</p>
           <div className="max-w-3xl mx-auto">
             {[
               { num: "1", title: "Elige en que estado constituir tu LLC", text: "New Mexico, Wyoming o Delaware. Pago seguro." },
