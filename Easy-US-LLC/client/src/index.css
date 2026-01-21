@@ -1,0 +1,74 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Brand Colors */
+  --background: 0 0% 100%;
+  --foreground: 0 0% 10%;
+
+  /* Brand Dark Green #0D4D3D -> Replaced with Black for background consistency */
+  --primary: 0 0% 0%;
+  --primary-foreground: 0 0% 100%;
+
+  /* Cream/Beige Secondary #F5F1E8 */
+  --secondary: 40 35% 93%;
+  --secondary-foreground: 0 0% 10%;
+
+  /* Lime Accent #D4E157 */
+  --accent: 66 70% 62%;
+  --accent-foreground: 167 71% 17%;
+
+  --muted: 40 20% 94%;
+  --muted-foreground: 0 0% 42%;
+
+  --destructive: 0 75% 55%;
+  --destructive-foreground: 0 0% 100%;
+
+  --border: 40 15% 88%;
+  --input: 40 15% 88%;
+  --ring: 167 71% 17%;
+
+  --radius: 0.75rem;
+
+  --font-display: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-sans: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-white text-foreground antialiased font-sans text-left;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeSpeed;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display font-bold tracking-tight text-left;
+  }
+}
+
+@layer utilities {
+  .bg-brand-lime {
+    background-color: #D4E157;
+  }
+  .bg-brand-cream {
+    background-color: #F5F1E8;
+  }
+  .bg-brand-dark {
+    background-color: #000000;
+  }
+  .text-brand-dark {
+    color: #000000;
+  }
+  .border-brand-lime {
+    border-color: #D4E157;
+  }
+}

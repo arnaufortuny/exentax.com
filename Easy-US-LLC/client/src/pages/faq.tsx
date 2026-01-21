@@ -1,0 +1,258 @@
+import { useState } from "react";
+import { Link } from "wouter";
+import { Navbar } from "@/components/layout/navbar";
+import { Footer } from "@/components/layout/footer";
+import { Button } from "@/components/ui/button";
+import { HeroSection } from "@/components/layout/hero-section";
+
+const faqCategories = [
+  {
+    title: "Sobre Easy US LLC",
+    questions: [
+      {
+        q: "¿Qué hacemos en Easy US LLC?",
+        a: "Creamos, estructuramos y gestionamos tu LLC en Estados Unidos de forma integral. No somos una web que te suelta unos papeles y desaparece. Somos una gestoría que te acompaña antes, durante y después del proceso. Nuestro objetivo es que tengas una empresa bien creada desde el inicio, con una estructura que funcione legalmente, evitando cualquier susto por falta de información y permitiendo que tu negocio crezca sin bloqueos operativos ni legales. Nos encargamos de toda la burocracia para que tú te centres en vender."
+      },
+      {
+        q: "¿Qué incluye el paquete de creación?",
+        a: "Incluye absolutamente todo lo necesario para que tu empresa nazca y sea plenamente operativa desde el primer día: El registro oficial de la LLC ante el estado, la redacción de los Artículos de Organización, un Operating Agreement (Acuerdo Operativo) personalizado y profesional, una dirección comercial física en Estados Unidos para recibir correspondencia oficial, el Agente Registrado obligatorio por ley, el registro inicial BOI (Informe de Beneficiarios Reales) ante el FinCEN, constitución express en 3 días hábiles y soporte con consultas ilimitadas para que nunca te sientas solo."
+      },
+      {
+        q: "¿Qué no incluye el paquete base?",
+        a: "No incluye servicios que dependen directamente de tu facturación o actividad específica: La apertura bancaria directa (aunque te guiamos paso a paso, la decisión final es del banco), las declaraciones fiscales anuales, el registro de Sales Tax (impuesto sobre las ventas), servicios de contabilidad mensual o trámites migratorios personales. Estos servicios adicionales se activan de forma modular cuando tu negocio realmente los necesita para operar a gran escala."
+      },
+      {
+        q: "¿Me dais una dirección en Estados Unidos?",
+        a: "Sí, por supuesto. Te proporcionamos una dirección comercial física real y válida para bancos, plataformas de pago (Stripe/PayPal), registros oficiales estatales y documentación fiscal ante el IRS. No es un simple buzón postal barato de reenvío; es una dirección de gestión empresarial real. Sin una dirección profesional en Estados Unidos, tu empresa no podrá superar las verificaciones de seguridad de los neobancos ni de las pasarelas de pago modernas."
+      }
+    ]
+  },
+  {
+    title: "Conceptos Clave y Trámites",
+    questions: [
+      {
+        q: "¿Qué es el EIN?",
+        a: "El EIN (Employer Identification Number) es el número de identificación fiscal federal de tu empresa en Estados Unidos, equivalente al NIF o CIF en otros países. Es el documento más importante: lo necesitas obligatoriamente para abrir cuentas bancarias empresariales, facturar a clientes, contratar empleados, declarar impuestos ante el IRS y verificar tus cuentas en Stripe, PayPal, Wise y Amazon. Sin un EIN validado, tu empresa existe legalmente pero está totalmente inoperativa en el sistema financiero."
+      },
+      {
+        q: "¿Qué es el Operating Agreement?",
+        a: "Es el contrato interno fundamental de tu empresa. Este documento marca las reglas de juego: quiénes son los dueños (miembros), qué porcentaje de participación tiene cada uno, quién tiene el poder de decisión, cómo se reparten los beneficios y qué sucede legalmente si un socio quiere salir o entrar en la compañía. Los bancos estadounidenses lo exigen como requisito indispensable para abrir una cuenta y es tu principal defensa ante cualquier disputa legal o auditoría."
+      },
+      {
+        q: "¿Qué son los Artículos de Organización?",
+        a: "Es el acta de nacimiento oficial de tu empresa, el documento que presentamos ante la Secretaría de Estado para crear la entidad legal. Incluye datos públicos cruciales como el nombre de la LLC, el estado de formación (Wyoming o Nuevo México), la dirección física oficial y la identidad del Agente Registrado. Una vez sellado por el estado, este documento confirma que tu responsabilidad limitada ha comenzado y que tus activos personales están protegidos."
+      },
+      {
+        q: "¿Qué es un Agente Registrado?",
+        a: "Es una figura obligatoria por ley en todos los estados. Es la entidad o persona encargada de recibir en tu nombre todas las notificaciones oficiales del gobierno, requerimientos legales, citaciones judiciales y avisos de impuestos. Nosotros actuamos como tu Agente Registrado oficial: procesamos toda la correspondencia importante, te notificamos de inmediato y te asesoramos sobre qué acciones tomar. No contar con uno es motivo de disolución inmediata de tu empresa por parte del estado."
+      },
+      {
+        q: "¿Qué es el BOI?",
+        a: "Es el registro de 'Beneficial Ownership Information' (Información sobre los Beneficiarios Reales) exigido por el Departamento del Tesoro (FinCEN). El gobierno de Estados Unidos requiere saber quiénes son las personas físicas que poseen o controlan realmente la empresa para prevenir actividades ilícitas. No es un trámite opcional y el incumplimiento puede acarrear multas civiles extremas de hasta 500$ por cada día de retraso o sanciones penales de hasta 10.000$."
+      }
+    ]
+  },
+  {
+    title: "Impuestos y Cumplimiento",
+    questions: [
+      {
+        q: "¿Qué impuestos paga una LLC?",
+        a: "La tributación depende totalmente de cómo esté estructurada la empresa y la residencia de sus dueños. La mayoría de las LLC formadas por extranjeros operan como entidades 'disregarded' (transparentes), lo que significa que la empresa en sí no paga impuesto de sociedades en Estados Unidos, sino que el beneficio fluye hacia los dueños. Si no tienes presencia física ni empleados en EE.UU. y realizas servicios digitales, es muy probable que tu carga fiscal federal sea del 0%, tributando únicamente en tu país de residencia. Cada caso es único y nosotros te proporcionamos la orientación inicial necesaria."
+      },
+      {
+        q: "¿Hay IVA en Estados Unidos?",
+        a: "No, en Estados Unidos no existe el IVA (Impuesto sobre el Valor Añadido) tal como se conoce en Europa o Latinoamérica. En su lugar, existe el 'Sales Tax' (Impuesto sobre las Ventas), que es un impuesto estatal y local. Solo se recauda si vendes productos físicos a clientes finales en estados donde tu empresa tiene 'nexus' (presencia legal o económica). Para servicios digitales y software (SaaS) vendidos fuera de EE.UU., generalmente no hay impuestos indirectos que recaudar."
+      },
+      {
+        q: "¿Qué es el CRS y FATCA?",
+        a: "Estados Unidos es uno de los pocos países que no participa en el sistema de intercambio automático de información bancaria conocido como CRS (Common Reporting Standard). En su lugar, utiliza su propio sistema llamado FATCA. Esto significa que las cuentas bancarias abiertas en EE.UU. por extranjeros no se reportan automáticamente a través del sistema CRS utilizado por casi toda Europa y Latinoamérica, ofreciendo un nivel superior de privacidad financiera, siempre que el usuario cumpla con sus obligaciones legales individuales."
+      },
+      {
+        q: "¿Qué son los Formularios 5472 y 1120?",
+        a: "Son declaraciones informativas anuales obligatorias ante el IRS. El Formulario 5472 informa sobre transacciones entre la LLC y sus dueños extranjeros (préstamos, aportaciones de capital, pagos). La omisión de este formulario conlleva una multa automática mínima de 25.000$. El Formulario 1120 es la declaración de impuestos de la corporación que acompaña al 5472. Deben presentarse incluso si la empresa no ha tenido actividad comercial o facturación durante el año."
+      },
+      {
+        q: "¿Qué es el Annual Report?",
+        a: "Es un informe anual de mantenimiento que exigen estados como Wyoming para confirmar que la empresa sigue activa y que sus datos de contacto son correctos. Incluye el pago de una tasa estatal de mantenimiento. Si no presentas este informe antes de la fecha límite, el estado cambiará el estatus de tu empresa a 'Delinquent' y eventualmente la disolverá, perdiendo tú toda la protección de responsabilidad limitada."
+      }
+    ]
+  },
+  {
+    title: "Operativa y Plataformas",
+    questions: [
+      {
+        q: "¿Puedo usar mi LLC para cobrar en Stripe, PayPal o Wise?",
+        a: "Sí, ese es precisamente uno de los mayores beneficios de tener una LLC. Con tu EIN federal, Operating Agreement profesional y dirección comercial certificada, puedes abrir cuentas empresariales en estas plataformas sin los bloqueos que suelen sufrir las cuentas personales de países con alto riesgo. Te asesoramos sobre cómo presentar la documentación técnica correctamente para superar los procesos de 'Know Your Customer' (KYC) y evitar retenciones de fondos injustificadas."
+      },
+      {
+        q: "¿Qué pasa si una plataforma me bloquea la cuenta?",
+        a: "Un bloqueo no siempre es definitivo, suele ser un control rutinario de seguridad. Te ayudamos a analizar qué documentos específicos están solicitando, preparamos la respuesta técnica adecuada con tus Artículos de Organización y EIN, y te indicamos cómo enviar la información para que un agente humano del soporte la apruebe. La mayoría de las cuentas se desbloquean en pocos días si la respuesta es profesional y está bien documentada."
+      },
+      {
+        q: "¿Puedo cambiar mi LLC de estado más adelante?",
+        a: "No de forma sencilla. En Easy US LLC no realizamos trámites de 'Domestication' (traslado de estado) porque es un proceso costoso y burocrático que suele generar errores fiscales. Si tu negocio cambia radicalmente y necesitas operar en otro estado diferente, lo más eficiente y seguro suele ser cerrar la entidad actual y crear una nueva LLC o registrar la actual como entidad extranjera en el nuevo estado. Por eso es vital elegir bien entre Wyoming y Nuevo México desde el primer día."
+      },
+      {
+        q: "¿Puedo usarla viviendo en Europa?",
+        a: "Sí, la LLC es la herramienta de optimización favorita para nómadas digitales y emprendedores que residen en Europa. Te permite facturar globalmente con una estructura estadounidense mientras cumples con las normativas de tu país de residencia. Es una forma perfectamente legal de separar tus activos personales de los empresariales y operar en un mercado con menos burocracia que el europeo."
+      },
+      {
+        q: "¿Sirve para Amazon, SaaS, Freelancing, Cripto?",
+        a: "Absolutamente. La LLC es una entidad extremadamente versátil que se adapta a cualquier modelo de negocio digital. Ya seas un vendedor de Amazon FBA que necesita acceso al mercado americano, un desarrollador de software con un modelo SaaS, un freelancer que factura a clientes internacionales o un inversor en criptoactivos que busca protección legal, la LLC estadounidense es la estructura de referencia a nivel mundial por su flexibilidad y prestigio."
+      }
+    ]
+  }
+];
+
+export default function FAQ() {
+  const [openItems, setOpenItems] = useState<Record<string, number | null>>({});
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const toggleItem = (category: string, index: number) => {
+    setOpenItems(prev => ({
+      ...prev,
+      [category]: prev[category] === index ? null : index
+    }));
+  };
+
+  const filteredCategories = faqCategories.map(category => ({
+    ...category,
+    questions: category.questions.filter(q => 
+      q.q.toLowerCase().includes(searchQuery.toLowerCase()) || 
+      q.a.toLowerCase().includes(searchQuery.toLowerCase())
+    )
+  })).filter(category => category.questions.length > 0);
+
+  return (
+    <div className="min-h-screen bg-white font-sans text-left overflow-x-hidden">
+      <Navbar />
+
+      <HeroSection 
+        className="pt-24 sm:pt-32 lg:pt-40"
+        title={
+          <h1 className="text-4xl sm:text-5xl lg:text-7xl font-black text-white uppercase tracking-tight leading-[1.1] break-words">
+            PREGUNTAS <span className="text-brand-lime">FRECUENTES</span>
+          </h1>
+        }
+        subtitle={
+          <p className="text-lg sm:text-xl lg:text-2xl text-white/90 font-medium leading-relaxed max-w-2xl px-1">
+            Optimización fiscal y estructura empresarial para emprendedores digitales.
+          </p>
+        }
+      />
+
+      <section className="py-8 sm:py-20">
+        <div className="container max-w-7xl mx-auto px-4 sm:px-8">
+          <div className="max-w-4xl mx-auto">
+            
+            <div className="mb-8 sm:mb-12 relative">
+              <input
+                type="text"
+                placeholder="Busca tu duda (ej: EIN, impuestos...)"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full h-14 pl-12 sm:pl-14 pr-6 rounded-full border-2 border-brand-lime/30 focus:border-brand-lime focus:outline-none text-brand-dark font-medium shadow-sm transition-all text-sm sm:text-base appearance-none"
+              />
+              <div className="absolute left-4 sm:left-5 top-1/2 -translate-y-1/2 text-brand-lime">
+                <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+              </div>
+            </div>
+
+            <div className="space-y-10 sm:space-y-12">
+              {filteredCategories.length > 0 ? (
+                filteredCategories.map((category) => (
+                  <div key={category.title} className="space-y-4 sm:space-y-6">
+                    <h2 className="text-xl sm:text-2xl font-black text-brand-dark uppercase tracking-tight flex items-center gap-3 sm:gap-4">
+                      <span className="w-1.5 sm:w-2 h-8 sm:h-10 bg-brand-lime rounded-full shrink-0" />
+                      {category.title}
+                    </h2>
+                    <div className="grid gap-2 sm:gap-3">
+                      {category.questions.map((item, i) => (
+                        <div 
+                          key={i} 
+                          className={`group transition-all duration-200 border-2 rounded-xl sm:rounded-2xl overflow-hidden ${
+                            openItems[category.title] === i 
+                              ? "border-brand-lime bg-brand-lime/[0.03]" 
+                              : "border-brand-dark/5 hover:border-brand-lime/30 bg-white"
+                          }`}
+                        >
+                          <button
+                            onClick={() => toggleItem(category.title, i)}
+                            className="w-full px-4 sm:px-6 py-4 sm:py-6 text-left flex items-center justify-between gap-3 sm:gap-4 touch-manipulation"
+                          >
+                            <span className="font-bold text-brand-dark text-sm sm:text-lg leading-tight tracking-tight">
+                              {item.q}
+                            </span>
+                            <span className={`text-xl sm:text-2xl transition-transform duration-200 shrink-0 ${
+                              openItems[category.title] === i ? "rotate-45 text-brand-lime" : "text-brand-dark/30"
+                            }`}>
+                              +
+                            </span>
+                          </button>
+                          {(openItems[category.title] === i || searchQuery !== "") && (
+                            <div className="px-4 sm:px-6 pb-4 sm:pb-6 text-brand-dark/90 text-xs sm:text-base leading-relaxed border-t border-brand-lime/20 pt-3 sm:pt-4 animate-in fade-in slide-in-from-top-2 font-medium bg-brand-lime/5">
+                              {item.a}
+                            </div>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <div className="text-center py-16 sm:py-20">
+                  <p className="text-brand-dark font-bold text-lg sm:text-xl mb-2">No hemos encontrado nada</p>
+                  <p className="text-muted-foreground text-sm sm:text-base">Prueba con otra palabra o contáctanos directamente.</p>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Separator similar to home page */}
+      <div className="container max-w-7xl mx-auto px-4 sm:px-8">
+        <div className="h-px bg-brand-lime/20 w-full" />
+      </div>
+
+      <section className="bg-white py-16 sm:py-24 border-t border-brand-lime/10">
+        <div className="container max-w-7xl mx-auto px-4 sm:px-8">
+          <div className="max-w-4xl mx-auto text-center flex flex-col items-center">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark mb-4 uppercase tracking-tight px-2">
+              ¿NECESITAS AYUDA?
+            </h2>
+            <p className="text-muted-foreground text-sm sm:text-lg mb-8 max-w-xl text-center mx-auto px-4">
+              Estamos aquí para resolver todas tus dudas. Contáctanos sin compromiso o consulta nuestro asistente virtual.
+            </p>
+            <div className="flex flex-col sm:flex-row justify-center items-center gap-3 sm:gap-4 w-full max-w-md mx-auto sm:max-w-none">
+              <a href="https://wa.me/34614916910" target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto">
+                <Button 
+                  size="lg"
+                  className="bg-brand-lime text-brand-dark font-black text-sm sm:text-base px-6 sm:px-8 border-0 w-full rounded-full h-12 sm:h-14 shadow-lg hover:bg-brand-lime/90 active:bg-brand-lime transition-all flex items-center justify-center gap-2 touch-manipulation"
+                >
+                  <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                  Envíanos un WhatsApp
+                </Button>
+              </a>
+              <Button 
+                size="lg"
+                variant="outline"
+                onClick={() => {
+                  const event = new CustomEvent('open-chatbot');
+                  window.dispatchEvent(event);
+                }}
+                className="border-brand-dark text-brand-dark font-black text-sm sm:text-base px-6 sm:px-8 w-full sm:w-auto rounded-full h-12 sm:h-14 hover:bg-brand-dark hover:text-white transition-colors touch-manipulation"
+              >
+                Nuestro Asistente 24/7
+              </Button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <Footer />
+    </div>
+  );
+}
