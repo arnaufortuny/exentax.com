@@ -10,13 +10,12 @@ import Dashboard from "@/pages/dashboard";
 import ApplicationWizard from "@/pages/application";
 import Legal from "@/pages/legal";
 import Servicios from "@/pages/servicios";
-import Privacidad from "@/pages/privacidad";
-import Reembolsos from "@/pages/reembolsos";
-import Cookies from "@/pages/cookies";
+import Privacidad from "@/pages/legal/privacidad";
+import Reembolsos from "@/pages/legal/reembolsos";
+import Cookies from "@/pages/legal/cookies";
 import Consulta from "@/pages/consulta";
 import Contacto from "@/pages/contacto";
 import FAQ from "@/pages/faq";
-import { Chatbot } from "@/components/chatbot";
 import { CookieBanner } from "@/components/cookie-banner";
 
 function ScrollToTop() {
@@ -55,7 +54,6 @@ function App() {
         <ScrollToTop />
         <Toaster />
         <Router />
-        <Chatbot />
         <CookieBanner />
       </TooltipProvider>
     </QueryClientProvider>
