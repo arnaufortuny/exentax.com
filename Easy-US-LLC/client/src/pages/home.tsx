@@ -141,12 +141,12 @@ export default function Home() {
       </section>
       <section className="bg-white py-16 sm:py-24 border-t border-brand-lime/10">
         <div className="container max-w-7xl mx-auto px-5 sm:px-8">
-          <div className="max-w-4xl mx-auto text-center flex flex-col items-center">
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark mb-4 uppercase tracking-tight">
-              <span className="text-brand-lime uppercase tracking-widest text-sm font-black block mb-2">AYUDA</span>
+          <div className="max-w-4xl mx-auto text-center flex flex-col items-center justify-center">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark mb-4 uppercase tracking-tight text-center">
+              <span className="text-brand-lime uppercase tracking-widest text-sm font-black block mb-2 text-center">AYUDA</span>
               ¿NECESITAS AYUDA?
             </h2>
-            <p className="text-brand-lime font-black uppercase tracking-wide text-base sm:text-lg mt-1 sm:mt-2 mb-8 sm:mb-10">
+            <p className="text-brand-lime font-black uppercase tracking-wide text-base sm:text-lg mt-1 sm:mt-2 mb-8 sm:mb-10 text-center">
               (Estamos aquí para resolver todas tus dudas)
             </p>
             <div className="flex flex-col sm:flex-row justify-center items-center gap-4 w-full">
