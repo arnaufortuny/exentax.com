@@ -110,11 +110,13 @@ export default function Servicios() {
 
       <section className="py-8 sm:py-14 bg-white" id="servicios">
         <div className="container max-w-7xl mx-auto px-5 sm:px-8">
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark text-center uppercase tracking-tight">
-            <span className="text-brand-lime uppercase tracking-widest text-sm font-black block mb-2">SERVICIOS</span>
-            Constitución de LLC
-          </h2>
-          <p className="text-center text-brand-lime font-black uppercase tracking-wide text-base sm:text-lg mt-1 sm:mt-2 mb-6 sm:mb-10">(Lo que hacemos por ti)</p>
+          <div className="text-center mb-6 sm:mb-10 flex flex-col items-center justify-center">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark uppercase tracking-tight text-center">
+              <span className="text-brand-lime uppercase tracking-widest text-sm font-black block mb-2 text-center">SERVICIOS</span>
+              Constitución de LLC
+            </h2>
+            <p className="text-brand-lime font-black uppercase tracking-wide text-base sm:text-lg mt-1 sm:mt-2 text-center">(Lo que hacemos por ti)</p>
+          </div>
           
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6 mb-12">
             {[
@@ -136,12 +138,12 @@ export default function Servicios() {
 
       <section className="py-12 sm:py-20" id="pricing">
         <div className="container max-w-7xl mx-auto px-4 sm:px-8">
-          <div className="text-center mb-8 sm:mb-12">
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark uppercase tracking-tight">
-              <span className="text-brand-lime uppercase tracking-widest text-sm font-black block mb-2">MANTENIMIENTO / PACKS</span>
+          <div className="text-center mb-8 sm:mb-12 flex flex-col items-center justify-center">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark uppercase tracking-tight text-center">
+              <span className="text-brand-lime uppercase tracking-widest text-sm font-black block mb-2 text-center">MANTENIMIENTO / PACKS</span>
               Nuestros Packs
             </h2>
-            <p className="text-brand-lime font-black uppercase tracking-wide text-base sm:text-lg mt-1 sm:mt-2">
+            <p className="text-brand-lime font-black uppercase tracking-wide text-base sm:text-lg mt-1 sm:mt-2 text-center">
               (Elige el plan que mejor se adapte a ti)
             </p>
           </div>
@@ -289,12 +291,12 @@ export default function Servicios() {
 
       <section className="py-8 sm:py-14 bg-white">
         <div className="container max-w-7xl mx-auto px-5 sm:px-8">
-          <div className="text-center mb-6 sm:mb-10">
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark uppercase tracking-tight">
-              <span className="text-brand-lime uppercase tracking-widest text-sm font-black block mb-2">MANTENIMIENTO</span>
+          <div className="text-center mb-6 sm:mb-10 flex flex-col items-center justify-center">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark uppercase tracking-tight text-center">
+              <span className="text-brand-lime uppercase tracking-widest text-sm font-black block mb-2 text-center">MANTENIMIENTO</span>
               Precios Mantenimiento
             </h2>
-            <p className="text-brand-lime font-black uppercase tracking-wide text-base sm:text-lg mt-1 sm:mt-2">(Todo incluido anualmente)</p>
+            <p className="text-brand-lime font-black uppercase tracking-wide text-base sm:text-lg mt-1 sm:mt-2 text-center">(Todo incluido anualmente)</p>
           </div>
           
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-8 sm:mb-10">
@@ -334,12 +336,12 @@ export default function Servicios() {
 
       <section className="py-12 sm:py-20 bg-white border-t border-brand-lime/10">
         <div className="container max-w-4xl mx-auto px-4 sm:px-6">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark uppercase tracking-tight">
-              <span className="text-brand-lime uppercase tracking-widest text-sm font-black block mb-2">FAQ</span>
+          <div className="text-center mb-12 flex flex-col items-center justify-center">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark uppercase tracking-tight text-center">
+              <span className="text-brand-lime uppercase tracking-widest text-sm font-black block mb-2 text-center">FAQ</span>
               Preguntas Frecuentes
             </h2>
-            <p className="text-brand-lime font-black uppercase tracking-wide text-base sm:text-lg mt-1 sm:mt-2">
+            <p className="text-brand-lime font-black uppercase tracking-wide text-base sm:text-lg mt-1 sm:mt-2 text-center">
               (Resolvemos tus dudas de inmediato)
             </p>
           </div>
@@ -407,12 +409,12 @@ export default function Servicios() {
 
       <section className="bg-white py-16 sm:py-24 border-t border-brand-lime/10">
         <div className="container max-w-7xl mx-auto px-5 sm:px-8">
-          <div className="max-w-4xl mx-auto text-center flex flex-col items-center">
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark mb-4 uppercase tracking-tight">
-              <span className="text-brand-lime uppercase tracking-widest text-sm font-black block mb-2">AYUDA</span>
+          <div className="max-w-4xl mx-auto text-center flex flex-col items-center justify-center">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark mb-4 uppercase tracking-tight text-center">
+              <span className="text-brand-lime uppercase tracking-widest text-sm font-black block mb-2 text-center">AYUDA</span>
               ¿NECESITAS AYUDA?
             </h2>
-            <p className="text-brand-lime font-black uppercase tracking-wide text-base sm:text-lg mt-1 sm:mt-2 mb-8 sm:mb-10">
+            <p className="text-brand-lime font-black uppercase tracking-wide text-base sm:text-lg mt-1 sm:mt-2 mb-8 sm:mb-10 text-center">
               (Estamos aquí para resolver todas tus dudas)
             </p>
             <div className="flex flex-col sm:flex-row justify-center items-center gap-4 w-full">

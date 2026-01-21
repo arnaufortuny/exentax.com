@@ -77,12 +77,12 @@ export default function Home() {
       </HeroSection>
       <section className="bg-white py-20 sm:py-24" id="ventajas">
         <div className="container max-w-7xl mx-auto px-5 sm:px-8">
-          <div className="text-center mb-16 sm:mb-20">
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark uppercase tracking-tight">
-              <span className="text-brand-lime uppercase tracking-widest text-sm font-black block mb-2">VENTAJAS</span>
+          <div className="text-center mb-16 sm:mb-20 flex flex-col items-center justify-center">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark uppercase tracking-tight text-center">
+              <span className="text-brand-lime uppercase tracking-widest text-sm font-black block mb-2 text-center">VENTAJAS</span>
               Ventajas fiscales
             </h2>
-            <p className="text-center text-brand-lime font-black uppercase tracking-wide text-base sm:text-lg mt-1 sm:mt-2">
+            <p className="text-brand-lime font-black uppercase tracking-wide text-base sm:text-lg mt-1 sm:mt-2 text-center">
               (Te ayudamos a optimizar tu estructura)
             </p>
           </div>
@@ -110,12 +110,12 @@ export default function Home() {
 
       <section className="py-20 sm:py-32 bg-white">
         <div className="container max-w-7xl mx-auto px-5 sm:px-8">
-          <div className="text-center mb-12 sm:mb-20">
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark uppercase tracking-tight">
-              <span className="text-brand-lime uppercase tracking-widest text-sm font-black block mb-2">PROCESO</span>
+          <div className="text-center mb-12 sm:mb-20 flex flex-col items-center justify-center">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark uppercase tracking-tight text-center">
+              <span className="text-brand-lime uppercase tracking-widest text-sm font-black block mb-2 text-center">PROCESO</span>
               Cómo Trabajamos
             </h2>
-            <p className="text-brand-lime font-black uppercase tracking-wide text-base sm:text-lg mt-1 sm:mt-2">(En 6 simples pasos)</p>
+            <p className="text-brand-lime font-black uppercase tracking-wide text-base sm:text-lg mt-1 sm:mt-2 text-center">(En 6 simples pasos)</p>
           </div>
           <div className="max-w-3xl mx-auto">
             {[
