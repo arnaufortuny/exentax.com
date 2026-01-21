@@ -109,6 +109,8 @@ export default function Home() {
         </div>
       </section>
 
+      <PorQueEasyUSLLC />
+
       <section className="py-20 sm:py-32 bg-white">
         <div className="container max-w-7xl mx-auto px-5 sm:px-8">
           <div className="text-center mb-12 sm:mb-20 flex flex-col items-center justify-center">
@@ -143,5 +145,36 @@ export default function Home() {
       <HelpSection />
       <Footer />
     </div>
+  );
+}
+
+function PorQueEasyUSLLC() {
+  return (
+    <section className="py-8 sm:py-14 bg-white">
+      <div className="container max-w-7xl mx-auto px-5 sm:px-8">
+        <div className="text-center mb-8 sm:mb-12 flex flex-col items-center justify-center">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark uppercase tracking-tight text-center">
+            <span className="text-brand-lime uppercase tracking-widest text-sm font-black block mb-2 text-center">VALORES</span>
+            ¿Por qué Easy US LLC?
+          </h2>
+          <p className="text-brand-lime font-black uppercase tracking-wide text-base sm:text-lg mt-1 sm:mt-2 text-center">
+            (Lo que nos hace diferentes)
+          </p>
+        </div>
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+          {[
+            { title: "Rapidez Real", desc: "LLC lista en 2-3 días hábiles. Sin esperas innecesarias." },
+            { title: "Transparencia", desc: "Precio cerrado todo incluido. Sin sorpresas ni letra pequeña." },
+            { title: "Especialistas", desc: "Somos profesionales ayudando a emprendedores digitales." },
+            { title: "Soporte Humano", desc: "Hablamos tu idioma. Atención por WhatsApp y email." },
+          ].map((feature, i) => (
+            <div key={i} className="p-6 bg-brand-lime/5 rounded-2xl border border-brand-lime/10 hover:bg-brand-lime/10 transition-colors text-center">
+              <p className="font-bold text-lg sm:text-xl mb-3 text-brand-dark">{feature.title}</p>
+              <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">{feature.desc}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
   );
 }
