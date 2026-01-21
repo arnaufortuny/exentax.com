@@ -97,6 +97,8 @@ export default function Servicios() {
         },
       ]
     },
+    {
+      title: "Aspectos Legales y Fiscales",
       questions: [
         {
           q: "¿Qué obligaciones fiscales tiene una LLC?",
@@ -161,10 +163,10 @@ export default function Servicios() {
             {[
               { title: "Tramitación completa ante el gobierno", desc: "Preparamos y presentamos electrónicamente tus Articles of Organization ante el Secretary of State. Gestionamos todo el proceso oficial." },
               { title: "Obtención de EIN ante el IRS", desc: "Solicitamos y obtenemos tu Employer Identification Number (número fiscal) directamente ante el Internal Revenue Service." },
-              { title: "Operating Agreement", desc: "Redactamos tu contrato interno completo que regula funcionamiento de tu LLC. Documento legal imprescindible para bancos." },
+              { title: "Cuentas Bancarias Mercury & Relay", desc: "Te acompañamos en la apertura de tus cuentas en Mercury y Relay Financial, con tarjeta física de crédito y débito internacional." },
               { title: "Presentación BOI Report ante FinCEN", desc: "Preparamos y presentamos tu Beneficial Ownership Information Report ante Financial Crimes Enforcement Network. Obligatorio federal desde 2024." },
               { title: "Registered Agent 12 meses", desc: "Contratamos y pagamos tu Registered Agent oficial en el estado durante el primer año completo. Tu dirección legal en USA." },
-              { title: "Soporte y Orientación", desc: "Te ayudamos con bancos, procesadores y dudas durante todo el proceso de constitución." },
+              { title: "Tarjetas Físicas de Crédito/Débito", desc: "Gestionamos la obtención de tarjetas físicas enviadas a tu domicilio para el control total de los fondos de tu LLC." },
             ].map((service, i) => (
               <div key={i} className="rounded-xl bg-brand-lime/5 border border-brand-lime/10 p-4 sm:p-6 transition-transform active:scale-[0.98] text-center">
                 <p className="font-black uppercase tracking-tight text-sm sm:text-lg text-brand-dark mb-1 sm:mb-3 leading-tight">{service.title}</p>
