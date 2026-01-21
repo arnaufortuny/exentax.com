@@ -13,8 +13,8 @@ export function HelpSection() {
           <p className="text-brand-lime font-black uppercase tracking-wide text-base sm:text-lg mt-1 sm:mt-2 mb-8 sm:mb-10 text-center">
             (Estamos aquí para resolver todas tus dudas)
           </p>
-          <div className="flex flex-col sm:flex-row justify-center items-center gap-4 w-full">
-            <a href="https://wa.me/34614916910" target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto">
+          <div className="flex flex-col sm:flex-row justify-center items-center gap-4 w-full px-4 sm:px-0 max-w-2xl mx-auto">
+            <a href="https://wa.me/34614916910" target="_blank" rel="noopener noreferrer" className="w-full">
               <Button 
                 size="lg"
                 className="bg-brand-lime text-brand-dark font-black text-base px-8 border-0 w-full rounded-full h-14 shadow-lg hover:bg-brand-lime/90 active:bg-brand-lime transition-all flex items-center justify-center gap-2"
@@ -23,11 +23,11 @@ export function HelpSection() {
                 Envíanos un WhatsApp
               </Button>
             </a>
-            <Link href="/faq">
+            <Link href="/faq" className="w-full">
               <Button 
                 size="lg" 
                 variant="outline" 
-                className="border-brand-dark text-brand-dark font-black text-base px-8 w-full sm:w-auto rounded-full h-14 hover:bg-brand-dark hover:text-white transition-all"
+                className="border-brand-dark text-brand-dark font-black text-base px-8 w-full rounded-full h-14 hover:bg-brand-dark hover:text-white transition-all"
               >
                 Preguntas Frecuentes
               </Button>

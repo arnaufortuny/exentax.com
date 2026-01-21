@@ -181,9 +181,9 @@ export default function Servicios() {
                   <span className="w-1 h-1 sm:w-1.5 sm:h-1.5 rounded-full bg-brand-lime" />
                   Tasas estatales incluidas
                 </p>
-                <div className="space-y-3 sm:space-y-4 text-xs sm:text-sm mb-8 sm:mb-10 border-t border-brand-lime/10 pt-4 sm:pt-6">
+                <div className="space-y-3 sm:space-y-4 text-sm sm:text-lg mb-4 sm:mb-6 border-t border-brand-lime/10 pt-4 sm:pt-6">
                   {packFeatures.map((f) => (
-                    <p key={f} className="flex items-center justify-center gap-2 sm:gap-3 text-brand-dark/80 font-medium">
+                    <p key={f} className="flex items-center justify-start gap-2 sm:gap-3 text-brand-dark/80 font-medium text-left">
                       <span className="text-brand-lime font-black">✓</span> 
                       <span>{f}</span>
                     </p>
@@ -219,9 +219,9 @@ export default function Servicios() {
                   <span className="w-1 h-1 sm:w-1.5 sm:h-1.5 rounded-full bg-brand-lime" />
                   Tasas estatales incluidas
                 </p>
-                <div className="space-y-3 sm:space-y-4 text-xs sm:text-sm mb-8 sm:mb-10 border-t border-brand-lime/10 pt-4 sm:pt-6">
+                <div className="space-y-3 sm:space-y-4 text-sm sm:text-lg mb-4 sm:mb-6 border-t border-brand-lime/10 pt-4 sm:pt-6">
                   {packFeatures.map((f) => (
-                    <p key={f} className="flex items-center justify-center gap-2 sm:gap-3 text-brand-dark/80 font-medium">
+                    <p key={f} className="flex items-center justify-start gap-2 sm:gap-3 text-brand-dark/80 font-medium text-left">
                       <span className="text-brand-lime font-black">✓</span> 
                       <span>{f}</span>
                     </p>
@@ -257,9 +257,9 @@ export default function Servicios() {
                   <span className="w-1 h-1 sm:w-1.5 sm:h-1.5 rounded-full bg-brand-lime" />
                   Tasas estatales incluidas
                 </p>
-                <div className="space-y-3 sm:space-y-4 text-xs sm:text-sm mb-8 sm:mb-10 border-t border-brand-lime/10 pt-4 sm:pt-6">
+                <div className="space-y-3 sm:space-y-4 text-sm sm:text-lg mb-4 sm:mb-6 border-t border-brand-lime/10 pt-4 sm:pt-6">
                   {packFeatures.map((f) => (
-                    <p key={f} className="flex items-center justify-center gap-2 sm:gap-3 text-brand-dark/80 font-medium">
+                    <p key={f} className="flex items-center justify-start gap-2 sm:gap-3 text-brand-dark/80 font-medium text-left">
                       <span className="text-brand-lime font-black">✓</span> 
                       <span>{f}</span>
                     </p>
