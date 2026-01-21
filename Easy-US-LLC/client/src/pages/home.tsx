@@ -94,13 +94,13 @@ export default function Home() {
               { badge: "Cuotas", title: "Eliminamos la cuota fija mensual", text: "No existe cuota de autónomos. No pagas nada hasta que generes beneficios.", footer: "Sin cuota de autónomos." },
               { badge: "Banca", title: "Te damos tarjeta física internacional", text: "Te acompañamos en apertura de Mercury o Relay.", footer: "Tarjeta física internacional." },
             ].map((card, i) => (
-              <div key={i} className="bg-white rounded-2xl shadow-md overflow-hidden border border-brand-dark/5">
-                <div className="p-6">
+              <div key={i} className="bg-white rounded-2xl shadow-md overflow-hidden border border-brand-dark/5 flex flex-col">
+                <div className="p-6 flex-grow">
                   <span className="inline-block px-3 py-1 text-xs font-bold rounded-full bg-brand-lime text-brand-dark mb-4">{card.badge}</span>
-                  <h3 className="text-xl sm:text-2xl font-bold text-brand-dark mb-3">{card.title}</h3>
+                  <h3 className="text-xl sm:text-2xl font-bold text-brand-dark mb-3 leading-tight">{card.title}</h3>
                   <p className="text-muted-foreground text-base sm:text-lg leading-relaxed">{card.text}</p>
                 </div>
-                <div className="bg-brand-lime/10 px-6 py-4 border-t border-brand-lime/20">
+                <div className="bg-brand-lime/10 px-6 py-4 border-t border-brand-lime/20 mt-auto">
                   <p className="text-sm font-bold text-brand-dark">{card.footer}</p>
                 </div>
               </div>
