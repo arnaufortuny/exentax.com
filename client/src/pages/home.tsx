@@ -32,7 +32,7 @@ export default function Home() {
       <Navbar />
       <HeroSection 
         title={
-          <h1 className="font-black uppercase tracking-tighter text-white mb-4 sm:mb-8 w-full block [text-wrap:balance] [word-break:keep-all] [overflow-wrap:break-word] text-left" style={{ fontSize: 'clamp(32px, 7vw, 72px)', lineHeight: '1.05' }}>
+          <h1 className="font-black uppercase tracking-tighter text-white mb-4 sm:mb-8 w-full block [text-wrap:balance] [word-break:keep-all] [overflow-wrap:break-word] text-left" style={{ fontSize: 'clamp(38px, 9vw, 96px)', lineHeight: '1' }}>
             REDUCIMOS TU CARGA FISCAL<br />
             <span className="text-brand-lime">CON UNA LLC AMERICANA</span>
           </h1>
