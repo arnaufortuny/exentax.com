@@ -296,7 +296,7 @@ export default function Servicios() {
                 <Button 
                   onClick={() => handleSelectProduct(deProduct?.id || 3)}
                   disabled={createOrderMutation.isPending}
-                  className="w-full bg-brand-lime text-brand-dark font-black rounded-full py-3 sm:py-4 text-sm sm:text-base border-0 shadow-md hover:bg-brand-lime/90 transition-all transform active:scale-95 h-auto"
+                  className="w-full bg-brand-lime text-brand-dark font-black rounded-full py-3 sm:py-4 text-sm sm:text-base border-0 shadow-md hover:bg-brand-lime/90 transition-all transform active:scale-95 h-9 sm:h-11"
                 >
                   {createOrderMutation.isPending && createOrderMutation.variables === (deProduct?.id || 3) ? "Procesando..." : "Elegir Delaware"}
                 </Button>
