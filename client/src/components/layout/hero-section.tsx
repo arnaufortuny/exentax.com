@@ -18,7 +18,7 @@ export function HeroSection({
 }: HeroSectionProps) {
   return (
     <section 
-      className={`relative overflow-hidden pt-6 pb-4 sm:pt-12 sm:pb-10 lg:pt-16 lg:pb-12 bg-white flex flex-col items-center justify-center text-center ${className}`}
+      className={`relative overflow-hidden pt-12 pb-8 sm:pt-24 sm:pb-20 lg:pt-32 lg:pb-24 min-h-[85vh] bg-white flex flex-col items-center justify-center text-center ${className}`}
     >
       <div 
         className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat opacity-40"

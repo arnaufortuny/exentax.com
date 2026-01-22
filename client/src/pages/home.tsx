@@ -62,39 +62,16 @@ export default function Home() {
               Para freelancers, emprendedores digitales, ecommerce y negocios de servicios online. <span className="block sm:inline font-bold">Te entregamos tu LLC en 2 días. Sin IVA. Sin Impuesto de Sociedades. Sin cuota de autónomos.</span>
             </p>
             
-            <div className="flex flex-col sm:flex-row justify-center gap-2 sm:gap-3 mb-8 sm:mb-4 w-full sm:hidden">
-              <Button size="lg" onClick={() => setLocation("/servicios")} disabled={createOrderMutation.isPending} className="bg-brand-lime text-brand-dark font-black text-sm px-8 border-0 rounded-full w-full h-12 shadow-md">
-                {createOrderMutation.isPending ? "Procesando..." : "Empieza ahora →"}
-              </Button>
-            </div>
-          </div>
-        }
-      >
-        <div className="hidden sm:flex flex-wrap justify-center gap-1.5 sm:gap-3 mb-3 sm:mb-4 w-full max-w-full overflow-hidden px-2">
-          <span className="inline-flex items-center px-3 py-1.5 sm:px-4 sm:py-2 rounded-full bg-brand-lime text-brand-dark font-black text-[10px] sm:text-sm shadow-sm whitespace-nowrap">
-            Tu LLC en 2 días
-          </span>
-          <span className="inline-flex items-center px-3 py-1.5 sm:px-4 sm:py-2 rounded-full bg-brand-lime text-brand-dark font-black text-[10px] sm:text-sm shadow-sm whitespace-nowrap">
-            Pack Todo Incluido
-          </span>
-          <span className="inline-flex items-center px-3 py-1.5 sm:px-4 sm:py-2 rounded-full bg-brand-lime text-brand-dark font-black text-[10px] sm:text-sm shadow-sm whitespace-nowrap">
-            Sin IVA
-          </span>
-          <span className="inline-flex items-center px-3 py-1.5 sm:px-4 sm:py-2 rounded-full bg-brand-lime text-brand-dark font-black text-[10px] sm:text-sm shadow-sm whitespace-nowrap">
-            Precios Transparentes
-          </span>
-          <span className="inline-flex items-center px-3 py-1.5 sm:px-4 sm:py-2 rounded-full bg-brand-lime text-brand-dark font-black text-[10px] sm:text-sm shadow-sm whitespace-nowrap">
-            Trato Cercano
-          </span>
-          <span className="inline-flex items-center px-3 py-1.5 sm:px-4 sm:py-2 rounded-full bg-brand-lime text-brand-dark font-black text-[10px] sm:text-sm shadow-sm whitespace-nowrap">
-            Apertura Cuenta Mercury & Relay
-          </span>
-          <span className="inline-flex items-center px-3 py-1.5 sm:px-4 sm:py-2 rounded-full bg-brand-lime text-brand-dark font-black text-[10px] sm:text-sm shadow-sm whitespace-nowrap">
-            Tarjeta Física de Crédito y Débito
-          </span>
+        <div className="flex flex-col sm:flex-row justify-center gap-2 sm:gap-3 mb-8 sm:mb-4 w-full">
+          <Button size="lg" onClick={() => setLocation("/servicios")} disabled={createOrderMutation.isPending} className="bg-brand-lime text-brand-dark font-black text-sm px-8 border-0 rounded-full w-full sm:w-auto h-12 shadow-md">
+            {createOrderMutation.isPending ? "Procesando..." : "Empieza ahora →"}
+          </Button>
+          <Button size="lg" onClick={() => setLocation("/servicios")} variant="outline" className="border-brand-dark text-brand-dark font-black text-sm px-8 hover:bg-brand-dark/5 rounded-full w-full sm:w-auto h-12">
+            Conoce Nuestros Servicios
+          </Button>
         </div>
 
-        <div className="hidden sm:flex mb-3 sm:mb-4 justify-center">
+        <div className="mb-3 sm:mb-4 flex justify-center">
           <a href="https://es.trustpilot.com/review/easyusllc.com" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 sm:gap-4 bg-white px-2 py-1.5 sm:px-6 sm:py-3 rounded-full shadow-md border border-gray-100">
             <img src={trustpilotLogo} alt="Trustpilot" className="h-4 sm:h-7 w-auto" />
             <div className="flex gap-0.5 sm:gap-1">
@@ -107,17 +84,6 @@ export default function Home() {
             <span className="text-brand-dark text-[10px] sm:text-lg font-black">5/5</span>
           </a>
         </div>
-
-        <div className="hidden sm:flex flex-col sm:flex-row justify-center gap-2 sm:gap-3 mb-2 sm:mb-4 w-full">
-          <Button size="lg" onClick={() => setLocation("/servicios")} disabled={createOrderMutation.isPending} className="bg-brand-lime text-brand-dark font-black text-xs sm:text-sm px-4 sm:px-8 border-0 rounded-full w-full sm:w-auto h-10 sm:h-12 shadow-md">
-            {createOrderMutation.isPending ? "Procesando..." : "Empieza ahora →"}
-          </Button>
-          <Button size="lg" onClick={() => setLocation("/servicios")} variant="outline" className="border-brand-dark text-brand-dark font-black text-xs sm:text-sm px-4 sm:px-8 hover:bg-brand-dark/5 rounded-full w-full sm:w-auto h-10 sm:h-12">
-            Conoce Nuestros Servicios
-          </Button>
-        </div>
-
-        {/* Mobile secondary tags removed as requested */}
       </HeroSection>
       <section className="bg-white py-20 sm:py-24 border-t border-brand-dark/5" id="ventajas">
         <div className="w-full px-5 sm:px-8">
