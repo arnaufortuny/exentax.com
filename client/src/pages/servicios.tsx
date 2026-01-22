@@ -150,6 +150,7 @@ export default function Servicios() {
         }
       />
 
+      {/* Servicios Section */}
       <section className="py-8 sm:py-14 bg-white border-t border-brand-dark/5" id="servicios">
         <div className="w-full px-5 sm:px-8">
           <div className="text-center mb-6 sm:mb-10 flex flex-col items-center justify-center">
@@ -178,6 +179,7 @@ export default function Servicios() {
         </div>
       </section>
 
+      {/* Pricing Section */}
       <section className="py-12 sm:py-20 border-t border-brand-dark/5" id="pricing">
         <div className="w-full px-4 sm:px-8">
           <div className="text-center mb-8 sm:mb-12 flex flex-col items-center justify-center">
@@ -307,8 +309,10 @@ export default function Servicios() {
         </div>
       </section>
 
+      {/* Unified Banca & Mantenimiento Section */}
       <section className="py-12 sm:py-20 bg-white border-t border-brand-dark/5" id="bancos">
         <div className="w-full px-5 sm:px-8">
+          {/* Asistencia Bancaria */}
           <div className="text-center mb-8 sm:mb-12 flex flex-col items-center justify-center">
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark uppercase tracking-tight text-center">
               <span className="text-brand-lime uppercase tracking-widest text-sm font-black block mb-2 text-center">BANCOS</span>
@@ -324,21 +328,19 @@ export default function Servicios() {
               { title: "Mercury", desc: "Te acompañamos en todo el proceso de solicitud de cuenta en Mercury, ayudándote a presentar correctamente la información de tu LLC." },
               { title: "Relay", desc: "Asistencia en la apertura de cuenta en Relay, una alternativa bancaria sólida para la operativa diaria de tu empresa." },
               { title: "Estrategia bancaria", desc: "Te orientamos sobre la opción bancaria más adecuada según tu tipo de negocio y forma de operar." },
-              { title: "ACOMPAÑAMIENTO CONTINUO", desc: "Te acompañamos durante el proceso y resolvemos tus dudas hasta que la solicitud queda resuelta." },
-            ].map((bank, i) => (
-              <div key={i} className="p-5 sm:p-8 bg-white rounded-2xl border border-brand-dark/5 text-center shadow-sm">
-                <p className="font-black uppercase tracking-tighter text-lg sm:text-xl mb-3 text-brand-dark">{bank.title}</p>
-                <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">{bank.desc}</p>
+              { title: "Acompañamiento continuo", desc: "Te acompañamos durante el proceso y resolvemos tus dudas hasta que la solicitud queda resuelta." },
+            ].map((service, i) => (
+              <div key={i} className="rounded-xl bg-brand-lime/5 border border-brand-lime/10 p-4 sm:p-5 text-center">
+                <p className="font-black uppercase tracking-tight text-sm sm:text-lg text-brand-dark mb-2">{service.title}</p>
+                <p className="text-xs sm:text-base text-muted-foreground leading-relaxed">{service.desc}</p>
               </div>
             ))}
           </div>
-          
-          <div className="text-center italic text-brand-dark font-medium text-sm sm:text-lg mb-12">
-            Incluido en tu paquete inicial.
-          </div>
+          <p className="text-center text-sm sm:text-lg text-brand-dark font-medium italic mb-12">Incluido en tu paquete inicial.</p>
 
           <div className="border-t border-brand-dark/5 w-full mb-12" />
 
+          {/* Mantenimiento */}
           <div className="text-center mb-6 sm:mb-10 flex flex-col items-center justify-center">
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark uppercase tracking-tight text-center">
               <span className="text-brand-lime uppercase tracking-widest text-sm font-black block mb-2 text-center">MANTENIMIENTO</span>
@@ -389,13 +391,9 @@ export default function Servicios() {
         </div>
       </section>
 
-      <div className="container max-w-7xl mx-auto px-5 sm:px-8">
-        <div className="border-t border-brand-dark/5 w-full" />
-      </div>
-
-      <section className="py-12 sm:py-20 bg-white">
+      {/* FAQ Section */}
+      <section className="py-12 sm:py-20 bg-white border-t border-brand-dark/5">
         <div className="w-full px-4 sm:px-6">
-          <div className="border-t border-brand-dark/5 w-full mb-12" />
           <div className="text-center mb-12 flex flex-col items-center justify-center">
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark uppercase tracking-tight text-center">
               <span className="text-brand-lime uppercase tracking-widest text-sm font-black block mb-2 text-center">FAQ</span>
@@ -405,7 +403,7 @@ export default function Servicios() {
               (Resolvemos tus dudas de inmediato)
             </p>
           </div>
-          <div className="space-y-4 text-left">
+          <div className="space-y-4 text-left max-w-4xl mx-auto">
             {faqCategories.map((category) => (
               <div key={category.title} className="space-y-4">
                 <h3 className="text-lg font-black text-brand-dark uppercase tracking-tighter flex items-center gap-2 mt-8 mb-4">
@@ -449,123 +447,79 @@ export default function Servicios() {
 
           <div className="mt-16 text-center">
             <Link href="/faq">
-              <Button 
-                className="group bg-brand-lime text-brand-dark font-black text-sm sm:text-base px-8 py-6 rounded-full hover:bg-brand-lime/90 transition-all flex items-center gap-3 mx-auto shadow-xl active:scale-95 border-0"
-              >
-                Consulta nuestro FAQ completo
-                <span className="transition-transform group-hover:translate-x-1">→</span>
-              </Button>
+              <Link href="/faq">
+                <Button 
+                  className="group bg-brand-lime text-brand-dark font-black text-sm sm:text-base px-8 py-6 rounded-full hover:bg-brand-lime/90 transition-all flex items-center gap-3 mx-auto shadow-xl active:scale-95 border-0"
+                >
+                  Consulta nuestro FAQ completo
+                  <span className="transition-transform group-hover:translate-x-1">→</span>
+                </Button>
+              </Link>
             </Link>
           </div>
         </div>
       </section>
 
-      <div className="container max-w-7xl mx-auto px-5 sm:px-8">
+      {/* Servicios Adicionales */}
+      <section className="py-8 sm:py-14 bg-white border-t border-brand-dark/5">
+        <div className="w-full px-5 sm:px-8">
+          <div className="text-center mb-6 sm:mb-10 flex flex-col items-center justify-center">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark uppercase tracking-tight text-center">
+              <span className="text-brand-lime uppercase tracking-widest text-sm font-black block mb-2 text-center">EXTRAS</span>
+              Servicios Adicionales
+            </h2>
+            <p className="text-brand-lime font-black uppercase tracking-wide text-base sm:text-lg mt-1 sm:mt-2 text-center">(Servicios a medida para tu LLC)</p>
+          </div>
+          <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-4 sm:gap-6 mb-8 max-w-4xl mx-auto">
+            {[
+              { title: "Disolución de LLC", desc: "Gestionamos el cierre oficial y ordenado de tu LLC en Estados Unidos, asegurando que la estructura quede correctamente disuelta y sin obligaciones futuras." },
+              { title: "Enmiendas de la LLC", desc: "Tramitamos modificaciones oficiales como cambio de nombre, actualización de datos o ajustes estructurales, manteniendo tu empresa siempre en regla." },
+              { title: "Agente Registrado", desc: "Gestión y renovación del Registered Agent para garantizar que tu LLC disponga de dirección legal válida y cumpla con los requisitos estatales." },
+              { title: "PRESENTACIÓN FISCAL", desc: "Preparamos y presentamos los formularios 1120 y 5472 ante el IRS, cumpliendo con las obligaciones informativas federales aplicables a LLCs de propietarios no residentes." },
+            ].map((service, i) => (
+              <div key={i} className="rounded-xl bg-brand-lime/5 border border-brand-lime/10 p-4 sm:p-6 text-center">
+                <p className="font-black uppercase tracking-tight text-sm sm:text-lg text-brand-dark mb-2">{service.title}</p>
+                <p className="text-xs sm:text-base text-muted-foreground leading-relaxed">{service.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <div className="w-full px-5 sm:px-8">
         <div className="border-t border-brand-dark/5 w-full" />
       </div>
 
-      <AsistenciaBancariaInternal />
-      <div className="container max-w-7xl mx-auto px-5 sm:px-8">
-        <div className="border-t border-brand-dark/5 w-full" />
-      </div>
-      <ServiciosAdicionales />
-      <div className="container max-w-7xl mx-auto px-5 sm:px-8">
-        <div className="border-t border-brand-dark/5 w-full" />
-      </div>
-      <Soporte />
+      {/* Soporte Section */}
+      <section className="py-8 sm:py-14 bg-white border-t border-brand-dark/5">
+        <div className="w-full px-5 sm:px-8">
+          <div className="text-center mb-6 sm:mb-10 flex flex-col items-center justify-center">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark uppercase tracking-tight text-center">
+              <span className="text-brand-lime uppercase tracking-widest text-sm font-black block mb-2 text-center">SOPORTE ILIMITADO</span>
+              Soporte Ilimitado
+            </h2>
+            <p className="text-brand-lime font-black uppercase tracking-wide text-base sm:text-lg mt-1 sm:mt-2 text-center">
+              Incluido durante 12 meses
+            </p>
+          </div>
+          <div className="grid md:grid-cols-3 gap-6 sm:gap-8 mb-8 max-w-6xl mx-auto">
+            {[
+              { title: "Email y WhatsApp", desc: "Atención directa y personalizada para resolver tus dudas operativas cuando lo necesites." },
+              { title: "Guía de bienvenida", desc: "Manual claro y práctico para entender cómo funciona tu LLC y cómo mantenerla correctamente." },
+              { title: "Alertas de plazos", desc: "Te avisamos con antelación de las obligaciones y fechas clave para que no se te pase nada." },
+            ].map((service, i) => (
+              <div key={i} className="rounded-xl bg-white border border-brand-lime/10 p-6 shadow-sm text-center">
+                <p className="font-black uppercase tracking-tight text-sm sm:text-lg text-brand-dark mb-3">{service.title}</p>
+                <p className="text-xs sm:text-base text-muted-foreground leading-relaxed">{service.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
       <HelpSection />
       <NewsletterSection />
       <Footer />
     </div>
-  );
-}
-
-function AsistenciaBancariaInternal() {
-  return (
-    <section className="py-8 sm:py-14 bg-white" id="asistencia-bancaria">
-      <div className="w-full px-5 sm:px-8">
-        <div className="text-center mb-6 sm:mb-10 flex flex-col items-center justify-center">
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark uppercase tracking-tight text-center">
-            <span className="text-brand-lime uppercase tracking-widest text-sm font-black block mb-2 text-center">BANCOS</span>
-            Asistencia Bancaria
-          </h2>
-          <p className="text-brand-lime font-black uppercase tracking-wide text-base sm:text-lg mt-1 sm:mt-2 text-center">(Ayudamos a abrir cuentas en fintech y bancos, si el cliente lo requiere)</p>
-        </div>
-        <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-4 sm:gap-5 mb-5 sm:mb-6 max-w-4xl mx-auto">
-          {[
-            { title: "Mercury", desc: "Te acompañamos en todo el proceso de solicitud de cuenta en Mercury, ayudándote a presentar correctamente la información de tu LLC." },
-            { title: "Relay", desc: "Asistencia en la apertura de cuenta en Relay, una alternativa bancaria sólida para la operativa diaria de tu empresa." },
-            { title: "Estrategia bancaria", desc: "Te orientamos sobre la opción bancaria más adecuada según tu tipo de negocio y forma de operar." },
-            { title: "Acompañamiento continuo", desc: "Te acompañamos durante el proceso y resolvemos tus dudas hasta que la solicitud queda resuelta." },
-          ].map((service, i) => (
-            <div key={i} className="rounded-xl bg-brand-lime/5 border border-brand-lime/10 p-4 sm:p-5 text-center">
-              <p className="font-black uppercase tracking-tight text-sm sm:text-lg text-brand-dark mb-2">{service.title}</p>
-              <p className="text-xs sm:text-base text-muted-foreground leading-relaxed">{service.desc}</p>
-            </div>
-          ))}
-        </div>
-        <p className="text-center text-sm sm:text-lg text-brand-dark font-medium italic">Incluido en tu paquete inicial.</p>
-      </div>
-    </section>
-  );
-}
-
-function ServiciosAdicionales() {
-  return (
-    <section className="py-8 sm:py-14 bg-white">
-      <div className="w-full px-5 sm:px-8">
-        <div className="text-center mb-6 sm:mb-10 flex flex-col items-center justify-center">
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark uppercase tracking-tight text-center">
-            <span className="text-brand-lime uppercase tracking-widest text-sm font-black block mb-2 text-center">EXTRAS</span>
-            Servicios Adicionales
-          </h2>
-          <p className="text-brand-lime font-black uppercase tracking-wide text-base sm:text-lg mt-1 sm:mt-2 text-center">(Servicios a medida para tu LLC)</p>
-        </div>
-        <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-4 sm:gap-6 mb-8 max-w-4xl mx-auto">
-          {[
-            { title: "Disolución de LLC", desc: "Gestionamos el cierre oficial y ordenado de tu LLC en Estados Unidos, asegurando que la estructura quede correctamente disuelta y sin obligaciones futuras." },
-            { title: "Enmiendas de la LLC", desc: "Tramitamos modificaciones oficiales como cambio de nombre, actualización de datos o ajustes estructurales, manteniendo tu empresa siempre en regla." },
-            { title: "Agente Registrado", desc: "Gestión y renovación del Registered Agent para garantizar que tu LLC disponga de dirección legal válida y cumpla con los requisitos estatales." },
-            { title: "PRESENTACIÓN FISCAL", desc: "Preparamos y presentamos los formularios 1120 y 5472 ante el IRS, cumpliendo con las obligaciones informativas federales aplicables a LLCs de propietarios no residentes." },
-          ].map((service, i) => (
-            <div key={i} className="rounded-xl bg-brand-lime/5 border border-brand-lime/10 p-4 sm:p-6 text-center">
-              <p className="font-black uppercase tracking-tight text-sm sm:text-lg text-brand-dark mb-2">{service.title}</p>
-              <p className="text-xs sm:text-base text-muted-foreground leading-relaxed">{service.desc}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function Soporte() {
-  return (
-    <section className="py-8 sm:py-14">
-      <div className="w-full px-5 sm:px-8">
-        <div className="text-center mb-6 sm:mb-10 flex flex-col items-center justify-center">
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark uppercase tracking-tight text-center">
-            <span className="text-brand-lime uppercase tracking-widest text-sm font-black block mb-2 text-center">SOPORTE ILIMITADO</span>
-            Soporte Ilimitado
-          </h2>
-          <p className="text-brand-lime font-black uppercase tracking-wide text-base sm:text-lg mt-1 sm:mt-2 text-center">
-            Incluido durante 12 meses
-          </p>
-        </div>
-        <div className="grid md:grid-cols-3 gap-6 sm:gap-8 mb-8">
-          {[
-            { title: "Email y WhatsApp", desc: "Atención directa y personalizada para resolver tus dudas operativas cuando lo necesites." },
-            { title: "Guía de bienvenida", desc: "Manual claro y práctico para entender cómo funciona tu LLC y cómo mantenerla correctamente." },
-            { title: "Alertas de plazos", desc: "Te avisamos con antelación de las obligaciones y fechas clave para que no se te pase nada." },
-          ].map((service, i) => (
-            <div key={i} className="rounded-xl bg-white border border-brand-lime/10 p-6 shadow-sm text-center">
-              <p className="font-black uppercase tracking-tight text-sm sm:text-lg text-brand-dark mb-3">{service.title}</p>
-              <p className="text-xs sm:text-base text-muted-foreground leading-relaxed">{service.desc}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
   );
 }
