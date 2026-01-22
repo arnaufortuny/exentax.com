@@ -47,7 +47,7 @@ export default function Home() {
     <div className="min-h-screen font-sans text-left bg-white overflow-x-hidden">
       <Navbar />
       <HeroSection 
-        className="flex flex-col items-center justify-center text-center pt-48 sm:pt-16 min-h-[550px] sm:min-h-[85vh]"
+        className="flex flex-col items-center justify-center text-center pt-32 sm:pt-16 min-h-[450px] sm:min-h-[85vh]"
         showOverlay={false}
         title={
           <motion.div 
