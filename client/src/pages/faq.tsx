@@ -130,14 +130,15 @@ export default function FAQ() {
       <Navbar />
 
       <HeroSection 
-        className="pt-48 sm:pt-32 lg:pt-40 min-h-[550px] sm:min-h-[auto]"
+        className="flex flex-col items-center justify-center text-center pt-48 sm:pt-32 lg:pt-40 min-h-[550px] sm:min-h-[auto]"
+        showOverlay={false}
         title={
-          <h1 className="text-xl sm:text-5xl lg:text-7xl font-black text-brand-dark uppercase tracking-tight leading-[1.1] break-words">
+          <h1 className="text-4xl sm:text-5xl lg:text-7xl font-black text-brand-dark uppercase tracking-tight leading-[1.1] text-center">
             PREGUNTAS <span className="text-brand-lime">FRECUENTES</span>
           </h1>
         }
         subtitle={
-          <p className="text-[13px] sm:text-xl lg:text-2xl text-brand-dark font-medium leading-relaxed max-w-2xl px-2 mb-2 sm:mb-20">
+          <p className="text-[13px] sm:text-xl lg:text-2xl text-brand-dark font-medium leading-relaxed max-w-2xl text-center mb-12 sm:mb-20 mx-auto px-2">
             Resolvimos tus dudas sobre LLCs.
           </p>
         }
