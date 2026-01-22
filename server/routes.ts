@@ -6,7 +6,7 @@ import { api } from "@shared/routes";
 import { z } from "zod";
 import { insertLlcApplicationSchema, users } from "@shared/schema";
 import { db } from "./db";
-import { sendEmail, getWelcomeEmailTemplate, getOtpEmailTemplate, getConfirmationEmailTemplate } from "./lib/email";
+import { sendEmail, getOtpEmailTemplate, getConfirmationEmailTemplate, getReminderEmailTemplate, getWelcomeEmailTemplate } from "./lib/email";
 
 export async function registerRoutes(
   httpServer: Server,
