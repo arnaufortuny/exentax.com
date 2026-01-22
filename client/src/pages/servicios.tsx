@@ -144,7 +144,7 @@ export default function Servicios() {
         }
         subtitle={
           <p className="text-lg sm:text-xl lg:text-2xl text-brand-dark font-medium leading-relaxed max-w-2xl text-left mb-12 sm:mb-20">
-            Tu LLC en Estados Unidos, creada y gestionada con criterios profesionales, sin complicaciones y con soporte continuo.
+            Nos encargamos de todo el proceso para que tú no tengas que preocuparte por nada.
           </p>
         }
       />
@@ -170,7 +170,7 @@ export default function Servicios() {
             ].map((service, i) => (
               <div key={i} className="rounded-xl bg-brand-lime/5 border border-brand-lime/10 p-4 sm:p-6 transition-transform active:scale-[0.98] text-center">
                 <p className="font-black uppercase tracking-tight text-sm sm:text-lg text-brand-dark mb-1 sm:mb-3 leading-tight">{service.title}</p>
-                <p className="text-[10px] sm:text-base text-brand-dark font-black uppercase tracking-tight leading-relaxed">{service.desc}</p>
+                <p className="text-[10px] sm:text-base text-muted-foreground leading-relaxed">{service.desc}</p>
               </div>
             ))}
           </div>
@@ -454,7 +454,7 @@ function AsistenciaBancaria() {
           ].map((service, i) => (
             <div key={i} className="rounded-xl bg-brand-lime/5 border border-brand-lime/10 p-4 sm:p-5 text-center">
               <p className="font-black uppercase tracking-tight text-sm sm:text-lg text-brand-dark mb-2">{service.title}</p>
-              <p className="text-xs sm:text-base text-brand-dark font-black uppercase tracking-tight leading-relaxed">{service.desc}</p>
+              <p className="text-xs sm:text-base text-muted-foreground leading-relaxed">{service.desc}</p>
             </div>
           ))}
         </div>
@@ -477,14 +477,14 @@ function ServiciosAdicionales() {
         </div>
         <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-4 sm:gap-6 mb-8 max-w-4xl mx-auto">
           {[
-            { title: "Disolución de LLC", desc: "Gestionamos el cierre oficial y ordernado de tu LLC en Estados Unidos, asegurando que la estructura quede correctamente disuelta y sin obligaciones futuras." },
+            { title: "Disolución de LLC", desc: "Gestionamos el cierre oficial y ordenado de tu LLC en Estados Unidos, asegurando que la estructura quede correctamente disuelta y sin obligaciones futuras." },
             { title: "Enmiendas de la LLC", desc: "Tramitamos modificaciones oficiales como cambio de nombre, actualización de datos o ajustes estructurales, manteniendo tu empresa siempre en regla." },
             { title: "Agente Registrado", desc: "Gestión y renovación del Registered Agent para garantizar que tu LLC disponga de dirección legal válida y cumpla con los requisitos estatales." },
             { title: "PRESENTACIÓN FISCAL", desc: "Preparamos y presentamos los formularios 1120 y 5472 ante el IRS, cumpliendo con las obligaciones informativas federales aplicables a LLCs de propietarios no residentes." },
           ].map((service, i) => (
             <div key={i} className="rounded-xl bg-brand-lime/5 border border-brand-lime/10 p-4 sm:p-6 text-center">
               <p className="font-black uppercase tracking-tight text-sm sm:text-lg text-brand-dark mb-2">{service.title}</p>
-              <p className="text-xs sm:text-base text-brand-dark font-black uppercase tracking-tight leading-relaxed">{service.desc}</p>
+              <p className="text-xs sm:text-base text-muted-foreground leading-relaxed">{service.desc}</p>
             </div>
           ))}
         </div>
@@ -514,7 +514,7 @@ function Soporte() {
           ].map((service, i) => (
             <div key={i} className="rounded-xl bg-white border border-brand-lime/10 p-6 shadow-sm text-center">
               <p className="font-black uppercase tracking-tight text-sm sm:text-lg text-brand-dark mb-3">{service.title}</p>
-              <p className="text-xs sm:text-base text-brand-dark font-black uppercase tracking-tight leading-relaxed">{service.desc}</p>
+              <p className="text-xs sm:text-base text-muted-foreground leading-relaxed">{service.desc}</p>
             </div>
           ))}
         </div>
