@@ -126,6 +126,79 @@ export default function Home() {
         <div className="container max-w-7xl mx-auto px-5 sm:px-8">
           <div className="text-center mb-12 sm:mb-20 flex flex-col items-center justify-center">
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark uppercase tracking-tight text-center">
+              <span className="text-brand-lime uppercase tracking-widest text-sm font-black block mb-2 text-center">BANCOS</span>
+              Asistencia Bancaria
+            </h2>
+            <p className="text-brand-lime font-black uppercase tracking-wide text-base sm:text-lg mt-1 sm:mt-2 text-center">
+              (AYUDAMOS A ABRIR CUENTAS EN FINTECH Y BANCOS, SI EL CLIENTE LO REQUIERE)
+            </p>
+          </div>
+          <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+            <div className="p-8 bg-brand-lime/5 rounded-2xl border border-brand-lime/10 text-center">
+              <p className="font-black uppercase tracking-tighter text-xl sm:text-2xl mb-4 text-brand-dark">Cuentas Fintech</p>
+              <p className="text-sm sm:text-lg text-muted-foreground leading-relaxed">Apertura en Mercury, Relay y plataformas líderes para operar en USD desde el primer día.</p>
+            </div>
+            <div className="p-8 bg-brand-lime/5 rounded-2xl border border-brand-lime/10 text-center">
+              <p className="font-black uppercase tracking-tighter text-xl sm:text-2xl mb-4 text-brand-dark">Banca Tradicional</p>
+              <p className="text-sm sm:text-lg text-muted-foreground leading-relaxed">Asesoramiento para opciones de banca tradicional según el perfil de tu negocio.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="py-20 sm:py-32 bg-white border-t border-brand-dark/5">
+        <div className="container max-w-7xl mx-auto px-5 sm:px-8">
+          <div className="text-center mb-12 sm:mb-20 flex flex-col items-center justify-center">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark uppercase tracking-tight text-center">
+              <span className="text-brand-lime uppercase tracking-widest text-sm font-black block mb-2 text-center">EXTRAS</span>
+              Servicios Adicionales
+            </h2>
+            <p className="text-brand-lime font-black uppercase tracking-wide text-base sm:text-lg mt-1 sm:mt-2 text-center">
+              (SERVICIOS A MEDIDA PARA TU LLC)
+            </p>
+          </div>
+          <div className="grid md:grid-cols-3 gap-6">
+            <div className="p-6 bg-brand-lime/5 rounded-2xl border border-brand-lime/10 text-center">
+              <p className="font-black uppercase tracking-tighter text-lg mb-3 text-brand-dark">Tax ID (ITIN)</p>
+              <p className="text-sm text-muted-foreground">Tramitación de número de identificación fiscal personal.</p>
+            </div>
+            <div className="p-6 bg-brand-lime/5 rounded-2xl border border-brand-lime/10 text-center">
+              <p className="font-black uppercase tracking-tighter text-lg mb-3 text-brand-dark">Mail Forwarding</p>
+              <p className="text-sm text-muted-foreground">Gestión y digitalización de correspondencia física.</p>
+            </div>
+            <div className="p-6 bg-brand-lime/5 rounded-2xl border border-brand-lime/10 text-center">
+              <p className="font-black uppercase tracking-tighter text-lg mb-3 text-brand-dark">Compliance</p>
+              <p className="text-sm text-muted-foreground">Mantenimiento legal y fiscal preventivo.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="py-20 sm:py-32 bg-white border-t border-brand-dark/5">
+        <div className="container max-w-7xl mx-auto px-5 sm:px-8">
+          <div className="text-center mb-12 sm:mb-20 flex flex-col items-center justify-center">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark uppercase tracking-tight text-center">
+              <span className="text-brand-lime uppercase tracking-widest text-sm font-black block mb-2 text-center">SOPORTE ILIMITADO</span>
+              Soporte Ilimitado
+            </h2>
+            <p className="text-brand-lime font-black uppercase tracking-wide text-base sm:text-lg mt-1 sm:mt-2 text-center">
+              INCLUIDO DURANTE 12 MESES
+            </p>
+          </div>
+          <div className="max-w-2xl mx-auto p-8 bg-brand-dark text-white rounded-3xl shadow-2xl text-center relative overflow-hidden">
+            <div className="absolute inset-0 opacity-5 bg-[url('/hero-bg.png')] bg-repeat" />
+            <div className="relative z-10">
+              <p className="text-lg sm:text-xl font-medium leading-relaxed mb-6">Estamos contigo en cada paso. Resolución de dudas técnicas, bancarias y operativas sin coste adicional durante todo el año.</p>
+              <div className="inline-flex items-center gap-2 bg-brand-lime text-brand-dark px-6 py-2 rounded-full font-black uppercase text-sm">Respuesta en &lt; 24h</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="py-20 sm:py-32 bg-white border-t border-brand-dark/5">
+        <div className="container max-w-7xl mx-auto px-5 sm:px-8">
+          <div className="text-center mb-12 sm:mb-20 flex flex-col items-center justify-center">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark uppercase tracking-tight text-center">
               <span className="text-brand-lime uppercase tracking-widest text-sm font-black block mb-2 text-center">PROCESO</span>
               Cómo Trabajamos
             </h2>
