@@ -79,7 +79,11 @@ export default function Servicios() {
     try {
       await apiRequest("POST", "/api/contact/send-otp", { email });
       setIsOtpSent(true);
-      toast({ title: "Código enviado" });
+      toast({ 
+        title: "¡Código enviado!", 
+        description: "Revisa tu bandeja de entrada.",
+        variant: "success"
+      });
     } catch {
       toast({ title: "Error", description: "No se pudo enviar el código", variant: "destructive" });
     } finally {
@@ -94,7 +98,11 @@ export default function Servicios() {
     try {
       await apiRequest("POST", "/api/contact/verify-otp", { email, otp });
       setIsEmailVerified(true);
-      toast({ title: "Email verificado" });
+      toast({ 
+        title: "¡Email verificado!", 
+        description: "Ya puedes enviar tu mantenimiento.",
+        variant: "success"
+      });
     } catch {
       toast({ title: "Error", description: "Código incorrecto", variant: "destructive" });
     } finally {
@@ -109,7 +117,11 @@ export default function Servicios() {
         apellido: "(Mantenimiento)",
         subject: `Pack Mantenimiento ${selectedState}`,
       });
-      toast({ title: "Solicitud enviada", description: "Te contactaremos en breve." });
+      toast({ 
+        title: "¡Solicitud enviada!", 
+        description: "Revisa tu bandeja de entrada.",
+        variant: "success"
+      });
       mForm.reset();
       setMaintenanceStep("ask");
     } catch {

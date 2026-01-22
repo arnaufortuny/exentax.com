@@ -71,7 +71,11 @@ export default function Contacto() {
     try {
       await apiRequest("POST", "/api/contact/send-otp", { email });
       setIsOtpSent(true);
-      toast({ title: "Código enviado", description: "Revisa tu bandeja de entrada" });
+      toast({ 
+        title: "¡Código enviado!", 
+        description: "Revisa tu bandeja de entrada.",
+        variant: "success"
+      });
     } catch (error) {
       toast({ title: "Error", description: "No se pudo enviar el código", variant: "destructive" });
     } finally {
@@ -91,7 +95,11 @@ export default function Contacto() {
     try {
       await apiRequest("POST", "/api/contact/verify-otp", { email, otp });
       setIsEmailVerified(true);
-      toast({ title: "Email verificado", description: "Ya puedes enviar tu mensaje" });
+      toast({ 
+        title: "¡Email verificado!", 
+        description: "Ya puedes enviar tu mensaje.",
+        variant: "success"
+      });
     } catch (error) {
       toast({ title: "Error", description: "Código incorrecto o caducado", variant: "destructive" });
     } finally {
@@ -107,8 +115,9 @@ export default function Contacto() {
     try {
       await apiRequest("POST", "/api/contact", data);
       toast({
-        title: "Mensaje enviado",
-        description: "Hemos recibido tu mensaje correctamente.",
+        title: "¡Mensaje enviado!",
+        description: "Revisa tu bandeja de entrada.",
+        variant: "success"
       });
       form.reset();
       setIsOtpSent(false);
