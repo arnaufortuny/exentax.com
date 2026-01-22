@@ -120,7 +120,15 @@ export default function Home() {
         </div>
       </section>
 
+      <div className="w-full flex justify-center py-4 sm:py-8">
+        <div className="w-32 h-1 bg-brand-lime/30 rounded-full" />
+      </div>
+
       <PorQueEasyUSLLC />
+
+      <div className="w-full flex justify-center py-4 sm:py-8">
+        <div className="w-32 h-1 bg-brand-lime/30 rounded-full" />
+      </div>
 
       <section className="py-20 sm:py-32 bg-white border-t border-brand-dark/5" id="proceso">
         <div className="container max-w-7xl mx-auto px-5 sm:px-8">
