@@ -42,12 +42,13 @@ export function NewsletterSection() {
       <div className="absolute inset-0 opacity-[0.05] pointer-events-none bg-[url('/hero-bg.png')] bg-repeat" />
       
       <div className="container max-w-3xl mx-auto px-6 relative z-10 flex flex-col items-center justify-center">
-        <motion.div 
-          initial={{ opacity: 0, y: 15 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center space-y-8 w-full flex flex-col items-center"
-        >
+        <div className="border border-brand-dark/20 rounded-3xl p-8 md:p-12 bg-white/10 backdrop-blur-sm w-full">
+          <motion.div 
+            initial={{ opacity: 0, y: 15 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center space-y-8 w-full flex flex-col items-center"
+          >
           <div className="space-y-4 w-full text-center">
             <h2 className="text-2xl md:text-4xl font-black uppercase tracking-tighter text-brand-dark leading-none text-center">
               Únete a nuestra <span className="text-white bg-brand-dark px-2 inline-block">Newsletter</span>
@@ -81,6 +82,7 @@ export function NewsletterSection() {
             </div>
           </form>
         </motion.div>
+        </div>
       </div>
     </section>
   );

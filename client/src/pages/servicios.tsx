@@ -341,16 +341,17 @@ export default function Servicios() {
 
       <section className="py-12 sm:py-20 bg-white border-t border-brand-dark/5">
         <div className="container max-w-4xl mx-auto px-4 sm:px-6">
-          <div className="text-center mb-12 flex flex-col items-center justify-center">
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark uppercase tracking-tight text-center">
-              <span className="text-brand-lime uppercase tracking-widest text-sm font-black block mb-2 text-center">FAQ</span>
-              Preguntas Frecuentes
-            </h2>
-            <p className="text-brand-lime font-black uppercase tracking-wide text-base sm:text-lg mt-1 sm:mt-2 text-center">
-              (Resolvemos tus dudas de inmediato)
-            </p>
-          </div>
-          <div className="space-y-4">
+          <div className="border border-brand-dark/10 rounded-3xl p-8 sm:p-12 bg-white shadow-sm overflow-hidden text-center">
+            <div className="text-center mb-12 flex flex-col items-center justify-center">
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark uppercase tracking-tight text-center">
+                <span className="text-brand-lime uppercase tracking-widest text-sm font-black block mb-2 text-center">FAQ</span>
+                Preguntas Frecuentes
+              </h2>
+              <p className="text-brand-lime font-black uppercase tracking-wide text-base sm:text-lg mt-1 sm:mt-2 text-center">
+                (Resolvemos tus dudas de inmediato)
+              </p>
+            </div>
+            <div className="space-y-4 text-left">
             {faqCategories.map((category) => (
               <div key={category.title} className="space-y-4">
                 <h3 className="text-lg font-black text-brand-dark uppercase tracking-tighter flex items-center gap-2 mt-8 mb-4">

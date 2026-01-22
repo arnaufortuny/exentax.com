@@ -124,8 +124,8 @@ export default function Home() {
 
       <section className="py-20 sm:py-32 bg-white border-t border-brand-dark/5">
         <div className="container max-w-7xl mx-auto px-5 sm:px-8">
-          <div className="text-center mb-12 sm:mb-20 flex flex-col items-center justify-center">
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark uppercase tracking-tight text-center">
+          <div className="border border-brand-dark/10 rounded-3xl p-8 sm:p-10 bg-white shadow-sm overflow-hidden text-center">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark uppercase tracking-tight mb-4">
               <span className="text-brand-lime uppercase tracking-widest text-sm font-black block mb-2 text-center">PROCESO</span>
               Cómo Trabajamos
             </h2>
