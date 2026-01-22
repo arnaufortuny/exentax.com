@@ -38,3 +38,11 @@ externalPort = 80
 deploymentTarget = "autoscale"
 run = ["npm", "start"]
 build = ["npm", "run", "build"]
+
+[userenv]
+
+[userenv.shared]
+SMTP_HOST = "smtp.ionos.com"
+SMTP_PORT = "587"
+SMTP_USER = "info@easyusllc.com"
+SMTP_PASS = "Afhe982947For*"
