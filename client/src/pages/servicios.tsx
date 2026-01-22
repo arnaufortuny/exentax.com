@@ -642,7 +642,7 @@ export default function Servicios() {
             variants={staggerContainer}
           >
             <motion.h2 className="text-2xl sm:text-4xl lg:text-5xl font-black text-brand-dark uppercase tracking-tight text-center" variants={fadeIn}>
-              <span className="text-brand-lime uppercase tracking-widest text-xs sm:text-sm font-black block mb-1 sm:mb-2 text-center">FAQ</span>
+              <span className="text-brand-lime uppercase tracking-widest text-xs sm:text-sm font-black block mb-2 text-center">FAQ</span>
               Preguntas Frecuentes
             </motion.h2>
             <motion.p className="text-brand-lime font-black uppercase tracking-wide text-sm sm:text-lg mt-1 sm:mt-2 text-center" variants={fadeIn}>(Respondemos de forma clara a las dudas más habituales sobre LLCs, impuestos, bancos y cómo trabajamos)</motion.p>
