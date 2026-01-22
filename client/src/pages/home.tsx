@@ -161,7 +161,17 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      <div className="w-full flex justify-center py-4 sm:py-8">
+        <div className="w-32 h-1 bg-brand-lime/30 rounded-full" />
+      </div>
+
       <HelpSection />
+
+      <div className="w-full flex justify-center py-4 sm:py-8">
+        <div className="w-32 h-1 bg-brand-lime/30 rounded-full" />
+      </div>
+
       <NewsletterSection />
       <Footer />
     </div>
