@@ -7,6 +7,7 @@ import { useState } from "react";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { HelpSection } from "@/components/layout/help-section";
+import { NewsletterSection } from "@/components/layout/newsletter-section";
 import type { Product } from "@shared/schema";
 
 export default function Servicios() {
@@ -429,6 +430,7 @@ export default function Servicios() {
       <Soporte />
 
       <HelpSection />
+      <NewsletterSection />
       <Footer />
     </div>
   );

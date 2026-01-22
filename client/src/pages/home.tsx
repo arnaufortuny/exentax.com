@@ -8,6 +8,7 @@ import { HeroSection } from "@/components/layout/hero-section";
 import { apiRequest } from "@/lib/queryClient";
 import type { Product } from "@shared/schema";
 import { HelpSection } from "@/components/layout/help-section";
+import { NewsletterSection } from "@/components/layout/newsletter-section";
 import trustpilotLogo from "@assets/trustpilot-logo.png";
 
 export default function Home() {
@@ -152,6 +153,7 @@ export default function Home() {
         </div>
       </section>
       <HelpSection />
+      <NewsletterSection />
       <Footer />
     </div>
   );

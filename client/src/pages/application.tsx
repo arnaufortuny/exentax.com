@@ -16,6 +16,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Check } from "lucide-react";
 
 import { HelpSection } from "@/components/layout/help-section";
+import { NewsletterSection } from "@/components/layout/newsletter-section";
 
 const STATES = ["New Mexico", "Wyoming", "Delaware"];
 const DESIGNATORS = ["LLC", "Limited Liability Company"];
@@ -802,6 +803,7 @@ export default function ApplicationWizard() {
       </main>
 
       <HelpSection />
+      <NewsletterSection />
       <Footer />
     </div>
   );
