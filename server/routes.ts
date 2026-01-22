@@ -147,12 +147,36 @@ export async function registerRoutes(
       
       // If status is being updated to "submitted", send confirmation email
       if (updates.status === "submitted" && updatedApp.ownerEmail) {
+        // Notification to admin
+        sendEmail({
+          to: "afortuny07@gmail.com",
+          subject: `NUEVA SOLICITUD LLC: ${updatedApp.companyName} - #${updatedApp.id}`,
+          html: `
+            <div style="font-family: sans-serif; padding: 20px; border: 2px solid #000;">
+              <div style="background: #000; color: #d9ff00; padding: 20px; text-align: center;">
+                <h1 style="margin: 0;">LOG DE SISTEMA: NUEVA SOLICITUD</h1>
+                <p style="margin: 10px 0 0 0; font-weight: bold;">SOLICITUD ID: #${updatedApp.id}</p>
+              </div>
+              <div style="padding: 20px;">
+                <p><strong>PROPIETARIO:</strong> ${updatedApp.ownerFullName}</p>
+                <p><strong>EMAIL:</strong> ${updatedApp.ownerEmail}</p>
+                <p><strong>TELÉFONO:</strong> ${updatedApp.ownerPhone}</p>
+                <p><strong>ESTADO:</strong> ${updatedApp.state}</p>
+                <p><strong>NOMBRE LLC:</strong> ${updatedApp.companyName}</p>
+                <p><strong>ACTIVIDAD:</strong> ${updatedApp.companyDescription}</p>
+                <p><strong>FECHA:</strong> ${new Date().toLocaleString('es-ES', { timeZone: 'Europe/Madrid' })}</p>
+              </div>
+            </div>
+          `,
+        }).catch(err => console.error("Error sending admin notification:", err));
+
+        // Confirmation to client
         sendEmail({
           to: updatedApp.ownerEmail,
-          subject: `Confirmación de Solicitud - ${updatedApp.requestCode}`,
+          subject: `Confirmación de Solicitud #${updatedApp.id} - Easy US LLC`,
           html: getConfirmationEmailTemplate(
             updatedApp.ownerFullName || "Cliente",
-            updatedApp.requestCode || "N/A"
+            updatedApp.id.toString()
           ),
         }).catch(err => console.error("Error sending confirmation email:", err));
       }
