@@ -187,7 +187,7 @@ function PorQueEasyUSLLC() {
             { title: "SOPORTE HUMANO", desc: "Atención directa y cercana en tu idioma, por WhatsApp y email, siempre que lo necesites." },
           ].map((feature, i) => (
             <div key={i} className="p-6 bg-brand-lime/5 rounded-2xl border border-brand-lime/10 hover:bg-brand-lime/10 transition-colors text-center">
-              <p className="font-black uppercase tracking-tighter text-lg sm:text-xl mb-3 text-brand-dark">{feature.title}</p>
+              <p className="font-display font-black uppercase tracking-tighter text-lg sm:text-xl mb-3 text-brand-dark">{feature.title}</p>
               <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">{feature.desc}</p>
             </div>
           ))}
