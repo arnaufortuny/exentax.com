@@ -140,7 +140,7 @@ export default function Home() {
                 {createOrderMutation.isPending ? "Procesando..." : "Empieza ahora →"}
               </Button>
               <Button size="lg" onClick={() => setLocation("/servicios")} variant="outline" className="border-brand-dark text-brand-dark font-black text-sm sm:text-sm px-8 hover:bg-brand-dark/5 rounded-full w-full sm:w-auto h-12 sm:h-12">
-                Conoce Nuestros Servicios
+                Conoce Nuestros Servicios →
               </Button>
             </motion.div>
           </motion.div>
