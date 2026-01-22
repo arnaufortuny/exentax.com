@@ -4,9 +4,11 @@ import { setupAuth, registerAuthRoutes, isAuthenticated } from "./replit_integra
 import { storage } from "./storage";
 import { api } from "@shared/routes";
 import { z } from "zod";
-import { insertLlcApplicationSchema, users } from "@shared/schema";
+import { insertLlcApplicationSchema } from "@shared/schema";
 import { db } from "./db";
 import { sendEmail, getOtpEmailTemplate, getConfirmationEmailTemplate, getReminderEmailTemplate, getWelcomeEmailTemplate, getNewsletterWelcomeTemplate } from "./lib/email";
+import { contactOtps, products as productsTable, users as usersTable } from "@shared/schema";
+import { and, eq, gt } from "drizzle-orm";
 
 export async function registerRoutes(
   httpServer: Server,
@@ -50,7 +52,7 @@ export async function registerRoutes(
       } else {
         // Create a guest user record
         const guestId = `guest_${Date.now()}_${Math.random().toString(36).substring(7)}`;
-        await db.insert(users).values({
+        await db.insert(usersTable).values({
           id: guestId,
           email: null,
           firstName: "Guest",
@@ -265,8 +267,7 @@ export async function registerRoutes(
       const otp = Math.floor(100000 + Math.random() * 900000).toString();
       const expiresAt = new Date(Date.now() + 10 * 60 * 1000); // 10 mins
 
-      // In a real app, we'd use storage, but for speed we'll do direct DB here if storage isn't updated
-      await db.insert(require("@shared/schema").contactOtps).values({
+      await db.insert(contactOtps).values({
         email,
         otp,
         expiresAt,
@@ -289,9 +290,6 @@ export async function registerRoutes(
     try {
       const { email, otp } = z.object({ email: z.string().email(), otp: z.string() }).parse(req.body);
       
-      const { contactOtps } = require("@shared/schema");
-      const { and, eq, gt } = require("drizzle-orm");
-
       const [record] = await db.select()
         .from(contactOtps)
         .where(
@@ -328,9 +326,6 @@ export async function registerRoutes(
         mensaje: z.string(),
         otp: z.string(),
       }).parse(req.body);
-
-      const { contactOtps } = require("@shared/schema");
-      const { and, eq } = require("drizzle-orm");
 
       const [otpRecord] = await db.select()
         .from(contactOtps)
