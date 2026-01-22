@@ -455,13 +455,14 @@ export default function Servicios() {
                         onClick={() => {
                           setSelectedState(item.state);
                           setMaintenanceStep("ask");
+                          setMaintenanceDialogOpen(true);
                         }}
                         className="w-full bg-brand-lime text-brand-dark font-black rounded-full py-4 sm:py-4 text-base sm:text-base border-0 shadow-md hover:bg-brand-lime/90 transition-all transform active:scale-95 h-11 sm:h-11"
                       >
                         Contratar Mantenimiento
                       </Button>
                     </DialogTrigger>
-                    <DialogContent className="max-w-[90vw] sm:max-w-md rounded-2xl border-brand-lime/20 font-sans p-4 sm:p-6 overflow-y-auto max-h-[90vh] bg-white">
+                    <DialogContent className="max-w-[95vw] sm:max-w-md rounded-2xl border-brand-lime/20 font-sans p-4 sm:p-6 overflow-y-auto max-h-[90vh] bg-white">
                       <DialogHeader>
                         <DialogTitle className="text-xl sm:text-2xl font-black text-brand-dark text-center uppercase tracking-tighter">
                           Mantenimiento {selectedState}
@@ -480,7 +481,10 @@ export default function Servicios() {
                               <p className="text-base sm:text-lg font-bold text-brand-dark">¿Ya tienes una LLC constituida con nosotros o con terceros?</p>
                               <div className="flex flex-col gap-3">
                                 <Button 
-                                  onClick={() => setLocation("/contacto")}
+                                  onClick={() => {
+                                    setMaintenanceDialogOpen(false);
+                                    setLocation("/contacto");
+                                  }}
                                   className="bg-brand-lime text-brand-dark font-black rounded-full h-12 sm:h-14 text-sm sm:text-lg hover:bg-brand-lime/90 shadow-md border-0 uppercase"
                                 >
                                   Sí, ya tengo una LLC
@@ -489,8 +493,10 @@ export default function Servicios() {
                                   variant="outline"
                                   onClick={() => {
                                     setMaintenanceDialogOpen(false);
-                                    const el = document.getElementById('pricing');
-                                    el?.scrollIntoView({ behavior: 'smooth' });
+                                    setTimeout(() => {
+                                      const el = document.getElementById('pricing');
+                                      el?.scrollIntoView({ behavior: 'smooth' });
+                                    }, 100);
                                   }}
                                   className="border-brand-dark text-brand-dark font-black rounded-full h-12 sm:h-14 text-sm sm:text-lg hover:bg-brand-dark hover:text-white transition-all uppercase"
                                 >
@@ -498,10 +504,7 @@ export default function Servicios() {
                                 </Button>
                               </div>
                             </motion.div>
-                          ) : (
-                            /* This step is currently bypassed by redirects above, but keeping structure for future use if needed */
-                            <div />
-                          )}
+                          ) : null}
                         </AnimatePresence>
                       </div>
                     </DialogContent>
