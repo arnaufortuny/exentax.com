@@ -106,28 +106,28 @@ export default function Servicios() {
       />
 
       {/* 1. Servicios Constitución */}
-      <section className="py-12 sm:py-20 bg-white border-t border-brand-dark/5" id="servicios">
+      <section className="py-8 sm:py-20 bg-white border-t border-brand-dark/5" id="servicios">
         <div className="w-full px-5 sm:px-8">
           <div className="text-center mb-6 sm:mb-10 flex flex-col items-center justify-center">
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark uppercase tracking-tight text-center">
-              <span className="text-brand-lime uppercase tracking-widest text-sm font-black block mb-2 text-center">SERVICIOS</span>
+            <h2 className="text-2xl sm:text-4xl lg:text-5xl font-black text-brand-dark uppercase tracking-tight text-center">
+              <span className="text-brand-lime uppercase tracking-widest text-xs sm:text-sm font-black block mb-1 sm:mb-2 text-center">SERVICIOS</span>
               Constitución de LLC
             </h2>
-            <p className="text-brand-lime font-black uppercase tracking-wide text-base sm:text-lg mt-1 sm:mt-2 text-center">(Lo que hacemos por ti)</p>
+            <p className="hidden sm:block text-brand-lime font-black uppercase tracking-wide text-base sm:text-lg mt-1 sm:mt-2 text-center">(Lo que hacemos por ti)</p>
           </div>
           
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6 max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-6 max-w-7xl mx-auto">
             {[
-              { title: "Constitución oficial de tu LLC", desc: "Preparamos y presentamos tu empresa ante el Secretary of State, gestionando todo el proceso de forma ágil y sin que tengas que preocuparte por trámites." },
-              { title: "Obtención del EIN", desc: "Solicitamos tu Employer Identification Number directamente ante el IRS para que tu LLC quede correctamente identificada a nivel fiscal." },
-              { title: "Cuentas bancarias en EE. UU.", desc: "Te acompañamos en la apertura de cuentas en Mercury y Relay, con acceso a banca en USD y tarjetas físicas de débito y crédito." },
-              { title: "BOI Report ante FinCEN", desc: "Preparamos y presentamos tu Beneficial Ownership Information Report, cumpliendo con la obligación federal vigente desde 2024." },
-              { title: "Registered Agent incluido", desc: "Incluimos tu Registered Agent oficial durante el primer año completo, con dirección legal en Estados Unidos para tu empresa." },
-              { title: "Tarjetas físicas", desc: "Gestionamos la obtención de tarjetas físicas de débito y crédito, enviadas a tu domicilio para que puedas operar con total control." },
+              { title: "Constitución oficial", desc: "Registro completo ante el Secretary of State." },
+              { title: "Obtención del EIN", desc: "Tramitación de tu número fiscal ante el IRS." },
+              { title: "Cuentas bancarias", desc: "Apertura en Mercury y Relay con tarjetas físicas." },
+              { title: "BOI Report", desc: "Presentación federal obligatoria ante el FinCEN." },
+              { title: "Registered Agent", desc: "Dirección legal en EE. UU. incluida el primer año." },
+              { title: "Soporte experto", desc: "Atención directa para todas tus dudas fiscales." },
             ].map((service, i) => (
-              <div key={i} className="rounded-xl bg-brand-lime/5 border border-brand-lime/10 p-4 sm:p-6 text-center">
-                <p className="font-display font-black uppercase tracking-tight text-sm sm:text-lg text-brand-dark mb-1 sm:mb-3 leading-tight">{service.title}</p>
-                <p className="text-[10px] sm:text-base text-muted-foreground leading-relaxed">{service.desc}</p>
+              <div key={i} className="rounded-xl bg-brand-lime/5 border border-brand-lime/10 p-3 sm:p-6 text-center">
+                <p className="font-display font-black uppercase tracking-tight text-xs sm:text-lg text-brand-dark mb-0.5 sm:mb-3 leading-tight">{service.title}</p>
+                <p className="text-[10px] sm:text-base text-muted-foreground leading-tight sm:leading-relaxed">{service.desc}</p>
               </div>
             ))}
           </div>
