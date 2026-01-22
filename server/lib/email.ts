@@ -31,6 +31,22 @@ export async function sendEmail({ to, subject, html }: { to: string, subject: st
   }
 }
 
+export function getOtpEmailTemplate(otp: string) {
+  return `
+    <div style="font-family: sans-serif; max-width: 600px; margin: auto; border: 1px solid #eee; padding: 20px;">
+      <h2 style="color: #333;">Verifica tu email - Easy US LLC</h2>
+      <p>Tu código de verificación de un solo uso (OTP) es:</p>
+      <div style="background: #f9f9f9; padding: 20px; border-radius: 5px; margin: 20px 0; text-align: center;">
+        <h1 style="margin: 0; font-size: 32px; letter-spacing: 5px; color: #b6ff40;">${otp}</h1>
+      </div>
+      <p>Este código caducará en 10 minutos.</p>
+      <p style="color: #888; font-size: 12px; margin-top: 30px;">
+        Si no has solicitado este código, puedes ignorar este email.
+      </p>
+    </div>
+  `;
+}
+
 export function getWelcomeEmailTemplate(name: string) {
   return `
     <div style="font-family: sans-serif; max-width: 600px; margin: auto; border: 1px solid #eee; padding: 20px;">
@@ -47,7 +63,7 @@ export function getWelcomeEmailTemplate(name: string) {
       </div>
       <p>Si tienes alguna duda inmediata, puedes escribirnos por WhatsApp.</p>
       <p style="color: #888; font-size: 12px; margin-top: 30px;">
-        Este es un mensaje automático de Easy US LLC.
+        Este es un message automático de Easy US LLC.
       </p>
     </div>
   `;

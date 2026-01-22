@@ -6,7 +6,7 @@ import { api } from "@shared/routes";
 import { z } from "zod";
 import { insertLlcApplicationSchema, users } from "@shared/schema";
 import { db } from "./db";
-import { sendEmail, getWelcomeEmailTemplate } from "./lib/email";
+import { sendEmail, getWelcomeEmailTemplate, getOtpEmailTemplate } from "./lib/email";
 
 export async function registerRoutes(
   httpServer: Server,
@@ -167,6 +167,41 @@ export async function registerRoutes(
     const docId = Number(req.params.id);
     await storage.deleteDocument(docId);
     res.json({ success: true });
+  });
+
+  // OTP Endpoints
+  app.post("/api/llc/:id/send-otp", async (req, res) => {
+    const appId = Number(req.params.id);
+    const { email } = req.body;
+    
+    if (!email) return res.status(400).json({ message: "Email is required" });
+    
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    const expires = new Date(Date.now() + 10 * 60 * 1000); // 10 minutes
+    
+    await storage.setLlcApplicationOtp(appId, otp, expires);
+    
+    await sendEmail({
+      to: email,
+      subject: "Código de verificación - Easy US LLC",
+      html: getOtpEmailTemplate(otp),
+    });
+    
+    res.json({ success: true });
+  });
+
+  app.post("/api/llc/:id/verify-otp", async (req, res) => {
+    const appId = Number(req.params.id);
+    const { otp } = req.body;
+    
+    if (!otp) return res.status(400).json({ message: "OTP is required" });
+    
+    const success = await storage.verifyLlcApplicationOtp(appId, otp);
+    if (success) {
+      res.json({ success: true });
+    } else {
+      res.status(400).json({ message: "Código inválido o caducado" });
+    }
   });
 
   // Seed Data

@@ -50,6 +50,9 @@ export const llcApplications = pgTable("llc_applications", {
   status: text("status").notNull().default("draft"), // draft, submitted, filed, rejected
   submittedAt: timestamp("submitted_at"),
   lastUpdated: timestamp("last_updated").defaultNow(),
+  emailOtp: text("email_otp"),
+  emailOtpExpires: timestamp("email_otp_expires"),
+  emailVerified: boolean("email_verified").notNull().default(false),
 });
 
 // Application documents table

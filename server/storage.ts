@@ -28,6 +28,8 @@ export interface IStorage {
   getLlcApplicationByOrderId(orderId: number): Promise<LlcApplication | undefined>;
   getLlcApplicationByRequestCode(code: string): Promise<(LlcApplication & { documents: ApplicationDocument[] }) | undefined>;
   updateLlcApplication(id: number, updates: Partial<LlcApplication>): Promise<LlcApplication>;
+  setLlcApplicationOtp(id: number, otp: string, expires: Date): Promise<void>;
+  verifyLlcApplicationOtp(id: number, otp: string): Promise<boolean>;
 
   // Documents
   createDocument(doc: InsertApplicationDocument): Promise<ApplicationDocument>;
@@ -109,6 +111,31 @@ export class DatabaseStorage implements IStorage {
       .where(eq(llcApplications.id, id))
       .returning();
     return updated;
+  }
+
+  async setLlcApplicationOtp(id: number, otp: string, expires: Date): Promise<void> {
+    await db
+      .update(llcApplications)
+      .set({ emailOtp: otp, emailOtpExpires: expires })
+      .where(eq(llcApplications.id, id));
+  }
+
+  async verifyLlcApplicationOtp(id: number, otp: string): Promise<boolean> {
+    const [app] = await db
+      .select()
+      .from(llcApplications)
+      .where(eq(llcApplications.id, id));
+    
+    if (!app || !app.emailOtp || !app.emailOtpExpires) return false;
+    
+    if (app.emailOtp === otp && new Date() < app.emailOtpExpires) {
+      await db
+        .update(llcApplications)
+        .set({ emailVerified: true, emailOtp: null, emailOtpExpires: null })
+        .where(eq(llcApplications.id, id));
+      return true;
+    }
+    return false;
   }
 
   // Documents

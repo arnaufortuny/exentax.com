@@ -57,6 +57,9 @@ export default function ApplicationWizard() {
   
   const [step, setStep] = useState(1);
   const [requestCode, setRequestCode] = useState<string | null>(null);
+  const [isVerifying, setIsVerifying] = useState(false);
+  const [otpCode, setOtpCode] = useState("");
+  const [sendingOtp, setSendingOtp] = useState(false);
   const [formData, setFormData] = useState({
     ownerFullName: "",
     ownerEmail: "",
@@ -111,10 +114,56 @@ export default function ApplicationWizard() {
   }, [application]);
 
   const handleNext = () => {
+    if (step === 1 && !application?.emailVerified) {
+      handleSendOtp();
+      return;
+    }
     updateApplication({ id, data: formData }, {
       onSuccess: () => setStep(s => s + 1),
       onError: () => toast({ title: "Error", description: "Reinténtalo.", variant: "destructive" })
     });
+  };
+
+  const handleSendOtp = async () => {
+    setSendingOtp(true);
+    try {
+      const response = await fetch(`/api/llc/${id}/send-otp`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: formData.ownerEmail }),
+      });
+      if (response.ok) {
+        setIsVerifying(true);
+        toast({ title: "Código enviado", description: "Revisa tu email." });
+      } else {
+        toast({ title: "Error", description: "No se pudo enviar el código.", variant: "destructive" });
+      }
+    } catch (err) {
+      toast({ title: "Error", description: "Error de conexión.", variant: "destructive" });
+    } finally {
+      setSendingOtp(false);
+    }
+  };
+
+  const handleVerifyOtp = async () => {
+    try {
+      const response = await fetch(`/api/llc/${id}/verify-otp`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ otp: otpCode }),
+      });
+      if (response.ok) {
+        setIsVerifying(false);
+        toast({ title: "Email verificado", description: "Continuamos con el proceso." });
+        updateApplication({ id, data: formData }, {
+          onSuccess: () => setStep(s => s + 1)
+        });
+      } else {
+        toast({ title: "Código incorrecto", description: "Verifícalo e intenta de nuevo.", variant: "destructive" });
+      }
+    } catch (err) {
+      toast({ title: "Error", description: "Error de conexión.", variant: "destructive" });
+    }
   };
 
   const handleSubmit = () => {
@@ -359,13 +408,43 @@ export default function ApplicationWizard() {
                           </div>
                         </div>
                         <div className="pt-4 sm:pt-6">
-                          <Button 
-                            onClick={handleNext} 
-                            disabled={!canProceed() || isSaving}
-                            className="w-full h-12 sm:h-14 bg-brand-lime text-brand-dark font-black text-base sm:text-lg rounded-full shadow-xl hover:scale-[1.02] transition-transform active:scale-95"
-                          >
-                            Continuar →
-                          </Button>
+                          {isVerifying ? (
+                            <div className="space-y-4">
+                              <div className="space-y-1.5">
+                                <Label className="text-[9px] sm:text-xs font-black text-brand-dark uppercase tracking-widest opacity-70">Introduce el código de 6 dígitos enviado a tu email</Label>
+                                <Input 
+                                  className="h-10 sm:h-12 rounded-full bg-white border-brand-lime text-center text-lg font-black tracking-widest" 
+                                  placeholder="000000"
+                                  value={otpCode}
+                                  onChange={(e) => setOtpCode(e.target.value.replace(/\D/g, '').slice(0, 6))}
+                                />
+                              </div>
+                              <div className="flex gap-2">
+                                <Button 
+                                  onClick={() => setIsVerifying(false)}
+                                  variant="outline"
+                                  className="flex-1 h-12 rounded-full font-bold border-brand-dark/10"
+                                >
+                                  Cancelar
+                                </Button>
+                                <Button 
+                                  onClick={handleVerifyOtp}
+                                  disabled={otpCode.length !== 6}
+                                  className="flex-[2] h-12 bg-brand-lime text-brand-dark font-black rounded-full"
+                                >
+                                  Verificar y Continuar
+                                </Button>
+                              </div>
+                            </div>
+                          ) : (
+                            <Button 
+                              onClick={handleNext} 
+                              disabled={!canProceed() || isSaving || sendingOtp}
+                              className="w-full h-12 sm:h-14 bg-brand-lime text-brand-dark font-black text-base sm:text-lg rounded-full shadow-xl hover:scale-[1.02] transition-transform active:scale-95"
+                            >
+                              {sendingOtp ? "Enviando código..." : "Continuar →"}
+                            </Button>
+                          )}
                         </div>
                       </div>
                     </div>
