@@ -75,9 +75,6 @@ export function NewsletterSection() {
                 <Send size={16} />
               </Button>
             </div>
-            <p className="mt-3 text-[9px] text-white/20 font-black uppercase tracking-widest text-center">
-              Sin spam. Solo valor real.
-            </p>
           </form>
         </motion.div>
       </div>
