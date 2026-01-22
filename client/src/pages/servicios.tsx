@@ -338,10 +338,7 @@ export default function Servicios() {
           >
             <Button 
               onClick={() => {
-                const element = document.getElementById('extras');
-                if (element) {
-                  element.scrollIntoView({ behavior: 'smooth' });
-                }
+                setLocation("/?scroll=servicios");
               }}
               variant="outline"
               className="group border-brand-dark/20 text-brand-dark font-black rounded-full px-8 py-6 text-lg hover:bg-brand-dark hover:text-white transition-all transform hover:scale-105 active:scale-95 shadow-sm"

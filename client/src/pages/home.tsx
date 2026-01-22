@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useLocation } from "wouter";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
@@ -28,8 +28,20 @@ const staggerContainer = {
 };
 
 export default function Home() {
-  const [, setLocation] = useLocation();
+  const [location, setLocation] = useLocation();
   
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('scroll') === 'servicios') {
+      const element = document.getElementById('servicios');
+      if (element) {
+        setTimeout(() => {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }, 100);
+      }
+    }
+  }, [location]);
+
   const { data: products } = useQuery<Product[]>({
     queryKey: ["/api/products"],
   });
