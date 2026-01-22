@@ -481,11 +481,19 @@ function ServiciosAdicionales() {
             { title: "Disolución de LLC", desc: "Gestionamos el cierre oficial y ordenado de tu LLC en Estados Unidos, asegurando que la estructura quede correctamente disuelta y sin obligaciones futuras." },
             { title: "Enmiendas de la LLC", desc: "Tramitamos modificaciones oficiales como cambio de nombre, actualización de datos o ajustes estructurales, manteniendo tu empresa siempre en regla." },
             { title: "Agente Registrado", desc: "Gestión y renovación del Registered Agent para garantizar que tu LLC disponga de dirección legal válida y cumpla con los requisitos estatales." },
-            { title: "Presentación fiscal (IRS 1120 y 5472)", desc: "Preparamos y presentamos los formularios 1120 y 5472 ante el IRS, cumpliendo con las obligaciones informativas federales aplicables a LLCs de propietarios no residentes." },
+            { title: "Presentación Fiscal (IRS 1120 y 5472)", desc: "Preparamos y presentamos los formularios 1120 y 5472 ante el IRS, cumpliendo con las obligaciones informativas federales aplicables a LLCs de propietarios no residentes.", highlighted: true },
           ].map((service, i) => (
-            <div key={i} className="rounded-xl bg-brand-lime/5 border border-brand-lime/10 p-4 sm:p-6 text-center">
-              <p className="font-black uppercase tracking-tight text-sm sm:text-lg text-brand-dark mb-2">{service.title}</p>
-              <p className="text-xs sm:text-base text-muted-foreground leading-relaxed">{service.desc}</p>
+            <div key={i} className={`rounded-xl border p-4 sm:p-6 text-center transition-all ${
+              service.highlighted 
+                ? "bg-brand-lime border-brand-dark shadow-lg scale-[1.02]" 
+                : "bg-brand-lime/5 border-brand-lime/10"
+            }`}>
+              <p className={`font-black uppercase tracking-tight text-sm sm:text-lg mb-2 ${
+                service.highlighted ? "text-brand-dark" : "text-brand-dark"
+              }`}>{service.title}</p>
+              <p className={`text-xs sm:text-base leading-relaxed ${
+                service.highlighted ? "text-brand-dark/90 font-medium" : "text-muted-foreground"
+              }`}>{service.desc}</p>
             </div>
           ))}
         </div>
