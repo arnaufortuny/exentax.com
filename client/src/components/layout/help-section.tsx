@@ -30,14 +30,6 @@ export function HelpSection() {
                 WhatsApp
               </Button>
             </a>
-            <Link href="/faq" className="w-full">
-              <Button 
-                variant="outline" 
-                className="border-brand-dark text-brand-dark font-black text-xs md:text-base px-8 w-full rounded-full h-10 md:h-14 hover:bg-brand-dark hover:text-white active:scale-95 transition-all uppercase tracking-tight"
-              >
-                FAQ
-              </Button>
-            </Link>
           </div>
         </motion.div>
       </div>
