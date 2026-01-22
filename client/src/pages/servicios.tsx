@@ -133,7 +133,7 @@ export default function Servicios() {
   };
 
   const handleSelectProduct = (stateName: string) => {
-    window.location.href = `/contacto?subject=Constitución de LLC en ${stateName}`;
+    setLocation(`/application?state=${encodeURIComponent(stateName)}`);
   };
 
   const nmProduct = products?.find(p => p.name.includes("New Mexico"));

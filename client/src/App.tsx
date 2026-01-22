@@ -13,7 +13,8 @@ import Reembolsos from "@/pages/legal/reembolsos";
 import Cookies from "@/pages/legal/cookies";
 import Contacto from "@/pages/contacto";
 import FAQ from "@/pages/faq";
-// CookieBanner removed as requested
+import ApplicationWizard from "@/pages/application";
+
 function ScrollToTop() {
   const [location] = useLocation();
   
@@ -31,6 +32,7 @@ function Router() {
       <Route path="/servicios" component={Servicios} />
       <Route path="/faq" component={FAQ} />
       <Route path="/contacto" component={Contacto} />
+      <Route path="/application" component={ApplicationWizard} />
       <Route path="/legal" component={Legal} />
       <Route path="/privacidad" component={Privacidad} />
       <Route path="/reembolsos" component={Reembolsos} />
