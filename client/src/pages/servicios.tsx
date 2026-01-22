@@ -150,8 +150,8 @@ export default function Servicios() {
         }
       />
 
-      {/* Servicios Section */}
-      <section className="py-8 sm:py-14 bg-white border-t border-brand-dark/5" id="servicios">
+      {/* 1. Servicios Constitución */}
+      <section className="py-12 sm:py-20 bg-white border-t border-brand-dark/5" id="servicios">
         <div className="w-full px-5 sm:px-8">
           <div className="text-center mb-6 sm:mb-10 flex flex-col items-center justify-center">
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark uppercase tracking-tight text-center">
@@ -161,7 +161,7 @@ export default function Servicios() {
             <p className="text-brand-lime font-black uppercase tracking-wide text-base sm:text-lg mt-1 sm:mt-2 text-center">(Lo que hacemos por ti)</p>
           </div>
           
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6 mb-12">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6 max-w-7xl mx-auto">
             {[
               { title: "Constitución oficial de tu LLC", desc: "Preparamos y presentamos tu empresa ante el Secretary of State, gestionando todo el proceso de forma ágil y sin que tengas que preocuparte por trámites." },
               { title: "Obtención del EIN", desc: "Solicitamos tu Employer Identification Number directamente ante el IRS para que tu LLC quede correctamente identificada a nivel fiscal." },
@@ -170,7 +170,7 @@ export default function Servicios() {
               { title: "Registered Agent incluido", desc: "Incluimos tu Registered Agent oficial durante el primer año completo, con dirección legal en Estados Unidos para tu empresa." },
               { title: "Tarjetas físicas", desc: "Gestionamos la obtención de tarjetas físicas de débito y crédito, enviadas a tu domicilio para que puedas operar con total control." },
             ].map((service, i) => (
-              <div key={i} className="rounded-xl bg-brand-lime/5 border border-brand-lime/10 p-4 sm:p-6 transition-transform active:scale-[0.98] text-center">
+              <div key={i} className="rounded-xl bg-brand-lime/5 border border-brand-lime/10 p-4 sm:p-6 text-center">
                 <p className="font-black uppercase tracking-tight text-sm sm:text-lg text-brand-dark mb-1 sm:mb-3 leading-tight">{service.title}</p>
                 <p className="text-[10px] sm:text-base text-muted-foreground leading-relaxed">{service.desc}</p>
               </div>
@@ -179,12 +179,12 @@ export default function Servicios() {
         </div>
       </section>
 
-      {/* Pricing Section */}
-      <section className="py-12 sm:py-20 border-t border-brand-dark/5" id="pricing">
+      {/* 2. Nuestros Packs */}
+      <section className="py-12 sm:py-20 bg-white border-t border-brand-dark/5" id="pricing">
         <div className="w-full px-4 sm:px-8">
           <div className="text-center mb-8 sm:mb-12 flex flex-col items-center justify-center">
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark uppercase tracking-tight text-center">
-              <span className="text-brand-lime uppercase tracking-widest text-sm font-black block mb-2 text-center">MANTENIMIENTO / PACKS</span>
+              <span className="text-brand-lime uppercase tracking-widest text-sm font-black block mb-2 text-center">PACKS</span>
               Nuestros Packs
             </h2>
             <p className="text-brand-lime font-black uppercase tracking-wide text-base sm:text-lg mt-1 sm:mt-2 text-center">
@@ -194,16 +194,16 @@ export default function Servicios() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 max-w-6xl mx-auto">
             {/* New Mexico */}
             <div className="border-[2px] border-brand-lime rounded-2xl overflow-hidden relative bg-white shadow-lg flex flex-col h-full transform transition-all hover:scale-[1.01] hover:shadow-xl group">
-              <div className="p-4 sm:p-6 flex-grow">
+              <div className="p-4 sm:p-6 flex-grow text-center">
                 <div className="flex justify-between items-start mb-2 sm:mb-3">
                   <h3 className="text-lg sm:text-xl font-black text-brand-dark uppercase tracking-tight">New Mexico</h3>
                   <span className="bg-brand-lime/20 text-brand-dark text-[8px] sm:text-[11px] font-black px-2 py-1 rounded-full uppercase">Popular | 2-3 días</span>
                 </div>
-                <div className="flex items-baseline gap-1 mb-1">
+                <div className="flex items-baseline justify-center gap-1 mb-1">
                   <p className="text-3xl sm:text-4xl font-black text-brand-dark">639€</p>
                   <span className="text-muted-foreground text-[10px] sm:text-xs font-medium">/año 1</span>
                 </div>
-                <p className="text-muted-foreground text-[8px] sm:text-[9px] font-black uppercase tracking-widest mb-3 sm:mb-4 flex items-center gap-1">
+                <p className="text-muted-foreground text-[8px] sm:text-[9px] font-black uppercase tracking-widest mb-3 sm:mb-4 flex items-center justify-center gap-1">
                   <span className="w-1 h-1 rounded-full bg-brand-lime" />
                   Tasas estatales incluidas
                 </p>
@@ -232,16 +232,16 @@ export default function Servicios() {
 
             {/* Wyoming */}
             <div className="border-[2px] border-brand-lime rounded-2xl overflow-hidden relative bg-white shadow-lg flex flex-col h-full transform transition-all hover:scale-[1.01] hover:shadow-xl group">
-              <div className="p-4 sm:p-6 flex-grow">
+              <div className="p-4 sm:p-6 flex-grow text-center">
                 <div className="flex justify-between items-start mb-2 sm:mb-3">
                   <h3 className="text-lg sm:text-xl font-black text-brand-dark uppercase tracking-tight">Wyoming</h3>
                   <span className="bg-brand-dark text-white text-[8px] sm:text-[11px] font-black px-2 py-1 rounded-full uppercase">Premium | 2-3 días</span>
                 </div>
-                <div className="flex items-baseline gap-1 mb-1">
+                <div className="flex items-baseline justify-center gap-1 mb-1">
                   <p className="text-3xl sm:text-4xl font-black text-brand-dark">799€</p>
                   <span className="text-muted-foreground text-[10px] sm:text-xs font-medium">/año 1</span>
                 </div>
-                <p className="text-muted-foreground text-[8px] sm:text-[9px] font-black uppercase tracking-widest mb-3 sm:mb-4 flex items-center gap-1">
+                <p className="text-muted-foreground text-[8px] sm:text-[9px] font-black uppercase tracking-widest mb-3 sm:mb-4 flex items-center justify-center gap-1">
                   <span className="w-1 h-1 rounded-full bg-brand-lime" />
                   Tasas estatales incluidas
                 </p>
@@ -270,16 +270,16 @@ export default function Servicios() {
 
             {/* Delaware */}
             <div className="border-[2px] border-brand-lime rounded-2xl overflow-hidden relative bg-white shadow-lg flex flex-col h-full transform transition-all hover:scale-[1.01] hover:shadow-xl group">
-              <div className="p-4 sm:p-6 flex-grow">
+              <div className="p-4 sm:p-6 flex-grow text-center">
                 <div className="flex justify-between items-start mb-2 sm:mb-3">
                   <h3 className="text-lg sm:text-xl font-black text-brand-dark uppercase tracking-tight">Delaware</h3>
                   <span className="bg-brand-lime text-brand-dark text-[8px] sm:text-[11px] font-black px-2 py-1 rounded-full uppercase">Startups | 2-5 días</span>
                 </div>
-                <div className="flex items-baseline gap-1 mb-1">
+                <div className="flex items-baseline justify-center gap-1 mb-1">
                   <p className="text-3xl sm:text-4xl font-black text-brand-dark">999€</p>
                   <span className="text-muted-foreground text-[10px] sm:text-xs font-medium">/año 1</span>
                 </div>
-                <p className="text-muted-foreground text-[8px] sm:text-[9px] font-black uppercase tracking-widest mb-3 sm:mb-4 flex items-center gap-1">
+                <p className="text-muted-foreground text-[8px] sm:text-[9px] font-black uppercase tracking-widest mb-3 sm:mb-4 flex items-center justify-center gap-1">
                   <span className="w-1 h-1 rounded-full bg-brand-lime" />
                   Tasas estatales incluidas
                 </p>
@@ -309,10 +309,10 @@ export default function Servicios() {
         </div>
       </section>
 
-      {/* Unified Banca & Mantenimiento Section */}
+      {/* 3. Banca & Mantenimiento (Unified Section) */}
       <section className="py-12 sm:py-20 bg-white border-t border-brand-dark/5" id="bancos">
         <div className="w-full px-5 sm:px-8">
-          {/* Asistencia Bancaria */}
+          {/* Bancos Sub-section */}
           <div className="text-center mb-8 sm:mb-12 flex flex-col items-center justify-center">
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark uppercase tracking-tight text-center">
               <span className="text-brand-lime uppercase tracking-widest text-sm font-black block mb-2 text-center">BANCOS</span>
@@ -322,7 +322,6 @@ export default function Servicios() {
               (Ayudamos a abrir cuentas en fintech y bancos, si el cliente lo requiere)
             </p>
           </div>
-          
           <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-4 sm:gap-5 mb-5 sm:mb-6 max-w-4xl mx-auto">
             {[
               { title: "Mercury", desc: "Te acompañamos en todo el proceso de solicitud de cuenta en Mercury, ayudándote a presentar correctamente la información de tu LLC." },
@@ -338,9 +337,9 @@ export default function Servicios() {
           </div>
           <p className="text-center text-sm sm:text-lg text-brand-dark font-medium italic mb-12">Incluido en tu paquete inicial.</p>
 
-          <div className="border-t border-brand-dark/5 w-full mb-12" />
+          <div className="border-t border-brand-dark/5 w-full max-w-7xl mx-auto mb-12" />
 
-          {/* Mantenimiento */}
+          {/* Mantenimiento Sub-section */}
           <div className="text-center mb-6 sm:mb-10 flex flex-col items-center justify-center">
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark uppercase tracking-tight text-center">
               <span className="text-brand-lime uppercase tracking-widest text-sm font-black block mb-2 text-center">MANTENIMIENTO</span>
@@ -348,7 +347,6 @@ export default function Servicios() {
             </h2>
             <p className="text-brand-lime font-black uppercase tracking-wide text-base sm:text-lg mt-1 sm:mt-2 text-center">(Todo incluido anualmente)</p>
           </div>
-          
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 max-w-6xl mx-auto">
             {[
               { state: "New Mexico", price: "349€", annual: true },
@@ -356,16 +354,16 @@ export default function Servicios() {
               { state: "Delaware", price: "599€", annual: true }
             ].map((item, i) => (
               <div key={i} className="border-[3px] border-brand-lime rounded-3xl overflow-hidden relative bg-white shadow-xl flex flex-col h-full transform transition-all hover:scale-[1.02] hover:shadow-2xl group">
-                <div className="p-5 sm:p-8 flex-grow">
+                <div className="p-5 sm:p-8 flex-grow text-center">
                   <div className="flex justify-between items-start mb-4">
                     <h3 className="text-xl sm:text-2xl font-black text-brand-dark uppercase tracking-tight">{item.state}</h3>
                     <span className="bg-brand-lime/20 text-brand-dark text-[10px] sm:text-[13px] font-black px-3 py-1.5 rounded-full uppercase">Mantenimiento</span>
                   </div>
-                  <div className="flex items-baseline gap-1 mb-2">
+                  <div className="flex items-baseline justify-center gap-1 mb-2">
                     <p className="text-4xl sm:text-5xl font-black text-brand-dark">{item.price}</p>
                     <span className="text-muted-foreground text-xs sm:text-sm font-medium">/año</span>
                   </div>
-                  <p className="text-muted-foreground text-[8px] sm:text-[10px] font-black uppercase tracking-widest mb-6 sm:mb-8 flex items-center gap-1.5">
+                  <p className="text-muted-foreground text-[8px] sm:text-[10px] font-black uppercase tracking-widest mb-6 sm:mb-8 flex items-center justify-center gap-1.5">
                     <span className="w-1 h-1 sm:w-1.5 sm:h-1.5 rounded-full bg-brand-lime" />
                     Tasas estatales incluidas
                   </p>
@@ -379,9 +377,7 @@ export default function Servicios() {
                   </div>
                 </div>
                 <div className="p-5 sm:p-8 pt-0">
-                  <Button 
-                    className="w-full bg-brand-lime text-brand-dark font-black rounded-full py-4 sm:py-6 text-sm sm:text-lg border-0 shadow-lg hover:bg-brand-lime/90 transition-all transform active:scale-95 h-auto whitespace-normal leading-tight"
-                  >
+                  <Button className="w-full bg-brand-lime text-brand-dark font-black rounded-full py-4 sm:py-6 text-sm sm:text-lg border-0 shadow-lg hover:bg-brand-lime/90 transition-all transform active:scale-95 h-auto whitespace-normal leading-tight">
                     Contratar Mantenimiento
                   </Button>
                 </div>
@@ -391,9 +387,62 @@ export default function Servicios() {
         </div>
       </section>
 
-      {/* FAQ Section */}
+      {/* 4. Servicios Extras */}
+      <section className="py-12 sm:py-20 bg-white border-t border-brand-dark/5" id="extras">
+        <div className="w-full px-5 sm:px-8">
+          <div className="text-center mb-6 sm:mb-10 flex flex-col items-center justify-center">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark uppercase tracking-tight text-center">
+              <span className="text-brand-lime uppercase tracking-widest text-sm font-black block mb-2 text-center">EXTRAS</span>
+              Servicios Adicionales
+            </h2>
+            <p className="text-brand-lime font-black uppercase tracking-wide text-base sm:text-lg mt-1 sm:mt-2 text-center">(Servicios a medida para tu LLC)</p>
+          </div>
+          <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-4 sm:gap-6 mb-8 max-w-4xl mx-auto">
+            {[
+              { title: "Disolución de LLC", desc: "Gestionamos el cierre oficial y ordenado de tu LLC en Estados Unidos, asegurando que la estructura quede correctamente disuelta y sin obligaciones futuras." },
+              { title: "Enmiendas de la LLC", desc: "Tramitamos modificaciones oficiales como cambio de nombre, actualización de datos o ajustes estructurales, manteniendo tu empresa siempre en regla." },
+              { title: "Agente Registrado", desc: "Gestión y renovación del Registered Agent para garantizar que tu LLC disponga de dirección legal válida y cumpla con los requisitos estatales." },
+              { title: "PRESENTACIÓN FISCAL", desc: "Preparamos y presentamos los formularios 1120 y 5472 ante el IRS, cumpliendo con las obligaciones informativas federales aplicables a LLCs de propietarios no residentes." },
+            ].map((service, i) => (
+              <div key={i} className="rounded-xl bg-brand-lime/5 border border-brand-lime/10 p-4 sm:p-6 text-center">
+                <p className="font-black uppercase tracking-tight text-sm sm:text-lg text-brand-dark mb-2">{service.title}</p>
+                <p className="text-xs sm:text-base text-muted-foreground leading-relaxed">{service.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 5. Soporte Section */}
+      <section className="py-12 sm:py-20 bg-white border-t border-brand-dark/5" id="soporte">
+        <div className="w-full px-5 sm:px-8">
+          <div className="text-center mb-6 sm:mb-10 flex flex-col items-center justify-center">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark uppercase tracking-tight text-center">
+              <span className="text-brand-lime uppercase tracking-widest text-sm font-black block mb-2 text-center">SOPORTE</span>
+              Soporte Ilimitado
+            </h2>
+            <p className="text-brand-lime font-black uppercase tracking-wide text-base sm:text-lg mt-1 sm:mt-2 text-center">
+              Incluido durante 12 meses
+            </p>
+          </div>
+          <div className="grid md:grid-cols-3 gap-6 sm:gap-8 mb-8 max-w-6xl mx-auto">
+            {[
+              { title: "Email y WhatsApp", desc: "Atención directa y personalizada para resolver tus dudas operativas cuando lo necesites." },
+              { title: "Guía de bienvenida", desc: "Manual claro y práctico para entender cómo funciona tu LLC y cómo mantenerla correctamente." },
+              { title: "Alertas de plazos", desc: "Te avisamos con antelación de las obligaciones y fechas clave para que no se te pase nada." },
+            ].map((service, i) => (
+              <div key={i} className="rounded-xl bg-white border border-brand-lime/10 p-6 shadow-sm text-center">
+                <p className="font-black uppercase tracking-tight text-sm sm:text-lg text-brand-dark mb-3">{service.title}</p>
+                <p className="text-xs sm:text-base text-muted-foreground leading-relaxed">{service.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 6. FAQ Section */}
       <section className="py-12 sm:py-20 bg-white border-t border-brand-dark/5">
-        <div className="w-full px-4 sm:px-6">
+        <div className="container max-w-4xl mx-auto px-4 sm:px-6">
           <div className="text-center mb-12 flex flex-col items-center justify-center">
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark uppercase tracking-tight text-center">
               <span className="text-brand-lime uppercase tracking-widest text-sm font-black block mb-2 text-center">FAQ</span>
@@ -403,7 +452,7 @@ export default function Servicios() {
               (Resolvemos tus dudas de inmediato)
             </p>
           </div>
-          <div className="space-y-4 text-left max-w-4xl mx-auto">
+          <div className="space-y-4 text-left">
             {faqCategories.map((category) => (
               <div key={category.title} className="space-y-4">
                 <h3 className="text-lg font-black text-brand-dark uppercase tracking-tighter flex items-center gap-2 mt-8 mb-4">
@@ -447,72 +496,13 @@ export default function Servicios() {
 
           <div className="mt-16 text-center">
             <Link href="/faq">
-              <Link href="/faq">
-                <Button 
-                  className="group bg-brand-lime text-brand-dark font-black text-sm sm:text-base px-8 py-6 rounded-full hover:bg-brand-lime/90 transition-all flex items-center gap-3 mx-auto shadow-xl active:scale-95 border-0"
-                >
-                  Consulta nuestro FAQ completo
-                  <span className="transition-transform group-hover:translate-x-1">→</span>
-                </Button>
-              </Link>
+              <Button 
+                className="group bg-brand-lime text-brand-dark font-black text-sm sm:text-base px-8 py-6 rounded-full hover:bg-brand-lime/90 transition-all flex items-center gap-3 mx-auto shadow-xl active:scale-95 border-0"
+              >
+                Consulta nuestro FAQ completo
+                <span className="transition-transform group-hover:translate-x-1">→</span>
+              </Button>
             </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* Servicios Adicionales */}
-      <section className="py-8 sm:py-14 bg-white border-t border-brand-dark/5">
-        <div className="w-full px-5 sm:px-8">
-          <div className="text-center mb-6 sm:mb-10 flex flex-col items-center justify-center">
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark uppercase tracking-tight text-center">
-              <span className="text-brand-lime uppercase tracking-widest text-sm font-black block mb-2 text-center">EXTRAS</span>
-              Servicios Adicionales
-            </h2>
-            <p className="text-brand-lime font-black uppercase tracking-wide text-base sm:text-lg mt-1 sm:mt-2 text-center">(Servicios a medida para tu LLC)</p>
-          </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-4 sm:gap-6 mb-8 max-w-4xl mx-auto">
-            {[
-              { title: "Disolución de LLC", desc: "Gestionamos el cierre oficial y ordenado de tu LLC en Estados Unidos, asegurando que la estructura quede correctamente disuelta y sin obligaciones futuras." },
-              { title: "Enmiendas de la LLC", desc: "Tramitamos modificaciones oficiales como cambio de nombre, actualización de datos o ajustes estructurales, manteniendo tu empresa siempre en regla." },
-              { title: "Agente Registrado", desc: "Gestión y renovación del Registered Agent para garantizar que tu LLC disponga de dirección legal válida y cumpla con los requisitos estatales." },
-              { title: "PRESENTACIÓN FISCAL", desc: "Preparamos y presentamos los formularios 1120 y 5472 ante el IRS, cumpliendo con las obligaciones informativas federales aplicables a LLCs de propietarios no residentes." },
-            ].map((service, i) => (
-              <div key={i} className="rounded-xl bg-brand-lime/5 border border-brand-lime/10 p-4 sm:p-6 text-center">
-                <p className="font-black uppercase tracking-tight text-sm sm:text-lg text-brand-dark mb-2">{service.title}</p>
-                <p className="text-xs sm:text-base text-muted-foreground leading-relaxed">{service.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <div className="w-full px-5 sm:px-8">
-        <div className="border-t border-brand-dark/5 w-full" />
-      </div>
-
-      {/* Soporte Section */}
-      <section className="py-8 sm:py-14 bg-white border-t border-brand-dark/5">
-        <div className="w-full px-5 sm:px-8">
-          <div className="text-center mb-6 sm:mb-10 flex flex-col items-center justify-center">
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark uppercase tracking-tight text-center">
-              <span className="text-brand-lime uppercase tracking-widest text-sm font-black block mb-2 text-center">SOPORTE ILIMITADO</span>
-              Soporte Ilimitado
-            </h2>
-            <p className="text-brand-lime font-black uppercase tracking-wide text-base sm:text-lg mt-1 sm:mt-2 text-center">
-              Incluido durante 12 meses
-            </p>
-          </div>
-          <div className="grid md:grid-cols-3 gap-6 sm:gap-8 mb-8 max-w-6xl mx-auto">
-            {[
-              { title: "Email y WhatsApp", desc: "Atención directa y personalizada para resolver tus dudas operativas cuando lo necesites." },
-              { title: "Guía de bienvenida", desc: "Manual claro y práctico para entender cómo funciona tu LLC y cómo mantenerla correctamente." },
-              { title: "Alertas de plazos", desc: "Te avisamos con antelación de las obligaciones y fechas clave para que no se te pase nada." },
-            ].map((service, i) => (
-              <div key={i} className="rounded-xl bg-white border border-brand-lime/10 p-6 shadow-sm text-center">
-                <p className="font-black uppercase tracking-tight text-sm sm:text-lg text-brand-dark mb-3">{service.title}</p>
-                <p className="text-xs sm:text-base text-muted-foreground leading-relaxed">{service.desc}</p>
-              </div>
-            ))}
           </div>
         </div>
       </section>
