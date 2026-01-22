@@ -151,7 +151,7 @@ export default function Servicios() {
       />
 
       <section className="py-8 sm:py-14 bg-white border-t border-brand-dark/5" id="servicios">
-        <div className="container max-w-7xl mx-auto px-5 sm:px-8">
+        <div className="w-full px-5 sm:px-8">
           <div className="text-center mb-6 sm:mb-10 flex flex-col items-center justify-center">
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark uppercase tracking-tight text-center">
               <span className="text-brand-lime uppercase tracking-widest text-sm font-black block mb-2 text-center">SERVICIOS</span>
@@ -179,7 +179,7 @@ export default function Servicios() {
       </section>
 
       <section className="py-12 sm:py-20 border-t border-brand-dark/5" id="pricing">
-        <div className="container max-w-7xl mx-auto px-4 sm:px-8">
+        <div className="w-full px-4 sm:px-8">
           <div className="text-center mb-8 sm:mb-12 flex flex-col items-center justify-center">
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark uppercase tracking-tight text-center">
               <span className="text-brand-lime uppercase tracking-widest text-sm font-black block mb-2 text-center">MANTENIMIENTO / PACKS</span>
@@ -308,7 +308,7 @@ export default function Servicios() {
       </section>
 
       <section className="py-12 sm:py-20 bg-white border-t border-brand-dark/5" id="bancos">
-        <div className="container max-w-7xl mx-auto px-5 sm:px-8">
+        <div className="w-full px-5 sm:px-8">
           <div className="text-center mb-8 sm:mb-12 flex flex-col items-center justify-center">
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark uppercase tracking-tight text-center">
               <span className="text-brand-lime uppercase tracking-widest text-sm font-black block mb-2 text-center">BANCOS</span>
@@ -394,7 +394,7 @@ export default function Servicios() {
       </div>
 
       <section className="py-12 sm:py-20 bg-white">
-        <div className="container max-w-4xl mx-auto px-4 sm:px-6">
+        <div className="w-full px-4 sm:px-6">
           <div className="border-t border-brand-dark/5 w-full mb-12" />
           <div className="text-center mb-12 flex flex-col items-center justify-center">
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark uppercase tracking-tight text-center">
@@ -484,7 +484,7 @@ export default function Servicios() {
 function AsistenciaBancariaInternal() {
   return (
     <section className="py-8 sm:py-14 bg-white" id="asistencia-bancaria">
-      <div className="container max-w-7xl mx-auto px-5 sm:px-8">
+      <div className="w-full px-5 sm:px-8">
         <div className="text-center mb-6 sm:mb-10 flex flex-col items-center justify-center">
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark uppercase tracking-tight text-center">
             <span className="text-brand-lime uppercase tracking-widest text-sm font-black block mb-2 text-center">BANCOS</span>
@@ -514,7 +514,7 @@ function AsistenciaBancariaInternal() {
 function ServiciosAdicionales() {
   return (
     <section className="py-8 sm:py-14 bg-white">
-      <div className="container max-w-7xl mx-auto px-5 sm:px-8">
+      <div className="w-full px-5 sm:px-8">
         <div className="text-center mb-6 sm:mb-10 flex flex-col items-center justify-center">
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark uppercase tracking-tight text-center">
             <span className="text-brand-lime uppercase tracking-widest text-sm font-black block mb-2 text-center">EXTRAS</span>
@@ -543,7 +543,7 @@ function ServiciosAdicionales() {
 function Soporte() {
   return (
     <section className="py-8 sm:py-14">
-      <div className="container max-w-7xl mx-auto px-5 sm:px-8">
+      <div className="w-full px-5 sm:px-8">
         <div className="text-center mb-6 sm:mb-10 flex flex-col items-center justify-center">
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark uppercase tracking-tight text-center">
             <span className="text-brand-lime uppercase tracking-widest text-sm font-black block mb-2 text-center">SOPORTE ILIMITADO</span>
