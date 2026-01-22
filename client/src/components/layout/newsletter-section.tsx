@@ -38,26 +38,26 @@ export function NewsletterSection() {
   };
 
   return (
-    <section className="py-8 bg-brand-dark relative overflow-hidden font-sans border-t border-white/5 w-full flex justify-center items-center">
+    <section className="py-12 md:py-20 bg-brand-dark relative overflow-hidden font-sans border-t border-white/5 w-full flex justify-center items-center">
       <div className="absolute inset-0 opacity-[0.03] pointer-events-none bg-[url('/hero-bg.png')] bg-repeat" />
       
-      <div className="container max-w-xl mx-auto px-6 relative z-10 flex flex-col items-center justify-center">
+      <div className="container max-w-3xl mx-auto px-6 relative z-10 flex flex-col items-center justify-center">
         <motion.div 
           initial={{ opacity: 0, y: 15 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center space-y-4 w-full flex flex-col items-center"
+          className="text-center space-y-8 w-full flex flex-col items-center"
         >
-          <div className="space-y-1.5 w-full text-center">
-            <h2 className="text-lg md:text-xl font-black uppercase tracking-tight text-white leading-none text-center">
-              Únete a nuestra <span className="text-brand-dark bg-brand-lime px-1.5 inline-block">Newsletter</span>
+          <div className="space-y-4 w-full text-center">
+            <h2 className="text-2xl md:text-4xl font-black uppercase tracking-tighter text-white leading-none text-center">
+              Únete a nuestra <span className="text-brand-dark bg-brand-lime px-2 inline-block">Newsletter</span>
             </h2>
-            <p className="text-white/50 text-[10px] md:text-sm font-medium max-w-lg mx-auto leading-relaxed text-center px-2">
+            <p className="text-white/60 text-sm md:text-lg font-medium max-w-2xl mx-auto leading-relaxed text-center px-2">
               Consejos exclusivos sobre fiscalidad y banca en USA.
             </p>
           </div>
 
-          <form onSubmit={handleSubscribe} className="max-w-xs w-full mx-auto relative group flex flex-col items-center text-center">
+          <form onSubmit={handleSubscribe} className="max-w-md w-full mx-auto relative group flex flex-col items-center text-center">
             <div className="relative w-full">
               <Input 
                 type="email" 
@@ -65,15 +65,15 @@ export function NewsletterSection() {
                 placeholder="Tu correo electrónico" 
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="h-10 pl-4 pr-10 rounded-full border-2 border-white/10 bg-white/5 text-white placeholder:text-white/20 text-xs font-bold focus:border-brand-lime focus:ring-0 transition-all shadow-xl w-full text-center"
+                className="h-12 md:h-14 pl-6 pr-14 rounded-full border-2 border-white/10 bg-white/5 text-white placeholder:text-white/30 text-sm md:text-base font-bold focus:border-brand-lime focus:ring-0 transition-all shadow-2xl w-full text-center"
                 required
               />
               <Button 
                 type="submit"
                 disabled={loading}
-                className="absolute right-1 top-1 h-8 w-8 rounded-full bg-brand-lime text-brand-dark p-0 hover:scale-105 active:scale-95 transition-all shadow-lg flex items-center justify-center"
+                className="absolute right-1.5 top-1.5 h-9 w-9 md:h-11 md:w-11 rounded-full bg-brand-lime text-brand-dark p-0 hover:scale-105 active:scale-95 transition-all shadow-lg flex items-center justify-center"
               >
-                <Send size={14} />
+                <Send size={18} />
               </Button>
             </div>
           </form>
