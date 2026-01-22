@@ -349,19 +349,42 @@ export async function registerRoutes(
       }
 
       const messageId = Math.floor(100000 + Math.random() * 900000);
+      const clientIp = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
+      const userAgent = req.headers['user-agent'];
+      const timestamp = new Date().toLocaleString('es-ES', { timeZone: 'Europe/Madrid' });
 
       // Notification to admin
       await sendEmail({
         to: "afortuny07@gmail.com",
-        subject: `Nuevo mensaje de contacto: ${contactData.subject}`,
+        subject: `[${contactData.subject.toUpperCase()}] ID#${messageId}`,
         html: `
-          <h1>Nuevo mensaje de contacto</h1>
-          <p><strong>De:</strong> ${contactData.nombre} ${contactData.apellido} (${contactData.email})</p>
-          <p><strong>Asunto:</strong> ${contactData.subject}</p>
-          <p><strong>Mensaje:</strong></p>
-          <p>${contactData.mensaje}</p>
-          <hr />
-          <p>ID de mensaje: #${messageId}</p>
+          <div style="font-family: sans-serif; padding: 20px; border: 2px solid #000;">
+            <div style="background: #000; color: #d9ff00; padding: 20px; text-align: center;">
+              <h1 style="margin: 0;">LOG DE SISTEMA: NUEVA ACCIÓN</h1>
+              <p style="margin: 10px 0 0 0; font-weight: bold;">ID MENSAJE: #${messageId}</p>
+            </div>
+            <div style="padding: 20px;">
+              <p><strong>FECHA/HORA:</strong> ${timestamp} (Madrid)</p>
+              <p><strong>ACCIÓN:</strong> Formulario de Contacto / Mantenimiento</p>
+              <p><strong>URL ORIGEN:</strong> ${req.headers.referer || 'Directa'}</p>
+              <hr />
+              <h3>DATOS DEL USUARIO:</h3>
+              <p><strong>NOMBRE:</strong> ${contactData.nombre} ${contactData.apellido}</p>
+              <p><strong>EMAIL:</strong> ${contactData.email}</p>
+              <p><strong>IP:</strong> ${clientIp}</p>
+              <p><strong>USER-AGENT:</strong> ${userAgent}</p>
+              <hr />
+              <h3>CONTENIDO DEL MENSAJE:</h3>
+              <p><strong>ASUNTO:</strong> ${contactData.subject}</p>
+              <p><strong>MENSAJE:</strong></p>
+              <div style="background: #f4f4f4; padding: 20px; border-radius: 10px; border-left: 5px solid #d9ff00;">
+                ${contactData.mensaje.replace(/\n/g, '<br>') || '<em>Sin contenido</em>'}
+              </div>
+            </div>
+            <div style="background: #eee; padding: 10px; font-size: 10px; text-align: center;">
+              Sistema Automático Easy US LLC - Registro de Logs Detallado
+            </div>
+          </div>
         `,
       });
 

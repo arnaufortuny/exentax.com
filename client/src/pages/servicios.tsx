@@ -8,7 +8,31 @@ import { useQuery, useMutation } from "@tanstack/react-query";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { NewsletterSection } from "@/components/layout/newsletter-section";
 import type { Product } from "@shared/schema";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
+import { useState } from "react";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
+import { useToast } from "@/hooks/use-toast";
+
+const maintenanceFormSchema = z.object({
+  nombre: z.string().min(2, "Nombre requerido"),
+  email: z.string().email("Email inválido"),
+  mensaje: z.string().min(10, "Cuéntanos más sobre tu LLC"),
+  otp: z.string().min(6, "Código de 6 dígitos"),
+});
+
+type MaintenanceFormValues = z.infer<typeof maintenanceFormSchema>;
 
 const fadeIn = {
   initial: { opacity: 0, y: 20 },
@@ -30,6 +54,67 @@ export default function Servicios() {
   const { data: products } = useQuery<Product[]>({
     queryKey: ["/api/products"],
   });
+
+  const [maintenanceStep, setMaintenanceStep] = useState<"ask" | "form">("ask");
+  const [selectedState, setSelectedState] = useState("");
+  const [isOtpSent, setIsOtpSent] = useState(false);
+  const [isEmailVerified, setIsEmailVerified] = useState(false);
+  const [isSendingOtp, setIsSendingOtp] = useState(false);
+  const [isVerifyingOtp, setIsVerifyingOtp] = useState(false);
+  const { toast } = useToast();
+
+  const mForm = useForm<MaintenanceFormValues>({
+    resolver: zodResolver(maintenanceFormSchema),
+    defaultValues: { nombre: "", email: "", mensaje: "", otp: "" },
+  });
+
+  const sendOtp = async () => {
+    const email = mForm.getValues("email");
+    if (!email || !z.string().email().safeParse(email).success) {
+      toast({ title: "Error", description: "Email inválido", variant: "destructive" });
+      return;
+    }
+    setIsSendingOtp(true);
+    try {
+      await apiRequest("POST", "/api/contact/send-otp", { email });
+      setIsOtpSent(true);
+      toast({ title: "Código enviado" });
+    } catch {
+      toast({ title: "Error", description: "No se pudo enviar el código", variant: "destructive" });
+    } finally {
+      setIsSendingOtp(false);
+    }
+  };
+
+  const verifyOtp = async () => {
+    const email = mForm.getValues("email");
+    const otp = mForm.getValues("otp");
+    setIsVerifyingOtp(true);
+    try {
+      await apiRequest("POST", "/api/contact/verify-otp", { email, otp });
+      setIsEmailVerified(true);
+      toast({ title: "Email verificado" });
+    } catch {
+      toast({ title: "Error", description: "Código incorrecto", variant: "destructive" });
+    } finally {
+      setIsVerifyingOtp(false);
+    }
+  };
+
+  const onMaintenanceSubmit = async (data: MaintenanceFormValues) => {
+    try {
+      await apiRequest("POST", "/api/contact", {
+        ...data,
+        apellido: "(Mantenimiento)",
+        subject: `Pack Mantenimiento ${selectedState}`,
+      });
+      toast({ title: "Solicitud enviada", description: "Te contactaremos en breve." });
+      mForm.reset();
+      setMaintenanceStep("ask");
+    } catch {
+      toast({ title: "Error", description: "Error al enviar la solicitud", variant: "destructive" });
+    }
+  };
 
   const createOrderMutation = useMutation({
     mutationFn: async (productId: number) => {
@@ -365,7 +450,15 @@ export default function Servicios() {
                   </div>
                 </div>
                 <div className="p-5 sm:p-6 pt-0">
-                  <Button className="w-full bg-brand-lime text-brand-dark font-black rounded-full py-4 sm:py-4 text-base sm:text-base border-0 shadow-md hover:bg-brand-lime/90 transition-all transform active:scale-95 h-11 sm:h-11">
+                  <Button 
+                    onClick={() => {
+                      const element = document.getElementById('maintenance-dialog');
+                      if (element) {
+                        element.click();
+                      }
+                    }}
+                    className="w-full bg-brand-lime text-brand-dark font-black rounded-full py-4 sm:py-4 text-base sm:text-base border-0 shadow-md hover:bg-brand-lime/90 transition-all transform active:scale-95 h-11 sm:h-11"
+                  >
                     Contratar Mantenimiento
                   </Button>
                 </div>
@@ -413,9 +506,134 @@ export default function Servicios() {
         </div>
       </section>
 
-      {/* FAQ Section */}
       <section className="py-12 sm:py-24 bg-white border-t border-brand-dark/5">
         <div className="w-full px-5 sm:px-8">
+          <Dialog onOpenChange={(open) => { if(!open) setMaintenanceStep("ask"); }}>
+            <DialogTrigger asChild>
+              <button id="maintenance-dialog" className="hidden" />
+            </DialogTrigger>
+            <DialogContent className="max-w-md rounded-2xl border-brand-lime/20 font-sans">
+              <DialogHeader>
+                <DialogTitle className="text-2xl font-black uppercase text-brand-dark text-center">
+                  Mantenimiento Anual
+                </DialogTitle>
+              </DialogHeader>
+              <div className="py-6">
+                <AnimatePresence mode="wait">
+                  {maintenanceStep === "ask" ? (
+                    <motion.div 
+                      key="ask"
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0, x: 20 }}
+                      className="text-center space-y-6"
+                    >
+                      <p className="text-lg font-bold text-brand-dark">¿Ya tienes una LLC constituida con nosotros o con terceros?</p>
+                      <div className="flex flex-col gap-3">
+                        <Button 
+                          onClick={() => setMaintenanceStep("form")}
+                          className="bg-brand-lime text-brand-dark font-black rounded-full h-14 text-lg hover:bg-brand-lime/90 shadow-md border-0"
+                        >
+                          SÍ, YA TENGO UNA LLC
+                        </Button>
+                        <Button 
+                          variant="outline"
+                          onClick={() => {
+                            const el = document.getElementById('pricing');
+                            el?.scrollIntoView({ behavior: 'smooth' });
+                          }}
+                          className="border-brand-dark text-brand-dark font-black rounded-full h-14 text-lg hover:bg-brand-dark hover:text-white transition-all"
+                        >
+                          NO, QUIERO CONSTITUIRLA
+                        </Button>
+                      </div>
+                    </motion.div>
+                  ) : (
+                    <motion.div 
+                      key="form"
+                      initial={{ opacity: 0, x: 20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0, x: -20 }}
+                    >
+                      <Form {...mForm}>
+                        <form onSubmit={mForm.handleSubmit(onMaintenanceSubmit)} className="space-y-4">
+                          <FormField
+                            control={mForm.control}
+                            name="nombre"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel className="font-black uppercase text-xs">Nombre Completo</FormLabel>
+                                <FormControl><Input {...field} className="rounded-xl h-12" /></FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+                          <div className="flex gap-2 items-end">
+                            <div className="flex-1">
+                              <FormField
+                                control={mForm.control}
+                                name="email"
+                                render={({ field }) => (
+                                  <FormItem>
+                                    <FormLabel className="font-black uppercase text-xs">Email</FormLabel>
+                                    <FormControl><Input {...field} disabled={isEmailVerified || isOtpSent} className="rounded-xl h-12" /></FormControl>
+                                    <FormMessage />
+                                  </FormItem>
+                                )}
+                              />
+                            </div>
+                            {!isEmailVerified && (
+                              <Button type="button" onClick={sendOtp} disabled={isSendingOtp || isOtpSent} className="bg-brand-lime text-brand-dark font-black rounded-full h-12 px-4 text-xs">
+                                {isOtpSent ? "Enviado" : "Verificar"}
+                              </Button>
+                            )}
+                          </div>
+                          {isOtpSent && !isEmailVerified && (
+                            <div className="flex gap-2 items-end">
+                              <div className="flex-1">
+                                <FormField
+                                  control={mForm.control}
+                                  name="otp"
+                                  render={({ field }) => (
+                                    <FormItem>
+                                      <FormControl><Input placeholder="000000" {...field} className="rounded-xl h-12 text-center tracking-widest font-black" maxLength={6} /></FormControl>
+                                      <FormMessage />
+                                    </FormItem>
+                                  )}
+                                />
+                              </div>
+                              <Button type="button" onClick={verifyOtp} disabled={isVerifyingOtp} className="bg-brand-dark text-white font-black rounded-full h-12 px-4 text-xs">
+                                Validar
+                              </Button>
+                            </div>
+                          )}
+                          <FormField
+                            control={mForm.control}
+                            name="mensaje"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel className="font-black uppercase text-xs">¿Qué necesitas para tu LLC?</FormLabel>
+                                <FormControl><Textarea {...field} placeholder="Nombre de tu LLC, Estado..." className="rounded-xl min-h-[100px]" /></FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+                          <Button 
+                            type="submit" 
+                            disabled={!isEmailVerified}
+                            className={`w-full font-black rounded-full h-14 text-lg shadow-lg ${isEmailVerified ? "bg-brand-lime text-brand-dark" : "bg-gray-100 text-gray-400 cursor-not-allowed"}`}
+                          >
+                            Solicitar Mantenimiento
+                          </Button>
+                        </form>
+                      </Form>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            </DialogContent>
+          </Dialog>
+
           <motion.div 
             className="text-center mb-8 sm:mb-16"
             initial="initial"
