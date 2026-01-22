@@ -234,9 +234,6 @@ export default function ApplicationWizard() {
 
       <main className="w-full py-12 sm:py-20 px-4 sm:px-6 flex-1 relative z-30">
         <div className="max-w-3xl mx-auto space-y-6 sm:space-y-8">
-          <div className="border border-brand-dark/10 rounded-3xl p-1 bg-white/50 backdrop-blur-sm shadow-sm overflow-hidden mb-4">
-            {/* Step indicator can go here or the progress bar */}
-          </div>
           {step < 5 ? (
             <div className="space-y-6">
             {/* Paso 1: Tus Datos Personales */}
