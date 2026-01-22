@@ -34,23 +34,6 @@ export default function Home() {
     queryKey: ["/api/products"],
   });
 
-  const [openFaq, setOpenFaq] = useState<number | null>(null);
-
-  const faqs = [
-    {
-      question: "¿Cuánto tarda el proceso?",
-      answer: "El proceso suele tardar entre 2 y 3 días hábiles en New Mexico y Wyoming, y hasta 5 días en Delaware."
-    },
-    {
-      question: "¿Debo viajar a Estados Unidos?",
-      answer: "No, todo el proceso se realiza de forma 100% online y remota."
-    },
-    {
-      question: "¿Me ayudan con la cuenta bancaria?",
-      answer: "Sí, te ayudamos a abrir cuentas en Mercury y Relay sin necesidad de viajar."
-    }
-  ];
-
   return (
     <div className="min-h-screen font-sans text-left bg-white overflow-x-hidden w-full relative">
       <Navbar />
@@ -247,65 +230,6 @@ export default function Home() {
               </motion.div>
             ))}
           </motion.div>
-        </div>
-      </section>
-
-      {/* FAQ Section */}
-      <section className="py-20 sm:py-32 bg-white border-t border-brand-dark/5">
-        <div className="w-full px-5 sm:px-8">
-          <motion.div 
-            className="mb-12 sm:mb-20 text-center"
-            initial="initial"
-            whileInView="animate"
-            viewport={{ once: true }}
-            variants={staggerContainer}
-          >
-            <motion.h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark uppercase tracking-tight mb-4 text-center" variants={fadeIn}>
-              <span className="text-brand-lime uppercase tracking-widest text-sm font-black block mb-2 text-center">(RESOLVEMOS TUS DUDAS PRINCIPALES)</span>
-              Preguntas Frecuentes
-            </motion.h2>
-          </motion.div>
-
-          <div className="max-w-4xl mx-auto space-y-4">
-            {faqs.map((faq, i) => (
-              <motion.div 
-                key={i}
-                className="border-2 border-brand-dark rounded-2xl overflow-hidden bg-white shadow-lg"
-                initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.1 }}
-                viewport={{ once: true }}
-              >
-                <button 
-                  className="w-full p-6 sm:p-8 flex items-center justify-between text-left transition-colors hover:bg-brand-dark/[0.02]"
-                  onClick={() => setOpenFaq(openFaq === i ? null : i)}
-                >
-                  <span className="text-lg sm:text-xl font-black uppercase tracking-tight text-brand-dark">
-                    {faq.question}
-                  </span>
-                  <ChevronDown className={`w-6 h-6 transition-transform duration-300 ${openFaq === i ? "rotate-180" : ""}`} />
-                </button>
-                <AnimatePresence>
-                  {openFaq === i && (
-                    <motion.div
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: "auto", opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.3, ease: "easeInOut" }}
-                    >
-                      <div className="px-6 pb-6 sm:px-8 sm:pb-8 pt-0">
-                        <div className="border-t border-brand-dark/10 pt-6">
-                          <p className="text-base sm:text-lg text-muted-foreground leading-relaxed font-medium">
-                            {faq.answer}
-                          </p>
-                        </div>
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </motion.div>
-            ))}
-          </div>
         </div>
       </section>
 
