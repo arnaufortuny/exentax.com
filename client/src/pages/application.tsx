@@ -37,6 +37,30 @@ const BUSINESS_CATEGORIES = [
   "Otra (especificar)"
 ];
 
+const COUNTRY_PREFIXES = [
+  { code: "+34", label: "España (+34)" },
+  { code: "+1", label: "USA (+1)" },
+  { code: "+52", label: "México (+52)" },
+  { code: "+54", label: "Argentina (+54)" },
+  { code: "+56", label: "Chile (+56)" },
+  { code: "+57", label: "Colombia (+57)" },
+  { code: "+51", label: "Perú (+51)" },
+  { code: "+598", label: "Uruguay (+598)" },
+  { code: "+58", label: "Venezuela (+58)" },
+  { code: "+506", label: "Costa Rica (+506)" },
+  { code: "+507", label: "Panamá (+507)" },
+  { code: "+593", label: "Ecuador (+593)" },
+  { code: "+591", label: "Bolivia (+591)" },
+  { code: "+595", label: "Paraguay (+595)" },
+  { code: "+502", label: "Guatemala (+502)" },
+  { code: "+503", label: "El Salvador (+503)" },
+  { code: "+504", label: "Honduras (+504)" },
+  { code: "+505", label: "Nicaragua (+505)" },
+  { code: "+1-809", label: "Rep. Dom. (+1-809)" },
+  { code: "+53", label: "Cuba (+53)" },
+  { code: "+501", label: "Belice (+501)" }
+];
+
 const STREET_TYPES = ["Calle", "Avenida", "Paseo", "Plaza", "Carretera", "Bulevar"];
 
 const formSchema = insertLlcApplicationSchema.extend({
@@ -253,7 +277,7 @@ export default function ApplicationWizard() {
                                     name="ownerFullName"
                                     render={({ field }) => (
                                       <FormItem>
-                                        <FormLabel className="font-bold text-[10px] uppercase tracking-[0.2em] text-gray-400 mb-1.5 block">Nombre Completo</FormLabel>
+                                        <FormLabel className="font-normal text-sm text-gray-500 mb-1.5 block">Nombre Completo</FormLabel>
                                         <FormControl><Input {...field} value={field.value || ""} className="rounded-xl border-gray-100 bg-gray-50/30 h-12 md:h-14 px-6 focus:border-brand-lime focus:ring-brand-lime transition-all font-normal text-base" placeholder="" /></FormControl>
                                         <FormMessage className="font-bold text-[10px] mt-1.5" />
                                       </FormItem>
@@ -265,7 +289,7 @@ export default function ApplicationWizard() {
                                       name="ownerEmail"
                                       render={({ field }) => (
                                         <FormItem>
-                                          <FormLabel className="font-bold text-[10px] uppercase tracking-[0.2em] text-gray-400 mb-1.5 block">Email</FormLabel>
+                                          <FormLabel className="font-normal text-sm text-gray-500 mb-1.5 block">Email</FormLabel>
                                           <FormControl><Input {...field} value={field.value || ""} type="email" className="rounded-xl border-gray-100 bg-gray-50/30 h-12 md:h-14 px-6 focus:border-brand-lime font-normal text-base" placeholder="" /></FormControl>
                                           <FormMessage className="font-bold text-[10px] mt-1.5" />
                                         </FormItem>
@@ -276,17 +300,19 @@ export default function ApplicationWizard() {
                                       name="ownerPhone"
                                       render={({ field }) => (
                                         <FormItem>
-                                          <FormLabel className="font-bold text-[10px] uppercase tracking-[0.2em] text-gray-400 mb-1.5 block">WhatsApp</FormLabel>
+                                          <FormLabel className="font-normal text-sm text-gray-500 mb-1.5 block">Número de teléfono</FormLabel>
                                           <div className="flex gap-2">
-                                            <div className="w-24">
+                                            <div className="w-32">
                                               <Select defaultValue="+34">
-                                                <SelectTrigger className="rounded-xl border-gray-100 bg-white h-12 md:h-14 px-4 focus:ring-brand-lime font-normal text-base">
+                                                <SelectTrigger className="rounded-xl border-gray-100 bg-white h-12 md:h-14 px-3 focus:ring-brand-lime font-normal text-sm">
                                                   <SelectValue placeholder="+34" />
                                                 </SelectTrigger>
-                                                <SelectContent className="bg-white">
-                                                  <SelectItem value="+34">+34 (ES)</SelectItem>
-                                                  <SelectItem value="+1">+1 (US)</SelectItem>
-                                                  <SelectItem value="+52">+52 (MX)</SelectItem>
+                                                <SelectContent className="bg-white max-h-60">
+                                                  {COUNTRY_PREFIXES.map((country) => (
+                                                    <SelectItem key={country.code} value={country.code}>
+                                                      {country.label}
+                                                    </SelectItem>
+                                                  ))}
                                                 </SelectContent>
                                               </Select>
                                             </div>
@@ -308,7 +334,7 @@ export default function ApplicationWizard() {
                                         name="ownerStreetType"
                                         render={({ field }) => (
                                           <FormItem>
-                                            <FormLabel className="font-bold text-[10px] uppercase tracking-[0.2em] text-gray-400 mb-1.5 block">Tipo</FormLabel>
+                                            <FormLabel className="font-normal text-sm text-gray-500 mb-1.5 block">Tipo</FormLabel>
                                             <Select onValueChange={field.onChange} defaultValue={field.value || "Calle"}>
                                               <FormControl>
                                                 <SelectTrigger className="rounded-xl border-gray-100 bg-white h-12 md:h-14 px-4 focus:ring-brand-lime font-normal text-base">
@@ -329,7 +355,7 @@ export default function ApplicationWizard() {
                                         name="ownerAddress"
                                         render={({ field }) => (
                                           <FormItem className="sm:col-span-2">
-                                            <FormLabel className="font-bold text-[10px] uppercase tracking-[0.2em] text-gray-400 mb-1.5 block">Nombre de Vía y Número</FormLabel>
+                                            <FormLabel className="font-normal text-sm text-gray-500 mb-1.5 block">Nombre de Vía y Número</FormLabel>
                                             <FormControl><Input {...field} value={field.value || ""} className="rounded-xl border-gray-100 bg-gray-50/30 h-12 md:h-14 px-6 focus:border-brand-lime font-normal text-base" placeholder="" /></FormControl>
                                           </FormItem>
                                         )}
@@ -341,7 +367,7 @@ export default function ApplicationWizard() {
                                         name="ownerCity"
                                         render={({ field }) => (
                                           <FormItem>
-                                            <FormLabel className="font-bold text-[10px] uppercase tracking-[0.2em] text-gray-400 mb-1.5 block">Ciudad</FormLabel>
+                                            <FormLabel className="font-normal text-sm text-gray-500 mb-1.5 block">Ciudad</FormLabel>
                                             <FormControl><Input {...field} value={field.value || ""} className="rounded-xl border-gray-100 bg-gray-50/30 h-12 md:h-14 px-6 focus:border-brand-lime font-normal text-base" placeholder="" /></FormControl>
                                           </FormItem>
                                         )}
@@ -351,7 +377,7 @@ export default function ApplicationWizard() {
                                         name="ownerProvince"
                                         render={({ field }) => (
                                           <FormItem>
-                                            <FormLabel className="font-bold text-[10px] uppercase tracking-[0.2em] text-gray-400 mb-1.5 block">Provincia</FormLabel>
+                                            <FormLabel className="font-normal text-sm text-gray-500 mb-1.5 block">Provincia</FormLabel>
                                             <FormControl><Input {...field} value={field.value || ""} className="rounded-xl border-gray-100 bg-gray-50/30 h-12 md:h-14 px-6 focus:border-brand-lime font-normal text-base" placeholder="" /></FormControl>
                                           </FormItem>
                                         )}
@@ -363,7 +389,7 @@ export default function ApplicationWizard() {
                                         name="ownerPostalCode"
                                         render={({ field }) => (
                                           <FormItem>
-                                            <FormLabel className="font-bold text-[10px] uppercase tracking-[0.2em] text-gray-400 mb-1.5 block">Código Postal</FormLabel>
+                                            <FormLabel className="font-normal text-sm text-gray-500 mb-1.5 block">Código Postal</FormLabel>
                                             <FormControl><Input {...field} value={field.value || ""} className="rounded-xl border-gray-100 bg-gray-50/30 h-12 md:h-14 px-6 focus:border-brand-lime font-normal text-base" placeholder="" /></FormControl>
                                           </FormItem>
                                         )}
@@ -373,7 +399,7 @@ export default function ApplicationWizard() {
                                         name="ownerCountry"
                                         render={({ field }) => (
                                           <FormItem>
-                                            <FormLabel className="font-bold text-[10px] uppercase tracking-[0.2em] text-gray-400 mb-1.5 block">País</FormLabel>
+                                            <FormLabel className="font-normal text-sm text-gray-500 mb-1.5 block">País</FormLabel>
                                             <FormControl><Input {...field} value={field.value || ""} className="rounded-xl border-gray-100 bg-gray-50/30 h-12 md:h-14 px-6 focus:border-brand-lime font-normal text-base" placeholder="" /></FormControl>
                                           </FormItem>
                                         )}
@@ -386,7 +412,7 @@ export default function ApplicationWizard() {
                                     name="ownerBirthDate"
                                     render={({ field }) => (
                                       <FormItem className="pt-6 border-t border-gray-100">
-                                        <FormLabel className="font-bold text-[10px] uppercase tracking-[0.2em] text-gray-400 mb-1.5 block">Fecha Nacimiento</FormLabel>
+                                        <FormLabel className="font-normal text-sm text-gray-500 mb-1.5 block">Fecha Nacimiento</FormLabel>
                                         <FormControl><Input {...field} value={field.value || ""} type="date" className="rounded-xl border-gray-100 bg-gray-50/30 h-12 md:h-14 px-6 focus:border-brand-lime font-normal text-base" /></FormControl>
                                       </FormItem>
                                     )}
@@ -403,7 +429,7 @@ export default function ApplicationWizard() {
                                     name="companyName"
                                     render={({ field }) => (
                                       <FormItem>
-                                        <FormLabel className="font-bold text-[10px] uppercase tracking-[0.2em] text-gray-400 mb-1.5 block">Nombre (Opción 1)</FormLabel>
+                                        <FormLabel className="font-normal text-sm text-gray-500 mb-1.5 block">Nombre (Opción 1)</FormLabel>
                                         <FormControl><Input {...field} value={field.value || ""} className="rounded-xl border-gray-100 bg-gray-50/30 h-12 md:h-14 px-6 focus:border-brand-lime font-normal text-base uppercase" placeholder="" /></FormControl>
                                       </FormItem>
                                     )}
@@ -413,7 +439,7 @@ export default function ApplicationWizard() {
                                     name="companyNameOption2"
                                     render={({ field }) => (
                                       <FormItem>
-                                        <FormLabel className="font-bold text-[10px] uppercase tracking-[0.2em] text-gray-400 mb-1.5 block">Nombre (Opción 2)</FormLabel>
+                                        <FormLabel className="font-normal text-sm text-gray-500 mb-1.5 block">Nombre (Opción 2)</FormLabel>
                                         <FormControl><Input {...field} value={field.value || ""} className="rounded-xl border-gray-100 bg-gray-50/30 h-12 md:h-14 px-6 focus:border-brand-lime font-normal text-base uppercase" placeholder="" /></FormControl>
                                       </FormItem>
                                     )}
@@ -424,7 +450,7 @@ export default function ApplicationWizard() {
                                     name="businessCategory"
                                     render={({ field }) => (
                                       <FormItem>
-                                        <FormLabel className="font-bold text-[10px] uppercase tracking-[0.2em] text-gray-400 mb-1.5 block">Categoría de Negocio</FormLabel>
+                                        <FormLabel className="font-normal text-sm text-gray-500 mb-1.5 block">Categoría de Negocio</FormLabel>
                                         <Select onValueChange={field.onChange} defaultValue={field.value || undefined}>
                                           <FormControl>
                                             <SelectTrigger className="rounded-xl border-gray-100 bg-white h-12 md:h-14 px-6 focus:ring-brand-lime font-normal text-base">
@@ -446,7 +472,7 @@ export default function ApplicationWizard() {
                                     name="companyDescription"
                                     render={({ field }) => (
                                       <FormItem>
-                                        <FormLabel className="font-bold text-[10px] uppercase tracking-[0.2em] text-gray-400 mb-1.5 block">Actividad</FormLabel>
+                                        <FormLabel className="font-normal text-sm text-gray-500 mb-1.5 block">Actividad</FormLabel>
                                         <FormControl><Textarea {...field} value={field.value || ""} className="rounded-xl border-gray-100 bg-gray-50/30 min-h-[120px] px-6 py-4 focus:border-brand-lime font-normal text-base resize-none" placeholder="" /></FormControl>
                                       </FormItem>
                                     )}
@@ -457,7 +483,7 @@ export default function ApplicationWizard() {
                                     name="notes"
                                     render={({ field }) => (
                                       <FormItem>
-                                        <FormLabel className="font-bold text-[10px] uppercase tracking-[0.2em] text-gray-400 mb-1.5 block">Notas (Opcional)</FormLabel>
+                                        <FormLabel className="font-normal text-sm text-gray-500 mb-1.5 block">Notas (Opcional)</FormLabel>
                                         <FormControl><Textarea {...field} value={field.value || ""} className="rounded-xl border-gray-100 bg-gray-50/30 min-h-[80px] px-6 py-4 focus:border-brand-lime font-normal text-base resize-none" placeholder="" /></FormControl>
                                       </FormItem>
                                     )}
@@ -587,7 +613,7 @@ export default function ApplicationWizard() {
                                   type="button"
                                   variant="outline"
                                   onClick={prevStep}
-                                  className="w-full sm:w-1/3 h-14 md:h-16 rounded-xl font-black uppercase tracking-[0.15em] text-[10px] border-2 border-gray-100 hover:bg-gray-50 transition-all"
+                                  className="w-full sm:w-1/3 h-16 md:h-20 rounded-xl font-black uppercase tracking-[0.15em] text-xs border-2 border-gray-100 hover:bg-gray-50 transition-all"
                                 >
                                   Atrás
                                 </Button>
@@ -596,7 +622,7 @@ export default function ApplicationWizard() {
                                 type="button"
                                 onClick={nextStep}
                                 disabled={isSubmitting || (step === 2 && !isEmailVerified)}
-                                className={`h-14 md:h-16 rounded-xl font-black uppercase tracking-[0.15em] text-[10px] transition-all shadow-xl flex-1 ${
+                                className={`h-16 md:h-20 rounded-xl font-black uppercase tracking-[0.25em] text-sm transition-all shadow-xl flex-1 ${
                                   step === 3 
                                     ? "bg-brand-dark text-white hover:bg-brand-dark/95" 
                                     : "bg-brand-lime text-brand-dark hover:bg-brand-lime/90 shadow-brand-lime/20"
