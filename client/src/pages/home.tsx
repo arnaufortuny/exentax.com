@@ -39,7 +39,7 @@ export default function Home() {
         }
         subtitle={
           <p className="text-xs sm:text-base text-brand-dark font-medium max-w-3xl mb-3 sm:mb-4 leading-relaxed text-left">
-            Profesionales ayudando a profesionales. <span className="block sm:inline">Te entregamos tu LLC en 3 días. Sin IVA. Sin Impuesto de Sociedades. Sin cuota de autónomos.</span>
+            Para freelancers, emprendedores digitales, ecommerce y negocios de servicios online. <span className="block sm:inline font-bold">Te entregamos tu LLC en 2 días. Sin IVA. Sin Impuesto de Sociedades. Sin cuota de autónomos.</span>
           </p>
         }
       >
