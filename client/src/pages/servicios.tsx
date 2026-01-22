@@ -50,78 +50,6 @@ export default function Servicios() {
     "Servicio Express"
   ];
 
-  const faqCategories = [
-    {
-      title: "Sobre el Servicio",
-      questions: [
-        {
-          q: "¿Qué incluye exactamente el precio?",
-          a: "Todo lo necesario para operar: tasas estatales, Registered Agent 12 meses, Articles of Organization, Operating Agreement, EIN del IRS, BOI Report ante FinCEN, y soporte durante 12 meses. Sin costes ocultos."
-        },
-        {
-          q: "¿Cuánto tiempo tarda el proceso?",
-          a: "Entre 2 y 3 días hábiles desde que recibimos toda tu documentación completa. Te mantenemos informado en cada paso del proceso."
-        },
-        {
-          q: "¿Necesito viajar a Estados Unidos?",
-          a: "No. Todo el proceso se realiza 100% online. No necesitas visa, no necesitas presencia física. Gestionamos todo de forma remota."
-        },
-        {
-          q: "¿Qué documentos necesito enviar?",
-          a: "Solo una foto de tu DNI o pasaporte en vigor. La foto puede ser tomada con tu móvil, siempre que sea legible. No necesitas apostillar ni legalizar nada."
-        },
-      ]
-    },
-    {
-      title: "Estados y Paquetes",
-      questions: [
-        {
-          q: "¿Cuál es la diferencia entre los estados?",
-          a: "New Mexico (639€) es el más económico. Wyoming (799€) ofrece mayor prestigio y privacidad. Delaware (999€) es el estándar para startups que buscan inversión."
-        },
-        {
-          q: "¿Buscabas otro estado? Contactanos!",
-          a: "Si necesitas constituir en un estado diferente, contáctanos y te daremos presupuesto personalizado."
-        },
-      ]
-    },
-    {
-      title: "Banca y Cuentas",
-      questions: [
-        {
-          q: "¿Con qué bancos trabajáis?",
-          a: "Somos especialistas en apertura de cuenta Mercury y cuenta Relay Financial. Son los neobancos líderes para LLCs en USA, ofreciendo cuentas bancarias completas, tarjeta física de débito y crédito, y transferencias internacionales sin complicaciones."
-        },
-        {
-          q: "¿Tendré tarjeta física?",
-          a: "Sí, al abrir tu cuenta en Mercury o Relay obtendrás tarjetas físicas de débito y crédito que enviamos a tu domicilio. Perfectas para gestionar los gastos de tu negocio y retirar fondos."
-        },
-      ]
-    },
-    {
-      title: "Aspectos Legales y Fiscales",
-      questions: [
-        {
-          q: "¿Qué obligaciones fiscales tiene una LLC?",
-          a: "Debe presentar declaraciones al IRS (Forms 1120/5472), mantener el Registered Agent activo, y presentar Annual Report según el estado. El primer año las declaraciones no se presentan."
-        },
-        {
-          q: "¿Qué es el BOI Report?",
-          a: "El Beneficial Ownership Information Report es una declaración obligatoria ante FinCEN que identifica a los propietarios reales de la LLC. Lo preparamos nosotros."
-        },
-      ]
-    },
-  ];
-
-  const [openItems, setOpenItems] = useState<Record<string, number | null>>({});
-
-  const toggleItem = (category: string, index: number) => {
-    setOpenItems(prev => ({
-      ...prev,
-      [category]: prev[category] === index ? null : index
-    }));
-  };
-
   const maintenanceFeatures = [
     "Presentación Form 1120 ante el IRS",
     "Presentación Form 5472 ante el IRS",
@@ -136,43 +64,45 @@ export default function Servicios() {
     <div className="min-h-screen font-sans bg-white text-center">
       <Navbar />
       
-        <div className="container max-w-7xl mx-auto px-4 sm:px-8 relative z-10 flex flex-col items-center justify-center text-center">
-          <div className="flex flex-wrap justify-center gap-1.5 sm:gap-3 mb-6 sm:mb-8 px-2">
-            <span className="inline-flex items-center px-3 py-1.5 sm:px-4 sm:py-2 rounded-full bg-brand-lime text-brand-dark font-black text-[10px] sm:text-sm shadow-sm whitespace-nowrap">
-              Tu LLC en 2 días
-            </span>
-            <span className="inline-flex items-center px-3 py-1.5 sm:px-4 sm:py-2 rounded-full bg-brand-lime text-brand-dark font-black text-[10px] sm:text-sm shadow-sm whitespace-nowrap">
-              Pack Todo Incluido
-            </span>
-            <span className="inline-flex items-center px-3 py-1.5 sm:px-4 sm:py-2 rounded-full bg-brand-lime text-brand-dark font-black text-[10px] sm:text-sm shadow-sm whitespace-nowrap">
-              Sin IVA
-            </span>
-            <span className="inline-flex items-center px-3 py-1.5 sm:px-4 sm:py-2 rounded-full bg-brand-lime text-brand-dark font-black text-[10px] sm:text-sm shadow-sm whitespace-nowrap">
-              Precios Transparentes
-            </span>
-            <span className="inline-flex items-center px-3 py-1.5 sm:px-4 sm:py-2 rounded-full bg-brand-lime text-brand-dark font-black text-[10px] sm:text-sm shadow-sm whitespace-nowrap">
-              Trato Cercano
-            </span>
-            <span className="inline-flex items-center px-3 py-1.5 sm:px-4 sm:py-2 rounded-full bg-brand-lime text-brand-dark font-black text-[10px] sm:text-sm shadow-sm whitespace-nowrap">
-              Apertura Cuenta Mercury & Relay
-            </span>
-            <span className="inline-flex items-center px-3 py-1.5 sm:px-4 sm:py-2 rounded-full bg-brand-lime text-brand-dark font-black text-[10px] sm:text-sm shadow-sm whitespace-nowrap">
-              Tarjeta Física de Crédito y Débito
-            </span>
-          </div>
-          <HeroSection 
-            className="flex flex-col items-center justify-center text-center pt-12 sm:pt-16 lg:pt-20"
-            title={
-              <h1 className="text-4xl sm:text-5xl lg:text-7xl font-black text-brand-dark uppercase tracking-tight leading-[1.1] text-center">
-                Constituimos tu LLC en Estados Unidos de <span className="text-brand-lime">forma simple, rápida y transparente.</span>
-              </h1>
-            }
-            subtitle={
-              <p className="text-lg sm:text-xl lg:text-2xl text-brand-dark font-medium leading-relaxed max-w-2xl text-center mb-12 sm:mb-20 mx-auto">
-                Todo lo que necesitas saber sobre tu LLC: estructura, impuestos, bancos y cómo trabajamos.
-              </p>
-            }
-          />
+      <div className="container max-w-7xl mx-auto px-4 sm:px-8 relative z-10 flex flex-col items-center justify-center text-center">
+        <div className="flex flex-wrap justify-center gap-1.5 sm:gap-3 mb-6 sm:mb-8 px-2">
+          <span className="inline-flex items-center px-3 py-2 sm:px-4 sm:py-2 rounded-full bg-brand-lime text-brand-dark font-black text-[12px] sm:text-sm shadow-sm whitespace-nowrap">
+            Tu LLC en 2 días
+          </span>
+          <span className="inline-flex items-center px-3 py-2 sm:px-4 sm:py-2 rounded-full bg-brand-lime text-brand-dark font-black text-[12px] sm:text-sm shadow-sm whitespace-nowrap">
+            Pack Todo Incluido
+          </span>
+          <span className="inline-flex items-center px-3 py-2 sm:px-4 sm:py-2 rounded-full bg-brand-lime text-brand-dark font-black text-[12px] sm:text-sm shadow-sm whitespace-nowrap">
+            Sin IVA
+          </span>
+          <span className="inline-flex items-center px-3 py-2 sm:px-4 sm:py-2 rounded-full bg-brand-lime text-brand-dark font-black text-[12px] sm:text-sm shadow-sm whitespace-nowrap">
+            Precios Transparentes
+          </span>
+          <span className="inline-flex items-center px-3 py-2 sm:px-4 sm:py-2 rounded-full bg-brand-lime text-brand-dark font-black text-[12px] sm:text-sm shadow-sm whitespace-nowrap">
+            Trato Cercano
+          </span>
+          <span className="inline-flex items-center px-3 py-2 sm:px-4 sm:py-2 rounded-full bg-brand-lime text-brand-dark font-black text-[12px] sm:text-sm shadow-sm whitespace-nowrap">
+            Apertura Cuenta Mercury & Relay
+          </span>
+          <span className="inline-flex items-center px-3 py-2 sm:px-4 sm:py-2 rounded-full bg-brand-lime text-brand-dark font-black text-[12px] sm:text-sm shadow-sm whitespace-nowrap">
+            Tarjeta Física de Crédito y Débito
+          </span>
+        </div>
+      </div>
+
+      <HeroSection 
+        className="flex flex-col items-center justify-center text-center pt-12 sm:pt-16 lg:pt-20"
+        title={
+          <h1 className="text-4xl sm:text-5xl lg:text-7xl font-black text-brand-dark uppercase tracking-tight leading-[1.1] text-center">
+            Constituimos tu LLC en Estados Unidos de <span className="text-brand-lime">forma simple, rápida y transparente.</span>
+          </h1>
+        }
+        subtitle={
+          <p className="text-lg sm:text-xl lg:text-2xl text-brand-dark font-medium leading-relaxed max-w-2xl text-center mb-12 sm:mb-20 mx-auto">
+            Todo lo que necesitas saber sobre tu LLC: estructura, impuestos, bancos y cómo trabajamos.
+          </p>
+        }
+      />
 
       {/* 1. Servicios Constitución */}
       <section className="py-12 sm:py-20 bg-white border-t border-brand-dark/5" id="servicios">
@@ -441,19 +371,17 @@ export default function Servicios() {
         </div>
       </section>
 
-      {/* 5. Soporte Section */}
+      {/* 5. Soporte Directo */}
       <section className="py-12 sm:py-20 bg-white border-t border-brand-dark/5" id="soporte">
         <div className="w-full px-5 sm:px-8">
-          <div className="text-center mb-6 sm:mb-10 flex flex-col items-center justify-center">
+          <div className="text-center mb-8 sm:mb-12 flex flex-col items-center justify-center">
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark uppercase tracking-tight text-center">
               <span className="text-brand-lime uppercase tracking-widest text-sm font-black block mb-2 text-center">SOPORTE</span>
-              Soporte Ilimitado
+              Estamos Contigo
             </h2>
-            <p className="text-brand-lime font-black uppercase tracking-wide text-base sm:text-lg mt-1 sm:mt-2 text-center">
-              Incluido durante 12 meses
-            </p>
+            <p className="text-brand-lime font-black uppercase tracking-wide text-base sm:text-lg mt-1 sm:mt-2 text-center">(Soporte humano y cercano)</p>
           </div>
-          <div className="grid md:grid-cols-3 gap-6 sm:gap-8 mb-8 max-w-6xl mx-auto">
+          <div className="grid md:grid-cols-3 gap-4 sm:gap-6 max-w-5xl mx-auto mb-10 sm:mb-16">
             {[
               { title: "Email y WhatsApp", desc: "Atención directa y personalizada para resolver tus dudas operativas cuando lo necesites." },
               { title: "Guía de bienvenida", desc: "Manual claro y práctico para entender cómo funciona tu LLC y cómo mantenerla correctamente." },
@@ -465,70 +393,13 @@ export default function Servicios() {
               </div>
             ))}
           </div>
-        </div>
-      </section>
-
-      {/* 6. FAQ Section */}
-      <section className="py-12 sm:py-20 bg-white border-t border-brand-dark/5">
-        <div className="container max-w-4xl mx-auto px-4 sm:px-6">
-          <div className="text-center mb-12 flex flex-col items-center justify-center">
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark uppercase tracking-tight text-center">
-              <span className="text-brand-lime uppercase tracking-widest text-sm font-black block mb-2 text-center">FAQ</span>
-              Preguntas Frecuentes
-            </h2>
-            <p className="text-brand-lime font-black uppercase tracking-wide text-base sm:text-lg mt-1 sm:mt-2 text-center">
-              (Resolvemos tus dudas de inmediato)
-            </p>
-          </div>
-          <div className="space-y-4 text-left">
-            {faqCategories.map((category) => (
-              <div key={category.title} className="space-y-4">
-                <h3 className="text-lg font-black text-brand-dark uppercase tracking-tighter flex items-center gap-2 mt-8 mb-4">
-                  <span className="w-1.5 h-6 bg-brand-lime rounded-full" />
-                  {category.title}
-                </h3>
-                <div className="space-y-3 pt-6 border-t-2 border-brand-dark/10">
-                  {category.questions.map((item, i) => (
-                    <div 
-                      key={i} 
-                      className={`group transition-all duration-200 border-2 rounded-xl sm:rounded-2xl overflow-hidden ${
-                        openItems[category.title] === i 
-                          ? "border-brand-lime bg-brand-lime/[0.03]" 
-                          : "border-brand-dark/5 hover:border-brand-lime/30 bg-white"
-                      }`}
-                    >
-                      <button
-                        onClick={() => toggleItem(category.title, i)}
-                        className="w-full px-5 py-5 text-left flex items-center justify-between gap-4 touch-manipulation"
-                      >
-                        <span className="font-bold text-brand-dark text-sm sm:text-base leading-tight tracking-tight">
-                          {item.q}
-                        </span>
-                        <span className={`text-xl transition-transform duration-200 shrink-0 ${
-                          openItems[category.title] === i ? "rotate-45 text-brand-lime" : "text-brand-dark/30"
-                        }`}>
-                          +
-                        </span>
-                      </button>
-                      {openItems[category.title] === i && (
-                        <div className="px-5 pb-5 text-brand-dark/80 text-xs sm:text-sm leading-relaxed border-t border-brand-lime/10 pt-4 animate-in fade-in slide-in-from-top-2 font-medium bg-brand-lime/5">
-                          {item.a}
-                        </div>
-                      )}
-                    </div>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
-
           <div className="mt-16 text-center">
             <Link href="/faq">
               <Button 
-                className="group bg-brand-lime text-brand-dark font-black text-sm sm:text-base px-8 py-6 rounded-full hover:bg-brand-lime/90 transition-all flex items-center gap-3 mx-auto shadow-xl active:scale-95 border-0"
+                variant="outline" 
+                className="border-brand-dark text-brand-dark font-black px-10 py-6 rounded-full text-lg hover:bg-brand-dark/5"
               >
-                Consulta nuestro FAQ completo
-                <span className="transition-transform group-hover:translate-x-1">→</span>
+                Ver todas las preguntas frecuentes (FAQ)
               </Button>
             </Link>
           </div>
