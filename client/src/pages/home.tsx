@@ -100,7 +100,7 @@ export default function Home() {
             {[
               { badge: "IVA", title: "Sin IVA en la LLC", text: "Tu LLC no aplica IVA en servicios digitales prestados a clientes internacionales B2B. Estructuramos la actividad para que la facturación se realice sin IVA desde la empresa americana, conforme a la normativa aplicable.", footer: "Tus servicios están exentos." },
               { badge: "Impuestos", title: "0% Impuesto de Sociedades", text: "En estados como New Mexico o Wyoming, la LLC no paga impuesto de sociedades estatal. La empresa no tributa como sociedad en EE. UU.; los beneficios se atribuyen directamente al propietario.", footer: "Impuesto de Sociedades al 0%." },
-              { badge: "Cuotas", title: "Eliminamos la cuota fija mensual", text: "No existe cuota de autónomos. No pagas nada hasta que generes beneficios.", footer: "Sin cuota de autónomos." },
+              { badge: "Cuotas", title: "Sin cuota fija", text: "En Estados Unidos no existe una cuota mensual de autónomos asociada a la LLC. No hay pagos periódicos obligatorios por el simple hecho de tener la empresa activa, independientemente de que exista o no actividad. La estructura mantiene costes fijos reducidos y una gestión más ligera.", footer: "Sin cuota de autónomos." },
               { badge: "Banca", title: "Apertura de cuenta Mercury & Relay", text: "Te acompañamos en la apertura de tus cuentas bancarias USA y obtención de tarjeta física de crédito y débito.", footer: "Tarjeta física internacional." },
             ].map((card, i) => (
               <div key={i} className="bg-white rounded-2xl shadow-md overflow-hidden border border-brand-dark/5 flex flex-col">
