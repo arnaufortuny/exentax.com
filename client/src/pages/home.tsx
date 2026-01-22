@@ -33,6 +33,7 @@ export default function Home() {
       <Navbar />
       <HeroSection 
         className="flex flex-col items-center justify-center text-center pt-12 sm:pt-16"
+        showOverlay={false}
         title={
           <div className="flex flex-col items-center w-full">
             {/* Trustpilot only on Mobile, above title */}

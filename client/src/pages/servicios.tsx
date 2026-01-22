@@ -92,6 +92,7 @@ export default function Servicios() {
 
       <HeroSection 
         className="flex flex-col items-center justify-center text-center pt-12 sm:pt-16 lg:pt-20"
+        showOverlay={false}
         title={
           <h1 className="text-4xl sm:text-5xl lg:text-7xl font-black text-brand-dark uppercase tracking-tight leading-[1.1] text-center">
             Constituimos tu LLC en Estados Unidos de <span className="text-brand-lime">forma simple, rápida y transparente.</span>
