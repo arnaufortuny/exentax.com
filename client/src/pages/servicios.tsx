@@ -144,7 +144,7 @@ export default function Servicios() {
         }
         subtitle={
           <p className="text-lg sm:text-xl lg:text-2xl text-brand-dark font-medium leading-relaxed max-w-2xl text-left mb-12 sm:mb-20">
-            Nos encargamos de todo el proceso para que tú no tengas que preocuparte por nada.
+            Todo lo que necesitas saber sobre tu LLC: estructura, impuestos, bancos y cómo trabajamos.
           </p>
         }
       />
