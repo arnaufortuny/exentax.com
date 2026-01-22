@@ -189,46 +189,6 @@ export default function Servicios() {
         }
       />
 
-      <section className="py-8 sm:py-20 bg-white border-t border-brand-dark/5" id="servicios">
-        <div className="w-full px-5 sm:px-8">
-          <motion.div 
-            className="text-center mb-6 sm:mb-10 flex flex-col items-center justify-center"
-            initial="initial"
-            whileInView="animate"
-            viewport={{ once: true }}
-            variants={staggerContainer}
-          >
-            <motion.h2 className="text-2xl sm:text-4xl lg:text-5xl font-black text-brand-dark uppercase tracking-tight text-center" variants={fadeIn}>
-              <span className="text-brand-lime uppercase tracking-widest text-xs sm:text-sm font-black block mb-1 sm:mb-2 text-center">SERVICIOS</span>
-              Constitución de LLC
-            </motion.h2>
-            <motion.p className="hidden sm:block text-brand-lime font-black uppercase tracking-wide text-base sm:text-lg mt-1 sm:mt-2 text-center" variants={fadeIn}>(Lo que hacemos por ti)</motion.p>
-          </motion.div>
-          
-          <motion.div 
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-6 max-w-7xl mx-auto"
-            initial="initial"
-            whileInView="animate"
-            viewport={{ once: true }}
-            variants={staggerContainer}
-          >
-            {[
-              { title: "Constitución oficial", desc: "Registro completo ante el Secretary of State." },
-              { title: "Obtención del EIN", desc: "Tramitación de tu número fiscal ante el IRS." },
-              { title: "Cuentas bancarias", desc: "Apertura en Mercury y Relay con tarjetas físicas." },
-              { title: "BOI Report", desc: "Presentación federal obligatoria ante el FinCEN." },
-              { title: "Registered Agent", desc: "Dirección legal en EE. UU. incluida el primer año." },
-              { title: "Soporte experto", desc: "Atención directa para todas tus dudas fiscales." },
-            ].map((service, i) => (
-              <motion.div key={i} className="rounded-xl bg-brand-lime/5 border border-brand-lime/10 p-3 sm:p-6 text-center" variants={fadeIn}>
-                <p className="font-display font-black uppercase tracking-tight text-xs sm:text-lg text-brand-dark mb-0.5 sm:mb-3 leading-tight">{service.title}</p>
-                <p className="text-[10px] sm:text-base text-muted-foreground leading-tight sm:leading-relaxed">{service.desc}</p>
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
-      </section>
-
       {/* 2. Nuestros Packs */}
       <section className="py-12 sm:py-20 bg-white border-t border-brand-dark/5" id="pricing">
         <div className="w-full px-4 sm:px-8">
