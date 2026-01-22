@@ -431,28 +431,28 @@ export default function ApplicationWizard() {
                           )}
                         />
                         
-                        <FormField
-                          control={form.control}
-                          name="businessCategory"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel className="font-bold text-[10px] uppercase tracking-[0.2em] text-gray-400">Categoría de Negocio</FormLabel>
-                              <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                <FormControl>
-                                  <SelectTrigger className="rounded-2xl border-gray-100 bg-gray-50/50 h-14 px-6 focus:ring-brand-lime font-normal">
-                                    <SelectValue placeholder="Selecciona una categoría" />
-                                  </SelectTrigger>
-                                </FormControl>
-                                <SelectContent className="max-h-[300px]">
-                                  {BUSINESS_CATEGORIES.map(cat => (
-                                    <SelectItem key={cat} value={cat}>{cat}</SelectItem>
-                                  ))}
-                                </SelectContent>
-                              </Select>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
+                          <FormField
+                            control={form.control}
+                            name="businessCategory"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel className="font-bold text-[10px] uppercase tracking-[0.2em] text-gray-400">Categoría de Negocio</FormLabel>
+                                <Select onValueChange={field.onChange} defaultValue={field.value || undefined}>
+                                  <FormControl>
+                                    <SelectTrigger className="rounded-2xl border-gray-100 bg-gray-50/50 h-14 px-6 focus:ring-brand-lime font-normal">
+                                      <SelectValue placeholder="Selecciona una categoría" />
+                                    </SelectTrigger>
+                                  </FormControl>
+                                  <SelectContent className="max-h-[300px]">
+                                    {BUSINESS_CATEGORIES.map(cat => (
+                                      <SelectItem key={cat} value={cat}>{cat}</SelectItem>
+                                    ))}
+                                  </SelectContent>
+                                </Select>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
 
                         {businessCategory === "Otra (especificar)" && (
                           <FormField
