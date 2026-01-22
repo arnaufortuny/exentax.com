@@ -138,12 +138,12 @@ export default function Servicios() {
       <HeroSection 
         className="pt-24 sm:pt-32 lg:pt-40"
         title={
-          <h1 className="text-4xl sm:text-5xl lg:text-7xl font-black text-white uppercase tracking-tight leading-[1.1] text-left">
+          <h1 className="text-4xl sm:text-5xl lg:text-7xl font-black text-brand-dark uppercase tracking-tight leading-[1.1] text-left">
             Nuestros <span className="text-brand-lime">Servicios</span>
           </h1>
         }
         subtitle={
-          <p className="text-lg sm:text-xl lg:text-2xl text-white/90 font-medium leading-relaxed max-w-2xl text-left mb-12 sm:mb-20">
+          <p className="text-lg sm:text-xl lg:text-2xl text-brand-dark/90 font-medium leading-relaxed max-w-2xl text-left mb-12 sm:mb-20">
             Constituimos tu LLC en Estados Unidos de forma simple, rápida y transparente.
           </p>
         }

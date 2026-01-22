@@ -32,13 +32,13 @@ export default function Home() {
       <Navbar />
       <HeroSection 
         title={
-          <h1 className="font-black uppercase tracking-tighter text-white mb-4 sm:mb-8 w-full block [text-wrap:balance] [word-break:keep-all] [overflow-wrap:break-word] text-left" style={{ fontSize: 'clamp(38px, 9vw, 96px)', lineHeight: '1' }}>
+          <h1 className="font-black uppercase tracking-tighter text-brand-dark mb-4 sm:mb-8 w-full block [text-wrap:balance] [word-break:keep-all] [overflow-wrap:break-word] text-left" style={{ fontSize: 'clamp(38px, 9vw, 96px)', lineHeight: '1' }}>
             REDUCIMOS TU CARGA FISCAL<br />
             <span className="text-brand-lime">CON UNA LLC AMERICANA</span>
           </h1>
         }
         subtitle={
-          <p className="text-sm sm:text-xl text-white/90 font-medium max-w-3xl mb-6 sm:mb-10 leading-relaxed text-left">
+          <p className="text-sm sm:text-xl text-brand-dark/90 font-medium max-w-3xl mb-6 sm:mb-10 leading-relaxed text-left">
             Profesionales ayudando a profesionales. <span className="block sm:inline">Te entregamos tu LLC en 3 días. Sin IVA. Sin Impuesto de Sociedades. Sin cuota de autónomos.</span>
           </p>
         }
@@ -71,7 +71,7 @@ export default function Home() {
           <Button size="lg" onClick={() => setLocation("/servicios")} disabled={createOrderMutation.isPending} className="bg-brand-lime text-brand-dark font-black text-sm sm:text-base px-6 sm:px-10 border-0 rounded-full w-full sm:w-auto h-12 sm:h-14 shadow-lg">
             {createOrderMutation.isPending ? "Procesando..." : "Empieza ahora →"}
           </Button>
-          <Button size="lg" onClick={() => setLocation("/servicios")} variant="outline" className="border-white text-white font-black text-sm sm:text-base px-6 sm:px-10 hover:bg-white/10 rounded-full w-full sm:w-auto h-12 sm:h-14">
+          <Button size="lg" onClick={() => setLocation("/servicios")} variant="outline" className="border-brand-dark text-brand-dark font-black text-sm sm:text-base px-6 sm:px-10 hover:bg-brand-dark/5 rounded-full w-full sm:w-auto h-12 sm:h-14">
             Conoce Nuestros Servicios
           </Button>
         </div>

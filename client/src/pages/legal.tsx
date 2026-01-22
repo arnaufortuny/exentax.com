@@ -12,12 +12,12 @@ export default function Legal() {
       <HeroSection 
         className="pt-24 sm:pt-32 lg:pt-40"
         title={
-          <h1 className="text-4xl sm:text-5xl lg:text-7xl font-black uppercase tracking-tight text-white leading-[1.1]">
+          <h1 className="text-4xl sm:text-5xl lg:text-7xl font-black uppercase tracking-tight text-brand-dark leading-[1.1]">
             Términos y <span className="text-brand-lime">Condiciones</span>
           </h1>
         }
         subtitle={
-          <p className="text-lg sm:text-xl text-white/90 font-medium max-w-2xl mb-12 sm:mb-20">
+          <p className="text-lg sm:text-xl text-brand-dark/90 font-medium max-w-2xl mb-12 sm:mb-20">
             Fortuny Consulting LLC - 20 de enero de 2026
           </p>
         }

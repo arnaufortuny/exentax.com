@@ -130,12 +130,12 @@ export default function FAQ() {
       <HeroSection 
         className="pt-24 sm:pt-32 lg:pt-40"
         title={
-          <h1 className="text-4xl sm:text-5xl lg:text-7xl font-black text-white uppercase tracking-tight leading-[1.1] break-words">
+          <h1 className="text-4xl sm:text-5xl lg:text-7xl font-black text-brand-dark uppercase tracking-tight leading-[1.1] break-words">
             PREGUNTAS <span className="text-brand-lime">FRECUENTES</span>
           </h1>
         }
         subtitle={
-          <p className="text-lg sm:text-xl lg:text-2xl text-white/90 font-medium leading-relaxed max-w-2xl px-1 mb-12 sm:mb-20">
+          <p className="text-lg sm:text-xl lg:text-2xl text-brand-dark/90 font-medium leading-relaxed max-w-2xl px-1 mb-12 sm:mb-20">
             Optimización fiscal y estructura empresarial para emprendedores digitales.
           </p>
         }
