@@ -260,6 +260,65 @@ export async function registerRoutes(
   });
 
   // Contact form
+  app.post("/api/contact/send-otp", async (req, res) => {
+    try {
+      const { email } = z.object({ email: z.string().email() }).parse(req.body);
+      const otp = Math.floor(100000 + Math.random() * 900000).toString();
+      const expiresAt = new Date(Date.now() + 10 * 60 * 1000); // 10 mins
+
+      // In a real app, we'd use storage, but for speed we'll do direct DB here if storage isn't updated
+      await db.insert(require("@shared/schema").contactOtps).values({
+        email,
+        otp,
+        expiresAt,
+      });
+
+      await sendEmail({
+        to: email,
+        subject: "Código de verificación - Easy US LLC",
+        html: getOtpEmailTemplate(otp),
+      });
+
+      res.json({ success: true });
+    } catch (err) {
+      console.error("Error sending contact OTP:", err);
+      res.status(400).json({ message: "Error al enviar el código" });
+    }
+  });
+
+  app.post("/api/contact/verify-otp", async (req, res) => {
+    try {
+      const { email, otp } = z.object({ email: z.string().email(), otp: z.string() }).parse(req.body);
+      
+      const { contactOtps } = require("@shared/schema");
+      const { and, eq, gt } = require("drizzle-orm");
+
+      const [record] = await db.select()
+        .from(contactOtps)
+        .where(
+          and(
+            eq(contactOtps.email, email),
+            eq(contactOtps.otp, otp),
+            gt(contactOtps.expiresAt, new Date())
+          )
+        )
+        .limit(1);
+
+      if (!record) {
+        return res.status(400).json({ message: "Código inválido o caducado" });
+      }
+
+      await db.update(contactOtps)
+        .set({ verified: true })
+        .where(eq(contactOtps.id, record.id));
+
+      res.json({ success: true });
+    } catch (err) {
+      console.error("Error verifying contact OTP:", err);
+      res.status(400).json({ message: "Error al verificar el código" });
+    }
+  });
+
   app.post("/api/contact", async (req, res) => {
     try {
       const contactData = z.object({
@@ -268,7 +327,26 @@ export async function registerRoutes(
         email: z.string().email(),
         subject: z.string(),
         mensaje: z.string(),
+        otp: z.string(),
       }).parse(req.body);
+
+      const { contactOtps } = require("@shared/schema");
+      const { and, eq } = require("drizzle-orm");
+
+      const [otpRecord] = await db.select()
+        .from(contactOtps)
+        .where(
+          and(
+            eq(contactOtps.email, contactData.email),
+            eq(contactOtps.otp, contactData.otp),
+            eq(contactOtps.verified, true)
+          )
+        )
+        .limit(1);
+
+      if (!otpRecord) {
+        return res.status(400).json({ message: "Email no verificado" });
+      }
 
       const messageId = Math.floor(100000 + Math.random() * 900000);
 

@@ -73,6 +73,14 @@ export const newsletterSubscribers = pgTable("newsletter_subscribers", {
   subscribedAt: timestamp("subscribed_at").defaultNow(),
 });
 
+export const contactOtps = pgTable("contact_otps", {
+  id: serial("id").primaryKey(),
+  email: text("email").notNull(),
+  otp: text("otp").notNull(),
+  expiresAt: timestamp("expires_at").notNull(),
+  verified: boolean("verified").notNull().default(false),
+});
+
 export const ordersRelations = relations(orders, ({ one, many }) => ({
   user: one(users, { fields: [orders.userId], references: [users.id] }),
   product: one(products, { fields: [orders.productId], references: [products.id] }),
