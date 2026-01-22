@@ -409,28 +409,30 @@ export default function ApplicationWizard() {
                         </div>
                         <div className="pt-4 sm:pt-6">
                           {isVerifying ? (
-                            <div className="space-y-4">
+                            <div className="space-y-4 sm:space-y-6">
                               <div className="space-y-1.5">
-                                <Label className="text-[9px] sm:text-xs font-black text-brand-dark uppercase tracking-widest opacity-70">Introduce el código de 6 dígitos enviado a tu email</Label>
+                                <Label className="text-[10px] sm:text-xs font-black text-brand-dark uppercase tracking-widest opacity-70">Introduce el código de 6 dígitos enviado a tu email</Label>
                                 <Input 
-                                  className="h-10 sm:h-12 rounded-full bg-white border-brand-lime text-center text-lg font-black tracking-widest" 
-                                  placeholder="000000"
+                                  className="h-12 sm:h-14 rounded-2xl bg-white border-brand-lime text-center text-2xl sm:text-3xl font-black tracking-[0.2em] sm:tracking-[0.5em] focus:ring-brand-lime/20 transition-all shadow-inner" 
+                                  placeholder="••••••"
                                   value={otpCode}
+                                  inputMode="numeric"
+                                  autoComplete="one-time-code"
                                   onChange={(e) => setOtpCode(e.target.value.replace(/\D/g, '').slice(0, 6))}
                                 />
                               </div>
-                              <div className="flex gap-2">
+                              <div className="flex flex-col sm:flex-row gap-3">
                                 <Button 
                                   onClick={() => setIsVerifying(false)}
                                   variant="outline"
-                                  className="flex-1 h-12 rounded-full font-bold border-brand-dark/10"
+                                  className="h-12 sm:h-14 rounded-full font-bold border-brand-dark/10 hover:bg-brand-dark/5 order-2 sm:order-1"
                                 >
                                   Cancelar
                                 </Button>
                                 <Button 
                                   onClick={handleVerifyOtp}
                                   disabled={otpCode.length !== 6}
-                                  className="flex-[2] h-12 bg-brand-lime text-brand-dark font-black rounded-full"
+                                  className="flex-[2] h-12 sm:h-14 bg-brand-lime text-brand-dark font-black rounded-full shadow-lg shadow-brand-lime/20 order-1 sm:order-2"
                                 >
                                   Verificar y Continuar
                                 </Button>
