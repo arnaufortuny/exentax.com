@@ -347,7 +347,7 @@ export default function Servicios() {
                 </div>
                 <div className="p-5 sm:p-8 pt-0">
                   <Button 
-                    className="w-full bg-brand-lime text-brand-dark font-black rounded-full py-5 sm:py-7 text-base sm:text-lg border-0 shadow-lg hover:bg-brand-lime/90 transition-all transform active:scale-95 h-12 sm:h-14"
+                    className="w-full bg-brand-lime text-brand-dark font-black rounded-full py-4 sm:py-6 text-sm sm:text-lg border-0 shadow-lg hover:bg-brand-lime/90 transition-all transform active:scale-95 h-auto whitespace-normal leading-tight"
                   >
                     Contratar Mantenimiento
                   </Button>
