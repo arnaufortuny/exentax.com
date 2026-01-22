@@ -150,7 +150,7 @@ export default function Servicios() {
         }
       />
 
-      <section className="py-8 sm:py-14 bg-white" id="servicios">
+      <section className="py-8 sm:py-14 bg-white border-t border-brand-dark/5" id="servicios">
         <div className="container max-w-7xl mx-auto px-5 sm:px-8">
           <div className="text-center mb-6 sm:mb-10 flex flex-col items-center justify-center">
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark uppercase tracking-tight text-center">
@@ -178,7 +178,7 @@ export default function Servicios() {
         </div>
       </section>
 
-      <section className="py-12 sm:py-20" id="pricing">
+      <section className="py-12 sm:py-20 border-t border-brand-dark/5" id="pricing">
         <div className="container max-w-7xl mx-auto px-4 sm:px-8">
           <div className="text-center mb-8 sm:mb-12 flex flex-col items-center justify-center">
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark uppercase tracking-tight text-center">
@@ -307,7 +307,7 @@ export default function Servicios() {
         </div>
       </section>
 
-      <section className="py-8 sm:py-14 bg-white">
+      <section className="py-8 sm:py-14 bg-white border-t border-brand-dark/5">
         <div className="container max-w-7xl mx-auto px-5 sm:px-8">
           <div className="text-center mb-6 sm:mb-10 flex flex-col items-center justify-center">
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark uppercase tracking-tight text-center">

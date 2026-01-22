@@ -232,7 +232,7 @@ export default function ApplicationWizard() {
         }
       />
 
-      <main className="container max-w-4xl py-12 sm:py-20 px-4 sm:px-6 flex-1 mx-auto -mt-16 relative z-30">
+      <main className="container max-w-4xl py-12 sm:py-20 px-4 sm:px-6 flex-1 mx-auto -mt-16 relative z-30 border-t border-brand-dark/5">
         {step < 5 ? (
           <div className="space-y-6">
             {/* Paso 1: Tus Datos Personales */}
