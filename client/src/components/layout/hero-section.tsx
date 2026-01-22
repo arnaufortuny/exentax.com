@@ -30,7 +30,7 @@ export function HeroSection({
           </div>
           <div className="max-w-4xl">
             {subtitle && (
-              <div className="text-sm sm:text-xl lg:text-2xl text-white/90 mb-6 sm:mb-8 leading-relaxed font-medium">
+              <div className="text-sm sm:text-xl lg:text-2xl text-brand-dark mb-6 sm:mb-8 leading-relaxed font-medium">
                 {subtitle}
               </div>
             )}

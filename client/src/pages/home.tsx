@@ -38,7 +38,7 @@ export default function Home() {
           </h1>
         }
         subtitle={
-          <p className="text-sm sm:text-xl text-brand-dark/90 font-medium max-w-3xl mb-6 sm:mb-10 leading-relaxed text-left">
+          <p className="text-sm sm:text-xl text-brand-dark font-medium max-w-3xl mb-6 sm:mb-10 leading-relaxed text-left">
             Profesionales ayudando a profesionales. <span className="block sm:inline">Te entregamos tu LLC en 3 días. Sin IVA. Sin Impuesto de Sociedades. Sin cuota de autónomos.</span>
           </p>
         }

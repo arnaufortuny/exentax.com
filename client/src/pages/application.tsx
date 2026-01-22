@@ -176,7 +176,7 @@ export default function ApplicationWizard() {
           </h1>
         }
         subtitle={
-          <p className="text-lg sm:text-xl lg:text-2xl text-brand-dark/90 font-medium max-w-2xl leading-relaxed mb-12 sm:mb-20">
+          <p className="text-lg sm:text-xl lg:text-2xl text-brand-dark font-medium max-w-2xl leading-relaxed mb-12 sm:mb-20">
             Completa los datos a continuación para iniciar el proceso de formación de tu empresa en Estados Unidos.
           </p>
         }
