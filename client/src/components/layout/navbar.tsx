@@ -57,7 +57,7 @@ export function Navbar() {
           </Button>
 
           <button 
-            className="md:hidden p-2 text-brand-dark relative z-[70]"
+            className="md:hidden p-2 text-brand-dark relative z-[110]"
             onClick={() => setIsOpen(!isOpen)}
             aria-label={isOpen ? "Cerrar menú" : "Abrir menú"}
             data-testid="button-mobile-menu"
@@ -69,7 +69,8 @@ export function Navbar() {
 
       {isOpen && (
         <div className="md:hidden fixed inset-0 bg-white z-[60] overflow-y-auto flex flex-col pt-16 sm:pt-24">
-          <div className="flex flex-col flex-grow bg-white p-6 justify-start pt-8">
+          <div className="absolute top-0 left-0 right-0 h-20 bg-brand-lime z-[100] border-b border-brand-dark/10 shadow-md" />
+          <div className="flex flex-col flex-grow bg-white p-6 justify-start pt-24">
             <div className="flex flex-col gap-0.5">
               <button
                 onClick={() => handleNavClick("/")}
