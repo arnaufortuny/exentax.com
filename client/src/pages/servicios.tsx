@@ -728,9 +728,9 @@ export default function Servicios() {
               { title: "Guía de bienvenida", desc: "Manual claro y práctico para entender cómo funciona tu LLC y cómo mantenerla correctamente." },
               { title: "Alertas de plazos", desc: "Te avisamos con antelación de las obligaciones y fechas clave para que no se te pase nada." },
             ].map((service, i) => (
-              <motion.div key={i} className="rounded-xl bg-white border border-brand-lime/10 p-6 shadow-sm text-center" variants={fadeIn}>
-                <p className="font-display font-black uppercase tracking-tight text-sm sm:text-lg text-brand-dark mb-3">{service.title}</p>
-                <p className="text-xs sm:text-base text-muted-foreground leading-relaxed">{service.desc}</p>
+              <motion.div key={i} className="p-6 bg-brand-lime/5 rounded-2xl border border-brand-lime/10 sm:border-brand-lime/10 border-brand-lime/30 hover:bg-brand-lime/10 transition-colors text-center shadow-sm" variants={fadeIn}>
+                <p className="font-display font-black uppercase tracking-tighter text-lg sm:text-xl mb-3 text-brand-dark">{service.title}</p>
+                <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">{service.desc}</p>
               </motion.div>
             ))}
           </motion.div>
