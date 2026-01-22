@@ -55,6 +55,7 @@ export default function Servicios() {
     queryKey: ["/api/products"],
   });
 
+  const [maintenanceDialogOpen, setMaintenanceDialogOpen] = useState(false);
   const [maintenanceStep, setMaintenanceStep] = useState<"ask" | "form">("ask");
   const [selectedState, setSelectedState] = useState("");
   const [isOtpSent, setIsOtpSent] = useState(false);
@@ -508,17 +509,20 @@ export default function Servicios() {
 
       <section className="py-12 sm:py-24 bg-white border-t border-brand-dark/5">
         <div className="w-full px-5 sm:px-8">
-          <Dialog onOpenChange={(open) => { if(!open) setMaintenanceStep("ask"); }}>
+          <Dialog open={maintenanceDialogOpen} onOpenChange={(open) => { 
+            setMaintenanceDialogOpen(open);
+            if(!open) setMaintenanceStep("ask"); 
+          }}>
             <DialogTrigger asChild>
-              <button id="maintenance-dialog" className="hidden" />
+              <button id="maintenance-dialog" className="hidden" onClick={() => setMaintenanceDialogOpen(true)} />
             </DialogTrigger>
-            <DialogContent className="max-w-md rounded-2xl border-brand-lime/20 font-sans">
+            <DialogContent className="max-w-[90vw] sm:max-w-md rounded-2xl border-brand-lime/20 font-sans p-4 sm:p-6 overflow-y-auto max-h-[90vh]">
               <DialogHeader>
-                <DialogTitle className="text-2xl font-black uppercase text-brand-dark text-center">
-                  Mantenimiento Anual
+                <DialogTitle className="text-xl sm:text-2xl font-black text-brand-dark text-center">
+                  Mantenimiento anual
                 </DialogTitle>
               </DialogHeader>
-              <div className="py-6">
+              <div className="py-4 sm:py-6">
                 <AnimatePresence mode="wait">
                   {maintenanceStep === "ask" ? (
                     <motion.div 
@@ -526,25 +530,26 @@ export default function Servicios() {
                       initial={{ opacity: 0, x: -20 }}
                       animate={{ opacity: 1, x: 0 }}
                       exit={{ opacity: 0, x: 20 }}
-                      className="text-center space-y-6"
+                      className="text-center space-y-4 sm:space-y-6"
                     >
-                      <p className="text-lg font-bold text-brand-dark">¿Ya tienes una LLC constituida con nosotros o con terceros?</p>
+                      <p className="text-base sm:text-lg font-bold text-brand-dark">¿Ya tienes una LLC constituida con nosotros o con terceros?</p>
                       <div className="flex flex-col gap-3">
                         <Button 
                           onClick={() => setMaintenanceStep("form")}
-                          className="bg-brand-lime text-brand-dark font-black rounded-full h-14 text-lg hover:bg-brand-lime/90 shadow-md border-0"
+                          className="bg-brand-lime text-brand-dark font-black rounded-full h-12 sm:h-14 text-sm sm:text-lg hover:bg-brand-lime/90 shadow-md border-0 uppercase"
                         >
-                          SÍ, YA TENGO UNA LLC
+                          Sí, ya tengo una LLC
                         </Button>
                         <Button 
                           variant="outline"
                           onClick={() => {
+                            setMaintenanceDialogOpen(false);
                             const el = document.getElementById('pricing');
                             el?.scrollIntoView({ behavior: 'smooth' });
                           }}
-                          className="border-brand-dark text-brand-dark font-black rounded-full h-14 text-lg hover:bg-brand-dark hover:text-white transition-all"
+                          className="border-brand-dark text-brand-dark font-black rounded-full h-12 sm:h-14 text-sm sm:text-lg hover:bg-brand-dark hover:text-white transition-all uppercase"
                         >
-                          NO, QUIERO CONSTITUIRLA
+                          No, quiero constituirla
                         </Button>
                       </div>
                     </motion.div>
@@ -561,48 +566,48 @@ export default function Servicios() {
                             control={mForm.control}
                             name="nombre"
                             render={({ field }) => (
-                              <FormItem>
-                                <FormLabel className="font-black uppercase text-xs">Nombre Completo</FormLabel>
-                                <FormControl><Input {...field} className="rounded-xl h-12" /></FormControl>
-                                <FormMessage />
+                              <FormItem className="space-y-1">
+                                <FormLabel className="font-black text-[10px] sm:text-xs uppercase opacity-70">Nombre completo</FormLabel>
+                                <FormControl><Input {...field} className="rounded-xl h-11 sm:h-12 text-sm" /></FormControl>
+                                <FormMessage className="text-[10px]" />
                               </FormItem>
                             )}
                           />
-                          <div className="flex gap-2 items-end">
-                            <div className="flex-1">
+                          <div className="flex flex-col sm:flex-row gap-3 sm:gap-2 items-start sm:items-end">
+                            <div className="flex-1 w-full">
                               <FormField
                                 control={mForm.control}
                                 name="email"
                                 render={({ field }) => (
-                                  <FormItem>
-                                    <FormLabel className="font-black uppercase text-xs">Email</FormLabel>
-                                    <FormControl><Input {...field} disabled={isEmailVerified || isOtpSent} className="rounded-xl h-12" /></FormControl>
-                                    <FormMessage />
+                                  <FormItem className="space-y-1">
+                                    <FormLabel className="font-black text-[10px] sm:text-xs uppercase opacity-70">Email</FormLabel>
+                                    <FormControl><Input {...field} disabled={isEmailVerified || isOtpSent} className="rounded-xl h-11 sm:h-12 text-sm" /></FormControl>
+                                    <FormMessage className="text-[10px]" />
                                   </FormItem>
                                 )}
                               />
                             </div>
                             {!isEmailVerified && (
-                              <Button type="button" onClick={sendOtp} disabled={isSendingOtp || isOtpSent} className="bg-brand-lime text-brand-dark font-black rounded-full h-12 px-4 text-xs">
+                              <Button type="button" onClick={sendOtp} disabled={isSendingOtp || isOtpSent} className="bg-brand-lime text-brand-dark font-black rounded-full h-11 sm:h-12 px-6 text-[10px] sm:text-xs w-full sm:w-auto uppercase">
                                 {isOtpSent ? "Enviado" : "Verificar"}
                               </Button>
                             )}
                           </div>
                           {isOtpSent && !isEmailVerified && (
-                            <div className="flex gap-2 items-end">
-                              <div className="flex-1">
+                            <div className="flex flex-col sm:flex-row gap-3 sm:gap-2 items-start sm:items-end">
+                              <div className="flex-1 w-full">
                                 <FormField
                                   control={mForm.control}
                                   name="otp"
                                   render={({ field }) => (
-                                    <FormItem>
-                                      <FormControl><Input placeholder="000000" {...field} className="rounded-xl h-12 text-center tracking-widest font-black" maxLength={6} /></FormControl>
-                                      <FormMessage />
+                                    <FormItem className="space-y-1">
+                                      <FormControl><Input placeholder="000000" {...field} className="rounded-xl h-11 sm:h-12 text-center tracking-[0.5em] font-black" maxLength={6} /></FormControl>
+                                      <FormMessage className="text-[10px]" />
                                     </FormItem>
                                   )}
                                 />
                               </div>
-                              <Button type="button" onClick={verifyOtp} disabled={isVerifyingOtp} className="bg-brand-dark text-white font-black rounded-full h-12 px-4 text-xs">
+                              <Button type="button" onClick={verifyOtp} disabled={isVerifyingOtp} className="bg-brand-dark text-white font-black rounded-full h-11 sm:h-12 px-8 text-[10px] sm:text-xs w-full sm:w-auto uppercase">
                                 Validar
                               </Button>
                             </div>
@@ -611,19 +616,19 @@ export default function Servicios() {
                             control={mForm.control}
                             name="mensaje"
                             render={({ field }) => (
-                              <FormItem>
-                                <FormLabel className="font-black uppercase text-xs">¿Qué necesitas para tu LLC?</FormLabel>
-                                <FormControl><Textarea {...field} placeholder="Nombre de tu LLC, Estado..." className="rounded-xl min-h-[100px]" /></FormControl>
-                                <FormMessage />
+                              <FormItem className="space-y-1">
+                                <FormLabel className="font-black text-[10px] sm:text-xs uppercase opacity-70">¿Qué necesitas para tu LLC?</FormLabel>
+                                <FormControl><Textarea {...field} placeholder="Nombre de tu LLC, estado..." className="rounded-xl min-h-[80px] sm:min-h-[100px] text-sm" /></FormControl>
+                                <FormMessage className="text-[10px]" />
                               </FormItem>
                             )}
                           />
                           <Button 
                             type="submit" 
                             disabled={!isEmailVerified}
-                            className={`w-full font-black rounded-full h-14 text-lg shadow-lg ${isEmailVerified ? "bg-brand-lime text-brand-dark" : "bg-gray-100 text-gray-400 cursor-not-allowed"}`}
+                            className={`w-full font-black rounded-full h-12 sm:h-14 text-sm sm:text-lg shadow-lg uppercase ${isEmailVerified ? "bg-brand-lime text-brand-dark hover:bg-brand-lime/90" : "bg-gray-100 text-gray-400 cursor-not-allowed border border-gray-200"}`}
                           >
-                            Solicitar Mantenimiento
+                            Solicitar mantenimiento
                           </Button>
                         </form>
                       </Form>
