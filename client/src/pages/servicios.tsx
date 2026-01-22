@@ -635,7 +635,7 @@ export default function Servicios() {
           </Dialog>
 
           <motion.div 
-            className="text-center mb-2 sm:mb-16 mt-0"
+            className="text-center mb-0 sm:mb-16 mt-0"
             initial="initial"
             whileInView="animate"
             viewport={{ once: true }}
@@ -645,7 +645,7 @@ export default function Servicios() {
               <span className="text-brand-lime uppercase tracking-widest text-xs sm:text-sm font-black block mb-0 text-center">FAQ</span>
               Preguntas Frecuentes
             </motion.h2>
-            <motion.p className="text-brand-lime font-black uppercase tracking-wide text-sm sm:text-lg mt-0.5 text-center leading-tight" variants={fadeIn}>(Respondemos de forma clara a las dudas más habituales sobre LLCs, impuestos, bancos y cómo trabajamos)</motion.p>
+            <motion.p className="text-brand-lime font-black uppercase tracking-wide text-sm sm:text-lg mt-0 text-center leading-[1.1]" variants={fadeIn}>(Respondemos de forma clara a las dudas más habituales sobre LLCs, impuestos, bancos y cómo trabajamos)</motion.p>
           </motion.div>
 
           <div className="max-w-4xl mx-auto space-y-4">
