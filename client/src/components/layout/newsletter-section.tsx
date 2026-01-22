@@ -38,7 +38,7 @@ export function NewsletterSection() {
   };
 
   return (
-    <section className="py-20 bg-brand-dark relative overflow-hidden font-sans border-t border-white/5">
+    <section className="py-16 bg-brand-dark relative overflow-hidden font-sans border-t border-white/5">
       <div className="absolute inset-0 opacity-[0.03] pointer-events-none bg-[url('/hero-bg.png')] bg-repeat" />
       
       <div className="container max-w-4xl mx-auto px-6 relative z-10">
@@ -46,13 +46,13 @@ export function NewsletterSection() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center space-y-8"
+          className="text-center space-y-6"
         >
-          <div className="space-y-4">
-            <h2 className="text-4xl md:text-5xl font-black uppercase tracking-tighter text-white leading-none">
+          <div className="space-y-3">
+            <h2 className="text-2xl md:text-3xl font-black uppercase tracking-tight text-white leading-none">
               Únete a nuestra <span className="text-brand-dark bg-brand-lime px-2">Newsletter</span>
             </h2>
-            <p className="text-white/70 text-lg md:text-xl font-medium max-w-2xl mx-auto">
+            <p className="text-white/60 text-base md:text-lg font-medium max-w-xl mx-auto leading-relaxed">
               Recibe consejos exclusivos sobre fiscalidad, banca en USA y estrategias para escalar tu negocio internacional.
             </p>
           </div>
@@ -64,18 +64,18 @@ export function NewsletterSection() {
                 placeholder="Tu correo electrónico" 
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="h-16 pl-8 pr-16 rounded-full border-2 border-white/10 bg-white/5 text-white placeholder:text-white/30 text-lg font-bold focus:border-brand-lime focus:ring-0 transition-all shadow-2xl"
+                className="h-14 pl-6 pr-14 rounded-full border-2 border-white/10 bg-white/5 text-white placeholder:text-white/30 text-base font-bold focus:border-brand-lime focus:ring-0 transition-all shadow-xl"
                 required
               />
               <Button 
                 type="submit"
                 disabled={loading}
-                className="absolute right-2 top-2 h-12 w-12 rounded-full bg-brand-lime text-brand-dark p-0 hover:scale-105 active:scale-95 transition-all shadow-lg"
+                className="absolute right-1.5 top-1.5 h-11 w-11 rounded-full bg-brand-lime text-brand-dark p-0 hover:scale-105 active:scale-95 transition-all shadow-lg"
               >
-                <Send size={24} />
+                <Send size={20} />
               </Button>
             </div>
-            <p className="mt-4 text-[10px] text-white/30 font-black uppercase tracking-widest">
+            <p className="mt-4 text-[10px] text-white/20 font-black uppercase tracking-widest">
               Sin spam. Solo valor real para tu negocio.
             </p>
           </form>
