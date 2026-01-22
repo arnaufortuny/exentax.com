@@ -145,44 +145,6 @@ export default function Home() {
         }
       />
 
-      <section className="bg-white py-8 sm:py-24 border-t border-brand-dark/5" id="ventajas">
-        <div className="w-full px-5 sm:px-8">
-          <div className="text-center mb-6 sm:mb-20 flex flex-col items-center justify-center">
-            <h2 className="text-2xl sm:text-4xl lg:text-5xl font-black text-brand-dark uppercase tracking-tight text-center">
-              <span className="text-brand-lime uppercase tracking-widest text-xs sm:text-sm font-black block mb-1 sm:mb-2 text-center">VENTAJAS</span>
-              Ventajas fiscales
-            </h2>
-            <p className="hidden sm:block text-brand-lime font-black uppercase tracking-wide text-base sm:text-lg mt-1 sm:mt-2 text-center">(Te ayudamos a optimizar tu estructura)</p>
-          </div>
-          
-          <motion.div 
-            className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto"
-            initial="initial"
-            whileInView="animate"
-            viewport={{ once: true }}
-            variants={staggerContainer}
-          >
-            {[
-              { badge: "IVA", title: "Sin IVA en la LLC", text: "La LLC no aplica IVA en la facturación de servicios digitales, tanto a clientes finales como a clientes B2B internacionales. Estructuramos la actividad para que la facturación se realice correctamente desde la empresa americana, sin IVA, conforme a la normativa aplicable y al tipo de operación.", footer: "Tus servicios están exentos." },
-              { badge: "Impuestos", title: "0% Impuesto de Sociedades", text: "En estados como New Mexico o Wyoming, la LLC no está sujeta a impuesto de sociedades estatal. La empresa no tributa como sociedad en Estados Unidos, sino que los beneficios se atribuyen directamente al propietario, según la estructura fiscal de la LLC.", footer: "Impuesto de Sociedades al 0%." },
-              { badge: "Cuotas", title: "Sin cuota fija", text: "En Estados Unidos no existe una cuota mensual de autónomos asociada a la LLC. No hay pagos periódicos obligatorios por el simple hecho de tener la empresa activa, independientemente de que exista o no actividad. La estructura mantiene costes fijos reducidos y una gestión más ligera.", footer: "Sin cuota de autónomos." },
-              { badge: "Banca", title: "Banca internacional", text: "Te acompañamos en el proceso de apertura de cuentas bancarias en Mercury y Relay. Accede a una cuenta empresarial en USD, con capacidad para recibir y enviar transferencias internacionales y disponer de tarjeta física de débito y crédito para operar a nivel global.", footer: "Tarjeta física internacional." },
-            ].map((card, i) => (
-              <motion.div key={i} className="bg-white rounded-2xl shadow-md overflow-hidden border border-brand-dark/5 sm:border-brand-dark/5 border-brand-lime/20 flex flex-col" variants={fadeIn}>
-                <div className="p-6 flex-grow">
-                  <span className="inline-block px-3 py-1 text-xs font-bold rounded-full bg-brand-lime text-brand-dark mb-4">{card.badge}</span>
-                  <h3 className="text-xl sm:text-2xl font-black uppercase tracking-tighter text-brand-dark mb-3 leading-tight">{card.title}</h3>
-                  <p className="text-muted-foreground text-base sm:text-lg leading-relaxed">{card.text}</p>
-                </div>
-                <div className="bg-brand-lime/10 px-6 py-4 border-t border-brand-lime/20 mt-auto">
-                  <p className="text-sm font-bold text-brand-dark">{card.footer}</p>
-                </div>
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
-      </section>
-
       <section className="py-8 sm:py-20 bg-white border-t border-brand-dark/5" id="servicios">
         <div className="w-full px-5 sm:px-8">
           <motion.div 
@@ -217,6 +179,44 @@ export default function Home() {
               <motion.div key={i} className="rounded-xl bg-brand-lime/5 border border-brand-lime/10 p-3 sm:p-6 text-center" variants={fadeIn}>
                 <p className="font-display font-black uppercase tracking-tight text-xs sm:text-lg text-brand-dark mb-0.5 sm:mb-3 leading-tight">{service.title}</p>
                 <p className="text-[10px] sm:text-base text-muted-foreground leading-tight sm:leading-relaxed">{service.desc}</p>
+              </motion.div>
+            ))}
+          </motion.div>
+        </div>
+      </section>
+
+      <section className="bg-white py-8 sm:py-24 border-t border-brand-dark/5" id="ventajas">
+        <div className="w-full px-5 sm:px-8">
+          <div className="text-center mb-6 sm:mb-20 flex flex-col items-center justify-center">
+            <h2 className="text-2xl sm:text-4xl lg:text-5xl font-black text-brand-dark uppercase tracking-tight text-center">
+              <span className="text-brand-lime uppercase tracking-widest text-xs sm:text-sm font-black block mb-1 sm:mb-2 text-center">VENTAJAS</span>
+              Ventajas fiscales
+            </h2>
+            <p className="hidden sm:block text-brand-lime font-black uppercase tracking-wide text-base sm:text-lg mt-1 sm:mt-2 text-center">(Te ayudamos a optimizar tu estructura)</p>
+          </div>
+          
+          <motion.div 
+            className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto"
+            initial="initial"
+            whileInView="animate"
+            viewport={{ once: true }}
+            variants={staggerContainer}
+          >
+            {[
+              { badge: "IVA", title: "Sin IVA en la LLC", text: "La LLC no aplica IVA en la facturación de servicios digitales, tanto a clientes finales como a clientes B2B internacionales. Estructuramos la actividad para que la facturación se realice correctamente desde la empresa americana, sin IVA, conforme a la normativa aplicable y al tipo de operación.", footer: "Tus servicios están exentos." },
+              { badge: "Impuestos", title: "0% Impuesto de Sociedades", text: "En estados como New Mexico o Wyoming, la LLC no está sujeta a impuesto de sociedades estatal. La empresa no tributa como sociedad en Estados Unidos, sino que los beneficios se atribuyen directamente al propietario, según la estructura fiscal de la LLC.", footer: "Impuesto de Sociedades al 0%." },
+              { badge: "Cuotas", title: "Sin cuota fija", text: "En Estados Unidos no existe una cuota mensual de autónomos asociada a la LLC. No hay pagos periódicos obligatorios por el simple hecho de tener la empresa activa, independientemente de que exista o no actividad. La estructura mantiene costes fijos reducidos y una gestión más ligera.", footer: "Sin cuota de autónomos." },
+              { badge: "Banca", title: "Banca internacional", text: "Te acompañamos en el proceso de apertura de cuentas bancarias en Mercury y Relay. Accede a una cuenta empresarial en USD, con capacidad para recibir y enviar transferencias internacionales y disponer de tarjeta física de débito y crédito para operar a nivel global.", footer: "Tarjeta física internacional." },
+            ].map((card, i) => (
+              <motion.div key={i} className="bg-white rounded-2xl shadow-md overflow-hidden border border-brand-dark/5 sm:border-brand-dark/5 border-brand-lime/20 flex flex-col" variants={fadeIn}>
+                <div className="p-6 flex-grow">
+                  <span className="inline-block px-3 py-1 text-xs font-bold rounded-full bg-brand-lime text-brand-dark mb-4">{card.badge}</span>
+                  <h3 className="text-xl sm:text-2xl font-black uppercase tracking-tighter text-brand-dark mb-3 leading-tight">{card.title}</h3>
+                  <p className="text-muted-foreground text-base sm:text-lg leading-relaxed">{card.text}</p>
+                </div>
+                <div className="bg-brand-lime/10 px-6 py-4 border-t border-brand-lime/20 mt-auto">
+                  <p className="text-sm font-bold text-brand-dark">{card.footer}</p>
+                </div>
               </motion.div>
             ))}
           </motion.div>
