@@ -209,13 +209,13 @@ export default function ApplicationWizard() {
     }
   };
 
-  if (isLoading || authLoading) return <div className="flex h-screen items-center justify-center bg-brand-cream"><div className="h-8 w-8 animate-spin rounded-full border-4 border-brand-dark border-t-transparent" /></div>;
-  if (!application) return <div className="flex h-screen items-center justify-center bg-brand-cream text-muted-foreground">Solicitud no encontrada</div>;
+  if (isLoading || authLoading) return <div className="flex h-screen items-center justify-center bg-white"><div className="h-8 w-8 animate-spin rounded-full border-4 border-brand-dark border-t-transparent" /></div>;
+  if (!application) return <div className="flex h-screen items-center justify-center bg-white text-muted-foreground">Solicitud no encontrada</div>;
 
   const isReadOnly = application.status !== 'draft';
 
   return (
-    <div className="min-h-screen bg-brand-cream font-sans flex flex-col">
+    <div className="min-h-screen bg-white font-sans flex flex-col">
       <Navbar />
       
       <HeroSection 
