@@ -500,18 +500,18 @@ function Soporte() {
       <div className="container max-w-7xl mx-auto px-5 sm:px-8">
         <div className="text-center mb-6 sm:mb-10 flex flex-col items-center justify-center">
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark uppercase tracking-tight text-center">
-            <span className="text-brand-lime uppercase tracking-widest text-sm font-black block mb-2 text-center">SOPORTE</span>
+            <span className="text-brand-lime uppercase tracking-widest text-sm font-black block mb-2 text-center">SOPORTE ILIMITADO</span>
             Soporte Ilimitado
           </h2>
           <p className="text-brand-lime font-black uppercase tracking-wide text-base sm:text-lg mt-1 sm:mt-2 text-center">
-            (Durante 12 meses incluido)
+            Incluido durante 12 meses
           </p>
         </div>
         <div className="grid md:grid-cols-3 gap-6 sm:gap-8 mb-8">
           {[
-            { title: "Email y WhatsApp", desc: "Atención personalizada para tus dudas operativas." },
-            { title: "Guía de bienvenida", desc: "Manual completo sobre cómo usar y mantener tu LLC." },
-            { title: "Alertas de plazos", desc: "Te avisamos de todas las obligaciones para que no olvides nada." },
+            { title: "Email y WhatsApp", desc: "Atención directa y personalizada para resolver tus dudas operativas cuando lo necesites." },
+            { title: "Guía de bienvenida", desc: "Manual claro y práctico para entender cómo funciona tu LLC y cómo mantenerla correctamente." },
+            { title: "Alertas de plazos", desc: "Te avisamos con antelación de las obligaciones y fechas clave para que no se te pase nada." },
           ].map((service, i) => (
             <div key={i} className="rounded-xl bg-white border border-brand-lime/10 p-6 shadow-sm text-center">
               <p className="font-black uppercase tracking-tight text-sm sm:text-lg text-brand-dark mb-3">{service.title}</p>
