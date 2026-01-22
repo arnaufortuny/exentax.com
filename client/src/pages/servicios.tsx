@@ -413,6 +413,55 @@ export default function Servicios() {
         </div>
       </section>
 
+      {/* FAQ Section */}
+      <section className="py-12 sm:py-24 bg-white border-t border-brand-dark/5">
+        <div className="w-full px-5 sm:px-8">
+          <motion.div 
+            className="text-center mb-8 sm:mb-16"
+            initial="initial"
+            whileInView="animate"
+            viewport={{ once: true }}
+            variants={staggerContainer}
+          >
+            <motion.h2 className="text-2xl sm:text-4xl lg:text-5xl font-black text-brand-dark uppercase tracking-tight text-center" variants={fadeIn}>
+              <span className="text-brand-lime uppercase tracking-widest text-xs sm:text-sm font-black block mb-1 sm:mb-2 text-center">FAQ</span>
+              Preguntas Frecuentes
+            </motion.h2>
+            <motion.p className="text-brand-lime font-black uppercase tracking-wide text-sm sm:text-lg mt-1 sm:mt-2 text-center" variants={fadeIn}>(Resolvemos tus dudas principales)</motion.p>
+          </motion.div>
+
+          <motion.div 
+            className="max-w-3xl mx-auto space-y-4"
+            initial="initial"
+            whileInView="animate"
+            viewport={{ once: true }}
+            variants={staggerContainer}
+          >
+            {[
+              { q: "¿Cuánto tiempo tarda en estar lista mi LLC?", a: "El proceso suele tardar entre 2 y 3 días hábiles en New Mexico y Wyoming, y hasta 5 días en Delaware." },
+              { q: "¿Necesito viajar a EE. UU. para abrir mi LLC?", a: "No, todo el proceso se realiza de forma 100% online y remota." },
+              { q: "¿Puedo abrir una cuenta bancaria desde mi país?", a: "Sí, te ayudamos a abrir cuentas en Mercury y Relay sin necesidad de viajar." }
+            ].map((faq, i) => (
+              <motion.div key={i} className="p-6 bg-brand-lime/5 rounded-2xl border border-brand-lime/10" variants={fadeIn}>
+                <p className="font-black uppercase text-brand-dark mb-2 text-sm sm:text-lg">{faq.q}</p>
+                <p className="text-muted-foreground text-xs sm:text-base leading-relaxed">{faq.a}</p>
+              </motion.div>
+            ))}
+            
+            <motion.div className="pt-8 flex justify-center" variants={fadeIn}>
+              <Link href="/faq" className="w-full sm:w-auto">
+                <Button 
+                  variant="outline" 
+                  className="border-brand-dark text-brand-dark font-black text-xs sm:text-base px-10 w-full sm:w-auto rounded-full h-12 sm:h-14 hover:bg-brand-dark hover:text-white transition-all uppercase tracking-widest shadow-md"
+                >
+                  Ver todas las preguntas frecuentes
+                </Button>
+              </Link>
+            </motion.div>
+          </motion.div>
+        </div>
+      </section>
+
       {/* 5. Soporte Directo */}
       <section className="py-12 sm:py-20 bg-white border-t border-brand-dark/5" id="soporte">
         <div className="w-full px-5 sm:px-8">
