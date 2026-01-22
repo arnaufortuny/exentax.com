@@ -54,6 +54,9 @@ export default function Home() {
             Sin IVA
           </span>
           <span className="inline-flex items-center px-2.5 py-1 sm:px-6 sm:py-3 rounded-full bg-brand-lime text-brand-dark font-black text-[9px] sm:text-base shadow-md whitespace-nowrap">
+            Precios Transparentes, Trato Cercano
+          </span>
+          <span className="inline-flex items-center px-2.5 py-1 sm:px-6 sm:py-3 rounded-full bg-brand-lime text-brand-dark font-black text-[9px] sm:text-base shadow-md whitespace-nowrap">
             Apertura Cuenta Mercury & Relay
           </span>
           <span className="inline-flex items-center px-2.5 py-1 sm:px-6 sm:py-3 rounded-full bg-brand-lime text-brand-dark font-black text-[9px] sm:text-base shadow-md whitespace-nowrap">
