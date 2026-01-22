@@ -128,7 +128,7 @@ export default function FAQ() {
       <Navbar />
 
       <HeroSection 
-        className="pt-12 sm:pt-32 lg:pt-40"
+        className="pt-8 sm:pt-32 lg:pt-40 min-h-[auto] sm:min-h-[auto]"
         title={
           <h1 className="text-xl sm:text-5xl lg:text-7xl font-black text-brand-dark uppercase tracking-tight leading-[1.1] break-words">
             PREGUNTAS <span className="text-brand-lime">FRECUENTES</span>

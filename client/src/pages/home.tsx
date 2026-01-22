@@ -47,7 +47,7 @@ export default function Home() {
     <div className="min-h-screen font-sans text-left bg-white overflow-x-hidden">
       <Navbar />
       <HeroSection 
-        className="flex flex-col items-center justify-center text-center pt-12 sm:pt-16 min-h-[85vh]"
+        className="flex flex-col items-center justify-center text-center pt-8 sm:pt-16 min-h-[auto] sm:min-h-[85vh]"
         showOverlay={false}
         title={
           <motion.div 
@@ -57,7 +57,7 @@ export default function Home() {
             variants={staggerContainer}
           >
             {/* Trustpilot above title for everyone */}
-            <motion.div className="mb-8 flex justify-center" variants={fadeIn}>
+            <motion.div className="mb-4 sm:mb-8 flex justify-center" variants={fadeIn}>
               <a href="https://es.trustpilot.com/review/easyusllc.com" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 sm:gap-4 bg-white px-2 py-1.5 sm:px-6 sm:py-3 rounded-full shadow-md border border-gray-100">
                 <img src={trustpilotLogo} alt="Trustpilot" className="h-4 sm:h-7 w-auto" />
                 <div className="flex gap-0.5 sm:gap-1">
@@ -73,7 +73,7 @@ export default function Home() {
 
             <motion.h1 
               className="font-black uppercase tracking-tighter text-brand-dark mb-2 sm:mb-4 w-full block [text-wrap:balance] [word-break:keep-all] [overflow-wrap:break-word] text-center" 
-              style={{ fontSize: 'clamp(38px, 10vw, 76px)', lineHeight: '0.9' }}
+              style={{ fontSize: 'clamp(32px, 10vw, 76px)', lineHeight: '0.9' }}
               variants={fadeIn}
             >
               Optimiza la estructura fiscal de tu negocio digital<br />
@@ -89,7 +89,7 @@ export default function Home() {
             variants={staggerContainer}
           >
             <motion.p 
-              className="text-sm sm:text-base text-brand-dark font-medium max-w-3xl mb-6 sm:mb-4 leading-relaxed text-center mx-auto px-2"
+              className="text-[11px] sm:text-base text-brand-dark font-medium max-w-3xl mb-4 sm:mb-4 leading-relaxed text-center mx-auto px-2"
               variants={fadeIn}
             >
               Para freelancers, emprendedores digitales, ecommerce y negocios de servicios online. <span className="block sm:inline font-bold">Te entregamos tu LLC en 2 días. Sin IVA. Sin Impuesto de Sociedades. Sin cuota de autónomos.</span>
@@ -120,11 +120,11 @@ export default function Home() {
               </span>
             </motion.div>
 
-            <motion.div className="flex flex-col sm:flex-row justify-center gap-2 sm:gap-3 mb-8 sm:mb-4 w-full" variants={fadeIn}>
-              <Button size="lg" onClick={() => setLocation("/servicios")} disabled={createOrderMutation.isPending} className="bg-brand-lime text-brand-dark font-black text-sm px-8 border-0 rounded-full w-full sm:w-auto h-12 shadow-md">
+            <motion.div className="flex flex-col sm:flex-row justify-center gap-2 sm:gap-3 mb-4 sm:mb-4 w-full" variants={fadeIn}>
+              <Button size="lg" onClick={() => setLocation("/servicios")} disabled={createOrderMutation.isPending} className="bg-brand-lime text-brand-dark font-black text-xs sm:text-sm px-8 border-0 rounded-full w-full sm:w-auto h-10 sm:h-12 shadow-md">
                 {createOrderMutation.isPending ? "Procesando..." : "Empieza ahora →"}
               </Button>
-              <Button size="lg" onClick={() => setLocation("/servicios")} variant="outline" className="border-brand-dark text-brand-dark font-black text-sm px-8 hover:bg-brand-dark/5 rounded-full w-full sm:w-auto h-12">
+              <Button size="lg" onClick={() => setLocation("/servicios")} variant="outline" className="border-brand-dark text-brand-dark font-black text-xs sm:text-sm px-8 hover:bg-brand-dark/5 rounded-full w-full sm:w-auto h-10 sm:h-12">
                 Conoce Nuestros Servicios
               </Button>
             </motion.div>
