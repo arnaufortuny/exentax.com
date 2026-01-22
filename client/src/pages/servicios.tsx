@@ -447,11 +447,11 @@ function AsistenciaBancaria() {
         </div>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 mb-5 sm:mb-6">
           {[
-            { title: "Mercury", desc: "Te guiamos paso a paso en la solicitud de tu cuenta empresarial en Mercury, asegurando que la información esté bien presentada." },
-            { title: "Relay", desc: "Asistencia en la apertura de cuenta en Relay Financial, una alternativa sólida para la operativa diaria de tu LLC." },
-            { title: "Soporte fintech", desc: "Te orientamos sobre otras opciones de banca digital según tu tipo de negocio y necesidades operativas." },
-            { title: "Revisión de solicitud", desc: "Revisamos tu aplicación antes de enviarla para reducir errores y aumentar las probabilidades de aprobación." },
-            { title: "Acompañamiento durante el proceso", desc: "Respondemos tus dudas y te acompañamos hasta que la cuenta quede aprobada o el proceso finalice." },
+            { title: "Mercury", desc: "Te acompañamos en todo el proceso de solicitud de cuenta en Mercury, ayudándote a presentar correctamente la información de tu LLC." },
+            { title: "Relay", desc: "Asistencia en la apertura de cuenta en Relay, una alternativa bancaria sólida para la operativa diaria de tu empresa." },
+            { title: "Estrategia bancaria", desc: "Te orientamos sobre la opción bancaria más adecuada según tu tipo de negocio y forma de operar." },
+            { title: "Preparación de la solicitud", desc: "Revisamos contigo la información antes de enviarla para evitar errores y fricciones innecesarias." },
+            { title: "Acompañamiento continuo", desc: "Te acompañamos durante el proceso y resolvemos tus dudas hasta que la solicitud queda resuelta." },
           ].map((service, i) => (
             <div key={i} className="rounded-xl bg-brand-lime/5 border border-brand-lime/10 p-4 sm:p-5 text-center">
               <p className="font-black uppercase tracking-tight text-sm sm:text-lg text-brand-dark mb-2">{service.title}</p>
