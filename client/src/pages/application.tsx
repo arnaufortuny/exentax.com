@@ -261,10 +261,10 @@ export default function ApplicationWizard() {
                                 <div className="flex gap-2">
                                   <div className="w-24">
                                     <Select defaultValue="+34">
-                                      <SelectTrigger className="rounded-2xl border-gray-100 bg-gray-50/50 h-14 focus:ring-brand-lime font-normal">
+                                      <SelectTrigger className="rounded-2xl border-gray-100 bg-white h-14 focus:ring-brand-lime font-normal">
                                         <SelectValue placeholder="+34" />
                                       </SelectTrigger>
-                                      <SelectContent>
+                                      <SelectContent className="bg-white">
                                         <SelectItem value="+34">+34 (ES)</SelectItem>
                                         <SelectItem value="+1">+1 (US)</SelectItem>
                                         <SelectItem value="+52">+52 (MX)</SelectItem>
@@ -295,11 +295,11 @@ export default function ApplicationWizard() {
                                   <FormLabel className="font-bold text-[10px] uppercase tracking-[0.2em] text-gray-400">Tipo</FormLabel>
                                   <Select onValueChange={field.onChange} defaultValue={field.value || "Calle"}>
                                     <FormControl>
-                                      <SelectTrigger className="rounded-2xl border-gray-100 bg-gray-50/50 h-14 px-6 focus:ring-brand-lime font-normal">
+                                      <SelectTrigger className="rounded-2xl border-gray-100 bg-white h-14 px-6 focus:ring-brand-lime font-normal">
                                         <SelectValue placeholder="Selecciona" />
                                       </SelectTrigger>
                                     </FormControl>
-                                    <SelectContent>
+                                    <SelectContent className="bg-white">
                                       {STREET_TYPES.map(type => (
                                         <SelectItem key={type} value={type}>{type}</SelectItem>
                                       ))}
@@ -439,11 +439,11 @@ export default function ApplicationWizard() {
                                 <FormLabel className="font-bold text-[10px] uppercase tracking-[0.2em] text-gray-400">Categoría de Negocio</FormLabel>
                                 <Select onValueChange={field.onChange} defaultValue={field.value || undefined}>
                                   <FormControl>
-                                    <SelectTrigger className="rounded-2xl border-gray-100 bg-gray-50/50 h-14 px-6 focus:ring-brand-lime font-normal">
+                                    <SelectTrigger className="rounded-2xl border-gray-100 bg-white h-14 px-6 focus:ring-brand-lime font-normal">
                                       <SelectValue placeholder="Selecciona una categoría" />
                                     </SelectTrigger>
                                   </FormControl>
-                                  <SelectContent className="max-h-[300px]">
+                                  <SelectContent className="max-h-[300px] bg-white">
                                     {BUSINESS_CATEGORIES.map(cat => (
                                       <SelectItem key={cat} value={cat}>{cat}</SelectItem>
                                     ))}
