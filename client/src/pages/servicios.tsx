@@ -139,7 +139,7 @@ export default function Servicios() {
         className="pt-24 sm:pt-32 lg:pt-40"
         title={
           <h1 className="text-4xl sm:text-5xl lg:text-7xl font-black text-brand-dark uppercase tracking-tight leading-[1.1] text-left">
-            Tu LLC en Estados Unidos, <span className="text-brand-lime">creada y gestionada con criterios profesionales, sin complicaciones y con soporte continuo.</span>
+            Constituimos tu LLC en Estados Unidos de <span className="text-brand-lime">forma simple, rápida y transparente.</span>
           </h1>
         }
         subtitle={
