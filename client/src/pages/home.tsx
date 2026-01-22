@@ -127,16 +127,16 @@ export default function Home() {
               <span className="text-brand-lime uppercase tracking-widest text-sm font-black block mb-2 text-center">PROCESO</span>
               Cómo Trabajamos
             </h2>
-            <p className="text-brand-lime font-black uppercase tracking-wide text-base sm:text-lg mt-1 sm:mt-2 text-center">(En 6 simples pasos)</p>
+            <p className="text-brand-lime font-black uppercase tracking-wide text-base sm:text-lg mt-1 sm:mt-2 text-center">(En 6 pasos sencillos)</p>
           </div>
           <div className="max-w-3xl mx-auto">
             {[
-              { num: "1", title: "Elige en que estado constituir tu LLC", text: "New Mexico, Wyoming o Delaware. Pago seguro." },
-              { num: "2", title: "Unas preguntas rapidas y esenciales", text: "5 minutos. Datos básicos de tu LLC." },
-              { num: "3", title: "Foto de tu dni o pasaporte", text: "DNI o pasaporte. Foto con móvil." },
-              { num: "4", title: "Tramitamos la constitución", text: "Secretario de Estado, EIN, todos los documentos." },
-              { num: "5", title: "Recibes tu documentación", text: "En 2-3 días hábiles todo en tu email." },
-              { num: "6", title: "Te ayudamos a abrir pasarelas y cuentas bancarias", text: "Acompañamiento en Mercury, Relay y Stripe." },
+              { num: "1", title: "Elige el estado", text: "New Mexico, Wyoming o Delaware. Te asesoramos para elegir la mejor opción." },
+              { num: "2", title: "Información básica", text: "Un formulario breve de 5 minutos con los datos esenciales de tu LLC." },
+              { num: "3", title: "Verificación de identidad", text: "DNI o pasaporte. Una foto rápida y segura desde tu móvil." },
+              { num: "4", title: "Constitución de la LLC", text: "Gestionamos todo el proceso: registro oficial, EIN y documentación completa." },
+              { num: "5", title: "Documentación en tu email", text: "En 2–3 días hábiles, recibes toda la información lista para usar." },
+              { num: "6", title: "Banca y pasarelas", text: "Te acompañamos en la apertura de cuentas y plataformas como Mercury, Relay y Stripe." },
             ].map((step, i) => (
               <div key={i} className="flex flex-col items-center gap-4 sm:gap-6 mb-6 sm:mb-10 last:mb-0">
                 <div className="flex-shrink-0 w-10 h-10 sm:w-14 sm:h-14 bg-brand-lime rounded-full flex items-center justify-center text-brand-dark font-black text-lg sm:text-2xl shadow-md">
