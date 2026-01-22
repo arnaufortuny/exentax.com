@@ -86,12 +86,18 @@ export async function registerRoutes(
         to: "afortuny07@gmail.com",
         subject: `NUEVO PEDIDO: ${product.name} - ${order.id}`,
         html: `
-          <h1>Nuevo pedido recibido</h1>
-          <p><strong>Pedido ID:</strong> ${order.id}</p>
-          <p><strong>Producto:</strong> ${product.name}</p>
-          <p><strong>Importe:</strong> ${(order.amount / 100).toFixed(2)}€</p>
-          <p><strong>Usuario ID:</strong> ${userId}</p>
-          <p><strong>Fecha:</strong> ${new Date().toLocaleString()}</p>
+          <div style="font-family: sans-serif; padding: 20px; border: 2px solid #000;">
+            <div style="background: #000; color: #d9ff00; padding: 20px; text-align: center;">
+              <h1 style="margin: 0;">LOG DE SISTEMA: NUEVO PEDIDO</h1>
+              <p style="margin: 10px 0 0 0; font-weight: bold;">PEDIDO ID: #${order.id}</p>
+            </div>
+            <div style="padding: 20px;">
+              <p><strong>PRODUCTO:</strong> ${product.name}</p>
+              <p><strong>IMPORTE:</strong> ${(order.amount / 100).toFixed(2)}€</p>
+              <p><strong>USUARIO ID:</strong> ${userId}</p>
+              <p><strong>FECHA:</strong> ${new Date().toLocaleString('es-ES', { timeZone: 'Europe/Madrid' })}</p>
+            </div>
+          </div>
         `,
       }).catch(err => console.error("Error sending admin order notification:", err));
 
@@ -282,7 +288,7 @@ export async function registerRoutes(
       res.json({ success: true });
     } catch (err) {
       console.error("Error sending contact OTP:", err);
-      res.status(400).json({ message: "Error al enviar el código" });
+      res.status(400).json({ message: "Error al enviar el código de verificación. Por favor, inténtalo de nuevo en unos minutos." });
     }
   });
 
