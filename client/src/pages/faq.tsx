@@ -143,8 +143,16 @@ export default function FAQ() {
         }
       />
 
-      <section className="py-2 sm:py-20">
-        <div className="container max-w-7xl mx-auto px-4 sm:px-8">
+      <section className="py-8 sm:py-20 bg-white border-t border-brand-dark/5">
+        <div className="container max-w-7xl mx-auto px-5 sm:px-8">
+          <div className="text-center mb-6 sm:mb-10 flex flex-col items-center justify-center">
+            <h2 className="text-2xl sm:text-4xl lg:text-5xl font-black text-brand-dark uppercase tracking-tight text-center">
+              <span className="text-brand-lime uppercase tracking-widest text-xs sm:text-sm font-black block mb-1 sm:mb-2 text-center">FAQ</span>
+              Centro de Ayuda
+            </h2>
+            <p className="hidden sm:block text-brand-lime font-black uppercase tracking-wide text-base sm:text-lg mt-1 sm:mt-2 text-center">(Todo lo que necesitas saber)</p>
+          </div>
+
           <div className="max-w-4xl mx-auto">
             <div className="mb-4 sm:mb-12 relative">
               <input
