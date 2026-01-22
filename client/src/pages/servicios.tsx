@@ -133,7 +133,7 @@ export default function Servicios() {
   };
 
   const handleSelectProduct = (productId: number) => {
-    setLocation(`/contacto`);
+    window.location.href = "/contacto";
   };
 
   const nmProduct = products?.find(p => p.name.includes("New Mexico"));
@@ -483,7 +483,7 @@ export default function Servicios() {
                                 <Button 
                                   onClick={() => {
                                     setMaintenanceDialogOpen(false);
-                                    setLocation("/contacto");
+                                    window.location.href = "/contacto";
                                   }}
                                   className="bg-brand-lime text-brand-dark font-black rounded-full h-12 sm:h-14 text-sm sm:text-lg hover:bg-brand-lime/90 shadow-md border-0 uppercase"
                                 >
