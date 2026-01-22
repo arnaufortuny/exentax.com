@@ -171,7 +171,7 @@ export default function Servicios() {
               { title: "Tarjetas físicas", desc: "Gestionamos la obtención de tarjetas físicas de débito y crédito, enviadas a tu domicilio para que puedas operar con total control." },
             ].map((service, i) => (
               <div key={i} className="rounded-xl bg-brand-lime/5 border border-brand-lime/10 p-4 sm:p-6 text-center">
-                <p className="font-black uppercase tracking-tight text-sm sm:text-lg text-brand-dark mb-1 sm:mb-3 leading-tight">{service.title}</p>
+                <p className="font-display font-black uppercase tracking-tight text-sm sm:text-lg text-brand-dark mb-1 sm:mb-3 leading-tight">{service.title}</p>
                 <p className="text-[10px] sm:text-base text-muted-foreground leading-relaxed">{service.desc}</p>
               </div>
             ))}
