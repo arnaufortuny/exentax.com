@@ -155,18 +155,18 @@ export default function Contacto() {
             >
               <h3 className="text-2xl sm:text-3xl font-black uppercase mb-8 text-brand-dark text-center">Envíanos un mensaje</h3>
               <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 sm:space-y-5">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
                     <FormField
                       control={form.control}
                       name="nombre"
                       render={({ field }) => (
-                        <FormItem>
-                          <FormLabel className="font-black uppercase text-xs tracking-widest">Nombre</FormLabel>
+                        <FormItem className="space-y-1.5 sm:space-y-2">
+                          <FormLabel className="font-black uppercase text-[10px] sm:text-xs tracking-widest opacity-70">Nombre</FormLabel>
                           <FormControl>
-                            <Input placeholder="Tu nombre" {...field} className="rounded-xl border-brand-lime/30 focus:border-brand-lime" disabled={isEmailVerified} />
+                            <Input placeholder="Tu nombre" {...field} className="rounded-xl border-brand-lime/30 focus:border-brand-lime h-11 sm:h-12" disabled={isEmailVerified} />
                           </FormControl>
-                          <FormMessage />
+                          <FormMessage className="text-[10px] sm:text-xs" />
                         </FormItem>
                       )}
                     />
@@ -174,29 +174,29 @@ export default function Contacto() {
                       control={form.control}
                       name="apellido"
                       render={({ field }) => (
-                        <FormItem>
-                          <FormLabel className="font-black uppercase text-xs tracking-widest">Apellido</FormLabel>
+                        <FormItem className="space-y-1.5 sm:space-y-2">
+                          <FormLabel className="font-black uppercase text-[10px] sm:text-xs tracking-widest opacity-70">Apellido</FormLabel>
                           <FormControl>
-                            <Input placeholder="Tu apellido" {...field} className="rounded-xl border-brand-lime/30 focus:border-brand-lime" disabled={isEmailVerified} />
+                            <Input placeholder="Tu apellido" {...field} className="rounded-xl border-brand-lime/30 focus:border-brand-lime h-11 sm:h-12" disabled={isEmailVerified} />
                           </FormControl>
-                          <FormMessage />
+                          <FormMessage className="text-[10px] sm:text-xs" />
                         </FormItem>
                       )}
                     />
                   </div>
                   
-                  <div className="flex flex-col sm:flex-row gap-4 items-end">
+                  <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 items-end">
                     <div className="flex-1 w-full">
                       <FormField
                         control={form.control}
                         name="email"
                         render={({ field }) => (
-                          <FormItem>
-                            <FormLabel className="font-black uppercase text-xs tracking-widest">Email</FormLabel>
+                          <FormItem className="space-y-1.5 sm:space-y-2">
+                            <FormLabel className="font-black uppercase text-[10px] sm:text-xs tracking-widest opacity-70">Email</FormLabel>
                             <FormControl>
-                              <Input placeholder="tu@email.com" {...field} className="rounded-xl border-brand-lime/30 focus:border-brand-lime" disabled={isEmailVerified || isOtpSent} />
+                              <Input placeholder="tu@email.com" {...field} className="rounded-xl border-brand-lime/30 focus:border-brand-lime h-11 sm:h-12" disabled={isEmailVerified || isOtpSent} />
                             </FormControl>
-                            <FormMessage />
+                            <FormMessage className="text-[10px] sm:text-xs" />
                           </FormItem>
                         )}
                       />
@@ -206,7 +206,7 @@ export default function Contacto() {
                         type="button" 
                         onClick={sendOtp} 
                         disabled={isSendingOtp || isOtpSent}
-                        className="bg-brand-lime text-brand-dark font-black rounded-full h-10 px-6 hover:bg-brand-lime/90 transition-all shrink-0 w-full sm:w-auto"
+                        className="bg-brand-lime text-brand-dark font-black rounded-full h-11 sm:h-12 px-6 hover:bg-brand-lime/90 transition-all shrink-0 w-full sm:w-auto text-xs sm:text-sm uppercase tracking-widest"
                       >
                         {isSendingOtp ? "Enviando..." : isOtpSent ? "Código Enviado" : "Enviar Código"}
                       </Button>
@@ -214,18 +214,18 @@ export default function Contacto() {
                   </div>
 
                   {isOtpSent && !isEmailVerified && (
-                    <div className="flex flex-col sm:flex-row gap-4 items-end animate-in fade-in slide-in-from-top-2">
+                    <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 items-end animate-in fade-in slide-in-from-top-2">
                       <div className="flex-1 w-full">
                         <FormField
                           control={form.control}
                           name="otp"
                           render={({ field }) => (
-                            <FormItem>
-                              <FormLabel className="font-black uppercase text-xs tracking-widest text-brand-lime">Introduce el código de 6 dígitos</FormLabel>
+                            <FormItem className="space-y-1.5 sm:space-y-2">
+                              <FormLabel className="font-black uppercase text-[10px] sm:text-xs tracking-widest text-brand-lime">Introduce el código de 6 dígitos</FormLabel>
                               <FormControl>
-                                <Input placeholder="000000" {...field} className="rounded-xl border-brand-lime focus:border-brand-lime bg-brand-lime/5 text-center text-lg tracking-widest font-black" maxLength={6} />
+                                <Input placeholder="000000" {...field} className="rounded-xl border-brand-lime focus:border-brand-lime bg-brand-lime/5 text-center text-lg tracking-[0.5em] font-black h-11 sm:h-12" maxLength={6} />
                               </FormControl>
-                              <FormMessage />
+                              <FormMessage className="text-[10px] sm:text-xs" />
                             </FormItem>
                           )}
                         />
@@ -234,7 +234,7 @@ export default function Contacto() {
                         type="button" 
                         onClick={verifyOtp} 
                         disabled={isVerifyingOtp}
-                        className="bg-brand-dark text-white font-black rounded-full h-10 px-8 hover:bg-brand-dark/90 transition-all shrink-0 w-full sm:w-auto"
+                        className="bg-brand-dark text-white font-black rounded-full h-11 sm:h-12 px-8 hover:bg-brand-dark/90 transition-all shrink-0 w-full sm:w-auto text-xs sm:text-sm uppercase tracking-widest"
                       >
                         {isVerifyingOtp ? "Verificando..." : "Verificar Email"}
                       </Button>
@@ -245,12 +245,12 @@ export default function Contacto() {
                     control={form.control}
                     name="subject"
                     render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="font-black uppercase text-xs tracking-widest">Asunto</FormLabel>
+                      <FormItem className="space-y-1.5 sm:space-y-2">
+                        <FormLabel className="font-black uppercase text-[10px] sm:text-xs tracking-widest opacity-70">Asunto</FormLabel>
                         <FormControl>
-                          <Input placeholder="¿En qué podemos ayudarte?" {...field} className="rounded-xl border-brand-lime/30 focus:border-brand-lime" disabled={!isEmailVerified} />
+                          <Input placeholder="¿En qué podemos ayudarte?" {...field} className="rounded-xl border-brand-lime/30 focus:border-brand-lime h-11 sm:h-12" disabled={!isEmailVerified} />
                         </FormControl>
-                        <FormMessage />
+                        <FormMessage className="text-[10px] sm:text-xs" />
                       </FormItem>
                     )}
                   />
@@ -258,36 +258,38 @@ export default function Contacto() {
                     control={form.control}
                     name="mensaje"
                     render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="font-black uppercase text-xs tracking-widest">Mensaje</FormLabel>
+                      <FormItem className="space-y-1.5 sm:space-y-2">
+                        <FormLabel className="font-black uppercase text-[10px] sm:text-xs tracking-widest opacity-70">Mensaje</FormLabel>
                         <FormControl>
                           <Textarea 
                             placeholder="Escribe tu mensaje aquí..." 
-                            className="min-h-[150px] rounded-xl border-brand-lime/30 focus:border-brand-lime" 
+                            className="min-h-[120px] sm:min-h-[150px] rounded-xl border-brand-lime/30 focus:border-brand-lime py-3" 
                             {...field} 
                             disabled={!isEmailVerified}
                           />
                         </FormControl>
-                        <FormMessage />
+                        <FormMessage className="text-[10px] sm:text-xs" />
                       </FormItem>
                     )}
                   />
-                  <Button 
-                    type="submit" 
-                    disabled={form.formState.isSubmitting || !isEmailVerified}
-                    className={`w-full font-black rounded-full py-6 text-lg transition-all shadow-lg ${
-                      isEmailVerified 
-                        ? "bg-brand-lime text-brand-dark hover:bg-brand-lime/90 cursor-pointer" 
-                        : "bg-gray-100 text-gray-400 cursor-not-allowed"
-                    }`}
-                  >
-                    {form.formState.isSubmitting ? "Enviando..." : "Enviar Mensaje"}
-                  </Button>
-                  {!isEmailVerified && (
-                    <p className="text-center text-xs font-bold uppercase text-brand-dark/40 tracking-widest">
-                      * Verifica tu email para habilitar el envío
-                    </p>
-                  )}
+                  <div className="pt-2">
+                    <Button 
+                      type="submit" 
+                      disabled={form.formState.isSubmitting || !isEmailVerified}
+                      className={`w-full font-black rounded-full py-6 sm:py-7 text-base sm:text-lg transition-all shadow-lg uppercase tracking-widest ${
+                        isEmailVerified 
+                          ? "bg-brand-lime text-brand-dark hover:bg-brand-lime/90 cursor-pointer" 
+                          : "bg-gray-100 text-gray-400 cursor-not-allowed border border-gray-200 shadow-none"
+                      }`}
+                    >
+                      {form.formState.isSubmitting ? "Enviando..." : "Enviar Mensaje"}
+                    </Button>
+                    {!isEmailVerified && (
+                      <p className="text-center text-[10px] font-black uppercase text-brand-dark/30 tracking-[0.2em] mt-4">
+                        * Verifica tu email para habilitar el envío
+                      </p>
+                    )}
+                  </div>
                 </form>
               </Form>
             </motion.div>
