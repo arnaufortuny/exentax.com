@@ -22,7 +22,7 @@ export function HeroSection({
     >
       <div className="container max-w-7xl mx-auto px-4 sm:px-8 relative z-10 flex flex-col items-center justify-center text-center">
         <div className="w-full text-center flex flex-col items-center justify-center">
-          <div className="w-full mb-2 sm:mb-6 flex flex-col items-center justify-center">
+          <div className="w-full mb-0 sm:mb-6 flex flex-col items-center justify-center">
             {title}
           </div>
           <div className="max-w-4xl flex flex-col items-center justify-center">

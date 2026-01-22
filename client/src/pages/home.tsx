@@ -72,7 +72,7 @@ export default function Home() {
             </motion.div>
 
             <motion.h1 
-              className="font-black uppercase tracking-tighter text-brand-dark mb-6 sm:mb-4 w-full block [text-wrap:balance] [word-break:keep-all] [overflow-wrap:break-word] text-center" 
+              className="font-black uppercase tracking-tighter text-brand-dark mb-4 sm:mb-4 w-full block [text-wrap:balance] [word-break:keep-all] [overflow-wrap:break-word] text-center" 
               style={{ fontSize: 'clamp(32px, 10vw, 76px)', lineHeight: '0.9' }}
               variants={fadeIn}
             >
