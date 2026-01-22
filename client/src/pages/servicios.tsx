@@ -377,7 +377,7 @@ export default function Servicios() {
                   <span className="w-1.5 h-6 bg-brand-lime rounded-full" />
                   {category.title}
                 </h3>
-                <div className="space-y-3">
+                <div className="space-y-3 pt-6 border-t border-brand-dark/5">
                   {category.questions.map((item, i) => (
                     <div 
                       key={i} 
