@@ -189,9 +189,9 @@ export default function Home() {
               { title: "Registered Agent", desc: "Incluimos el servicio de Registered Agent oficial durante el primer año completo, proporcionando dirección legal en Estados Unidos y recepción de notificaciones oficiales." },
               { title: "Soporte experto", desc: "Ofrecemos atención directa y personalizada para resolver tus dudas fiscales y operativas, acompañándote en el uso y mantenimiento de tu LLC." },
             ].map((service, i) => (
-              <motion.div key={i} className="rounded-xl bg-brand-lime/5 border border-brand-lime/10 p-3 sm:p-6 text-center" variants={fadeIn}>
-                <p className="font-display font-black uppercase tracking-tight text-xs sm:text-lg text-brand-dark mb-0.5 sm:mb-3 leading-tight">{service.title}</p>
-                <p className="text-[10px] sm:text-base text-muted-foreground leading-tight sm:leading-relaxed">{service.desc}</p>
+              <motion.div key={i} className="p-6 bg-brand-lime/5 rounded-2xl border border-brand-lime/10 sm:border-brand-lime/10 border-brand-lime/30 hover:bg-brand-lime/10 transition-colors text-center" variants={fadeIn}>
+                <p className="font-display font-black uppercase tracking-tighter text-lg sm:text-xl mb-3 text-brand-dark">{service.title}</p>
+                <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">{service.desc}</p>
               </motion.div>
             ))}
           </motion.div>
