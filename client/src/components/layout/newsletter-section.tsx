@@ -74,8 +74,8 @@ export function NewsletterSection() {
                 className="absolute right-1 top-1 h-8 w-8 md:h-12 md:w-12 rounded-full bg-white text-brand-dark p-0 hover:scale-105 active:scale-95 transition-all shadow-md flex items-center justify-center border border-brand-dark/10"
               >
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4 md:w-5 md:h-5">
-                  <path d="m5 12 7 7 7-7"/>
-                  <path d="M12 19V5"/>
+                  <path d="m9 18 6-6-6-6"/>
+                  <path d="M5 12h14"/>
                 </svg>
               </Button>
             </div>
