@@ -409,7 +409,7 @@ export default function Servicios() {
               { title: "PRESENTACIÓN FISCAL", desc: "Preparamos y presentamos los formularios 1120 y 5472 ante el IRS, cumpliendo con las obligaciones informativas federales aplicables a LLCs de propietarios no residentes." },
             ].map((service, i) => (
               <div key={i} className="rounded-xl bg-brand-lime/5 border border-brand-lime/10 p-4 sm:p-6 text-center">
-                <p className="font-black uppercase tracking-tight text-sm sm:text-lg text-brand-dark mb-2">{service.title}</p>
+                <p className="font-display font-black uppercase tracking-tight text-sm sm:text-lg text-brand-dark mb-2">{service.title}</p>
                 <p className="text-xs sm:text-base text-muted-foreground leading-relaxed">{service.desc}</p>
               </div>
             ))}
