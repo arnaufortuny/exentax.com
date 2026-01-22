@@ -129,20 +129,8 @@ export default function Servicios() {
     }
   };
 
-  const createOrderMutation = useMutation({
-    mutationFn: async (productId: number) => {
-      const res = await apiRequest("POST", "/api/orders", { productId });
-      return res.json();
-    },
-    onSuccess: (data) => {
-      queryClient.invalidateQueries({ queryKey: ["/api/orders"] });
-      setLocation(`/application/${data.application.id}`);
-    },
-  });
-
   const handleSelectProduct = (productId: number) => {
-    if (createOrderMutation.isPending) return;
-    createOrderMutation.mutate(productId);
+    setLocation(`/contacto?product=${productId}`);
   };
 
   const nmProduct = products?.find(p => p.name.includes("New Mexico"));
@@ -307,10 +295,9 @@ export default function Servicios() {
               <div className="p-5 sm:p-6 pt-0">
                 <Button 
                   onClick={() => handleSelectProduct(nmProduct?.id || 1)}
-                  disabled={createOrderMutation.isPending}
                   className="w-full bg-brand-lime text-brand-dark font-black rounded-full py-4 sm:py-4 text-base sm:text-base border-0 shadow-md hover:bg-brand-lime/90 transition-all transform active:scale-95 h-11 sm:h-11"
                 >
-                  {createOrderMutation.isPending && createOrderMutation.variables === (nmProduct?.id || 1) ? "Procesando..." : "Elegir New Mexico"}
+                  Elegir New Mexico
                 </Button>
               </div>
               <div className="bg-brand-cream/30 px-5 py-3 sm:px-5 sm:py-3 border-t border-brand-lime/10 mt-auto text-center">
@@ -345,10 +332,9 @@ export default function Servicios() {
               <div className="p-5 sm:p-6 pt-0">
                 <Button 
                   onClick={() => handleSelectProduct(wyProduct?.id || 2)}
-                  disabled={createOrderMutation.isPending}
                   className="w-full bg-brand-lime text-brand-dark font-black rounded-full py-4 sm:py-4 text-base sm:text-base border-0 shadow-md hover:bg-brand-lime/90 transition-all transform active:scale-95 h-11 sm:h-11"
                 >
-                  {createOrderMutation.isPending && createOrderMutation.variables === (wyProduct?.id || 2) ? "Procesando..." : "Elegir Wyoming"}
+                  Elegir Wyoming
                 </Button>
               </div>
               <div className="bg-brand-cream/30 px-5 py-3 sm:px-5 sm:py-3 border-t border-brand-lime/10 mt-auto text-center">
@@ -383,10 +369,9 @@ export default function Servicios() {
               <div className="p-5 sm:p-6 pt-0">
                 <Button 
                   onClick={() => handleSelectProduct(deProduct?.id || 3)}
-                  disabled={createOrderMutation.isPending}
                   className="w-full bg-brand-lime text-brand-dark font-black rounded-full py-4 sm:py-4 text-base sm:text-base border-0 shadow-md hover:bg-brand-lime/90 transition-all transform active:scale-95 h-11 sm:h-11"
                 >
-                  {createOrderMutation.isPending && createOrderMutation.variables === (deProduct?.id || 3) ? "Procesando..." : "Elegir Delaware"}
+                  Elegir Delaware
                 </Button>
               </div>
               <div className="bg-brand-cream/30 px-5 py-3 sm:px-5 sm:py-3 border-t border-brand-lime/10 mt-auto text-center">

@@ -6,14 +6,11 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { useEffect } from "react";
 import NotFound from "@/pages/not-found";
 import Home from "@/pages/home";
-import Dashboard from "@/pages/dashboard";
-import ApplicationWizard from "@/pages/application";
 import Legal from "@/pages/legal";
 import Servicios from "@/pages/servicios";
 import Privacidad from "@/pages/legal/privacidad";
 import Reembolsos from "@/pages/legal/reembolsos";
 import Cookies from "@/pages/legal/cookies";
-import Consulta from "@/pages/consulta";
 import Contacto from "@/pages/contacto";
 import FAQ from "@/pages/faq";
 // CookieBanner removed as requested
@@ -34,13 +31,10 @@ function Router() {
       <Route path="/servicios" component={Servicios} />
       <Route path="/faq" component={FAQ} />
       <Route path="/contacto" component={Contacto} />
-      <Route path="/dashboard" component={Dashboard} />
-      <Route path="/application/:id" component={ApplicationWizard} />
       <Route path="/legal" component={Legal} />
       <Route path="/privacidad" component={Privacidad} />
       <Route path="/reembolsos" component={Reembolsos} />
       <Route path="/cookies" component={Cookies} />
-      <Route path="/consulta" component={Consulta} />
       <Route component={NotFound} />
     </Switch>
   );
