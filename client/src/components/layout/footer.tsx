@@ -25,7 +25,7 @@ export function Footer() {
         {/* Mobile: Logo centered at top */}
         <div className="flex flex-col items-center mb-10 md:hidden">
           <p className="text-white/70 text-base text-center max-w-xs">
-            Tu LLC en Estados Unidos de forma simple, rápida y segura.
+            Tu LLC en Estados Unidos, creada y gestionada con criterios profesionales, sin complicaciones y con soporte continuo.
           </p>
         </div>
 
@@ -72,7 +72,7 @@ export function Footer() {
         <div className="hidden md:grid md:grid-cols-4 gap-10 text-left">
           <div className="flex flex-col items-start">
             <p className="text-white/70 text-base max-w-xs">
-              Tu LLC en Estados Unidos de forma simple, rápida y segura.
+              Tu LLC en Estados Unidos, creada y gestionada con criterios profesionales, sin complicaciones y con soporte continuo.
             </p>
           </div>
           
