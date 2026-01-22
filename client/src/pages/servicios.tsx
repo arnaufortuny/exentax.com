@@ -451,8 +451,7 @@ export default function Servicios() {
             <motion.div className="pt-8 flex justify-center" variants={fadeIn}>
               <Link href="/faq" className="w-full sm:w-auto px-4 sm:px-0">
                 <Button 
-                  variant="outline" 
-                  className="border-brand-dark text-brand-dark font-black text-[10px] sm:text-base px-6 sm:px-10 w-full sm:w-auto rounded-full h-12 sm:h-14 hover:bg-brand-dark hover:text-white transition-all uppercase tracking-widest shadow-md whitespace-normal sm:whitespace-nowrap leading-tight sm:leading-normal py-2 sm:py-0"
+                  className="bg-brand-lime text-brand-dark font-black text-[10px] sm:text-base px-6 sm:px-10 w-full sm:w-auto rounded-full h-12 sm:h-14 hover:bg-brand-lime/90 transition-all uppercase tracking-widest shadow-lg whitespace-normal sm:whitespace-nowrap leading-tight sm:leading-normal py-2 sm:py-0 border-0"
                 >
                   Ver todas las preguntas frecuentes
                 </Button>
