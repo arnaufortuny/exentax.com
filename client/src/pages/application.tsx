@@ -1,23 +1,30 @@
 import { useState, useEffect } from "react";
-import { useLocation, Link } from "wouter";
+import { useLocation } from "wouter";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronRight, ChevronLeft, Check, Upload, Info } from "lucide-react";
+import { ChevronRight, ChevronLeft, Check, Info } from "lucide-react";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Card, CardContent } from "@/components/ui/card";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
 import { insertLlcApplicationSchema } from "@shared/schema";
 
+// Custom schema to match both database and wizard UI
 const formSchema = insertLlcApplicationSchema.extend({
   otp: z.string().length(6, "El código debe tener 6 dígitos"),
+}).omit({ 
+  orderId: true,
+  requestCode: true,
+  submittedAt: true,
+  emailOtp: true,
+  emailOtpExpires: true,
+  emailVerified: true
 });
 
 type FormValues = z.infer<typeof formSchema>;
@@ -30,9 +37,8 @@ const STEPS = [
 ];
 
 export default function ApplicationWizard() {
-  const [location, setLocation] = useLocation();
+  const [, setLocation] = useLocation();
   const [step, setStep] = useState(0);
-  const [orderId, setOrderId] = useState<number | null>(null);
   const [appId, setAppId] = useState<number | null>(null);
   const [isOtpSent, setIsOtpSent] = useState(false);
   const [isEmailVerified, setIsEmailVerified] = useState(false);
@@ -48,12 +54,24 @@ export default function ApplicationWizard() {
       ownerEmail: "",
       ownerPhone: "",
       ownerAddress: "",
-      companyNamePrimary: "",
-      companyNameSecondary: "",
-      companyState: stateFromUrl,
-      companyActivity: "",
+      companyName: "",
+      companyNameOption2: "",
+      state: stateFromUrl,
+      companyDescription: "",
       status: "draft",
       otp: "",
+      ownerBirthDate: "",
+      ownerCity: "",
+      ownerCountry: "",
+      ownerProvince: "",
+      ownerPostalCode: "",
+      ownerIdNumber: "",
+      ownerIdType: "Passport",
+      idLater: false,
+      dataProcessingConsent: true,
+      ageConfirmation: true,
+      designator: "LLC",
+      businessCategory: "Services"
     },
   });
 
@@ -64,7 +82,6 @@ export default function ApplicationWizard() {
         const productId = stateFromUrl.includes("Wyoming") ? 2 : stateFromUrl.includes("Delaware") ? 3 : 1;
         const res = await apiRequest("POST", "/api/orders", { productId });
         const data = await res.json();
-        setOrderId(data.id);
         setAppId(data.application.id);
       } catch (err) {
         console.error("Error initializing application:", err);
@@ -74,13 +91,11 @@ export default function ApplicationWizard() {
   }, [stateFromUrl]);
 
   const nextStep = async () => {
-    const fields = step === 0 
-      ? ["ownerFullName", "ownerEmail", "ownerPhone", "ownerAddress"]
-      : step === 1
-      ? ["companyNamePrimary", "companyNameSecondary", "companyActivity"]
-      : [];
+    let fields: (keyof FormValues)[] = [];
+    if (step === 0) fields = ["ownerFullName", "ownerEmail", "ownerPhone", "ownerAddress"];
+    else if (step === 1) fields = ["companyName", "companyNameOption2", "companyDescription"];
     
-    const isValid = await form.trigger(fields as any);
+    const isValid = await form.trigger(fields);
     if (isValid) setStep(s => s + 1);
   };
 
@@ -159,14 +174,14 @@ export default function ApplicationWizard() {
                         exit={{ opacity: 0, x: -20 }}
                         className="space-y-4"
                       >
-                        <h2 className="text-2xl font-black uppercase tracking-tight text-brand-dark mb-6">Datos del Propietario</h2>
+                        <h2 className="text-2xl font-black uppercase tracking-tight text-brand-dark mb-6 text-center">Datos del Propietario</h2>
                         <FormField
                           control={form.control}
                           name="ownerFullName"
                           render={({ field }) => (
                             <FormItem>
                               <FormLabel className="font-bold text-xs uppercase tracking-widest text-gray-500">Nombre Completo</FormLabel>
-                              <FormControl><Input {...field} className="rounded-xl border-gray-200 h-12" placeholder="Tal cual aparece en tu pasaporte" /></FormControl>
+                              <FormControl><Input {...field} value={field.value || ""} className="rounded-xl border-gray-200 h-12" placeholder="Tal cual aparece en tu pasaporte" /></FormControl>
                               <FormMessage />
                             </FormItem>
                           )}
@@ -177,7 +192,7 @@ export default function ApplicationWizard() {
                           render={({ field }) => (
                             <FormItem>
                               <FormLabel className="font-bold text-xs uppercase tracking-widest text-gray-500">Email de contacto</FormLabel>
-                              <FormControl><Input {...field} type="email" className="rounded-xl border-gray-200 h-12" /></FormControl>
+                              <FormControl><Input {...field} value={field.value || ""} type="email" className="rounded-xl border-gray-200 h-12" /></FormControl>
                               <FormMessage />
                             </FormItem>
                           )}
@@ -189,7 +204,7 @@ export default function ApplicationWizard() {
                             render={({ field }) => (
                               <FormItem>
                                 <FormLabel className="font-bold text-xs uppercase tracking-widest text-gray-500">Teléfono (WhatsApp)</FormLabel>
-                                <FormControl><Input {...field} className="rounded-xl border-gray-200 h-12" placeholder="+34..." /></FormControl>
+                                <FormControl><Input {...field} value={field.value || ""} className="rounded-xl border-gray-200 h-12" placeholder="+34..." /></FormControl>
                                 <FormMessage />
                               </FormItem>
                             )}
@@ -200,12 +215,23 @@ export default function ApplicationWizard() {
                             render={({ field }) => (
                               <FormItem>
                                 <FormLabel className="font-bold text-xs uppercase tracking-widest text-gray-500">Dirección de residencia</FormLabel>
-                                <FormControl><Input {...field} className="rounded-xl border-gray-200 h-12" /></FormControl>
+                                <FormControl><Input {...field} value={field.value || ""} className="rounded-xl border-gray-200 h-12" /></FormControl>
                                 <FormMessage />
                               </FormItem>
                             )}
                           />
                         </div>
+                        <FormField
+                          control={form.control}
+                          name="ownerBirthDate"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel className="font-bold text-xs uppercase tracking-widest text-gray-500">Fecha de Nacimiento</FormLabel>
+                              <FormControl><Input {...field} value={field.value || ""} type="date" className="rounded-xl border-gray-200 h-12" /></FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
                       </motion.div>
                     )}
 
@@ -217,40 +243,40 @@ export default function ApplicationWizard() {
                         exit={{ opacity: 0, x: -20 }}
                         className="space-y-4"
                       >
-                        <h2 className="text-2xl font-black uppercase tracking-tight text-brand-dark mb-6">Detalles de la LLC</h2>
+                        <h2 className="text-2xl font-black uppercase tracking-tight text-brand-dark mb-6 text-center">Detalles de la LLC</h2>
                         <div className="p-4 bg-brand-lime/10 rounded-2xl border border-brand-lime/20 flex gap-3 mb-6">
                           <Info className="w-5 h-5 text-brand-dark shrink-0" />
                           <p className="text-sm text-brand-dark/80 font-medium">Estado seleccionado: <span className="font-black">{stateFromUrl}</span></p>
                         </div>
                         <FormField
                           control={form.control}
-                          name="companyNamePrimary"
+                          name="companyName"
                           render={({ field }) => (
                             <FormItem>
                               <FormLabel className="font-bold text-xs uppercase tracking-widest text-gray-500">Nombre deseado (Opción 1)</FormLabel>
-                              <FormControl><Input {...field} className="rounded-xl border-gray-200 h-12" placeholder="Ej: Mi Empresa LLC" /></FormControl>
+                              <FormControl><Input {...field} value={field.value || ""} className="rounded-xl border-gray-200 h-12" placeholder="Ej: Mi Empresa LLC" /></FormControl>
                               <FormMessage />
                             </FormItem>
                           )}
                         />
                         <FormField
                           control={form.control}
-                          name="companyNameSecondary"
+                          name="companyNameOption2"
                           render={({ field }) => (
                             <FormItem>
                               <FormLabel className="font-bold text-xs uppercase tracking-widest text-gray-500">Nombre alternativo (Opción 2)</FormLabel>
-                              <FormControl><Input {...field} className="rounded-xl border-gray-200 h-12" /></FormControl>
+                              <FormControl><Input {...field} value={field.value || ""} className="rounded-xl border-gray-200 h-12" /></FormControl>
                               <FormMessage />
                             </FormItem>
                           )}
                         />
                         <FormField
                           control={form.control}
-                          name="companyActivity"
+                          name="companyDescription"
                           render={({ field }) => (
                             <FormItem>
                               <FormLabel className="font-bold text-xs uppercase tracking-widest text-gray-500">Actividad de la empresa</FormLabel>
-                              <FormControl><Input {...field} className="rounded-xl border-gray-200 h-12" placeholder="Ej: Marketing Digital, Desarrollo Software..." /></FormControl>
+                              <FormControl><Input {...field} value={field.value || ""} className="rounded-xl border-gray-200 h-12" placeholder="Ej: Marketing Digital, Desarrollo Software..." /></FormControl>
                               <FormMessage />
                             </FormItem>
                           )}
@@ -284,7 +310,7 @@ export default function ApplicationWizard() {
                               render={({ field }) => (
                                 <FormItem>
                                   <FormControl>
-                                    <Input {...field} maxLength={6} className="text-center text-2xl font-black tracking-[0.5em] h-16 rounded-2xl border-2 border-brand-lime" placeholder="000000" />
+                                    <Input {...field} value={field.value || ""} maxLength={6} className="text-center text-2xl font-black tracking-[0.5em] h-16 rounded-2xl border-2 border-brand-lime" placeholder="000000" />
                                   </FormControl>
                                   <FormMessage />
                                 </FormItem>
@@ -306,12 +332,12 @@ export default function ApplicationWizard() {
                         exit={{ opacity: 0, x: -20 }}
                         className="space-y-6"
                       >
-                        <h2 className="text-2xl font-black uppercase tracking-tight text-brand-dark mb-6">Resumen de solicitud</h2>
+                        <h2 className="text-2xl font-black uppercase tracking-tight text-brand-dark mb-6 text-center">Resumen de solicitud</h2>
                         <div className="bg-gray-50 rounded-2xl p-6 space-y-3 border border-gray-100">
                           <p className="text-sm"><strong>Propietario:</strong> {form.getValues("ownerFullName")}</p>
                           <p className="text-sm"><strong>Email:</strong> {form.getValues("ownerEmail")}</p>
-                          <p className="text-sm"><strong>Estado:</strong> {form.getValues("companyState")}</p>
-                          <p className="text-sm"><strong>Nombre LLC:</strong> {form.getValues("companyNamePrimary")}</p>
+                          <p className="text-sm"><strong>Estado:</strong> {form.getValues("state")}</p>
+                          <p className="text-sm"><strong>Nombre LLC:</strong> {form.getValues("companyName")}</p>
                         </div>
                         <Button type="submit" className="w-full bg-brand-lime text-brand-dark font-black rounded-xl h-14 text-lg shadow-lg hover:bg-brand-lime/90 transform transition-all active:scale-95">
                           Finalizar Solicitud
