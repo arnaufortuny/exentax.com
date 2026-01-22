@@ -215,9 +215,9 @@ export default function Contacto() {
                         type="button" 
                         onClick={sendOtp} 
                         disabled={isSendingOtp || isOtpSent}
-                        className="bg-brand-lime text-brand-dark font-black rounded-full h-11 sm:h-12 px-6 hover:bg-brand-lime/90 transition-all shrink-0 w-full sm:w-auto text-xs sm:text-sm uppercase tracking-widest"
+                        className="bg-brand-lime text-brand-dark font-black rounded-full h-11 sm:h-12 px-6 hover:bg-brand-lime/90 transition-all shrink-0 w-full sm:w-auto text-xs sm:text-sm tracking-widest"
                       >
-                        {isSendingOtp ? "Enviando..." : isOtpSent ? "Código Enviado" : "Enviar Código"}
+                        {isSendingOtp ? "Enviando..." : isOtpSent ? "Código enviado" : "Enviar código"}
                       </Button>
                     )}
                   </div>
@@ -243,9 +243,9 @@ export default function Contacto() {
                         type="button" 
                         onClick={verifyOtp} 
                         disabled={isVerifyingOtp}
-                        className="bg-brand-dark text-white font-black rounded-full h-11 sm:h-12 px-8 hover:bg-brand-dark/90 transition-all shrink-0 w-full sm:w-auto text-xs sm:text-sm uppercase tracking-widest"
+                        className="bg-brand-dark text-white font-black rounded-full h-11 sm:h-12 px-8 hover:bg-brand-dark/90 transition-all shrink-0 w-full sm:w-auto text-xs sm:text-sm tracking-widest"
                       >
-                        {isVerifyingOtp ? "Verificando..." : "Verificar Email"}
+                        {isVerifyingOtp ? "Verificando..." : "Verificar email"}
                       </Button>
                     </div>
                   )}
@@ -285,13 +285,13 @@ export default function Contacto() {
                     <Button 
                       type="submit" 
                       disabled={form.formState.isSubmitting || !isEmailVerified}
-                      className={`w-full font-black rounded-full py-6 sm:py-7 text-base sm:text-lg transition-all shadow-lg uppercase tracking-widest ${
+                      className={`w-full font-black rounded-full py-6 sm:py-7 text-base sm:text-lg transition-all shadow-lg tracking-widest ${
                         isEmailVerified 
                           ? "bg-brand-lime text-brand-dark hover:bg-brand-lime/90 cursor-pointer" 
                           : "bg-gray-100 text-gray-400 cursor-not-allowed border border-gray-200 shadow-none"
                       }`}
                     >
-                      {form.formState.isSubmitting ? "Enviando..." : "Enviar Mensaje"}
+                      {form.formState.isSubmitting ? "Enviando..." : "Enviar mensaje"}
                     </Button>
                   </div>
                 </form>

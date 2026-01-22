@@ -601,7 +601,7 @@ export default function Servicios() {
                               />
                             </div>
                             {!isEmailVerified && (
-                              <Button type="button" onClick={sendOtp} disabled={isSendingOtp || isOtpSent} className="bg-brand-lime text-brand-dark font-black rounded-full h-11 sm:h-12 px-6 text-[10px] sm:text-xs w-full sm:w-auto uppercase">
+                              <Button type="button" onClick={sendOtp} disabled={isSendingOtp || isOtpSent} className="bg-brand-lime text-brand-dark font-black rounded-full h-11 sm:h-12 px-6 text-[10px] sm:text-xs w-full sm:w-auto">
                                 {isOtpSent ? "Enviado" : "Verificar"}
                               </Button>
                             )}
@@ -620,7 +620,7 @@ export default function Servicios() {
                                   )}
                                 />
                               </div>
-                              <Button type="button" onClick={verifyOtp} disabled={isVerifyingOtp} className="bg-brand-dark text-white font-black rounded-full h-11 sm:h-12 px-8 text-[10px] sm:text-xs w-full sm:w-auto uppercase">
+                              <Button type="button" onClick={verifyOtp} disabled={isVerifyingOtp} className="bg-brand-dark text-white font-black rounded-full h-11 sm:h-12 px-8 text-[10px] sm:text-xs w-full sm:w-auto">
                                 Validar
                               </Button>
                             </div>
