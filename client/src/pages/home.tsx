@@ -117,18 +117,7 @@ export default function Home() {
           </Button>
         </div>
 
-        {/* Mobile secondary tags (if needed, showing below button) */}
-        <div className="flex sm:hidden flex-wrap justify-center gap-1.5 mb-6 w-full px-2">
-          <span className="inline-flex items-center px-3 py-1.5 rounded-full bg-brand-lime/10 text-brand-dark font-black text-[10px] whitespace-nowrap border border-brand-lime/20">
-            Tu LLC en 2 días
-          </span>
-          <span className="inline-flex items-center px-3 py-1.5 rounded-full bg-brand-lime/10 text-brand-dark font-black text-[10px] whitespace-nowrap border border-brand-lime/20">
-            Sin IVA
-          </span>
-          <span className="inline-flex items-center px-3 py-1.5 rounded-full bg-brand-lime/10 text-brand-dark font-black text-[10px] whitespace-nowrap border border-brand-lime/20">
-            Sin cuota de autónomos
-          </span>
-        </div>
+        {/* Mobile secondary tags removed as requested */}
       </HeroSection>
       <section className="bg-white py-20 sm:py-24 border-t border-brand-dark/5" id="ventajas">
         <div className="w-full px-5 sm:px-8">

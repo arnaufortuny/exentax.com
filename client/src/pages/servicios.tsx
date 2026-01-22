@@ -65,7 +65,7 @@ export default function Servicios() {
       <Navbar />
       
       <div className="container max-w-7xl mx-auto px-4 sm:px-8 relative z-10 flex flex-col items-center justify-center text-center">
-        <div className="flex flex-wrap justify-center gap-1.5 sm:gap-3 mb-6 sm:mb-8 px-2">
+        <div className="hidden sm:flex flex-wrap justify-center gap-1.5 sm:gap-3 mb-6 sm:mb-8 px-2">
           <span className="inline-flex items-center px-3 py-2 sm:px-4 sm:py-2 rounded-full bg-brand-lime text-brand-dark font-black text-[12px] sm:text-sm shadow-sm whitespace-nowrap">
             Tu LLC en 2 días
           </span>
