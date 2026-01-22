@@ -20,8 +20,12 @@ export function HeroSection({
     <section 
       className={`relative overflow-hidden pt-10 pb-4 sm:pt-20 sm:pb-10 lg:pt-24 lg:pb-12 bg-white ${className}`}
     >
+      <div 
+        className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat opacity-40"
+        style={{ backgroundImage: `url(${heroBg})` }}
+      />
       {showOverlay && (
-        <div className="absolute inset-0 z-1 bg-white/40" />
+        <div className="absolute inset-0 z-1 bg-white/20" />
       )}
       <div className="container max-w-7xl mx-auto px-4 sm:px-8 relative z-10">
         <div className="w-full text-left">
