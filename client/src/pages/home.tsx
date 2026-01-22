@@ -33,13 +33,13 @@ export default function Home() {
       <HeroSection 
         title={
           <h1 className="font-black uppercase tracking-tighter text-brand-dark mb-2 sm:mb-4 w-full block [text-wrap:balance] [word-break:keep-all] [overflow-wrap:break-word] text-left" style={{ fontSize: 'clamp(32px, 8vw, 84px)', lineHeight: '0.95' }}>
-            REDUCIMOS TU CARGA FISCAL<br />
-            <span className="text-brand-lime">CON UNA LLC AMERICANA</span>
+            Optimiza la estructura fiscal de tu negocio digital<br />
+            <span className="text-brand-lime">con una LLC Americana</span>
           </h1>
         }
         subtitle={
           <p className="text-xs sm:text-base text-brand-dark font-medium max-w-3xl mb-3 sm:mb-4 leading-relaxed text-left">
-            Optimiza la estructura fiscal de tu negocio digital con una LLC Americana. <span className="block sm:inline font-bold">Te entregamos tu LLC en 2 días. Sin IVA. Sin Impuesto de Sociedades. Sin cuota de autónomos.</span>
+            Para freelancers, emprendedores digitales, ecommerce y negocios de servicios online. <span className="block sm:inline font-bold">Te entregamos tu LLC en 2 días. Sin IVA. Sin Impuesto de Sociedades. Sin cuota de autónomos.</span>
           </p>
         }
       >
