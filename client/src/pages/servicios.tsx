@@ -133,7 +133,7 @@ export default function Servicios() {
   };
 
   const handleSelectProduct = (productId: number) => {
-    setLocation(`/contacto?product=${productId}`);
+    setLocation(`/contacto`);
   };
 
   const nmProduct = products?.find(p => p.name.includes("New Mexico"));
@@ -446,17 +446,66 @@ export default function Servicios() {
                   </div>
                 </div>
                 <div className="p-5 sm:p-6 pt-0">
-                  <Button 
-                    onClick={() => {
-                      const element = document.getElementById('maintenance-dialog');
-                      if (element) {
-                        element.click();
-                      }
-                    }}
-                    className="w-full bg-brand-lime text-brand-dark font-black rounded-full py-4 sm:py-4 text-base sm:text-base border-0 shadow-md hover:bg-brand-lime/90 transition-all transform active:scale-95 h-11 sm:h-11"
-                  >
-                    Contratar Mantenimiento
-                  </Button>
+                  <Dialog open={maintenanceDialogOpen} onOpenChange={(open) => {
+                    setMaintenanceDialogOpen(open);
+                    if (!open) setMaintenanceStep("ask");
+                  }}>
+                    <DialogTrigger asChild>
+                      <Button 
+                        onClick={() => {
+                          setSelectedState(item.state);
+                          setMaintenanceStep("ask");
+                        }}
+                        className="w-full bg-brand-lime text-brand-dark font-black rounded-full py-4 sm:py-4 text-base sm:text-base border-0 shadow-md hover:bg-brand-lime/90 transition-all transform active:scale-95 h-11 sm:h-11"
+                      >
+                        Contratar Mantenimiento
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent className="max-w-[90vw] sm:max-w-md rounded-2xl border-brand-lime/20 font-sans p-4 sm:p-6 overflow-y-auto max-h-[90vh] bg-white">
+                      <DialogHeader>
+                        <DialogTitle className="text-xl sm:text-2xl font-black text-brand-dark text-center uppercase tracking-tighter">
+                          Mantenimiento {selectedState}
+                        </DialogTitle>
+                      </DialogHeader>
+                      <div className="py-4 sm:py-6">
+                        <AnimatePresence mode="wait">
+                          {maintenanceStep === "ask" ? (
+                            <motion.div 
+                              key="ask"
+                              initial={{ opacity: 0, x: -20 }}
+                              animate={{ opacity: 1, x: 0 }}
+                              exit={{ opacity: 0, x: 20 }}
+                              className="text-center space-y-4 sm:space-y-6"
+                            >
+                              <p className="text-base sm:text-lg font-bold text-brand-dark">¿Ya tienes una LLC constituida con nosotros o con terceros?</p>
+                              <div className="flex flex-col gap-3">
+                                <Button 
+                                  onClick={() => setLocation("/contacto")}
+                                  className="bg-brand-lime text-brand-dark font-black rounded-full h-12 sm:h-14 text-sm sm:text-lg hover:bg-brand-lime/90 shadow-md border-0 uppercase"
+                                >
+                                  Sí, ya tengo una LLC
+                                </Button>
+                                <Button 
+                                  variant="outline"
+                                  onClick={() => {
+                                    setMaintenanceDialogOpen(false);
+                                    const el = document.getElementById('pricing');
+                                    el?.scrollIntoView({ behavior: 'smooth' });
+                                  }}
+                                  className="border-brand-dark text-brand-dark font-black rounded-full h-12 sm:h-14 text-sm sm:text-lg hover:bg-brand-dark hover:text-white transition-all uppercase"
+                                >
+                                  No, quiero constituirla
+                                </Button>
+                              </div>
+                            </motion.div>
+                          ) : (
+                            /* This step is currently bypassed by redirects above, but keeping structure for future use if needed */
+                            <div />
+                          )}
+                        </AnimatePresence>
+                      </div>
+                    </DialogContent>
+                  </Dialog>
                 </div>
               </motion.div>
             ))}
@@ -504,135 +553,7 @@ export default function Servicios() {
 
       <section className="py-12 sm:py-24 bg-white border-t border-brand-dark/5">
         <div className="w-full px-5 sm:px-8">
-          <Dialog open={maintenanceDialogOpen} onOpenChange={(open) => { 
-            setMaintenanceDialogOpen(open);
-            if(!open) setMaintenanceStep("ask"); 
-          }}>
-            <DialogTrigger asChild>
-              <button id="maintenance-dialog" className="hidden" onClick={() => setMaintenanceDialogOpen(true)} />
-            </DialogTrigger>
-            <DialogContent className="max-w-[90vw] sm:max-w-md rounded-2xl border-brand-lime/20 font-sans p-4 sm:p-6 overflow-y-auto max-h-[90vh]">
-              <DialogHeader>
-                <DialogTitle className="text-xl sm:text-2xl font-black text-brand-dark text-center">
-                  Mantenimiento anual
-                </DialogTitle>
-              </DialogHeader>
-              <div className="py-4 sm:py-6">
-                <AnimatePresence mode="wait">
-                  {maintenanceStep === "ask" ? (
-                    <motion.div 
-                      key="ask"
-                      initial={{ opacity: 0, x: -20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      exit={{ opacity: 0, x: 20 }}
-                      className="text-center space-y-4 sm:space-y-6"
-                    >
-                      <p className="text-base sm:text-lg font-bold text-brand-dark">¿Ya tienes una LLC constituida con nosotros o con terceros?</p>
-                      <div className="flex flex-col gap-3">
-                        <Button 
-                          onClick={() => setMaintenanceStep("form")}
-                          className="bg-brand-lime text-brand-dark font-black rounded-full h-12 sm:h-14 text-sm sm:text-lg hover:bg-brand-lime/90 shadow-md border-0 uppercase"
-                        >
-                          Sí, ya tengo una LLC
-                        </Button>
-                        <Button 
-                          variant="outline"
-                          onClick={() => {
-                            setMaintenanceDialogOpen(false);
-                            const el = document.getElementById('pricing');
-                            el?.scrollIntoView({ behavior: 'smooth' });
-                          }}
-                          className="border-brand-dark text-brand-dark font-black rounded-full h-12 sm:h-14 text-sm sm:text-lg hover:bg-brand-dark hover:text-white transition-all uppercase"
-                        >
-                          No, quiero constituirla
-                        </Button>
-                      </div>
-                    </motion.div>
-                  ) : (
-                    <motion.div 
-                      key="form"
-                      initial={{ opacity: 0, x: 20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      exit={{ opacity: 0, x: -20 }}
-                    >
-                      <Form {...mForm}>
-                        <form onSubmit={mForm.handleSubmit(onMaintenanceSubmit)} className="space-y-4">
-                          <FormField
-                            control={mForm.control}
-                            name="nombre"
-                            render={({ field }) => (
-                              <FormItem className="space-y-1">
-                                <FormLabel className="font-black text-[10px] sm:text-xs uppercase opacity-70">Nombre completo</FormLabel>
-                                <FormControl><Input {...field} className="rounded-xl h-11 sm:h-12 text-sm" /></FormControl>
-                                <FormMessage className="text-[10px]" />
-                              </FormItem>
-                            )}
-                          />
-                          <div className="flex flex-col sm:flex-row gap-3 sm:gap-2 items-start sm:items-end">
-                            <div className="flex-1 w-full">
-                              <FormField
-                                control={mForm.control}
-                                name="email"
-                                render={({ field }) => (
-                                  <FormItem className="space-y-1">
-                                    <FormLabel className="font-black text-[10px] sm:text-xs uppercase opacity-70">Email</FormLabel>
-                                    <FormControl><Input {...field} disabled={isEmailVerified || isOtpSent} className="rounded-xl h-11 sm:h-12 text-sm" /></FormControl>
-                                    <FormMessage className="text-[10px]" />
-                                  </FormItem>
-                                )}
-                              />
-                            </div>
-                            {!isEmailVerified && (
-                              <Button type="button" onClick={sendOtp} disabled={isSendingOtp || isOtpSent} className="bg-brand-lime text-brand-dark font-black rounded-full h-11 sm:h-12 px-6 text-[10px] sm:text-xs w-full sm:w-auto">
-                                {isOtpSent ? "Enviado" : "Verificar"}
-                              </Button>
-                            )}
-                          </div>
-                          {isOtpSent && !isEmailVerified && (
-                            <div className="flex flex-col sm:flex-row gap-3 sm:gap-2 items-start sm:items-end">
-                              <div className="flex-1 w-full">
-                                <FormField
-                                  control={mForm.control}
-                                  name="otp"
-                                  render={({ field }) => (
-                                    <FormItem className="space-y-1">
-                                      <FormControl><Input placeholder="000000" {...field} className="rounded-xl h-11 sm:h-12 text-center tracking-[0.5em] font-black" maxLength={6} /></FormControl>
-                                      <FormMessage className="text-[10px]" />
-                                    </FormItem>
-                                  )}
-                                />
-                              </div>
-                              <Button type="button" onClick={verifyOtp} disabled={isVerifyingOtp} className="bg-brand-dark text-white font-black rounded-full h-11 sm:h-12 px-8 text-[10px] sm:text-xs w-full sm:w-auto">
-                                Validar
-                              </Button>
-                            </div>
-                          )}
-                          <FormField
-                            control={mForm.control}
-                            name="mensaje"
-                            render={({ field }) => (
-                              <FormItem className="space-y-1">
-                                <FormLabel className="font-black text-[10px] sm:text-xs uppercase opacity-70">¿Qué necesitas para tu LLC?</FormLabel>
-                                <FormControl><Textarea {...field} placeholder="Nombre de tu LLC, estado..." className="rounded-xl min-h-[80px] sm:min-h-[100px] text-sm" /></FormControl>
-                                <FormMessage className="text-[10px]" />
-                              </FormItem>
-                            )}
-                          />
-                          <Button 
-                            type="submit" 
-                            disabled={!isEmailVerified}
-                            className={`w-full font-black rounded-full h-12 sm:h-14 text-sm sm:text-lg shadow-lg uppercase ${isEmailVerified ? "bg-brand-lime text-brand-dark hover:bg-brand-lime/90" : "bg-gray-100 text-gray-400 cursor-not-allowed border border-gray-200"}`}
-                          >
-                            Solicitar mantenimiento
-                          </Button>
-                        </form>
-                      </Form>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
-            </DialogContent>
-          </Dialog>
+          {/* Main Maintenance Dialog handled within cards above */}
 
           <motion.div 
             className="text-center mb-0 sm:mb-16 mt-0"
