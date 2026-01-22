@@ -185,7 +185,7 @@ export default function Home() {
             <motion.h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark uppercase tracking-tight mb-4 text-center" variants={fadeIn}>
               <span className="text-brand-lime uppercase tracking-widest text-sm font-black block mb-2 text-center">PROCESO</span>
               Cómo Trabajamos
-            </h2>
+            </motion.h2>
             <motion.p className="text-brand-lime font-black uppercase tracking-wide text-base sm:text-lg mt-1 sm:mt-2 text-center" variants={fadeIn}>(En 6 pasos sencillos)</motion.p>
           </motion.div>
           <motion.div 
