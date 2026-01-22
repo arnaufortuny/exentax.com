@@ -72,7 +72,7 @@ export default function Home() {
             </motion.div>
 
             <motion.h1 
-              className="font-black uppercase tracking-tighter text-brand-dark mb-12 sm:mb-4 w-full block [text-wrap:balance] [word-break:keep-all] [overflow-wrap:break-word] text-center" 
+              className="font-black uppercase tracking-tighter text-brand-dark mb-6 sm:mb-4 w-full block [text-wrap:balance] [word-break:keep-all] [overflow-wrap:break-word] text-center" 
               style={{ fontSize: 'clamp(32px, 10vw, 76px)', lineHeight: '0.9' }}
               variants={fadeIn}
             >
@@ -121,10 +121,10 @@ export default function Home() {
             </motion.div>
 
             <motion.div className="flex flex-col sm:flex-row justify-center gap-2 sm:gap-3 mb-4 sm:mb-4 w-full" variants={fadeIn}>
-              <Button size="lg" onClick={() => setLocation("/servicios")} disabled={createOrderMutation.isPending} className="bg-brand-lime text-brand-dark font-black text-xs sm:text-sm px-8 border-0 rounded-full w-full sm:w-auto h-10 sm:h-12 shadow-md">
+              <Button size="lg" onClick={() => setLocation("/servicios")} disabled={createOrderMutation.isPending} className="bg-brand-lime text-brand-dark font-black text-sm sm:text-sm px-8 border-0 rounded-full w-full sm:w-auto h-12 sm:h-12 shadow-md">
                 {createOrderMutation.isPending ? "Procesando..." : "Empieza ahora →"}
               </Button>
-              <Button size="lg" onClick={() => setLocation("/servicios")} variant="outline" className="border-brand-dark text-brand-dark font-black text-xs sm:text-sm px-8 hover:bg-brand-dark/5 rounded-full w-full sm:w-auto h-10 sm:h-12">
+              <Button size="lg" onClick={() => setLocation("/servicios")} variant="outline" className="border-brand-dark text-brand-dark font-black text-sm sm:text-sm px-8 hover:bg-brand-dark/5 rounded-full w-full sm:w-auto h-12 sm:h-12">
                 Conoce Nuestros Servicios
               </Button>
             </motion.div>
