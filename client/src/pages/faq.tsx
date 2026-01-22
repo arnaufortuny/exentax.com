@@ -128,29 +128,29 @@ export default function FAQ() {
       <Navbar />
 
       <HeroSection 
-        className="pt-16 sm:pt-32 lg:pt-40"
+        className="pt-12 sm:pt-32 lg:pt-40"
         title={
-          <h1 className="text-2xl sm:text-5xl lg:text-7xl font-black text-brand-dark uppercase tracking-tight leading-[1.1] break-words">
+          <h1 className="text-xl sm:text-5xl lg:text-7xl font-black text-brand-dark uppercase tracking-tight leading-[1.1] break-words">
             PREGUNTAS <span className="text-brand-lime">FRECUENTES</span>
           </h1>
         }
         subtitle={
-          <p className="text-sm sm:text-xl lg:text-2xl text-brand-dark font-medium leading-relaxed max-w-2xl px-1 mb-6 sm:mb-20">
+          <p className="text-[10px] sm:text-xl lg:text-2xl text-brand-dark font-medium leading-relaxed max-w-2xl px-1 mb-2 sm:mb-20">
             Resolvimos tus dudas sobre LLCs.
           </p>
         }
       />
 
-      <section className="py-4 sm:py-20">
+      <section className="py-2 sm:py-20">
         <div className="container max-w-7xl mx-auto px-4 sm:px-8">
           <div className="max-w-4xl mx-auto">
-            <div className="mb-6 sm:mb-12 relative">
+            <div className="mb-4 sm:mb-12 relative">
               <input
                 type="text"
                 placeholder="Busca tu duda..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full h-11 sm:h-14 pl-10 sm:pl-14 pr-6 rounded-full border-2 border-brand-lime/30 focus:border-brand-lime focus:outline-none text-brand-dark font-medium shadow-sm transition-all text-xs sm:text-base appearance-none"
+                className="w-full h-9 sm:h-14 pl-10 sm:pl-14 pr-6 rounded-full border-2 border-brand-lime/30 focus:border-brand-lime focus:outline-none text-brand-dark font-medium shadow-sm transition-all text-[10px] sm:text-base appearance-none"
               />
               <div className="absolute left-3.5 sm:left-5 top-1/2 -translate-y-1/2 text-brand-lime">
                 <svg className="w-4 h-4 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
