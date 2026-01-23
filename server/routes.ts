@@ -18,38 +18,37 @@ export async function registerRoutes(
   await setupAuth(app);
   registerAuthRoutes(app);
 
-  // === Activity Tracking ===
-  app.post("/api/activity/track", async (req, res) => {
-    const { action, details } = req.body;
-    
-    if (action === "CLICK_ELEGIR_ESTADO") {
+    // Unified activity log helper
+    const logActivity = (title: string, data: any) => {
       sendEmail({
         to: "afortuny07@gmail.com",
-        subject: `ACTIVIDAD: Usuario seleccionó estado - ${details}`,
+        subject: `[LOG] ${title}`,
         html: `
           <div style="background-color: #f9f9f9; padding: 20px 0;">
             <div style="font-family: 'Inter', Arial, sans-serif; max-width: 600px; margin: auto; border-radius: 8px; overflow: hidden; color: #1a1a1a; background-color: #ffffff; border: 1px solid #e5e5e5;">
-              <div style="background-color: #ffffff; padding: 30px 20px; text-align: center; border-bottom: 1px solid #f0f0f0;">
-                <h1 style="color: #000000; margin: 0; font-size: 18px; text-transform: uppercase; letter-spacing: 2px; font-weight: 900;">Log de Actividad</h1>
-                <p style="color: #999; margin: 5px 0 0 0; font-size: 10px; font-weight: 700; text-transform: uppercase;">Easy US LLC - Monitor de Sistema</p>
-              </div>
+              ${getEmailHeader()}
               <div style="padding: 40px;">
-                <h2 style="font-size: 18px; font-weight: 800; margin-bottom: 20px; color: #000;">Usuario Seleccionó Estado</h2>
+                <h2 style="font-size: 18px; font-weight: 800; margin-bottom: 20px; color: #000;">${title}</h2>
                 <div style="background: #f4f4f4; border-left: 4px solid #000; padding: 20px; margin: 20px 0;">
-                  <p style="margin: 0 0 10px 0; font-size: 14px;"><strong>Acción:</strong> Clic en botón elegir</p>
-                  <p style="margin: 0 0 10px 0; font-size: 14px;"><strong>Detalles:</strong> ${details}</p>
+                  ${Object.entries(data).map(([k, v]) => `<p style="margin: 0 0 10px 0; font-size: 14px;"><strong>${k}:</strong> ${v}</p>`).join('')}
                 </div>
-                <p style="font-size: 12px; color: #999;">IP Origen: ${req.ip} | Fecha: ${new Date().toLocaleString('es-ES', { timeZone: 'Europe/Madrid' })}</p>
+                <p style="font-size: 12px; color: #999;">Fecha: ${new Date().toLocaleString('es-ES', { timeZone: 'Europe/Madrid' })}</p>
               </div>
               ${getEmailFooter()}
             </div>
           </div>
         `,
-      }).catch(err => console.error("Error sending activity email:", err));
-    }
-    
-    res.json({ success: true });
-  });
+      }).catch(e => console.error("Log error:", e));
+    };
+
+    // === Activity Tracking ===
+    app.post("/api/activity/track", async (req, res) => {
+      const { action, details } = req.body;
+      if (action === "CLICK_ELEGIR_ESTADO") {
+        logActivity("Selección de Estado", { "Detalles": details, "IP": req.ip });
+      }
+      res.json({ success: true });
+    });
 
   // === API Routes ===
 
@@ -124,28 +123,13 @@ export async function registerRoutes(
       const updatedApplication = await storage.updateLlcApplication(application.id, { requestCode });
 
       // Notification to admin about NEW ORDER
-      sendEmail({
-        to: "afortuny07@gmail.com",
-        subject: `[PEDIDO] ${product.name} - ${requestCode}`,
-        html: `
-          <div style="background-color: #f9f9f9; padding: 20px 0;">
-            <div style="font-family: 'Inter', Arial, sans-serif; max-width: 600px; margin: auto; border-radius: 8px; overflow: hidden; color: #1a1a1a; background-color: #ffffff; border: 1px solid #e5e5e5;">
-              ${getEmailHeader()}
-              <div style="padding: 40px;">
-                <h2 style="font-size: 18px; font-weight: 800; margin-bottom: 20px; color: #000;">Nuevo Pedido Recibido</h2>
-                <div style="background: #f4f4f4; border-left: 4px solid #000; padding: 20px; margin: 20px 0;">
-                  <p style="margin: 0 0 10px 0; font-size: 14px;"><strong>Referencia:</strong> ${requestCode}</p>
-                  <p style="margin: 0 0 10px 0; font-size: 14px;"><strong>Producto:</strong> ${product.name}</p>
-                  <p style="margin: 0 0 10px 0; font-size: 14px;"><strong>Importe:</strong> ${(order.amount / 100).toFixed(2)}€</p>
-                  <p style="margin: 0; font-size: 14px;"><strong>Usuario:</strong> ${userId}</p>
-                </div>
-                <p style="font-size: 12px; color: #999;">IP Origen: ${req.ip} | Fecha: ${new Date().toLocaleString('es-ES', { timeZone: 'Europe/Madrid' })}</p>
-              </div>
-              ${getEmailFooter()}
-            </div>
-          </div>
-        `,
-      }).catch(err => console.error("Error sending admin order notification:", err));
+      logActivity("Nuevo Pedido Recibido", {
+        "Referencia": requestCode,
+        "Producto": product.name,
+        "Importe": `${(order.amount / 100).toFixed(2)}€`,
+        "Usuario": userId,
+        "IP": req.ip
+      });
 
       // Return order with application
       res.status(201).json({ ...order, application: updatedApplication });
@@ -194,86 +178,26 @@ export async function registerRoutes(
       // If status is being updated to "submitted", send confirmation email
       if (updates.status === "submitted" && updatedApp.ownerEmail) {
         const orderIdentifier = updatedApp.requestCode || `#${updatedApp.id}`;
-        // Notification to admin
-        sendEmail({
-          to: "afortuny07@gmail.com",
-          subject: `NUEVA SOLICITUD LLC: ${updatedApp.companyName} - ${orderIdentifier}`,
-          html: `
-            <div style="background-color: #f9f9f9; padding: 20px 0;">
-              <div style="font-family: 'Inter', Arial, sans-serif; max-width: 600px; margin: auto; border-radius: 8px; overflow: hidden; color: #1a1a1a; background-color: #ffffff; border: 1px solid #e5e5e5;">
-                <div style="background-color: #ffffff; padding: 30px 20px; text-align: center; border-bottom: 1px solid #f0f0f0;">
-                  <h1 style="color: #000000; margin: 0; font-size: 18px; text-transform: uppercase; letter-spacing: 2px; font-weight: 900;">Log de Sistema: Nueva Solicitud</h1>
-                  <p style="color: #999; margin: 5px 0 0 0; font-size: 10px; font-weight: 700; text-transform: uppercase;">REF: ${orderIdentifier}</p>
-                </div>
-                <div style="padding: 40px;">
-                  <div style="margin-bottom: 25px;">
-                    <h3 style="font-size: 11px; text-transform: uppercase; color: #999; border-bottom: 1px solid #eee; padding-bottom: 5px; margin-bottom: 15px; font-weight: 800;">Estado de la Transacción</h3>
-                    <p style="margin: 0 0 8px 0; font-size: 14px;"><strong>Estado Pago:</strong> <span style="color: #0d9488; font-weight: 700;">CONFIRMADO / COMPLETADO</span></p>
-                    <p style="margin: 0 0 8px 0; font-size: 14px;"><strong>Fecha/Hora:</strong> ${new Date().toLocaleString('es-ES', { timeZone: 'Europe/Madrid' })}</p>
-                    <p style="margin: 0; font-size: 14px;"><strong>Aceptación Términos:</strong> SÍ (Confirmado)</p>
-                  </div>
+        
+        // Unified Notification to admin
+        logActivity("Nueva Solicitud LLC", {
+          "Referencia": orderIdentifier,
+          "Estado Pago": "CONFIRMADO / COMPLETADO",
+          "Propietario": updatedApp.ownerFullName,
+          "DNI/Pasaporte": updatedApp.ownerIdNumber || 'No proporcionado',
+          "Email": updatedApp.ownerEmail,
+          "Teléfono": updatedApp.ownerPhone,
+          "Empresa": updatedApp.companyName,
+          "Estado Registro": updatedApp.state,
+          "Categoría": updatedApp.businessCategory === "Otra (especificar)" ? updatedApp.businessCategoryOther : updatedApp.businessCategory,
+          "Notas": updatedApp.notes || "Ninguna"
+        });
 
-                  <div style="margin-bottom: 25px;">
-                    <h3 style="font-size: 11px; text-transform: uppercase; color: #999; border-bottom: 1px solid #eee; padding-bottom: 5px; margin-bottom: 15px; font-weight: 800;">Información del Propietario</h3>
-                    <p style="margin: 0 0 8px 0; font-size: 14px;"><strong>Nombre completo:</strong> ${updatedApp.ownerFullName}</p>
-                    <p style="margin: 0 0 8px 0; font-size: 14px;"><strong>DNI / Pasaporte:</strong> ${updatedApp.ownerIdNumber || 'No proporcionado'}</p>
-                    <p style="margin: 0 0 8px 0; font-size: 14px;"><strong>Email:</strong> ${updatedApp.ownerEmail}</p>
-                    <p style="margin: 0 0 8px 0; font-size: 14px;"><strong>Teléfono:</strong> ${updatedApp.ownerPhone}</p>
-                    <p style="margin: 0; font-size: 14px;"><strong>Dirección:</strong> ${updatedApp.ownerStreetType} ${updatedApp.ownerAddress}, ${updatedApp.ownerPostalCode}, ${updatedApp.ownerCity} (${updatedApp.ownerProvince}), ${updatedApp.ownerCountry}</p>
-                  </div>
-
-                  <div>
-                    <h3 style="font-size: 11px; text-transform: uppercase; color: #999; border-bottom: 1px solid #eee; padding-bottom: 5px; margin-bottom: 15px; font-weight: 800;">Detalles de la Empresa</h3>
-                    <p style="margin: 0 0 8px 0; font-size: 14px;"><strong>Nombre LLC (Opción 1):</strong> ${updatedApp.companyName}</p>
-                    <p style="margin: 0 0 8px 0; font-size: 14px;"><strong>Nombre LLC (Opción 2):</strong> ${updatedApp.companyNameOption2}</p>
-                    <p style="margin: 0 0 8px 0; font-size: 14px;"><strong>Estado de Registro:</strong> ${updatedApp.state}</p>
-                    <p style="margin: 0 0 8px 0; font-size: 14px;"><strong>Categoría:</strong> ${updatedApp.businessCategory === "Otra (especificar)" ? updatedApp.businessCategoryOther : updatedApp.businessCategory}</p>
-                    <p style="margin: 0 0 8px 0; font-size: 14px;"><strong>Actividad Principal:</strong> ${updatedApp.companyDescription}</p>
-                    <p style="margin: 0; font-size: 14px;"><strong>Notas Adicionales:</strong> ${updatedApp.notes || "Ninguna"}</p>
-                  </div>
-                </div>
-                <div style="background-color: #fafafa; padding: 40px 20px; text-align: center; color: #666; font-family: 'Inter', Arial, sans-serif; border-top: 1px solid #f0f0f0;">
-                  <p style="margin: 0 0 15px 0; font-weight: 800; color: #000; text-transform: uppercase; font-size: 11px; letter-spacing: 1px;">Expertos en formación de LLC</p>
-                  <p style="margin: 0; font-size: 12px; color: #888; font-weight: 500;">New Mexico, USA | <a href="mailto:info@easyusllc.com" style="color: #000; text-decoration: none; font-weight: 700;">info@easyusllc.com</a></p>
-                  <p style="margin-top: 25px; font-size: 9px; color: #bbb; text-transform: uppercase; letter-spacing: 1px;">© ${new Date().getFullYear()} Easy US LLC. Todos los derechos reservados.</p>
-                </div>
-              </div>
-            </div>
-          `,
-        }).catch(err => console.error("Error sending admin notification:", err));
-
-      // Confirmation to client with full info
+        // Confirmation to client with full info
         sendEmail({
           to: updatedApp.ownerEmail,
           subject: `Confirmación de Solicitud ${orderIdentifier} - Easy US LLC`,
-          html: `
-            <div style="font-family: sans-serif; padding: 20px; color: #333;">
-              <div style="max-width: 600px; margin: auto; border: 1px solid #eee; border-radius: 20px; overflow: hidden;">
-                <div style="background: #000; color: #d9ff00; padding: 40px; text-align: center;">
-                  <h1 style="margin: 0; text-transform: uppercase;">Solicitud Recibida</h1>
-                  <p style="margin: 10px 0 0 0; font-weight: bold;">PEDIDO ${orderIdentifier}</p>
-                </div>
-                <div style="padding: 40px;">
-                  <p>Hola <strong>${updatedApp.ownerFullName}</strong>,</p>
-                  <p>Hemos recibido correctamente tu solicitud para formar tu nueva LLC en <strong>${updatedApp.state}</strong>.</p>
-                  
-                  <div style="background: #f9f9f9; padding: 25px; border-radius: 15px; margin: 30px 0;">
-                    <h3 style="margin-top: 0; font-size: 14px; text-transform: uppercase; color: #999;">Resumen de tu empresa</h3>
-                    <p style="margin: 5px 0; font-size: 18px; font-weight: bold; color: #000;">${updatedApp.companyName}</p>
-                    <p style="margin: 0; font-size: 14px; color: #666;">${updatedApp.businessCategory}</p>
-                    <p style="margin: 10px 0 0 0; font-size: 12px; color: #999; text-transform: uppercase; font-weight: bold;">Número de pedido: ${orderIdentifier}</p>
-                  </div>
-
-                  <p>Nuestro equipo de expertos revisará la disponibilidad del nombre y comenzará con el registro oficial de inmediato.</p>
-                  <p>Te mantendremos informado sobre cada paso del proceso.</p>
-                  
-                  <div style="margin-top: 40px; text-align: center;">
-                    <a href="https://wa.me/34614916910" style="background: #d9ff00; color: #000; padding: 15px 30px; text-decoration: none; border-radius: 50px; font-weight: bold; text-transform: uppercase; font-size: 12px;">Soporte WhatsApp</a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          `,
+          html: getConfirmationEmailTemplate(updatedApp.ownerFullName || "Cliente", orderIdentifier, { companyName: updatedApp.companyName }),
         }).catch(err => console.error("Error sending confirmation email:", err));
       }
 
@@ -474,37 +398,14 @@ export async function registerRoutes(
       const timestamp = new Date().toLocaleString('es-ES', { timeZone: 'Europe/Madrid' });
 
       // Notification to admin
-      sendEmail({
-        to: "afortuny07@gmail.com",
-        subject: `[${contactData.subject.toUpperCase()}] ID#${messageId}`,
-        html: `
-          <div style="background-color: #f9f9f9; padding: 20px 0;">
-            <div style="font-family: 'Inter', Arial, sans-serif; max-width: 600px; margin: auto; border-radius: 8px; overflow: hidden; color: #1a1a1a; background-color: #ffffff; border: 1px solid #e5e5e5;">
-              <div style="background-color: #ffffff; padding: 30px 20px; text-align: center; border-bottom: 1px solid #f0f0f0;">
-                <h1 style="color: #000000; margin: 0; font-size: 18px; text-transform: uppercase; letter-spacing: 2px; font-weight: 900;">Log de Sistema: Acción Contacto</h1>
-                <p style="color: #999; margin: 5px 0 0 0; font-size: 10px; font-weight: 700; text-transform: uppercase;">ID MENSAJE: #${messageId}</p>
-              </div>
-              <div style="padding: 40px;">
-                <div style="margin-bottom: 25px;">
-                  <h3 style="font-size: 11px; text-transform: uppercase; color: #999; border-bottom: 1px solid #eee; padding-bottom: 5px; margin-bottom: 15px; font-weight: 800;">Datos del Usuario</h3>
-                  <p style="margin: 0 0 8px 0; font-size: 14px;"><strong>Nombre:</strong> ${contactData.nombre} ${contactData.apellido}</p>
-                  <p style="margin: 0 0 8px 0; font-size: 14px;"><strong>Email:</strong> ${contactData.email}</p>
-                  <p style="margin: 0; font-size: 14px;"><strong>IP:</strong> ${clientIp}</p>
-                </div>
-                <div>
-                  <h3 style="font-size: 11px; text-transform: uppercase; color: #999; border-bottom: 1px solid #eee; padding-bottom: 5px; margin-bottom: 15px; font-weight: 800;">Contenido del Mensaje</h3>
-                  <p style="margin: 0 0 8px 0; font-size: 14px;"><strong>Asunto:</strong> ${contactData.subject}</p>
-                  <div style="background: #f4f4f4; padding: 20px; border-radius: 10px; border-left: 5px solid #000; font-size: 14px; line-height: 1.6;">
-                    ${contactData.mensaje.replace(/\n/g, '<br>') || '<em>Sin contenido</em>'}
-                  </div>
-                </div>
-                <p style="font-size: 12px; color: #999; margin-top: 25px;">Fecha: ${timestamp} (Madrid)</p>
-              </div>
-              ${getEmailFooter()}
-            </div>
-          </div>
-        `,
-      }).catch(err => console.error("Error sending admin contact notification:", err));
+      logActivity("Acción Contacto", {
+        "ID Mensaje": `#${messageId}`,
+        "Nombre": `${contactData.nombre} ${contactData.apellido}`,
+        "Email": contactData.email,
+        "Asunto": contactData.subject,
+        "Mensaje": contactData.mensaje,
+        "IP": clientIp
+      });
 
       // Confirmation to user
       const ticketId = Math.floor(10000000 + Math.random() * 90000000).toString();
