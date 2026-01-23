@@ -329,7 +329,7 @@ export default function ApplicationWizard() {
                       <div className={`w-10 h-10 rounded-full flex items-center justify-center font-black text-sm shrink-0 transition-all ${
                         step >= i ? 'bg-accent text-primary' : 'bg-gray-100 text-gray-400'
                       }`}>
-                        {step > i ? <div className="w-4 h-4 rounded-full bg-primary" /> : s.n}
+                        {step > i ? <Check className="w-5 h-5 text-primary stroke-[3]" /> : s.n}
                       </div>
                       <div className="flex-1">
                         <span className={`text-[11px] uppercase font-black tracking-widest block ${
