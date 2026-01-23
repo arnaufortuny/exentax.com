@@ -253,23 +253,28 @@ export async function registerRoutes(
 
   // OTP Endpoints
   app.post("/api/llc/:id/send-otp", async (req, res) => {
-    const appId = Number(req.params.id);
-    const { email } = req.body;
-    
-    if (!email) return res.status(400).json({ message: "Email is required" });
-    
-    const otp = Math.floor(100000 + Math.random() * 900000).toString();
-    const expires = new Date(Date.now() + 10 * 60 * 1000); // 10 minutes
-    
-    await storage.setLlcApplicationOtp(appId, otp, expires);
-    
-    await sendEmail({
-      to: email,
-      subject: "Código de verificación - Easy US LLC",
-      html: getOtpEmailTemplate(otp),
-    });
-    
-    res.json({ success: true });
+    try {
+      const appId = Number(req.params.id);
+      const { email } = req.body;
+      
+      if (!email) return res.status(400).json({ message: "Email is required" });
+      
+      const otp = Math.floor(100000 + Math.random() * 900000).toString();
+      const expires = new Date(Date.now() + 10 * 60 * 1000); // 10 minutes
+      
+      await storage.setLlcApplicationOtp(appId, otp, expires);
+      
+      await sendEmail({
+        to: email,
+        subject: "Código de verificación - Easy US LLC",
+        html: getOtpEmailTemplate(otp),
+      });
+      
+      res.json({ success: true });
+    } catch (error) {
+      console.error("Error sending LLC OTP:", error);
+      res.status(500).json({ message: "Error al enviar el código de verificación" });
+    }
   });
 
   app.post("/api/llc/:id/verify-otp", async (req, res) => {
