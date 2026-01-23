@@ -142,23 +142,23 @@ export default function Contacto() {
   }, [form]);
 
   return (
-    <div className="min-h-screen bg-white font-sans text-left overflow-x-hidden w-full relative">
+    <div className="min-h-screen bg-background font-sans text-left overflow-x-hidden w-full relative">
       <Navbar />
       <HeroSection 
         className="flex flex-col items-center justify-center text-center pt-24 pb-8 sm:pt-32 lg:pt-40 min-h-[300px] sm:min-h-[auto] w-full"
         showOverlay={false}
         title={
-          <h1 className="text-4xl sm:text-5xl lg:text-7xl font-black text-brand-dark uppercase tracking-tight leading-[1.1] text-center mb-2">
+          <h1 className="text-4xl sm:text-5xl lg:text-7xl font-black text-primary uppercase tracking-tight leading-[1.1] text-center mb-2">
             Contacto
           </h1>
         }
         subtitle={
-          <p className="text-[13px] sm:text-xl lg:text-2xl text-brand-dark font-medium leading-relaxed max-w-2xl text-center mb-4 sm:mb-20 mx-auto px-2">
+          <p className="text-[13px] sm:text-xl lg:text-2xl text-primary font-medium leading-relaxed max-w-2xl text-center mb-4 sm:mb-20 mx-auto px-2">
             ¿Tienes dudas antes de constituir tu LLC o necesitas aclarar algún punto? Escríbenos y te respondemos en menos de 24h.
           </p>
         }
       />
-      <section className="py-8 sm:py-20 bg-white border-t border-brand-dark/5">
+      <section className="py-8 sm:py-20 bg-background border-t border-primary/5">
         <div className="container max-w-7xl mx-auto px-5 sm:px-8">
           <motion.div 
             className="max-w-4xl mx-auto"
@@ -169,10 +169,10 @@ export default function Contacto() {
           >
             {/* 1. Formulario Primero */}
             <motion.div 
-              className="bg-white p-8 sm:p-12 rounded-2xl border border-brand-lime/20 shadow-xl mb-16"
+              className="bg-background p-8 sm:p-12 rounded-2xl border border-accent/20 shadow-xl mb-16"
               variants={fadeIn}
             >
-              <h3 className="text-2xl sm:text-3xl font-black uppercase mb-8 text-brand-dark text-center">Envíanos un mensaje</h3>
+              <h3 className="text-2xl sm:text-3xl font-black uppercase mb-8 text-primary text-center">Envíanos un mensaje</h3>
               <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 sm:space-y-5">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
@@ -183,7 +183,7 @@ export default function Contacto() {
                         <FormItem className="space-y-1.5 sm:space-y-2">
                           <FormLabel className="font-black uppercase text-[10px] sm:text-xs tracking-widest opacity-70">Nombre</FormLabel>
                           <FormControl>
-                            <Input placeholder="Tu nombre" {...field} className="rounded-3xl border-brand-lime/30 focus:border-brand-lime h-11 sm:h-12" disabled={isEmailVerified} />
+                            <Input placeholder="Tu nombre" {...field} className="rounded-3xl border-accent/30 focus:border-accent h-11 sm:h-12" disabled={isEmailVerified} />
                           </FormControl>
                           <FormMessage className="text-[10px] sm:text-xs" />
                         </FormItem>
@@ -196,7 +196,7 @@ export default function Contacto() {
                         <FormItem className="space-y-1.5 sm:space-y-2">
                           <FormLabel className="font-black uppercase text-[10px] sm:text-xs tracking-widest opacity-70">Apellido</FormLabel>
                           <FormControl>
-                            <Input placeholder="Tu apellido" {...field} className="rounded-3xl border-brand-lime/30 focus:border-brand-lime h-11 sm:h-12" disabled={isEmailVerified} />
+                            <Input placeholder="Tu apellido" {...field} className="rounded-3xl border-accent/30 focus:border-accent h-11 sm:h-12" disabled={isEmailVerified} />
                           </FormControl>
                           <FormMessage className="text-[10px] sm:text-xs" />
                         </FormItem>
@@ -213,7 +213,7 @@ export default function Contacto() {
                           <FormItem className="space-y-1.5 sm:space-y-2">
                             <FormLabel className="font-black uppercase text-[10px] sm:text-xs tracking-widest opacity-70">Email</FormLabel>
                             <FormControl>
-                              <Input placeholder="tu@email.com" {...field} className="rounded-3xl border-brand-lime/30 focus:border-brand-lime h-11 sm:h-12" disabled={isEmailVerified || isOtpSent} />
+                              <Input placeholder="tu@email.com" {...field} className="rounded-3xl border-accent/30 focus:border-accent h-11 sm:h-12" disabled={isEmailVerified || isOtpSent} />
                             </FormControl>
                             <FormMessage className="text-[10px] sm:text-xs" />
                           </FormItem>
@@ -225,7 +225,7 @@ export default function Contacto() {
                         type="button" 
                         onClick={sendOtp} 
                         disabled={isSendingOtp || isOtpSent}
-                        className="bg-brand-lime text-brand-dark font-black text-sm rounded-full h-11 sm:h-12 px-8 hover:bg-brand-lime/90 transition-all shrink-0 w-full sm:w-auto shadow-lg shadow-brand-lime/20 border-0"
+                        className="bg-accent text-primary font-black text-sm rounded-full h-11 sm:h-12 px-8 hover:bg-accent/90 transition-all shrink-0 w-full sm:w-auto shadow-lg shadow-accent/20 border-0"
                       >
                         {isSendingOtp ? "Enviando..." : isOtpSent ? "Código enviado" : "Enviar código"}
                       </Button>
@@ -240,9 +240,9 @@ export default function Contacto() {
                           name="otp"
                           render={({ field }) => (
                             <FormItem className="space-y-1.5 sm:space-y-2">
-                              <FormLabel className="font-black uppercase text-[10px] sm:text-xs tracking-widest text-brand-lime">Introduce el código de 6 dígitos</FormLabel>
+                              <FormLabel className="font-black uppercase text-[10px] sm:text-xs tracking-widest text-accent">Introduce el código de 6 dígitos</FormLabel>
                               <FormControl>
-                                <Input placeholder="000000" {...field} className="rounded-3xl border-brand-lime focus:border-brand-lime bg-brand-lime/5 text-center text-lg tracking-[0.5em] font-black h-11 sm:h-12" maxLength={6} />
+                                <Input placeholder="000000" {...field} className="rounded-3xl border-accent focus:border-accent bg-accent/5 text-center text-lg tracking-[0.5em] font-black h-11 sm:h-12" maxLength={6} />
                               </FormControl>
                               <FormMessage className="text-[10px] sm:text-xs" />
                             </FormItem>
@@ -253,7 +253,7 @@ export default function Contacto() {
                         type="button" 
                         onClick={verifyOtp} 
                         disabled={isVerifyingOtp}
-                        className="bg-brand-lime text-brand-dark font-black text-sm rounded-full h-11 sm:h-12 px-10 hover:bg-brand-lime/90 transition-all shrink-0 w-full sm:w-auto shadow-xl shadow-brand-lime/20 border-0"
+                        className="bg-accent text-primary font-black text-sm rounded-full h-11 sm:h-12 px-10 hover:bg-accent/90 transition-all shrink-0 w-full sm:w-auto shadow-xl shadow-accent/20 border-0"
                       >
                         {isVerifyingOtp ? "Verificando..." : "Verificar email"}
                       </Button>
@@ -267,7 +267,7 @@ export default function Contacto() {
                       <FormItem className="space-y-1.5 sm:space-y-2">
                         <FormLabel className="font-black uppercase text-[10px] sm:text-xs tracking-widest opacity-70">Asunto</FormLabel>
                         <FormControl>
-                          <Input placeholder="¿En qué podemos ayudarte?" {...field} className="rounded-3xl border-brand-lime/30 focus:border-brand-lime h-11 sm:h-12" disabled={!isEmailVerified} />
+                          <Input placeholder="¿En qué podemos ayudarte?" {...field} className="rounded-3xl border-accent/30 focus:border-accent h-11 sm:h-12" disabled={!isEmailVerified} />
                         </FormControl>
                         <FormMessage className="text-[10px] sm:text-xs" />
                       </FormItem>
@@ -282,7 +282,7 @@ export default function Contacto() {
                         <FormControl>
                           <Textarea 
                             placeholder="Escribe tu mensaje aquí..." 
-                            className="min-h-[120px] sm:min-h-[150px] rounded-3xl border-brand-lime/30 focus:border-brand-lime py-3" 
+                            className="min-h-[120px] sm:min-h-[150px] rounded-3xl border-accent/30 focus:border-accent py-3" 
                             {...field} 
                             disabled={!isEmailVerified}
                           />
@@ -297,7 +297,7 @@ export default function Contacto() {
                       disabled={form.formState.isSubmitting || !isEmailVerified}
                       className={`w-full font-black text-sm rounded-full py-7 sm:py-8 transition-all shadow-xl border-0 ${
                         isEmailVerified 
-                          ? "bg-brand-lime text-brand-dark hover:bg-brand-lime/90 cursor-pointer shadow-brand-lime/30" 
+                          ? "bg-accent text-primary hover:bg-accent/90 cursor-pointer shadow-accent/30" 
                           : "bg-gray-100 text-gray-400 cursor-not-allowed border border-gray-200 shadow-none"
                       }`}
                     >
@@ -316,34 +316,34 @@ export default function Contacto() {
               viewport={{ once: true }}
               variants={staggerContainer}
             >
-              <motion.h2 className="text-2xl sm:text-4xl lg:text-5xl font-black text-brand-dark uppercase tracking-tight text-center" variants={fadeIn}>
-                <span className="text-brand-lime uppercase tracking-widest text-xs sm:text-sm font-black block mb-1 sm:mb-2 text-center">CONTACTO</span>
+              <motion.h2 className="text-2xl sm:text-4xl lg:text-5xl font-black text-primary uppercase tracking-tight text-center" variants={fadeIn}>
+                <span className="text-accent uppercase tracking-widest text-xs sm:text-sm font-black block mb-1 sm:mb-2 text-center">CONTACTO</span>
                 Vías de comunicación
               </motion.h2>
-              <motion.p className="text-brand-lime font-black uppercase tracking-wide text-base sm:text-lg mt-1 sm:mt-2 text-center" variants={fadeIn}>(Mensaje)</motion.p>
+              <motion.p className="text-accent font-black uppercase tracking-wide text-base sm:text-lg mt-1 sm:mt-2 text-center" variants={fadeIn}>(Mensaje)</motion.p>
             </motion.div>
 
             {/* 3. Vías de Comunicación Detalladas */}
             <div className="grid md:grid-cols-2 gap-8 mb-16">
               <motion.div className="space-y-6" variants={fadeIn}>
-                <div className="p-6 bg-brand-lime/5 border-l-4 border-brand-lime rounded-r-2xl flex items-center gap-4">
-                  <div className="w-12 h-12 bg-brand-lime rounded-full flex items-center justify-center shrink-0 shadow-sm">
-                    <Mail className="w-6 h-6 text-brand-dark" />
+                <div className="p-6 bg-accent/5 border-l-4 border-accent rounded-r-2xl flex items-center gap-4">
+                  <div className="w-12 h-12 bg-accent rounded-full flex items-center justify-center shrink-0 shadow-sm">
+                    <Mail className="w-6 h-6 text-primary" />
                   </div>
                   <div>
-                    <p className="font-black uppercase text-[10px] tracking-widest text-brand-dark/50 mb-0.5">EMAIL</p>
-                    <p className="text-lg sm:text-xl font-bold text-brand-dark">info@easyusllc.com</p>
+                    <p className="font-black uppercase text-[10px] tracking-widest text-primary/50 mb-0.5">EMAIL</p>
+                    <p className="text-lg sm:text-xl font-bold text-primary">info@easyusllc.com</p>
                   </div>
                 </div>
               </motion.div>
               <motion.div className="space-y-6" variants={fadeIn}>
-                <div className="p-6 bg-brand-lime/5 border-l-4 border-brand-lime rounded-r-2xl flex items-center gap-4">
-                  <div className="w-12 h-12 bg-brand-lime rounded-full flex items-center justify-center shrink-0 shadow-sm">
-                    <MessageCircle className="w-6 h-6 text-brand-dark" />
+                <div className="p-6 bg-accent/5 border-l-4 border-accent rounded-r-2xl flex items-center gap-4">
+                  <div className="w-12 h-12 bg-accent rounded-full flex items-center justify-center shrink-0 shadow-sm">
+                    <MessageCircle className="w-6 h-6 text-primary" />
                   </div>
                   <div>
-                    <p className="font-black uppercase text-[10px] tracking-widest text-brand-dark/50 mb-0.5">WHATSAPP</p>
-                    <p className="text-lg sm:text-xl font-bold text-brand-dark">+34 614 916 910</p>
+                    <p className="font-black uppercase text-[10px] tracking-widest text-primary/50 mb-0.5">WHATSAPP</p>
+                    <p className="text-lg sm:text-xl font-bold text-primary">+34 614 916 910</p>
                   </div>
                 </div>
               </motion.div>
