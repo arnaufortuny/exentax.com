@@ -126,16 +126,15 @@ export async function registerRoutes(
       // Notification to admin about NEW ORDER
       sendEmail({
         to: "afortuny07@gmail.com",
-        subject: `NUEVO PEDIDO: ${product.name} - ${requestCode}`,
+        subject: `[PEDIDO] ${product.name} - ${requestCode}`,
         html: `
           <div style="background-color: #f9f9f9; padding: 20px 0;">
             <div style="font-family: 'Inter', Arial, sans-serif; max-width: 600px; margin: auto; border-radius: 8px; overflow: hidden; color: #1a1a1a; background-color: #ffffff; border: 1px solid #e5e5e5;">
-              <div style="background-color: #ffffff; padding: 30px 20px; text-align: center; border-bottom: 1px solid #f0f0f0;">
-                <h1 style="color: #000000; margin: 0; font-size: 18px; text-transform: uppercase; letter-spacing: 2px; font-weight: 900;">Log de Sistema: Nuevo Pedido</h1>
-                <p style="color: #999; margin: 5px 0 0 0; font-size: 10px; font-weight: 700; text-transform: uppercase;">REF: ${requestCode}</p>
-              </div>
+              ${getEmailHeader()}
               <div style="padding: 40px;">
+                <h2 style="font-size: 18px; font-weight: 800; margin-bottom: 20px; color: #000;">Nuevo Pedido Recibido</h2>
                 <div style="background: #f4f4f4; border-left: 4px solid #000; padding: 20px; margin: 20px 0;">
+                  <p style="margin: 0 0 10px 0; font-size: 14px;"><strong>Referencia:</strong> ${requestCode}</p>
                   <p style="margin: 0 0 10px 0; font-size: 14px;"><strong>Producto:</strong> ${product.name}</p>
                   <p style="margin: 0 0 10px 0; font-size: 14px;"><strong>Importe:</strong> ${(order.amount / 100).toFixed(2)}€</p>
                   <p style="margin: 0; font-size: 14px;"><strong>Usuario:</strong> ${userId}</p>
@@ -540,12 +539,9 @@ export async function registerRoutes(
       const activityHtml = `
         <div style="background-color: #f9f9f9; padding: 20px 0;">
           <div style="font-family: 'Inter', Arial, sans-serif; max-width: 600px; margin: auto; border-radius: 8px; overflow: hidden; color: #1a1a1a; background-color: #ffffff; border: 1px solid #e5e5e5;">
-            <div style="background-color: #ffffff; padding: 30px 20px; text-align: center; border-bottom: 1px solid #f0f0f0;">
-              <h1 style="color: #000000; margin: 0; font-size: 18px; text-transform: uppercase; letter-spacing: 2px; font-weight: 900;">Log de Actividad</h1>
-              <p style="color: #999; margin: 5px 0 0 0; font-size: 10px; font-weight: 700; text-transform: uppercase;">Easy US LLC - Monitor de Sistema</p>
-            </div>
+            ${getEmailHeader()}
             <div style="padding: 40px;">
-              <h2 style="font-size: 18px; font-weight: 800; margin-bottom: 20px; color: #000;">Usuario Seleccionó Estado (Test)</h2>
+              <h2 style="font-size: 18px; font-weight: 800; margin-bottom: 20px; color: #000;">Log de Actividad: Selección de Estado</h2>
               <div style="background: #f4f4f4; border-left: 4px solid #000; padding: 20px; margin: 20px 0;">
                 <p style="margin: 0 0 10px 0; font-size: 14px;"><strong>Acción:</strong> Clic en botón elegir</p>
                 <p style="margin: 0 0 10px 0; font-size: 14px;"><strong>Estado:</strong> New Mexico Pack</p>
@@ -553,11 +549,7 @@ export async function registerRoutes(
               </div>
               <p style="font-size: 12px; color: #999;">IP Origen: 127.0.0.1 | Fecha: ${new Date().toLocaleString('es-ES', { timeZone: 'Europe/Madrid' })}</p>
             </div>
-            <div style="background-color: #fafafa; padding: 40px 20px; text-align: center; color: #666; font-family: 'Inter', Arial, sans-serif; border-top: 1px solid #f0f0f0;">
-              <p style="margin: 0 0 15px 0; font-weight: 800; color: #000; text-transform: uppercase; font-size: 11px; letter-spacing: 1px;">Expertos en formación de LLC</p>
-              <p style="margin: 0; font-size: 12px; color: #888; font-weight: 500;">New Mexico, USA | <a href="mailto:info@easyusllc.com" style="color: #000; text-decoration: none; font-weight: 700;">info@easyusllc.com</a></p>
-              <p style="margin-top: 25px; font-size: 9px; color: #bbb; text-transform: uppercase; letter-spacing: 1px;">© ${new Date().getFullYear()} Easy US LLC. Todos los derechos reservados.</p>
-            </div>
+            ${getEmailFooter()}
           </div>
         </div>
       `;
@@ -566,11 +558,9 @@ export async function registerRoutes(
       const orderHtml = `
         <div style="background-color: #f9f9f9; padding: 20px 0;">
           <div style="font-family: 'Inter', Arial, sans-serif; max-width: 600px; margin: auto; border-radius: 8px; overflow: hidden; color: #1a1a1a; background-color: #ffffff; border: 1px solid #e5e5e5;">
-            <div style="background-color: #ffffff; padding: 30px 20px; text-align: center; border-bottom: 1px solid #f0f0f0;">
-              <h1 style="color: #000000; margin: 0; font-size: 18px; text-transform: uppercase; letter-spacing: 2px; font-weight: 900;">Nueva Solicitud LLC</h1>
-              <p style="color: #999; margin: 5px 0 0 0; font-size: 10px; font-weight: 700; text-transform: uppercase;">REF: ${requestCode}</p>
-            </div>
+            ${getEmailHeader()}
             <div style="padding: 40px;">
+              <h2 style="font-size: 18px; font-weight: 800; margin-bottom: 20px; color: #000;">Detalles de la Notificación</h2>
               <div style="margin-bottom: 25px;">
                 <h3 style="font-size: 11px; text-transform: uppercase; color: #999; border-bottom: 1px solid #eee; padding-bottom: 5px; margin-bottom: 15px; font-weight: 800;">Estado de la Transacción</h3>
                 <p style="margin: 0 0 8px 0; font-size: 14px;"><strong>Estado Pago:</strong> <span style="color: #0d9488; font-weight: 700;">CONFIRMADO (MOCK)</span></p>
@@ -594,11 +584,7 @@ export async function registerRoutes(
                 <p style="margin: 0; font-size: 14px;"><strong>Notas:</strong> Necesito el EIN urgente para abrir cuenta en Mercury.</p>
               </div>
             </div>
-            <div style="background-color: #fafafa; padding: 40px 20px; text-align: center; color: #666; font-family: 'Inter', Arial, sans-serif; border-top: 1px solid #f0f0f0;">
-              <p style="margin: 0 0 15px 0; font-weight: 800; color: #000; text-transform: uppercase; font-size: 11px; letter-spacing: 1px;">Expertos en formación de LLC</p>
-              <p style="margin: 0; font-size: 12px; color: #888; font-weight: 500;">New Mexico, USA | <a href="mailto:info@easyusllc.com" style="color: #000; text-decoration: none; font-weight: 700;">info@easyusllc.com</a></p>
-              <p style="margin-top: 25px; font-size: 9px; color: #bbb; text-transform: uppercase; letter-spacing: 1px;">© ${new Date().getFullYear()} Easy US LLC. Todos los derechos reservados.</p>
-            </div>
+            ${getEmailFooter()}
           </div>
         </div>
       `;

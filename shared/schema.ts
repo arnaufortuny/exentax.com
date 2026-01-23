@@ -26,7 +26,7 @@ export const orders = pgTable("orders", {
 export const llcApplications = pgTable("llc_applications", {
   id: serial("id").primaryKey(),
   orderId: integer("order_id").notNull().references(() => orders.id),
-  requestCode: text("request_code"),
+  requestCode: text("request_code").unique(),
   ownerFullName: text("owner_full_name"),
   ownerEmail: text("owner_email"),
   ownerPhone: text("owner_phone"),
