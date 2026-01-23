@@ -71,7 +71,7 @@ export default function Home() {
                     </svg>
                   ))}
                 </div>
-                <span className="text-brand-dark text-xs font-black">5/5</span>
+                <span className="text-primary text-xs font-black">5/5</span>
               </a>
             </motion.div>
 
@@ -111,7 +111,7 @@ export default function Home() {
                     </svg>
                   ))}
                 </div>
-                <span className="text-brand-dark text-lg font-black">5/5</span>
+                <span className="text-primary text-lg font-black">5/5</span>
               </a>
             </motion.div>
 
@@ -237,7 +237,7 @@ export default function Home() {
       <PorQueEasyUSLLC />
 
       <div className="w-full">
-        <div className="border-t border-brand-dark/5 w-full" />
+        <div className="border-t border-primary/5 w-full" />
       </div>
 
       <section className="py-20 bg-background">

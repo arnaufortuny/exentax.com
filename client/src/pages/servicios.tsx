@@ -582,16 +582,16 @@ export default function Servicios() {
                                       name="otp"
                                       render={({ field }) => (
                                         <FormItem>
-                                          <FormLabel className="font-black uppercase text-[10px] tracking-widest text-brand-lime">Código de Verificación (6 dígitos)</FormLabel>
+                                          <FormLabel className="font-black uppercase text-[10px] tracking-widest text-accent">Código de Verificación (6 dígitos)</FormLabel>
                                           <div className="flex gap-2">
                                             <FormControl>
-                                              <Input placeholder="000000" {...field} className="rounded-3xl border-brand-lime focus:border-brand-lime bg-brand-lime/5 text-center font-black h-12 tracking-[0.3em]" maxLength={6} />
+                                              <Input placeholder="000000" {...field} className="rounded-3xl border-accent focus:border-accent bg-accent/5 text-center font-black h-12 tracking-[0.3em]" maxLength={6} />
                                             </FormControl>
                                             <Button 
                                               type="button" 
                                               onClick={verifyOtp} 
                                               disabled={isVerifyingOtp}
-                                              className="bg-brand-lime text-brand-dark font-black text-xs rounded-full h-12 px-6 shadow-md"
+                                              className="bg-accent text-primary font-black text-xs rounded-full h-12 px-6 shadow-md"
                                             >
                                               {isVerifyingOtp ? <Loader2 className="w-4 h-4 animate-spin" /> : "Validar"}
                                             </Button>
@@ -612,7 +612,7 @@ export default function Servicios() {
                                       <FormControl>
                                         <Textarea 
                                           placeholder="Cuéntanos algún detalle sobre tu LLC..." 
-                                          className="min-h-[100px] rounded-3xl border-brand-lime/30 focus:border-brand-lime py-3" 
+                                          className="min-h-[100px] rounded-3xl border-accent/30 focus:border-accent py-3" 
                                           {...field} 
                                           disabled={!isEmailVerified}
                                         />
@@ -635,7 +635,7 @@ export default function Servicios() {
                                     type="submit" 
                                     disabled={!isEmailVerified || mForm.formState.isSubmitting}
                                     className={`flex-[2] font-black text-sm rounded-full h-14 shadow-xl transition-all ${
-                                      isEmailVerified ? "bg-brand-lime text-brand-dark hover:bg-brand-lime/90" : "bg-gray-100 text-gray-400 cursor-not-allowed"
+                                      isEmailVerified ? "bg-accent text-accent-foreground hover:bg-accent/90" : "bg-gray-100 text-gray-400 cursor-not-allowed"
                                     }`}
                                   >
                                     {mForm.formState.isSubmitting ? "Enviando..." : "Enviar Solicitud"}
@@ -692,7 +692,7 @@ export default function Servicios() {
         </div>
       </section>
 
-      <section className="py-12 sm:py-20 bg-brand-lime/5 border-t border-brand-dark/5" id="faq">
+      <section className="py-12 sm:py-20 bg-accent/5 border-t border-primary/5" id="faq">
         <div className="w-full px-5 sm:px-8">
           <motion.div 
             className="text-center mb-8 sm:mb-12 flex flex-col items-center justify-center"
@@ -701,11 +701,11 @@ export default function Servicios() {
             viewport={{ once: true }}
             variants={staggerContainer}
           >
-            <motion.h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark uppercase tracking-tight text-center" variants={fadeIn}>
-              <span className="text-brand-lime uppercase tracking-widest text-sm font-black block mb-2 text-center">AYUDA</span>
+            <motion.h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-primary uppercase tracking-tight text-center" variants={fadeIn}>
+              <span className="text-accent uppercase tracking-widest text-sm font-black block mb-2 text-center">AYUDA</span>
               Centro de Ayuda
             </motion.h2>
-            <motion.p className="text-brand-lime font-black uppercase tracking-wide text-base sm:text-lg mt-1 sm:mt-2 text-center" variants={fadeIn}>
+            <motion.p className="text-accent font-black uppercase tracking-wide text-base sm:text-lg mt-1 sm:mt-2 text-center" variants={fadeIn}>
               (Todo lo que necesitas saber)
             </motion.p>
           </motion.div>
@@ -742,16 +742,16 @@ export default function Servicios() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.1 }}
-                className="rounded-2xl border border-brand-lime/20 bg-white overflow-hidden shadow-sm hover:shadow-md transition-shadow"
+                className="rounded-2xl border border-accent/20 bg-white overflow-hidden shadow-sm hover:shadow-md transition-shadow"
               >
                 <button 
                   onClick={() => setOpenFaq(openFaq === i ? null : i)}
                   className="w-full px-6 py-4 sm:py-5 flex items-center justify-between text-left group"
                 >
-                  <span className="font-black text-sm sm:text-base text-brand-dark uppercase tracking-tight leading-tight pr-4">
+                  <span className="font-black text-sm sm:text-base text-primary uppercase tracking-tight leading-tight pr-4">
                     {faq.q}
                   </span>
-                  <ChevronDown className={`w-5 h-5 text-brand-lime transition-transform shrink-0 ${openFaq === i ? 'rotate-180' : ''}`} />
+                  <ChevronDown className={`w-5 h-5 text-accent transition-transform shrink-0 ${openFaq === i ? 'rotate-180' : ''}`} />
                 </button>
                 <AnimatePresence>
                   {openFaq === i && (
@@ -761,7 +761,7 @@ export default function Servicios() {
                       exit={{ height: 0, opacity: 0 }}
                       transition={{ duration: 0.3, ease: "easeInOut" }}
                     >
-                      <div className="px-6 pb-5 sm:pb-6 text-sm sm:text-base text-muted-foreground border-t border-brand-lime/10 pt-4 leading-relaxed text-left">
+                      <div className="px-6 pb-5 sm:pb-6 text-sm sm:text-base text-muted-foreground border-t border-accent/10 pt-4 leading-relaxed text-left">
                         {faq.a}
                       </div>
                     </motion.div>
@@ -772,7 +772,7 @@ export default function Servicios() {
           </div>
 
           <div className="w-full mt-12 sm:mt-20">
-            <div className="border-t border-brand-dark/5 w-full" />
+            <div className="border-t border-primary/5 w-full" />
           </div>
         </div>
       </section>

@@ -157,7 +157,7 @@ export default function FAQ() {
         }
       />
 
-      <section className="py-4 sm:py-20 bg-white border-t border-brand-dark/5">
+      <section className="py-4 sm:py-20 bg-white border-t border-primary/5">
         <div className="container max-w-7xl mx-auto px-5 sm:px-8">
           <motion.div 
             className="text-center mb-2 sm:mb-10 flex flex-col items-center justify-center"
