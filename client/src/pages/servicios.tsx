@@ -769,6 +769,7 @@ export default function Servicios() {
                 </AnimatePresence>
               </motion.div>
             ))}
+          </div>
         </div>
       </section>
 
