@@ -775,6 +775,18 @@ export default function Servicios() {
         </div>
       </section>
 
+      <section className="py-20 bg-white">
+        <div className="w-full px-5 sm:px-8 text-center">
+          <Button 
+            size="lg" 
+            onClick={() => setLocation("/application")} 
+            className="bg-brand-lime text-brand-dark font-black text-sm px-8 sm:px-12 py-6 sm:py-8 border-0 rounded-full w-full sm:w-auto shadow-xl transition-all hover:scale-105 active:scale-95 shadow-brand-lime/20"
+          >
+            Comenzamos? Selecciona tu pack →
+          </Button>
+        </div>
+      </section>
+
       <NewsletterSection />
       <Footer />
     </div>
