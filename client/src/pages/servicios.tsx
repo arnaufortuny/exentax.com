@@ -657,7 +657,7 @@ export default function Servicios() {
         </div>
       </section>
 
-      <section className="py-12 sm:py-20 bg-white border-t border-brand-dark/5" id="proceso">
+      <section className="py-12 sm:py-20 bg-white border-t border-accent/5" id="proceso">
         <div className="w-full px-5 sm:px-8">
           <motion.div 
             className="text-center mb-8 sm:mb-16 flex flex-col items-center justify-center"
@@ -666,11 +666,11 @@ export default function Servicios() {
             viewport={{ once: true }}
             variants={staggerContainer}
           >
-            <motion.h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark uppercase tracking-tight text-center" variants={fadeIn}>
-              <span className="text-brand-lime uppercase tracking-widest text-sm font-black block mb-2 text-center">GESTIÓN</span>
+            <motion.h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-primary uppercase tracking-tight text-center" variants={fadeIn}>
+              <span className="text-accent uppercase tracking-widest text-sm font-black block mb-2 text-center">GESTIÓN</span>
               Proceso de Mantenimiento
             </motion.h2>
-            <motion.p className="text-brand-lime font-black uppercase tracking-wide text-base sm:text-lg mt-1 sm:mt-2 text-center" variants={fadeIn}>
+            <motion.p className="text-accent font-black uppercase tracking-wide text-base sm:text-lg mt-1 sm:mt-2 text-center" variants={fadeIn}>
               (Cómo trabajamos para que tu LLC esté siempre al día)
             </motion.p>
           </motion.div>
@@ -682,11 +682,11 @@ export default function Servicios() {
             variants={staggerContainer}
           >
             {maintenanceProcess.map((step, i) => (
-              <motion.div key={i} className="relative p-6 sm:p-8 rounded-3xl bg-white border border-brand-lime/20 shadow-lg hover:shadow-xl transition-all group flex flex-col items-center text-center" variants={fadeIn}>
-                <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-10 h-10 bg-brand-lime text-brand-dark rounded-full flex items-center justify-center font-black text-xl border-4 border-white shadow-md">
+              <motion.div key={i} className="relative p-6 sm:p-8 rounded-3xl bg-white border border-accent/20 shadow-lg hover:shadow-xl transition-all group flex flex-col items-center text-center" variants={fadeIn}>
+                <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-10 h-10 bg-accent text-primary rounded-full flex items-center justify-center font-black text-xl border-4 border-white shadow-md">
                   {i + 1}
                 </div>
-                <h3 className="text-xl font-black text-brand-dark uppercase mb-3 mt-2">{step.title}</h3>
+                <h3 className="text-xl font-black text-primary uppercase mb-3 mt-2">{step.title}</h3>
                 <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">{step.desc}</p>
               </motion.div>
             ))}
