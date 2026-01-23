@@ -515,43 +515,63 @@ export async function registerRoutes(
       const name = "Cliente de Prueba";
       const requestCode = "NM-9999-ABC-0";
 
-      // HTML for Admin Notification Test (Click/State)
+      // Improved Admin Activity Notification (Elegir Estado)
       const activityHtml = `
-        <div style="font-family: sans-serif; padding: 20px; border: 2px solid #000; background: #fff;">
-          <div style="background: #000; color: #d9ff00; padding: 20px; text-align: center;">
-            <h1 style="margin: 0; font-size: 20px;">LOG DE SISTEMA: PRUEBA DE ACTIVIDAD</h1>
-          </div>
-          <div style="padding: 20px;">
-            <p><strong>ACCIÓN:</strong> El usuario pulsó elegir estado (TEST).</p>
-            <p><strong>DETALLES:</strong> New Mexico Pack - 639€</p>
-            <p><strong>FECHA:</strong> ${new Date().toLocaleString('es-ES', { timeZone: 'Europe/Madrid' })}</p>
+        <div style="background-color: #f9f9f9; padding: 20px 0;">
+          <div style="font-family: 'Inter', Arial, sans-serif; max-width: 600px; margin: auto; border-radius: 8px; overflow: hidden; color: #1a1a1a; background-color: #ffffff; border: 1px solid #e5e5e5;">
+            <div style="background-color: #000; padding: 30px 20px; text-align: center;">
+              <h1 style="color: #d9ff00; margin: 0; font-size: 18px; text-transform: uppercase; letter-spacing: 2px;">Log de Actividad</h1>
+              <p style="color: #fff; margin: 5px 0 0 0; font-size: 10px; opacity: 0.6;">Easy US LLC - Monitor de Sistema</p>
+            </div>
+            <div style="padding: 40px;">
+              <h2 style="font-size: 18px; font-weight: 800; margin-bottom: 20px; color: #000;">Usuario Seleccionó Estado (Test)</h2>
+              <div style="background: #fcfcfc; border-left: 4px solid #d9ff00; padding: 20px; margin: 20px 0;">
+                <p style="margin: 0 0 10px 0; font-size: 14px;"><strong>Acción:</strong> Clic en botón elegir</p>
+                <p style="margin: 0 0 10px 0; font-size: 14px;"><strong>Estado:</strong> New Mexico Pack</p>
+                <p style="margin: 0; font-size: 14px;"><strong>Precio:</strong> 639€</p>
+              </div>
+              <p style="font-size: 12px; color: #999;">IP Origen: 127.0.0.1 | Fecha: ${new Date().toLocaleString('es-ES', { timeZone: 'Europe/Madrid' })}</p>
+            </div>
+            ${getEmailFooter()}
           </div>
         </div>
       `;
 
-      // HTML for Admin Notification Test (Order/Message)
+      // Improved Admin Order/Contact Notification
       const orderHtml = `
-        <div style="font-family: sans-serif; padding: 20px; border: 2px solid #000; background: #fff;">
-          <div style="background: #000; color: #d9ff00; padding: 20px; text-align: center;">
-            <h1 style="margin: 0; font-size: 20px;">LOG DE SISTEMA: PRUEBA DE PEDIDO</h1>
-            <p style="margin: 5px 0 0 0;">REF: ${requestCode}</p>
-          </div>
-          <div style="padding: 20px;">
-            <p><strong>PRODUCTO:</strong> Wyoming LLC (TEST)</p>
-            <p><strong>USUARIO:</strong> ${name}</p>
-            <p><strong>EMAIL:</strong> ${email}</p>
+        <div style="background-color: #f9f9f9; padding: 20px 0;">
+          <div style="font-family: 'Inter', Arial, sans-serif; max-width: 600px; margin: auto; border-radius: 8px; overflow: hidden; color: #1a1a1a; background-color: #ffffff; border: 1px solid #e5e5e5;">
+            <div style="background-color: #000; padding: 30px 20px; text-align: center;">
+              <h1 style="color: #d9ff00; margin: 0; font-size: 18px; text-transform: uppercase; letter-spacing: 2px;">Nuevo Pedido / Mensaje</h1>
+              <p style="color: #fff; margin: 5px 0 0 0; font-size: 10px; opacity: 0.6;">REF: ${requestCode}</p>
+            </div>
+            <div style="padding: 40px;">
+              <h2 style="font-size: 18px; font-weight: 800; margin-bottom: 20px; color: #000;">Detalles de la Notificación (Test)</h2>
+              <div style="margin-bottom: 30px;">
+                <h3 style="font-size: 12px; text-transform: uppercase; color: #999; border-bottom: 1px solid #eee; padding-bottom: 5px; margin-bottom: 15px;">Información del Cliente</h3>
+                <p style="margin: 0 0 8px 0; font-size: 14px;"><strong>Nombre:</strong> ${name}</p>
+                <p style="margin: 0 0 8px 0; font-size: 14px;"><strong>Email:</strong> ${email}</p>
+              </div>
+              <div>
+                <h3 style="font-size: 12px; text-transform: uppercase; color: #999; border-bottom: 1px solid #eee; padding-bottom: 5px; margin-bottom: 15px;">Contenido del Mensaje</h3>
+                <div style="background: #f9f9f9; padding: 20px; border-radius: 6px; font-size: 14px; line-height: 1.6; border: 1px solid #eee;">
+                  Este es un mensaje de prueba mejorado con el mismo estilo profesional que ven los clientes finales.
+                </div>
+              </div>
+            </div>
+            ${getEmailFooter()}
           </div>
         </div>
       `;
 
-      // Send all templates
+      // Send improved admin templates
       await Promise.all([
-        sendEmail({ to: email, subject: "TEST: OTP con Casilla", html: getOtpEmailTemplate(otp) }),
-        sendEmail({ to: email, subject: "TEST ADMIN: Notificación de Click", html: activityHtml }),
-        sendEmail({ to: email, subject: "TEST ADMIN: Notificación de Pedido/Mensaje", html: orderHtml }),
+        sendEmail({ to: email, subject: "TEST: OTP Profesional", html: getOtpEmailTemplate(otp) }),
+        sendEmail({ to: email, subject: "TEST ADMIN V2: Actividad (Click)", html: activityHtml }),
+        sendEmail({ to: email, subject: "TEST ADMIN V2: Notificación Pedido", html: orderHtml }),
       ]);
 
-      res.json({ success: true, message: "Emails de prueba enviados" });
+      res.json({ success: true, message: "Emails de prueba administrativos mejorados enviados" });
     } catch (error) {
       console.error("Error sending test emails:", error);
       res.status(500).json({ message: "Error al enviar emails de prueba" });
