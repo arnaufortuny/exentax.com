@@ -502,8 +502,8 @@ export default function ApplicationWizard() {
                                       control={form.control}
                                       name="ownerBirthDate"
                                       render={({ field }) => (
-                                        <FormItem>
-                                          <FormLabel className="font-normal text-sm text-gray-500 mb-1.5 block uppercase tracking-tight">Fecha Nacimiento (Mínimo 18 años)</FormLabel>
+                                        <FormItem className="max-w-[180px]">
+                                          <FormLabel className="font-normal text-sm text-gray-500 mb-1.5 block uppercase tracking-tight">Fecha Nacimiento</FormLabel>
                                           <FormControl><Input {...field} value={field.value || ""} type="date" className="rounded-full border-gray-100 bg-gray-50/30 h-12 md:h-14 px-6 focus:border-brand-lime font-normal text-[13px] sm:text-base w-full" /></FormControl>
                                           <FormMessage />
                                         </FormItem>
