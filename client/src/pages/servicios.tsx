@@ -253,15 +253,15 @@ export default function Servicios() {
                   <span className="text-muted-foreground text-xs sm:text-xs font-medium">/año 1</span>
                 </div>
                 <p className="text-muted-foreground text-[10px] sm:text-[9px] font-black uppercase tracking-widest mb-4 sm:mb-4 flex items-center justify-center gap-1">
-                  <span className="w-1.5 h-1.5 rounded-full bg-accent" />
+                  <div className="w-1.5 h-1.5 rounded-full bg-accent" />
                   Tasas estatales incluidas
                 </p>
-                <div className="space-y-2 sm:space-y-2 text-sm sm:text-base mb-4 sm:mb-4 border-t border-accent/10 pt-4 sm:pt-4">
+                  <div className="space-y-2 sm:space-y-2 text-sm sm:text-base mb-4 sm:mb-4 border-t border-accent/10 pt-4 sm:pt-4">
                   {packFeatures.map((f) => (
-                    <p key={f} className="flex items-center justify-start gap-2 sm:gap-2 text-primary/80 font-medium text-left leading-tight">
-                      <span className="text-accent font-black">✓</span> 
+                    <div key={f} className="flex items-start justify-start gap-2 sm:gap-2 text-primary/80 font-medium text-left leading-tight">
+                      <span className="text-accent font-black text-xl leading-none pt-0.5">●</span> 
                       <span className="text-xs sm:text-base">{f}</span>
-                    </p>
+                    </div>
                   ))}
                 </div>
               </div>
@@ -290,15 +290,15 @@ export default function Servicios() {
                   <span className="text-muted-foreground text-xs sm:text-xs font-medium">/año 1</span>
                 </div>
                 <p className="text-muted-foreground text-[10px] sm:text-[9px] font-black uppercase tracking-widest mb-4 sm:mb-4 flex items-center justify-center gap-1">
-                  <span className="w-1.5 h-1.5 rounded-full bg-accent" />
+                  <div className="w-1.5 h-1.5 rounded-full bg-accent" />
                   Tasas estatales incluidas
                 </p>
-                <div className="space-y-2 sm:space-y-2 text-sm sm:text-base mb-4 sm:mb-4 border-t border-accent/10 pt-4 sm:pt-4">
+                  <div className="space-y-2 sm:space-y-2 text-sm sm:text-base mb-4 sm:mb-4 border-t border-accent/10 pt-4 sm:pt-4">
                   {packFeatures.map((f) => (
-                    <p key={f} className="flex items-center justify-start gap-2 sm:gap-2 text-primary/80 font-medium text-left leading-tight">
-                      <span className="text-accent font-black">✓</span> 
+                    <div key={f} className="flex items-start justify-start gap-2 sm:gap-2 text-primary/80 font-medium text-left leading-tight">
+                      <span className="text-accent font-black text-xl leading-none pt-0.5">●</span> 
                       <span className="text-xs sm:text-base">{f}</span>
-                    </p>
+                    </div>
                   ))}
                 </div>
               </div>
@@ -327,15 +327,15 @@ export default function Servicios() {
                   <span className="text-muted-foreground text-xs sm:text-xs font-medium">/año 1</span>
                 </div>
                 <p className="text-muted-foreground text-[10px] sm:text-[9px] font-black uppercase tracking-widest mb-4 sm:mb-4 flex items-center justify-center gap-1">
-                  <span className="w-1.5 h-1.5 rounded-full bg-accent" />
+                  <div className="w-1.5 h-1.5 rounded-full bg-accent" />
                   Tasas estatales incluidas
                 </p>
-                <div className="space-y-2 sm:space-y-2 text-sm sm:text-base mb-4 sm:mb-4 border-t border-accent/10 pt-4 sm:pt-4">
+                  <div className="space-y-2 sm:space-y-2 text-sm sm:text-base mb-4 sm:mb-4 border-t border-accent/10 pt-4 sm:pt-4">
                   {packFeatures.map((f) => (
-                    <p key={f} className="flex items-center justify-start gap-2 sm:gap-2 text-primary/80 font-medium text-left leading-tight">
-                      <span className="text-accent font-black">✓</span> 
+                    <div key={f} className="flex items-start justify-start gap-2 sm:gap-2 text-primary/80 font-medium text-left leading-tight">
+                      <span className="text-accent font-black text-xl leading-none pt-0.5">●</span> 
                       <span className="text-xs sm:text-base">{f}</span>
-                    </p>
+                    </div>
                   ))}
                 </div>
               </div>
@@ -456,11 +456,11 @@ export default function Servicios() {
                     <p className="text-4xl sm:text-4xl font-black text-primary">{item.price}</p>
                     <span className="text-muted-foreground text-xs sm:text-xs font-medium">/año</span>
                   </div>
-                  <div className="space-y-2 text-left mt-4 border-t border-brand-lime/10 pt-4">
+                  <div className="space-y-2 text-left mt-4 border-t border-accent/10 pt-4">
                     {maintenanceFeatures.map((f, idx) => (
-                      <p key={idx} className="flex items-start gap-2 text-brand-dark/80 font-medium leading-tight">
-                        <span className="text-brand-lime font-black shrink-0">✓</span> 
-                        <span className="text-[11px] sm:text-xs">{f}</span>
+                      <p key={idx} className="flex items-start gap-2 text-primary/80 font-medium leading-tight text-left">
+                        <span className="text-accent font-black text-xl leading-none">●</span> 
+                        <span className="text-[11px] sm:text-xs pt-0.5">{f}</span>
                       </p>
                     ))}
                   </div>
@@ -484,23 +484,25 @@ export default function Servicios() {
                         {maintenanceStep === "ask" ? (
                           <div className="text-center space-y-8">
                             <DialogHeader>
-                              <div className="w-20 h-20 bg-brand-lime/10 rounded-full flex items-center justify-center mx-auto mb-4 border border-brand-lime/20">
-                                <Check className="w-10 h-10 text-brand-lime" />
+                              <div className="w-20 h-20 bg-accent/10 rounded-full flex items-center justify-center mx-auto mb-4 border border-accent/20">
+                                <span className="w-10 h-10 rounded-full bg-accent/20 flex items-center justify-center shrink-0">
+                                  <div className="w-4 h-4 rounded-full bg-accent" />
+                                </span>
                               </div>
-                              <DialogTitle className="text-2xl sm:text-4xl font-black uppercase text-brand-dark tracking-tight leading-tight">
-                                ¿Quieres el mantenimiento de tu LLC en <span className="text-brand-lime">{selectedState}</span>?
+                              <DialogTitle className="text-2xl sm:text-4xl font-black uppercase text-primary tracking-tight leading-tight">
+                                ¿Quieres el mantenimiento de tu LLC en <span className="text-accent">{selectedState}</span>?
                               </DialogTitle>
                             </DialogHeader>
                             
-                            <div className="bg-brand-lime/5 rounded-2xl p-6 border border-brand-lime/20 text-left">
-                              <h4 className="font-black uppercase text-xs tracking-widest text-brand-lime mb-4">¿Qué incluye este servicio anual?</h4>
+                            <div className="bg-accent/5 rounded-2xl p-6 border border-accent/20 text-left">
+                              <h4 className="font-black uppercase text-xs tracking-widest text-accent mb-4">¿Qué incluye este servicio anual?</h4>
                               <div className="grid grid-cols-1 gap-3">
                                 {maintenanceFeatures.map((f, idx) => (
                                   <div key={idx} className="flex items-start gap-3">
-                                    <div className="mt-1 w-4 h-4 rounded-full bg-brand-lime flex items-center justify-center shrink-0">
-                                      <Check className="w-3 h-3 text-brand-dark" />
+                                    <div className="mt-1 w-4 h-4 rounded-full bg-accent/20 flex items-center justify-center shrink-0">
+                                      <div className="w-2 h-2 rounded-full bg-accent" />
                                     </div>
-                                    <span className="text-sm font-medium text-brand-dark/80">{f}</span>
+                                    <span className="text-sm font-medium text-primary/80">{f}</span>
                                   </div>
                                 ))}
                               </div>

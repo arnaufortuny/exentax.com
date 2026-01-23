@@ -329,7 +329,7 @@ export default function ApplicationWizard() {
                       <div className={`w-10 h-10 rounded-full flex items-center justify-center font-black text-sm shrink-0 transition-all ${
                         step >= i ? 'bg-accent text-primary' : 'bg-gray-100 text-gray-400'
                       }`}>
-                        {step > i ? <Check className="w-5 h-5" /> : s.n}
+                        {step > i ? <div className="w-4 h-4 rounded-full bg-primary" /> : s.n}
                       </div>
                       <div className="flex-1">
                         <span className={`text-[11px] uppercase font-black tracking-widest block ${
@@ -645,19 +645,19 @@ export default function ApplicationWizard() {
 
                             {step === 2 && (
                               <div className="space-y-8 flex flex-col items-center py-4">
-                                <div className="w-20 h-20 rounded-full bg-brand-lime/10 flex items-center justify-center mb-4">
-                                  <Mail className="w-10 h-10 text-brand-lime" />
+                                <div className="w-20 h-20 rounded-full bg-accent/10 flex items-center justify-center mb-4">
+                                  <Mail className="w-10 h-10 text-accent" />
                                 </div>
                                 <div className="text-center space-y-3">
-                                  <h3 className="text-2xl font-black uppercase tracking-tight text-brand-dark">Verifica tu identidad</h3>
-                                  <p className="text-gray-500 text-sm max-w-sm mx-auto">Para garantizar la seguridad de tu trámite, hemos enviado un código de verificación a: <br /><strong className="text-brand-dark">{form.getValues("ownerEmail")}</strong></p>
+                                  <h3 className="text-2xl font-black uppercase tracking-tight text-primary">Verifica tu identidad</h3>
+                                  <p className="text-gray-500 text-sm max-w-sm mx-auto">Para garantizar la seguridad de tu trámite, hemos enviado un código de verificación a: <br /><strong className="text-primary">{form.getValues("ownerEmail")}</strong></p>
                                 </div>
                                 <div className="w-full max-w-sm space-y-6">
                                   {!isOtpSent ? (
                                     <Button 
                                       type="button" 
                                       onClick={sendOtp} 
-                                      className="w-full bg-brand-lime text-brand-dark font-sans font-medium text-[14px] sm:text-base h-14 rounded-full shadow-xl shadow-brand-lime/20 hover:scale-105 active:scale-95 transition-all"
+                                      className="w-full bg-accent text-primary font-sans font-medium text-[14px] sm:text-base h-14 rounded-full shadow-xl shadow-accent/20 hover:scale-105 active:scale-95 transition-all"
                                     >
                                       Enviar código de verificación
                                     </Button>
@@ -672,7 +672,7 @@ export default function ApplicationWizard() {
                                               <Input 
                                                 {...field} 
                                                 maxLength={6} 
-                                                className="h-16 text-center text-3xl font-black tracking-[0.5em] rounded-2xl border-2 border-brand-lime/30 focus:border-brand-lime bg-white" 
+                                                className="h-16 text-center text-3xl font-black tracking-[0.5em] rounded-2xl border-2 border-accent/30 focus:border-accent bg-white" 
                                                 placeholder="000000" 
                                               />
                                             </FormControl>
@@ -684,14 +684,14 @@ export default function ApplicationWizard() {
                                         <Button 
                                           type="button" 
                                           onClick={verifyOtp} 
-                                          className="w-full bg-brand-lime text-brand-dark font-sans font-medium text-[14px] sm:text-base h-14 rounded-full shadow-xl shadow-brand-lime/20 hover:scale-105 active:scale-95 transition-all"
+                                          className="w-full bg-accent text-primary font-sans font-medium text-[14px] sm:text-base h-14 rounded-full shadow-xl shadow-accent/20 hover:scale-105 active:scale-95 transition-all"
                                         >
                                           Verificar código
                                         </Button>
                                         <button 
                                           type="button" 
                                           onClick={sendOtp} 
-                                          className="text-[10px] font-sans font-black uppercase tracking-[0.25em] text-brand-lime hover:text-brand-lime/80 underline"
+                                          className="text-[10px] font-sans font-black uppercase tracking-[0.25em] text-accent hover:text-accent/80 underline"
                                         >
                                           Reenviar código
                                         </button>
@@ -699,8 +699,8 @@ export default function ApplicationWizard() {
                                     </div>
                                   )}
                                   {isEmailVerified && (
-                                    <div className="flex items-center justify-center gap-2 text-brand-lime font-black uppercase text-xs py-2 bg-brand-lime/10 rounded-full animate-in zoom-in-50">
-                                      <ShieldCheck className="w-4 h-4" /> Email verificado correctamente
+                                    <div className="flex items-center justify-center gap-2 text-accent font-black uppercase text-xs py-2 bg-accent/10 rounded-full animate-in zoom-in-50">
+                                      <ShieldCheck className="w-4 h-4 text-accent" /> Email verificado correctamente
                                     </div>
                                   )}
                                 </div>
@@ -723,6 +723,25 @@ export default function ApplicationWizard() {
                                       }}
                                       className={`p-6 rounded-[1.5rem] border-2 cursor-pointer transition-all flex items-center justify-between ${
                                         form.getValues("notes")?.includes(method.label)
+                                          ? "border-accent bg-accent/5 shadow-inner"
+                                          : "border-gray-100 hover:border-accent/30"
+                                      }`}
+                                    >
+                                      <div className="flex-1">
+                                        <div className="flex items-center gap-3 mb-1">
+                                          <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all ${
+                                            form.getValues("notes")?.includes(method.label)
+                                              ? "border-accent bg-accent text-primary"
+                                              : "border-gray-200"
+                                          }`}>
+                                            {form.getValues("notes")?.includes(method.label) && <div className="w-2 h-2 rounded-full bg-primary" />}
+                                          </div>
+                                          <h5 className="font-black uppercase tracking-tight text-brand-dark">{method.label}</h5>
+                                        </div>
+                                        <p className="text-gray-500 text-xs ml-9">{method.desc}</p>
+                                      </div>
+                                    </div>
+                                        form.getValues("notes")?.includes(method.label)
                                           ? "border-brand-lime bg-brand-lime/5 shadow-md scale-[1.02]"
                                           : "border-gray-100 hover:border-brand-lime/30 bg-white"
                                       }`}
@@ -736,7 +755,7 @@ export default function ApplicationWizard() {
                                           ? "border-brand-lime bg-brand-lime text-brand-dark"
                                           : "border-gray-200"
                                       }`}>
-                                        {form.getValues("notes")?.includes(method.label) && <Check className="w-4 h-4" />}
+                                        {form.getValues("notes")?.includes(method.label) && <div className="w-4 h-4 rounded-full bg-accent" />}
                                       </div>
                                     </div>
                                   ))}
@@ -748,10 +767,10 @@ export default function ApplicationWizard() {
                               <div className="space-y-8">
                                 <div className="bg-brand-dark text-white p-8 rounded-[2rem] relative overflow-hidden mb-8">
                                   <div className="absolute top-0 right-0 p-8 opacity-10">
-                                    <ShieldCheck className="w-24 h-24" />
+                                    <ShieldCheck className="w-24 h-24 text-accent" />
                                   </div>
                                   <div className="relative z-10 text-center sm:text-left">
-                                    <p className="text-brand-lime font-black text-xs uppercase tracking-[0.2em] mb-2">Código de Pedido</p>
+                                    <p className="text-accent font-black text-xs uppercase tracking-[0.2em] mb-2">Código de Pedido</p>
                                     <h4 className="text-4xl font-black uppercase tracking-tighter mb-4">{orderNumber}</h4>
                                     <p className="text-gray-400 text-sm max-w-md mx-auto sm:mx-0">Guarda este código para consultar el estado de tu solicitud en cualquier momento.</p>
                                   </div>

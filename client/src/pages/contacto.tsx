@@ -240,7 +240,9 @@ export default function Contacto() {
                           name="otp"
                           render={({ field }) => (
                             <FormItem className="space-y-1.5 sm:space-y-2">
-                              <FormLabel className="font-black uppercase text-[10px] sm:text-xs tracking-widest text-accent">Introduce el código de 6 dígitos</FormLabel>
+                              <FormLabel className="font-black uppercase text-[10px] sm:text-xs tracking-widest text-accent flex items-center gap-2">
+                                <div className="w-2 h-2 rounded-full bg-accent" /> Introduce el código de 6 dígitos
+                              </FormLabel>
                               <FormControl>
                                 <Input placeholder="000000" {...field} className="rounded-3xl border-accent focus:border-accent bg-accent/5 text-center text-lg tracking-[0.5em] font-black h-11 sm:h-12" maxLength={6} />
                               </FormControl>
