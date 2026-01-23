@@ -21,6 +21,7 @@ const build = async () => {
     console.log("Building backend...");
     const packageJson = JSON.parse(fs.readFileSync("package.json", "utf8"));
     const dependencies = Object.keys(packageJson.dependencies || {});
+    const devDependencies = Object.keys(packageJson.devDependencies || {});
 
     await esbuild.build({
       entryPoints: ["server/index.ts"],
@@ -29,7 +30,7 @@ const build = async () => {
       target: "node20",
       outfile: "dist/index.cjs",
       // Externalize all dependencies to avoid bundling issues
-      external: [...dependencies, "pg-native"],
+      external: [...dependencies, ...devDependencies, "pg-native"],
       format: "cjs",
       sourcemap: true,
     });
