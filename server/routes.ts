@@ -44,14 +44,8 @@ export async function registerRoutes(
     // === Activity Tracking ===
     app.post("/api/activity/track", async (req, res) => {
       const { action, details } = req.body;
-      const logTitles: Record<string, string> = {
-        "CLICK_ELEGIR_ESTADO": "Selección de Estado",
-        "FORM_STEP_COMPLETED": "Paso de Formulario Completado",
-        "ERROR_OCCURRED": "Error de Sistema"
-      };
-      
-      if (logTitles[action]) {
-        logActivity(logTitles[action], { "Detalles": details, "IP": req.ip });
+      if (action === "CLICK_ELEGIR_ESTADO") {
+        logActivity("Selección de Estado", { "Detalles": details, "IP": req.ip });
       }
       res.json({ success: true });
     });

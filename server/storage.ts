@@ -158,9 +158,10 @@ export class DatabaseStorage implements IStorage {
 
   // Newsletter
   async subscribeToNewsletter(email: string): Promise<void> {
-    await db.insert(newsletterSubscribers)
-      .values({ email })
-      .onConflictDoNothing({ target: newsletterSubscribers.email });
+    const subscribed = await this.isSubscribedToNewsletter(email);
+    if (!subscribed) {
+      await db.insert(newsletterSubscribers).values({ email });
+    }
   }
 
   async isSubscribedToNewsletter(email: string): Promise<boolean> {
