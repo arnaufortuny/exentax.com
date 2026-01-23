@@ -25,7 +25,7 @@ const contactFormSchema = z.object({
 });
 
 type ContactFormValues = z.infer<typeof contactFormSchema>;
-// ... rest of imports and definitions
+
 const fadeIn = {
   initial: { opacity: 0, y: 20 },
   animate: { opacity: 1, y: 0 },
@@ -224,7 +224,7 @@ export default function Contacto() {
                         type="button" 
                         onClick={sendOtp} 
                         disabled={isSendingOtp || isOtpSent}
-                        className="bg-brand-lime text-brand-dark font-black rounded-full h-11 sm:h-12 px-8 hover:bg-brand-lime/90 transition-all shrink-0 w-full sm:w-auto text-[10px] sm:text-[11px] uppercase tracking-[0.2em] shadow-lg shadow-brand-lime/20"
+                        className="bg-brand-lime text-brand-dark font-black rounded-full h-11 sm:h-12 px-8 hover:bg-brand-lime/90 transition-all shrink-0 w-full sm:w-auto text-[10px] sm:text-[11px] uppercase tracking-[0.25em] shadow-lg shadow-brand-lime/20"
                       >
                         {isSendingOtp ? "Enviando..." : isOtpSent ? "Código enviado" : "Enviar código"}
                       </Button>
@@ -252,7 +252,7 @@ export default function Contacto() {
                         type="button" 
                         onClick={verifyOtp} 
                         disabled={isVerifyingOtp}
-                        className="bg-brand-dark text-white font-black rounded-full h-11 sm:h-12 px-10 hover:bg-brand-dark/90 transition-all shrink-0 w-full sm:w-auto text-[10px] sm:text-[11px] uppercase tracking-[0.2em] shadow-xl"
+                        className="bg-brand-dark text-white font-black rounded-full h-11 sm:h-12 px-10 hover:bg-brand-dark/90 transition-all shrink-0 w-full sm:w-auto text-[10px] sm:text-[11px] uppercase tracking-[0.25em] shadow-xl"
                       >
                         {isVerifyingOtp ? "Verificando..." : "Verificar email"}
                       </Button>

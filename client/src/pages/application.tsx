@@ -475,32 +475,29 @@ export default function ApplicationWizard() {
                                     </div>
                                   </div>
 
-                                  <FormField
-                                    control={form.control}
-                                    name="ownerBirthDate"
-                                    render={({ field }) => (
-                                      <FormItem className="pt-6 border-t border-gray-100">
-                                        <FormLabel className="font-normal text-sm text-gray-500 mb-1.5 block uppercase tracking-tight">Fecha Nacimiento (Mínimo 18 años)</FormLabel>
-                                        <FormControl><Input {...field} value={field.value || ""} type="date" className="rounded-full border-gray-100 bg-gray-50/30 h-12 md:h-14 px-6 focus:border-brand-lime font-normal text-base" /></FormControl>
-                                      </FormItem>
-                                    )}
-                                  />
-                                  <div className="space-y-4 pt-6 border-t border-gray-100">
+                                  <div className="space-y-4 pt-6">
+                                    <FormField
+                                      control={form.control}
+                                      name="ownerBirthDate"
+                                      render={({ field }) => (
+                                        <FormItem>
+                                          <FormLabel className="font-normal text-sm text-gray-500 mb-1.5 block uppercase tracking-tight">Fecha Nacimiento (Mínimo 18 años)</FormLabel>
+                                          <FormControl><Input {...field} value={field.value || ""} type="date" className="rounded-full border-gray-100 bg-gray-50/30 h-12 md:h-14 px-6 focus:border-brand-lime font-normal text-base" /></FormControl>
+                                          <FormMessage />
+                                        </FormItem>
+                                      )}
+                                    />
                                     <FormField
                                       control={form.control}
                                       name="termsConsent"
                                       render={({ field }) => (
-                                        <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-[2rem] border border-gray-50 p-6 bg-gray-50/30">
+                                        <FormItem className="flex items-start space-x-3 space-y-0 rounded-2xl border border-gray-100 p-4 bg-gray-50/30">
                                           <FormControl>
-                                            <Checkbox
-                                              checked={field.value}
-                                              onCheckedChange={field.onChange}
-                                              className="data-[state=checked]:bg-brand-lime data-[state=checked]:border-brand-lime"
-                                            />
+                                            <Checkbox checked={field.value} onCheckedChange={field.onChange} />
                                           </FormControl>
                                           <div className="space-y-1 leading-none">
-                                            <FormLabel className="font-normal text-xs text-gray-600">
-                                              Acepto los <Link href="/terms" className="underline font-bold text-brand-dark">Términos y Condiciones</Link>
+                                            <FormLabel className="text-[10px] sm:text-xs font-medium text-gray-500 uppercase tracking-tight">
+                                              Acepto los términos y condiciones de servicio.
                                             </FormLabel>
                                           </div>
                                         </FormItem>
@@ -510,17 +507,13 @@ export default function ApplicationWizard() {
                                       control={form.control}
                                       name="dataProcessingConsent"
                                       render={({ field }) => (
-                                        <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-[2rem] border border-gray-50 p-6 bg-gray-50/30">
+                                        <FormItem className="flex items-start space-x-3 space-y-0 rounded-2xl border border-gray-100 p-4 bg-gray-50/30">
                                           <FormControl>
-                                            <Checkbox
-                                              checked={field.value}
-                                              onCheckedChange={field.onChange}
-                                              className="data-[state=checked]:bg-brand-lime data-[state=checked]:border-brand-lime"
-                                            />
+                                            <Checkbox checked={field.value} onCheckedChange={field.onChange} />
                                           </FormControl>
                                           <div className="space-y-1 leading-none">
-                                            <FormLabel className="font-normal text-xs text-gray-600">
-                                              Acepto el tratamiento de mis datos personales
+                                            <FormLabel className="text-[10px] sm:text-xs font-medium text-gray-500 uppercase tracking-tight">
+                                              Consiento el tratamiento de mis datos personales para la gestión de mi solicitud.
                                             </FormLabel>
                                           </div>
                                         </FormItem>
@@ -533,258 +526,193 @@ export default function ApplicationWizard() {
 
                             {step === 1 && (
                               <div className="space-y-8">
-                                <div className="grid grid-cols-1 gap-5">
-                                  <div className="space-y-5 pb-6 border-b border-gray-100">
-                                    <h3 className="text-[10px] font-black uppercase tracking-[0.25em] text-brand-dark/30 flex items-center gap-2">
-                                      <MapPin className="w-3.5 h-3.5" /> Dirección Profesional (Trabajo habitual)
-                                    </h3>
-                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                                      <FormField
-                                        control={form.control}
-                                        name="ownerCity"
-                                        render={({ field }) => (
-                                          <FormItem>
-                                            <FormLabel className="font-normal text-sm text-gray-500 mb-1.5 block uppercase tracking-tight">Ciudad</FormLabel>
-                                            <FormControl><Input {...field} value={field.value || ""} className="rounded-full border-gray-100 bg-gray-50/30 h-12 md:h-14 px-6 focus:border-brand-lime font-normal text-base" /></FormControl>
-                                          </FormItem>
-                                        )}
-                                      />
-                                      <FormField
-                                        control={form.control}
-                                        name="ownerCountry"
-                                        render={({ field }) => (
-                                          <FormItem>
-                                            <FormLabel className="font-normal text-sm text-gray-500 mb-1.5 block uppercase tracking-tight">País</FormLabel>
-                                            <FormControl><Input {...field} value={field.value || ""} className="rounded-full border-gray-100 bg-gray-50/30 h-12 md:h-14 px-6 focus:border-brand-lime font-normal text-base" /></FormControl>
-                                          </FormItem>
-                                        )}
-                                      />
-                                    </div>
-                                  </div>
-
+                                <FormField
+                                  control={form.control}
+                                  name="companyName"
+                                  render={({ field }) => (
+                                    <FormItem>
+                                      <FormLabel className="font-normal text-sm text-gray-500 mb-1.5 block uppercase tracking-tight">Nombre para tu LLC (Debe terminar en LLC)</FormLabel>
+                                      <FormControl><Input {...field} value={field.value || ""} className="rounded-full border-gray-100 bg-gray-50/30 h-12 md:h-14 px-6 focus:border-brand-lime font-normal text-base" placeholder="Mi Empresa LLC" /></FormControl>
+                                      <FormMessage />
+                                    </FormItem>
+                                  )}
+                                />
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                                   <FormField
                                     control={form.control}
-                                    name="companyName"
+                                    name="ownerIdType"
                                     render={({ field }) => (
                                       <FormItem>
-                                        <FormLabel className="font-normal text-sm text-gray-500 mb-1.5 block uppercase tracking-tight">Nombre para tu LLC (Debe terminar en LLC)</FormLabel>
-                                        <FormControl>
-                                          <Input 
-                                            {...field} 
-                                            value={(field.value as string) || ""} 
-                                            className="rounded-full border-gray-100 bg-gray-50/30 h-12 md:h-14 px-6 focus:border-brand-lime font-normal text-base uppercase" 
-                                            placeholder="EJ: MI EMPRESA LLC" 
-                                            onChange={(e) => {
-                                              const val = e.target.value.toUpperCase();
-                                              field.onChange(val);
-                                            }}
-                                            onBlur={(e) => {
-                                              let val = e.target.value.trim().toUpperCase();
-                                              if (val && !val.endsWith("LLC")) {
-                                                val = val + " LLC";
-                                              }
-                                              field.onChange(val);
-                                            }}
-                                          />
-                                        </FormControl>
+                                        <FormLabel className="font-normal text-sm text-gray-500 mb-1.5 block uppercase tracking-tight">Tipo de Documento</FormLabel>
+                                        <Select onValueChange={field.onChange} defaultValue={field.value || "Passport"}>
+                                          <FormControl>
+                                            <SelectTrigger className="rounded-full border-gray-100 bg-white h-12 md:h-14 px-4 focus:ring-brand-lime font-normal text-base">
+                                              <SelectValue placeholder="Pasaporte" />
+                                            </SelectTrigger>
+                                          </FormControl>
+                                          <SelectContent className="bg-white">
+                                            <SelectItem value="Passport">Pasaporte</SelectItem>
+                                            <SelectItem value="NationalID">DNI / NIE / Cédula</SelectItem>
+                                            <SelectItem value="DriverLicense">Licencia de Conducir</SelectItem>
+                                          </SelectContent>
+                                        </Select>
                                       </FormItem>
                                     )}
                                   />
-                                  
-                                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                                    <FormField
-                                      control={form.control}
-                                      name="ownerIdType"
-                                      render={({ field }) => (
-                                        <FormItem>
-                                          <FormLabel className="font-normal text-sm text-gray-500 mb-1.5 block uppercase tracking-tight">Tipo de Documento</FormLabel>
-                                          <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                            <FormControl>
-                                              <SelectTrigger className="rounded-full border-gray-100 bg-white h-12 md:h-14 px-4">
-                                                <SelectValue />
-                                              </SelectTrigger>
-                                            </FormControl>
-                                            <SelectContent className="bg-white">
-                                              <SelectItem value="Passport">Pasaporte</SelectItem>
-                                              <SelectItem value="NationalID">DNI / NIE / ID Nacional</SelectItem>
-                                            </SelectContent>
-                                          </Select>
-                                        </FormItem>
-                                      )}
-                                    />
-                                    <FormField
-                                      control={form.control}
-                                      name="ownerIdNumber"
-                                      render={({ field }) => (
-                                        <FormItem>
-                                          <FormLabel className="font-normal text-sm text-gray-500 mb-1.5 block uppercase tracking-tight">Número de Documento</FormLabel>
-                                          <FormControl><Input {...field} value={field.value || ""} className="rounded-full border-gray-100 bg-gray-50/30 h-12 md:h-14 px-6 focus:border-brand-lime font-normal text-base" /></FormControl>
-                                        </FormItem>
-                                      )}
-                                    />
-                                  </div>
-
                                   <FormField
                                     control={form.control}
-                                    name="idLater"
+                                    name="ownerIdNumber"
                                     render={({ field }) => (
-                                      <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-[2rem] border border-gray-50 p-6 bg-gray-50/30">
-                                        <FormControl>
-                                          <Checkbox
-                                            checked={field.value}
-                                            onCheckedChange={field.onChange}
-                                            className="data-[state=checked]:bg-brand-lime data-[state=checked]:border-brand-lime"
-                                          />
-                                        </FormControl>
-                                        <div className="space-y-1 leading-none">
-                                          <FormLabel className="font-normal text-xs text-gray-600 italic">
-                                            Adjuntar documento más tarde (vía Email o WhatsApp)
-                                          </FormLabel>
-                                        </div>
+                                      <FormItem>
+                                        <FormLabel className="font-normal text-sm text-gray-500 mb-1.5 block uppercase tracking-tight">Número de Documento</FormLabel>
+                                        <FormControl><Input {...field} value={field.value || ""} className="rounded-full border-gray-100 bg-gray-50/30 h-12 md:h-14 px-6 focus:border-brand-lime font-normal text-base" placeholder="" /></FormControl>
+                                        <FormMessage />
                                       </FormItem>
                                     )}
                                   />
-                                  
+                                </div>
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 pt-6 border-t border-gray-100">
                                   <FormField
                                     control={form.control}
                                     name="businessCategory"
                                     render={({ field }) => (
                                       <FormItem>
                                         <FormLabel className="font-normal text-sm text-gray-500 mb-1.5 block uppercase tracking-tight">Actividad de la LLC (Categoría)</FormLabel>
-                                        <Select onValueChange={field.onChange} defaultValue={field.value || undefined}>
+                                        <Select onValueChange={field.onChange} defaultValue={field.value || ""}>
                                           <FormControl>
-                                            <SelectTrigger className="rounded-full border-gray-100 bg-white h-12 md:h-14 px-6 focus:ring-brand-lime font-normal text-base">
-                                              <SelectValue placeholder="Selecciona una actividad" />
+                                            <SelectTrigger className="rounded-full border-gray-100 bg-white h-12 md:h-14 px-4 focus:ring-brand-lime font-normal text-base">
+                                              <SelectValue placeholder="Selecciona una categoría" />
                                             </SelectTrigger>
                                           </FormControl>
-                                          <SelectContent className="max-h-[250px] bg-white">
+                                          <SelectContent className="bg-white max-h-60">
                                             {BUSINESS_CATEGORIES.map(cat => (
                                               <SelectItem key={cat} value={cat}>{cat}</SelectItem>
                                             ))}
                                           </SelectContent>
                                         </Select>
+                                        <FormMessage />
                                       </FormItem>
                                     )}
                                   />
-
                                   <FormField
                                     control={form.control}
                                     name="companyDescription"
                                     render={({ field }) => (
                                       <FormItem>
                                         <FormLabel className="font-normal text-sm text-gray-500 mb-1.5 block uppercase tracking-tight">Descripción detallada de la actividad</FormLabel>
-                                        <FormControl><Textarea {...field} value={field.value || ""} className="rounded-[2rem] border-gray-100 bg-gray-50/30 min-h-[120px] px-6 py-4 focus:border-brand-lime font-normal text-base resize-none" placeholder="Describe brevemente a qué se dedicará tu empresa..." /></FormControl>
-                                      </FormItem>
-                                    )}
-                                  />
-
-                                  <FormField
-                                    control={form.control}
-                                    name="notes"
-                                    render={({ field }) => (
-                                      <FormItem>
-                                        <FormLabel className="font-normal text-sm text-gray-500 mb-1.5 block uppercase tracking-tight">Nota adicional (Opcional)</FormLabel>
-                                        <FormControl><Textarea {...field} value={field.value || ""} className="rounded-[2rem] border-gray-100 bg-gray-50/30 min-h-[80px] px-6 py-4 focus:border-brand-lime font-normal text-base resize-none" placeholder="" /></FormControl>
+                                        <FormControl><Input {...field} value={field.value || ""} className="rounded-full border-gray-100 bg-gray-50/30 h-12 md:h-14 px-6 focus:border-brand-lime font-normal text-base" placeholder="Venta de servicios de marketing..." /></FormControl>
+                                        <FormMessage />
                                       </FormItem>
                                     )}
                                   />
                                 </div>
+                                <FormField
+                                  control={form.control}
+                                  name="notes"
+                                  render={({ field }) => (
+                                    <FormItem>
+                                      <FormLabel className="font-normal text-sm text-gray-500 mb-1.5 block uppercase tracking-tight">Nota adicional (Opcional)</FormLabel>
+                                      <FormControl><Textarea {...field} value={field.value || ""} className="rounded-[1.5rem] border-gray-100 bg-gray-50/30 min-h-[100px] px-6 py-4 focus:border-brand-lime font-normal text-base" placeholder="¿Algo más que debamos saber?" /></FormControl>
+                                    </FormItem>
+                                  )}
+                                />
                               </div>
                             )}
 
                             {step === 2 && (
-                              <div className="space-y-8 text-center py-6">
-                                <div className="w-24 h-24 bg-brand-lime/10 rounded-full flex items-center justify-center mx-auto mb-6">
-                                  <Mail className="w-10 h-10 text-brand-dark" />
+                              <div className="space-y-8 flex flex-col items-center py-4">
+                                <div className="w-20 h-20 rounded-full bg-brand-lime/10 flex items-center justify-center mb-4">
+                                  <Mail className="w-10 h-10 text-brand-lime" />
                                 </div>
-                                <div className="space-y-3">
-                                  <p className="text-muted-foreground font-medium text-base px-2">Introduce el código enviado a: <br/><span className="font-black text-brand-dark text-lg mt-1 block truncate">{form.getValues("ownerEmail")}</span></p>
+                                <div className="text-center space-y-3">
+                                  <h3 className="text-2xl font-black uppercase tracking-tight text-brand-dark">Verifica tu identidad</h3>
+                                  <p className="text-gray-500 text-sm max-w-sm mx-auto">Para garantizar la seguridad de tu trámite, hemos enviado un código de verificación a: <br /><strong className="text-brand-dark">{form.getValues("ownerEmail")}</strong></p>
                                 </div>
-                                
-                                {!isOtpSent ? (
-                                  <Button 
-                                    type="button" 
-                                    onClick={sendOtp} 
-                                    className="bg-brand-lime text-brand-dark rounded-full px-12 h-14 font-black uppercase tracking-[0.25em] text-[10px] sm:text-xs hover:scale-105 transition-all shadow-xl shadow-brand-lime/30"
-                                  >
-                                    Recibir Código
-                                  </Button>
-                                ) : (
-                                  <div className="space-y-6 max-w-xs mx-auto">
-                                    <FormField
-                                      control={form.control}
-                                      name="otp"
-                                      render={({ field }) => (
-                                        <FormItem>
-                                          <FormControl>
-                                            <Input 
-                                              {...field} 
-                                              maxLength={6} 
-                                              className="text-center text-3xl font-black tracking-[0.5em] h-16 rounded-full border-brand-lime focus:ring-brand-lime bg-white" 
-                                              placeholder="000000"
-                                            />
-                                          </FormControl>
-                                          <FormMessage />
-                                        </FormItem>
-                                      )}
-                                    />
-                                    <div className="flex flex-col gap-3">
-                                      <Button 
-                                        type="button" 
-                                        onClick={verifyOtp} 
-                                        disabled={isEmailVerified}
-                                        className={`rounded-full h-14 font-black uppercase tracking-[0.25em] text-[10px] sm:text-xs transition-all ${
-                                          isEmailVerified 
-                                            ? "bg-green-500 text-white" 
-                                            : "bg-brand-dark text-white hover:bg-brand-dark/90 shadow-xl"
-                                        }`}
-                                      >
-                                        {isEmailVerified ? <div className="flex items-center gap-2"><Check className="w-4 h-4" /> Verificado</div> : "Verificar Código"}
-                                      </Button>
-                                      <button 
-                                        type="button" 
-                                        onClick={sendOtp} 
-                                        className="text-[10px] uppercase font-black tracking-widest text-gray-400 hover:text-brand-lime transition-colors"
-                                      >
-                                        Reenviar código
-                                      </button>
+                                <div className="w-full max-w-sm space-y-6">
+                                  {!isOtpSent ? (
+                                    <Button 
+                                      type="button" 
+                                      onClick={sendOtp} 
+                                      className="w-full bg-brand-lime text-brand-dark font-black uppercase tracking-[0.25em] h-14 rounded-full text-xs shadow-xl shadow-brand-lime/20 hover:scale-105 active:scale-95 transition-all"
+                                    >
+                                      Enviar código de verificación
+                                    </Button>
+                                  ) : (
+                                    <div className="space-y-4 animate-in fade-in slide-in-from-bottom-4">
+                                      <FormField
+                                        control={form.control}
+                                        name="otp"
+                                        render={({ field }) => (
+                                          <FormItem>
+                                            <FormControl>
+                                              <Input 
+                                                {...field} 
+                                                maxLength={6} 
+                                                className="h-16 text-center text-3xl font-black tracking-[0.5em] rounded-2xl border-2 border-brand-lime/30 focus:border-brand-lime bg-white" 
+                                                placeholder="000000" 
+                                              />
+                                            </FormControl>
+                                            <FormMessage />
+                                          </FormItem>
+                                        )}
+                                      />
+                                      <div className="flex flex-col gap-3">
+                                        <Button 
+                                          type="button" 
+                                          onClick={verifyOtp} 
+                                          className="w-full bg-brand-dark text-white font-black uppercase tracking-[0.25em] h-14 rounded-full text-xs shadow-xl hover:bg-brand-dark/90 transition-all"
+                                        >
+                                          Verificar código
+                                        </Button>
+                                        <button 
+                                          type="button" 
+                                          onClick={sendOtp} 
+                                          className="text-[10px] font-black uppercase tracking-[0.25em] text-brand-lime hover:text-brand-lime/80 underline"
+                                        >
+                                          Reenviar código
+                                        </button>
+                                      </div>
                                     </div>
-                                  </div>
-                                )}
+                                  )}
+                                  {isEmailVerified && (
+                                    <div className="flex items-center justify-center gap-2 text-brand-lime font-black uppercase text-xs py-2 bg-brand-lime/10 rounded-full animate-in zoom-in-50">
+                                      <ShieldCheck className="w-4 h-4" /> Email verificado correctamente
+                                    </div>
+                                  )}
+                                </div>
                               </div>
                             )}
 
                             {step === 3 && (
                               <div className="space-y-8">
-                                <div className="space-y-4 text-center">
+                                <div className="text-center space-y-2 mb-8">
                                   <h4 className="text-xl font-black uppercase tracking-tight text-brand-dark">Selecciona tu método de pago</h4>
-                                  <p className="text-sm text-gray-500">Tu solicitud se procesará una vez confirmado el abono.</p>
+                                  <p className="text-gray-500 text-sm">Tu solicitud quedará registrada y procederemos con el trámite una vez confirmado el pago.</p>
                                 </div>
                                 <div className="grid grid-cols-1 gap-4">
                                   {PAYMENT_METHODS.map((method) => (
                                     <div 
                                       key={method.id}
                                       onClick={() => {
-                                        form.setValue("notes", `Método de pago seleccionado: ${method.label}`);
+                                        form.setValue("notes", `Método de pago seleccionado: ${method.label}. ` + (form.getValues("notes")?.replace(/Método de pago seleccionado: [^.]+ \. /g, "") || ""));
+                                        toast({ title: "Método seleccionado", description: method.label });
                                       }}
-                                      className={`p-6 rounded-[2rem] border-2 cursor-pointer transition-all flex items-center justify-between group ${
-                                        form.watch("notes")?.includes(method.label) 
-                                          ? "border-brand-lime bg-brand-lime/5 shadow-lg" 
-                                          : "border-gray-100 bg-white hover:border-brand-lime/30"
+                                      className={`p-6 rounded-[1.5rem] border-2 cursor-pointer transition-all flex items-center justify-between ${
+                                        form.getValues("notes")?.includes(method.label)
+                                          ? "border-brand-lime bg-brand-lime/5 shadow-md scale-[1.02]"
+                                          : "border-gray-100 hover:border-brand-lime/30 bg-white"
                                       }`}
                                     >
-                                      <div className="flex items-center gap-4">
-                                        <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all ${
-                                          form.watch("notes")?.includes(method.label) 
-                                            ? "border-brand-lime bg-brand-lime" 
-                                            : "border-gray-200"
-                                        }`}>
-                                          {form.watch("notes")?.includes(method.label) && <Check className="w-4 h-4 text-brand-dark" />}
-                                        </div>
-                                        <div>
-                                          <p className="font-black text-brand-dark uppercase tracking-tight">{method.label}</p>
-                                          <p className="text-xs text-gray-500 mt-0.5">{method.desc}</p>
-                                        </div>
+                                      <div>
+                                        <p className="font-black text-brand-dark uppercase tracking-tight">{method.label}</p>
+                                        <p className="text-xs text-gray-500">{method.desc}</p>
+                                      </div>
+                                      <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center ${
+                                        form.getValues("notes")?.includes(method.label)
+                                          ? "border-brand-lime bg-brand-lime text-brand-dark"
+                                          : "border-gray-200"
+                                      }`}>
+                                        {form.getValues("notes")?.includes(method.label) && <Check className="w-4 h-4" />}
                                       </div>
                                     </div>
                                   ))}
@@ -794,92 +722,64 @@ export default function ApplicationWizard() {
 
                             {step === 4 && (
                               <div className="space-y-8">
-                                <div className="grid grid-cols-1 gap-6">
-                                  <div className="bg-brand-dark text-white rounded-[2rem] p-8 flex justify-between items-center shadow-xl relative overflow-hidden">
-                                    <div className="absolute top-0 right-0 w-32 h-full bg-brand-lime/5 transform skew-x-12 translate-x-12" />
-                                    <div className="relative z-10">
-                                        <p className="text-[10px] font-black uppercase tracking-[0.3em] text-brand-lime/70 mb-1">Nº Solicitud</p>
-                                        <p className="text-2xl font-black font-mono">#{orderNumber.toString().padStart(5, '0')}</p>
-                                    </div>
-                                    <div className="w-12 h-12 bg-brand-lime rounded-full flex items-center justify-center rotate-6 relative z-10">
-                                        <ShieldCheck className="w-6 h-6 text-brand-dark" />
-                                    </div>
-                                  </div>
-
-                                  <div className="bg-gray-50/40 rounded-[2rem] p-8 border border-gray-100 space-y-6">
-                                    <div className="flex justify-between items-center border-b border-gray-200/50 pb-4">
-                                      <h4 className="text-xs font-black uppercase tracking-widest text-brand-dark flex items-center gap-2">
-                                        <Globe className="w-4 h-4 text-brand-lime" /> Socio
-                                      </h4>
-                                      <Button type="button" variant="ghost" onClick={() => setStep(0)} className="h-8 px-4 text-[10px] uppercase font-black text-brand-lime hover:bg-brand-lime/10 rounded-full">Editar</Button>
-                                    </div>
-                                    <div className="grid grid-cols-1 gap-4">
-                                      <div className="space-y-1">
-                                        <p className="text-[9px] font-bold uppercase text-gray-400">Titular</p>
-                                        <p className="font-bold text-brand-dark text-base">{form.getValues("ownerFullName") || "---"}</p>
-                                      </div>
-                                      <div className="space-y-1">
-                                        <p className="text-[9px] font-bold uppercase text-gray-400">Email</p>
-                                        <p className="font-bold text-brand-dark text-base truncate">{form.getValues("ownerEmail") || "---"}</p>
-                                      </div>
-                                    </div>
+                                <div className="bg-brand-lime/5 p-8 rounded-[2rem] border border-brand-lime/20 space-y-6">
+                                  <div className="flex items-center justify-between border-b border-brand-lime/10 pb-4">
+                                    <h4 className="font-black uppercase tracking-tight text-brand-dark">Resumen de la solicitud</h4>
+                                    <span className="bg-brand-lime text-brand-dark font-black text-[10px] px-3 py-1 rounded-full uppercase">Orden #{orderNumber}</span>
                                   </div>
                                   
-                                  <div className="bg-gray-50/40 rounded-[2rem] p-8 border border-gray-100 space-y-6">
-                                    <div className="flex justify-between items-center border-b border-gray-200/50 pb-4">
-                                      <h4 className="text-xs font-black uppercase tracking-widest text-brand-dark flex items-center gap-2">
-                                        <Building2 className="w-4 h-4 text-brand-lime" /> Entidad
-                                      </h4>
-                                      <Button type="button" variant="ghost" onClick={() => setStep(1)} className="h-8 px-4 text-[10px] uppercase font-black text-brand-lime hover:bg-brand-lime/10 rounded-full">Editar</Button>
-                                    </div>
-                                    <div className="space-y-1">
-                                      <p className="text-[9px] font-bold uppercase text-gray-400">Nombre</p>
-                                      <p className="font-black text-xl text-brand-dark uppercase">{(form.getValues("companyName") as string) || "---"}</p>
-                                    </div>
-                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                      <div className="space-y-1">
-                                        <p className="text-[9px] font-bold uppercase text-gray-400">Documento</p>
-                                        <p className="font-bold text-brand-dark text-base">{(form.getValues("ownerIdType") as string) === "Passport" ? "Pasaporte" : "DNI/ID"}: {(form.getValues("ownerIdNumber") as string) || (form.watch("idLater") ? "Pendiente" : "---")}</p>
+                                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-sm">
+                                    <div className="space-y-4">
+                                      <div>
+                                        <p className="text-[10px] font-black uppercase tracking-widest text-brand-dark/40 mb-1">Titular</p>
+                                        <p className="font-bold text-brand-dark">{form.getValues("ownerFullName")}</p>
+                                        <p className="text-gray-500">{form.getValues("ownerEmail")}</p>
+                                        <Button type="button" variant="ghost" onClick={() => setStep(0)} className="h-8 px-0 text-[10px] uppercase font-black text-brand-lime hover:bg-transparent">Editar datos</Button>
                                       </div>
-                                      <div className="space-y-1">
-                                        <p className="text-[9px] font-bold uppercase text-gray-400">Dirección Profesional</p>
-                                        <p className="font-bold text-brand-dark text-base">{(form.getValues("ownerCity") as string) || "---"}, {(form.getValues("ownerCountry") as string) || "---"}</p>
+                                      <div>
+                                        <p className="text-[10px] font-black uppercase tracking-widest text-brand-dark/40 mb-1">Empresa</p>
+                                        <p className="font-bold text-brand-dark">{form.getValues("companyName")}</p>
+                                        <p className="text-gray-500">Estado: {form.getValues("state")}</p>
+                                        <Button type="button" variant="ghost" onClick={() => setStep(1)} className="h-8 px-0 text-[10px] uppercase font-black text-brand-lime hover:bg-transparent">Editar empresa</Button>
+                                      </div>
+                                    </div>
+                                    <div className="space-y-4 bg-white/50 p-6 rounded-2xl border border-brand-lime/10">
+                                      <div>
+                                        <p className="text-[10px] font-black uppercase tracking-widest text-brand-dark/40 mb-1">Pago</p>
+                                        <p className="font-bold text-brand-dark">{form.getValues("notes")?.split(".")[0]?.replace("Método de pago seleccionado: ", "")}</p>
+                                      </div>
+                                      <div className="pt-2">
+                                        <p className="text-2xl font-black text-brand-dark">{stateFromUrl.includes("Wyoming") ? "799€" : stateFromUrl.includes("Delaware") ? "999€" : "639€"}</p>
+                                        <p className="text-[9px] font-black uppercase tracking-widest text-brand-lime">Impuestos y tasas incluidos</p>
                                       </div>
                                     </div>
                                   </div>
                                 </div>
+                                <div className="text-center p-4">
+                                  <p className="text-[11px] text-gray-400 max-w-sm mx-auto">Al hacer clic en "Enviar Solicitud", confirmas que toda la información proporcionada es veraz y correcta para proceder con el registro legal de tu LLC.</p>
+                                </div>
                               </div>
                             )}
-                              <div className="flex flex-col sm:flex-row gap-4 pt-10 border-t border-gray-50">
-                                {step > 0 && (
-                                  <Button
-                                    type="button"
-                                    variant="outline"
-                                    onClick={prevStep}
-                                    className="w-full sm:w-1/3 h-16 md:h-20 rounded-full font-black uppercase tracking-[0.25em] text-[10px] sm:text-xs border-2 border-gray-100 hover:bg-gray-50 transition-all"
-                                  >
-                                    Atrás
-                                  </Button>
-                                )}
-                                <Button
-                                  type="button"
-                                  onClick={nextStep}
-                                  disabled={isSubmitting || (step === 2 && !isEmailVerified)}
-                                  className={`h-16 md:h-20 rounded-full font-black uppercase tracking-[0.25em] text-xs sm:text-sm transition-all shadow-xl flex-1 ${
-                                    step === 4 
-                                      ? "bg-brand-dark text-white hover:bg-brand-dark/95" 
-                                      : "bg-brand-lime text-brand-dark hover:bg-brand-lime/90 shadow-brand-lime/20"
-                                  }`}
+
+                            <div className="flex justify-between items-center gap-4 mt-8">
+                              {step > 0 && (
+                                <Button 
+                                  type="button" 
+                                  onClick={prevStep} 
+                                  variant="outline" 
+                                  className="rounded-full border-gray-200 text-gray-400 font-black uppercase tracking-[0.25em] h-12 md:h-14 px-8 md:px-12 text-xs md:text-sm hover:bg-gray-50 transition-all"
                                 >
-                                  {isSubmitting ? (
-                                    <Loader2 className="w-5 h-5 animate-spin" />
-                                  ) : step === 4 ? (
-                                    "FINALIZAR SOLICITUD"
-                                  ) : (
-                                    "SIGUIENTE PASO"
-                                  )}
+                                  Atrás
                                 </Button>
-                              </div>
+                              )}
+                              <Button 
+                                type="button" 
+                                onClick={nextStep}
+                                className="flex-1 bg-brand-lime text-brand-dark font-black uppercase tracking-[0.25em] h-12 md:h-14 rounded-full text-xs md:text-sm shadow-xl shadow-brand-lime/20 hover:scale-[1.02] active:scale-95 transition-all"
+                              >
+                                {step === 4 ? (isSubmitting ? "Enviando..." : "Enviar Solicitud") : "Continuar"}
+                              </Button>
+                            </div>
                           </div>
                         </motion.div>
                       )}
@@ -891,8 +791,6 @@ export default function ApplicationWizard() {
           </div>
         </div>
       </main>
-      
-      <NewsletterSection />
       <Footer />
     </div>
   );
