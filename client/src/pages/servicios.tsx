@@ -197,7 +197,7 @@ export default function Servicios() {
                 ].map((text, i) => (
                   <div 
                     key={i} 
-                    className="bg-brand-lime text-white font-sans font-medium uppercase tracking-[0.15em] text-[9px] sm:text-[10px] px-4 py-2 rounded-full shadow-lg border border-white/20"
+                    className="bg-brand-lime text-brand-dark font-black text-sm px-4 py-2 rounded-full shadow-sm"
                   >
                     {text}
                   </div>
@@ -395,7 +395,9 @@ export default function Servicios() {
               { title: "Acompañamiento continuo", desc: "Te acompañamos durante el proceso y resolvemos tus dudas hasta que la solicitud queda resuelta." },
             ].map((service, i) => (
               <motion.div key={i} className="p-6 bg-brand-lime/5 rounded-2xl border border-brand-lime/10 sm:border-brand-lime/10 border-brand-lime/30 hover:bg-brand-lime/10 transition-colors text-center" variants={fadeIn}>
-                <p className="font-sans font-black uppercase tracking-tighter text-lg sm:text-xl mb-3 text-brand-dark">{service.title}</p>
+                <span className="inline-flex items-center px-4 py-2 rounded-full bg-brand-lime text-brand-dark font-black text-sm shadow-sm mb-4">
+                  {service.title}
+                </span>
                 <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">{service.desc}</p>
               </motion.div>
             ))}

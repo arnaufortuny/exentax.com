@@ -184,7 +184,9 @@ export default function Home() {
               { title: "Soporte experto", desc: "Ofrecemos atención directa y personalizada para resolver tus dudas fiscales y operativas, acompañándote en el uso y mantenimiento de tu LLC." },
             ].map((service, i) => (
               <motion.div key={i} className="p-6 bg-brand-lime/5 rounded-2xl border border-brand-lime/10 sm:border-brand-lime/10 border-brand-lime/30 hover:bg-brand-lime/10 transition-colors text-center" variants={fadeIn}>
-                <p className="font-sans font-black uppercase tracking-tighter text-lg sm:text-xl mb-3 text-brand-dark">{service.title}</p>
+                <span className="inline-flex items-center px-4 py-2 rounded-full bg-brand-lime text-brand-dark font-black text-sm shadow-sm mb-4">
+                  {service.title}
+                </span>
                 <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">{service.desc}</p>
               </motion.div>
             ))}
@@ -217,7 +219,7 @@ export default function Home() {
             ].map((card, i) => (
               <motion.div key={i} className="bg-white rounded-2xl shadow-md overflow-hidden border border-brand-dark/5 sm:border-brand-dark/5 border-brand-lime/20 flex flex-col" variants={fadeIn}>
                 <div className="p-6 flex-grow">
-                  <span className="inline-block px-3 py-1 text-xs font-bold rounded-full bg-brand-lime text-brand-dark mb-4">{card.badge}</span>
+                  <span className="inline-block px-4 py-2 rounded-full bg-brand-lime text-brand-dark font-black text-sm shadow-sm mb-4 uppercase">{card.badge}</span>
                   <h3 className="text-xl sm:text-2xl font-black uppercase tracking-tighter text-brand-dark mb-3 leading-tight">{card.title}</h3>
                   <p className="text-muted-foreground text-base sm:text-lg leading-relaxed">{card.text}</p>
                 </div>
@@ -329,7 +331,9 @@ function PorQueEasyUSLLC() {
             { title: "SOPORTE HUMANO", desc: "Atención directa y cercana en tu idioma, por WhatsApp y email, siempre que lo necesites." },
           ].map((feature, i) => (
             <motion.div key={i} className="p-6 bg-brand-lime/5 rounded-2xl border border-brand-lime/10 sm:border-brand-lime/10 border-brand-lime/30 hover:bg-brand-lime/10 transition-colors text-center" variants={fadeIn}>
-              <p className="font-sans font-black uppercase tracking-tighter text-lg sm:text-xl mb-3 text-brand-dark">{feature.title}</p>
+              <span className="inline-flex items-center px-4 py-2 rounded-full bg-brand-lime text-brand-dark font-black text-sm shadow-sm mb-4">
+                {feature.title}
+              </span>
               <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">{feature.desc}</p>
             </motion.div>
           ))}
