@@ -142,7 +142,7 @@ export default function Home() {
               <Button size="lg" onClick={() => {
                 setLocation("/application");
               }} className="bg-brand-lime text-brand-dark font-black text-sm sm:text-sm px-8 border-0 rounded-full w-full sm:w-auto h-12 sm:h-12 shadow-md transition-all hover:scale-105 active:scale-95 hover:shadow-brand-lime/20">
-                ¿Estas listo? Selecciona tu pack →
+                ¿ESTÁS LISTO? SELECCIONA TU PACK →
               </Button>
               <Button size="lg" onClick={() => setLocation("/servicios")} variant="outline" className="border-brand-dark text-brand-dark font-black text-sm sm:text-sm px-8 hover:bg-brand-dark/5 rounded-full w-full sm:w-auto h-12 sm:h-12 transition-all hover:scale-105 active:scale-95">
                 Conoce nuestros servicios →
