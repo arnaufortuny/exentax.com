@@ -268,7 +268,7 @@ export default function Servicios() {
               <div className="p-5 sm:p-6 pt-0">
                 <Button 
                   onClick={() => handleSelectProduct("New Mexico")}
-                  className="w-full bg-brand-lime text-brand-dark font-black text-sm rounded-full py-4 sm:py-4 border-0 shadow-md hover:bg-brand-lime/90 transition-all transform active:scale-95 h-11 sm:h-11 shadow-brand-lime/20 uppercase"
+                  className="w-full bg-brand-lime text-brand-dark font-black text-sm rounded-full py-4 sm:py-4 border-0 shadow-md hover:bg-brand-lime/90 transition-all transform active:scale-95 h-11 sm:h-11 shadow-brand-lime/20"
                 >
                   Elegir New Mexico
                 </Button>
@@ -305,7 +305,7 @@ export default function Servicios() {
               <div className="p-5 sm:p-6 pt-0">
                 <Button 
                   onClick={() => handleSelectProduct("Wyoming")}
-                  className="w-full bg-brand-lime text-brand-dark font-black text-sm rounded-full py-4 sm:py-4 border-0 shadow-md hover:bg-brand-lime/90 transition-all transform active:scale-95 h-11 sm:h-11 shadow-brand-lime/20 uppercase"
+                  className="w-full bg-brand-lime text-brand-dark font-black text-sm rounded-full py-4 sm:py-4 border-0 shadow-md hover:bg-brand-lime/90 transition-all transform active:scale-95 h-11 sm:h-11 shadow-brand-lime/20"
                 >
                   Elegir Wyoming
                 </Button>
@@ -342,7 +342,7 @@ export default function Servicios() {
               <div className="p-5 sm:p-6 pt-0">
                 <Button 
                   onClick={() => handleSelectProduct("Delaware")}
-                  className="w-full bg-brand-lime text-brand-dark font-black text-sm rounded-full py-4 sm:py-4 border-0 shadow-md hover:bg-brand-lime/90 transition-all transform active:scale-95 h-11 sm:h-11 shadow-brand-lime/20 uppercase"
+                  className="w-full bg-brand-lime text-brand-dark font-black text-sm rounded-full py-4 sm:py-4 border-0 shadow-md hover:bg-brand-lime/90 transition-all transform active:scale-95 h-11 sm:h-11 shadow-brand-lime/20"
                 >
                   Elegir Delaware
                 </Button>
@@ -364,7 +364,7 @@ export default function Servicios() {
               onClick={() => {
                 setLocation("/?scroll=servicios");
               }}
-              className="group bg-brand-lime text-brand-dark font-black text-sm rounded-full px-8 py-6 h-14 shadow-md hover:bg-brand-lime/90 transition-all transform hover:scale-105 active:scale-95 shadow-brand-lime/20 uppercase"
+              className="group bg-brand-lime text-brand-dark font-black text-sm rounded-full px-8 py-6 h-14 shadow-md hover:bg-brand-lime/90 transition-all transform hover:scale-105 active:scale-95 shadow-brand-lime/20"
             >
               ¿Qué incluyen?
               <ChevronDown className="ml-2 w-5 h-5 transition-transform group-hover:translate-y-1" />
@@ -456,18 +456,6 @@ export default function Servicios() {
                     <p className="text-4xl sm:text-4xl font-black text-brand-dark">{item.price}</p>
                     <span className="text-muted-foreground text-xs sm:text-xs font-medium">/año</span>
                   </div>
-                  <p className="text-muted-foreground text-[10px] sm:text-[9px] font-black uppercase tracking-widest mb-4 sm:mb-4 flex items-center justify-center gap-1">
-                    <span className="w-1.5 h-1.5 rounded-full bg-brand-lime" />
-                    Tasas estatales incluidas
-                  </p>
-                  <div className="space-y-2 sm:space-y-2 text-sm sm:text-base mb-4 sm:mb-4 border-t border-brand-lime/10 pt-4 sm:pt-4">
-                    {maintenanceFeatures.map((f) => (
-                      <p key={f} className="flex items-center justify-start gap-2 sm:gap-2 text-brand-dark/80 font-medium text-left leading-tight">
-                        <span className="text-brand-lime font-black">✓</span> 
-                        <span className="text-xs sm:text-base">{f}</span>
-                      </p>
-                    ))}
-                  </div>
                 </div>
                 <div className="p-5 sm:p-6 pt-0">
                   <Dialog open={maintenanceDialogOpen} onOpenChange={setMaintenanceDialogOpen}>
@@ -478,153 +466,225 @@ export default function Servicios() {
                           setMaintenanceStep("ask");
                           setMaintenanceDialogOpen(true);
                         }}
-                        className="w-full bg-brand-lime text-brand-dark font-black text-sm rounded-full py-4 sm:py-4 border-0 shadow-md hover:bg-brand-lime/90 transition-all transform active:scale-95 h-11 sm:h-11 shadow-brand-lime/20 uppercase"
+                        className="w-full bg-brand-lime text-brand-dark font-black text-sm rounded-full py-4 sm:py-4 border-0 shadow-md hover:bg-brand-lime/90 transition-all transform active:scale-95 h-11 sm:h-11 shadow-brand-lime/20"
                       >
                         Elegir Pack {item.state}
                       </Button>
                     </DialogTrigger>
-                    <DialogContent className="max-w-md bg-white rounded-3xl p-8 border-brand-lime/20">
-                      <AnimatePresence mode="wait">
+                    <DialogContent className="sm:max-w-2xl max-h-[90vh] overflow-y-auto rounded-3xl p-0 border-brand-lime/30 shadow-2xl">
+                      <div className="p-6 sm:p-10">
                         {maintenanceStep === "ask" ? (
-                          <motion.div
-                            key="ask"
-                            initial={{ opacity: 0, scale: 0.95 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            exit={{ opacity: 0, scale: 0.95 }}
-                            className="space-y-6 text-center"
-                          >
+                          <div className="text-center space-y-8">
                             <DialogHeader>
-                              <DialogTitle className="text-2xl font-black uppercase text-brand-dark text-center">¿Ya tienes tu LLC?</DialogTitle>
+                              <div className="w-20 h-20 bg-brand-lime/10 rounded-full flex items-center justify-center mx-auto mb-4 border border-brand-lime/20">
+                                <Check className="w-10 h-10 text-brand-lime" />
+                              </div>
+                              <DialogTitle className="text-2xl sm:text-4xl font-black uppercase text-brand-dark tracking-tight leading-tight">
+                                ¿Quieres el mantenimiento de tu LLC en <span className="text-brand-lime">{selectedState}</span>?
+                              </DialogTitle>
                             </DialogHeader>
-                            <p className="text-gray-500">¿Deseas contratar el mantenimiento para una LLC que ya tienes o vas a constituir una nueva?</p>
-                            <div className="grid grid-cols-1 gap-3">
+                            
+                            <div className="bg-brand-lime/5 rounded-2xl p-6 border border-brand-lime/20 text-left">
+                              <h4 className="font-black uppercase text-xs tracking-widest text-brand-lime mb-4">¿Qué incluye este servicio anual?</h4>
+                              <div className="grid grid-cols-1 gap-3">
+                                {maintenanceFeatures.map((f, idx) => (
+                                  <div key={idx} className="flex items-start gap-3">
+                                    <div className="mt-1 w-4 h-4 rounded-full bg-brand-lime flex items-center justify-center shrink-0">
+                                      <Check className="w-3 h-3 text-brand-dark" />
+                                    </div>
+                                    <span className="text-sm font-medium text-brand-dark/80">{f}</span>
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+
+                            <div className="flex flex-col sm:flex-row gap-4">
                               <Button 
-                                onClick={() => {
-                                  setMaintenanceStep("form");
-                                  setIsOtpSent(false);
-                                  setIsEmailVerified(false);
-                                  mForm.reset();
-                                }}
-                                className="w-full bg-brand-lime text-brand-dark font-black text-sm h-14 rounded-full uppercase"
+                                onClick={() => setMaintenanceStep("form")}
+                                className="flex-1 bg-brand-lime text-brand-dark font-black text-sm h-14 rounded-full shadow-lg hover:bg-brand-lime/90 transform hover:scale-105 transition-all"
                               >
-                                Ya tengo mi LLC
+                                Sí, quiero contratarlo
                               </Button>
                               <Button 
-                                onClick={() => {
-                                  setMaintenanceDialogOpen(false);
-                                  handleSelectProduct(item.state);
-                                }}
-                                className="w-full bg-brand-lime text-brand-dark font-black text-sm h-14 rounded-full shadow-md shadow-brand-lime/20 uppercase"
+                                variant="outline"
+                                onClick={() => setMaintenanceDialogOpen(false)}
+                                className="flex-1 border-2 border-brand-dark/10 font-black text-sm h-14 rounded-full hover:bg-brand-dark/5 transition-all"
                               >
-                                Quiero constituir una nueva
+                                No por ahora
                               </Button>
                             </div>
-                          </motion.div>
+                            <p className="text-[10px] uppercase font-black tracking-widest text-brand-dark/40">Cumple al 100% con el IRS y el Estado</p>
+                          </div>
                         ) : (
-                          <motion.div
-                            key="form"
-                            initial={{ opacity: 0, x: 20 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            className="space-y-6"
-                          >
-                            <DialogHeader>
-                              <DialogTitle className="text-xl font-black uppercase text-brand-dark text-center">Datos de tu LLC ({selectedState})</DialogTitle>
-                            </DialogHeader>
+                          <div className="space-y-8">
+                            <div className="text-center">
+                              <h3 className="text-2xl sm:text-3xl font-black uppercase text-brand-dark tracking-tight">Solicitud de Mantenimiento</h3>
+                              <p className="text-muted-foreground text-sm font-medium mt-2">Completa el formulario y te contactaremos para iniciar el proceso.</p>
+                            </div>
+
                             <Form {...mForm}>
-                              <form onSubmit={mForm.handleSubmit(onMaintenanceSubmit)} className="space-y-4">
-                                <FormField
-                                  control={mForm.control}
-                                  name="nombre"
-                                  render={({ field }) => (
-                                    <FormItem>
-                                      <FormLabel className="text-[10px] uppercase font-black tracking-widest text-gray-400">Nombre de la LLC</FormLabel>
-                                      <FormControl><Input {...field} className="rounded-xl h-12" /></FormControl>
-                                      <FormMessage />
-                                    </FormItem>
-                                  )}
-                                />
-                                <div className="flex gap-2 items-end">
-                                  <div className="flex-1">
-                                    <FormField
-                                      control={mForm.control}
-                                      name="email"
-                                      render={({ field }) => (
-                                        <FormItem>
-                                          <FormLabel className="text-[10px] uppercase font-black tracking-widest text-gray-400">Email de contacto</FormLabel>
-                                          <FormControl><Input {...field} disabled={isEmailVerified || isOtpSent} className="rounded-xl h-12" /></FormControl>
-                                          <FormMessage />
-                                        </FormItem>
-                                      )}
-                                    />
-                                  </div>
-                                  {!isEmailVerified && (
-                                    <Button 
-                                      type="button" 
-                                      onClick={sendOtp} 
-                                      disabled={isSendingOtp || isOtpSent}
-                                      className="bg-brand-lime text-brand-dark font-black text-sm h-12 px-6 rounded-full uppercase"
-                                    >
-                                      {isSendingOtp ? <Loader2 className="w-4 h-4 animate-spin" /> : (isOtpSent ? "Enviado" : "Enviar")}
-                                    </Button>
-                                  )}
-                                </div>
-                                
-                                {isOtpSent && !isEmailVerified && (
-                                  <div className="flex gap-2 items-end animate-in slide-in-from-top-2">
-                                    <div className="flex-1">
+                              <form onSubmit={mForm.handleSubmit(onMaintenanceSubmit)} className="space-y-5">
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                  <FormField
+                                    control={mForm.control}
+                                    name="nombre"
+                                    render={({ field }) => (
+                                      <FormItem>
+                                        <FormLabel className="font-black uppercase text-[10px] tracking-widest opacity-70">Nombre Completo</FormLabel>
+                                        <FormControl>
+                                          <Input placeholder="Tu nombre" {...field} className="rounded-3xl border-brand-lime/30 focus:border-brand-lime h-12" />
+                                        </FormControl>
+                                        <FormMessage className="text-[10px]" />
+                                      </FormItem>
+                                    )}
+                                  />
+                                  <div className="space-y-2">
+                                    <FormLabel className="font-black uppercase text-[10px] tracking-widest opacity-70">Email corporativo</FormLabel>
+                                    <div className="flex gap-2">
                                       <FormField
                                         control={mForm.control}
-                                        name="otp"
+                                        name="email"
                                         render={({ field }) => (
-                                          <FormItem>
-                                            <FormControl><Input {...field} maxLength={6} className="rounded-3xl h-12 text-center text-xl font-black tracking-widest" placeholder="000000" /></FormControl>
+                                          <FormItem className="flex-1">
+                                            <FormControl>
+                                              <Input placeholder="tu@email.com" {...field} className="rounded-3xl border-brand-lime/30 focus:border-brand-lime h-12" disabled={isEmailVerified} />
+                                            </FormControl>
+                                            <FormMessage className="text-[10px]" />
                                           </FormItem>
                                         )}
                                       />
+                                      {!isEmailVerified && (
+                                        <Button 
+                                          type="button" 
+                                          onClick={sendOtp} 
+                                          disabled={isSendingOtp || isOtpSent}
+                                          className="bg-brand-lime text-brand-dark font-black text-xs rounded-full h-12 px-4 shadow-md"
+                                        >
+                                          {isSendingOtp ? <Loader2 className="w-4 h-4 animate-spin" /> : isOtpSent ? "Enviado" : "Verificar"}
+                                        </Button>
+                                      )}
                                     </div>
-                                    <Button type="button" onClick={verifyOtp} disabled={isVerifyingOtp} className="bg-brand-lime text-brand-dark font-black text-sm h-12 px-6 rounded-full uppercase">
-                                      {isVerifyingOtp ? <Loader2 className="w-4 h-4 animate-spin" /> : "Verificar"}
-                                    </Button>
                                   </div>
-                                )}
+                                </div>
+
+                                {isOtpSent && !isEmailVerified && (
+                                  <div className="animate-in fade-in slide-in-from-top-2">
+                                    <FormField
+                                      control={mForm.control}
+                                      name="otp"
+                                      render={({ field }) => (
+                                        <FormItem>
+                                          <FormLabel className="font-black uppercase text-[10px] tracking-widest text-brand-lime">Código de Verificación (6 dígitos)</FormLabel>
+                                          <div className="flex gap-2">
+                                            <FormControl>
+                                              <Input placeholder="000000" {...field} className="rounded-3xl border-brand-lime focus:border-brand-lime bg-brand-lime/5 text-center font-black h-12 tracking-[0.3em]" maxLength={6} />
+                                            </FormControl>
+                                            <Button 
+                                              type="button" 
+                                              onClick={verifyOtp} 
+                                              disabled={isVerifyingOtp}
+                                              className="bg-brand-lime text-brand-dark font-black text-xs rounded-full h-12 px-6 shadow-md"
+                                            >
+                                              {isVerifyingOtp ? <Loader2 className="w-4 h-4 animate-spin" /> : "Validar"}
+                                            </Button>
+                                          </div>
+                                          <FormMessage className="text-[10px]" />
+                                        </FormItem>
+                                      )}
+                                    </div>
+                                  )}
 
                                 <FormField
                                   control={mForm.control}
                                   name="mensaje"
                                   render={({ field }) => (
                                     <FormItem>
-                                      <FormLabel className="text-[10px] uppercase font-black tracking-widest text-gray-400">Notas adicionales</FormLabel>
-                                      <FormControl><Textarea {...field} disabled={!isEmailVerified} className="rounded-3xl min-h-[80px]" /></FormControl>
-                                      <FormMessage />
+                                      <FormLabel className="font-black uppercase text-[10px] tracking-widest opacity-70">Notas adicionales (Opcional)</FormLabel>
+                                      <FormControl>
+                                        <Textarea 
+                                          placeholder="Cuéntanos algún detalle sobre tu LLC..." 
+                                          className="min-h-[100px] rounded-3xl border-brand-lime/30 focus:border-brand-lime py-3" 
+                                          {...field} 
+                                          disabled={!isEmailVerified}
+                                        />
+                                      </FormControl>
+                                      <FormMessage className="text-[10px]" />
                                     </FormItem>
                                   )}
                                 />
-                                <Button 
-                                  type="submit" 
-                                  disabled={!isEmailVerified} 
-                                  className={`w-full font-black text-sm h-14 rounded-full uppercase ${
-                                    isEmailVerified ? "bg-brand-lime text-brand-dark shadow-md shadow-brand-lime/20" : "bg-gray-100 text-gray-400"
-                                  }`}
-                                >
-                                  Solicitar Mantenimiento
-                                </Button>
+
+                                <div className="flex gap-3 pt-4">
+                                  <Button 
+                                    type="button" 
+                                    variant="outline"
+                                    onClick={() => setMaintenanceStep("ask")}
+                                    className="flex-1 font-black text-sm rounded-full h-14 border-2"
+                                  >
+                                    Volver
+                                  </Button>
+                                  <Button 
+                                    type="submit" 
+                                    disabled={!isEmailVerified || mForm.formState.isSubmitting}
+                                    className={`flex-[2] font-black text-sm rounded-full h-14 shadow-xl transition-all ${
+                                      isEmailVerified ? "bg-brand-lime text-brand-dark hover:bg-brand-lime/90" : "bg-gray-100 text-gray-400 cursor-not-allowed"
+                                    }`}
+                                  >
+                                    {mForm.formState.isSubmitting ? "Enviando..." : "Enviar Solicitud"}
+                                  </Button>
+                                </div>
                               </form>
                             </Form>
-                          </motion.div>
+                          </div>
                         )}
-                      </AnimatePresence>
+                      </div>
                     </DialogContent>
                   </Dialog>
-                </div>
-                <div className="bg-brand-cream/30 px-5 py-3 sm:px-5 sm:py-3 border-t border-brand-lime/10 mt-auto text-center">
-                  <p className="font-black text-[10px] sm:text-[9px] uppercase tracking-widest text-brand-dark/70">Mantenimiento Anual</p>
                 </div>
               </motion.div>
             ))}
           </motion.div>
+        </div>
+      </section>
 
-          <div className="border-t border-brand-dark/5 w-full max-w-7xl mx-auto my-12" />
+      <section className="py-12 sm:py-20 bg-white border-t border-brand-dark/5" id="proceso">
+        <div className="w-full px-5 sm:px-8">
+          <motion.div 
+            className="text-center mb-8 sm:mb-16 flex flex-col items-center justify-center"
+            initial="initial"
+            whileInView="animate"
+            viewport={{ once: true }}
+            variants={staggerContainer}
+          >
+            <motion.h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark uppercase tracking-tight text-center" variants={fadeIn}>
+              <span className="text-brand-lime uppercase tracking-widest text-sm font-black block mb-2 text-center">GESTIÓN</span>
+              Proceso de Mantenimiento
+            </motion.h2>
+            <motion.p className="text-brand-lime font-black uppercase tracking-wide text-base sm:text-lg mt-1 sm:mt-2 text-center" variants={fadeIn}>
+              (Cómo trabajamos para que tu LLC esté siempre al día)
+            </motion.p>
+          </motion.div>
+          <motion.div 
+            className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 max-w-6xl mx-auto"
+            initial="initial"
+            whileInView="animate"
+            viewport={{ once: true }}
+            variants={staggerContainer}
+          >
+            {maintenanceProcess.map((step, i) => (
+              <motion.div key={i} className="relative p-6 sm:p-8 rounded-3xl bg-white border border-brand-lime/20 shadow-lg hover:shadow-xl transition-all group flex flex-col items-center text-center" variants={fadeIn}>
+                <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-10 h-10 bg-brand-dark text-brand-lime rounded-full flex items-center justify-center font-black text-xl border-4 border-white shadow-md">
+                  {i + 1}
+                </div>
+                <h3 className="text-xl font-black text-brand-dark uppercase mb-3 mt-2">{step.title}</h3>
+                <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">{step.desc}</p>
+              </motion.div>
+            ))}
+          </motion.div>
+        </div>
+      </section>
 
+      <section className="py-12 sm:py-20 bg-brand-lime/5 border-t border-brand-dark/5" id="faq">
+        <div className="w-full px-5 sm:px-8">
           <motion.div 
             className="text-center mb-8 sm:mb-12 flex flex-col items-center justify-center"
             initial="initial"
@@ -633,30 +693,76 @@ export default function Servicios() {
             variants={staggerContainer}
           >
             <motion.h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark uppercase tracking-tight text-center" variants={fadeIn}>
-              <span className="text-brand-lime uppercase tracking-widest text-sm font-black block mb-2 text-center">DETALLES</span>
-              ¿Qué realizamos en nuestros packs mantenimiento?
+              <span className="text-brand-lime uppercase tracking-widest text-sm font-black block mb-2 text-center">AYUDA</span>
+              Preguntas Frecuentes
             </motion.h2>
-            <motion.p className="text-brand-lime font-black uppercase tracking-wide text-base sm:text-lg mt-1 sm:mt-2 text-center" variants={fadeIn}>
-              (Gestión completa de tu empresa americana)
-            </motion.p>
           </motion.div>
-          
-          <motion.div 
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-6 max-w-7xl mx-auto mb-20"
-            initial="initial"
-            whileInView="animate"
-            viewport={{ once: true }}
-            variants={staggerContainer}
-          >
-            {maintenanceProcess.map((item, i) => (
-              <motion.div key={i} className="p-6 bg-brand-lime/5 rounded-2xl border border-brand-lime/10 sm:border-brand-lime/10 border-brand-lime/30 hover:bg-brand-lime/10 transition-colors text-center" variants={fadeIn}>
-                <span className="inline-flex items-center px-4 py-2 rounded-full bg-brand-lime text-brand-dark font-black text-sm shadow-sm mb-4">
-                  {item.title}
-                </span>
-                <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">{item.desc}</p>
+          <div className="max-w-3xl mx-auto space-y-3 sm:space-y-4">
+            {[
+              {
+                q: "¿Qué documentos necesito para empezar?",
+                a: "Solo tu pasaporte vigente. No necesitas visa, ni viajar a USA, ni ser residente."
+              },
+              {
+                q: "¿Cuánto tiempo tarda el proceso?",
+                a: "La constitución suele tardar entre 2 y 5 días hábiles según el estado. El EIN puede tardar de 5 a 15 días adicionales."
+              },
+              {
+                q: "¿Tengo que pagar impuestos en USA?",
+                a: "Si eres un emprendedor digital que no reside en USA y no tiene empleados ni oficinas físicas allí, lo más probable es que tu LLC sea 'Tax Transparent' y no pagues impuestos corporativos en USA."
+              },
+              {
+                q: "¿Qué bancos puedo elegir?",
+                a: "Principalmente trabajamos con Mercury y Relay, que son las mejores opciones para no residentes. Te ayudamos con todo el proceso."
+              },
+              {
+                q: "¿El precio es final?",
+                a: "Sí, todos nuestros precios incluyen las tasas estatales del primer año, el EIN, el Agente Registrado y el BOI Report. No hay sorpresas."
+              }
+            ].map((faq, i) => (
+              <motion.div 
+                key={i}
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1 }}
+                className="rounded-2xl border border-brand-lime/20 bg-white overflow-hidden shadow-sm hover:shadow-md transition-shadow"
+              >
+                <button 
+                  onClick={() => setOpenFaq(openFaq === i ? null : i)}
+                  className="w-full px-6 py-4 sm:py-5 flex items-center justify-between text-left group"
+                >
+                  <span className="font-black text-sm sm:text-base text-brand-dark uppercase tracking-tight leading-tight pr-4">
+                    {faq.q}
+                  </span>
+                  <ChevronDown className={`w-5 h-5 text-brand-lime transition-transform shrink-0 ${openFaq === i ? 'rotate-180' : ''}`} />
+                </button>
+                <AnimatePresence>
+                  {openFaq === i && (
+                    <motion.div 
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.3, ease: "easeInOut" }}
+                    >
+                      <div className="px-6 pb-5 sm:pb-6 text-sm sm:text-base text-muted-foreground border-t border-brand-lime/10 pt-4 leading-relaxed text-left">
+                        {faq.a}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </motion.div>
             ))}
-          </motion.div>
+          </div>
+          <div className="mt-12 flex flex-col items-center">
+            <p className="text-brand-dark/60 font-medium mb-6">¿Aún tienes dudas?</p>
+            <Button 
+              onClick={() => setLocation("/faq")}
+              className="bg-brand-dark text-white font-black text-sm rounded-full px-8 py-6 h-14 shadow-lg hover:scale-105 transition-all"
+            >
+              Ver todas las preguntas
+            </Button>
+          </div>
         </div>
       </section>
 
