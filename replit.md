@@ -4,7 +4,12 @@
 Easy US LLC is a business formation service for Spanish-speaking entrepreneurs looking to establish LLCs in the United States (New Mexico, Wyoming, Delaware).
 
 ## Design System
-- **Colors**: Pure white background, brand-lime (#d9ff00) accents.
+- **Colors**:
+  - Primary Green: #6EDC8A
+  - Carbon Black: #0E1215
+  - Off White: #F7F7F5
+  - Soft Gray: #E6E9EC
+  - Text Gray: #6B7280
 - **Typography**: Inter for titles, Sans-serif for body.
 - **Animations**: Framer Motion (fadeIn, staggerContainer).
 
