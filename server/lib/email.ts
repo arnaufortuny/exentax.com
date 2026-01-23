@@ -63,8 +63,8 @@ export function getOtpEmailTemplate(otp: string) {
           <h2 style="font-size: 20px; font-weight: 800; margin-bottom: 20px; color: #000;">OTP Verificación de Identidad</h2>
           <p style="line-height: 1.6; font-size: 15px; color: #444; margin-bottom: 25px;">Hola <strong>Cliente de Prueba</strong>, verifica tu email con el siguiente código:</p>
           
-          <div style="background: #000; padding: 25px; border-radius: 8px; margin: 25px 0; text-align: center;">
-            <p style="margin: 0; font-size: 28px; font-weight: 800; color: #ffffff; letter-spacing: 6px;">${otp}</p>
+          <div style="background: #f4f4f4; padding: 25px; border-radius: 8px; margin: 25px 0; text-align: center; border: 1px solid #eee;">
+            <p style="margin: 0; font-size: 28px; font-weight: 800; color: #000000; letter-spacing: 6px;">${otp}</p>
           </div>
 
           <p style="line-height: 1.6; font-size: 12px; color: #999; margin-top: 20px;">Este código caducará automáticamente en 10 minutos por motivos de seguridad.</p>

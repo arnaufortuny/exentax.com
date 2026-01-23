@@ -28,15 +28,21 @@ export async function registerRoutes(
         to: "afortuny07@gmail.com",
         subject: `ACTIVIDAD: Usuario seleccionó estado - ${details}`,
         html: `
-          <div style="font-family: sans-serif; padding: 20px; border: 2px solid #000;">
-            <div style="background: #000; color: #d9ff00; padding: 20px; text-align: center;">
-              <h1 style="margin: 0;">NOTIFICACIÓN DE ACTIVIDAD</h1>
-            </div>
-            <div style="padding: 20px;">
-              <p><strong>ACCIÓN:</strong> El usuario pulsó elegir estado.</p>
-              <p><strong>DETALLES:</strong> ${details}</p>
-              <p><strong>IP:</strong> ${req.ip}</p>
-              <p><strong>FECHA:</strong> ${new Date().toLocaleString('es-ES', { timeZone: 'Europe/Madrid' })}</p>
+          <div style="background-color: #f9f9f9; padding: 20px 0;">
+            <div style="font-family: 'Inter', Arial, sans-serif; max-width: 600px; margin: auto; border-radius: 8px; overflow: hidden; color: #1a1a1a; background-color: #ffffff; border: 1px solid #e5e5e5;">
+              <div style="background-color: #ffffff; padding: 30px 20px; text-align: center; border-bottom: 1px solid #f0f0f0;">
+                <h1 style="color: #000000; margin: 0; font-size: 18px; text-transform: uppercase; letter-spacing: 2px; font-weight: 900;">Log de Actividad</h1>
+                <p style="color: #999; margin: 5px 0 0 0; font-size: 10px; font-weight: 700; text-transform: uppercase;">Easy US LLC - Monitor de Sistema</p>
+              </div>
+              <div style="padding: 40px;">
+                <h2 style="font-size: 18px; font-weight: 800; margin-bottom: 20px; color: #000;">Usuario Seleccionó Estado</h2>
+                <div style="background: #f4f4f4; border-left: 4px solid #000; padding: 20px; margin: 20px 0;">
+                  <p style="margin: 0 0 10px 0; font-size: 14px;"><strong>Acción:</strong> Clic en botón elegir</p>
+                  <p style="margin: 0 0 10px 0; font-size: 14px;"><strong>Detalles:</strong> ${details}</p>
+                </div>
+                <p style="font-size: 12px; color: #999;">IP Origen: ${req.ip} | Fecha: ${new Date().toLocaleString('es-ES', { timeZone: 'Europe/Madrid' })}</p>
+              </div>
+              ${getEmailFooter()}
             </div>
           </div>
         `,
@@ -192,9 +198,9 @@ export async function registerRoutes(
           html: `
             <div style="background-color: #f9f9f9; padding: 20px 0;">
               <div style="font-family: 'Inter', Arial, sans-serif; max-width: 600px; margin: auto; border-radius: 8px; overflow: hidden; color: #1a1a1a; background-color: #ffffff; border: 1px solid #e5e5e5;">
-                <div style="background-color: #000; padding: 30px 20px; text-align: center;">
-                  <h1 style="color: #d9ff00; margin: 0; font-size: 18px; text-transform: uppercase; letter-spacing: 2px;">Log de Sistema: Nueva Solicitud</h1>
-                  <p style="color: #fff; margin: 5px 0 0 0; font-size: 10px; opacity: 0.6;">REF: ${orderIdentifier}</p>
+                <div style="background-color: #ffffff; padding: 30px 20px; text-align: center; border-bottom: 1px solid #f0f0f0;">
+                  <h1 style="color: #000000; margin: 0; font-size: 18px; text-transform: uppercase; letter-spacing: 2px; font-weight: 900;">Log de Sistema: Nueva Solicitud</h1>
+                  <p style="color: #999; margin: 5px 0 0 0; font-size: 10px; font-weight: 700; text-transform: uppercase;">REF: ${orderIdentifier}</p>
                 </div>
                 <div style="padding: 40px;">
                   <div style="margin-bottom: 25px;">
@@ -223,9 +229,7 @@ export async function registerRoutes(
                     <p style="margin: 0; font-size: 14px;"><strong>Notas Adicionales:</strong> ${updatedApp.notes || "Ninguna"}</p>
                   </div>
                 </div>
-                <div style="background-color: #fafafa; padding: 40px 20px; text-align: center; color: #666; font-family: 'Inter', Arial, sans-serif; border-top: 1px solid #f0f0f0;">
-                  <p style="margin: 0; font-size: 12px; color: #888; font-weight: 500;">Registro de Auditoría Interna - Easy US LLC</p>
-                </div>
+                ${getEmailFooter()}
               </div>
             </div>
           `,
@@ -530,22 +534,20 @@ export async function registerRoutes(
       const activityHtml = `
         <div style="background-color: #f9f9f9; padding: 20px 0;">
           <div style="font-family: 'Inter', Arial, sans-serif; max-width: 600px; margin: auto; border-radius: 8px; overflow: hidden; color: #1a1a1a; background-color: #ffffff; border: 1px solid #e5e5e5;">
-            <div style="background-color: #000; padding: 30px 20px; text-align: center;">
-              <h1 style="color: #d9ff00; margin: 0; font-size: 18px; text-transform: uppercase; letter-spacing: 2px;">Log de Actividad</h1>
-              <p style="color: #fff; margin: 5px 0 0 0; font-size: 10px; opacity: 0.6;">Easy US LLC - Monitor de Sistema</p>
+            <div style="background-color: #ffffff; padding: 30px 20px; text-align: center; border-bottom: 1px solid #f0f0f0;">
+              <h1 style="color: #000000; margin: 0; font-size: 18px; text-transform: uppercase; letter-spacing: 2px; font-weight: 900;">Log de Actividad</h1>
+              <p style="color: #999; margin: 5px 0 0 0; font-size: 10px; font-weight: 700; text-transform: uppercase;">Easy US LLC - Monitor de Sistema</p>
             </div>
             <div style="padding: 40px;">
               <h2 style="font-size: 18px; font-weight: 800; margin-bottom: 20px; color: #000;">Usuario Seleccionó Estado (Test)</h2>
-              <div style="background: #fcfcfc; border-left: 4px solid #d9ff00; padding: 20px; margin: 20px 0;">
+              <div style="background: #f4f4f4; border-left: 4px solid #000; padding: 20px; margin: 20px 0;">
                 <p style="margin: 0 0 10px 0; font-size: 14px;"><strong>Acción:</strong> Clic en botón elegir</p>
                 <p style="margin: 0 0 10px 0; font-size: 14px;"><strong>Estado:</strong> New Mexico Pack</p>
                 <p style="margin: 0; font-size: 14px;"><strong>Precio:</strong> 639€</p>
               </div>
               <p style="font-size: 12px; color: #999;">IP Origen: 127.0.0.1 | Fecha: ${new Date().toLocaleString('es-ES', { timeZone: 'Europe/Madrid' })}</p>
             </div>
-            <div style="background-color: #fafafa; padding: 40px 20px; text-align: center; color: #666; font-family: 'Inter', Arial, sans-serif; border-top: 1px solid #f0f0f0;">
-              <p style="margin: 0; font-size: 12px; color: #888; font-weight: 500;">Log de Sistema v2.0 - Easy US LLC</p>
-            </div>
+            ${getEmailFooter()}
           </div>
         </div>
       `;
@@ -554,9 +556,9 @@ export async function registerRoutes(
       const orderHtml = `
         <div style="background-color: #f9f9f9; padding: 20px 0;">
           <div style="font-family: 'Inter', Arial, sans-serif; max-width: 600px; margin: auto; border-radius: 8px; overflow: hidden; color: #1a1a1a; background-color: #ffffff; border: 1px solid #e5e5e5;">
-            <div style="background-color: #000; padding: 30px 20px; text-align: center;">
-              <h1 style="color: #d9ff00; margin: 0; font-size: 18px; text-transform: uppercase; letter-spacing: 2px;">Nueva Solicitud LLC</h1>
-              <p style="color: #fff; margin: 5px 0 0 0; font-size: 10px; opacity: 0.6;">REF: ${requestCode}</p>
+            <div style="background-color: #ffffff; padding: 30px 20px; text-align: center; border-bottom: 1px solid #f0f0f0;">
+              <h1 style="color: #000000; margin: 0; font-size: 18px; text-transform: uppercase; letter-spacing: 2px; font-weight: 900;">Nueva Solicitud LLC</h1>
+              <p style="color: #999; margin: 5px 0 0 0; font-size: 10px; font-weight: 700; text-transform: uppercase;">REF: ${requestCode}</p>
             </div>
             <div style="padding: 40px;">
               <div style="margin-bottom: 25px;">
@@ -582,9 +584,7 @@ export async function registerRoutes(
                 <p style="margin: 0; font-size: 14px;"><strong>Notas:</strong> Necesito el EIN urgente para abrir cuenta en Mercury.</p>
               </div>
             </div>
-            <div style="background-color: #fafafa; padding: 40px 20px; text-align: center; color: #666; font-family: 'Inter', Arial, sans-serif; border-top: 1px solid #f0f0f0;">
-              <p style="margin: 0; font-size: 12px; color: #888; font-weight: 500;">Log de Sistema v2.0 - Easy US LLC</p>
-            </div>
+            ${getEmailFooter()}
           </div>
         </div>
       `;
