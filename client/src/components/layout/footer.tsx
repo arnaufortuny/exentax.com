@@ -1,5 +1,5 @@
 import { Link, useLocation } from "wouter";
-import logoPng from "@assets/web3_1_1768824262278.png";
+import logoIcon from "@/assets/logo-icon.png";
 import relayLogo from "@assets/relay-logo.webp";
 import trustpilotLogo from "@assets/trustpilot-logo.png";
 import mercuryLogo from "@assets/mercury-logo.png";
@@ -24,6 +24,10 @@ export function Footer() {
       <div className="container max-w-7xl mx-auto px-5 sm:px-8">
         {/* Mobile: Logo centered at top */}
         <div className="flex flex-col items-center mb-10 md:hidden">
+          <Link href="/" className="flex flex-col items-center gap-3 mb-6" onClick={() => window.scrollTo(0, 0)}>
+            <img src={logoIcon} alt="Easy US LLC" className="w-12 h-12 object-contain brightness-0 invert" />
+            <span className="text-xl font-black tracking-tighter uppercase">Easy US LLC</span>
+          </Link>
           <p className="text-white/70 text-base text-center max-w-xs">
             Tu LLC en Estados Unidos, creada y gestionada con criterios profesionales, sin complicaciones y con soporte continuo.
           </p>
@@ -71,6 +75,10 @@ export function Footer() {
         {/* Desktop: 4-column grid */}
         <div className="hidden md:grid md:grid-cols-4 gap-10 text-left">
           <div className="flex flex-col items-start">
+            <Link href="/" className="flex items-center gap-3 mb-6" onClick={() => window.scrollTo(0, 0)}>
+              <img src={logoIcon} alt="Easy US LLC" className="w-10 h-10 object-contain brightness-0 invert" />
+              <span className="text-xl font-black tracking-tighter uppercase">Easy US LLC</span>
+            </Link>
             <p className="text-white/70 text-base max-w-xs">
               Tu LLC en Estados Unidos, creada y gestionada con criterios profesionales, sin complicaciones y con soporte continuo.
             </p>

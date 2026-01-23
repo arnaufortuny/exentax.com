@@ -2,6 +2,7 @@ import { Link, useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
+import logoIcon from "@/assets/logo-icon.png";
 
 export function Navbar() {
   const [location, setLocation] = useLocation();
@@ -35,8 +36,9 @@ export function Navbar() {
     <header className="sticky top-0 z-[100] bg-brand-lime border-b border-brand-dark/10 shadow-md transition-shadow h-20 sm:h-24 flex items-center w-full" data-mobile-menu-open={isOpen}>
       <div className="w-full px-4 sm:px-8">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <Link href="/" className="text-xl sm:text-2xl font-black text-brand-dark tracking-tighter shrink-0 relative z-[110]" onClick={() => { setIsOpen(false); window.scrollTo(0, 0); }} data-testid="link-logo">
-            EASY US LLC
+          <Link href="/" className="flex items-center gap-3 text-xl sm:text-2xl font-black text-brand-dark tracking-tighter shrink-0 relative z-[110]" onClick={() => { setIsOpen(false); window.scrollTo(0, 0); }} data-testid="link-logo">
+            <img src={logoIcon} alt="Easy US LLC" className="w-8 h-8 sm:w-10 sm:h-10 object-contain" />
+            <span>EASY US LLC</span>
           </Link>
           
           <nav className="hidden md:flex items-center gap-6 lg:gap-8">
