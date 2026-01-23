@@ -143,7 +143,7 @@ export default function Home() {
               <Button size="lg" onClick={() => {
                 setLocation("/application");
               }} className="bg-brand-lime text-brand-dark font-black text-sm sm:text-sm px-8 border-0 rounded-full w-full sm:w-auto h-12 sm:h-12 shadow-md transition-all hover:scale-105 active:scale-95 hover:shadow-brand-lime/20">
-                Empieza ahora →
+                ¿Estas listo? Selecciona tu pack →
               </Button>
               <Button size="lg" onClick={() => setLocation("/servicios")} variant="outline" className="border-brand-dark text-brand-dark font-black text-sm sm:text-sm px-8 hover:bg-brand-dark/5 rounded-full w-full sm:w-auto h-12 sm:h-12 transition-all hover:scale-105 active:scale-95">
                 Conoce nuestros servicios →
@@ -277,6 +277,16 @@ export default function Home() {
                 </div>
               </motion.div>
             ))}
+
+            <motion.div className="mt-12 sm:mt-20 flex justify-center" variants={fadeIn}>
+              <Button 
+                size="lg" 
+                onClick={() => setLocation("/application")} 
+                className="bg-brand-lime text-brand-dark font-black text-sm sm:text-lg px-8 sm:px-12 py-6 sm:py-8 border-0 rounded-full w-full sm:w-auto shadow-xl transition-all hover:scale-105 active:scale-95 hover:shadow-brand-lime/30"
+              >
+                ¿Estas listo? Selecciona tu pack →
+              </Button>
+            </motion.div>
           </motion.div>
         </div>
       </section>
