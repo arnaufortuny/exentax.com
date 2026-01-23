@@ -705,7 +705,7 @@ export default function ApplicationWizard() {
                                   <Button 
                                     type="button" 
                                     onClick={sendOtp} 
-                                    className="bg-brand-lime text-brand-dark rounded-full px-12 h-14 font-black uppercase tracking-widest text-xs hover:scale-105 transition-all shadow-xl shadow-brand-lime/30"
+                                    className="bg-brand-lime text-brand-dark rounded-full px-12 h-14 font-black uppercase tracking-[0.25em] text-[10px] sm:text-xs hover:scale-105 transition-all shadow-xl shadow-brand-lime/30"
                                   >
                                     Recibir Código
                                   </Button>
@@ -733,7 +733,7 @@ export default function ApplicationWizard() {
                                         type="button" 
                                         onClick={verifyOtp} 
                                         disabled={isEmailVerified}
-                                        className={`rounded-full h-14 font-black uppercase tracking-widest text-xs transition-all ${
+                                        className={`rounded-full h-14 font-black uppercase tracking-[0.25em] text-[10px] sm:text-xs transition-all ${
                                           isEmailVerified 
                                             ? "bg-green-500 text-white" 
                                             : "bg-brand-dark text-white hover:bg-brand-dark/90 shadow-xl"
@@ -856,7 +856,7 @@ export default function ApplicationWizard() {
                                     type="button"
                                     variant="outline"
                                     onClick={prevStep}
-                                    className="w-full sm:w-1/3 h-16 md:h-20 rounded-full font-black uppercase tracking-[0.15em] text-xs border-2 border-gray-100 hover:bg-gray-50 transition-all"
+                                    className="w-full sm:w-1/3 h-16 md:h-20 rounded-full font-black uppercase tracking-[0.25em] text-[10px] sm:text-xs border-2 border-gray-100 hover:bg-gray-50 transition-all"
                                   >
                                     Atrás
                                   </Button>
@@ -865,7 +865,7 @@ export default function ApplicationWizard() {
                                   type="button"
                                   onClick={nextStep}
                                   disabled={isSubmitting || (step === 2 && !isEmailVerified)}
-                                  className={`h-16 md:h-20 rounded-full font-black uppercase tracking-[0.25em] text-sm transition-all shadow-xl flex-1 ${
+                                  className={`h-16 md:h-20 rounded-full font-black uppercase tracking-[0.25em] text-xs sm:text-sm transition-all shadow-xl flex-1 ${
                                     step === 4 
                                       ? "bg-brand-dark text-white hover:bg-brand-dark/95" 
                                       : "bg-brand-lime text-brand-dark hover:bg-brand-lime/90 shadow-brand-lime/20"

@@ -50,7 +50,7 @@ export function Navbar() {
 
           <Button 
             onClick={() => handleNavClick("/servicios")} 
-            className="hidden md:inline-flex bg-brand-dark text-white font-bold border-0 rounded-full h-12 px-6 hover:bg-brand-dark/90"
+            className="hidden md:inline-flex bg-brand-dark text-white font-black uppercase tracking-widest text-[10px] border-0 rounded-full h-12 px-8 hover:bg-brand-dark/90 transition-all shadow-lg active:scale-95"
             data-testid="button-nav-cta"
           >
             Constituye ahora tu LLC
