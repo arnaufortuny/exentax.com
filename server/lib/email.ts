@@ -29,24 +29,20 @@ export function getEmailFooter() {
   `;
 }
 
-export function getAutoReplyTemplate(ticketId: string) {
+export function getAutoReplyTemplate(ticketId: string, name: string = "Cliente") {
   return `
     <div style="background-color: #f9f9f9; padding: 20px 0;">
       <div style="font-family: 'Inter', Arial, sans-serif; max-width: 600px; margin: auto; border-radius: 8px; overflow: hidden; color: #1a1a1a; background-color: #ffffff; border: 1px solid #e5e5e5;">
         ${getEmailHeader()}
         <div style="padding: 40px;">
-          <h2 style="font-size: 20px; font-weight: 800; margin-bottom: 20px; color: #000;">Hemos recibido tu mensaje</h2>
-          <p style="line-height: 1.6; font-size: 15px; color: #444; margin-bottom: 25px;">Gracias por contactar con el equipo de soporte de <strong>Easy US LLC</strong>. Hemos registrado tu consulta correctamente y un agente especializado la revisará en breve.</p>
+          <h2 style="font-size: 20px; font-weight: 800; margin-bottom: 20px; color: #000;">Hemos recibido tu email</h2>
+          <p style="line-height: 1.6; font-size: 15px; color: #444; margin-bottom: 25px;">Hola <strong>${name}</strong>, hemos recibido tu email correctamente. Nuestro equipo se pondrá en contacto contigo en un plazo de 24-48 horas.</p>
           
-          <div style="background: #fcfcfc; padding: 15px; border-radius: 6px; margin: 25px 0; border: 1px solid #eee; text-align: left;">
-            <p style="margin: 0; font-size: 14px; color: #666;"><strong>ID de seguimiento:</strong> #${ticketId}</p>
+          <div style="background: #f4f4f4; padding: 15px; border-radius: 6px; margin: 25px 0; border: 1px solid #eee; text-align: left;">
+            <p style="margin: 0; font-size: 14px; color: #666;"><strong>Mensaje ID:</strong> ${ticketId}</p>
           </div>
 
-          <p style="line-height: 1.6; font-size: 14px; color: #666; margin-bottom: 20px;">Nuestro tiempo de respuesta habitual es inferior a 24 horas laborables.</p>
-          
-          <div style="padding-top: 20px; border-top: 1px solid #f0f0f0;">
-            <p style="font-size: 12px; color: #999; margin: 0;">Si necesitas añadir información a tu consulta, puedes responder directamente a este correo.</p>
-          </div>
+          <p style="line-height: 1.6; font-size: 14px; color: #666; margin-bottom: 20px;">Gracias, nos vemos en <strong>Easy US LLC</strong>.</p>
         </div>
         ${getEmailFooter()}
       </div>
