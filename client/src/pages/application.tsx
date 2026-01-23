@@ -741,23 +741,6 @@ export default function ApplicationWizard() {
                                         <p className="text-gray-500 text-xs ml-9">{method.desc}</p>
                                       </div>
                                     </div>
-                                        form.getValues("notes")?.includes(method.label)
-                                          ? "border-brand-lime bg-brand-lime/5 shadow-md scale-[1.02]"
-                                          : "border-gray-100 hover:border-brand-lime/30 bg-white"
-                                      }`}
-                                    >
-                                      <div>
-                                        <p className="font-sans font-black text-brand-dark uppercase tracking-tight">{method.label}</p>
-                                        <p className="text-xs text-gray-500">{method.desc}</p>
-                                      </div>
-                                      <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center ${
-                                        form.getValues("notes")?.includes(method.label)
-                                          ? "border-brand-lime bg-brand-lime text-brand-dark"
-                                          : "border-gray-200"
-                                      }`}>
-                                        {form.getValues("notes")?.includes(method.label) && <div className="w-4 h-4 rounded-full bg-accent" />}
-                                      </div>
-                                    </div>
                                   ))}
                                 </div>
                               </div>
