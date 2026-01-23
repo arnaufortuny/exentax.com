@@ -471,7 +471,7 @@ export default function Servicios() {
                         }}
                         className="w-full bg-brand-lime text-brand-dark font-sans font-medium text-[14px] sm:text-base rounded-full py-4 sm:py-4 border-0 shadow-md hover:bg-brand-lime/90 transition-all transform active:scale-95 h-11 sm:h-11 shadow-brand-lime/20"
                       >
-                        Pack Mantenimiento {item.state}
+                        Elegir Pack {item.state}
                       </Button>
                     </DialogTrigger>
                     <DialogContent className="max-w-md bg-white rounded-3xl p-8 border-brand-lime/20">
