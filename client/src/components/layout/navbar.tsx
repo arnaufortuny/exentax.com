@@ -37,7 +37,7 @@ export function Navbar() {
       <div className="w-full px-4 sm:px-8">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <Link href="/" className="flex items-center gap-3 shrink-0 relative z-[110]" onClick={() => { setIsOpen(false); window.scrollTo(0, 0); }} data-testid="link-logo">
-            <img src={logoIcon} alt="Easy US LLC" className="w-10 h-10 sm:w-12 sm:h-12 object-contain" />
+            <img src={logoIcon} alt="Easy US LLC" className="w-14 h-14 sm:w-16 sm:h-16 object-contain" />
           </Link>
           
           <nav className="hidden md:flex items-center gap-6 lg:gap-8">
