@@ -238,60 +238,6 @@ export default function Home() {
         <div className="border-t border-brand-dark/5 w-full" />
       </div>
 
-      <section className="py-20 sm:py-32 bg-white">
-        <div className="w-full px-5 sm:px-8">
-          <motion.div 
-            className="mb-12 sm:mb-20 text-center"
-            initial="initial"
-            whileInView="animate"
-            viewport={{ once: true }}
-            variants={staggerContainer}
-          >
-            <motion.h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark uppercase tracking-tight mb-4 text-center" variants={fadeIn}>
-              <span className="text-brand-lime uppercase tracking-widest text-sm font-black block mb-2 text-center">PROCESO</span>
-              Cómo Trabajamos
-            </motion.h2>
-            <motion.p className="text-brand-lime font-black uppercase tracking-wide text-base sm:text-lg mt-1 sm:mt-2 text-center" variants={fadeIn}>(En 6 pasos sencillos)</motion.p>
-          </motion.div>
-          <motion.div 
-            className="max-w-3xl mx-auto"
-            initial="initial"
-            whileInView="animate"
-            viewport={{ once: true }}
-            variants={staggerContainer}
-          >
-            {[
-              { num: "1", title: "Elige el estado", text: "New Mexico, Wyoming o Delaware. Te asesoramos para elegir la mejor opción." },
-              { num: "2", title: "Información básica", text: "Un formulario breve de 5 minutos con los datos esenciales de tu LLC." },
-              { num: "3", title: "Verificación de identidad", text: "DNI o pasaporte. Una foto rápida y segura desde tu móvil." },
-              { num: "4", title: "Constitución de la LLC", text: "Gestionamos todo el proceso: registro oficial, EIN y documentación completa." },
-              { num: "5", title: "Documentación en tu email", text: "En 2–3 días hábiles, recibes toda la información lista para usar." },
-              { num: "6", title: "Banca y pasarelas", text: "Te acompañamos en la apertura de cuentas y plataformas como Mercury, Relay y Stripe." },
-            ].map((step, i) => (
-              <motion.div key={i} className="flex flex-col items-center gap-4 sm:gap-6 mb-6 sm:mb-10 last:mb-0" variants={fadeIn}>
-                <div className="flex-shrink-0 w-12 h-12 sm:w-14 sm:h-14 bg-brand-lime rounded-full flex items-center justify-center text-brand-dark font-black text-xl sm:text-2xl shadow-md">
-                  {step.num}
-                </div>
-                <div className="pt-1 sm:pt-2 text-center">
-                  <p className="font-black uppercase tracking-tight text-lg sm:text-2xl text-brand-dark mb-1">{step.title}</p>
-                  <p className="text-sm sm:text-lg text-muted-foreground leading-relaxed">{step.text}</p>
-                </div>
-              </motion.div>
-            ))}
-
-            <motion.div className="mt-12 sm:mt-20 flex justify-center" variants={fadeIn}>
-              <Button 
-                size="lg" 
-                onClick={() => setLocation("/application")} 
-                className="bg-brand-lime text-brand-dark font-black text-sm px-8 sm:px-12 py-6 sm:py-8 border-0 rounded-full w-full sm:w-auto shadow-xl transition-all hover:scale-105 active:scale-95 hover:shadow-brand-lime/30"
-              >
-                ¿Estás listo? Selecciona tu pack →
-              </Button>
-            </motion.div>
-          </motion.div>
-        </div>
-      </section>
-
       <section className="py-20 bg-white">
         <div className="w-full px-5 sm:px-8 text-center">
           <Button 
