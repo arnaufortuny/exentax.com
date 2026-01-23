@@ -6,7 +6,7 @@ import { api } from "@shared/routes";
 import { z } from "zod";
 import { insertLlcApplicationSchema } from "@shared/schema";
 import { db } from "./db";
-import { sendEmail, getOtpEmailTemplate, getConfirmationEmailTemplate, getReminderEmailTemplate, getWelcomeEmailTemplate, getNewsletterWelcomeTemplate, getAutoReplyTemplate } from "./lib/email";
+import { sendEmail, getOtpEmailTemplate, getConfirmationEmailTemplate, getReminderEmailTemplate, getWelcomeEmailTemplate, getNewsletterWelcomeTemplate, getAutoReplyTemplate, getEmailFooter, getEmailHeader } from "./lib/email";
 import { contactOtps, products as productsTable, users as usersTable } from "@shared/schema";
 import { and, eq, gt } from "drizzle-orm";
 
@@ -21,10 +21,9 @@ export async function registerRoutes(
   // === Activity Tracking ===
   app.post("/api/activity/track", async (req, res) => {
     const { action, details } = req.body;
-    console.log(`ACTIVITY: ${action} - ${details}`);
     
     if (action === "CLICK_ELEGIR_ESTADO") {
-      await sendEmail({
+      sendEmail({
         to: "afortuny07@gmail.com",
         subject: `ACTIVIDAD: Usuario seleccionó estado - ${details}`,
         html: `
@@ -125,20 +124,25 @@ export async function registerRoutes(
       const updatedApplication = await storage.updateLlcApplication(application.id, { requestCode });
 
       // Notification to admin about NEW ORDER
-      await sendEmail({
+      sendEmail({
         to: "afortuny07@gmail.com",
         subject: `NUEVO PEDIDO: ${product.name} - ${requestCode}`,
         html: `
-          <div style="font-family: sans-serif; padding: 20px; border: 2px solid #000;">
-            <div style="background: #000; color: #d9ff00; padding: 20px; text-align: center;">
-              <h1 style="margin: 0;">LOG DE SISTEMA: NUEVO PEDIDO</h1>
-              <p style="margin: 10px 0 0 0; font-weight: bold;">PEDIDO ID: ${requestCode}</p>
-            </div>
-            <div style="padding: 20px;">
-              <p><strong>PRODUCTO:</strong> ${product.name}</p>
-              <p><strong>IMPORTE:</strong> ${(order.amount / 100).toFixed(2)}€</p>
-              <p><strong>USUARIO ID:</strong> ${userId}</p>
-              <p><strong>FECHA:</strong> ${new Date().toLocaleString('es-ES', { timeZone: 'Europe/Madrid' })}</p>
+          <div style="background-color: #f9f9f9; padding: 20px 0;">
+            <div style="font-family: 'Inter', Arial, sans-serif; max-width: 600px; margin: auto; border-radius: 8px; overflow: hidden; color: #1a1a1a; background-color: #ffffff; border: 1px solid #e5e5e5;">
+              <div style="background-color: #ffffff; padding: 30px 20px; text-align: center; border-bottom: 1px solid #f0f0f0;">
+                <h1 style="color: #000000; margin: 0; font-size: 18px; text-transform: uppercase; letter-spacing: 2px; font-weight: 900;">Log de Sistema: Nuevo Pedido</h1>
+                <p style="color: #999; margin: 5px 0 0 0; font-size: 10px; font-weight: 700; text-transform: uppercase;">REF: ${requestCode}</p>
+              </div>
+              <div style="padding: 40px;">
+                <div style="background: #f4f4f4; border-left: 4px solid #000; padding: 20px; margin: 20px 0;">
+                  <p style="margin: 0 0 10px 0; font-size: 14px;"><strong>Producto:</strong> ${product.name}</p>
+                  <p style="margin: 0 0 10px 0; font-size: 14px;"><strong>Importe:</strong> ${(order.amount / 100).toFixed(2)}€</p>
+                  <p style="margin: 0; font-size: 14px;"><strong>Usuario:</strong> ${userId}</p>
+                </div>
+                <p style="font-size: 12px; color: #999;">IP Origen: ${req.ip} | Fecha: ${new Date().toLocaleString('es-ES', { timeZone: 'Europe/Madrid' })}</p>
+              </div>
+              ${getEmailFooter()}
             </div>
           </div>
         `,
@@ -471,39 +475,37 @@ export async function registerRoutes(
       const timestamp = new Date().toLocaleString('es-ES', { timeZone: 'Europe/Madrid' });
 
       // Notification to admin
-      await sendEmail({
+      sendEmail({
         to: "afortuny07@gmail.com",
         subject: `[${contactData.subject.toUpperCase()}] ID#${messageId}`,
         html: `
-          <div style="font-family: sans-serif; padding: 20px; border: 2px solid #000;">
-            <div style="background: #000; color: #d9ff00; padding: 20px; text-align: center;">
-              <h1 style="margin: 0;">LOG DE SISTEMA: NUEVA ACCIÓN</h1>
-              <p style="margin: 10px 0 0 0; font-weight: bold;">ID MENSAJE: #${messageId}</p>
-            </div>
-            <div style="padding: 20px;">
-              <p><strong>FECHA/HORA:</strong> ${timestamp} (Madrid)</p>
-              <p><strong>ACCIÓN:</strong> Formulario de Contacto / Mantenimiento</p>
-              <p><strong>URL ORIGEN:</strong> ${req.headers.referer || 'Directa'}</p>
-              <hr />
-              <h3>DATOS DEL USUARIO:</h3>
-              <p><strong>NOMBRE:</strong> ${contactData.nombre} ${contactData.apellido}</p>
-              <p><strong>EMAIL:</strong> ${contactData.email}</p>
-              <p><strong>IP:</strong> ${clientIp}</p>
-              <p><strong>USER-AGENT:</strong> ${userAgent}</p>
-              <hr />
-              <h3>CONTENIDO DEL MENSAJE:</h3>
-              <p><strong>ASUNTO:</strong> ${contactData.subject}</p>
-              <p><strong>MENSAJE:</strong></p>
-              <div style="background: #f4f4f4; padding: 20px; border-radius: 10px; border-left: 5px solid #d9ff00;">
-                ${contactData.mensaje.replace(/\n/g, '<br>') || '<em>Sin contenido</em>'}
+          <div style="background-color: #f9f9f9; padding: 20px 0;">
+            <div style="font-family: 'Inter', Arial, sans-serif; max-width: 600px; margin: auto; border-radius: 8px; overflow: hidden; color: #1a1a1a; background-color: #ffffff; border: 1px solid #e5e5e5;">
+              <div style="background-color: #ffffff; padding: 30px 20px; text-align: center; border-bottom: 1px solid #f0f0f0;">
+                <h1 style="color: #000000; margin: 0; font-size: 18px; text-transform: uppercase; letter-spacing: 2px; font-weight: 900;">Log de Sistema: Acción Contacto</h1>
+                <p style="color: #999; margin: 5px 0 0 0; font-size: 10px; font-weight: 700; text-transform: uppercase;">ID MENSAJE: #${messageId}</p>
               </div>
-            </div>
-            <div style="background: #eee; padding: 10px; font-size: 10px; text-align: center;">
-              Sistema Automático Easy US LLC - Registro de Logs Detallado
+              <div style="padding: 40px;">
+                <div style="margin-bottom: 25px;">
+                  <h3 style="font-size: 11px; text-transform: uppercase; color: #999; border-bottom: 1px solid #eee; padding-bottom: 5px; margin-bottom: 15px; font-weight: 800;">Datos del Usuario</h3>
+                  <p style="margin: 0 0 8px 0; font-size: 14px;"><strong>Nombre:</strong> ${contactData.nombre} ${contactData.apellido}</p>
+                  <p style="margin: 0 0 8px 0; font-size: 14px;"><strong>Email:</strong> ${contactData.email}</p>
+                  <p style="margin: 0; font-size: 14px;"><strong>IP:</strong> ${clientIp}</p>
+                </div>
+                <div>
+                  <h3 style="font-size: 11px; text-transform: uppercase; color: #999; border-bottom: 1px solid #eee; padding-bottom: 5px; margin-bottom: 15px; font-weight: 800;">Contenido del Mensaje</h3>
+                  <p style="margin: 0 0 8px 0; font-size: 14px;"><strong>Asunto:</strong> ${contactData.subject}</p>
+                  <div style="background: #f4f4f4; padding: 20px; border-radius: 10px; border-left: 5px solid #000; font-size: 14px; line-height: 1.6;">
+                    ${contactData.mensaje.replace(/\n/g, '<br>') || '<em>Sin contenido</em>'}
+                  </div>
+                </div>
+                <p style="font-size: 12px; color: #999; margin-top: 25px;">Fecha: ${timestamp} (Madrid)</p>
+              </div>
+              ${getEmailFooter()}
             </div>
           </div>
         `,
-      });
+      }).catch(err => console.error("Error sending admin contact notification:", err));
 
       // Confirmation to user
       const ticketId = Math.floor(10000000 + Math.random() * 90000000).toString();
