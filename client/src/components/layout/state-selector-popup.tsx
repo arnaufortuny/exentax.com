@@ -37,13 +37,13 @@ export function StateSelectorPopup({ isOpen, onOpenChange }: StateSelectorPopupP
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent className="w-[90vw] max-w-md rounded-[2rem] border-0 shadow-2xl overflow-hidden p-0 sm:w-full">
-        <div className="bg-brand-lime h-1.5 w-full" />
+        <div className="bg-accent h-1.5 w-full" />
         <div className="p-6 sm:p-8 pt-5 sm:pt-6">
           <DialogHeader className="mb-6 sm:mb-8">
-            <DialogTitle className="text-2xl sm:text-3xl font-black uppercase tracking-tight text-brand-dark leading-none mb-2">
+            <DialogTitle className="text-2xl sm:text-3xl font-black uppercase tracking-tight text-foreground leading-none mb-2">
               Selecciona el Estado
             </DialogTitle>
-            <DialogDescription className="text-gray-500 font-medium text-sm sm:text-base">
+            <DialogDescription className="text-muted-foreground font-medium text-sm sm:text-base">
               Elige dónde quieres constituir tu LLC para comenzar.
             </DialogDescription>
           </DialogHeader>
@@ -53,15 +53,15 @@ export function StateSelectorPopup({ isOpen, onOpenChange }: StateSelectorPopupP
               <button
                 key={state.id}
                 onClick={() => handleSelect(state.name)}
-                className={`group flex items-center justify-between p-4 sm:p-5 rounded-2xl border-2 border-gray-100 hover:border-brand-lime hover:bg-brand-lime/5 transition-all text-left w-full active:scale-[0.98]`}
+                className={`group flex items-center justify-between p-4 sm:p-5 rounded-2xl border-2 border-border hover:border-accent hover:bg-accent/5 transition-all text-left w-full active:scale-[0.98]`}
               >
                 <div className="flex items-center gap-3 sm:gap-4">
                   <div>
-                    <p className="font-black uppercase tracking-tight text-brand-dark text-base sm:text-lg leading-none mb-1">{state.name}</p>
-                    <p className="text-brand-lime font-black text-xs sm:text-sm">{state.price}</p>
+                    <p className="font-black uppercase tracking-tight text-foreground text-base sm:text-lg leading-none mb-1">{state.name}</p>
+                    <p className="text-accent font-black text-xs sm:text-sm">{state.price}</p>
                   </div>
                 </div>
-                <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 text-gray-300 group-hover:text-brand-dark transition-colors translate-x-0 group-hover:translate-x-1" />
+                <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 text-gray-300 group-hover:text-foreground transition-colors translate-x-0 group-hover:translate-x-1" />
               </button>
             ))}
           </div>
