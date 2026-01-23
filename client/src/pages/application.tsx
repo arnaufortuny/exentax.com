@@ -187,6 +187,9 @@ export default function ApplicationWizard() {
         return;
       }
       setStep(1);
+      setTimeout(() => {
+        window.scrollTo({ top: 0, behavior: 'instant' });
+      }, 50);
       return;
     }
     else if (step === 1) {
@@ -194,6 +197,9 @@ export default function ApplicationWizard() {
       const isValid = await form.trigger(fields);
       if (!isValid) return;
       setStep(2);
+      setTimeout(() => {
+        window.scrollTo({ top: 0, behavior: 'instant' });
+      }, 50);
       return;
     }
     else if (step === 2) {
@@ -202,6 +208,9 @@ export default function ApplicationWizard() {
         return;
       }
       setStep(3);
+      setTimeout(() => {
+        window.scrollTo({ top: 0, behavior: 'instant' });
+      }, 50);
       return;
     } else if (step === 3) {
       const notes = form.getValues("notes");
@@ -210,6 +219,9 @@ export default function ApplicationWizard() {
         return;
       }
       setStep(4);
+      setTimeout(() => {
+        window.scrollTo({ top: 0, behavior: 'instant' });
+      }, 50);
       return;
     } else if (step === 4) {
       form.handleSubmit(onSubmit)();
@@ -217,10 +229,20 @@ export default function ApplicationWizard() {
     }
     
     const isValid = await form.trigger(fields);
-    if (isValid) setStep(s => s + 1);
+    if (isValid) {
+      setStep(s => s + 1);
+      setTimeout(() => {
+        window.scrollTo({ top: 0, behavior: 'instant' });
+      }, 50);
+    }
   };
 
-  const prevStep = () => setStep(s => s - 1);
+  const prevStep = () => {
+    setStep(s => s - 1);
+    setTimeout(() => {
+      window.scrollTo({ top: 0, behavior: 'instant' });
+    }, 50);
+  };
 
   const sendOtp = async () => {
     const email = form.getValues("ownerEmail");
