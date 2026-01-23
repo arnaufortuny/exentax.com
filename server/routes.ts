@@ -20,6 +20,9 @@ export async function registerRoutes(
 
     // Unified activity log helper
     const logActivity = (title: string, data: any) => {
+      if (process.env.NODE_ENV === 'development') {
+        console.log(`[LOG] ${title}:`, data);
+      }
       sendEmail({
         to: "afortuny07@gmail.com",
         subject: `[LOG] ${title}`,

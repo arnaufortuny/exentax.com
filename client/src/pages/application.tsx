@@ -153,7 +153,9 @@ export default function ApplicationWizard() {
         setAppId(data.application.id);
         setOrderNumber(data.application.requestCode || `#${data.application.id}`);
       } catch (err) {
-        console.error("Error initializing application:", err);
+        if (process.env.NODE_ENV === 'development') {
+          console.error("Error initializing application:", err);
+        }
       }
     }
     init();
