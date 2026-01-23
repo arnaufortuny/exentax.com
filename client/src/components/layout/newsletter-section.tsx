@@ -42,7 +42,7 @@ export function NewsletterSection() {
   };
 
   return (
-    <section className="py-8 md:py-20 bg-brand-lime relative overflow-hidden font-sans border-t border-brand-dark/5 w-full flex justify-center items-center">
+    <section className="py-16 md:py-20 bg-brand-lime relative overflow-hidden font-sans border-t border-brand-dark/5 w-full flex justify-center items-center">
       <div className="absolute inset-0 opacity-[0.05] pointer-events-none bg-[url('/hero-bg.png')] bg-repeat" />
       
       <div className="container max-w-4xl mx-auto px-5 relative z-10 flex flex-col items-center justify-center">
