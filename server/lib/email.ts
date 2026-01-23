@@ -60,15 +60,10 @@ export function getOtpEmailTemplate(otp: string) {
       <div style="font-family: 'Inter', Arial, sans-serif; max-width: 600px; margin: auto; border-radius: 8px; overflow: hidden; color: #1a1a1a; background-color: #ffffff; border: 1px solid #e5e5e5;">
         ${getEmailHeader()}
         <div style="padding: 40px;">
-          <h2 style="font-size: 20px; font-weight: 800; margin-bottom: 20px; color: #000;">Verificación de Identidad</h2>
-          <p style="line-height: 1.6; font-size: 15px; color: #444; margin-bottom: 25px;">Hola <strong>Cliente de Prueba</strong>, confirmamos que hemos recibido correctamente los datos para el registro de tu nueva LLC.</p>
+          <h2 style="font-size: 20px; font-weight: 800; margin-bottom: 20px; color: #000;">OTP Verificación de Identidad</h2>
+          <p style="line-height: 1.6; font-size: 15px; color: #444; margin-bottom: 25px;">Hola <strong>Cliente de Prueba</strong>, verifica tu email con el siguiente código:</p>
           
-          <div style="background: #fcfcfc; padding: 15px; border-radius: 6px; margin: 25px 0; border: 1px solid #eee; text-align: left;">
-            <p style="margin: 0; font-size: 14px; color: #666;"><strong>Código de Solicitud:</strong> NM-9999-ABC-0</p>
-          </div>
-
           <div style="background: #000; padding: 25px; border-radius: 8px; margin: 25px 0; text-align: center;">
-            <p style="margin: 0 0 10px 0; font-weight: 700; color: #999; text-transform: uppercase; font-size: 10px; letter-spacing: 1px;">Tu Código de Verificación:</p>
             <p style="margin: 0; font-size: 28px; font-weight: 800; color: #ffffff; letter-spacing: 6px;">${otp}</p>
           </div>
 
