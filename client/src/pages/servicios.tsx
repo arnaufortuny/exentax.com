@@ -779,9 +779,6 @@ export default function Servicios() {
         </div>
       </section>
 
-      <section className="py-20 bg-white">
-        <div className="w-full px-5 sm:px-8 text-center">
-          <Button 
       <NewsletterSection />
       <Footer />
     </div>
