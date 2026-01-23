@@ -269,7 +269,7 @@ export default function Home() {
               { num: "6", title: "Banca y pasarelas", text: "Te acompañamos en la apertura de cuentas y plataformas como Mercury, Relay y Stripe." },
             ].map((step, i) => (
               <motion.div key={i} className="flex flex-col items-center gap-4 sm:gap-6 mb-6 sm:mb-10 last:mb-0" variants={fadeIn}>
-                <div className="flex-shrink-0 w-10 h-10 sm:w-14 sm:h-14 bg-brand-lime rounded-full flex items-center justify-center text-brand-dark font-black text-lg sm:text-2xl shadow-md">
+                <div className="flex-shrink-0 w-12 h-12 sm:w-14 sm:h-14 bg-brand-lime rounded-full flex items-center justify-center text-brand-dark font-black text-xl sm:text-2xl shadow-md">
                   {step.num}
                 </div>
                 <div className="pt-1 sm:pt-2 text-center">
