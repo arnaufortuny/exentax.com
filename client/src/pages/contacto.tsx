@@ -159,7 +159,7 @@ export default function Contacto() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <FormField control={form.control} name="nombre" render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="font-black uppercase text-[10px] md:text-xs tracking-widest text-primary flex items-center gap-2">
+                      <FormLabel className="text-xs font-bold text-primary flex items-center gap-2">
                         <User className="w-3 h-3 text-[#6EDC8A]" /> Nombre:
                       </FormLabel>
                       <FormControl><Input {...field} className="rounded-full h-14 px-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-bold text-primary placeholder:text-primary/30" placeholder="Tu nombre" /></FormControl>
@@ -168,7 +168,7 @@ export default function Contacto() {
                   )} />
                   <FormField control={form.control} name="apellido" render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="font-black uppercase text-[10px] md:text-xs tracking-widest text-primary flex items-center gap-2">
+                      <FormLabel className="text-xs font-bold text-primary flex items-center gap-2">
                         <User className="w-3 h-3 text-[#6EDC8A]" /> Apellido:
                       </FormLabel>
                       <FormControl><Input {...field} className="rounded-full h-14 px-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-bold text-primary placeholder:text-primary/30" placeholder="Tu apellido" /></FormControl>
@@ -180,7 +180,7 @@ export default function Contacto() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <FormField control={form.control} name="email" render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="font-black uppercase text-[10px] md:text-xs tracking-widest text-primary flex items-center gap-2">
+                      <FormLabel className="text-xs font-bold text-primary flex items-center gap-2">
                         <Mail className="w-3 h-3 text-[#6EDC8A]" /> Email:
                       </FormLabel>
                       <FormControl><Input {...field} type="email" inputMode="email" disabled={isOtpVerified} className="rounded-full h-14 px-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-bold text-primary placeholder:text-primary/30" placeholder="email@ejemplo.com" /></FormControl>
@@ -189,18 +189,18 @@ export default function Contacto() {
                   )} />
                   <FormField control={form.control} name="telefono" render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="font-black uppercase text-[10px] md:text-xs tracking-widest text-primary flex items-center gap-2">
+                      <FormLabel className="text-xs font-bold text-primary flex items-center gap-2">
                         <Phone className="w-3 h-3 text-[#6EDC8A]" /> Teléfono (opcional):
                       </FormLabel>
                       <FormControl><Input {...field} className="rounded-full h-14 px-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-bold text-primary placeholder:text-primary/30" placeholder="+34..." /></FormControl>
-                      <FormDescription className="text-[10px] font-bold uppercase text-primary/40">Solo si prefieres WhatsApp</FormDescription>
+                      <FormDescription className="text-[10px] font-bold text-primary/40">Solo si prefieres WhatsApp</FormDescription>
                     </FormItem>
                   )} />
                 </div>
 
                 <FormField control={form.control} name="subject" render={({ field }) => (
                   <FormItem className="space-y-4">
-                    <FormLabel className="font-black uppercase text-[10px] md:text-xs tracking-widest text-primary flex items-center gap-2">
+                    <FormLabel className="text-xs font-bold text-primary flex items-center gap-2">
                       <HelpCircle className="w-3 h-3 text-[#6EDC8A]" /> Motivo de tu mensaje:
                     </FormLabel>
                     <FormControl>
@@ -222,7 +222,7 @@ export default function Contacto() {
 
                 <FormField control={form.control} name="mensaje" render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="font-black uppercase text-[10px] md:text-xs tracking-widest text-primary flex items-center gap-2">
+                    <FormLabel className="text-xs font-bold text-primary flex items-center gap-2">
                       <MessageCircle className="w-3 h-3 text-[#6EDC8A]" /> Tu mensaje:
                     </FormLabel>
                     <FormControl><Textarea {...field} className="rounded-[2rem] min-h-[160px] p-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-bold text-primary placeholder:text-primary/30" placeholder="Cuéntanos tu situación con total libertad. No hace falta que uses palabras técnicas." /></FormControl>
@@ -234,7 +234,7 @@ export default function Contacto() {
                   <div className="absolute top-0 right-0 p-4 opacity-10">
                     <Info className="w-12 h-12 text-[#6EDC8A]" />
                   </div>
-                  <h3 className="text-primary font-black uppercase text-sm tracking-widest">Nota tranquilizadora</h3>
+                  <h3 className="text-primary font-bold text-sm">Nota tranquilizadora</h3>
                   <p className="text-sm md:text-base font-medium text-primary/80 leading-relaxed">
                     Leemos personalmente todos los mensajes y respondemos lo antes posible. Si vemos que una LLC no es la mejor opción para ti, también te lo diremos.
                   </p>
@@ -244,18 +244,18 @@ export default function Contacto() {
                   <div className="space-y-4 pt-4 border-t border-gray-100">
                     <div className="flex flex-col md:flex-row gap-4">
                       {!isOtpSent ? (
-                        <Button type="button" onClick={sendOtp} disabled={isLoading} className="w-full md:w-auto bg-[#6EDC8A] text-primary font-black px-8 h-14 rounded-full active:scale-95 transition-all shadow-lg shadow-[#6EDC8A]/20">
+                        <Button type="button" onClick={sendOtp} disabled={isLoading} className="w-full md:w-auto bg-[#6EDC8A] text-primary font-bold px-8 h-14 rounded-full active:scale-95 transition-all shadow-lg shadow-[#6EDC8A]/20">
                           {isLoading ? <Loader2 className="animate-spin" /> : "Enviar código de verificación"}
                         </Button>
                       ) : (
                         <div className="flex flex-col md:flex-row gap-4 w-full">
                           <FormField control={form.control} name="otp" render={({ field }) => (
                             <FormItem className="flex-1">
-                              <FormControl><Input {...field} className="rounded-full h-14 px-6 text-center text-xl font-black border-gray-200 focus:border-[#6EDC8A] text-primary placeholder:text-primary/30" placeholder="Código (6 dígitos)" /></FormControl>
+                              <FormControl><Input {...field} className="rounded-full h-14 px-6 text-center text-xl font-bold border-gray-200 focus:border-[#6EDC8A] text-primary placeholder:text-primary/30" placeholder="Código (6 dígitos)" /></FormControl>
                               <FormMessage />
                             </FormItem>
                           )} />
-                          <Button type="button" onClick={verifyOtp} disabled={isLoading} className="bg-[#6EDC8A] text-primary font-black px-12 h-14 rounded-full active:scale-95 transition-all shadow-lg shadow-[#6EDC8A]/20">
+                          <Button type="button" onClick={verifyOtp} disabled={isLoading} className="bg-[#6EDC8A] text-primary font-bold px-12 h-14 rounded-full active:scale-95 transition-all shadow-lg shadow-[#6EDC8A]/20">
                             {isLoading ? <Loader2 className="animate-spin" /> : "Verificar"}
                           </Button>
                         </div>
