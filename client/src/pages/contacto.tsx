@@ -20,6 +20,7 @@ const contactFormSchema = z.object({
   nombre: z.string().min(2, "El nombre es demasiado corto"),
   apellido: z.string().min(2, "El apellido es demasiado corto"),
   email: z.string().email("Email inválido"),
+  telefono: z.string().optional(),
   subject: z.string().min(5, "El asunto es demasiado corto"),
   mensaje: z.string().min(10, "El mensaje debe tener al menos 10 caracteres"),
   otp: z.string().min(6, "El código debe tener 6 dígitos"),
@@ -54,6 +55,7 @@ export default function Contacto() {
       nombre: "",
       apellido: "",
       email: "",
+      telefono: "",
       subject: "",
       mensaje: "",
       otp: "",
@@ -204,6 +206,20 @@ export default function Contacto() {
                       )}
                     />
                   </div>
+
+                  <FormField
+                    control={form.control}
+                    name="telefono"
+                    render={({ field }) => (
+                      <FormItem className="space-y-1.5 sm:space-y-2">
+                        <FormLabel className="font-black uppercase text-[10px] sm:text-xs tracking-widest opacity-70">Teléfono (Opcional)</FormLabel>
+                        <FormControl>
+                          <Input placeholder="+34 000 00 00 00" {...field} className="rounded-3xl border-accent/30 focus:border-accent h-11 sm:h-12" disabled={isEmailVerified} />
+                        </FormControl>
+                        <FormMessage className="text-[10px] sm:text-xs" />
+                      </FormItem>
+                    )}
+                  />
                   
                   <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 items-end">
                     <div className="flex-1 w-full">

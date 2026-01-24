@@ -380,6 +380,7 @@ export async function registerRoutes(
         nombre: z.string(),
         apellido: z.string(),
         email: z.string().email(),
+        telefono: z.string().optional(),
         subject: z.string(),
         mensaje: z.string(),
         otp: z.string(),
@@ -408,6 +409,7 @@ export async function registerRoutes(
         "ID Ticket": `#${ticketId}`,
         "Nombre": `${contactData.nombre} ${contactData.apellido}`,
         "Email": contactData.email,
+        "Teléfono": contactData.telefono || "No proporcionado",
         "Asunto": contactData.subject,
         "Mensaje": contactData.mensaje,
         "IP": clientIp
