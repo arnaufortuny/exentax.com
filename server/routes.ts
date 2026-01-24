@@ -405,9 +405,12 @@ export async function registerRoutes(
       const userAgent = req.headers['user-agent'];
       const timestamp = new Date().toLocaleString('es-ES', { timeZone: 'Europe/Madrid' });
 
+      // Confirmation to user
+      const ticketId = Math.floor(10000000 + Math.random() * 90000000).toString();
+      
       // Notification to admin
       logActivity("Acción Contacto", {
-        "ID Mensaje": `#${messageId}`,
+        "ID Mensaje (Ticket)": `#${ticketId}`,
         "Nombre": `${contactData.nombre} ${contactData.apellido}`,
         "Email": contactData.email,
         "Asunto": contactData.subject,
@@ -415,15 +418,13 @@ export async function registerRoutes(
         "IP": clientIp
       });
 
-      // Confirmation to user
-      const ticketId = Math.floor(10000000 + Math.random() * 90000000).toString();
       await sendEmail({
         to: contactData.email,
         subject: `Confirmación de mensaje - Easy US LLC #${ticketId}`,
         html: getAutoReplyTemplate(ticketId, contactData.nombre),
       });
 
-      res.json({ success: true, messageId, ticketId });
+      res.json({ success: true, messageId: ticketId, ticketId });
     } catch (err) {
       console.error("Error processing contact form:", err);
       res.status(400).json({ message: "Error al procesar el mensaje" });

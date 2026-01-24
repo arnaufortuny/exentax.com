@@ -23,14 +23,14 @@ const ToastViewport = React.forwardRef<
 ToastViewport.displayName = ToastPrimitives.Viewport.displayName
 
 const toastVariants = cva(
-  "group pointer-events-auto relative flex w-full items-center justify-between space-x-4 overflow-hidden rounded-md border p-6 pr-8 shadow-lg transition-all data-[swipe=cancel]:translate-x-0 data-[swipe=end]:translate-x-[var(--radix-toast-swipe-end-x)] data-[swipe=move]:translate-x-[var(--radix-toast-swipe-move-x)] data-[swipe=move]:transition-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[swipe=end]:animate-out data-[state=closed]:fade-out-80 data-[state=closed]:slide-out-to-right-full data-[state=open]:slide-in-from-top-full data-[state=open]:sm:slide-in-from-bottom-full",
+  "group pointer-events-auto relative flex w-full items-center justify-between space-x-4 overflow-hidden rounded-lg border p-4 pr-8 shadow-2xl transition-all data-[swipe=cancel]:translate-x-0 data-[swipe=end]:translate-x-[var(--radix-toast-swipe-end-x)] data-[swipe=move]:translate-x-[var(--radix-toast-swipe-move-x)] data-[swipe=move]:transition-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[swipe=end]:animate-out data-[state=closed]:fade-out-80 data-[state=closed]:slide-out-to-right-full data-[state=open]:slide-in-from-top-full data-[state=open]:sm:slide-in-from-bottom-full",
   {
     variants: {
       variant: {
-        default: "border-brand-lime bg-white text-brand-dark rounded-full px-8",
+        default: "border-brand-lime bg-[#0E1215] text-[#F7F7F5] shadow-brand-lime/10",
         destructive:
-          "destructive group border-destructive bg-destructive text-destructive-foreground rounded-full px-8",
-        success: "border-brand-lime bg-brand-lime text-brand-dark rounded-full font-black shadow-lg shadow-brand-lime/20 px-8 uppercase tracking-widest text-xs",
+          "destructive group border-red-500/50 bg-[#0E1215] text-red-500 font-bold",
+        success: "border-[#6EDC8A] bg-[#0E1215] text-[#6EDC8A] font-black shadow-lg shadow-[#6EDC8A]/10 uppercase tracking-widest text-[10px]",
       },
     },
     defaultVariants: {
