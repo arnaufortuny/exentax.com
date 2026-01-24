@@ -158,9 +158,9 @@ export default function Servicios() {
             {/* New Mexico */}
             <motion.div className="border-[2px] border-accent rounded-2xl overflow-hidden relative bg-background shadow-lg flex flex-col h-full transform transition-all hover:scale-[1.01] hover:shadow-xl group mx-auto w-full max-w-[280px] sm:max-w-none" variants={fadeIn}>
               <div className="p-5 sm:p-6 flex-grow text-center">
-                <div className="flex justify-between items-start mb-3 sm:mb-3">
+                <div className="flex flex-col items-center justify-center mb-4 sm:mb-4 gap-2">
                   <h3 className="text-xl sm:text-xl font-black text-primary uppercase tracking-tight">New Mexico</h3>
-                  <span className="bg-accent/20 text-primary text-[10px] sm:text-[11px] font-black px-2 py-1 rounded-full uppercase">Popular</span>
+                  <span className="bg-accent/20 text-primary text-[10px] sm:text-[11px] font-black px-3 py-1 rounded-full uppercase">Popular</span>
                 </div>
                 <div className="flex items-baseline justify-center gap-1 mb-2">
                   <p className="text-4xl sm:text-4xl font-black text-primary">639€</p>
@@ -203,9 +203,9 @@ export default function Servicios() {
             {/* Wyoming */}
             <motion.div className="border-[2px] border-accent rounded-2xl overflow-hidden relative bg-background shadow-lg flex flex-col h-full transform transition-all hover:scale-[1.01] hover:shadow-xl group mx-auto w-full max-w-[280px] sm:max-w-none" variants={fadeIn}>
               <div className="p-5 sm:p-6 flex-grow text-center">
-                <div className="flex justify-between items-start mb-3 sm:mb-3">
+                <div className="flex flex-col items-center justify-center mb-4 sm:mb-4 gap-2">
                   <h3 className="text-xl sm:text-xl font-black text-primary uppercase tracking-tight">Wyoming</h3>
-                  <span className="bg-primary text-primary-foreground text-[10px] sm:text-[11px] font-black px-2 py-1 rounded-full uppercase">Premium</span>
+                  <span className="bg-primary text-primary-foreground text-[10px] sm:text-[11px] font-black px-3 py-1 rounded-full uppercase">Premium</span>
                 </div>
                 <div className="flex items-baseline justify-center gap-1 mb-2">
                   <p className="text-4xl sm:text-4xl font-black text-primary">799€</p>
@@ -248,9 +248,9 @@ export default function Servicios() {
             {/* Delaware */}
             <motion.div className="border-[2px] border-accent rounded-2xl overflow-hidden relative bg-background shadow-lg flex flex-col h-full transform transition-all hover:scale-[1.01] hover:shadow-xl group mx-auto w-full max-w-[280px] sm:max-w-none" variants={fadeIn}>
               <div className="p-5 sm:p-6 flex-grow text-center">
-                <div className="flex justify-between items-start mb-3 sm:mb-3">
+                <div className="flex flex-col items-center justify-center mb-4 sm:mb-4 gap-2">
                   <h3 className="text-xl sm:text-xl font-black text-primary uppercase tracking-tight">Delaware</h3>
-                  <span className="bg-accent text-primary text-[10px] sm:text-[11px] font-black px-2 py-1 rounded-full uppercase">Startups</span>
+                  <span className="bg-accent text-primary text-[10px] sm:text-[11px] font-black px-3 py-1 rounded-full uppercase">Startups</span>
                 </div>
                 <div className="flex items-baseline justify-center gap-1 mb-2">
                   <p className="text-4xl sm:text-4xl font-black text-primary">999€</p>
@@ -388,9 +388,9 @@ export default function Servicios() {
             ].map((item, i) => (
               <motion.div key={i} className="border-[2px] border-accent rounded-2xl overflow-hidden relative bg-background shadow-lg flex flex-col h-full transform transition-all hover:scale-[1.01] hover:shadow-xl group text-center mx-auto w-full max-w-[280px] sm:max-w-none" variants={fadeIn}>
                 <div className="p-5 sm:p-6 flex-grow text-center">
-                  <div className="flex justify-between items-start mb-3 sm:mb-3">
+                  <div className="flex flex-col items-center justify-center mb-4 sm:mb-4 gap-2">
                     <h3 className="text-xl sm:text-xl font-black text-primary uppercase tracking-tight">{item.state}</h3>
-                    <span className="bg-accent/20 text-primary text-[10px] sm:text-[11px] font-black px-2 py-1 rounded-full uppercase">Mantenimiento</span>
+                    <span className="bg-accent/20 text-primary text-[10px] sm:text-[11px] font-black px-3 py-1 rounded-full uppercase">Mantenimiento</span>
                   </div>
                   <div className="flex items-baseline justify-center gap-1 mb-2">
                     <p className="text-4xl sm:text-4xl font-black text-primary">{item.price}</p>
