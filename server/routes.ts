@@ -401,7 +401,6 @@ export async function registerRoutes(
       }
 
       const clientIp = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
-      const clientIp = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
       const ticketId = Math.floor(10000000 + Math.random() * 90000000).toString();
       
       // Notification to admin
