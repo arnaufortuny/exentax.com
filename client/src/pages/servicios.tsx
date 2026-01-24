@@ -180,14 +180,14 @@ export default function Servicios() {
   ];
 
   return (
-    <div className="min-h-screen font-sans bg-background flex flex-col items-center overflow-x-hidden w-full relative">
+    <div className="min-h-screen font-sans bg-background text-center overflow-x-hidden w-full relative">
       <Navbar />
       
       <HeroSection 
         className="flex flex-col items-center justify-center text-center pt-32 sm:pt-16 min-h-[450px] sm:min-h-[auto] w-full"
         showOverlay={false}
         title={
-          <h1 className="text-4xl sm:text-5xl lg:text-7xl font-black text-primary uppercase tracking-tight leading-[1.1] text-center max-w-5xl mx-auto">
+          <h1 className="text-4xl sm:text-5xl lg:text-7xl font-black text-primary uppercase tracking-tight leading-[1.1] text-center">
             Constituimos tu LLC en Estados Unidos de <span className="text-accent">forma simple, rápida y transparente.</span>
           </h1>
         }
@@ -236,7 +236,7 @@ export default function Servicios() {
             viewport={{ once: true }}
             variants={staggerContainer}
           >
-            <motion.h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-primary uppercase tracking-tight text-center max-w-4xl mx-auto" variants={fadeIn}>
+            <motion.h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-primary uppercase tracking-tight text-center" variants={fadeIn}>
               <span className="text-accent uppercase tracking-widest text-sm font-black block mb-2 text-center">PACKS</span>
               NUESTROS PACKS
             </motion.h2>
@@ -254,8 +254,8 @@ export default function Servicios() {
           >
             {/* New Mexico */}
             <motion.div className="border-[2px] border-accent rounded-2xl overflow-hidden relative bg-background shadow-lg flex flex-col h-full transform transition-all hover:scale-[1.01] hover:shadow-xl group mx-auto w-full max-w-[280px] sm:max-w-none" variants={fadeIn}>
-              <div className="p-5 sm:p-6 flex-grow flex flex-col items-center text-center">
-                <div className="flex justify-between items-start mb-3 sm:mb-3 w-full">
+              <div className="p-5 sm:p-6 flex-grow text-center">
+                <div className="flex justify-between items-start mb-3 sm:mb-3">
                   <h3 className="text-xl sm:text-xl font-black text-primary uppercase tracking-tight">New Mexico</h3>
                   <span className="bg-accent/20 text-primary text-[10px] sm:text-[11px] font-black px-2 py-1 rounded-full uppercase">Popular | 2-3 días</span>
                 </div>
@@ -267,7 +267,7 @@ export default function Servicios() {
                   <div className="w-1.5 h-1.5 rounded-full bg-accent" />
                   Tasas estatales incluidas
                 </div>
-                  <div className="space-y-2 sm:space-y-2 text-sm sm:text-base mb-4 sm:mb-4 border-t border-accent/10 pt-4 sm:pt-4 w-full">
+                  <div className="space-y-2 sm:space-y-2 text-sm sm:text-base mb-4 sm:mb-4 border-t border-accent/10 pt-4 sm:pt-4">
                   {packFeatures.map((f) => (
                     <div key={f} className="flex items-start justify-start gap-2 sm:gap-2 text-primary/80 font-medium text-left leading-tight">
                       <Check className="text-accent w-5 h-5 mt-0.5 flex-shrink-0" /> 
@@ -291,8 +291,8 @@ export default function Servicios() {
 
             {/* Wyoming */}
             <motion.div className="border-[2px] border-accent rounded-2xl overflow-hidden relative bg-background shadow-lg flex flex-col h-full transform transition-all hover:scale-[1.01] hover:shadow-xl group mx-auto w-full max-w-[280px] sm:max-w-none" variants={fadeIn}>
-              <div className="p-5 sm:p-6 flex-grow flex flex-col items-center text-center">
-                <div className="flex justify-between items-start mb-3 sm:mb-3 w-full">
+              <div className="p-5 sm:p-6 flex-grow text-center">
+                <div className="flex justify-between items-start mb-3 sm:mb-3">
                   <h3 className="text-xl sm:text-xl font-black text-primary uppercase tracking-tight">Wyoming</h3>
                   <span className="bg-primary text-primary-foreground text-[10px] sm:text-[11px] font-black px-2 py-1 rounded-full uppercase">Premium | 2-3 días</span>
                 </div>
@@ -304,7 +304,7 @@ export default function Servicios() {
                   <div className="w-1.5 h-1.5 rounded-full bg-accent" />
                   Tasas estatales incluidas
                 </div>
-                  <div className="space-y-2 sm:space-y-2 text-sm sm:text-base mb-4 sm:mb-4 border-t border-accent/10 pt-4 sm:pt-4 w-full">
+                  <div className="space-y-2 sm:space-y-2 text-sm sm:text-base mb-4 sm:mb-4 border-t border-accent/10 pt-4 sm:pt-4">
                   {packFeatures.map((f) => (
                     <div key={f} className="flex items-start justify-start gap-2 sm:gap-2 text-primary/80 font-medium text-left leading-tight">
                       <Check className="text-accent w-5 h-5 mt-0.5 flex-shrink-0" /> 
@@ -328,8 +328,8 @@ export default function Servicios() {
 
             {/* Delaware */}
             <motion.div className="border-[2px] border-accent rounded-2xl overflow-hidden relative bg-background shadow-lg flex flex-col h-full transform transition-all hover:scale-[1.01] hover:shadow-xl group mx-auto w-full max-w-[280px] sm:max-w-none" variants={fadeIn}>
-              <div className="p-5 sm:p-6 flex-grow flex flex-col items-center text-center">
-                <div className="flex justify-between items-start mb-3 sm:mb-3 w-full">
+              <div className="p-5 sm:p-6 flex-grow text-center">
+                <div className="flex justify-between items-start mb-3 sm:mb-3">
                   <h3 className="text-xl sm:text-xl font-black text-primary uppercase tracking-tight">Delaware</h3>
                   <span className="bg-accent text-primary text-[10px] sm:text-[11px] font-black px-2 py-1 rounded-full uppercase">Startups | 2-5 días</span>
                 </div>
@@ -341,7 +341,7 @@ export default function Servicios() {
                   <div className="w-1.5 h-1.5 rounded-full bg-accent" />
                   Tasas estatales incluidas
                 </div>
-                  <div className="space-y-2 sm:space-y-2 text-sm sm:text-base mb-4 sm:mb-4 border-t border-accent/10 pt-4 sm:pt-4 w-full">
+                  <div className="space-y-2 sm:space-y-2 text-sm sm:text-base mb-4 sm:mb-4 border-t border-accent/10 pt-4 sm:pt-4">
                   {packFeatures.map((f) => (
                     <div key={f} className="flex items-start justify-start gap-2 sm:gap-2 text-primary/80 font-medium text-left leading-tight">
                       <Check className="text-accent w-5 h-5 mt-0.5 flex-shrink-0" /> 
@@ -393,7 +393,7 @@ export default function Servicios() {
             viewport={{ once: true }}
             variants={staggerContainer}
           >
-            <motion.h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-primary uppercase tracking-tight text-center max-w-4xl mx-auto" variants={fadeIn}>
+            <motion.h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-primary uppercase tracking-tight text-center" variants={fadeIn}>
               <span className="text-accent uppercase tracking-widest text-sm font-black block mb-2 text-center">BANCOS</span>
               Asistencia Bancaria
             </motion.h2>
@@ -439,7 +439,7 @@ export default function Servicios() {
             viewport={{ once: true }}
             variants={staggerContainer}
           >
-            <motion.h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-primary uppercase tracking-tight text-center max-w-4xl mx-auto" variants={fadeIn}>
+            <motion.h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-primary uppercase tracking-tight text-center" variants={fadeIn}>
               <span className="text-accent uppercase tracking-widest text-sm font-black block mb-2 text-center">MANTENIMIENTO</span>
               Packs Mantenimiento
             </motion.h2>
