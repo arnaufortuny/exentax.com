@@ -15,6 +15,7 @@ const Cookies = lazy(() => import("@/pages/legal/cookies"));
 const Contacto = lazy(() => import("@/pages/contacto"));
 const FAQ = lazy(() => import("@/pages/faq"));
 const ApplicationWizard = lazy(() => import("@/pages/application"));
+const MaintenancePage = lazy(() => import("@/pages/maintenance"));
 
 function ScrollToTop() {
   const [location] = useLocation();
@@ -39,6 +40,7 @@ function Router() {
         <Route path="/faq" component={FAQ} />
         <Route path="/contacto" component={Contacto} />
         <Route path="/application" component={ApplicationWizard} />
+        <Route path="/maintenance" component={MaintenancePage} />
         <Route path="/llc/formation" component={ApplicationWizard} />
         <Route path="/legal" component={Legal} />
         <Route path="/privacidad" component={Privacidad} />

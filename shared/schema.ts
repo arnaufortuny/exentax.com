@@ -106,6 +106,33 @@ export const insertOrderSchema = createInsertSchema(orders).omit({ id: true, cre
 export const insertLlcApplicationSchema = createInsertSchema(llcApplications).omit({ id: true, lastUpdated: true });
 export const insertApplicationDocumentSchema = createInsertSchema(applicationDocuments).omit({ id: true, uploadedAt: true });
 
+export const maintenanceApplications = pgTable("maintenance_applications", {
+  id: serial("id").primaryKey(),
+  orderId: integer("order_id").notNull().references(() => orders.id),
+  requestCode: text("request_code").unique(),
+  ownerFullName: text("owner_full_name"),
+  ownerEmail: text("owner_email"),
+  ownerPhone: text("owner_phone"),
+  companyName: text("company_name"),
+  ein: text("ein"),
+  state: text("state"),
+  status: text("status").notNull().default("draft"),
+  submittedAt: timestamp("submitted_at"),
+  lastUpdated: timestamp("last_updated").defaultNow(),
+  emailOtp: text("email_otp"),
+  emailOtpExpires: timestamp("email_otp_expires"),
+  emailVerified: boolean("email_verified").notNull().default(false),
+  notes: text("notes"),
+});
+
+export const insertMaintenanceApplicationSchema = createInsertSchema(maintenanceApplications).omit({ id: true, lastUpdated: true });
+
+export type MaintenanceApplication = typeof maintenanceApplications.$inferSelect;
+
+export const maintenanceApplicationsRelations = relations(maintenanceApplications, ({ one }) => ({
+  order: one(orders, { fields: [maintenanceApplications.orderId], references: [orders.id] }),
+}));
+
 // Types
 export type Product = typeof products.$inferSelect;
 export type Order = typeof orders.$inferSelect;

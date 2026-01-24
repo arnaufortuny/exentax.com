@@ -428,6 +428,108 @@ export async function registerRoutes(
     }
   });
 
+  // Maintenance Orders
+  app.post("/api/maintenance/orders", async (req: any, res) => {
+    try {
+      const { productId, state } = req.body;
+      let userId: string;
+      
+      if (req.user?.id) {
+        userId = req.user.id;
+      } else {
+        const guestId = `guest_${Date.now()}_${Math.random().toString(36).substring(7)}`;
+        await db.insert(usersTable).values({
+          id: guestId,
+          email: null,
+          firstName: "Guest",
+          lastName: "User",
+        });
+        userId = guestId;
+      }
+
+      const product = await storage.getProduct(productId);
+      if (!product) return res.status(400).json({ message: "Invalid product" });
+
+      const order = await storage.createOrder({
+        userId,
+        productId,
+        amount: product.price,
+        status: "pending",
+        stripeSessionId: "mock_maintenance_" + Date.now(),
+      });
+
+      const [application] = await db.insert(require("@shared/schema").maintenanceApplications).values({
+        orderId: order.id,
+        status: "draft",
+        state: state || "New Mexico",
+      }).returning();
+
+      res.status(201).json({ ...order, application });
+    } catch (err) {
+      console.error("Error creating maintenance order:", err);
+      res.status(500).json({ message: "Error" });
+    }
+  });
+
+  app.post("/api/maintenance/:id/send-otp", async (req, res) => {
+    const { email } = req.body;
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    const expires = new Date(Date.now() + 10 * 60 * 1000);
+    
+    await db.update(require("@shared/schema").maintenanceApplications)
+      .set({ emailOtp: otp, emailOtpExpires: expires })
+      .where(eq(require("@shared/schema").maintenanceApplications.id, Number(req.params.id)));
+    
+    await sendEmail({
+      to: email,
+      subject: "Código de verificación - Easy US LLC",
+      html: getOtpEmailTemplate(otp),
+    });
+    res.json({ success: true });
+  });
+
+  app.post("/api/maintenance/:id/verify-otp", async (req, res) => {
+    const appId = Number(req.params.id);
+    const { otp } = req.body;
+    
+    const [app] = await db.select().from(require("@shared/schema").maintenanceApplications)
+      .where(and(
+        eq(require("@shared/schema").maintenanceApplications.id, appId),
+        eq(require("@shared/schema").maintenanceApplications.emailOtp, otp),
+        gt(require("@shared/schema").maintenanceApplications.emailOtpExpires, new Date())
+      ));
+    
+    if (app) {
+      await db.update(require("@shared/schema").maintenanceApplications)
+        .set({ emailVerified: true })
+        .where(eq(require("@shared/schema").maintenanceApplications.id, appId));
+      res.json({ success: true });
+    } else {
+      res.status(400).json({ message: "Invalid OTP" });
+    }
+  });
+
+  app.put("/api/maintenance/:id", async (req, res) => {
+    const appId = Number(req.params.id);
+    const updates = req.body;
+    
+    const [updatedApp] = await db.update(require("@shared/schema").maintenanceApplications)
+      .set({ ...updates, lastUpdated: new Date() })
+      .where(eq(require("@shared/schema").maintenanceApplications.id, appId))
+      .returning();
+    
+    if (updates.status === "submitted") {
+      logActivity("Nueva Solicitud Mantenimiento", {
+        "Propietario": updatedApp.ownerFullName,
+        "LLC": updatedApp.companyName,
+        "EIN": updatedApp.ein,
+        "Estado": updatedApp.state,
+        "Email": updatedApp.ownerEmail
+      });
+    }
+    res.json(updatedApp);
+  });
+
   // Seed Data
   await seedDatabase();
 

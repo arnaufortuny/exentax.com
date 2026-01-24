@@ -50,6 +50,10 @@ export default function Servicios() {
     window.location.href = `/application?state=${encodeURIComponent(stateName)}`;
   };
 
+  const handleSelectMaintenance = (stateName: string) => {
+    window.location.href = `/maintenance?state=${encodeURIComponent(stateName)}`;
+  };
+
   const packFeatures = [
     "Tasas del estado pagadas",
     "Registered Agent (12 meses)",
@@ -414,10 +418,7 @@ export default function Servicios() {
                 </div>
                 <div className="p-5 sm:p-6 pt-0 mt-auto">
                   <Button 
-                    onClick={() => {
-                      const subject = encodeURIComponent(`Consulta Mantenimiento ${item.state}`);
-                      window.location.href = `/contacto?subject=${subject}`;
-                    }}
+                    onClick={() => handleSelectMaintenance(item.state)}
                     className="w-full bg-accent text-primary font-black text-sm rounded-full py-4 sm:py-4 border-0 shadow-md hover:bg-accent/90 transition-all transform active:scale-95 h-11 sm:h-11 shadow-accent/20"
                   >
                     Elegir Pack {item.state}
