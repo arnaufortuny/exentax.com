@@ -51,15 +51,14 @@ export function Navbar() {
             <button onClick={() => handleNavClick("/contacto")} className="text-base font-bold text-foreground hover:text-accent transition-colors" data-testid="nav-contacto">Contactanos</button>
           </nav>
 
-          <Link href="/contacto?subject=Constitución de LLC" className="hidden md:inline-flex">
-            <Button 
-              className="bg-accent text-accent-foreground font-black text-sm border-0 rounded-full h-12 px-8 hover:scale-105 transition-all shadow-lg active:scale-95 shadow-accent/20"
-              data-testid="button-nav-cta"
-              variant="default"
-            >
-              Constituye ahora tu LLC
-            </Button>
-          </Link>
+          <Button 
+            onClick={() => setIsPopupOpen(true)} 
+            className="hidden md:inline-flex bg-accent text-accent-foreground font-black text-sm border-0 rounded-full h-12 px-8 hover:scale-105 transition-all shadow-lg active:scale-95 shadow-accent/20"
+            data-testid="button-nav-cta"
+            variant="default"
+          >
+            Constituye ahora tu LLC
+          </Button>
 
           <button 
             className="md:hidden p-2 text-foreground relative z-[110]"
@@ -113,15 +112,16 @@ export function Navbar() {
                 Contactanos
               </button>
               <div className="mt-8 px-3 flex flex-col gap-3">
-                <Link href="/contacto?subject=Constitución de LLC" className="w-full">
-                  <Button 
-                    onClick={() => setIsOpen(false)}
-                    className="w-full bg-accent text-accent-foreground font-black text-sm h-12 shadow-lg active:scale-95 transition-transform flex items-center justify-center gap-2 shadow-accent/20"
-                    data-testid="mobile-button-cta"
-                  >
-                    Constituye ahora tu LLC →
-                  </Button>
-                </Link>
+                <Button 
+                  onClick={() => {
+                    setIsOpen(false);
+                    setIsPopupOpen(true);
+                  }}
+                  className="w-full bg-accent text-accent-foreground font-black text-sm h-12 shadow-lg active:scale-95 transition-transform flex items-center justify-center gap-2 shadow-accent/20"
+                  data-testid="mobile-button-cta"
+                >
+                  Constituye ahora tu LLC →
+                </Button>
                 <a 
                   href="https://wa.me/34614916910" 
                   target="_blank" 

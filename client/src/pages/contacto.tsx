@@ -21,7 +21,6 @@ const contactFormSchema = z.object({
   apellido: z.string().min(2, "El apellido es demasiado corto"),
   email: z.string().email("Email inválido"),
   telefono: z.string().optional(),
-  estado: z.string().min(1, "Selecciona un estado"),
   subject: z.string().min(5, "El asunto es demasiado corto"),
   mensaje: z.string().min(10, "El mensaje debe tener al menos 10 caracteres"),
   otp: z.string().min(6, "El código debe tener 6 dígitos"),
@@ -57,7 +56,6 @@ export default function Contacto() {
       apellido: "",
       email: "",
       telefono: "",
-      estado: "",
       subject: "",
       mensaje: "",
       otp: "",
@@ -141,12 +139,8 @@ export default function Contacto() {
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const subject = params.get("subject");
-    const state = params.get("state");
     if (subject) {
       form.setValue("subject", subject);
-    }
-    if (state) {
-      form.setValue("estado", state);
     }
   }, [form]);
 

@@ -144,7 +144,7 @@ export default function Servicios() {
   };
 
   const handleSelectProduct = (stateName: string) => {
-    setLocation(`/contacto?subject=Constitución de LLC&state=${encodeURIComponent(stateName)}`);
+    setLocation(`/application?state=${encodeURIComponent(stateName)}`);
   };
 
   const packFeatures = [
