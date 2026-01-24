@@ -25,6 +25,16 @@ Easy US LLC is a business formation service for Spanish-speaking entrepreneurs l
 - `shared/schema.ts`: Drizzle database schema and Zod types.
 - `server/`: Express backend with Drizzle storage.
 
+## User Preferences & Constraints
+- **Popups**: 
+  - Must be centered absolutely on screen.
+  - Transparent backdrop (no black screen).
+  - Minimalist design: NO logos, NO icons.
+  - Rectangular edges (`rounded-none`).
+  - Immediate display for maintenance popup.
+- **Style**: Use `rounded-none` for buttons and badges in services and popups.
+- **Communication**: Spanish focus.
+
 ## Recent Changes
 - Migrated Navbar and Footer to use semantic design tokens (accent, primary, primary-foreground).
 - Standardized all email notifications (client/admin) with professional minimalist design.
@@ -34,3 +44,4 @@ Easy US LLC is a business formation service for Spanish-speaking entrepreneurs l
 - Optimized performance: Implemented Gzip compression, advanced cache headers (1 year for assets), and Lazy Loading for all routes.
 - Improved rendering efficiency using `content-visibility: auto` in CSS and better font smoothing.
 - Refined project structure and error handling across backend services.
+- **Popups Refactor**: Removed logos/icons, enforced absolute centering, set `rounded-none` styling, and enabled immediate display.
