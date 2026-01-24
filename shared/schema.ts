@@ -49,6 +49,11 @@ export const llcApplications = pgTable("llc_applications", {
   companyDescription: text("company_description"),
   businessCategory: text("business_category"),
   businessCategoryOther: text("business_category_other"),
+  ownerAddress: text("owner_address"),
+  ownerCity: text("owner_city"),
+  ownerProvince: text("owner_province"),
+  ownerZipCode: text("owner_zip_code"),
+  ownerCountry: text("owner_country"),
   notes: text("notes"),
   state: text("state"),
   status: text("status").notNull().default("draft"), // draft, submitted, filed, rejected
