@@ -7,7 +7,7 @@ import { z } from "zod";
 import { insertLlcApplicationSchema } from "@shared/schema";
 import { db } from "./db";
 import { sendEmail, getOtpEmailTemplate, getConfirmationEmailTemplate, getReminderEmailTemplate, getWelcomeEmailTemplate, getNewsletterWelcomeTemplate, getAutoReplyTemplate, getEmailFooter, getEmailHeader } from "./lib/email";
-import { contactOtps, products as productsTable, users as usersTable } from "@shared/schema";
+import { contactOtps, products as productsTable, users as usersTable, maintenanceApplications } from "@shared/schema";
 import { and, eq, gt } from "drizzle-orm";
 
 export async function registerRoutes(
@@ -458,7 +458,7 @@ export async function registerRoutes(
         stripeSessionId: "mock_maintenance_" + Date.now(),
       });
 
-      const maintenanceResults = await db.insert(require("@shared/schema").maintenanceApplications).values({
+      const maintenanceResults = await db.insert(maintenanceApplications).values({
         orderId: order.id,
         status: "draft",
         state: state || "New Mexico",
@@ -477,9 +477,9 @@ export async function registerRoutes(
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
     const expires = new Date(Date.now() + 10 * 60 * 1000);
     
-    await db.update(require("@shared/schema").maintenanceApplications)
+    await db.update(maintenanceApplications)
       .set({ emailOtp: otp, emailOtpExpires: expires })
-      .where(eq(require("@shared/schema").maintenanceApplications.id, Number(req.params.id)));
+      .where(eq(maintenanceApplications.id, Number(req.params.id)));
     
     await sendEmail({
       to: email,
@@ -493,11 +493,11 @@ export async function registerRoutes(
     const appId = Number(req.params.id);
     const { otp } = req.body;
     
-    const [app] = await db.select().from(require("@shared/schema").maintenanceApplications)
+    const [app] = await db.select().from(maintenanceApplications)
       .where(and(
-        eq(require("@shared/schema").maintenanceApplications.id, appId),
-        eq(require("@shared/schema").maintenanceApplications.emailOtp, otp),
-        gt(require("@shared/schema").maintenanceApplications.emailOtpExpires, new Date())
+        eq(maintenanceApplications.id, appId),
+        eq(maintenanceApplications.emailOtp, otp),
+        gt(maintenanceApplications.emailOtpExpires, new Date())
       ));
     
     if (app) {
@@ -514,9 +514,9 @@ export async function registerRoutes(
     const appId = Number(req.params.id);
     const updates = req.body;
     
-    const [updatedApp] = await db.update(require("@shared/schema").maintenanceApplications)
+    const [updatedApp] = await db.update(maintenanceApplications)
       .set({ ...updates, lastUpdated: new Date() })
-      .where(eq(require("@shared/schema").maintenanceApplications.id, appId))
+      .where(eq(maintenanceApplications.id, appId))
       .returning();
     
     if (updates.status === "submitted") {
