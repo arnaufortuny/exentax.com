@@ -62,7 +62,7 @@ export default function Home() {
           >
             {/* Trustpilot above title for mobile, hidden on PC */}
             <motion.div className="mb-4 sm:hidden flex justify-center mt-6" variants={fadeIn}>
-              <a href="https://es.trustpilot.com/review/easyusllc.com" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-white px-4 py-2.5 rounded-full shadow-md border border-gray-100">
+              <a href="https://es.trustpilot.com/review/easyusllc.com" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-white px-4 py-2.5 rounded-full shadow-md border-2 border-accent">
                 <img src={trustpilotLogo} alt="Trustpilot" className="h-5 w-auto" />
                 <div className="flex gap-1">
                   {[1,2,3,4,5].map((star) => (
@@ -102,7 +102,7 @@ export default function Home() {
             
             {/* Trustpilot below description for PC, hidden on mobile */}
             <motion.div className="hidden sm:flex mb-8 justify-center" variants={fadeIn}>
-              <a href="https://es.trustpilot.com/review/easyusllc.com" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-4 bg-white px-6 py-3 rounded-full shadow-md border border-gray-100">
+              <a href="https://es.trustpilot.com/review/easyusllc.com" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-4 bg-white px-6 py-3 rounded-full shadow-md border-2 border-accent">
                 <img src={trustpilotLogo} alt="Trustpilot" className="h-7 w-auto" />
                 <div className="flex gap-1">
                   {[1,2,3,4,5].map((star) => (
