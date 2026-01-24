@@ -145,16 +145,6 @@ export default function FAQ() {
       <HeroSection 
         className="flex flex-col items-center justify-center text-center pt-24 pb-8 sm:pt-32 lg:pt-40 min-h-[300px] sm:min-h-[auto] w-full"
         showOverlay={false}
-        title={
-          <h1 className="text-4xl sm:text-5xl lg:text-7xl font-black text-primary uppercase tracking-tight leading-[1.1] text-center mb-2">
-            PREGUNTAS <span className="text-accent">FRECUENTES</span>
-          </h1>
-        }
-        subtitle={
-          <p className="text-[13px] sm:text-xl lg:text-2xl text-primary font-medium leading-relaxed max-w-2xl text-center mb-4 sm:mb-20 mx-auto px-2">
-            Respondemos de forma clara a las dudas más habituales sobre LLCs, impuestos, bancos y cómo trabajamos.
-          </p>
-        }
       />
 
       <section className="py-4 sm:py-20 bg-white border-t border-primary/5">
