@@ -49,6 +49,16 @@ export const llcApplications = pgTable("llc_applications", {
   companyDescription: text("company_description"),
   businessCategory: text("business_category"),
   businessCategoryOther: text("business_category_other"),
+  ownerNamesAlternates: text("owner_names_alternates"), // Plan B, C, D names
+  ownerCount: integer("owner_count").default(1),
+  ownerCountryResidency: text("owner_country_residency"),
+  idDocumentUrl: text("id_document_url"),
+  isSellingOnline: text("is_selling_online"), // Yes, No, Not sure
+  needsBankAccount: text("needs_bank_account"), // Mercury, Relay, No, Yes
+  willUseStripe: text("will_use_stripe"), // Stripe, PayPal, Both, Other, Not yet
+  wantsBoiReport: text("wants_boi_report"), // Yes, No, Info
+  wantsMaintenancePack: text("wants_maintenance_pack"), // Yes, No, Info
+  paymentStatus: text("payment_status").notNull().default("unpaid"), // unpaid, paid
   notes: text("notes"),
   state: text("state"),
   status: text("status").notNull().default("draft"), // draft, submitted, filed, rejected
@@ -132,6 +142,8 @@ export const maintenanceApplications = pgTable("maintenance_applications", {
 });
 
 export const insertMaintenanceApplicationSchema = createInsertSchema(maintenanceApplications).omit({ id: true, lastUpdated: true });
+
+export const insertContactOtpSchema = createInsertSchema(contactOtps).omit({ id: true });
 
 export type MaintenanceApplication = typeof maintenanceApplications.$inferSelect;
 
