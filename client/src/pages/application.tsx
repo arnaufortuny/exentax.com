@@ -337,7 +337,7 @@ export default function ApplicationWizard() {
                         }`}>
                           Paso {s.n}
                         </span>
-                        <h3 className={`text-lg font-black uppercase tracking-tight ${
+                        <h3 className={`text-lg font-black uppercase tracking-tight text-left ${
                           step >= i ? 'text-primary' : 'text-gray-300'
                         }`}>
                           {s.label}
