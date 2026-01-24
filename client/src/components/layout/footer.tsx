@@ -37,10 +37,10 @@ export function Footer() {
           <div className="flex flex-col items-start">
             <h4 className="font-bold text-base uppercase tracking-wider mb-5 border-b border-accent/30 pb-1 w-full">Enlaces</h4>
             <nav className="flex flex-col gap-3 text-base text-primary-foreground/70">
-              <Link href="/" className="hover:text-primary-foreground transition-colors py-1">Inicio</Link>
-              <Link href="/servicios" className="hover:text-primary-foreground transition-colors py-1">Nuestros Servicios</Link>
-              <Link href="/servicios#pricing" className="hover:text-primary-foreground transition-colors py-1 text-left">Precios</Link>
-              <Link href="/faq" className="hover:text-primary-foreground transition-colors py-1 text-left">FAQ</Link>
+              <Link href="/" className="hover:text-primary-foreground transition-colors py-1 block w-full">Inicio</Link>
+              <Link href="/servicios" className="hover:text-primary-foreground transition-colors py-1 block w-full">Nuestros Servicios</Link>
+              <Link href="/servicios#pricing" className="hover:text-primary-foreground transition-colors py-1 block w-full text-left">Precios</Link>
+              <Link href="/faq" className="hover:text-primary-foreground transition-colors py-1 block w-full text-left">FAQ</Link>
             </nav>
           </div>
           
