@@ -361,7 +361,7 @@ export default function Contacto() {
                     <MessageCircle className="w-6 h-6 text-primary" />
                   </div>
                   <div>
-                    <p className="font-black uppercase text-[10px] tracking-widest text-primary/50 mb-0.5">WHATSAPP / TELÉFONO</p>
+                    <p className="font-black uppercase text-[10px] tracking-widest text-primary/50 mb-0.5">WHATSAPP</p>
                     <p className="text-lg sm:text-xl font-bold text-primary">+34 614 91 69 10</p>
                   </div>
                 </div>
