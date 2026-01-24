@@ -48,7 +48,18 @@ export async function registerRoutes(
     app.post("/api/activity/track", async (req, res) => {
       const { action, details } = req.body;
       if (action === "CLICK_ELEGIR_ESTADO") {
-        logActivity("Selección de Estado", { "Detalles": details, "IP": req.ip });
+        const prices: Record<string, string> = {
+          "New Mexico": "639€",
+          "Wyoming": "799€",
+          "Delaware": "999€"
+        };
+        const stateName = details.replace("Usuario seleccionó ", "");
+        const price = prices[stateName] || "Consultar";
+        logActivity("Selección de Estado", { 
+          "Estado": stateName, 
+          "Precio": price,
+          "IP": req.ip 
+        });
       }
       res.json({ success: true });
     });
