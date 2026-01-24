@@ -183,11 +183,11 @@ export default function Home() {
               { title: "Registered Agent", desc: "Incluimos el servicio de Registered Agent oficial durante el primer año completo, proporcionando dirección legal en Estados Unidos y recepción de notificaciones oficiales." },
               { title: "Soporte experto", desc: "Ofrecemos atención directa y personalizada para resolver tus dudas fiscales y operativas, acompañándote en el uso y mantenimiento de tu LLC." },
             ].map((service, i) => (
-              <motion.div key={i} className="p-6 bg-accent/5 rounded-2xl border border-accent/10 sm:border-accent/10 border-accent/30 hover:bg-accent/10 transition-colors text-center" variants={fadeIn}>
+              <motion.div key={i} className="p-6 bg-accent/5 rounded-2xl border border-accent/10 sm:border-accent/10 border-accent/30 hover:bg-accent/10 transition-colors text-left" variants={fadeIn}>
                 <span className="inline-flex items-center px-4 py-2 rounded-full bg-accent text-accent-foreground font-black text-sm shadow-sm mb-4">
                   {service.title}
                 </span>
-                <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">{service.desc}</p>
+                <p className="text-sm sm:text-base text-muted-foreground leading-relaxed text-left">{service.desc}</p>
               </motion.div>
             ))}
           </motion.div>
@@ -290,11 +290,11 @@ function PorQueEasyUSLLC() {
             { badge: "ESPECIALISTAS", title: "Equipo con experiencia real en negocios digitales", text: "No somos intermediarios genéricos. Trabajamos a diario con freelancers y negocios internacionales, entendiendo sus necesidades reales y anticipando problemas para ponértelo fácil desde el primer día." },
             { badge: "SOPORTE HUMANO", title: "Atención directa y cercana, en tu idioma", text: "Hablamos contigo de persona a persona, por WhatsApp y email, cuando lo necesites. Sin tickets eternos ni respuestas automáticas. Estamos para acompañarte antes, durante y después del proceso." },
           ].map((feature, i) => (
-            <motion.div key={i} className="bg-background rounded-2xl shadow-md overflow-hidden border border-foreground/5 sm:border-foreground/5 border-accent/20 flex flex-col" variants={fadeIn}>
-              <div className="p-6 flex-grow">
-                <span className="inline-block px-4 py-2 rounded-full bg-accent text-accent-foreground font-black text-sm shadow-sm mb-4 uppercase">{feature.badge}</span>
-                <h3 className="text-xl sm:text-2xl font-black uppercase tracking-tighter text-foreground mb-3 leading-tight">{feature.title}</h3>
-                <p className="text-muted-foreground text-base sm:text-lg leading-relaxed">{feature.text}</p>
+            <motion.div key={i} className="bg-background rounded-2xl shadow-md overflow-hidden border border-foreground/5 sm:border-foreground/5 border-accent/20 flex flex-col text-left" variants={fadeIn}>
+              <div className="p-6 flex-grow text-left">
+                <span className="inline-block px-4 py-2 rounded-full bg-accent text-accent-foreground font-black text-sm shadow-sm mb-4 uppercase text-left">{feature.badge}</span>
+                <h3 className="text-xl sm:text-2xl font-black uppercase tracking-tighter text-foreground mb-3 leading-tight text-left">{feature.title}</h3>
+                <p className="text-muted-foreground text-base sm:text-lg leading-relaxed text-left">{feature.text}</p>
               </div>
             </motion.div>
           ))}
