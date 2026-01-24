@@ -458,11 +458,12 @@ export async function registerRoutes(
         stripeSessionId: "mock_maintenance_" + Date.now(),
       });
 
-      const [application] = await db.insert(require("@shared/schema").maintenanceApplications).values({
+      const maintenanceResults = await db.insert(require("@shared/schema").maintenanceApplications).values({
         orderId: order.id,
         status: "draft",
         state: state || "New Mexico",
       }).returning();
+      const application = maintenanceResults[0];
 
       res.status(201).json({ ...order, application });
     } catch (err) {

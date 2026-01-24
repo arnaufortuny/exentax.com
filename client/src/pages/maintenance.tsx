@@ -191,7 +191,7 @@ export default function MaintenanceApplication() {
                   <p><strong>Estado:</strong> {form.getValues("state")}</p>
                 </div>
                 <FormField control={form.control} name="notes" render={({ field }) => (
-                  <FormItem><FormLabel>Notas Adicionales (Opcional)</FormLabel><FormControl><Textarea {...field} /></FormControl></FormItem>
+                  <FormItem><FormLabel>Notas Adicionales (Opcional)</FormLabel><FormControl><Textarea {...field} value={field.value || ""} /></FormControl></FormItem>
                 )} />
                 <div className="flex gap-4">
                   <Button type="button" variant="outline" onClick={() => setStep(2)} className="flex-1">Atrás</Button>
