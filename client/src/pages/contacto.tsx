@@ -123,11 +123,11 @@ export default function Contacto() {
             <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mx-auto">
               <CheckCircle2 className="w-10 h-10 text-primary" />
             </div>
-            <h1 className="text-3xl md:text-5xl font-black uppercase tracking-tighter text-primary">¡MENSAJE RECIBIDO!</h1>
+            <h1 className="text-3xl md:text-5xl font-black tracking-tighter text-primary">¡Mensaje recibido!</h1>
             <p className="text-lg md:text-xl font-medium text-foreground/70 leading-relaxed">
               Hemos recibido tu consulta. Un experto de nuestro equipo la revisará y te contactará en menos de 24-48h laborables.
             </p>
-            <Button onClick={() => (window.location.href = "/")} className="bg-primary text-primary-foreground font-black px-10 py-7 rounded-full text-lg hover:scale-105 active:scale-95 transition-all"> VOLVER AL INICIO </Button>
+            <Button onClick={() => (window.location.href = "/")} className="bg-primary text-primary-foreground font-black px-10 py-7 rounded-full text-lg hover:scale-105 active:scale-95 transition-all"> Volver al inicio </Button>
           </motion.div>
         </main>
         <Footer />
@@ -139,6 +139,19 @@ export default function Contacto() {
     <div className="min-h-screen bg-background font-sans overflow-x-hidden">
       <Navbar />
       <main className="pt-24 pb-16 w-full max-w-4xl mx-auto px-4 md:px-6">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="text-center space-y-4 mb-12"
+        >
+          <h1 className="text-4xl md:text-6xl font-black uppercase tracking-tighter text-primary leading-none">
+            CONTACTO
+          </h1>
+          <p className="text-lg md:text-xl font-medium text-foreground/60 max-w-2xl mx-auto">
+            Contactanos (Siempre listos para ayudarte)
+          </p>
+        </motion.div>
+
         <div className="grid grid-cols-1 gap-12">
           <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.1 }}>
             <Form {...form}>
@@ -149,7 +162,7 @@ export default function Contacto() {
                       <FormLabel className="font-black uppercase text-[10px] md:text-xs tracking-widest text-primary flex items-center gap-2">
                         <User className="w-3 h-3 text-[#6EDC8A]" /> Nombre:
                       </FormLabel>
-                      <FormControl><Input {...field} className="rounded-full h-14 px-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-bold text-primary" placeholder="Tu nombre" /></FormControl>
+                      <FormControl><Input {...field} className="rounded-full h-14 px-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-bold text-primary placeholder:text-primary/30" placeholder="Tu nombre" /></FormControl>
                       <FormMessage />
                     </FormItem>
                   )} />
@@ -158,7 +171,7 @@ export default function Contacto() {
                       <FormLabel className="font-black uppercase text-[10px] md:text-xs tracking-widest text-primary flex items-center gap-2">
                         <User className="w-3 h-3 text-[#6EDC8A]" /> Apellido:
                       </FormLabel>
-                      <FormControl><Input {...field} className="rounded-full h-14 px-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-bold text-primary" placeholder="Tu apellido" /></FormControl>
+                      <FormControl><Input {...field} className="rounded-full h-14 px-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-bold text-primary placeholder:text-primary/30" placeholder="Tu apellido" /></FormControl>
                       <FormMessage />
                     </FormItem>
                   )} />
@@ -232,18 +245,18 @@ export default function Contacto() {
                     <div className="flex flex-col md:flex-row gap-4">
                       {!isOtpSent ? (
                         <Button type="button" onClick={sendOtp} disabled={isLoading} className="w-full md:w-auto bg-[#6EDC8A] text-primary font-black px-8 h-14 rounded-full active:scale-95 transition-all shadow-lg shadow-[#6EDC8A]/20">
-                          {isLoading ? <Loader2 className="animate-spin" /> : "ENVIAR CÓDIGO DE VERIFICACIÓN"}
+                          {isLoading ? <Loader2 className="animate-spin" /> : "Enviar código de verificación"}
                         </Button>
                       ) : (
                         <div className="flex flex-col md:flex-row gap-4 w-full">
                           <FormField control={form.control} name="otp" render={({ field }) => (
                             <FormItem className="flex-1">
-                              <FormControl><Input {...field} className="rounded-full h-14 px-6 text-center text-xl font-black border-gray-200 focus:border-[#6EDC8A] text-primary placeholder:text-primary/30" placeholder="CÓDIGO (6 DÍGITOS)" /></FormControl>
+                              <FormControl><Input {...field} className="rounded-full h-14 px-6 text-center text-xl font-black border-gray-200 focus:border-[#6EDC8A] text-primary placeholder:text-primary/30" placeholder="Código (6 dígitos)" /></FormControl>
                               <FormMessage />
                             </FormItem>
                           )} />
                           <Button type="button" onClick={verifyOtp} disabled={isLoading} className="bg-[#6EDC8A] text-primary font-black px-12 h-14 rounded-full active:scale-95 transition-all shadow-lg shadow-[#6EDC8A]/20">
-                            {isLoading ? <Loader2 className="animate-spin" /> : "VERIFICAR"}
+                            {isLoading ? <Loader2 className="animate-spin" /> : "Verificar"}
                           </Button>
                         </div>
                       )}
@@ -267,8 +280,8 @@ export default function Contacto() {
                         </FormItem>
                       )} />
                     </div>
-                    <Button type="submit" disabled={isLoading} className="w-full bg-[#6EDC8A] text-primary font-black py-8 rounded-full text-lg md:text-xl uppercase tracking-widest hover:scale-[1.02] active:scale-95 transition-all shadow-2xl shadow-[#6EDC8A]/20">
-                      {isLoading ? <Loader2 className="animate-spin" /> : "ENVIAR MENSAJE"}
+                    <Button type="submit" disabled={isLoading} className="w-full bg-[#6EDC8A] text-primary font-black py-8 rounded-full text-lg md:text-xl tracking-widest hover:scale-[1.02] active:scale-95 transition-all shadow-2xl shadow-[#6EDC8A]/20">
+                      {isLoading ? <Loader2 className="animate-spin" /> : "Enviar mensaje"}
                     </Button>
                   </div>
                 )}
