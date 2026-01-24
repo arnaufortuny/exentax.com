@@ -186,7 +186,7 @@ export default function Contacto() {
                         <FormItem className="space-y-1.5 sm:space-y-2">
                           <FormLabel className="font-black uppercase text-[10px] sm:text-xs tracking-widest opacity-70">Nombre</FormLabel>
                           <FormControl>
-                            <Input placeholder="Tu nombre" {...field} className="rounded-3xl border-accent/30 focus:border-accent h-11 sm:h-12" disabled={isEmailVerified} />
+                            <Input placeholder="" {...field} className="rounded-3xl border-accent/30 focus:border-accent h-11 sm:h-12" disabled={isEmailVerified} />
                           </FormControl>
                           <FormMessage className="text-[10px] sm:text-xs" />
                         </FormItem>
@@ -199,7 +199,7 @@ export default function Contacto() {
                         <FormItem className="space-y-1.5 sm:space-y-2">
                           <FormLabel className="font-black uppercase text-[10px] sm:text-xs tracking-widest opacity-70">Apellido</FormLabel>
                           <FormControl>
-                            <Input placeholder="Tu apellido" {...field} className="rounded-3xl border-accent/30 focus:border-accent h-11 sm:h-12" disabled={isEmailVerified} />
+                            <Input placeholder="" {...field} className="rounded-3xl border-accent/30 focus:border-accent h-11 sm:h-12" disabled={isEmailVerified} />
                           </FormControl>
                           <FormMessage className="text-[10px] sm:text-xs" />
                         </FormItem>
