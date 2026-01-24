@@ -189,7 +189,10 @@ export default function Servicios() {
               </div>
                   <div className="bg-accent/5 px-5 py-3 sm:px-5 sm:py-3 border-t border-accent/10 mt-auto text-center">
                     <button 
-                      onClick={() => setLocation("/contacto?subject=Mantenimiento New Mexico")}
+                      onClick={() => {
+                        const subject = encodeURIComponent("Mantenimiento New Mexico");
+                        window.location.href = `/contacto?subject=${subject}`;
+                      }}
                       className="font-black text-[10px] sm:text-[9px] uppercase tracking-widest text-primary/70 hover:text-accent transition-colors"
                     >
                       Mantenimiento Año 2: 349€
@@ -231,7 +234,10 @@ export default function Servicios() {
               </div>
                   <div className="bg-accent/5 px-5 py-3 sm:px-5 sm:py-3 border-t border-accent/10 mt-auto text-center">
                     <button 
-                      onClick={() => setLocation("/contacto?subject=Mantenimiento Wyoming")}
+                      onClick={() => {
+                        const subject = encodeURIComponent("Mantenimiento Wyoming");
+                        window.location.href = `/contacto?subject=${subject}`;
+                      }}
                       className="font-black text-[10px] sm:text-[9px] uppercase tracking-widest text-primary/70 hover:text-accent transition-colors"
                     >
                       Mantenimiento Año 2: 499€
@@ -273,7 +279,10 @@ export default function Servicios() {
               </div>
                   <div className="bg-accent/5 px-5 py-3 sm:px-5 sm:py-3 border-t border-accent/10 mt-auto text-center">
                     <button 
-                      onClick={() => setLocation("/contacto?subject=Mantenimiento Delaware")}
+                      onClick={() => {
+                        const subject = encodeURIComponent("Mantenimiento Delaware");
+                        window.location.href = `/contacto?subject=${subject}`;
+                      }}
                       className="font-black text-[10px] sm:text-[9px] uppercase tracking-widest text-primary/70 hover:text-accent transition-colors"
                     >
                       Mantenimiento Año 2: 599€
@@ -400,7 +409,7 @@ export default function Servicios() {
                   <Button 
                     onClick={() => {
                       const subject = encodeURIComponent(`Consulta Mantenimiento ${item.state}`);
-                      window.location.href = `/contactanos?subject=${subject}`;
+                      window.location.href = `/contacto?subject=${subject}`;
                     }}
                     className="w-full bg-accent text-primary font-black text-sm rounded-full py-4 sm:py-4 border-0 shadow-md hover:bg-accent/90 transition-all transform active:scale-95 h-11 sm:h-11 shadow-accent/20"
                   >
