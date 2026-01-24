@@ -42,10 +42,10 @@ export function NewsletterSection() {
   };
 
   return (
-    <section className="py-16 md:py-20 bg-accent relative overflow-hidden font-sans border-t border-foreground/5 w-full flex justify-center items-center">
+    <section className="py-16 md:py-20 bg-accent relative overflow-hidden font-sans border-t border-foreground/5 w-full">
       <div className="absolute inset-0 opacity-[0.05] pointer-events-none bg-[url('/hero-bg.png')] bg-repeat" />
       
-      <div className="container max-w-4xl mx-auto px-5 relative z-10 flex flex-col items-center justify-center">
+      <div className="w-full px-5 sm:px-8 relative z-10 flex flex-col items-center justify-center">
         <motion.div 
           initial={{ opacity: 0, y: 15 }}
           whileInView={{ opacity: 1, y: 0 }}

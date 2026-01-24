@@ -27,8 +27,8 @@ export function Footer() {
   };
 
   return (
-    <footer className="border-t bg-primary text-primary-foreground py-12 sm:py-20 overflow-hidden font-sans">
-      <div className="container max-w-7xl mx-auto px-5 sm:px-8">
+    <footer className="border-t bg-primary text-primary-foreground py-12 sm:py-20 overflow-hidden font-sans w-full">
+      <div className="w-full px-5 sm:px-8">
         {/* Mobile: Logo centered at top */}
         <div className="flex flex-col items-center mb-10 md:hidden">
           <Link href="/" className="flex flex-col items-center gap-3 mb-6" onClick={() => window.scrollTo(0, 0)}>

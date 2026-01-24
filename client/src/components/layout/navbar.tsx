@@ -35,8 +35,8 @@ export function Navbar() {
   return (
     <>
     <header className="sticky top-0 z-[100] bg-background border-b border-border shadow-sm transition-shadow h-20 sm:h-24 flex items-center w-full" data-mobile-menu-open={isOpen}>
-      <div className="w-full px-4 sm:px-8">
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
+      <div className="w-full px-5 sm:px-8">
+        <div className="flex items-center justify-between w-full">
           <Link href="/" className="flex items-center gap-3 shrink-0 relative z-[110]" onClick={() => { setIsOpen(false); window.scrollTo(0, 0); }} data-testid="link-logo">
             <img src={logoIcon} alt="Easy US LLC" className="w-14 h-14 sm:w-16 sm:h-16 object-contain drop-shadow-sm" />
           </Link>
