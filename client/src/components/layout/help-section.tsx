@@ -23,36 +23,35 @@ export function HelpSection() {
             initial={{ opacity: 0, scale: 0.9, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 20 }}
-            className="fixed bottom-4 right-4 z-[200] w-[240px] sm:w-[280px] bg-white rounded-3xl shadow-2xl border border-accent/20 overflow-hidden"
+            className="fixed bottom-4 right-4 z-[200] w-[210px] sm:w-[260px] bg-white rounded-2xl shadow-2xl border border-accent/30 overflow-hidden"
           >
             <button 
               onClick={() => setShowPopup(false)}
-              className="absolute top-2 right-2 p-1 hover:bg-accent/10 rounded-full transition-colors z-10"
+              className="absolute top-1.5 right-1.5 p-1 hover:bg-accent/10 rounded-full transition-colors z-10"
             >
-              <X className="w-3.5 h-3.5 text-primary/40" />
+              <X className="w-3 h-3 text-primary/40" />
             </button>
-            <div className="p-4 sm:p-5">
-              <div className="flex items-center gap-2 mb-3">
-                <div className="w-8 h-8 sm:w-10 sm:h-10 bg-accent/5 rounded-xl flex items-center justify-center p-1.5 border border-accent/10">
+            <div className="p-3 sm:p-4">
+              <div className="flex items-center gap-2 mb-2">
+                <div className="w-7 h-7 sm:w-9 sm:h-9 bg-accent/5 rounded-lg flex items-center justify-center p-1 border border-accent/10">
                   <img src={logoIcon} alt="Easy US LLC" className="w-full h-full object-contain" />
                 </div>
-                <div>
-                  <h3 className="font-black text-xs sm:text-sm uppercase tracking-tight leading-none text-primary">Easy US LLC</h3>
-                  <p className="text-[9px] sm:text-[10px] font-bold text-accent uppercase tracking-widest mt-0.5">Soporte Premium</p>
+                <div className="min-w-0">
+                  <h3 className="font-black text-[10px] sm:text-xs uppercase tracking-tight leading-none text-primary truncate">Easy US LLC</h3>
                 </div>
               </div>
               
-              <div className="space-y-2">
-                <h4 className="font-black text-sm sm:text-base leading-tight text-primary">
+              <div className="space-y-1.5">
+                <h4 className="font-black text-[11px] sm:text-[13px] leading-tight text-primary">
                   ¿Mantenimiento LLC?
                 </h4>
-                <p className="text-[10px] sm:text-xs text-muted-foreground leading-snug">
-                  Gestión anual completa para que te centres en tu negocio.
+                <p className="text-[9px] sm:text-[11px] text-muted-foreground leading-tight">
+                  Gestión anual completa.
                 </p>
-                <div className="pt-1">
+                <div className="pt-0.5">
                   <Link href="/servicios">
                     <Button 
-                      className="w-full bg-accent text-accent-foreground font-black text-[10px] sm:text-xs h-8 sm:h-9 rounded-full shadow-lg shadow-accent/20 hover:scale-[1.02] transition-transform"
+                      className="w-full bg-accent text-accent-foreground font-black text-[9px] sm:text-[10px] h-7 sm:h-8 rounded-full shadow-md shadow-accent/10 hover:scale-[1.02] transition-transform"
                       onClick={() => setShowPopup(false)}
                     >
                       Ver Planes →
