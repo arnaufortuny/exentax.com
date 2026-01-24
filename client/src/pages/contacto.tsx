@@ -139,15 +139,6 @@ export default function Contacto() {
     <div className="min-h-screen bg-background font-sans overflow-x-hidden">
       <Navbar />
       <main className="pt-24 pb-16 w-full max-w-4xl mx-auto px-4 md:px-6">
-        <div className="text-left space-y-4 mb-12">
-          <motion.h1 initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="text-4xl md:text-6xl font-black uppercase tracking-tighter text-primary leading-[0.9]">
-            HABLEMOS <span className="text-accent">👋</span>
-          </motion.h1>
-          <p className="text-lg md:text-xl font-medium text-foreground/60 max-w-xl">
-            Cuéntanos qué necesitas y te responderemos personalmente lo antes posible.
-          </p>
-        </div>
-
         <div className="grid grid-cols-1 gap-12">
           <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.1 }}>
             <Form {...form}>

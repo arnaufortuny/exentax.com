@@ -468,14 +468,14 @@ export default function ApplicationWizard() {
                 </h2>
                 <div className="bg-accent/5 p-6 md:p-8 rounded-[2rem] border border-accent/20 space-y-4">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs md:text-sm">
-                    <p className="flex justify-between md:block"><span className="opacity-50">Email:</span> <span className="font-bold">{form.getValues("ownerEmail")}</span></p>
-                    <p className="flex justify-between md:block"><span className="opacity-50">LLC:</span> <span className="font-bold">{form.getValues("companyName")}</span></p>
-                    <p className="flex justify-between md:block"><span className="opacity-50">Estado:</span> <span className="font-bold">{stateFromUrl}</span></p>
+                    <p className="flex justify-between md:block"><span className="opacity-50 text-[10px] md:text-xs uppercase font-black">Email:</span> <span className="font-bold">{form.getValues("ownerEmail")}</span></p>
+                    <p className="flex justify-between md:block"><span className="opacity-50 text-[10px] md:text-xs uppercase font-black">LLC:</span> <span className="font-bold">{form.getValues("companyName")}</span></p>
+                    <p className="flex justify-between md:block"><span className="opacity-50 text-[10px] md:text-xs uppercase font-black">Estado:</span> <span className="font-bold">{stateFromUrl}</span></p>
                   </div>
                 </div>
                 <div className="flex gap-3">
-                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-black border-gray-100 active:scale-95 transition-all">ATRÁS</Button>
-                  <Button type="button" onClick={nextStep} className="flex-2 bg-accent text-primary font-black rounded-full h-14 shadow-lg shadow-accent/20 active:scale-95 transition-all">VERIFICAR EMAIL</Button>
+                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-black border-gray-100 active:scale-95 transition-all text-sm md:text-base uppercase">ATRÁS</Button>
+                  <Button type="button" onClick={nextStep} className="flex-2 bg-accent text-primary font-black rounded-full h-14 shadow-lg shadow-accent/20 active:scale-95 transition-all text-sm md:text-base uppercase">VERIFICAR EMAIL</Button>
                 </div>
               </motion.div>
             )}
@@ -487,21 +487,21 @@ export default function ApplicationWizard() {
                   <ShieldCheck className="w-6 h-6 text-accent" /> Verificación
                 </h2>
                 {!isOtpSent ? (
-                  <Button type="button" onClick={sendOtp} className="w-full bg-accent text-primary font-black py-7 rounded-full text-lg shadow-lg shadow-accent/20 active:scale-95 transition-all">ENVIAR CÓDIGO</Button>
+                  <Button type="button" onClick={sendOtp} className="w-full bg-accent text-primary font-black py-7 rounded-full text-lg shadow-lg shadow-accent/20 active:scale-95 transition-all uppercase">ENVIAR CÓDIGO</Button>
                 ) : (
                   <div className="space-y-4">
                     <FormField control={form.control} name="otp" render={({ field }) => (
                       <FormItem>
                         <FormLabel className="font-black uppercase text-[10px] tracking-widest opacity-60">Código de 6 dígitos:</FormLabel>
-                        <FormControl><Input {...field} className="rounded-full h-14 px-6 text-center text-2xl border-gray-100 focus:border-accent" placeholder="000000" /></FormControl>
+                        <FormControl><Input {...field} className="rounded-full h-14 px-6 text-center text-2xl border-gray-100 focus:border-accent font-black" placeholder="000000" /></FormControl>
                         <FormMessage />
                       </FormItem>
                     )} />
-                    {!isEmailVerified && <Button type="button" onClick={verifyOtp} className="w-full bg-primary text-white py-7 rounded-full font-black text-lg active:scale-95 transition-all">VERIFICAR</Button>}
+                    {!isEmailVerified && <Button type="button" onClick={verifyOtp} className="w-full bg-primary text-white py-7 rounded-full font-black text-lg active:scale-95 transition-all uppercase">VERIFICAR</Button>}
                   </div>
                 )}
                 <div className="flex gap-3">
-                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-black border-gray-100 active:scale-95 transition-all">ATRÁS</Button>
+                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-black border-gray-100 active:scale-95 transition-all text-sm md:text-base uppercase">ATRÁS</Button>
                 </div>
               </motion.div>
             )}
