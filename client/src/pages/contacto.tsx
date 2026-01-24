@@ -190,10 +190,9 @@ export default function Contacto() {
                   <FormField control={form.control} name="telefono" render={({ field }) => (
                     <FormItem>
                       <FormLabel className="text-sm md:text-lg font-black text-primary flex items-center gap-2 uppercase tracking-tight">
-                        <Phone className="w-5 h-5 text-[#6EDC8A]" /> Teléfono (opcional):
+                        <Phone className="w-5 h-5 text-[#6EDC8A]" /> Teléfono:
                       </FormLabel>
                       <FormControl><Input {...field} className="rounded-full h-14 px-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-bold text-primary placeholder:text-primary/30 text-base" placeholder="+34..." /></FormControl>
-                  <FormDescription className="text-xs md:text-sm font-black text-primary/50 text-left uppercase tracking-widest">Solo si prefieres WhatsApp</FormDescription>
                     </FormItem>
                   )} />
                 </div>
