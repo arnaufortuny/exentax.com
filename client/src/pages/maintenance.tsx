@@ -155,23 +155,23 @@ export default function MaintenanceApplication() {
   return (
     <div className="min-h-screen bg-background font-sans w-full">
       <Navbar />
-      <main className="pt-32 pb-16 max-w-4xl mx-auto px-4">
-        <h1 className="text-4xl font-black uppercase mb-12 text-primary">Activar Pack de <span className="text-accent">Mantenimiento</span></h1>
+      <main className="pt-24 pb-16 max-w-4xl mx-auto px-4 md:px-6">
+        <h1 className="text-3xl md:text-4xl font-black uppercase mb-8 md:mb-12 text-primary leading-tight">Activar Pack de <span className="text-accent">Mantenimiento</span></h1>
         
         <Form {...form}>
-          <form className="space-y-8" onSubmit={form.handleSubmit(onSubmit)}>
+          <form className="space-y-6 md:space-y-8" onSubmit={form.handleSubmit(onSubmit)}>
             {step === 0 && (
-              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-6">
-                <h2 className="text-2xl font-black uppercase text-primary border-b border-accent/20 pb-2 text-left">1️⃣ ¿Tu LLC ya existe o la creamos nosotros?</h2>
+              <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6">
+                <h2 className="text-xl md:text-2xl font-black uppercase text-primary border-b border-accent/20 pb-2 text-left leading-tight">1️⃣ ¿Tu LLC ya existe o la creamos nosotros?</h2>
                 <FormDescription className="text-left">👉 Tranquilo, no te juzgamos</FormDescription>
                 <FormField control={form.control} name="creationSource" render={({ field }) => (
                   <FormItem className="space-y-3">
                     <FormControl>
                       <div className="flex flex-col gap-3 text-left">
                         {["Ya tengo una LLC", "La creé con Easy US LLC", "Aún no la tengo (me he adelantado 😅)"].map((opt) => (
-                          <label key={opt} className="flex items-center gap-3 p-4 rounded-2xl border border-gray-100 hover:border-accent cursor-pointer transition-all">
+                          <label key={opt} className="flex items-center gap-3 p-4 rounded-[2rem] border border-gray-100 bg-white hover:border-accent cursor-pointer transition-all active:scale-[0.98]">
                             <input type="radio" {...field} value={opt} checked={field.value === opt} className="w-5 h-5 accent-accent" />
-                            <span className="font-bold text-primary">{opt}</span>
+                            <span className="font-bold text-primary text-sm md:text-base">{opt}</span>
                           </label>
                         ))}
                       </div>
@@ -179,148 +179,148 @@ export default function MaintenanceApplication() {
                     <FormMessage />
                   </FormItem>
                 )} />
-                <Button type="button" onClick={nextStep} className="w-full bg-accent text-primary font-black py-6 rounded-3xl">SIGUIENTE</Button>
+                <Button type="button" onClick={nextStep} className="w-full bg-accent text-primary font-black py-7 rounded-full text-lg shadow-lg shadow-accent/20 active:scale-95 transition-all">SIGUIENTE</Button>
               </motion.div>
             )}
 
             {step === 1 && (
-              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-6 text-left">
-                <h2 className="text-2xl font-black uppercase text-primary border-b border-accent/20 pb-2">2️⃣ ¿Cómo te llamas?</h2>
+              <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
+                <h2 className="text-xl md:text-2xl font-black uppercase text-primary border-b border-accent/20 pb-2 leading-tight">2️⃣ ¿Cómo te llamas?</h2>
                 <FormDescription>El nombre real, el de tu madre, no el de Instagram</FormDescription>
                 <FormField control={form.control} name="ownerFullName" render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="font-black uppercase text-xs tracking-widest">Nombre completo:</FormLabel>
-                    <FormControl><Input {...field} value={field.value || ""} className="rounded-2xl h-14 px-6" placeholder="Tu nombre" /></FormControl>
+                    <FormLabel className="font-black uppercase text-[10px] md:text-xs tracking-widest opacity-60">Nombre completo:</FormLabel>
+                    <FormControl><Input {...field} value={field.value || ""} className="rounded-full h-14 px-6 border-gray-100 focus:border-accent" placeholder="Tu nombre" /></FormControl>
                     <FormMessage />
                   </FormItem>
                 )} />
-                <div className="flex gap-4">
-                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-3xl h-14 font-black">ATRÁS</Button>
-                  <Button type="button" onClick={nextStep} className="flex-1 bg-accent text-primary font-black rounded-3xl h-14">SIGUIENTE</Button>
+                <div className="flex gap-3">
+                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-black border-gray-100 active:scale-95 transition-all">ATRÁS</Button>
+                  <Button type="button" onClick={nextStep} className="flex-2 bg-accent text-primary font-black rounded-full h-14 shadow-lg shadow-accent/20 active:scale-95 transition-all">SIGUIENTE</Button>
                 </div>
               </motion.div>
             )}
 
             {step === 2 && (
-              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-6 text-left">
-                <h2 className="text-2xl font-black uppercase text-primary border-b border-accent/20 pb-2">3️⃣ Email de contacto</h2>
+              <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
+                <h2 className="text-xl md:text-2xl font-black uppercase text-primary border-b border-accent/20 pb-2 leading-tight">3️⃣ Email de contacto</h2>
                 <FormDescription>Aquí te escribiremos cosas importantes, no spam</FormDescription>
                 <FormField control={form.control} name="ownerEmail" render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="font-black uppercase text-xs tracking-widest">Email:</FormLabel>
-                    <FormControl><Input {...field} type="email" value={field.value || ""} className="rounded-2xl h-14 px-6" placeholder="email@ejemplo.com" /></FormControl>
+                    <FormLabel className="font-black uppercase text-[10px] md:text-xs tracking-widest opacity-60">Email:</FormLabel>
+                    <FormControl><Input {...field} type="email" value={field.value || ""} className="rounded-full h-14 px-6 border-gray-100 focus:border-accent" placeholder="email@ejemplo.com" /></FormControl>
                     <FormMessage />
                   </FormItem>
                 )} />
-                <div className="flex gap-4">
-                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-3xl h-14 font-black">ATRÁS</Button>
-                  <Button type="button" onClick={nextStep} className="flex-1 bg-accent text-primary font-black rounded-3xl h-14">SIGUIENTE</Button>
+                <div className="flex gap-3">
+                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-black border-gray-100 active:scale-95 transition-all">ATRÁS</Button>
+                  <Button type="button" onClick={nextStep} className="flex-2 bg-accent text-primary font-black rounded-full h-14 shadow-lg shadow-accent/20 active:scale-95 transition-all">SIGUIENTE</Button>
                 </div>
               </motion.div>
             )}
 
             {step === 3 && (
-              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-6 text-left">
-                <h2 className="text-2xl font-black uppercase text-primary border-b border-accent/20 pb-2">4️⃣ WhatsApp (opcional pero recomendado)</h2>
+              <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
+                <h2 className="text-xl md:text-2xl font-black uppercase text-primary border-b border-accent/20 pb-2 leading-tight">4️⃣ WhatsApp (opcional pero recomendado)</h2>
                 <FormDescription>Para avisos rápidos y salvarte de sustos fiscales</FormDescription>
                 <FormField control={form.control} name="ownerPhone" render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="font-black uppercase text-xs tracking-widest">Teléfono:</FormLabel>
-                    <FormControl><Input {...field} value={field.value || ""} className="rounded-2xl h-14 px-6" placeholder="+34..." /></FormControl>
+                    <FormLabel className="font-black uppercase text-[10px] md:text-xs tracking-widest opacity-60">Teléfono:</FormLabel>
+                    <FormControl><Input {...field} value={field.value || ""} className="rounded-full h-14 px-6 border-gray-100 focus:border-accent" placeholder="+34..." /></FormControl>
                     <FormMessage />
                   </FormItem>
                 )} />
-                <div className="flex gap-4">
-                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-3xl h-14 font-black">ATRÁS</Button>
-                  <Button type="button" onClick={nextStep} className="flex-1 bg-accent text-primary font-black rounded-3xl h-14">SIGUIENTE</Button>
+                <div className="flex gap-3">
+                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-black border-gray-100 active:scale-95 transition-all">ATRÁS</Button>
+                  <Button type="button" onClick={nextStep} className="flex-2 bg-accent text-primary font-black rounded-full h-14 shadow-lg shadow-accent/20 active:scale-95 transition-all">SIGUIENTE</Button>
                 </div>
               </motion.div>
             )}
 
             {step === 4 && (
-              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-6 text-left">
-                <h2 className="text-2xl font-black uppercase text-primary border-b border-accent/20 pb-2">5️⃣ Nombre legal de tu LLC</h2>
+              <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
+                <h2 className="text-xl md:text-2xl font-black uppercase text-primary border-b border-accent/20 pb-2 leading-tight">5️⃣ Nombre legal de tu LLC</h2>
                 <FormDescription>Tal y como aparece en los documentos oficiales</FormDescription>
                 <FormField control={form.control} name="companyName" render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="font-black uppercase text-xs tracking-widest">Nombre de la LLC:</FormLabel>
-                    <FormControl><Input {...field} value={field.value || ""} className="rounded-2xl h-14 px-6" placeholder="MI EMPRESA LLC" /></FormControl>
+                    <FormLabel className="font-black uppercase text-[10px] md:text-xs tracking-widest opacity-60">Nombre de la LLC:</FormLabel>
+                    <FormControl><Input {...field} value={field.value || ""} className="rounded-full h-14 px-6 border-gray-100 focus:border-accent" placeholder="MI EMPRESA LLC" /></FormControl>
                     <FormMessage />
                   </FormItem>
                 )} />
-                <div className="flex gap-4">
-                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-3xl h-14 font-black">ATRÁS</Button>
-                  <Button type="button" onClick={nextStep} className="flex-1 bg-accent text-primary font-black rounded-3xl h-14">SIGUIENTE</Button>
+                <div className="flex gap-3">
+                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-black border-gray-100 active:scale-95 transition-all">ATRÁS</Button>
+                  <Button type="button" onClick={nextStep} className="flex-2 bg-accent text-primary font-black rounded-full h-14 shadow-lg shadow-accent/20 active:scale-95 transition-all">SIGUIENTE</Button>
                 </div>
               </motion.div>
             )}
 
             {step === 5 && (
-              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-6 text-left">
-                <h2 className="text-2xl font-black uppercase text-primary border-b border-accent/20 pb-2">6️⃣ Estado donde está registrada</h2>
+              <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
+                <h2 className="text-xl md:text-2xl font-black uppercase text-primary border-b border-accent/20 pb-2 leading-tight">6️⃣ Estado donde está registrada</h2>
                 <FormDescription>Cada estado juega a su propio juego</FormDescription>
                 <FormField control={form.control} name="state" render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="font-black uppercase text-xs tracking-widest">Estado:</FormLabel>
+                    <FormLabel className="font-black uppercase text-[10px] md:text-xs tracking-widest opacity-60">Estado:</FormLabel>
                     <Select onValueChange={field.onChange} value={field.value || ""}>
-                      <FormControl><SelectTrigger className="rounded-2xl h-14 px-6"><SelectValue placeholder="Seleccionar estado" /></SelectTrigger></FormControl>
+                      <FormControl><SelectTrigger className="rounded-full h-14 px-6 border-gray-100"><SelectValue placeholder="Seleccionar estado" /></SelectTrigger></FormControl>
                       <SelectContent><SelectItem value="New Mexico">New Mexico</SelectItem><SelectItem value="Wyoming">Wyoming</SelectItem><SelectItem value="Delaware">Delaware</SelectItem></SelectContent>
                     </Select>
                   </FormItem>
                 )} />
-                <div className="flex gap-4">
-                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-3xl h-14 font-black">ATRÁS</Button>
-                  <Button type="button" onClick={nextStep} className="flex-1 bg-accent text-primary font-black rounded-3xl h-14">SIGUIENTE</Button>
+                <div className="flex gap-3">
+                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-black border-gray-100 active:scale-95 transition-all">ATRÁS</Button>
+                  <Button type="button" onClick={nextStep} className="flex-2 bg-accent text-primary font-black rounded-full h-14 shadow-lg shadow-accent/20 active:scale-95 transition-all">SIGUIENTE</Button>
                 </div>
               </motion.div>
             )}
 
             {step === 6 && (
-              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-6 text-left">
-                <h2 className="text-2xl font-black uppercase text-primary border-b border-accent/20 pb-2">7️⃣ EIN de la LLC</h2>
+              <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
+                <h2 className="text-xl md:text-2xl font-black uppercase text-primary border-b border-accent/20 pb-2 leading-tight">7️⃣ EIN de la LLC</h2>
                 <FormDescription>Ese numerito que el IRS no olvida nunca</FormDescription>
                 <FormField control={form.control} name="ein" render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="font-black uppercase text-xs tracking-widest">EIN:</FormLabel>
-                    <FormControl><Input {...field} value={field.value || ""} className="rounded-2xl h-14 px-6" placeholder="00-0000000" /></FormControl>
+                    <FormLabel className="font-black uppercase text-[10px] md:text-xs tracking-widest opacity-60">EIN:</FormLabel>
+                    <FormControl><Input {...field} value={field.value || ""} className="rounded-full h-14 px-6 border-gray-100 focus:border-accent" placeholder="00-0000000" /></FormControl>
                     <FormMessage />
                   </FormItem>
                 )} />
-                <div className="flex gap-4">
-                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-3xl h-14 font-black">ATRÁS</Button>
-                  <Button type="button" onClick={nextStep} className="flex-1 bg-accent text-primary font-black rounded-3xl h-14">SIGUIENTE</Button>
+                <div className="flex gap-3">
+                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-black border-gray-100 active:scale-95 transition-all">ATRÁS</Button>
+                  <Button type="button" onClick={nextStep} className="flex-2 bg-accent text-primary font-black rounded-full h-14 shadow-lg shadow-accent/20 active:scale-95 transition-all">SIGUIENTE</Button>
                 </div>
               </motion.div>
             )}
 
             {step === 7 && (
-              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-6 text-left">
-                <h2 className="text-2xl font-black uppercase text-primary border-b border-accent/20 pb-2">8️⃣ Año de constitución</h2>
+              <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
+                <h2 className="text-xl md:text-2xl font-black uppercase text-primary border-b border-accent/20 pb-2 leading-tight">8️⃣ Año de constitución</h2>
                 <FormDescription>Para saber desde cuándo existe la criatura</FormDescription>
                 <FormField control={form.control} name="creationYear" render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="font-black uppercase text-xs tracking-widest">Año:</FormLabel>
-                    <FormControl><Input {...field} value={field.value || ""} className="rounded-2xl h-14 px-6" placeholder="Ej: 2024" /></FormControl>
+                    <FormLabel className="font-black uppercase text-[10px] md:text-xs tracking-widest opacity-60">Año:</FormLabel>
+                    <FormControl><Input {...field} value={field.value || ""} className="rounded-full h-14 px-6 border-gray-100 focus:border-accent" placeholder="Ej: 2024" /></FormControl>
                     <FormMessage />
                   </FormItem>
                 )} />
-                <div className="flex gap-4">
-                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-3xl h-14 font-black">ATRÁS</Button>
-                  <Button type="button" onClick={nextStep} className="flex-1 bg-accent text-primary font-black rounded-3xl h-14">SIGUIENTE</Button>
+                <div className="flex gap-3">
+                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-black border-gray-100 active:scale-95 transition-all">ATRÁS</Button>
+                  <Button type="button" onClick={nextStep} className="flex-2 bg-accent text-primary font-black rounded-full h-14 shadow-lg shadow-accent/20 active:scale-95 transition-all">SIGUIENTE</Button>
                 </div>
               </motion.div>
             )}
 
             {step === 8 && (
-              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-6 text-left">
-                <h2 className="text-2xl font-black uppercase text-primary border-b border-accent/20 pb-2">9️⃣ ¿Tienes cuenta bancaria activa?</h2>
+              <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
+                <h2 className="text-xl md:text-2xl font-black uppercase text-primary border-b border-accent/20 pb-2 leading-tight">9️⃣ ¿Tienes cuenta bancaria activa?</h2>
                 <FormDescription>No pasa nada si aún no, lo vemos contigo</FormDescription>
                 <FormField control={form.control} name="bankAccount" render={({ field }) => (
                   <FormItem className="space-y-3">
                     <FormControl>
-                      <div className="flex flex-col gap-2">
+                      <div className="flex flex-col gap-3">
                         {["Mercury", "Relay", "Otro banco", "Aún no tengo cuenta"].map(opt => (
-                          <label key={opt} className="flex items-center gap-3 p-3 rounded-xl border border-gray-100 hover:border-accent cursor-pointer transition-all">
+                          <label key={opt} className="flex items-center gap-3 p-4 rounded-full border border-gray-100 bg-white hover:border-accent cursor-pointer transition-all active:scale-[0.98]">
                             <input type="radio" {...field} value={opt} checked={field.value === opt} className="w-4 h-4 accent-accent" />
                             <span className="font-bold text-sm text-primary">{opt}</span>
                           </label>
@@ -329,23 +329,23 @@ export default function MaintenanceApplication() {
                     </FormControl>
                   </FormItem>
                 )} />
-                <div className="flex gap-4">
-                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-3xl h-14 font-black">ATRÁS</Button>
-                  <Button type="button" onClick={nextStep} className="flex-1 bg-accent text-primary font-black rounded-3xl h-14">SIGUIENTE</Button>
+                <div className="flex gap-3">
+                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-black border-gray-100 active:scale-95 transition-all">ATRÁS</Button>
+                  <Button type="button" onClick={nextStep} className="flex-2 bg-accent text-primary font-black rounded-full h-14 shadow-lg shadow-accent/20 active:scale-95 transition-all">SIGUIENTE</Button>
                 </div>
               </motion.div>
             )}
 
             {step === 9 && (
-              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-6 text-left">
-                <h2 className="text-2xl font-black uppercase text-primary border-b border-accent/20 pb-2">🔟 ¿Usas Stripe u otra pasarela de pago?</h2>
+              <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
+                <h2 className="text-xl md:text-2xl font-black uppercase text-primary border-b border-accent/20 pb-2 leading-tight">🔟 ¿Usas Stripe u otra pasarela de pago?</h2>
                 <FormDescription>Opcional, pero nos da contexto</FormDescription>
                 <FormField control={form.control} name="paymentGateway" render={({ field }) => (
                   <FormItem className="space-y-3">
                     <FormControl>
-                      <div className="flex flex-col gap-2">
+                      <div className="flex flex-col gap-3">
                         {["Stripe", "PayPal", "Otra", "No todavía"].map(opt => (
-                          <label key={opt} className="flex items-center gap-3 p-3 rounded-xl border border-gray-100 hover:border-accent cursor-pointer transition-all">
+                          <label key={opt} className="flex items-center gap-3 p-4 rounded-full border border-gray-100 bg-white hover:border-accent cursor-pointer transition-all active:scale-[0.98]">
                             <input type="radio" {...field} value={opt} checked={field.value === opt} className="w-4 h-4 accent-accent" />
                             <span className="font-bold text-sm text-primary">{opt}</span>
                           </label>
@@ -354,40 +354,40 @@ export default function MaintenanceApplication() {
                     </FormControl>
                   </FormItem>
                 )} />
-                <div className="flex gap-4">
-                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-3xl h-14 font-black">ATRÁS</Button>
-                  <Button type="button" onClick={nextStep} className="flex-1 bg-accent text-primary font-black rounded-3xl h-14">SIGUIENTE</Button>
+                <div className="flex gap-3">
+                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-black border-gray-100 active:scale-95 transition-all">ATRÁS</Button>
+                  <Button type="button" onClick={nextStep} className="flex-2 bg-accent text-primary font-black rounded-full h-14 shadow-lg shadow-accent/20 active:scale-95 transition-all">SIGUIENTE</Button>
                 </div>
               </motion.div>
             )}
 
             {step === 10 && (
-              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-6 text-left">
-                <h2 className="text-2xl font-black uppercase text-primary border-b border-accent/20 pb-2">1️⃣1️⃣ Tipo de actividad de la LLC</h2>
+              <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
+                <h2 className="text-xl md:text-2xl font-black uppercase text-primary border-b border-accent/20 pb-2 leading-tight">1️⃣1️⃣ Tipo de actividad de la LLC</h2>
                 <FormDescription>Explícalo como si se lo contaras a un amigo</FormDescription>
                 <FormField control={form.control} name="businessActivity" render={({ field }) => (
                   <FormItem>
-                    <FormControl><Textarea {...field} value={field.value || ""} className="rounded-2xl min-h-[100px] p-4" placeholder="Cuéntanos a qué se dedica tu empresa..." /></FormControl>
+                    <FormControl><Textarea {...field} value={field.value || ""} className="rounded-[2rem] min-h-[120px] p-6 border-gray-100 focus:border-accent" placeholder="Cuéntanos a qué se dedica tu empresa..." /></FormControl>
                     <FormMessage />
                   </FormItem>
                 )} />
-                <div className="flex gap-4">
-                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-3xl h-14 font-black">ATRÁS</Button>
-                  <Button type="button" onClick={nextStep} className="flex-1 bg-accent text-primary font-black rounded-3xl h-14">SIGUIENTE</Button>
+                <div className="flex gap-3">
+                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-black border-gray-100 active:scale-95 transition-all">ATRÁS</Button>
+                  <Button type="button" onClick={nextStep} className="flex-2 bg-accent text-primary font-black rounded-full h-14 shadow-lg shadow-accent/20 active:scale-95 transition-all">SIGUIENTE</Button>
                 </div>
               </motion.div>
             )}
 
             {step === 11 && (
-              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-6 text-left">
-                <h2 className="text-2xl font-black uppercase text-primary border-b border-accent/20 pb-2">1️⃣2️⃣ ¿Qué esperas del Pack de Mantenimiento?</h2>
+              <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
+                <h2 className="text-xl md:text-2xl font-black uppercase text-primary border-b border-accent/20 pb-2 leading-tight">1️⃣2️⃣ ¿Qué esperas del Pack?</h2>
                 <FormDescription>Marca todo lo que te quite dolores de cabeza</FormDescription>
                 <FormField control={form.control} name="expectedServices" render={({ field }) => (
                   <FormItem className="space-y-3">
                     <FormControl>
-                      <div className="flex flex-col gap-2">
+                      <div className="flex flex-col gap-3">
                         {["Recordatorios fiscales", "Presentación de informes obligatorios", "Soporte y dudas durante el año", "Dormir tranquilo sabiendo que todo está en orden"].map(opt => (
-                          <label key={opt} className="flex items-center gap-3 p-3 rounded-xl border border-gray-100 hover:border-accent cursor-pointer transition-all">
+                          <label key={opt} className="flex items-center gap-3 p-4 rounded-[2rem] border border-gray-100 bg-white hover:border-accent cursor-pointer transition-all active:scale-[0.98]">
                             <Checkbox 
                               checked={field.value?.split(", ").includes(opt)}
                               onCheckedChange={(checked) => {
@@ -403,98 +403,97 @@ export default function MaintenanceApplication() {
                     </FormControl>
                   </FormItem>
                 )} />
-                <div className="flex gap-4">
-                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-3xl h-14 font-black">ATRÁS</Button>
-                  <Button type="button" onClick={nextStep} className="flex-1 bg-accent text-primary font-black rounded-3xl h-14">SIGUIENTE</Button>
+                <div className="flex gap-3">
+                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-black border-gray-100 active:scale-95 transition-all">ATRÁS</Button>
+                  <Button type="button" onClick={nextStep} className="flex-2 bg-accent text-primary font-black rounded-full h-14 shadow-lg shadow-accent/20 active:scale-95 transition-all">SIGUIENTE</Button>
                 </div>
               </motion.div>
             )}
 
             {step === 12 && (
-              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-6 text-left">
-                <h2 className="text-2xl font-black uppercase text-primary border-b border-accent/20 pb-2">1️⃣3️⃣ ¿Algo que debamos saber?</h2>
+              <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
+                <h2 className="text-xl md:text-2xl font-black uppercase text-primary border-b border-accent/20 pb-2 leading-tight">1️⃣3️⃣ ¿Algo que debamos saber?</h2>
                 <FormDescription>Este es tu espacio. Confesiones fiscales bienvenidas</FormDescription>
                 <FormField control={form.control} name="notes" render={({ field }) => (
                   <FormItem>
-                    <FormControl><Textarea {...field} value={field.value || ""} className="rounded-2xl min-h-[100px] p-4" placeholder="Cualquier detalle adicional..." /></FormControl>
+                    <FormControl><Textarea {...field} value={field.value || ""} className="rounded-[2rem] min-h-[120px] p-6 border-gray-100 focus:border-accent" placeholder="Cualquier detalle adicional..." /></FormControl>
                   </FormItem>
                 )} />
-                <div className="flex gap-4">
-                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-3xl h-14 font-black">ATRÁS</Button>
-                  <Button type="button" onClick={nextStep} className="flex-1 bg-accent text-primary font-black rounded-3xl h-14">SIGUIENTE</Button>
+                <div className="flex gap-3">
+                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-black border-gray-100 active:scale-95 transition-all">ATRÁS</Button>
+                  <Button type="button" onClick={nextStep} className="flex-2 bg-accent text-primary font-black rounded-full h-14 shadow-lg shadow-accent/20 active:scale-95 transition-all">SIGUIENTE</Button>
                 </div>
               </motion.div>
             )}
 
             {step === 13 && (
-              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-6 text-left">
-                <h2 className="text-2xl font-black uppercase text-primary border-b border-accent/20 pb-2">Verificación de Identidad</h2>
+              <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
+                <h2 className="text-xl md:text-2xl font-black uppercase text-primary border-b border-accent/20 pb-2 leading-tight">Verificación</h2>
                 {!isOtpSent ? (
-                  <Button type="button" onClick={sendOtp} className="w-full bg-accent text-primary font-black py-6 rounded-3xl">Enviar código al email</Button>
+                  <Button type="button" onClick={sendOtp} className="w-full bg-accent text-primary font-black py-7 rounded-full text-lg shadow-lg shadow-accent/20 active:scale-95 transition-all">Enviar código al email</Button>
                 ) : (
                   <div className="space-y-4">
                     <FormField control={form.control} name="otp" render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Código de 6 dígitos</FormLabel>
-                        <FormControl><Input {...field} className="rounded-2xl h-14" placeholder="000000" /></FormControl>
+                        <FormLabel className="font-black uppercase text-[10px] tracking-widest opacity-60">Código de 6 dígitos:</FormLabel>
+                        <FormControl><Input {...field} className="rounded-full h-14 px-6 text-center text-2xl tracking-[0.5em] border-gray-100 focus:border-accent" placeholder="000000" /></FormControl>
                         <FormMessage />
                       </FormItem>
                     )} />
-                    {!isEmailVerified && <Button type="button" onClick={verifyOtp} className="w-full bg-primary text-white py-6 rounded-3xl font-black">Verificar Código</Button>}
+                    {!isEmailVerified && <Button type="button" onClick={verifyOtp} className="w-full bg-primary text-white py-7 rounded-full font-black text-lg active:scale-95 transition-all">Verificar Código</Button>}
                   </div>
                 )}
-                <div className="flex gap-4">
-                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-3xl h-14 font-black">ATRÁS</Button>
+                <div className="flex gap-3">
+                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-black border-gray-100 active:scale-95 transition-all">ATRÁS</Button>
                 </div>
               </motion.div>
             )}
 
             {step === 14 && (
-              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-8 text-left">
-                <h2 className="text-2xl font-black uppercase text-primary border-b border-accent/20 pb-2">Revisión y Activación</h2>
-                <div className="bg-accent/5 p-8 rounded-[2rem] border border-accent/20 space-y-4">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-                    <p><strong>Propietario:</strong> {form.getValues("ownerFullName")}</p>
-                    <p><strong>Email:</strong> {form.getValues("ownerEmail")}</p>
-                    <p><strong>LLC:</strong> {form.getValues("companyName")}</p>
-                    <p><strong>Estado:</strong> {form.getValues("state")}</p>
-                    <p><strong>Año:</strong> {form.getValues("creationYear")}</p>
-                    <p><strong>Origen:</strong> {form.getValues("creationSource")}</p>
+              <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-8 text-left">
+                <h2 className="text-xl md:text-2xl font-black uppercase text-primary border-b border-accent/20 pb-2 leading-tight">Revisión Final</h2>
+                <div className="bg-accent/5 p-6 md:p-8 rounded-[2rem] border border-accent/20 space-y-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs md:text-sm">
+                    <p className="flex justify-between md:block"><span className="opacity-50">Propietario:</span> <span className="font-bold">{form.getValues("ownerFullName")}</span></p>
+                    <p className="flex justify-between md:block"><span className="opacity-50">Email:</span> <span className="font-bold">{form.getValues("ownerEmail")}</span></p>
+                    <p className="flex justify-between md:block"><span className="opacity-50">LLC:</span> <span className="font-bold">{form.getValues("companyName")}</span></p>
+                    <p className="flex justify-between md:block"><span className="opacity-50">Estado:</span> <span className="font-bold">{form.getValues("state")}</span></p>
+                    <p className="flex justify-between md:block"><span className="opacity-50">Año:</span> <span className="font-bold">{form.getValues("creationYear")}</span></p>
                   </div>
                 </div>
 
                 <div className="space-y-4">
-                  <h3 className="text-sm font-black uppercase text-primary">✅ Consentimientos (versión humana)</h3>
-                  <div className="space-y-4">
-                    <label className="flex items-start gap-4 p-4 rounded-2xl border border-gray-100 hover:border-accent cursor-pointer transition-all">
+                  <h3 className="text-[10px] font-black uppercase text-primary tracking-widest opacity-60">✅ Consentimientos</h3>
+                  <div className="space-y-3">
+                    <label className="flex items-start gap-4 p-4 rounded-[2rem] border border-gray-100 bg-white hover:border-accent cursor-pointer transition-all active:scale-[0.98]">
                       <Checkbox required className="mt-1" />
-                      <span className="text-sm font-bold text-primary">Acepto los términos del servicio y confío en Easy US LLC para la gestión y mantenimiento de mi LLC.</span>
+                      <span className="text-xs md:text-sm font-bold text-primary">Acepto los términos del servicio de Easy US LLC.</span>
                     </label>
-                    <label className="flex items-start gap-4 p-4 rounded-2xl border border-gray-100 hover:border-accent cursor-pointer transition-all">
+                    <label className="flex items-start gap-4 p-4 rounded-[2rem] border border-gray-100 bg-white hover:border-accent cursor-pointer transition-all active:scale-[0.98]">
                       <Checkbox required className="mt-1" />
-                      <span className="text-sm font-bold text-primary">Autorizo el tratamiento de mis datos para la correcta prestación del servicio y cumplimiento legal.</span>
+                      <span className="text-xs md:text-sm font-bold text-primary">Autorizo el tratamiento de mis datos personales.</span>
                     </label>
                     <FormField control={form.control} name="subscribeNewsletter" render={({ field }) => (
-                      <label className="flex items-start gap-4 p-4 rounded-2xl border border-gray-100 hover:border-accent cursor-pointer transition-all">
+                      <label className="flex items-start gap-4 p-4 rounded-[2rem] border border-gray-100 bg-white hover:border-accent cursor-pointer transition-all active:scale-[0.98]">
                         <Checkbox 
                           checked={field.value}
                           onCheckedChange={field.onChange}
                           className="mt-1"
                         />
                         <div className="space-y-1">
-                          <span className="text-sm font-bold text-primary">¡Quiero estar al día!</span>
-                          <p className="text-xs text-muted-foreground">Suscribirme a la newsletter para recibir consejos fiscales y actualizaciones sobre LLCs.</p>
+                          <span className="text-xs md:text-sm font-bold text-primary">¡Quiero estar al día!</span>
+                          <p className="text-[10px] text-muted-foreground leading-tight">Newsletter con consejos fiscales y actualizaciones.</p>
                         </div>
                       </label>
                     )} />
                   </div>
                 </div>
 
-                <div className="flex flex-col gap-4">
-                  <Button type="submit" className="w-full bg-accent text-primary font-black py-8 rounded-3xl text-xl uppercase tracking-widest hover:scale-[1.02] active:scale-95 transition-all shadow-xl shadow-accent/20">
-                    🚀 Activar mi Pack de Mantenimiento
+                <div className="flex flex-col gap-4 pt-4">
+                  <Button type="submit" className="w-full bg-accent text-primary font-black py-8 rounded-full text-lg md:text-xl uppercase tracking-widest hover:scale-[1.02] active:scale-95 transition-all shadow-xl shadow-accent/20">
+                    🚀 Activar Mantenimiento
                   </Button>
-                  <Button type="button" variant="ghost" onClick={() => setStep(12)} className="text-primary/50 font-bold uppercase text-xs">Revisar datos anteriores</Button>
+                  <Button type="button" variant="ghost" onClick={() => setStep(12)} className="text-primary/50 font-bold uppercase text-[10px] tracking-widest">Revisar datos anteriores</Button>
                 </div>
               </motion.div>
             )}
