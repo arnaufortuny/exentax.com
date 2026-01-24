@@ -140,7 +140,7 @@ export default function Contacto() {
       <Navbar />
       <main className="pt-24 pb-16 w-full max-w-4xl mx-auto px-4 md:px-6">
         <motion.div 
-          className="text-center mb-2 sm:mb-10 flex flex-col items-center justify-center"
+          className="text-center mb-12 sm:mb-20 flex flex-col items-center justify-center"
           initial="initial"
           whileInView="animate"
           viewport={{ once: true }}
