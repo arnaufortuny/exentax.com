@@ -37,37 +37,36 @@ export function StateSelectorPopup({ isOpen, onOpenChange }: StateSelectorPopupP
 
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
-      {/* ELIMINACIÓN DE BACKDROP OSCURO DEL DIALOG */}
       <DialogContent 
-        className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[90vw] sm:w-[320px] max-w-md rounded-2xl border-0 shadow-[0_20px_50px_rgba(0,0,0,0.15)] overflow-hidden p-0 z-[99999] !bg-white focus:outline-none"
+        className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[220px] rounded-2xl border-0 shadow-[0_20px_60px_rgba(0,0,0,0.12)] overflow-hidden p-0 z-[99999] !bg-white focus:outline-none"
         onOpenAutoFocus={(e) => e.preventDefault()}
-        style={{ background: 'white' }}
+        style={{ position: 'fixed', left: '50%', top: '50%', transform: 'translate(-50%, -50%)', margin: 0 }}
       >
-        <div className="p-6 sm:p-8">
+        <div className="p-4">
           {/* LOGO SIN CONTENEDORES CIRCULARES, SOLO LA IMAGEN PNG */}
-          <div className="flex justify-center mb-4 bg-transparent">
-            <img src={logoIcon} alt="Easy US LLC" className="w-10 h-10 sm:w-12 sm:h-12 object-contain bg-transparent" style={{ display: 'block', background: 'none', border: 'none', borderRadius: '0' }} />
+          <div className="flex justify-center mb-3" style={{ background: 'none', border: 'none', borderRadius: 0 }}>
+            <img src={logoIcon} alt="Easy US LLC" className="w-8 h-8 object-contain" style={{ display: 'block', background: 'none', border: 'none', borderRadius: 0 }} />
           </div>
-          <DialogHeader className="mb-4 sm:mb-6 text-center">
-            <DialogTitle className="text-lg sm:text-xl font-black uppercase tracking-tight text-primary leading-tight">
+          <DialogHeader className="mb-3 text-center">
+            <DialogTitle className="text-[11px] font-black uppercase tracking-tight text-primary leading-tight">
               Constituye tu LLC
             </DialogTitle>
           </DialogHeader>
 
-          <div className="grid gap-2 sm:gap-3">
+          <div className="grid gap-1.5">
             {STATES.map((state) => (
               <button
                 key={state.id}
                 onClick={() => handleSelect(state.name)}
-                className="group flex items-center justify-between p-3.5 sm:p-4 rounded-xl border-2 border-border hover:border-accent hover:bg-accent/5 transition-all text-left w-full active:scale-[0.98] bg-white"
+                className="group flex items-center justify-between p-2.5 rounded-xl border border-border hover:border-accent hover:bg-accent/5 transition-all text-left w-full active:scale-[0.98] bg-white"
               >
                 <div className="flex items-center">
                   <div>
-                    <p className="font-black uppercase tracking-tight text-primary text-xs sm:text-sm leading-none mb-1">{state.name}</p>
-                    <p className="text-accent font-black text-[10px] sm:text-xs">{state.price}</p>
+                    <p className="font-black uppercase tracking-tight text-primary text-[10px] leading-none mb-0.5">{state.name}</p>
+                    <p className="text-accent font-black text-[8px]">{state.price}</p>
                   </div>
                 </div>
-                <ArrowRight className="w-4 h-4 text-gray-300 group-hover:text-primary transition-colors translate-x-0 group-hover:translate-x-1" />
+                <ArrowRight className="w-3 h-3 text-gray-300 group-hover:text-primary transition-colors" />
               </button>
             ))}
           </div>

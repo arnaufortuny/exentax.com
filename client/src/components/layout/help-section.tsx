@@ -19,28 +19,28 @@ export function HelpSection() {
     <section className="bg-background py-8 md:py-20 border-t border-accent/10 w-full flex justify-center items-center font-sans">
       <AnimatePresence>
         {showPopup && (
-          <div className="fixed inset-0 z-[99999] flex items-center justify-center">
-            {/* FONDO TOTALMENTE TRANSPARENTE, SIN NEGRO */}
+          <div className="fixed inset-0 z-[99999] flex items-center justify-center pointer-events-auto">
+            {/* FONDO TOTALMENTE TRANSPARENTE, SIN BLOQUEO NEGRO */}
             <div 
-              className="absolute inset-0 bg-transparent" 
+              className="absolute inset-0 bg-white/5 backdrop-blur-[1px]" 
               onClick={() => setShowPopup(false)}
             />
             <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.95 }}
-              className="relative w-[210px] bg-white rounded-2xl shadow-[0_10px_40px_rgba(0,0,0,0.1)] border border-accent/20 overflow-hidden"
-              style={{ position: 'fixed', left: '50%', top: '50%', transform: 'translate(-50%, -50%)', pointerEvents: 'auto' }}
+              initial={{ opacity: 0, scale: 0.9, y: -20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.9, y: -20 }}
+              className="relative w-[210px] bg-white rounded-2xl shadow-[0_20px_60px_rgba(0,0,0,0.12)] border border-accent/20 overflow-hidden"
+              style={{ position: 'fixed', left: '50%', top: '50%', transform: 'translate(-50%, -50%)', margin: 0 }}
             >
               <button 
                 onClick={() => setShowPopup(false)}
-                className="absolute top-1 right-1 p-1 hover:bg-accent/10 rounded-full transition-colors z-[100000]"
+                className="absolute top-1 right-1 p-1 hover:bg-accent/10 rounded-full transition-colors z-[100001]"
               >
                 <X className="w-4 h-4 text-primary/30" />
               </button>
               <div className="p-4 text-center">
-                <div className="flex justify-center mb-2">
-                  <img src={logoIcon} alt="Easy US LLC" className="w-7 h-7 object-contain bg-transparent" style={{ display: 'block' }} />
+                <div className="flex justify-center mb-2" style={{ background: 'none', border: 'none', borderRadius: 0 }}>
+                  <img src={logoIcon} alt="Easy US LLC" className="w-8 h-8 object-contain" style={{ display: 'block', background: 'none', border: 'none', borderRadius: 0 }} />
                 </div>
                 
                 <div className="space-y-1.5">
