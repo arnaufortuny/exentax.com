@@ -302,14 +302,11 @@ export default function Servicios() {
           >
             <Button 
               onClick={() => {
-                const element = document.getElementById('pricing');
-                if (element) {
-                  element.scrollIntoView({ behavior: 'smooth' });
-                }
+                window.open("https://wa.me/34614916910", "_blank");
               }}
               className="group bg-accent text-primary font-black text-sm rounded-full px-8 py-6 h-14 shadow-md hover:bg-accent/90 transition-all transform hover:scale-105 active:scale-95 shadow-accent/20"
             >
-              ¿Estás listo? Selecciona tu pack →
+              Alguna duda? Hablemos. →
             </Button>
           </motion.div>
         </div>
