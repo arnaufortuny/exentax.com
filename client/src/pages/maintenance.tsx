@@ -160,8 +160,8 @@ export default function MaintenanceApplication() {
             {/* STEP 0: Ya tienes LLC? */}
             {step === 0 && (
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
-                <h2 className="text-xl md:text-2xl font-black uppercase text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
-                  <Building2 className="w-6 h-6 text-accent" /> 1️⃣ ¿Ya tienes una LLC creada?
+                <h2 className="text-xl md:text-2xl font-black uppercase text-primary border-b border-[#6EDC8A]/20 pb-2 leading-tight flex items-center gap-2">
+                  <Building2 className="w-6 h-6 text-[#6EDC8A]" /> 1️⃣ ¿Ya tienes una LLC creada?
                 </h2>
                 <FormDescription>Para saber desde dónde partimos</FormDescription>
                 <FormField control={form.control} name="creationSource" render={({ field }) => (
@@ -186,8 +186,8 @@ export default function MaintenanceApplication() {
             {/* STEP 1: Nombre Completo */}
             {step === 1 && (
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
-                <h2 className="text-xl md:text-2xl font-black uppercase text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
-                  <User className="w-6 h-6 text-accent" /> 2️⃣ Nombre completo
+                <h2 className="text-xl md:text-2xl font-black uppercase text-primary border-b border-[#6EDC8A]/20 pb-2 leading-tight flex items-center gap-2">
+                  <User className="w-6 h-6 text-[#6EDC8A]" /> 2️⃣ Nombre completo
                 </h2>
                 <FormDescription>El de los documentos oficiales</FormDescription>
                 <FormField control={form.control} name="ownerFullName" render={({ field }) => (
@@ -207,8 +207,8 @@ export default function MaintenanceApplication() {
             {/* STEP 2: Teléfono */}
             {step === 2 && (
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
-                <h2 className="text-xl md:text-2xl font-black uppercase text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
-                  <Phone className="w-6 h-6 text-accent" /> 3️⃣ Teléfono de contacto
+                <h2 className="text-xl md:text-2xl font-black uppercase text-primary border-b border-[#6EDC8A]/20 pb-2 leading-tight flex items-center gap-2">
+                  <Phone className="w-6 h-6 text-[#6EDC8A]" /> 3️⃣ Teléfono de contacto
                 </h2>
                 <FormDescription>Para avisos importantes y comunicación rápida</FormDescription>
                 <FormField control={form.control} name="ownerPhone" render={({ field }) => (
@@ -228,8 +228,8 @@ export default function MaintenanceApplication() {
             {/* STEP 3: Email */}
             {step === 3 && (
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
-                <h2 className="text-xl md:text-2xl font-black uppercase text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
-                  <Mail className="w-6 h-6 text-accent" /> 4️⃣ Email
+                <h2 className="text-xl md:text-2xl font-black uppercase text-primary border-b border-[#6EDC8A]/20 pb-2 leading-tight flex items-center gap-2">
+                  <Mail className="w-6 h-6 text-[#6EDC8A]" /> 4️⃣ Email
                 </h2>
                 <FormDescription>Aquí recibirás recordatorios y documentación</FormDescription>
                 <FormField control={form.control} name="ownerEmail" render={({ field }) => (
@@ -249,8 +249,8 @@ export default function MaintenanceApplication() {
             {/* STEP 4: Nombre Legal LLC */}
             {step === 4 && (
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
-                <h2 className="text-xl md:text-2xl font-black uppercase text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
-                  <Building2 className="w-6 h-6 text-accent" /> 5️⃣ Nombre legal de la LLC
+                <h2 className="text-xl md:text-2xl font-black uppercase text-primary border-b border-[#6EDC8A]/20 pb-2 leading-tight flex items-center gap-2">
+                  <Building2 className="w-6 h-6 text-[#6EDC8A]" /> 5️⃣ Nombre legal de la LLC
                 </h2>
                 <FormDescription>Tal y como figura en los documentos oficiales</FormDescription>
                 <FormField control={form.control} name="companyName" render={({ field }) => (
@@ -270,8 +270,8 @@ export default function MaintenanceApplication() {
             {/* STEP 5: EIN */}
             {step === 5 && (
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
-                <h2 className="text-xl md:text-2xl font-black uppercase text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
-                  <ShieldCheck className="w-6 h-6 text-accent" /> 6️⃣ EIN
+                <h2 className="text-xl md:text-2xl font-black uppercase text-primary border-b border-[#6EDC8A]/20 pb-2 leading-tight flex items-center gap-2">
+                  <ShieldCheck className="w-6 h-6 text-[#6EDC8A]" /> 6️⃣ EIN
                 </h2>
                 <FormDescription>El número fiscal de tu empresa en EE. UU.</FormDescription>
                 <FormField control={form.control} name="ein" render={({ field }) => (
@@ -314,8 +314,8 @@ export default function MaintenanceApplication() {
             {/* STEP 7: Actividad */}
             {step === 7 && (
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
-                <h2 className="text-xl md:text-2xl font-black uppercase text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
-                  <Briefcase className="w-6 h-6 text-accent" /> 8️⃣ Actividad
+                <h2 className="text-xl md:text-2xl font-black uppercase text-primary border-b border-[#6EDC8A]/20 pb-2 leading-tight flex items-center gap-2">
+                  <Briefcase className="w-6 h-6 text-[#6EDC8A]" /> 8️⃣ Actividad
                 </h2>
                 <FormDescription>Tipo de negocio o producto</FormDescription>
                 <FormField control={form.control} name="businessActivity" render={({ field }) => (
@@ -334,8 +334,8 @@ export default function MaintenanceApplication() {
             {/* STEP 8: Servicios */}
             {step === 8 && (
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
-                <h2 className="text-xl md:text-2xl font-black uppercase text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
-                  <CheckSquare className="w-6 h-6 text-accent" /> 9️⃣ ¿Qué necesitas gestionar?
+                <h2 className="text-xl md:text-2xl font-black uppercase text-primary border-b border-[#6EDC8A]/20 pb-2 leading-tight flex items-center gap-2">
+                  <CheckSquare className="w-6 h-6 text-[#6EDC8A]" /> 9️⃣ ¿Qué necesitas gestionar?
                 </h2>
                 <FormDescription>Marca lo que aplique</FormDescription>
                 <FormField control={form.control} name="expectedServices" render={({ field }) => (
@@ -370,8 +370,8 @@ export default function MaintenanceApplication() {
             {/* STEP 9: Disolver? */}
             {step === 9 && (
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
-                <h2 className="text-xl md:text-2xl font-black uppercase text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
-                  <Trash2 className="w-6 h-6 text-accent" /> 🔟 ¿Deseas disolver tu LLC?
+                <h2 className="text-xl md:text-2xl font-black uppercase text-primary border-b border-[#6EDC8A]/20 pb-2 leading-tight flex items-center gap-2">
+                  <Trash2 className="w-6 h-6 text-[#6EDC8A]" /> 🔟 ¿Deseas disolver tu LLC?
                 </h2>
                 <FormDescription>Si necesitas cerrar la empresa de forma correcta y ordenada</FormDescription>
                 <FormField control={form.control} name="wantsDissolve" render={({ field }) => (
@@ -399,15 +399,15 @@ export default function MaintenanceApplication() {
             {/* STEP 10: Resumen */}
             {step === 10 && (
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
-                <h2 className="text-xl md:text-2xl font-black uppercase text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
-                  <Info className="w-6 h-6 text-accent" /> Revisión Final
+                <h2 className="text-xl md:text-2xl font-black uppercase text-primary border-b border-[#6EDC8A]/20 pb-2 leading-tight flex items-center gap-2">
+                  <Info className="w-6 h-6 text-[#6EDC8A]" /> Revisión Final
                 </h2>
                 <div className="bg-[#6EDC8A]/5 p-6 md:p-8 rounded-[2rem] border border-[#6EDC8A]/20 space-y-4">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs md:text-sm">
                     <p className="flex justify-between md:block"><span className="opacity-50 font-black uppercase text-[10px] text-primary">Email:</span> <span className="font-bold text-primary">{form.getValues("ownerEmail")}</span></p>
                     <p className="flex justify-between md:block"><span className="opacity-50 font-black uppercase text-[10px] text-primary">LLC:</span> <span className="font-bold text-primary">{form.getValues("companyName")}</span></p>
-                    <p className="flex justify-between md:block"><span className="opacity-50">Estado:</span> <span className="font-bold">{form.getValues("state")}</span></p>
-                    <p className="flex justify-between md:block"><span className="opacity-50">Disolver:</span> <span className="font-bold">{form.getValues("wantsDissolve")}</span></p>
+                    <p className="flex justify-between md:block"><span className="opacity-50 font-black uppercase text-[10px] text-primary">Estado:</span> <span className="font-bold text-primary">{form.getValues("state")}</span></p>
+                    <p className="flex justify-between md:block"><span className="opacity-50 font-black uppercase text-[10px] text-primary">Disolver:</span> <span className="font-bold text-primary">{form.getValues("wantsDissolve")}</span></p>
                   </div>
                 </div>
                 <div className="flex gap-3">
@@ -420,8 +420,8 @@ export default function MaintenanceApplication() {
             {/* STEP 11: Verificación */}
             {step === 11 && (
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
-                <h2 className="text-xl md:text-2xl font-black uppercase text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
-                  <ShieldCheck className="w-6 h-6 text-accent" /> Verificación
+                <h2 className="text-xl md:text-2xl font-black uppercase text-primary border-b border-[#6EDC8A]/20 pb-2 leading-tight flex items-center gap-2">
+                  <ShieldCheck className="w-6 h-6 text-[#6EDC8A]" /> Verificación
                 </h2>
                 {!isOtpSent ? (
                   <Button type="button" onClick={sendOtp} className="w-full bg-[#6EDC8A] text-primary font-black py-7 rounded-full text-lg shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all uppercase">ENVIAR CÓDIGO</Button>
@@ -429,12 +429,12 @@ export default function MaintenanceApplication() {
                   <div className="space-y-4">
                     <FormField control={form.control} name="otp" render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="font-black uppercase text-[10px] tracking-widest opacity-60">Código de 6 dígitos:</FormLabel>
-                        <FormControl><Input {...field} className="rounded-full h-14 px-6 text-center text-2xl border-gray-100 focus:border-accent" placeholder="000000" /></FormControl>
+                        <FormLabel className="font-black uppercase text-[10px] md:text-xs tracking-widest text-primary">Código de 6 dígitos:</FormLabel>
+                        <FormControl><Input {...field} className="rounded-full h-14 px-6 text-center text-2xl border-gray-200 focus:border-[#6EDC8A] font-black text-primary placeholder:text-primary/30" placeholder="000000" /></FormControl>
                         <FormMessage />
                       </FormItem>
                     )} />
-                    <Button type="button" onClick={verifyOtp} className="w-full bg-[#6EDC8A] text-primary py-7 rounded-full font-black text-lg active:scale-95 transition-all">VERIFICAR</Button>
+                    <Button type="button" onClick={verifyOtp} className="w-full bg-[#6EDC8A] text-primary py-7 rounded-full font-black text-lg active:scale-95 transition-all uppercase">VERIFICAR</Button>
                   </div>
                 )}
                 <div className="flex gap-3">
@@ -446,27 +446,27 @@ export default function MaintenanceApplication() {
             {/* STEP 12: Pago y Confirmación */}
             {step === 12 && (
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-8 text-left">
-                <h2 className="text-xl md:text-2xl font-black uppercase text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
-                  <CreditCard className="w-6 h-6 text-accent" /> Pago y Confirmación
+                <h2 className="text-xl md:text-2xl font-black uppercase text-primary border-b border-[#6EDC8A]/20 pb-2 leading-tight flex items-center gap-2">
+                  <CreditCard className="w-6 h-6 text-[#6EDC8A]" /> Pago y Confirmación
                 </h2>
-                <div className="space-y-3">
+                <div className="bg-[#6EDC8A]/5 p-6 md:p-8 rounded-[2rem] border border-[#6EDC8A]/20 space-y-3">
                   <FormField control={form.control} name="authorizedManagement" render={({ field }) => (
-                    <FormItem className="flex items-start gap-4 p-4 rounded-[2rem] border border-gray-100 bg-white hover:border-accent cursor-pointer transition-all active:scale-[0.98]">
-                      <FormControl><Checkbox checked={field.value} onCheckedChange={field.onChange} className="mt-1" /></FormControl>
+                    <FormItem className="flex items-start gap-4 p-4 rounded-[2rem] border border-gray-200 bg-white hover:border-[#6EDC8A] cursor-pointer transition-all active:scale-[0.98]">
+                      <FormControl><Checkbox checked={field.value} onCheckedChange={field.onChange} className="mt-1 border-gray-200 data-[state=checked]:bg-[#6EDC8A] data-[state=checked]:border-[#6EDC8A]" /></FormControl>
                       <div className="space-y-1">
                         <span className="text-xs md:text-sm font-bold text-primary">Confirmo que la información es correcta y autorizo la gestión.</span>
                       </div>
                     </FormItem>
                   )} />
                   <FormField control={form.control} name="termsConsent" render={({ field }) => (
-                    <FormItem className="flex items-start gap-4 p-4 rounded-[2rem] border border-gray-100 bg-white hover:border-accent cursor-pointer transition-all active:scale-[0.98]">
-                      <FormControl><Checkbox checked={field.value} onCheckedChange={field.onChange} className="mt-1" /></FormControl>
+                    <FormItem className="flex items-start gap-4 p-4 rounded-[2rem] border border-gray-200 bg-white hover:border-[#6EDC8A] cursor-pointer transition-all active:scale-[0.98]">
+                      <FormControl><Checkbox checked={field.value} onCheckedChange={field.onChange} className="mt-1 border-gray-200 data-[state=checked]:bg-[#6EDC8A] data-[state=checked]:border-[#6EDC8A]" /></FormControl>
                       <span className="text-xs md:text-sm font-bold text-primary">Acepto los términos del servicio.</span>
                     </FormItem>
                   )} />
                   <FormField control={form.control} name="dataProcessingConsent" render={({ field }) => (
-                    <FormItem className="flex items-start gap-4 p-4 rounded-[2rem] border border-gray-100 bg-white hover:border-accent cursor-pointer transition-all active:scale-[0.98]">
-                      <FormControl><Checkbox checked={field.value} onCheckedChange={field.onChange} className="mt-1" /></FormControl>
+                    <FormItem className="flex items-start gap-4 p-4 rounded-[2rem] border border-gray-200 bg-white hover:border-[#6EDC8A] cursor-pointer transition-all active:scale-[0.98]">
+                      <FormControl><Checkbox checked={field.value} onCheckedChange={field.onChange} className="mt-1 border-gray-200 data-[state=checked]:bg-[#6EDC8A] data-[state=checked]:border-[#6EDC8A]" /></FormControl>
                       <span className="text-xs md:text-sm font-bold text-primary">Acepto el tratamiento de mis datos personales.</span>
                     </FormItem>
                   )} />

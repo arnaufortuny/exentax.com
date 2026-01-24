@@ -443,8 +443,8 @@ export default function ApplicationWizard() {
             {/* STEP 11: Notas */}
             {step === 11 && (
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
-                <h2 className="text-xl md:text-2xl font-black uppercase text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
-                  <Info className="w-6 h-6 text-accent" /> 1️⃣2️⃣ Información adicional
+                <h2 className="text-xl md:text-2xl font-black uppercase text-primary border-b border-[#6EDC8A]/20 pb-2 leading-tight flex items-center gap-2">
+                  <Info className="w-6 h-6 text-[#6EDC8A]" /> 1️⃣2️⃣ Información adicional
                 </h2>
                 <FormDescription>¿Algo que debamos saber antes de empezar? Dudas o peticiones especiales</FormDescription>
                 <FormField control={form.control} name="notes" render={({ field }) => (
@@ -463,14 +463,14 @@ export default function ApplicationWizard() {
             {/* STEP 12: Resumen Final */}
             {step === 12 && (
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
-                <h2 className="text-xl md:text-2xl font-black uppercase text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
-                  <Check className="w-6 h-6 text-accent" /> Resumen Final
+                <h2 className="text-xl md:text-2xl font-black uppercase text-primary border-b border-[#6EDC8A]/20 pb-2 leading-tight flex items-center gap-2">
+                  <Check className="w-6 h-6 text-[#6EDC8A]" /> Resumen Final
                 </h2>
-                <div className="bg-accent/5 p-6 md:p-8 rounded-[2rem] border border-accent/20 space-y-4">
+                <div className="bg-[#6EDC8A]/5 p-6 md:p-8 rounded-[2rem] border border-[#6EDC8A]/20 space-y-4">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs md:text-sm">
-                    <p className="flex justify-between md:block"><span className="opacity-50 text-[10px] md:text-xs uppercase font-black">Email:</span> <span className="font-bold">{form.getValues("ownerEmail")}</span></p>
-                    <p className="flex justify-between md:block"><span className="opacity-50 text-[10px] md:text-xs uppercase font-black">LLC:</span> <span className="font-bold">{form.getValues("companyName")}</span></p>
-                    <p className="flex justify-between md:block"><span className="opacity-50 text-[10px] md:text-xs uppercase font-black">Estado:</span> <span className="font-bold">{stateFromUrl}</span></p>
+                    <p className="flex justify-between md:block"><span className="opacity-50 text-[10px] md:text-xs uppercase font-black text-primary">Email:</span> <span className="font-bold text-primary">{form.getValues("ownerEmail")}</span></p>
+                    <p className="flex justify-between md:block"><span className="opacity-50 text-[10px] md:text-xs uppercase font-black text-primary">LLC:</span> <span className="font-bold text-primary">{form.getValues("companyName")}</span></p>
+                    <p className="flex justify-between md:block"><span className="opacity-50 text-[10px] md:text-xs uppercase font-black text-primary">Estado:</span> <span className="font-bold text-primary">{stateFromUrl}</span></p>
                   </div>
                 </div>
                 <div className="flex gap-3">
@@ -483,8 +483,8 @@ export default function ApplicationWizard() {
             {/* STEP 13: Verificación OTP */}
             {step === 13 && (
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
-                <h2 className="text-xl md:text-2xl font-black uppercase text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
-                  <ShieldCheck className="w-6 h-6 text-accent" /> Verificación
+                <h2 className="text-xl md:text-2xl font-black uppercase text-primary border-b border-[#6EDC8A]/20 pb-2 leading-tight flex items-center gap-2">
+                  <ShieldCheck className="w-6 h-6 text-[#6EDC8A]" /> Verificación
                 </h2>
                 {!isOtpSent ? (
                   <Button type="button" onClick={sendOtp} className="w-full bg-[#6EDC8A] text-primary font-black py-7 rounded-full text-lg shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all uppercase">ENVIAR CÓDIGO</Button>
@@ -509,7 +509,7 @@ export default function ApplicationWizard() {
             {/* STEP 14: Confirmación y Pago */}
             {step === 14 && (
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-8 text-left">
-                <h2 className="text-xl md:text-2xl font-black uppercase text-primary border-b border-accent/20 pb-2 leading-tight">✅ Confirmación</h2>
+                <h2 className="text-xl md:text-2xl font-black uppercase text-primary border-b border-[#6EDC8A]/20 pb-2 leading-tight">✅ Confirmación</h2>
                 <div className="space-y-3">
                   <FormField control={form.control} name="dataProcessingConsent" render={({ field }) => (
                     <FormItem className="flex items-start gap-4 p-4 rounded-[2rem] border border-gray-200 bg-white hover:border-[#6EDC8A] cursor-pointer transition-all active:scale-[0.98]">
