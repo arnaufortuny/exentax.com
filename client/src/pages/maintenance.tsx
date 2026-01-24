@@ -7,6 +7,7 @@ import { motion } from "framer-motion";
 import { Upload, CreditCard } from "lucide-react";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
+import { NewsletterSection } from "@/components/layout/newsletter-section";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, FormDescription } from "@/components/ui/form";
@@ -485,6 +486,7 @@ export default function MaintenanceApplication() {
           </form>
         </Form>
       </main>
+      <NewsletterSection />
       <Footer />
     </div>
   );
