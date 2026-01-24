@@ -142,7 +142,7 @@ export default function FAQ() {
     <div className="min-h-screen bg-white font-sans text-left overflow-x-hidden w-full relative">
       <Navbar />
 
-      <section className="pt-24 sm:pt-32 lg:pt-40 pb-4 sm:py-20 bg-white">
+      <section className="pt-8 sm:pt-12 lg:pt-16 pb-4 sm:py-20 bg-white">
         <div className="container max-w-7xl mx-auto px-5 sm:px-8">
           <motion.div 
             className="text-center mb-2 sm:mb-10 flex flex-col items-center justify-center"

@@ -138,7 +138,7 @@ export default function Contacto() {
   return (
     <div className="min-h-screen bg-background font-sans overflow-x-hidden">
       <Navbar />
-      <main className="pt-24 pb-16 w-full max-w-4xl mx-auto px-4 md:px-6">
+      <main className="pt-8 pb-16 w-full max-w-4xl mx-auto px-4 md:px-6">
         <motion.div 
           className="text-center mb-2 sm:mb-10 flex flex-col items-center justify-center"
           initial="initial"
