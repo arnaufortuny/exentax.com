@@ -23,39 +23,39 @@ export function HelpSection() {
             initial={{ opacity: 0, scale: 0.9, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 20 }}
-            className="fixed bottom-4 right-4 z-[200] w-[280px] sm:w-[320px] bg-white rounded-3xl shadow-2xl border border-accent/20 overflow-hidden"
+            className="fixed bottom-4 right-4 z-[200] w-[240px] sm:w-[280px] bg-white rounded-3xl shadow-2xl border border-accent/20 overflow-hidden"
           >
             <button 
               onClick={() => setShowPopup(false)}
-              className="absolute top-3 right-3 p-1 hover:bg-accent/10 rounded-full transition-colors z-10"
+              className="absolute top-2 right-2 p-1 hover:bg-accent/10 rounded-full transition-colors z-10"
             >
-              <X className="w-4 h-4 text-primary/40" />
+              <X className="w-3.5 h-3.5 text-primary/40" />
             </button>
-            <div className="p-5 sm:p-6">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-10 h-10 sm:w-12 sm:h-12 bg-accent/5 rounded-2xl flex items-center justify-center p-2 border border-accent/10">
+            <div className="p-4 sm:p-5">
+              <div className="flex items-center gap-2 mb-3">
+                <div className="w-8 h-8 sm:w-10 sm:h-10 bg-accent/5 rounded-xl flex items-center justify-center p-1.5 border border-accent/10">
                   <img src={logoIcon} alt="Easy US LLC" className="w-full h-full object-contain" />
                 </div>
                 <div>
-                  <h3 className="font-black text-sm sm:text-base uppercase tracking-tight leading-none text-primary">Easy US LLC</h3>
-                  <p className="text-[10px] sm:text-[11px] font-bold text-accent uppercase tracking-widest mt-1">Soporte Premium</p>
+                  <h3 className="font-black text-xs sm:text-sm uppercase tracking-tight leading-none text-primary">Easy US LLC</h3>
+                  <p className="text-[9px] sm:text-[10px] font-bold text-accent uppercase tracking-widest mt-0.5">Soporte Premium</p>
                 </div>
               </div>
               
-              <div className="space-y-3">
-                <h4 className="font-black text-base sm:text-lg leading-tight text-primary">
-                  ¿Quieres el mantenimiento de tu LLC?
+              <div className="space-y-2">
+                <h4 className="font-black text-sm sm:text-base leading-tight text-primary">
+                  ¿Mantenimiento LLC?
                 </h4>
-                <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
-                  Nos encargamos de toda la burocracia anual para que tú te centres en tu negocio.
+                <p className="text-[10px] sm:text-xs text-muted-foreground leading-snug">
+                  Gestión anual completa para que te centres en tu negocio.
                 </p>
-                <div className="pt-2">
+                <div className="pt-1">
                   <Link href="/servicios">
                     <Button 
-                      className="w-full bg-accent text-accent-foreground font-black text-xs sm:text-sm h-10 sm:h-11 rounded-full shadow-lg shadow-accent/20 hover:scale-[1.02] transition-transform"
+                      className="w-full bg-accent text-accent-foreground font-black text-[10px] sm:text-xs h-8 sm:h-9 rounded-full shadow-lg shadow-accent/20 hover:scale-[1.02] transition-transform"
                       onClick={() => setShowPopup(false)}
                     >
-                      Ver Planes de Mantenimiento →
+                      Ver Planes →
                     </Button>
                   </Link>
                 </div>
