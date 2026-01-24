@@ -234,9 +234,6 @@ export default function Contacto() {
                     <Info className="w-16 h-16 text-[#6EDC8A]" />
                   </div>
                   <h3 className="text-primary font-black text-sm md:text-base uppercase tracking-tight flex items-center gap-2">
-                    <div className="w-6 h-6 rounded-full bg-[#6EDC8A] flex items-center justify-center text-white shrink-0">
-                      <Info className="w-4 h-4 fill-current" />
-                    </div>
                     Nota tranquilizadora
                   </h3>
                   <p className="text-sm md:text-base font-medium text-primary/80 leading-relaxed">
