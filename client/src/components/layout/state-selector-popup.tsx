@@ -38,34 +38,33 @@ export function StateSelectorPopup({ isOpen, onOpenChange }: StateSelectorPopupP
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent 
-        className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[220px] rounded-xl border-0 shadow-2xl overflow-hidden p-0 z-[999] !bg-white focus:outline-none"
+        className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[210px] rounded-2xl border-0 shadow-[0_20px_50px_rgba(0,0,0,0.1)] overflow-hidden p-0 z-[999] !bg-white focus:outline-none"
         onOpenAutoFocus={(e) => e.preventDefault()}
       >
-        <div className="bg-accent h-1 w-full" />
         <div className="p-4">
           <div className="flex justify-center mb-2">
-            <img src={logoIcon} alt="Easy US LLC" className="w-8 h-8 object-contain bg-transparent" />
+            <img src={logoIcon} alt="Easy US LLC" className="w-7 h-7 object-contain" />
           </div>
-          <DialogHeader className="mb-3 text-center">
-            <DialogTitle className="text-[11px] font-black uppercase tracking-tight text-primary leading-tight">
-              Constituye ahora tu LLC
+          <DialogHeader className="mb-2.5 text-center">
+            <DialogTitle className="text-[10px] font-black uppercase tracking-tight text-primary leading-tight">
+              Constituye tu LLC
             </DialogTitle>
           </DialogHeader>
 
-          <div className="grid gap-1.5">
+          <div className="grid gap-1">
             {STATES.map((state) => (
               <button
                 key={state.id}
                 onClick={() => handleSelect(state.name)}
-                className="group flex items-center justify-between p-2.5 rounded-lg border border-border hover:border-accent hover:bg-accent/5 transition-all text-left w-full active:scale-[0.98] bg-white"
+                className="group flex items-center justify-between p-2 rounded-xl border border-border hover:border-accent hover:bg-accent/5 transition-all text-left w-full active:scale-[0.98] bg-white"
               >
                 <div className="flex items-center">
                   <div>
-                    <p className="font-black uppercase tracking-tight text-primary text-[10px] leading-none mb-0.5">{state.name}</p>
+                    <p className="font-black uppercase tracking-tight text-primary text-[9px] leading-none mb-0.5">{state.name}</p>
                     <p className="text-accent font-black text-[8px]">{state.price}</p>
                   </div>
                 </div>
-                <ArrowRight className="w-3 h-3 text-gray-300 group-hover:text-primary transition-colors" />
+                <ArrowRight className="w-2.5 h-2.5 text-gray-300 group-hover:text-primary transition-colors" />
               </button>
             ))}
           </div>
