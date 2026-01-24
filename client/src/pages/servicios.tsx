@@ -543,7 +543,6 @@ export default function Servicios() {
           </div>
 
           <div className="w-full mt-12 sm:mt-20 flex flex-col items-center">
-            <div className="border-t border-primary/5 w-full mb-12" />
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               whileInView={{ opacity: 1, y: 0 }}
