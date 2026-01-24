@@ -1,10 +1,69 @@
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
+import { useState, useEffect } from "react";
+import logoIcon from "@/assets/logo-icon.png";
+import { X } from "lucide-react";
 
 export function HelpSection() {
+  const [showPopup, setShowPopup] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowPopup(true);
+    }, 5000);
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
     <section className="bg-background py-8 md:py-20 border-t border-accent/10 w-full flex justify-center items-center font-sans">
+      <AnimatePresence>
+        {showPopup && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.9, y: 20 }}
+            className="fixed bottom-4 right-4 z-[200] w-[280px] sm:w-[320px] bg-white rounded-3xl shadow-2xl border border-accent/20 overflow-hidden"
+          >
+            <button 
+              onClick={() => setShowPopup(false)}
+              className="absolute top-3 right-3 p-1 hover:bg-accent/10 rounded-full transition-colors z-10"
+            >
+              <X className="w-4 h-4 text-primary/40" />
+            </button>
+            <div className="p-5 sm:p-6">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-10 h-10 sm:w-12 sm:h-12 bg-accent/5 rounded-2xl flex items-center justify-center p-2 border border-accent/10">
+                  <img src={logoIcon} alt="Easy US LLC" className="w-full h-full object-contain" />
+                </div>
+                <div>
+                  <h3 className="font-black text-sm sm:text-base uppercase tracking-tight leading-none text-primary">Easy US LLC</h3>
+                  <p className="text-[10px] sm:text-[11px] font-bold text-accent uppercase tracking-widest mt-1">Soporte Premium</p>
+                </div>
+              </div>
+              
+              <div className="space-y-3">
+                <h4 className="font-black text-base sm:text-lg leading-tight text-primary">
+                  ¿Quieres el mantenimiento de tu LLC?
+                </h4>
+                <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
+                  Nos encargamos de toda la burocracia anual para que tú te centres en tu negocio.
+                </p>
+                <div className="pt-2">
+                  <Link href="/servicios">
+                    <Button 
+                      className="w-full bg-accent text-accent-foreground font-black text-xs sm:text-sm h-10 sm:h-11 rounded-full shadow-lg shadow-accent/20 hover:scale-[1.02] transition-transform"
+                      onClick={() => setShowPopup(false)}
+                    >
+                      Ver Planes de Mantenimiento →
+                    </Button>
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
       <div className="container max-w-4xl mx-auto px-5 relative z-10 flex flex-col items-center justify-center">
         <motion.div 
           initial={{ opacity: 0, y: 15 }}
