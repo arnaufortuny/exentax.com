@@ -146,19 +146,19 @@ export default function Contacto() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <FormField control={form.control} name="nombre" render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="font-black uppercase text-[10px] md:text-xs tracking-widest opacity-60 flex items-center gap-2">
-                        <User className="w-3 h-3 text-accent" /> Nombre:
+                      <FormLabel className="font-black uppercase text-[10px] md:text-xs tracking-widest text-primary flex items-center gap-2">
+                        <User className="w-3 h-3 text-[#6EDC8A]" /> Nombre:
                       </FormLabel>
-                      <FormControl><Input {...field} className="rounded-full h-14 px-6 border-gray-100 focus:border-accent transition-all font-bold" placeholder="Tu nombre" /></FormControl>
+                      <FormControl><Input {...field} className="rounded-full h-14 px-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-bold text-primary" placeholder="Tu nombre" /></FormControl>
                       <FormMessage />
                     </FormItem>
                   )} />
                   <FormField control={form.control} name="apellido" render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="font-black uppercase text-[10px] md:text-xs tracking-widest opacity-60 flex items-center gap-2">
-                        <User className="w-3 h-3 text-accent" /> Apellido:
+                      <FormLabel className="font-black uppercase text-[10px] md:text-xs tracking-widest text-primary flex items-center gap-2">
+                        <User className="w-3 h-3 text-[#6EDC8A]" /> Apellido:
                       </FormLabel>
-                      <FormControl><Input {...field} className="rounded-full h-14 px-6 border-gray-100 focus:border-accent transition-all font-bold" placeholder="Tu apellido" /></FormControl>
+                      <FormControl><Input {...field} className="rounded-full h-14 px-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-bold text-primary" placeholder="Tu apellido" /></FormControl>
                       <FormMessage />
                     </FormItem>
                   )} />
@@ -167,36 +167,36 @@ export default function Contacto() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <FormField control={form.control} name="email" render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="font-black uppercase text-[10px] md:text-xs tracking-widest opacity-60 flex items-center gap-2">
-                        <Mail className="w-3 h-3 text-accent" /> Email:
+                      <FormLabel className="font-black uppercase text-[10px] md:text-xs tracking-widest text-primary flex items-center gap-2">
+                        <Mail className="w-3 h-3 text-[#6EDC8A]" /> Email:
                       </FormLabel>
-                      <FormControl><Input {...field} type="email" inputMode="email" disabled={isOtpVerified} className="rounded-full h-14 px-6 border-gray-100 focus:border-accent transition-all font-bold" placeholder="email@ejemplo.com" /></FormControl>
+                      <FormControl><Input {...field} type="email" inputMode="email" disabled={isOtpVerified} className="rounded-full h-14 px-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-bold text-primary placeholder:text-primary/30" placeholder="email@ejemplo.com" /></FormControl>
                       <FormMessage />
                     </FormItem>
                   )} />
                   <FormField control={form.control} name="telefono" render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="font-black uppercase text-[10px] md:text-xs tracking-widest opacity-60 flex items-center gap-2">
-                        <Phone className="w-3 h-3 text-accent" /> Teléfono (opcional):
+                      <FormLabel className="font-black uppercase text-[10px] md:text-xs tracking-widest text-primary flex items-center gap-2">
+                        <Phone className="w-3 h-3 text-[#6EDC8A]" /> Teléfono (opcional):
                       </FormLabel>
-                      <FormControl><Input {...field} className="rounded-full h-14 px-6 border-gray-100 focus:border-accent transition-all font-bold" placeholder="+34..." /></FormControl>
-                      <FormDescription className="text-[10px] font-bold uppercase opacity-40">Solo si prefieres WhatsApp</FormDescription>
+                      <FormControl><Input {...field} className="rounded-full h-14 px-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-bold text-primary placeholder:text-primary/30" placeholder="+34..." /></FormControl>
+                      <FormDescription className="text-[10px] font-bold uppercase text-primary/40">Solo si prefieres WhatsApp</FormDescription>
                     </FormItem>
                   )} />
                 </div>
 
                 <FormField control={form.control} name="subject" render={({ field }) => (
                   <FormItem className="space-y-4">
-                    <FormLabel className="font-black uppercase text-[10px] md:text-xs tracking-widest opacity-60 flex items-center gap-2">
-                      <HelpCircle className="w-3 h-3 text-accent" /> Motivo de tu mensaje:
+                    <FormLabel className="font-black uppercase text-[10px] md:text-xs tracking-widest text-primary flex items-center gap-2">
+                      <HelpCircle className="w-3 h-3 text-[#6EDC8A]" /> Motivo de tu mensaje:
                     </FormLabel>
                     <FormControl>
                       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                         {SUBJECT_OPTIONS.map((opt) => (
-                          <label key={opt} className={`flex items-center gap-3 p-4 rounded-full border cursor-pointer transition-all active:scale-95 ${field.value === opt ? 'border-accent bg-accent/5' : 'border-gray-100 bg-white hover:border-accent/50'}`}>
+                          <label key={opt} className={`flex items-center gap-3 p-4 rounded-full border cursor-pointer transition-all active:scale-95 ${field.value === opt ? 'border-[#6EDC8A] bg-[#6EDC8A]/5' : 'border-gray-200 bg-white hover:border-[#6EDC8A]/50'}`}>
                             <input type="radio" {...field} value={opt} checked={field.value === opt} className="hidden" />
-                            <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center ${field.value === opt ? 'border-accent' : 'border-gray-200'}`}>
-                              {field.value === opt && <div className="w-2 h-2 rounded-full bg-accent" />}
+                            <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center ${field.value === opt ? 'border-[#6EDC8A]' : 'border-gray-200'}`}>
+                              {field.value === opt && <div className="w-2 h-2 rounded-full bg-[#6EDC8A]" />}
                             </div>
                             <span className="font-bold text-xs md:text-sm text-primary">{opt}</span>
                           </label>
@@ -209,20 +209,20 @@ export default function Contacto() {
 
                 <FormField control={form.control} name="mensaje" render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="font-black uppercase text-[10px] md:text-xs tracking-widest opacity-60 flex items-center gap-2">
-                      <MessageCircle className="w-3 h-3 text-accent" /> Tu mensaje:
+                    <FormLabel className="font-black uppercase text-[10px] md:text-xs tracking-widest text-primary flex items-center gap-2">
+                      <MessageCircle className="w-3 h-3 text-[#6EDC8A]" /> Tu mensaje:
                     </FormLabel>
-                    <FormControl><Textarea {...field} className="rounded-[2rem] min-h-[160px] p-6 border-gray-100 focus:border-accent transition-all font-bold placeholder:font-normal" placeholder="Cuéntanos tu situación con total libertad. No hace falta que uses palabras técnicas." /></FormControl>
+                    <FormControl><Textarea {...field} className="rounded-[2rem] min-h-[160px] p-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-bold text-primary placeholder:text-primary/30" placeholder="Cuéntanos tu situación con total libertad. No hace falta que uses palabras técnicas." /></FormControl>
                     <FormMessage />
                   </FormItem>
                 )} />
 
-                <div className="bg-accent/5 p-6 md:p-8 rounded-[2rem] border border-accent/20 space-y-4 relative overflow-hidden">
+                <div className="bg-[#6EDC8A]/5 p-6 md:p-8 rounded-[2rem] border border-[#6EDC8A]/20 space-y-4 relative overflow-hidden">
                   <div className="absolute top-0 right-0 p-4 opacity-10">
-                    <Info className="w-12 h-12" />
+                    <Info className="w-12 h-12 text-[#6EDC8A]" />
                   </div>
                   <h3 className="text-primary font-black uppercase text-sm tracking-widest">Nota tranquilizadora</h3>
-                  <p className="text-sm md:text-base font-medium text-foreground/70 leading-relaxed">
+                  <p className="text-sm md:text-base font-medium text-primary/80 leading-relaxed">
                     Leemos personalmente todos los mensajes y respondemos lo antes posible. Si vemos que una LLC no es la mejor opción para ti, también te lo diremos.
                   </p>
                 </div>
@@ -231,18 +231,18 @@ export default function Contacto() {
                   <div className="space-y-4 pt-4 border-t border-gray-100">
                     <div className="flex flex-col md:flex-row gap-4">
                       {!isOtpSent ? (
-                        <Button type="button" onClick={sendOtp} disabled={isLoading} className="w-full md:w-auto bg-primary text-white font-black px-8 h-14 rounded-full active:scale-95 transition-all">
+                        <Button type="button" onClick={sendOtp} disabled={isLoading} className="w-full md:w-auto bg-[#6EDC8A] text-primary font-black px-8 h-14 rounded-full active:scale-95 transition-all shadow-lg shadow-[#6EDC8A]/20">
                           {isLoading ? <Loader2 className="animate-spin" /> : "ENVIAR CÓDIGO DE VERIFICACIÓN"}
                         </Button>
                       ) : (
                         <div className="flex flex-col md:flex-row gap-4 w-full">
                           <FormField control={form.control} name="otp" render={({ field }) => (
                             <FormItem className="flex-1">
-                              <FormControl><Input {...field} className="rounded-full h-14 px-6 text-center text-xl font-black border-gray-100 focus:border-accent" placeholder="CÓDIGO (6 DÍGITOS)" /></FormControl>
+                              <FormControl><Input {...field} className="rounded-full h-14 px-6 text-center text-xl font-black border-gray-200 focus:border-[#6EDC8A] text-primary placeholder:text-primary/30" placeholder="CÓDIGO (6 DÍGITOS)" /></FormControl>
                               <FormMessage />
                             </FormItem>
                           )} />
-                          <Button type="button" onClick={verifyOtp} disabled={isLoading} className="bg-accent text-primary font-black px-12 h-14 rounded-full active:scale-95 transition-all shadow-lg shadow-accent/20">
+                          <Button type="button" onClick={verifyOtp} disabled={isLoading} className="bg-[#6EDC8A] text-primary font-black px-12 h-14 rounded-full active:scale-95 transition-all shadow-lg shadow-[#6EDC8A]/20">
                             {isLoading ? <Loader2 className="animate-spin" /> : "VERIFICAR"}
                           </Button>
                         </div>
@@ -255,19 +255,19 @@ export default function Contacto() {
                   <div className="space-y-6 pt-4 border-t border-gray-100">
                     <div className="space-y-3">
                       <FormField control={form.control} name="dataProcessingConsent" render={({ field }) => (
-                        <FormItem className="flex items-start gap-3 p-4 rounded-[1.5rem] border border-gray-100 bg-white hover:border-accent/30 cursor-pointer transition-all">
-                          <FormControl><Checkbox checked={field.value} onCheckedChange={field.onChange} className="mt-1" /></FormControl>
-                          <span className="text-[10px] md:text-xs font-bold text-primary opacity-70">Acepto el tratamiento de mis datos para poder responder a mi solicitud.</span>
+                        <FormItem className="flex items-start gap-3 p-4 rounded-[1.5rem] border border-gray-200 bg-white hover:border-[#6EDC8A]/30 cursor-pointer transition-all">
+                          <FormControl><Checkbox checked={field.value} onCheckedChange={field.onChange} className="mt-1 border-gray-200 data-[state=checked]:bg-[#6EDC8A] data-[state=checked]:border-[#6EDC8A]" /></FormControl>
+                          <span className="text-[10px] md:text-xs font-bold text-primary">Acepto el tratamiento de mis datos para poder responder a mi solicitud.</span>
                         </FormItem>
                       )} />
                       <FormField control={form.control} name="termsConsent" render={({ field }) => (
-                        <FormItem className="flex items-start gap-3 p-4 rounded-[1.5rem] border border-gray-100 bg-white hover:border-accent/30 cursor-pointer transition-all">
-                          <FormControl><Checkbox checked={field.value} onCheckedChange={field.onChange} className="mt-1" /></FormControl>
-                          <span className="text-[10px] md:text-xs font-bold text-primary opacity-70">He leído y acepto los términos del servicio y la política de privacidad.</span>
+                        <FormItem className="flex items-start gap-3 p-4 rounded-[1.5rem] border border-gray-200 bg-white hover:border-[#6EDC8A]/30 cursor-pointer transition-all">
+                          <FormControl><Checkbox checked={field.value} onCheckedChange={field.onChange} className="mt-1 border-gray-200 data-[state=checked]:bg-[#6EDC8A] data-[state=checked]:border-[#6EDC8A]" /></FormControl>
+                          <span className="text-[10px] md:text-xs font-bold text-primary">He leído y acepto los términos del servicio y la política de privacidad.</span>
                         </FormItem>
                       )} />
                     </div>
-                    <Button type="submit" disabled={isLoading} className="w-full bg-primary text-primary-foreground font-black py-8 rounded-full text-lg md:text-xl uppercase tracking-widest hover:scale-[1.02] active:scale-95 transition-all shadow-2xl shadow-primary/20">
+                    <Button type="submit" disabled={isLoading} className="w-full bg-[#6EDC8A] text-primary font-black py-8 rounded-full text-lg md:text-xl uppercase tracking-widest hover:scale-[1.02] active:scale-95 transition-all shadow-2xl shadow-[#6EDC8A]/20">
                       {isLoading ? <Loader2 className="animate-spin" /> : "ENVIAR MENSAJE"}
                     </Button>
                   </div>

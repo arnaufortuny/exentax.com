@@ -42,7 +42,7 @@ export function NewsletterSection() {
   };
 
   return (
-    <section className="py-16 md:py-20 bg-accent relative overflow-hidden font-sans border-t border-foreground/5 w-full">
+    <section className="py-16 md:py-20 bg-[#F7F7F5] relative overflow-hidden font-sans border-t border-primary/5 w-full">
       <div className="absolute inset-0 opacity-[0.05] pointer-events-none bg-[url('/hero-bg.png')] bg-repeat" />
       
       <div className="w-full px-5 sm:px-8 relative z-10 flex flex-col items-center justify-center">
@@ -53,10 +53,10 @@ export function NewsletterSection() {
           className="text-center space-y-4 md:space-y-8 w-full flex flex-col items-center"
         >
           <div className="space-y-2 md:space-y-4 w-full text-center">
-            <h2 className="text-xl md:text-4xl font-black uppercase tracking-tighter text-accent-foreground leading-none text-center">
-              Únete a nuestra <span className="text-primary-foreground bg-primary px-2 inline-block">Newsletter</span>
+            <h2 className="text-xl md:text-4xl font-black uppercase tracking-tighter text-primary leading-none text-center">
+              Únete a nuestra <span className="text-[#6EDC8A] bg-primary px-2 inline-block">Newsletter</span>
             </h2>
-            <p className="text-accent-foreground/70 text-xs md:text-lg font-medium max-w-2xl mx-auto leading-relaxed text-center px-2">
+            <p className="text-primary/70 text-xs md:text-lg font-medium max-w-2xl mx-auto leading-relaxed text-center px-2">
               Consejos claros y actualizados sobre fiscalidad en Estados Unidos.
               <span className="block mt-2">Te mantenemos al día con las últimas novedades que realmente importan para tu negocio.</span>
             </p>
@@ -70,13 +70,13 @@ export function NewsletterSection() {
                 placeholder="Indícanos tu email" 
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="h-10 md:h-14 pl-4 pr-12 rounded-full border-2 border-foreground/10 bg-background/40 text-foreground placeholder:text-foreground/40 text-xs md:text-base font-bold focus:border-foreground focus:bg-background focus:ring-0 transition-all shadow-inner w-full text-left"
+                className="h-10 md:h-14 pl-4 pr-12 rounded-full border-2 border-primary/10 bg-white text-primary placeholder:text-primary/40 text-xs md:text-base font-bold focus:border-[#6EDC8A] focus:bg-white focus:ring-0 transition-all shadow-inner w-full text-left"
                 required
               />
               <Button 
                 type="submit"
                 disabled={loading}
-                className="absolute right-1.5 top-1.5 h-7 w-7 md:h-11 md:w-11 rounded-full bg-primary text-primary-foreground p-0 hover:scale-110 active:scale-90 transition-all shadow-lg flex items-center justify-center border-0"
+                className="absolute right-1.5 top-1.5 h-7 w-7 md:h-11 md:w-11 rounded-full bg-[#6EDC8A] text-primary p-0 hover:scale-110 active:scale-90 transition-all shadow-lg flex items-center justify-center border-0"
               >
                 {loading ? (
                   <Loader2 className="w-3 h-3 md:w-5 md:h-5 animate-spin" />

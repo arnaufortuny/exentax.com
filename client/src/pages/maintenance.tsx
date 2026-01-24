@@ -169,8 +169,8 @@ export default function MaintenanceApplication() {
                     <FormControl>
                       <div className="flex flex-col gap-3">
                         {["Sí", "No (en ese caso, te orientamos primero)"].map((opt) => (
-                          <label key={opt} className="flex items-center gap-3 p-4 rounded-full border border-gray-100 bg-white hover:border-accent cursor-pointer transition-all active:scale-[0.98]">
-                            <input type="radio" {...field} value={opt} checked={field.value === opt} className="w-5 h-5 accent-accent" />
+                          <label key={opt} className="flex items-center gap-3 p-4 rounded-full border border-gray-200 bg-white hover:border-[#6EDC8A] cursor-pointer transition-all active:scale-[0.98]">
+                            <input type="radio" {...field} value={opt} checked={field.value === opt} className="w-5 h-5 accent-[#6EDC8A]" />
                             <span className="font-bold text-primary text-sm md:text-base">{opt}</span>
                           </label>
                         ))}
@@ -179,7 +179,7 @@ export default function MaintenanceApplication() {
                     <FormMessage />
                   </FormItem>
                 )} />
-                <Button type="button" onClick={nextStep} className="w-full bg-accent text-primary font-black py-7 rounded-full text-lg shadow-lg shadow-accent/20 active:scale-95 transition-all">SIGUIENTE</Button>
+                <Button type="button" onClick={nextStep} className="w-full bg-[#6EDC8A] text-primary font-black py-7 rounded-full text-lg shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all">SIGUIENTE</Button>
               </motion.div>
             )}
 
@@ -192,14 +192,14 @@ export default function MaintenanceApplication() {
                 <FormDescription>El de los documentos oficiales</FormDescription>
                 <FormField control={form.control} name="ownerFullName" render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="font-black uppercase text-[10px] md:text-xs tracking-widest opacity-60">Nombre completo:</FormLabel>
-                    <FormControl><Input {...field} className="rounded-full h-14 px-6 border-gray-100 focus:border-accent" placeholder="Tu nombre" /></FormControl>
+                    <FormLabel className="font-black uppercase text-[10px] md:text-xs tracking-widest text-primary">Nombre completo:</FormLabel>
+                    <FormControl><Input {...field} className="rounded-full h-14 px-6 border-gray-200 focus:border-[#6EDC8A] font-bold text-primary placeholder:text-primary/30" placeholder="Tu nombre" /></FormControl>
                     <FormMessage />
                   </FormItem>
                 )} />
                 <div className="flex gap-3">
-                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-black border-gray-100 active:scale-95 transition-all">ATRÁS</Button>
-                  <Button type="button" onClick={nextStep} className="flex-2 bg-accent text-primary font-black rounded-full h-14 shadow-lg shadow-accent/20 active:scale-95 transition-all">SIGUIENTE</Button>
+                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-black border-gray-200 active:scale-95 transition-all">ATRÁS</Button>
+                  <Button type="button" onClick={nextStep} className="flex-2 bg-[#6EDC8A] text-primary font-black rounded-full h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all">SIGUIENTE</Button>
                 </div>
               </motion.div>
             )}
@@ -213,14 +213,14 @@ export default function MaintenanceApplication() {
                 <FormDescription>Para avisos importantes y comunicación rápida</FormDescription>
                 <FormField control={form.control} name="ownerPhone" render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="font-black uppercase text-[10px] md:text-xs tracking-widest opacity-60">Teléfono:</FormLabel>
-                    <FormControl><Input {...field} className="rounded-full h-14 px-6 border-gray-100 focus:border-accent" placeholder="+34..." /></FormControl>
+                    <FormLabel className="font-black uppercase text-[10px] md:text-xs tracking-widest text-primary">Teléfono:</FormLabel>
+                    <FormControl><Input {...field} className="rounded-full h-14 px-6 border-gray-200 focus:border-[#6EDC8A] font-bold text-primary placeholder:text-primary/30" placeholder="+34..." /></FormControl>
                     <FormMessage />
                   </FormItem>
                 )} />
                 <div className="flex gap-3">
-                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-black border-gray-100 active:scale-95 transition-all">ATRÁS</Button>
-                  <Button type="button" onClick={nextStep} className="flex-2 bg-accent text-primary font-black rounded-full h-14 shadow-lg shadow-accent/20 active:scale-95 transition-all">SIGUIENTE</Button>
+                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-black border-gray-200 active:scale-95 transition-all">ATRÁS</Button>
+                  <Button type="button" onClick={nextStep} className="flex-2 bg-[#6EDC8A] text-primary font-black rounded-full h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all">SIGUIENTE</Button>
                 </div>
               </motion.div>
             )}
@@ -234,14 +234,14 @@ export default function MaintenanceApplication() {
                 <FormDescription>Aquí recibirás recordatorios y documentación</FormDescription>
                 <FormField control={form.control} name="ownerEmail" render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="font-black uppercase text-[10px] md:text-xs tracking-widest opacity-60">Email:</FormLabel>
-                    <FormControl><Input {...field} type="email" inputMode="email" className="rounded-full h-14 px-6 border-gray-100 focus:border-accent font-bold" placeholder="email@ejemplo.com" /></FormControl>
+                    <FormLabel className="font-black uppercase text-[10px] md:text-xs tracking-widest text-primary">Email:</FormLabel>
+                    <FormControl><Input {...field} type="email" inputMode="email" className="rounded-full h-14 px-6 border-gray-200 focus:border-[#6EDC8A] font-bold text-primary placeholder:text-primary/30" placeholder="email@ejemplo.com" /></FormControl>
                     <FormMessage />
                   </FormItem>
                 )} />
                 <div className="flex gap-3">
-                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-black border-gray-100 active:scale-95 transition-all">ATRÁS</Button>
-                  <Button type="button" onClick={nextStep} className="flex-2 bg-accent text-primary font-black rounded-full h-14 shadow-lg shadow-accent/20 active:scale-95 transition-all">SIGUIENTE</Button>
+                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-black border-gray-200 active:scale-95 transition-all">ATRÁS</Button>
+                  <Button type="button" onClick={nextStep} className="flex-2 bg-[#6EDC8A] text-primary font-black rounded-full h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all">SIGUIENTE</Button>
                 </div>
               </motion.div>
             )}
@@ -255,14 +255,14 @@ export default function MaintenanceApplication() {
                 <FormDescription>Tal y como figura en los documentos oficiales</FormDescription>
                 <FormField control={form.control} name="companyName" render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="font-black uppercase text-[10px] md:text-xs tracking-widest opacity-60">Nombre de la LLC:</FormLabel>
-                    <FormControl><Input {...field} className="rounded-full h-14 px-6 border-gray-100 focus:border-accent" placeholder="MI EMPRESA LLC" /></FormControl>
+                    <FormLabel className="font-black uppercase text-[10px] md:text-xs tracking-widest text-primary">Nombre de la LLC:</FormLabel>
+                    <FormControl><Input {...field} className="rounded-full h-14 px-6 border-gray-200 focus:border-[#6EDC8A] font-bold text-primary placeholder:text-primary/30" placeholder="MI EMPRESA LLC" /></FormControl>
                     <FormMessage />
                   </FormItem>
                 )} />
                 <div className="flex gap-3">
-                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-black border-gray-100 active:scale-95 transition-all">ATRÁS</Button>
-                  <Button type="button" onClick={nextStep} className="flex-2 bg-accent text-primary font-black rounded-full h-14 shadow-lg shadow-accent/20 active:scale-95 transition-all">SIGUIENTE</Button>
+                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-black border-gray-200 active:scale-95 transition-all">ATRÁS</Button>
+                  <Button type="button" onClick={nextStep} className="flex-2 bg-[#6EDC8A] text-primary font-black rounded-full h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all">SIGUIENTE</Button>
                 </div>
               </motion.div>
             )}
@@ -276,14 +276,14 @@ export default function MaintenanceApplication() {
                 <FormDescription>El número fiscal de tu empresa en EE. UU.</FormDescription>
                 <FormField control={form.control} name="ein" render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="font-black uppercase text-[10px] md:text-xs tracking-widest opacity-60">EIN:</FormLabel>
-                    <FormControl><Input {...field} className="rounded-full h-14 px-6 border-gray-100 focus:border-accent" placeholder="00-0000000" /></FormControl>
+                    <FormLabel className="font-black uppercase text-[10px] md:text-xs tracking-widest text-primary">EIN:</FormLabel>
+                    <FormControl><Input {...field} className="rounded-full h-14 px-6 border-gray-200 focus:border-[#6EDC8A] font-bold text-primary placeholder:text-primary/30" placeholder="00-0000000" /></FormControl>
                     <FormMessage />
                   </FormItem>
                 )} />
                 <div className="flex gap-3">
-                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-black border-gray-100 active:scale-95 transition-all">ATRÁS</Button>
-                  <Button type="button" onClick={nextStep} className="flex-2 bg-accent text-primary font-black rounded-full h-14 shadow-lg shadow-accent/20 active:scale-95 transition-all">SIGUIENTE</Button>
+                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-black border-gray-200 active:scale-95 transition-all">ATRÁS</Button>
+                  <Button type="button" onClick={nextStep} className="flex-2 bg-[#6EDC8A] text-primary font-black rounded-full h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all">SIGUIENTE</Button>
                 </div>
               </motion.div>
             )}
@@ -297,16 +297,16 @@ export default function MaintenanceApplication() {
                 <FormDescription>Cada estado tiene sus propios plazos</FormDescription>
                 <FormField control={form.control} name="state" render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="font-black uppercase text-[10px] md:text-xs tracking-widest opacity-60">Estado:</FormLabel>
+                    <FormLabel className="font-black uppercase text-[10px] md:text-xs tracking-widest text-primary">Estado:</FormLabel>
                     <Select onValueChange={field.onChange} value={field.value || ""}>
-                      <FormControl><SelectTrigger className="rounded-full h-14 px-6 border-gray-100 focus:ring-accent"><SelectValue placeholder="Seleccionar estado" /></SelectTrigger></FormControl>
+                      <FormControl><SelectTrigger className="rounded-full h-14 px-6 border-gray-200 focus:ring-[#6EDC8A] font-bold text-primary"><SelectValue placeholder="Seleccionar estado" /></SelectTrigger></FormControl>
                       <SelectContent><SelectItem value="New Mexico">New Mexico</SelectItem><SelectItem value="Wyoming">Wyoming</SelectItem><SelectItem value="Delaware">Delaware</SelectItem></SelectContent>
                     </Select>
                   </FormItem>
                 )} />
                 <div className="flex gap-3">
-                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-black border-gray-100 active:scale-95 transition-all">ATRÁS</Button>
-                  <Button type="button" onClick={nextStep} className="flex-2 bg-accent text-primary font-black rounded-full h-14 shadow-lg shadow-accent/20 active:scale-95 transition-all">SIGUIENTE</Button>
+                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-black border-gray-200 active:scale-95 transition-all">ATRÁS</Button>
+                  <Button type="button" onClick={nextStep} className="flex-2 bg-[#6EDC8A] text-primary font-black rounded-full h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all">SIGUIENTE</Button>
                 </div>
               </motion.div>
             )}
@@ -320,13 +320,13 @@ export default function MaintenanceApplication() {
                 <FormDescription>Tipo de negocio o producto</FormDescription>
                 <FormField control={form.control} name="businessActivity" render={({ field }) => (
                   <FormItem>
-                    <FormControl><Textarea {...field} className="rounded-[2rem] min-h-[120px] p-6 border-gray-100 focus:border-accent" placeholder="A qué se dedica tu LLC..." /></FormControl>
+                    <FormControl><Textarea {...field} className="rounded-[2rem] min-h-[120px] p-6 border-gray-200 focus:border-[#6EDC8A] font-bold text-primary placeholder:text-primary/30" placeholder="A qué se dedica tu LLC..." /></FormControl>
                     <FormMessage />
                   </FormItem>
                 )} />
                 <div className="flex gap-3">
-                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-black border-gray-100 active:scale-95 transition-all">ATRÁS</Button>
-                  <Button type="button" onClick={nextStep} className="flex-2 bg-accent text-primary font-black rounded-full h-14 shadow-lg shadow-accent/20 active:scale-95 transition-all">SIGUIENTE</Button>
+                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-black border-gray-200 active:scale-95 transition-all">ATRÁS</Button>
+                  <Button type="button" onClick={nextStep} className="flex-2 bg-[#6EDC8A] text-primary font-black rounded-full h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all">SIGUIENTE</Button>
                 </div>
               </motion.div>
             )}
@@ -343,7 +343,7 @@ export default function MaintenanceApplication() {
                     <FormControl>
                       <div className="flex flex-col gap-3">
                         {["Recordatorios y cumplimiento anual", "Presentación de documentos obligatorios", "Soporte durante el año", "Revisión general de la situación de la LLC"].map(opt => (
-                          <label key={opt} className="flex items-center gap-3 p-4 rounded-[2rem] border border-gray-100 bg-white hover:border-accent cursor-pointer transition-all active:scale-[0.98]">
+                          <label key={opt} className="flex items-center gap-3 p-4 rounded-[2rem] border border-gray-200 bg-white hover:border-[#6EDC8A] cursor-pointer transition-all active:scale-[0.98]">
                             <Checkbox 
                               checked={field.value?.split(", ").includes(opt)}
                               onCheckedChange={(checked) => {
@@ -351,6 +351,7 @@ export default function MaintenanceApplication() {
                                 const next = checked ? [...current, opt] : current.filter(v => v !== opt);
                                 field.onChange(next.join(", "));
                               }}
+                              className="border-gray-200 data-[state=checked]:bg-[#6EDC8A] data-[state=checked]:border-[#6EDC8A]"
                             />
                             <span className="font-bold text-sm text-primary">{opt}</span>
                           </label>
@@ -360,8 +361,8 @@ export default function MaintenanceApplication() {
                   </FormItem>
                 )} />
                 <div className="flex gap-3">
-                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-black border-gray-100 active:scale-95 transition-all">ATRÁS</Button>
-                  <Button type="button" onClick={nextStep} className="flex-2 bg-accent text-primary font-black rounded-full h-14 shadow-lg shadow-accent/20 active:scale-95 transition-all">SIGUIENTE</Button>
+                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-black border-gray-200 active:scale-95 transition-all">ATRÁS</Button>
+                  <Button type="button" onClick={nextStep} className="flex-2 bg-[#6EDC8A] text-primary font-black rounded-full h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all">SIGUIENTE</Button>
                 </div>
               </motion.div>
             )}
@@ -378,8 +379,8 @@ export default function MaintenanceApplication() {
                     <FormControl>
                       <div className="flex flex-col gap-3">
                         {["No", "Sí, quiero disolver mi LLC", "Quiero que me expliquéis primero el proceso"].map((opt) => (
-                          <label key={opt} className="flex items-center gap-3 p-4 rounded-full border border-gray-100 bg-white hover:border-accent cursor-pointer transition-all active:scale-[0.98]">
-                            <input type="radio" {...field} value={opt} checked={field.value === opt} className="w-5 h-5 accent-accent" />
+                          <label key={opt} className="flex items-center gap-3 p-4 rounded-full border border-gray-200 bg-white hover:border-[#6EDC8A] cursor-pointer transition-all active:scale-[0.98]">
+                            <input type="radio" {...field} value={opt} checked={field.value === opt} className="w-5 h-5 accent-[#6EDC8A]" />
                             <span className="font-bold text-primary text-sm md:text-base">{opt}</span>
                           </label>
                         ))}
@@ -389,8 +390,8 @@ export default function MaintenanceApplication() {
                   </FormItem>
                 )} />
                 <div className="flex gap-3">
-                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-black border-gray-100 active:scale-95 transition-all">ATRÁS</Button>
-                  <Button type="button" onClick={nextStep} className="flex-2 bg-accent text-primary font-black rounded-full h-14 shadow-lg shadow-accent/20 active:scale-95 transition-all">SIGUIENTE</Button>
+                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-black border-gray-200 active:scale-95 transition-all">ATRÁS</Button>
+                  <Button type="button" onClick={nextStep} className="flex-2 bg-[#6EDC8A] text-primary font-black rounded-full h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all">SIGUIENTE</Button>
                 </div>
               </motion.div>
             )}
@@ -401,17 +402,17 @@ export default function MaintenanceApplication() {
                 <h2 className="text-xl md:text-2xl font-black uppercase text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
                   <Info className="w-6 h-6 text-accent" /> Revisión Final
                 </h2>
-                <div className="bg-accent/5 p-6 md:p-8 rounded-[2rem] border border-accent/20 space-y-4">
+                <div className="bg-[#6EDC8A]/5 p-6 md:p-8 rounded-[2rem] border border-[#6EDC8A]/20 space-y-4">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs md:text-sm">
-                    <p className="flex justify-between md:block"><span className="opacity-50">Email:</span> <span className="font-bold">{form.getValues("ownerEmail")}</span></p>
-                    <p className="flex justify-between md:block"><span className="opacity-50">LLC:</span> <span className="font-bold">{form.getValues("companyName")}</span></p>
+                    <p className="flex justify-between md:block"><span className="opacity-50 font-black uppercase text-[10px] text-primary">Email:</span> <span className="font-bold text-primary">{form.getValues("ownerEmail")}</span></p>
+                    <p className="flex justify-between md:block"><span className="opacity-50 font-black uppercase text-[10px] text-primary">LLC:</span> <span className="font-bold text-primary">{form.getValues("companyName")}</span></p>
                     <p className="flex justify-between md:block"><span className="opacity-50">Estado:</span> <span className="font-bold">{form.getValues("state")}</span></p>
                     <p className="flex justify-between md:block"><span className="opacity-50">Disolver:</span> <span className="font-bold">{form.getValues("wantsDissolve")}</span></p>
                   </div>
                 </div>
                 <div className="flex gap-3">
-                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-black border-gray-100 active:scale-95 transition-all">ATRÁS</Button>
-                  <Button type="button" onClick={nextStep} className="flex-2 bg-accent text-primary font-black rounded-full h-14 shadow-lg shadow-accent/20 active:scale-95 transition-all">VERIFICAR EMAIL</Button>
+                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-black border-gray-200 active:scale-95 transition-all">ATRÁS</Button>
+                  <Button type="button" onClick={nextStep} className="flex-2 bg-[#6EDC8A] text-primary font-black rounded-full h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all uppercase">VERIFICAR EMAIL</Button>
                 </div>
               </motion.div>
             )}
@@ -423,7 +424,7 @@ export default function MaintenanceApplication() {
                   <ShieldCheck className="w-6 h-6 text-accent" /> Verificación
                 </h2>
                 {!isOtpSent ? (
-                  <Button type="button" onClick={sendOtp} className="w-full bg-accent text-primary font-black py-7 rounded-full text-lg shadow-lg shadow-accent/20 active:scale-95 transition-all">ENVIAR CÓDIGO</Button>
+                  <Button type="button" onClick={sendOtp} className="w-full bg-[#6EDC8A] text-primary font-black py-7 rounded-full text-lg shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all uppercase">ENVIAR CÓDIGO</Button>
                 ) : (
                   <div className="space-y-4">
                     <FormField control={form.control} name="otp" render={({ field }) => (
@@ -433,11 +434,11 @@ export default function MaintenanceApplication() {
                         <FormMessage />
                       </FormItem>
                     )} />
-                    {!isEmailVerified && <Button type="button" onClick={verifyOtp} className="w-full bg-primary text-white py-7 rounded-full font-black text-lg active:scale-95 transition-all">VERIFICAR</Button>}
+                    <Button type="button" onClick={verifyOtp} className="w-full bg-[#6EDC8A] text-primary py-7 rounded-full font-black text-lg active:scale-95 transition-all">VERIFICAR</Button>
                   </div>
                 )}
                 <div className="flex gap-3">
-                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-black border-gray-100 active:scale-95 transition-all">ATRÁS</Button>
+                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-black border-gray-200 active:scale-95 transition-all">ATRÁS</Button>
                 </div>
               </motion.div>
             )}
@@ -471,7 +472,7 @@ export default function MaintenanceApplication() {
                   )} />
                 </div>
                 <div className="flex flex-col gap-4 pt-4">
-                  <Button type="submit" className="w-full bg-accent text-primary font-black py-8 rounded-full text-lg md:text-xl uppercase tracking-widest hover:scale-[1.02] active:scale-95 transition-all shadow-xl shadow-accent/20">
+                  <Button type="submit" className="w-full bg-[#6EDC8A] text-primary font-black py-8 rounded-full text-lg md:text-xl uppercase tracking-widest hover:scale-[1.02] active:scale-95 transition-all shadow-xl shadow-[#6EDC8A]/20">
                     🚀 Enviar y Pagar
                   </Button>
                   <Button type="button" variant="ghost" onClick={() => setStep(0)} className="text-primary/50 font-bold uppercase text-[10px] tracking-widest">Reiniciar</Button>
