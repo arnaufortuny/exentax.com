@@ -420,7 +420,7 @@ export default function ApplicationWizard() {
                                     <h3 className="text-[10px] font-black uppercase tracking-[0.25em] text-primary/30 flex items-center gap-2">
                                       <MapPin className="w-3.5 h-3.5" /> Dirección de Residencia
                                     </h3>
-                                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                                       <FormField
                                         control={form.control}
                                         name="ownerStreetType"
@@ -446,7 +446,7 @@ export default function ApplicationWizard() {
                                         control={form.control}
                                         name="ownerAddress"
                                         render={({ field }) => (
-                                          <FormItem className="sm:col-span-2">
+                                          <FormItem>
                                             <FormLabel className="font-normal text-sm text-gray-500 mb-1.5 block uppercase tracking-tight">Nombre de Vía y Número</FormLabel>
                                             <FormControl><Input {...field} value={field.value || ""} className="rounded-3xl border-gray-100 bg-gray-50/30 h-12 md:h-14 px-6 focus:border-accent font-normal text-base" placeholder="" /></FormControl>
                                           </FormItem>
