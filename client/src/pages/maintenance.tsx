@@ -19,6 +19,7 @@ import { insertMaintenanceApplicationSchema } from "@shared/schema";
 
 const formSchema = insertMaintenanceApplicationSchema.extend({
   otp: z.string().length(6, "El código debe tener 6 dígitos"),
+  subscribeNewsletter: z.boolean().default(false),
 }).omit({ 
   orderId: true,
   requestCode: true,
@@ -58,7 +59,8 @@ export default function MaintenanceApplication() {
       expectedServices: "",
       notes: "",
       status: "draft",
-      otp: ""
+      otp: "",
+      subscribeNewsletter: false
     },
   });
 
@@ -139,6 +141,9 @@ export default function MaintenanceApplication() {
 
   const onSubmit = async (data: FormValues) => {
     try {
+      if (data.subscribeNewsletter) {
+        await apiRequest("POST", "/api/newsletter/subscribe", { email: data.ownerEmail });
+      }
       await apiRequest("PUT", `/api/maintenance/${appId}`, { ...data, status: "submitted" });
       toast({ title: "Solicitud enviada", variant: "success" });
       setLocation("/contacto?success=true");
@@ -469,6 +474,19 @@ export default function MaintenanceApplication() {
                       <Checkbox required className="mt-1" />
                       <span className="text-sm font-bold text-primary">Autorizo el tratamiento de mis datos para la correcta prestación del servicio y cumplimiento legal.</span>
                     </label>
+                    <FormField control={form.control} name="subscribeNewsletter" render={({ field }) => (
+                      <label className="flex items-start gap-4 p-4 rounded-2xl border border-gray-100 hover:border-accent cursor-pointer transition-all">
+                        <Checkbox 
+                          checked={field.value}
+                          onCheckedChange={field.onChange}
+                          className="mt-1"
+                        />
+                        <div className="space-y-1">
+                          <span className="text-sm font-bold text-primary">¡Quiero estar al día!</span>
+                          <p className="text-xs text-muted-foreground">Suscribirme a la newsletter para recibir consejos fiscales y actualizaciones sobre LLCs.</p>
+                        </div>
+                      </label>
+                    )} />
                   </div>
                 </div>
 
