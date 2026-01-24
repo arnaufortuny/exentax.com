@@ -19,26 +19,26 @@ export function HelpSection() {
     <section className="bg-background py-8 md:py-20 border-t border-accent/10 w-full flex justify-center items-center font-sans">
       <AnimatePresence>
         {showPopup && (
-          <div className="fixed inset-0 z-[600] flex items-center justify-center p-4 bg-black/60 backdrop-blur-md">
+          <div className="fixed inset-0 z-[999] flex items-center justify-center p-4 bg-black/60 backdrop-blur-md">
             <motion.div
-              initial={{ opacity: 0, scale: 0.9, y: 20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.9, y: 20 }}
-              className="relative w-full max-w-[220px] bg-white rounded-xl shadow-2xl border border-accent/40 overflow-hidden"
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.9 }}
+              className="relative w-[220px] bg-white rounded-xl shadow-2xl border border-accent/40 overflow-hidden"
             >
               <button 
                 onClick={() => setShowPopup(false)}
-                className="absolute top-1 right-1 p-1 hover:bg-accent/10 rounded-full transition-colors z-10"
+                className="absolute top-1 right-1 p-1 hover:bg-accent/10 rounded-full transition-colors z-[1000]"
               >
                 <X className="w-4 h-4 text-primary/40" />
               </button>
               <div className="p-4 text-center">
                 <div className="flex justify-center mb-2">
-                  <img src={logoIcon} alt="Easy US LLC" className="w-8 h-8 object-contain" />
+                  <img src={logoIcon} alt="Easy US LLC" className="w-8 h-8 object-contain bg-transparent" />
                 </div>
                 
                 <div className="space-y-2">
-                  <h4 className="font-black text-sm leading-tight text-primary uppercase">
+                  <h4 className="font-black text-xs leading-tight text-primary uppercase">
                     ¿Mantenimiento LLC?
                   </h4>
                   <div className="pt-1">

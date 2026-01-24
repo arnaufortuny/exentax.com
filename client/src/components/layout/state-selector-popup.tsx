@@ -38,16 +38,16 @@ export function StateSelectorPopup({ isOpen, onOpenChange }: StateSelectorPopupP
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent 
-        className="fixed left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%] w-[90vw] max-w-[220px] rounded-xl border-0 shadow-2xl overflow-hidden p-0 z-[500] !bg-white focus:outline-none"
+        className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[220px] rounded-xl border-0 shadow-2xl overflow-hidden p-0 z-[999] !bg-white focus:outline-none"
         onOpenAutoFocus={(e) => e.preventDefault()}
       >
         <div className="bg-accent h-1 w-full" />
         <div className="p-4">
           <div className="flex justify-center mb-2">
-            <img src={logoIcon} alt="Easy US LLC" className="w-8 h-8 object-contain" />
+            <img src={logoIcon} alt="Easy US LLC" className="w-8 h-8 object-contain bg-transparent" />
           </div>
           <DialogHeader className="mb-3 text-center">
-            <DialogTitle className="text-sm font-black uppercase tracking-tight text-primary leading-tight">
+            <DialogTitle className="text-[11px] font-black uppercase tracking-tight text-primary leading-tight">
               Constituye ahora tu LLC
             </DialogTitle>
           </DialogHeader>
@@ -62,7 +62,7 @@ export function StateSelectorPopup({ isOpen, onOpenChange }: StateSelectorPopupP
                 <div className="flex items-center">
                   <div>
                     <p className="font-black uppercase tracking-tight text-primary text-[10px] leading-none mb-0.5">{state.name}</p>
-                    <p className="text-accent font-black text-[9px]">{state.price}</p>
+                    <p className="text-accent font-black text-[8px]">{state.price}</p>
                   </div>
                 </div>
                 <ArrowRight className="w-3 h-3 text-gray-300 group-hover:text-primary transition-colors" />
