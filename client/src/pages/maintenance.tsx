@@ -151,7 +151,7 @@ export default function MaintenanceApplication() {
     <div className="min-h-screen bg-background font-sans w-full">
       <Navbar />
       <main className="pt-24 pb-16 max-w-4xl mx-auto px-4 md:px-6">
-        <h1 className="text-3xl md:text-4xl font-bold uppercase mb-8 md:mb-12 text-primary leading-tight text-left">
+        <h1 className="text-3xl md:text-4xl font-black uppercase mb-8 md:mb-12 text-primary leading-tight text-left">
           Pack de <span className="text-accent">Mantenimiento</span> LLC
         </h1>
         
