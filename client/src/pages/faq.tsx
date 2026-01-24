@@ -151,11 +151,11 @@ export default function FAQ() {
             viewport={{ once: true }}
             variants={staggerContainer}
           >
-            <motion.h2 className="text-2xl sm:text-4xl lg:text-5xl font-bold text-primary uppercase tracking-tight text-center" variants={fadeIn}>
-              <span className="text-[#6EDC8A] uppercase tracking-widest text-xs sm:text-sm font-bold block mb-0 text-center">FAQ</span>
+            <motion.h2 className="text-2xl sm:text-4xl lg:text-5xl font-black text-primary uppercase tracking-tight text-center" variants={fadeIn}>
+              <span className="text-accent uppercase tracking-widest text-xs sm:text-sm font-black block mb-0 text-center">FAQ</span>
               Centro de Ayuda
             </motion.h2>
-            <motion.p className="hidden sm:block text-[#6EDC8A] font-bold uppercase tracking-wide text-base sm:text-lg mt-0.5 text-center" variants={fadeIn}>(Todo lo que necesitas saber)</motion.p>
+            <motion.p className="hidden sm:block text-accent font-black uppercase tracking-wide text-base sm:text-lg mt-0.5 text-center" variants={fadeIn}>(Todo lo que necesitas saber)</motion.p>
           </motion.div>
 
           <div className="max-w-4xl mx-auto">
