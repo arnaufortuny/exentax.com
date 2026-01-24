@@ -38,9 +38,9 @@ export function Footer() {
             <h4 className="font-bold text-base uppercase tracking-wider mb-5 border-b border-accent/30 pb-1 w-full">Enlaces</h4>
             <nav className="flex flex-col gap-3 text-base text-primary-foreground/70">
               <Link href="/" className="hover:text-primary-foreground transition-colors py-1">Inicio</Link>
-              <Link href="/servicios" className="hover:text-primary-foreground transition-colors py-1">Servicios</Link>
-              <button onClick={() => handleHashClick('/#pricing')} className="hover:text-primary-foreground transition-colors py-1 text-left">Precios</button>
-              <button onClick={() => handleHashClick('/#faq')} className="hover:text-primary-foreground transition-colors py-1 text-left">FAQ</button>
+              <Link href="/servicios" className="hover:text-primary-foreground transition-colors py-1">Nuestros Servicios</Link>
+              <Link href="/servicios#pricing" className="hover:text-primary-foreground transition-colors py-1 text-left">Precios</Link>
+              <Link href="/faq" className="hover:text-primary-foreground transition-colors py-1 text-left">FAQ</Link>
             </nav>
           </div>
           
@@ -86,9 +86,9 @@ export function Footer() {
             <h4 className="font-bold text-base uppercase tracking-wider mb-5">Enlaces</h4>
             <nav className="flex flex-col gap-3 text-base text-primary-foreground/70">
               <Link href="/" className="hover:text-primary-foreground transition-colors">Inicio</Link>
-              <Link href="/servicios" className="hover:text-primary-foreground transition-colors">Servicios</Link>
-              <button onClick={() => handleHashClick('/#pricing')} className="hover:text-primary-foreground transition-colors text-left">Precios</button>
-              <button onClick={() => handleHashClick('/#faq')} className="hover:text-primary-foreground transition-colors text-left">FAQ</button>
+              <Link href="/servicios" className="hover:text-primary-foreground transition-colors">Nuestros Servicios</Link>
+              <Link href="/servicios#pricing" className="hover:text-primary-foreground transition-colors text-left">Precios</Link>
+              <Link href="/faq" className="hover:text-primary-foreground transition-colors text-left">FAQ</Link>
             </nav>
           </div>
           
@@ -129,7 +129,7 @@ export function Footer() {
             <a href="https://mercury.com" target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity flex items-center gap-2 grayscale hover:grayscale-0">
               <img src={mercuryLogo} alt="Mercury" className="h-6 sm:h-7 w-auto brightness-0 invert" />
             </a>
-            <a href="https://relay.com" target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity flex items-center gap-2 grayscale hover:grayscale-0">
+            <a href="https://relayfi.com" target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity flex items-center gap-2 grayscale hover:grayscale-0">
               <img src={relayLogo} alt="Relay" className="h-6 sm:h-7 w-auto brightness-0 invert" />
             </a>
           </div>
