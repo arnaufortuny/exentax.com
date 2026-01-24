@@ -253,75 +253,8 @@ export default function Home() {
       </section>
 
       <NewsletterSection />
-      <FAQSection />
       <Footer />
     </div>
-  );
-}
-
-function FAQSection() {
-  const [openIndex, setOpenIndex] = useState<number | null>(null);
-
-  const faqs = [
-    {
-      question: "¿Qué necesito para empezar?",
-      answer: "Muy poco. Solo tu documento de identidad y algunos datos básicos sobre ti y tu actividad. No necesitas saber de trámites ni preparar nada complicado. Nosotros te guiamos desde el primer momento y revisamos todo antes de avanzar."
-    },
-    {
-      question: "¿Cuánto tarda realmente el proceso?",
-      answer: "Una vez tenemos la información completa, el proceso suele tardar entre 2 y 3 días hábiles. Nos movemos rápido, pero sin correr riesgos. Preferimos hacerlo bien desde el inicio para que tu LLC quede lista y sin problemas."
-    },
-    {
-      question: "¿El precio es final?",
-      answer: "Sí. El precio es claro y cerrado desde el primer momento. Todo lo necesario para constituir tu LLC está incluido, sin costes ocultos ni sorpresas después. Lo que ves es lo que pagas."
-    },
-    {
-      question: "¿Pagaré impuestos en Estados Unidos?",
-      answer: "Depende de tu caso y de cómo operes, pero no te preocupes: te lo explicamos de forma sencilla y honesta antes de empezar. Nuestro objetivo es que entiendas tu situación y tomes decisiones con tranquilidad."
-    },
-    {
-      question: "¿Puedo abrir cuenta bancaria y Stripe?",
-      answer: "Sí. Te acompañamos en la apertura de cuentas bancarias como Mercury o Relay y en plataformas de pago como Stripe. No estás solo en el proceso: te indicamos cómo hacerlo y qué tener en cuenta en cada paso."
-    },
-    {
-      question: "¿Para quién no es una LLC?",
-      answer: "Si solo trabajas a nivel local, no vendes online o no tienes actividad internacional, quizá una LLC no sea la mejor opción. Si ese es tu caso, también te lo diremos con total transparencia."
-    }
-  ];
-
-  return (
-    <section className="py-20 bg-background border-t border-foreground/5">
-      <div className="w-full px-5 sm:px-8">
-        <div className="max-w-3xl mx-auto">
-          <div className="text-left mb-12">
-            <h2 className="text-3xl sm:text-4xl font-black text-foreground uppercase tracking-tight mb-2">
-              <span className="text-accent uppercase tracking-widest text-sm font-black block mb-2">PREGUNTAS</span>
-              Preguntas frecuentes
-            </h2>
-            <p className="text-muted-foreground font-medium">Todo lo que necesitas saber antes de empezar.</p>
-          </div>
-
-          <div className="space-y-4">
-            {faqs.map((faq, i) => (
-              <div key={i} className="border border-foreground/10 rounded-2xl overflow-hidden bg-white shadow-sm">
-                <button
-                  className="w-full px-6 py-5 text-left flex justify-between items-center hover:bg-accent/5 transition-colors"
-                  onClick={() => setOpenIndex(openIndex === i ? null : i)}
-                >
-                  <span className="font-bold text-foreground pr-4">{faq.question}</span>
-                  <ChevronDown className={`w-5 h-5 text-accent transition-transform duration-300 ${openIndex === i ? 'rotate-180' : ''}`} />
-                </button>
-                {openIndex === i && (
-                  <div className="px-6 py-5 bg-accent/5 border-t border-foreground/5">
-                    <p className="text-muted-foreground leading-relaxed">{faq.answer}</p>
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    </section>
   );
 }
 
