@@ -229,11 +229,16 @@ export default function Contacto() {
                   </FormItem>
                 )} />
 
-                <div className="bg-[#6EDC8A]/5 p-6 md:p-8 rounded-[2rem] border border-[#6EDC8A]/20 space-y-4 relative overflow-hidden">
-                  <div className="absolute top-0 right-0 p-4 opacity-10">
-                    <Info className="w-12 h-12 text-[#6EDC8A]" />
+                <div className="bg-[#6EDC8A]/10 p-6 md:p-8 rounded-[2rem] border-2 border-[#6EDC8A]/30 space-y-4 relative overflow-hidden">
+                  <div className="absolute top-0 right-0 p-4 opacity-20">
+                    <Info className="w-16 h-16 text-[#6EDC8A]" />
                   </div>
-                  <h3 className="text-primary font-bold text-sm md:text-base">Nota tranquilizadora</h3>
+                  <h3 className="text-primary font-black text-sm md:text-base uppercase tracking-tight flex items-center gap-2">
+                    <div className="w-6 h-6 rounded-full bg-[#6EDC8A] flex items-center justify-center text-white shrink-0">
+                      <Info className="w-4 h-4 fill-current" />
+                    </div>
+                    Nota tranquilizadora
+                  </h3>
                   <p className="text-sm md:text-base font-medium text-primary/80 leading-relaxed">
                     Leemos personalmente todos los mensajes y respondemos lo antes posible. Si vemos que una LLC no es la mejor opción para ti, también te lo diremos.
                   </p>
