@@ -139,6 +139,10 @@ export const maintenanceApplications = pgTable("maintenance_applications", {
   emailOtpExpires: timestamp("email_otp_expires"),
   emailVerified: boolean("email_verified").notNull().default(false),
   notes: text("notes"),
+  wantsDissolve: text("wants_dissolve"),
+  authorizedManagement: boolean("authorized_management").notNull().default(false),
+  termsConsent: boolean("terms_consent").notNull().default(false),
+  dataProcessingConsent: boolean("data_processing_consent").notNull().default(false),
 });
 
 export const insertMaintenanceApplicationSchema = createInsertSchema(maintenanceApplications).omit({ id: true, lastUpdated: true });

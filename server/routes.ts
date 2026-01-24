@@ -525,7 +525,9 @@ export async function registerRoutes(
         "LLC": updatedApp.companyName,
         "EIN": updatedApp.ein,
         "Estado": updatedApp.state,
-        "Email": updatedApp.ownerEmail
+        "Email": updatedApp.ownerEmail,
+        "Disolver": updatedApp.wantsDissolve || "No",
+        "Servicios": updatedApp.expectedServices
       });
     }
     res.json(updatedApp);
