@@ -123,11 +123,11 @@ export default function Contacto() {
             <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mx-auto">
               <CheckCircle2 className="w-10 h-10 text-primary" />
             </div>
-            <h1 className="text-3xl md:text-5xl font-black tracking-tighter text-primary">¡Mensaje recibido!</h1>
+            <h1 className="text-3xl md:text-5xl font-bold tracking-tighter text-primary">¡Mensaje recibido!</h1>
             <p className="text-lg md:text-xl font-medium text-foreground/70 leading-relaxed">
               Hemos recibido tu consulta. Un experto de nuestro equipo la revisará y te contactará en menos de 24-48h laborables.
             </p>
-            <Button onClick={() => (window.location.href = "/")} className="bg-primary text-primary-foreground font-black px-10 py-7 rounded-full text-lg hover:scale-105 active:scale-95 transition-all"> Volver al inicio </Button>
+            <Button onClick={() => (window.location.href = "/")} className="bg-primary text-primary font-bold px-10 py-7 rounded-full text-lg hover:scale-105 active:scale-95 transition-all"> Volver al inicio </Button>
           </motion.div>
         </main>
         <Footer />
@@ -145,11 +145,11 @@ export default function Contacto() {
           whileInView="animate"
           viewport={{ once: true }}
         >
-          <motion.h2 className="text-2xl sm:text-4xl lg:text-5xl font-black text-primary uppercase tracking-tight text-center">
-            <span className="text-accent uppercase tracking-widest text-xs sm:text-sm font-black block mb-0 text-center">CONTACTO</span>
+          <motion.h2 className="text-2xl sm:text-4xl lg:text-5xl font-bold text-primary uppercase tracking-tight text-center">
+            <span className="text-accent uppercase  text-xs sm:text-sm font-bold block mb-0 text-center">CONTACTO</span>
             Contactanos
           </motion.h2>
-          <motion.p className="text-accent font-black uppercase tracking-wide text-base sm:text-lg mt-0.5 text-center">(Siempre listos para ayudarte)</motion.p>
+          <motion.p className="text-accent font-bold uppercase tracking-wide text-base sm:text-lg mt-0.5 text-center">(Siempre listos para ayudarte)</motion.p>
         </motion.div>
 
         <div className="grid grid-cols-1 gap-12">
@@ -280,7 +280,7 @@ export default function Contacto() {
                         </FormItem>
                       )} />
                     </div>
-                    <Button type="submit" disabled={isLoading} className="w-full bg-[#6EDC8A] text-primary font-black py-8 rounded-full text-lg md:text-xl tracking-widest hover:scale-[1.02] active:scale-95 transition-all shadow-2xl shadow-[#6EDC8A]/20">
+                    <Button type="submit" disabled={isLoading} className="w-full bg-[#6EDC8A] text-primary font-bold py-8 rounded-full text-lg md:text-xl  hover:scale-[1.02] active:scale-95 transition-all shadow-2xl shadow-[#6EDC8A]/20">
                       {isLoading ? <Loader2 className="animate-spin" /> : "Enviar mensaje"}
                     </Button>
                   </div>

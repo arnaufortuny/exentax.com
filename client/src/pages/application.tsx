@@ -176,7 +176,7 @@ export default function ApplicationWizard() {
     <div className="min-h-screen bg-background font-sans w-full">
       <Navbar />
       <main className="pt-24 pb-16 max-w-4xl mx-auto px-4 md:px-6">
-        <h1 className="text-3xl md:text-4xl font-black uppercase mb-8 md:mb-12 text-primary leading-tight text-left">
+        <h1 className="text-3xl md:text-4xl font-bold uppercase mb-8 md:mb-12 text-primary leading-tight text-left">
           Constituir mi <span className="text-accent">LLC</span>
         </h1>
         
@@ -185,7 +185,7 @@ export default function ApplicationWizard() {
             {/* STEP 0: Nombre Completo */}
             {step === 0 && (
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
-                <h2 className="text-xl md:text-2xl font-black uppercase text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
+                <h2 className="text-xl md:text-2xl font-bold uppercase text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
                   <User className="w-6 h-6 text-accent" /> 1️⃣ ¿Cómo te llamas?
                 </h2>
                 <FormDescription>Tal y como aparece en tu documento oficial</FormDescription>
@@ -205,7 +205,7 @@ export default function ApplicationWizard() {
             {/* STEP 1: Teléfono */}
             {step === 1 && (
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
-                <h2 className="text-xl md:text-2xl font-black uppercase text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
+                <h2 className="text-xl md:text-2xl font-bold uppercase text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
                   <Phone className="w-6 h-6 text-accent" /> 2️⃣ Teléfono de contacto
                 </h2>
                 <FormDescription>Para comunicarnos contigo rápidamente si hace falta</FormDescription>
@@ -228,7 +228,7 @@ export default function ApplicationWizard() {
             {/* STEP 2: Email */}
             {step === 2 && (
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
-                <h2 className="text-xl md:text-2xl font-black uppercase text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
+                <h2 className="text-xl md:text-2xl font-bold uppercase text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
                   <Mail className="w-6 h-6 text-accent" /> 3️⃣ Email
                 </h2>
                 <FormDescription>Aquí recibirás toda la documentación y avisos importantes</FormDescription>
@@ -242,7 +242,7 @@ export default function ApplicationWizard() {
                   </FormItem>
                 )} />
                 <div className="flex gap-3">
-                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-black border-gray-100 active:scale-95 transition-all text-sm md:text-base">Atrás</Button>
+                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-bold border-gray-100 active:scale-95 transition-all text-sm md:text-base">Atrás</Button>
                   <Button type="button" onClick={nextStep} className="flex-2 bg-[#6EDC8A] text-primary font-bold rounded-full h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all text-sm md:text-base">Siguiente</Button>
                 </div>
               </motion.div>
@@ -251,7 +251,7 @@ export default function ApplicationWizard() {
             {/* STEP 3: Fecha de Nacimiento */}
             {step === 3 && (
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
-                <h2 className="text-xl md:text-2xl font-black uppercase text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
+                <h2 className="text-xl md:text-2xl font-bold uppercase text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
                   <Calendar className="w-6 h-6 text-accent" /> 4️⃣ Fecha de nacimiento
                 </h2>
                 <FormField control={form.control} name="ownerBirthDate" render={({ field }) => (
@@ -265,7 +265,7 @@ export default function ApplicationWizard() {
                 )} />
                 <div className="flex gap-3">
                   <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-bold border-gray-200 active:scale-95 transition-all">Atrás</Button>
-                  <Button type="button" onClick={nextStep} className="flex-2 bg-[#6EDC8A] text-primary font-black rounded-full h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all">Siguiente</Button>
+                  <Button type="button" onClick={nextStep} className="flex-2 bg-[#6EDC8A] text-primary font-bold rounded-full h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all">Siguiente</Button>
                 </div>
               </motion.div>
             )}
@@ -273,13 +273,13 @@ export default function ApplicationWizard() {
             {/* STEP 4: Documento de Identidad */}
             {step === 4 && (
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
-                <h2 className="text-xl md:text-2xl font-black uppercase text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
+                <h2 className="text-xl md:text-2xl font-bold uppercase text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
                   <ShieldCheck className="w-6 h-6 text-accent" /> 5️⃣ Documento de identidad
                 </h2>
                 <div className="space-y-4">
                   <FormField control={form.control} name="ownerIdType" render={({ field }) => (
                     <FormItem className="space-y-3">
-                      <FormLabel className="font-black uppercase text-[10px] tracking-widest text-primary">Tipo de documento:</FormLabel>
+                      <FormLabel className="font-bold uppercase text-[10px]  text-primary">Tipo de documento:</FormLabel>
                       <FormControl>
                         <div className="flex flex-col gap-3">
                           {["DNI", "Pasaporte"].map((opt) => (
@@ -305,7 +305,7 @@ export default function ApplicationWizard() {
                 </div>
                 <div className="flex gap-3">
                   <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-bold border-gray-200 active:scale-95 transition-all">Atrás</Button>
-                  <Button type="button" onClick={nextStep} className="flex-2 bg-[#6EDC8A] text-primary font-black rounded-full h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all">Siguiente</Button>
+                  <Button type="button" onClick={nextStep} className="flex-2 bg-[#6EDC8A] text-primary font-bold rounded-full h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all">Siguiente</Button>
                 </div>
               </motion.div>
             )}
@@ -313,7 +313,7 @@ export default function ApplicationWizard() {
             {/* STEP 5: País de Residencia */}
             {step === 5 && (
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
-                <h2 className="text-xl md:text-2xl font-black uppercase text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
+                <h2 className="text-xl md:text-2xl font-bold uppercase text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
                   <Globe className="w-6 h-6 text-accent" /> 6️⃣ País de residencia
                 </h2>
                 <FormField control={form.control} name="ownerCountryResidency" render={({ field }) => (
@@ -327,7 +327,7 @@ export default function ApplicationWizard() {
                 )} />
                 <div className="flex gap-3">
                   <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-bold border-gray-200 active:scale-95 transition-all">Atrás</Button>
-                  <Button type="button" onClick={nextStep} className="flex-2 bg-[#6EDC8A] text-primary font-black rounded-full h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all">Siguiente</Button>
+                  <Button type="button" onClick={nextStep} className="flex-2 bg-[#6EDC8A] text-primary font-bold rounded-full h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all">Siguiente</Button>
                 </div>
               </motion.div>
             )}
@@ -335,7 +335,7 @@ export default function ApplicationWizard() {
             {/* STEP 6: Dirección Completa */}
             {step === 6 && (
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
-                <h2 className="text-xl md:text-2xl font-black uppercase text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
+                <h2 className="text-xl md:text-2xl font-bold uppercase text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
                   <MapPin className="w-6 h-6 text-accent" /> 7️⃣ Dirección completa
                 </h2>
                 <FormDescription>Calle, número, ciudad, código postal y país</FormDescription>
@@ -350,7 +350,7 @@ export default function ApplicationWizard() {
                 )} />
                 <div className="flex gap-3">
                   <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-bold border-gray-200 active:scale-95 transition-all">Atrás</Button>
-                  <Button type="button" onClick={nextStep} className="flex-2 bg-[#6EDC8A] text-primary font-black rounded-full h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all">Siguiente</Button>
+                  <Button type="button" onClick={nextStep} className="flex-2 bg-[#6EDC8A] text-primary font-bold rounded-full h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all">Siguiente</Button>
                 </div>
               </motion.div>
             )}
@@ -358,7 +358,7 @@ export default function ApplicationWizard() {
             {/* STEP 7: Nombre LLC */}
             {step === 7 && (
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
-                <h2 className="text-xl md:text-2xl font-black uppercase text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
+                <h2 className="text-xl md:text-2xl font-bold uppercase text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
                   <Building2 className="w-6 h-6 text-accent" /> 8️⃣ Nombre deseado para la LLC
                 </h2>
                 <FormDescription>Si tienes varias opciones, pon la principal aquí</FormDescription>
@@ -373,7 +373,7 @@ export default function ApplicationWizard() {
                 )} />
                 <div className="flex gap-3">
                   <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-bold border-gray-200 active:scale-95 transition-all">Atrás</Button>
-                  <Button type="button" onClick={nextStep} className="flex-2 bg-[#6EDC8A] text-primary font-black rounded-full h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all">Siguiente</Button>
+                  <Button type="button" onClick={nextStep} className="flex-2 bg-[#6EDC8A] text-primary font-bold rounded-full h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all">Siguiente</Button>
                 </div>
               </motion.div>
             )}
@@ -381,7 +381,7 @@ export default function ApplicationWizard() {
             {/* STEP 8: Actividad del Negocio */}
             {step === 8 && (
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
-                <h2 className="text-xl md:text-2xl font-black uppercase text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
+                <h2 className="text-xl md:text-2xl font-bold uppercase text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
                   <Briefcase className="w-6 h-6 text-accent" /> 9️⃣ Actividad del negocio
                 </h2>
                 <FormDescription>Explícanos brevemente a qué se dedicará tu empresa, con tus propias palabras</FormDescription>
@@ -393,7 +393,7 @@ export default function ApplicationWizard() {
                 )} />
                 <div className="flex gap-3">
                   <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-bold border-gray-200 active:scale-95 transition-all">Atrás</Button>
-                  <Button type="button" onClick={nextStep} className="flex-2 bg-[#6EDC8A] text-primary font-black rounded-full h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all">Siguiente</Button>
+                  <Button type="button" onClick={nextStep} className="flex-2 bg-[#6EDC8A] text-primary font-bold rounded-full h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all">Siguiente</Button>
                 </div>
               </motion.div>
             )}
@@ -401,7 +401,7 @@ export default function ApplicationWizard() {
             {/* STEP 9: Categoría del Negocio */}
             {step === 9 && (
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
-                <h2 className="text-xl md:text-2xl font-black uppercase text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
+                <h2 className="text-xl md:text-2xl font-bold uppercase text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
                   <Briefcase className="w-6 h-6 text-accent" /> 🔟 Categoría del negocio
                 </h2>
                 <FormDescription>Marca la opción que mejor describa tu negocio</FormDescription>
@@ -422,7 +422,7 @@ export default function ApplicationWizard() {
                 )} />
                 <div className="flex gap-3">
                   <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-bold border-gray-200 active:scale-95 transition-all">Atrás</Button>
-                  <Button type="button" onClick={nextStep} className="flex-2 bg-[#6EDC8A] text-primary font-black rounded-full h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all">Siguiente</Button>
+                  <Button type="button" onClick={nextStep} className="flex-2 bg-[#6EDC8A] text-primary font-bold rounded-full h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all">Siguiente</Button>
                 </div>
               </motion.div>
             )}
@@ -430,7 +430,7 @@ export default function ApplicationWizard() {
             {/* STEP 10: Banca */}
             {step === 10 && (
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
-                <h2 className="text-xl md:text-2xl font-black uppercase text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
+                <h2 className="text-xl md:text-2xl font-bold uppercase text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
                   <CreditCard className="w-6 h-6 text-accent" /> 1️⃣1️⃣ ¿Necesitas ayuda con la banca?
                 </h2>
                 <FormDescription>Te acompañamos durante el proceso si lo necesitas</FormDescription>
@@ -451,7 +451,7 @@ export default function ApplicationWizard() {
                 )} />
                 <div className="flex gap-3">
                   <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-bold border-gray-200 active:scale-95 transition-all">Atrás</Button>
-                  <Button type="button" onClick={nextStep} className="flex-2 bg-[#6EDC8A] text-primary font-black rounded-full h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all">Siguiente</Button>
+                  <Button type="button" onClick={nextStep} className="flex-2 bg-[#6EDC8A] text-primary font-bold rounded-full h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all">Siguiente</Button>
                 </div>
               </motion.div>
             )}
@@ -459,7 +459,7 @@ export default function ApplicationWizard() {
             {/* STEP 11: Notas */}
             {step === 11 && (
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
-                <h2 className="text-xl md:text-2xl font-black uppercase text-primary border-b border-[#6EDC8A]/20 pb-2 leading-tight flex items-center gap-2">
+                <h2 className="text-xl md:text-2xl font-bold uppercase text-primary border-b border-[#6EDC8A]/20 pb-2 leading-tight flex items-center gap-2">
                   <Info className="w-6 h-6 text-[#6EDC8A]" /> 1️⃣2️⃣ Información adicional
                 </h2>
                 <FormDescription>¿Algo que debamos saber antes de empezar? Dudas o peticiones especiales</FormDescription>
@@ -471,7 +471,7 @@ export default function ApplicationWizard() {
                 )} />
                 <div className="flex gap-3">
                   <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-bold border-gray-200 active:scale-95 transition-all">Atrás</Button>
-                  <Button type="button" onClick={nextStep} className="flex-2 bg-[#6EDC8A] text-primary font-black rounded-full h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all">Siguiente</Button>
+                  <Button type="button" onClick={nextStep} className="flex-2 bg-[#6EDC8A] text-primary font-bold rounded-full h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all">Siguiente</Button>
                 </div>
               </motion.div>
             )}
@@ -479,18 +479,18 @@ export default function ApplicationWizard() {
             {/* STEP 12: Resumen Final */}
             {step === 12 && (
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
-                <h2 className="text-xl md:text-2xl font-black uppercase text-primary border-b border-[#6EDC8A]/20 pb-2 leading-tight flex items-center gap-2">
+                <h2 className="text-xl md:text-2xl font-bold uppercase text-primary border-b border-[#6EDC8A]/20 pb-2 leading-tight flex items-center gap-2">
                   <Check className="w-6 h-6 text-[#6EDC8A]" /> Resumen Final
                 </h2>
                 <div className="bg-[#6EDC8A]/5 p-6 md:p-8 rounded-[2rem] border border-[#6EDC8A]/20 space-y-4">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs md:text-sm">
-                    <p className="flex justify-between md:block"><span className="opacity-50 text-[10px] md:text-xs uppercase font-black text-primary">Email:</span> <span className="font-bold text-primary">{form.getValues("ownerEmail")}</span></p>
-                    <p className="flex justify-between md:block"><span className="opacity-50 text-[10px] md:text-xs uppercase font-black text-primary">LLC:</span> <span className="font-bold text-primary">{form.getValues("companyName")}</span></p>
-                    <p className="flex justify-between md:block"><span className="opacity-50 text-[10px] md:text-xs uppercase font-black text-primary">Estado:</span> <span className="font-bold text-primary">{stateFromUrl}</span></p>
+                    <p className="flex justify-between md:block"><span className="opacity-50 text-[10px] md:text-xs uppercase font-bold text-primary">Email:</span> <span className="font-bold text-primary">{form.getValues("ownerEmail")}</span></p>
+                    <p className="flex justify-between md:block"><span className="opacity-50 text-[10px] md:text-xs uppercase font-bold text-primary">LLC:</span> <span className="font-bold text-primary">{form.getValues("companyName")}</span></p>
+                    <p className="flex justify-between md:block"><span className="opacity-50 text-[10px] md:text-xs uppercase font-bold text-primary">Estado:</span> <span className="font-bold text-primary">{stateFromUrl}</span></p>
                   </div>
                 </div>
                 <div className="flex gap-3">
-                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-black border-gray-200 active:scale-95 transition-all text-sm md:text-base">Atrás</Button>
+                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-bold border-gray-200 active:scale-95 transition-all text-sm md:text-base">Atrás</Button>
                   <Button type="button" onClick={nextStep} className="flex-2 bg-[#6EDC8A] text-primary font-bold rounded-full h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all">Verificar email</Button>
                 </div>
               </motion.div>
@@ -499,7 +499,7 @@ export default function ApplicationWizard() {
             {/* STEP 13: Verificación OTP */}
             {step === 13 && (
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
-                <h2 className="text-xl md:text-2xl font-black uppercase text-primary border-b border-[#6EDC8A]/20 pb-2 leading-tight flex items-center gap-2">
+                <h2 className="text-xl md:text-2xl font-bold uppercase text-primary border-b border-[#6EDC8A]/20 pb-2 leading-tight flex items-center gap-2">
                   <ShieldCheck className="w-6 h-6 text-[#6EDC8A]" /> Verificación
                 </h2>
                 {!isOtpSent ? (
@@ -508,16 +508,16 @@ export default function ApplicationWizard() {
                   <div className="space-y-4">
                     <FormField control={form.control} name="otp" render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="font-black uppercase text-[10px] tracking-widest text-primary">Código de 6 dígitos:</FormLabel>
-                        <FormControl><Input {...field} className="rounded-full h-14 px-6 text-center text-2xl border-gray-200 focus:border-[#6EDC8A] font-black text-primary" placeholder="000000" /></FormControl>
+                        <FormLabel className="font-bold uppercase text-[10px]  text-primary">Código de 6 dígitos:</FormLabel>
+                        <FormControl><Input {...field} className="rounded-full h-14 px-6 text-center text-2xl border-gray-200 focus:border-[#6EDC8A] font-bold text-primary" placeholder="000000" /></FormControl>
                         <FormMessage />
                       </FormItem>
                     )} />
-                    {!isEmailVerified && <Button type="button" onClick={verifyOtp} className="w-full bg-primary text-white py-7 rounded-full font-black text-lg active:scale-95 transition-all">Verificar</Button>}
+                    {!isEmailVerified && <Button type="button" onClick={verifyOtp} className="w-full bg-primary text-white py-7 rounded-full font-bold text-lg active:scale-95 transition-all">Verificar</Button>}
                   </div>
                 )}
                 <div className="flex gap-3">
-                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-black border-gray-200 active:scale-95 transition-all text-sm md:text-base">Atrás</Button>
+                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-bold border-gray-200 active:scale-95 transition-all text-sm md:text-base">Atrás</Button>
                   <Button type="button" onClick={nextStep} className="flex-2 bg-[#6EDC8A] text-primary font-bold rounded-full h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all">Verificar email</Button>
                 </div>
               </motion.div>
@@ -526,7 +526,7 @@ export default function ApplicationWizard() {
             {/* STEP 14: Confirmación y Pago */}
             {step === 14 && (
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-8 text-left">
-                <h2 className="text-xl md:text-2xl font-black uppercase text-primary border-b border-[#6EDC8A]/20 pb-2 leading-tight">✅ Confirmación</h2>
+                <h2 className="text-xl md:text-2xl font-bold uppercase text-primary border-b border-[#6EDC8A]/20 pb-2 leading-tight">✅ Confirmación</h2>
                 <div className="space-y-3">
                   <FormField control={form.control} name="dataProcessingConsent" render={({ field }) => (
                     <FormItem className="flex items-start gap-4 p-4 rounded-[2rem] border border-gray-200 bg-white hover:border-[#6EDC8A] cursor-pointer transition-all active:scale-[0.98]">
@@ -544,10 +544,10 @@ export default function ApplicationWizard() {
                   )} />
                 </div>
                 <div className="flex flex-col gap-4 pt-4">
-                  <Button type="submit" className="w-full bg-[#6EDC8A] text-primary font-bold py-8 rounded-full text-lg md:text-xl tracking-widest hover:scale-[1.02] active:scale-95 transition-all shadow-xl shadow-[#6EDC8A]/20">
+                  <Button type="submit" className="w-full bg-[#6EDC8A] text-primary font-bold py-8 rounded-full text-lg md:text-xl  hover:scale-[1.02] active:scale-95 transition-all shadow-xl shadow-[#6EDC8A]/20">
                     🚀 Iniciar Constitución
                   </Button>
-                  <Button type="button" variant="ghost" onClick={() => setStep(0)} className="text-primary/50 font-bold uppercase text-[10px] tracking-widest">Reiniciar</Button>
+                  <Button type="button" variant="ghost" onClick={() => setStep(0)} className="text-primary/50 font-bold uppercase text-[10px] ">Reiniciar</Button>
                 </div>
               </motion.div>
             )}

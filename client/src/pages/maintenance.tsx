@@ -151,7 +151,7 @@ export default function MaintenanceApplication() {
     <div className="min-h-screen bg-background font-sans w-full">
       <Navbar />
       <main className="pt-24 pb-16 max-w-4xl mx-auto px-4 md:px-6">
-        <h1 className="text-3xl md:text-4xl font-black uppercase mb-8 md:mb-12 text-primary leading-tight text-left">
+        <h1 className="text-3xl md:text-4xl font-bold uppercase mb-8 md:mb-12 text-primary leading-tight text-left">
           Pack de <span className="text-accent">Mantenimiento</span> LLC
         </h1>
         
@@ -160,7 +160,7 @@ export default function MaintenanceApplication() {
             {/* STEP 0: Ya tienes LLC? */}
             {step === 0 && (
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
-                <h2 className="text-xl md:text-2xl font-black uppercase text-primary border-b border-[#6EDC8A]/20 pb-2 leading-tight flex items-center gap-2">
+                <h2 className="text-xl md:text-2xl font-bold uppercase text-primary border-b border-[#6EDC8A]/20 pb-2 leading-tight flex items-center gap-2">
                   <Building2 className="w-6 h-6 text-[#6EDC8A]" /> 1️⃣ ¿Ya tienes una LLC creada?
                 </h2>
                 <FormDescription>Para saber desde dónde partimos</FormDescription>
@@ -186,7 +186,7 @@ export default function MaintenanceApplication() {
             {/* STEP 1: Nombre Completo */}
             {step === 1 && (
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
-                <h2 className="text-xl md:text-2xl font-black uppercase text-primary border-b border-[#6EDC8A]/20 pb-2 leading-tight flex items-center gap-2">
+                <h2 className="text-xl md:text-2xl font-bold uppercase text-primary border-b border-[#6EDC8A]/20 pb-2 leading-tight flex items-center gap-2">
                   <User className="w-6 h-6 text-[#6EDC8A]" /> 2️⃣ Nombre completo
                 </h2>
                 <FormDescription>El de los documentos oficiales</FormDescription>
@@ -209,7 +209,7 @@ export default function MaintenanceApplication() {
             {/* STEP 2: Teléfono */}
             {step === 2 && (
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
-                <h2 className="text-xl md:text-2xl font-black uppercase text-primary border-b border-[#6EDC8A]/20 pb-2 leading-tight flex items-center gap-2">
+                <h2 className="text-xl md:text-2xl font-bold uppercase text-primary border-b border-[#6EDC8A]/20 pb-2 leading-tight flex items-center gap-2">
                   <Phone className="w-6 h-6 text-[#6EDC8A]" /> 3️⃣ Teléfono de contacto
                 </h2>
                 <FormDescription>Para avisos importantes y comunicación rápida</FormDescription>
@@ -232,7 +232,7 @@ export default function MaintenanceApplication() {
             {/* STEP 3: Email */}
             {step === 3 && (
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
-                <h2 className="text-xl md:text-2xl font-black uppercase text-primary border-b border-[#6EDC8A]/20 pb-2 leading-tight flex items-center gap-2">
+                <h2 className="text-xl md:text-2xl font-bold uppercase text-primary border-b border-[#6EDC8A]/20 pb-2 leading-tight flex items-center gap-2">
                   <Mail className="w-6 h-6 text-[#6EDC8A]" /> 4️⃣ Email
                 </h2>
                 <FormDescription>Aquí recibirás recordatorios y documentación</FormDescription>
@@ -255,7 +255,7 @@ export default function MaintenanceApplication() {
             {/* STEP 4: Nombre Legal LLC */}
             {step === 4 && (
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
-                <h2 className="text-xl md:text-2xl font-black uppercase text-primary border-b border-[#6EDC8A]/20 pb-2 leading-tight flex items-center gap-2">
+                <h2 className="text-xl md:text-2xl font-bold uppercase text-primary border-b border-[#6EDC8A]/20 pb-2 leading-tight flex items-center gap-2">
                   <Building2 className="w-6 h-6 text-[#6EDC8A]" /> 5️⃣ Nombre legal de la LLC
                 </h2>
                 <FormDescription>Tal y como figura en los documentos oficiales</FormDescription>
@@ -278,7 +278,7 @@ export default function MaintenanceApplication() {
             {/* STEP 5: EIN */}
             {step === 5 && (
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
-                <h2 className="text-xl md:text-2xl font-black uppercase text-primary border-b border-[#6EDC8A]/20 pb-2 leading-tight flex items-center gap-2">
+                <h2 className="text-xl md:text-2xl font-bold uppercase text-primary border-b border-[#6EDC8A]/20 pb-2 leading-tight flex items-center gap-2">
                   <ShieldCheck className="w-6 h-6 text-[#6EDC8A]" /> 6️⃣ EIN
                 </h2>
                 <FormDescription>El número fiscal de tu empresa en EE. UU.</FormDescription>
@@ -301,7 +301,7 @@ export default function MaintenanceApplication() {
             {/* STEP 6: Estado de constitución */}
             {step === 6 && (
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
-                <h2 className="text-xl md:text-2xl font-black uppercase text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
+                <h2 className="text-xl md:text-2xl font-bold uppercase text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
                   <Globe className="w-6 h-6 text-accent" /> 7️⃣ Estado de constitución
                 </h2>
                 <FormDescription>Cada estado tiene sus propios plazos</FormDescription>
@@ -326,7 +326,7 @@ export default function MaintenanceApplication() {
             {/* STEP 7: Actividad */}
             {step === 7 && (
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
-                <h2 className="text-xl md:text-2xl font-black uppercase text-primary border-b border-[#6EDC8A]/20 pb-2 leading-tight flex items-center gap-2">
+                <h2 className="text-xl md:text-2xl font-bold uppercase text-primary border-b border-[#6EDC8A]/20 pb-2 leading-tight flex items-center gap-2">
                   <Briefcase className="w-6 h-6 text-[#6EDC8A]" /> 8️⃣ Actividad
                 </h2>
                 <FormDescription>Tipo de negocio o producto</FormDescription>
@@ -346,7 +346,7 @@ export default function MaintenanceApplication() {
             {/* STEP 8: Servicios */}
             {step === 8 && (
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
-                <h2 className="text-xl md:text-2xl font-black uppercase text-primary border-b border-[#6EDC8A]/20 pb-2 leading-tight flex items-center gap-2">
+                <h2 className="text-xl md:text-2xl font-bold uppercase text-primary border-b border-[#6EDC8A]/20 pb-2 leading-tight flex items-center gap-2">
                   <CheckSquare className="w-6 h-6 text-[#6EDC8A]" /> 9️⃣ ¿Qué necesitas gestionar?
                 </h2>
                 <FormDescription>Marca lo que aplique</FormDescription>
@@ -382,7 +382,7 @@ export default function MaintenanceApplication() {
             {/* STEP 9: Disolver? */}
             {step === 9 && (
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
-                <h2 className="text-xl md:text-2xl font-black uppercase text-primary border-b border-[#6EDC8A]/20 pb-2 leading-tight flex items-center gap-2">
+                <h2 className="text-xl md:text-2xl font-bold uppercase text-primary border-b border-[#6EDC8A]/20 pb-2 leading-tight flex items-center gap-2">
                   <Trash2 className="w-6 h-6 text-[#6EDC8A]" /> 🔟 ¿Deseas disolver tu LLC?
                 </h2>
                 <FormDescription>Si necesitas cerrar la empresa de forma correcta y ordenada</FormDescription>
@@ -411,15 +411,15 @@ export default function MaintenanceApplication() {
             {/* STEP 10: Resumen */}
             {step === 10 && (
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
-                <h2 className="text-xl md:text-2xl font-black uppercase text-primary border-b border-[#6EDC8A]/20 pb-2 leading-tight flex items-center gap-2">
+                <h2 className="text-xl md:text-2xl font-bold uppercase text-primary border-b border-[#6EDC8A]/20 pb-2 leading-tight flex items-center gap-2">
                   <Info className="w-6 h-6 text-[#6EDC8A]" /> Revisión Final
                 </h2>
                 <div className="bg-[#6EDC8A]/5 p-6 md:p-8 rounded-[2rem] border border-[#6EDC8A]/20 space-y-4">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs md:text-sm">
-                    <p className="flex justify-between md:block"><span className="opacity-50 font-black uppercase text-[10px] text-primary">Email:</span> <span className="font-bold text-primary">{form.getValues("ownerEmail")}</span></p>
-                    <p className="flex justify-between md:block"><span className="opacity-50 font-black uppercase text-[10px] text-primary">LLC:</span> <span className="font-bold text-primary">{form.getValues("companyName")}</span></p>
-                    <p className="flex justify-between md:block"><span className="opacity-50 font-black uppercase text-[10px] text-primary">Estado:</span> <span className="font-bold text-primary">{form.getValues("state")}</span></p>
-                    <p className="flex justify-between md:block"><span className="opacity-50 font-black uppercase text-[10px] text-primary">Disolver:</span> <span className="font-bold text-primary">{form.getValues("wantsDissolve")}</span></p>
+                    <p className="flex justify-between md:block"><span className="opacity-50 font-bold uppercase text-[10px] text-primary">Email:</span> <span className="font-bold text-primary">{form.getValues("ownerEmail")}</span></p>
+                    <p className="flex justify-between md:block"><span className="opacity-50 font-bold uppercase text-[10px] text-primary">LLC:</span> <span className="font-bold text-primary">{form.getValues("companyName")}</span></p>
+                    <p className="flex justify-between md:block"><span className="opacity-50 font-bold uppercase text-[10px] text-primary">Estado:</span> <span className="font-bold text-primary">{form.getValues("state")}</span></p>
+                    <p className="flex justify-between md:block"><span className="opacity-50 font-bold uppercase text-[10px] text-primary">Disolver:</span> <span className="font-bold text-primary">{form.getValues("wantsDissolve")}</span></p>
                   </div>
                 </div>
                 <div className="flex gap-3">
@@ -432,7 +432,7 @@ export default function MaintenanceApplication() {
             {/* STEP 11: Verificación */}
             {step === 11 && (
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
-                <h2 className="text-xl md:text-2xl font-black uppercase text-primary border-b border-[#6EDC8A]/20 pb-2 leading-tight flex items-center gap-2">
+                <h2 className="text-xl md:text-2xl font-bold uppercase text-primary border-b border-[#6EDC8A]/20 pb-2 leading-tight flex items-center gap-2">
                   <ShieldCheck className="w-6 h-6 text-[#6EDC8A]" /> Verificación
                 </h2>
                 {!isOtpSent ? (
@@ -441,12 +441,12 @@ export default function MaintenanceApplication() {
                   <div className="space-y-4">
                     <FormField control={form.control} name="otp" render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="font-black uppercase text-[10px] md:text-xs tracking-widest text-primary">Código de 6 dígitos:</FormLabel>
-                        <FormControl><Input {...field} className="rounded-full h-14 px-6 text-center text-2xl border-gray-200 focus:border-[#6EDC8A] font-black text-primary placeholder:text-primary/30" placeholder="000000" /></FormControl>
+                        <FormLabel className="font-bold uppercase text-[10px] md:text-xs  text-primary">Código de 6 dígitos:</FormLabel>
+                        <FormControl><Input {...field} className="rounded-full h-14 px-6 text-center text-2xl border-gray-200 focus:border-[#6EDC8A] font-bold text-primary placeholder:text-primary/30" placeholder="000000" /></FormControl>
                         <FormMessage />
                       </FormItem>
                     )} />
-                    <Button type="button" onClick={verifyOtp} className="w-full bg-[#6EDC8A] text-primary py-7 rounded-full font-black text-lg active:scale-95 transition-all">Verificar</Button>
+                    <Button type="button" onClick={verifyOtp} className="w-full bg-[#6EDC8A] text-primary py-7 rounded-full font-bold text-lg active:scale-95 transition-all">Verificar</Button>
                   </div>
                 )}
                 <div className="flex gap-3">
@@ -459,7 +459,7 @@ export default function MaintenanceApplication() {
             {/* STEP 12: Pago y Confirmación */}
             {step === 12 && (
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-8 text-left">
-                <h2 className="text-xl md:text-2xl font-black uppercase text-primary border-b border-[#6EDC8A]/20 pb-2 leading-tight flex items-center gap-2">
+                <h2 className="text-xl md:text-2xl font-bold uppercase text-primary border-b border-[#6EDC8A]/20 pb-2 leading-tight flex items-center gap-2">
                   <CreditCard className="w-6 h-6 text-[#6EDC8A]" /> Pago y Confirmación
                 </h2>
                 <div className="bg-[#6EDC8A]/5 p-6 md:p-8 rounded-[2rem] border border-[#6EDC8A]/20 space-y-3">
@@ -485,10 +485,10 @@ export default function MaintenanceApplication() {
                   )} />
                 </div>
                 <div className="flex flex-col gap-4 pt-4">
-                  <Button type="submit" className="w-full bg-[#6EDC8A] text-primary font-bold py-8 rounded-full text-lg md:text-xl tracking-widest hover:scale-[1.02] active:scale-95 transition-all shadow-xl shadow-[#6EDC8A]/20">
+                  <Button type="submit" className="w-full bg-[#6EDC8A] text-primary font-bold py-8 rounded-full text-lg md:text-xl  hover:scale-[1.02] active:scale-95 transition-all shadow-xl shadow-[#6EDC8A]/20">
                     🚀 Enviar y Pagar
                   </Button>
-                  <Button type="button" variant="ghost" onClick={() => setStep(0)} className="text-primary/50 font-bold uppercase text-[10px] tracking-widest">Reiniciar</Button>
+                  <Button type="button" variant="ghost" onClick={() => setStep(0)} className="text-primary/50 font-bold uppercase text-[10px] ">Reiniciar</Button>
                 </div>
               </motion.div>
             )}
