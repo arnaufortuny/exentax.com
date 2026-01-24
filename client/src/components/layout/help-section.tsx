@@ -19,37 +19,39 @@ export function HelpSection() {
     <section className="bg-background py-8 md:py-20 border-t border-accent/10 w-full flex justify-center items-center font-sans">
       <AnimatePresence>
         {showPopup && (
-          <div className="fixed inset-0 z-[999] flex items-center justify-center p-4">
-            {/* Fondo extremadamente claro y sutil */}
+          <div className="fixed inset-0 z-[9999] flex items-center justify-center pointer-events-none">
+            {/* SIN FONDO NEGRO, SOLO TRANSPARENTE */}
             <div 
-              className="absolute inset-0 bg-white/10 backdrop-blur-[1px]" 
+              className="absolute inset-0 bg-transparent pointer-events-auto" 
               onClick={() => setShowPopup(false)}
             />
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
-              className="relative w-[210px] bg-white rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.1)] border border-accent/20 overflow-hidden"
+              className="relative w-[220px] bg-white rounded-xl shadow-[0_10px_40px_rgba(0,0,0,0.15)] border border-accent/30 overflow-hidden pointer-events-auto mx-auto"
+              style={{ position: 'fixed', left: '50%', top: '50%', transform: 'translate(-50%, -50%)' }}
             >
               <button 
                 onClick={() => setShowPopup(false)}
-                className="absolute top-1 right-1 p-1 hover:bg-accent/10 rounded-full transition-colors z-[1000]"
+                className="absolute top-1 right-1 p-1 hover:bg-accent/10 rounded-full transition-colors z-[10000]"
               >
-                <X className="w-4 h-4 text-primary/30" />
+                <X className="w-4 h-4 text-primary/40" />
               </button>
               <div className="p-4 text-center">
-                <div className="flex justify-center mb-2">
-                  <img src={logoIcon} alt="Easy US LLC" className="w-7 h-7 object-contain" />
+                {/* LOGO SIN CONTENEDORES CIRCULARES, SOLO LA IMAGEN PNG */}
+                <div className="flex justify-center mb-2 bg-transparent">
+                  <img src={logoIcon} alt="Easy US LLC" className="w-8 h-8 object-contain" style={{ background: 'none', border: 'none', borderRadius: '0' }} />
                 </div>
                 
-                <div className="space-y-1.5">
-                  <h4 className="font-black text-[10px] leading-tight text-primary uppercase tracking-tight">
+                <div className="space-y-2">
+                  <h4 className="font-black text-xs leading-tight text-primary uppercase tracking-tight">
                     Mantenimiento LLC
                   </h4>
                   <div className="pt-1">
                     <Link href="/servicios">
                       <Button 
-                        className="w-full bg-accent text-accent-foreground font-black text-[9px] h-7 rounded-full shadow-lg shadow-accent/10 hover:scale-[1.02] transition-transform uppercase"
+                        className="w-full bg-accent text-accent-foreground font-black text-[10px] h-8 rounded-full shadow-lg shadow-accent/20 hover:scale-[1.02] transition-transform uppercase"
                         onClick={() => setShowPopup(false)}
                       >
                         Ver Planes →
