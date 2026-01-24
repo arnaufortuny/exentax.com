@@ -480,7 +480,7 @@ export default function Servicios() {
               Centro de Ayuda
             </motion.h2>
           </motion.div>
-          <div className="max-w-3xl mx-auto space-y-3 sm:space-y-4">
+          <div className="space-y-3">
             {[
               {
                 q: "¿Qué necesito para empezar?",
@@ -506,39 +506,34 @@ export default function Servicios() {
                 q: "¿Para quién no es una LLC?",
                 a: "Si solo trabajas a nivel local, no vendes online o no tienes actividad internacional, quizá una LLC no sea la mejor opción. Si ese es tu caso, también te lo diremos con total transparencia."
               }
-            ].map((faq, i) => (
-              <motion.div 
-                key={i}
-                initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
-                className="rounded-2xl border border-accent/20 bg-white overflow-hidden shadow-sm hover:shadow-md transition-shadow"
+            ].map((item, i) => (
+              <div 
+                key={i} 
+                className={`group transition-all duration-200 border-2 rounded-xl sm:rounded-2xl overflow-hidden ${
+                  openFaq === i 
+                    ? "border-accent bg-accent/[0.03]" 
+                    : "border-primary/5 hover:border-accent/30 bg-white"
+                }`}
               >
-                <button 
+                <button
                   onClick={() => setOpenFaq(openFaq === i ? null : i)}
-                  className="w-full px-6 py-4 sm:py-5 flex items-center justify-between text-left group"
+                  className="w-full px-4 sm:px-6 py-4 sm:py-6 text-left flex items-center justify-between gap-3 sm:gap-4 touch-manipulation"
                 >
-                  <span className="font-black text-sm sm:text-base text-primary uppercase tracking-tight leading-tight pr-4">
-                    {faq.q}
+                  <span className="font-bold text-primary text-sm sm:text-lg leading-tight tracking-tight">
+                    {item.q}
                   </span>
-                  <ChevronDown className={`w-5 h-5 text-accent transition-transform shrink-0 ${openFaq === i ? 'rotate-180' : ''}`} />
+                  <span className={`text-xl sm:text-2xl transition-transform duration-200 shrink-0 ${
+                    openFaq === i ? "rotate-45 text-accent" : "text-primary/30"
+                  }`}>
+                    +
+                  </span>
                 </button>
-                <AnimatePresence>
-                  {openFaq === i && (
-                    <motion.div 
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: "auto", opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.3, ease: "easeInOut" }}
-                    >
-                      <div className="px-6 pb-5 sm:pb-6 text-sm sm:text-base text-muted-foreground border-t border-accent/10 pt-4 leading-relaxed text-left">
-                        {faq.a}
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </motion.div>
+                {openFaq === i && (
+                  <div className="px-4 sm:px-6 pb-4 sm:pb-6 text-primary/90 text-xs sm:text-base leading-relaxed border-t border-accent/20 pt-3 sm:pt-4 animate-in fade-in slide-in-from-top-2 font-medium bg-accent/5">
+                    {item.a}
+                  </div>
+                )}
+              </div>
             ))}
           </div>
 
