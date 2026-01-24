@@ -67,7 +67,7 @@ export function NewsletterSection() {
               <Input 
                 type="email" 
                 inputMode="email"
-                placeholder="Tu email" 
+                placeholder="Indícanos tu email" 
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="h-10 md:h-14 pl-4 pr-12 rounded-full border-2 border-foreground/10 bg-background/40 text-foreground placeholder:text-foreground/40 text-xs md:text-base font-bold focus:border-foreground focus:bg-background focus:ring-0 transition-all shadow-inner w-full text-left"
