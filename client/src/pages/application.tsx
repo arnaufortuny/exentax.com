@@ -316,11 +316,11 @@ export default function ApplicationWizard() {
             </motion.h1>
           </div>
 
-          <div className="space-y-6 mb-20">
+          <div className="space-y-6 mb-20 w-full">
             <Form {...form}>
-              <form className="space-y-6">
+              <form className="space-y-6 w-full text-left">
                 {STEPS_DATA.map((s, i) => (
-                  <div key={s.n} className="bg-background rounded-[2rem] shadow-xl border border-gray-100 overflow-hidden transition-all duration-500">
+                  <div key={s.n} className="bg-background rounded-[2rem] shadow-xl border border-gray-100 overflow-hidden transition-all duration-500 w-full">
                     <div 
                       className={`p-6 flex items-center gap-6 transition-colors cursor-default ${
                         step === i ? 'bg-accent/10' : 'bg-background'
@@ -331,7 +331,7 @@ export default function ApplicationWizard() {
                       }`}>
                         {step > i ? <Check className="w-7 h-7 text-primary stroke-[4]" /> : s.n}
                       </div>
-                      <div className="flex-1">
+                      <div className="flex-1 text-left">
                         <span className={`text-[11px] uppercase font-black tracking-widest block ${
                           step >= i ? 'text-primary' : 'text-gray-400'
                         }`}>
@@ -354,19 +354,19 @@ export default function ApplicationWizard() {
                           exit={{ height: 0, opacity: 0 }}
                           transition={{ duration: 0.4, ease: "easeInOut" }}
                         >
-                          <div className="p-8 pt-2 md:p-12 md:pt-4 border-t border-gray-50">
+                          <div className="p-8 pt-2 md:p-12 md:pt-4 border-t border-gray-50 text-left w-full">
                             {step === 0 && (
-                              <div className="space-y-8">
-                                <div className="grid grid-cols-1 gap-5">
+                              <div className="space-y-8 w-full text-left">
+                                <div className="grid grid-cols-1 gap-5 w-full text-left">
                                   <FormField
                                     control={form.control}
                                     name="state"
                                     render={({ field }) => (
-                                      <FormItem>
-                                        <FormLabel className="font-black text-sm text-primary mb-1.5 block uppercase tracking-tight">Estado de Constitución</FormLabel>
+                                      <FormItem className="text-left">
+                                        <FormLabel className="font-black text-sm text-primary mb-1.5 block uppercase tracking-tight text-left">Estado de Constitución</FormLabel>
                                         <Select onValueChange={field.onChange} defaultValue={field.value || stateFromUrl}>
                                           <FormControl>
-                                            <SelectTrigger className="rounded-3xl border-gray-200 bg-white h-12 md:h-14 px-4 focus:ring-accent font-medium text-base text-primary">
+                                            <SelectTrigger className="rounded-3xl border-gray-200 bg-white h-12 md:h-14 px-4 focus:ring-accent font-medium text-base text-primary text-left">
                                               <SelectValue placeholder="Selecciona un estado" />
                                             </SelectTrigger>
                                           </FormControl>
@@ -376,7 +376,7 @@ export default function ApplicationWizard() {
                                             <SelectItem value="Delaware">Delaware</SelectItem>
                                           </SelectContent>
                                         </Select>
-                                        <FormMessage />
+                                        <FormMessage className="text-left" />
                                       </FormItem>
                                     )}
                                   />
@@ -384,22 +384,22 @@ export default function ApplicationWizard() {
                                     control={form.control}
                                     name="ownerFullName"
                                     render={({ field }) => (
-                                      <FormItem>
-                                        <FormLabel className="font-black text-sm text-primary mb-1.5 block uppercase tracking-tight">Nombre Completo</FormLabel>
-                                        <FormControl><Input {...field} value={field.value || ""} className="rounded-3xl border-gray-200 bg-gray-50/30 h-12 md:h-14 px-6 focus:border-accent focus:ring-accent transition-all font-medium text-base text-primary" placeholder="" /></FormControl>
-                                        <FormMessage className="font-bold text-[10px] mt-1.5" />
+                                      <FormItem className="text-left">
+                                        <FormLabel className="font-black text-sm text-primary mb-1.5 block uppercase tracking-tight text-left">Nombre Completo</FormLabel>
+                                        <FormControl><Input {...field} value={field.value || ""} className="rounded-3xl border-gray-200 bg-gray-50/30 h-12 md:h-14 px-6 focus:border-accent focus:ring-accent transition-all font-medium text-base text-primary text-left" placeholder="" /></FormControl>
+                                        <FormMessage className="font-bold text-[10px] mt-1.5 text-left" />
                                       </FormItem>
                                     )}
                                   />
-                                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 w-full text-left">
                                     <FormField
                                       control={form.control}
                                       name="ownerEmail"
                                       render={({ field }) => (
-                                        <FormItem>
-                                          <FormLabel className="font-black text-sm text-primary mb-1.5 block uppercase tracking-tight">Email</FormLabel>
-                                          <FormControl><Input {...field} value={field.value || ""} type="email" className="rounded-3xl border-gray-200 bg-gray-50/30 h-12 md:h-14 px-6 focus:border-accent font-medium text-base text-primary" placeholder="" /></FormControl>
-                                          <FormMessage className="font-bold text-[10px] mt-1.5" />
+                                        <FormItem className="text-left">
+                                          <FormLabel className="font-black text-sm text-primary mb-1.5 block uppercase tracking-tight text-left">Email</FormLabel>
+                                          <FormControl><Input {...field} value={field.value || ""} type="email" className="rounded-3xl border-gray-200 bg-gray-50/30 h-12 md:h-14 px-6 focus:border-accent font-medium text-base text-primary text-left" placeholder="" /></FormControl>
+                                          <FormMessage className="font-bold text-[10px] mt-1.5 text-left" />
                                         </FormItem>
                                       )}
                                     />
@@ -407,8 +407,8 @@ export default function ApplicationWizard() {
                                       control={form.control}
                                       name="ownerPhone"
                                       render={({ field }) => (
-                                        <FormItem>
-                                          <FormLabel className="font-black text-sm text-primary mb-1.5 block uppercase tracking-tight">Número de teléfono</FormLabel>
+                                        <FormItem className="text-left">
+                                          <FormLabel className="font-black text-sm text-primary mb-1.5 block uppercase tracking-tight text-left">Número de teléfono</FormLabel>
                                           <div className="flex gap-2">
                                             <div className="w-32">
                                               <Select 
@@ -418,7 +418,7 @@ export default function ApplicationWizard() {
                                                   form.setValue("ownerPhone", val + (form.getValues("ownerPhone")?.replace(/^\+\d+/, "") || ""));
                                                 }}
                                               >
-                                                <SelectTrigger className="rounded-3xl border-gray-200 bg-background h-12 md:h-14 px-3 focus:ring-accent font-medium text-sm text-primary">
+                                                <SelectTrigger className="rounded-3xl border-gray-200 bg-background h-12 md:h-14 px-3 focus:ring-accent font-medium text-sm text-primary text-left">
                                                   <SelectValue placeholder="+34" />
                                                 </SelectTrigger>
                                                 <SelectContent className="bg-background max-h-60">
@@ -430,26 +430,26 @@ export default function ApplicationWizard() {
                                                 </SelectContent>
                                               </Select>
                                             </div>
-                                            <FormControl className="flex-1"><Input {...field} value={field.value || ""} className="rounded-3xl border-gray-200 bg-gray-50/30 h-12 md:h-14 px-6 focus:border-accent font-medium text-base text-primary" placeholder="" /></FormControl>
+                                            <FormControl className="flex-1"><Input {...field} value={field.value || ""} className="rounded-3xl border-gray-200 bg-gray-50/30 h-12 md:h-14 px-6 focus:border-accent font-medium text-base text-primary text-left" placeholder="" /></FormControl>
                                           </div>
-                                          <FormMessage className="font-bold text-[10px] mt-1.5" />
+                                          <FormMessage className="font-bold text-[10px] mt-1.5 text-left" />
                                         </FormItem>
                                       )}
                                     />
                                   </div>
 
-                                  <div className="space-y-5 pt-6 border-t border-gray-100">
-                                    <h3 className="text-sm font-black uppercase tracking-tight text-primary flex items-center gap-2">
+                                  <div className="space-y-5 pt-6 border-t border-gray-100 text-left w-full">
+                                    <h3 className="text-sm font-black uppercase tracking-tight text-primary flex items-center gap-2 text-left">
                                       <MapPin className="w-4 h-4" /> DIRECCIÓN DE RESIDENCIA
                                     </h3>
-                                    <div className="grid grid-cols-1 gap-5">
+                                    <div className="grid grid-cols-1 gap-5 w-full text-left">
                                       <FormField
                                         control={form.control}
                                         name="ownerAddress"
                                         render={({ field }) => (
-                                          <FormItem>
-                                            <FormLabel className="font-black text-sm text-primary mb-1.5 block uppercase tracking-tight">Dirección completa (Calle, número, piso/puerta)</FormLabel>
-                                            <FormControl><Input {...field} value={field.value || ""} className="rounded-3xl border-gray-200 bg-gray-50/30 h-12 md:h-14 px-6 focus:border-accent font-medium text-base text-primary" placeholder="" /></FormControl>
+                                          <FormItem className="text-left">
+                                            <FormLabel className="font-black text-sm text-primary mb-1.5 block uppercase tracking-tight text-left">Dirección completa (Calle, número, piso/puerta)</FormLabel>
+                                            <FormControl><Input {...field} value={field.value || ""} className="rounded-3xl border-gray-200 bg-gray-50/30 h-12 md:h-14 px-6 focus:border-accent font-medium text-base text-primary text-left" placeholder="" /></FormControl>
                                           </FormItem>
                                         )}
                                       />
