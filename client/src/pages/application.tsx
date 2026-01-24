@@ -409,29 +409,7 @@ export default function ApplicationWizard() {
                                       render={({ field }) => (
                                         <FormItem className="text-left">
                                           <FormLabel className="font-black text-sm text-primary mb-1.5 block uppercase tracking-tight text-left">Número de teléfono</FormLabel>
-                                          <div className="flex gap-2">
-                                            <div className="w-32">
-                                              <Select 
-                                                value={selectedCountryPrefix} 
-                                                onValueChange={(val) => {
-                                                  setSelectedCountryPrefix(val);
-                                                  form.setValue("ownerPhone", val + (form.getValues("ownerPhone")?.replace(/^\+\d+/, "") || ""));
-                                                }}
-                                              >
-                                                <SelectTrigger className="rounded-3xl border-gray-200 bg-background h-12 md:h-14 px-3 focus:ring-accent font-medium text-sm text-primary text-left">
-                                                  <SelectValue placeholder="+34" />
-                                                </SelectTrigger>
-                                                <SelectContent className="bg-background max-h-60">
-                                                  {COUNTRY_PREFIXES.map((country) => (
-                                                    <SelectItem key={country.code} value={country.code}>
-                                                      {country.label}
-                                                    </SelectItem>
-                                                  ))}
-                                                </SelectContent>
-                                              </Select>
-                                            </div>
-                                            <FormControl className="flex-1"><Input {...field} value={field.value || ""} className="rounded-3xl border-gray-200 bg-gray-50/30 h-12 md:h-14 px-6 focus:border-accent font-medium text-base text-primary text-left" placeholder="" /></FormControl>
-                                          </div>
+                                          <FormControl><Input {...field} value={field.value || ""} className="rounded-3xl border-gray-200 bg-gray-50/30 h-12 md:h-14 px-6 focus:border-accent font-medium text-base text-primary text-left" placeholder="+34 600 000 000" /></FormControl>
                                           <FormMessage className="font-bold text-[10px] mt-1.5 text-left" />
                                         </FormItem>
                                       )}
