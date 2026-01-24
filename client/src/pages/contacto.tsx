@@ -162,7 +162,7 @@ export default function Contacto() {
                       <FormLabel className="text-sm md:text-lg font-black text-primary flex items-center gap-2 uppercase tracking-tight">
                         <User className="w-5 h-5 text-[#6EDC8A]" /> Nombre:
                       </FormLabel>
-                      <FormControl><Input {...field} className="rounded-full h-14 px-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-bold text-primary placeholder:text-primary/30 text-base" placeholder="Tu nombre" /></FormControl>
+                      <FormControl><Input {...field} className="rounded-full h-14 px-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-bold text-primary placeholder:text-primary/30 text-base" /></FormControl>
                       <FormMessage />
                     </FormItem>
                   )} />
@@ -171,7 +171,7 @@ export default function Contacto() {
                       <FormLabel className="text-sm md:text-lg font-black text-primary flex items-center gap-2 uppercase tracking-tight">
                         <User className="w-5 h-5 text-[#6EDC8A]" /> Apellido:
                       </FormLabel>
-                      <FormControl><Input {...field} className="rounded-full h-14 px-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-bold text-primary placeholder:text-primary/30 text-base" placeholder="Tu apellido" /></FormControl>
+                      <FormControl><Input {...field} className="rounded-full h-14 px-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-bold text-primary placeholder:text-primary/30 text-base" /></FormControl>
                       <FormMessage />
                     </FormItem>
                   )} />
@@ -183,7 +183,7 @@ export default function Contacto() {
                       <FormLabel className="text-sm md:text-lg font-black text-primary flex items-center gap-2 uppercase tracking-tight">
                         <Mail className="w-5 h-5 text-[#6EDC8A]" /> Email:
                       </FormLabel>
-                      <FormControl><Input {...field} type="email" inputMode="email" disabled={isOtpVerified} className="rounded-full h-14 px-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-bold text-primary placeholder:text-primary/30 text-base" placeholder="email@ejemplo.com" /></FormControl>
+                      <FormControl><Input {...field} type="email" inputMode="email" disabled={isOtpVerified} className="rounded-full h-14 px-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-bold text-primary placeholder:text-primary/30 text-base" /></FormControl>
                       <FormMessage />
                     </FormItem>
                   )} />
@@ -192,7 +192,7 @@ export default function Contacto() {
                       <FormLabel className="text-sm md:text-lg font-black text-primary flex items-center gap-2 uppercase tracking-tight">
                         <Phone className="w-5 h-5 text-[#6EDC8A]" /> Teléfono:
                       </FormLabel>
-                      <FormControl><Input {...field} className="rounded-full h-14 px-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-bold text-primary placeholder:text-primary/30 text-base" placeholder="+34..." /></FormControl>
+                      <FormControl><Input {...field} className="rounded-full h-14 px-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-bold text-primary placeholder:text-primary/30 text-base" /></FormControl>
                     </FormItem>
                   )} />
                 </div>
@@ -210,7 +210,7 @@ export default function Contacto() {
                             <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center ${field.value === opt ? 'border-[#6EDC8A]' : 'border-gray-200'}`}>
                               {field.value === opt && <div className="w-2 h-2 rounded-full bg-[#6EDC8A]" />}
                             </div>
-                            <span className="font-black text-xs md:text-sm text-primary uppercase">{opt}</span>
+                            <span className="font-black text-xs md:text-sm text-primary tracking-tight">{opt}</span>
                           </label>
                         ))}
                       </div>
@@ -224,7 +224,7 @@ export default function Contacto() {
                     <FormLabel className="text-sm md:text-lg font-black text-primary flex items-center gap-2 uppercase tracking-tight">
                       <MessageCircle className="w-5 h-5 text-[#6EDC8A]" /> Tu mensaje:
                     </FormLabel>
-                    <FormControl><Textarea {...field} className="rounded-[2rem] min-h-[160px] p-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-bold text-primary placeholder:text-primary/30 text-base" placeholder="Cuéntanos tu situación con total libertad. No hace falta que uses palabras técnicas." /></FormControl>
+                    <FormControl><Textarea {...field} className="rounded-[2rem] min-h-[160px] p-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-bold text-primary placeholder:text-primary/30 text-base" /></FormControl>
                     <FormMessage />
                   </FormItem>
                 )} />
