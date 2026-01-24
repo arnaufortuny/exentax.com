@@ -217,14 +217,14 @@ export default function Home() {
               { badge: "Cuotas", title: "Sin cuota fija", text: "En Estados Unidos no existe una cuota mensual de autónomos asociada a la LLC. No hay pagos periódicos obligatorios por el simple hecho de tener la empresa activa, independientemente de que exista o no actividad. La estructura mantiene costes fijos reducidos y una gestión más ligera.", footer: "Sin cuota de autónomos." },
               { badge: "Banca", title: "Banca internacional", text: "Te acompañamos en el proceso de apertura de cuentas bancarias en Mercury y Relay. Accede a una cuenta empresarial en USD, con capacidad para recibir y enviar transferencias internacionales y disponer de tarjeta física de débito y crédito para operar a nivel global.", footer: "Tarjeta física internacional." },
             ].map((card, i) => (
-              <motion.div key={i} className="bg-background rounded-2xl shadow-md overflow-hidden border border-foreground/5 sm:border-foreground/5 border-accent/20 flex flex-col" variants={fadeIn}>
-                <div className="p-6 flex-grow">
-                  <span className="inline-block px-4 py-2 rounded-full bg-accent text-accent-foreground font-black text-sm shadow-sm mb-4 uppercase">{card.badge}</span>
-                  <h3 className="text-xl sm:text-2xl font-black uppercase tracking-tighter text-foreground mb-3 leading-tight">{card.title}</h3>
-                  <p className="text-muted-foreground text-base sm:text-lg leading-relaxed">{card.text}</p>
+              <motion.div key={i} className="bg-background rounded-2xl shadow-md overflow-hidden border border-foreground/5 sm:border-foreground/5 border-accent/20 flex flex-col text-left" variants={fadeIn}>
+                <div className="p-6 flex-grow text-left">
+                  <span className="inline-block px-4 py-2 rounded-full bg-accent text-accent-foreground font-black text-sm shadow-sm mb-4 uppercase text-left">{card.badge}</span>
+                  <h3 className="text-xl sm:text-2xl font-black uppercase tracking-tighter text-foreground mb-3 leading-tight text-left">{card.title}</h3>
+                  <p className="text-muted-foreground text-base sm:text-lg leading-relaxed text-left">{card.text}</p>
                 </div>
-                <div className="bg-accent/10 px-6 py-4 border-t border-accent/20 mt-auto">
-                  <p className="text-sm font-bold text-foreground">{card.footer}</p>
+                <div className="bg-accent/10 px-6 py-4 border-t border-accent/20 mt-auto text-left">
+                  <p className="text-sm font-bold text-foreground text-left">{card.footer}</p>
                 </div>
               </motion.div>
             ))}
