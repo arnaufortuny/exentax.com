@@ -329,7 +329,7 @@ export default function Contacto() {
               href="mailto:info@easyusllc.com" 
               className="flex items-center justify-center gap-6 p-8 rounded-[2rem] bg-primary/5 border border-primary/20 hover:bg-primary/10 transition-all group"
             >
-              <div className="w-16 h-16 rounded-full bg-primary flex items-center justify-center text-white group-hover:scale-110 transition-transform shadow-lg shadow-primary/10">
+              <div className="w-16 h-16 rounded-full bg-white flex items-center justify-center text-[#6EDC8A] group-hover:scale-110 transition-transform shadow-lg shadow-primary/10 border border-[#6EDC8A]/20">
                 <Mail className="w-8 h-8" />
               </div>
               <div className="text-left">
