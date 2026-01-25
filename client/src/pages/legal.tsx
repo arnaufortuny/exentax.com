@@ -3,6 +3,7 @@ import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { Button } from "@/components/ui/button";
 import { HeroSection } from "@/components/layout/hero-section";
+import { NewsletterSection } from "@/components/layout/newsletter-section";
 import { Download } from "lucide-react";
 
 export default function Legal() {
@@ -271,6 +272,16 @@ export default function Legal() {
               <section>
                 <div className="flex items-center gap-4 mb-6">
                   <span className="w-2 h-10 bg-brand-lime rounded-full" />
+                  <h2 className="text-xl sm:text-2xl font-black text-brand-dark uppercase tracking-tighter">17. Costes derivados de disputas</h2>
+                </div>
+                <div className="text-sm sm:text-base space-y-4">
+                  <p>El cliente será responsable de todas las comisiones, penalizaciones y costes derivados de chargebacks o disputas iniciadas sin causa justificada. Easy US LLC se reserva el derecho de reclamar dichos importes al cliente por los medios legalmente disponibles.</p>
+                </div>
+              </section>
+
+              <section>
+                <div className="flex items-center gap-4 mb-6">
+                  <span className="w-2 h-10 bg-brand-lime rounded-full" />
                   <h2 className="text-xl sm:text-2xl font-black text-brand-dark uppercase tracking-tighter">18. Documentación y trazabilidad del servicio</h2>
                 </div>
                 <div className="text-sm sm:text-base space-y-4">
@@ -347,6 +358,7 @@ export default function Legal() {
         </div>
       </section>
 
+      <NewsletterSection />
       <Footer />
     </div>
   );
