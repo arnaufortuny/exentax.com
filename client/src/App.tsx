@@ -9,7 +9,7 @@ import NotFound from "@/pages/not-found";
 const Home = lazy(() => import("@/pages/home"));
 const Legal = lazy(() => import("@/pages/legal"));
 const Servicios = lazy(() => import("@/pages/servicios"));
-const Privacidad = lazy(() => import("@/pages/legal/privacidad"));
+const Privacidad = lazy(() => import("@/pages/privacy"));
 const Reembolsos = lazy(() => import("@/pages/legal/reembolsos"));
 const Cookies = lazy(() => import("@/pages/legal/cookies"));
 const Contacto = lazy(() => import("@/pages/contacto"));
@@ -44,6 +44,7 @@ function Router() {
         <Route path="/maintenance" component={MaintenancePage} />
         <Route path="/llc/formation" component={LlcFormation} />
         <Route path="/legal" component={Legal} />
+        <Route path="/privacy" component={Privacidad} />
         <Route path="/privacidad" component={Privacidad} />
         <Route path="/reembolsos" component={Reembolsos} />
         <Route path="/cookies" component={Cookies} />
