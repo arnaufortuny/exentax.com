@@ -12,7 +12,7 @@ export default function Legal() {
   };
 
   return (
-    <div className="min-h-screen bg-white font-sans text-left">
+    <div className="min-h-screen bg-white font-sans text-left selection:bg-brand-lime selection:text-brand-dark">
       <Navbar />
       
       <HeroSection 
