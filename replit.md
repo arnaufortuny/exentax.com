@@ -39,3 +39,5 @@ Easy US LLC is a business formation service for Spanish-speaking entrepreneurs l
 - Standardized mobile UI across all application forms (LLC Formation and Maintenance Pack).
 - Implemented consistent design tokens: rounded-full buttons, flex-2 primary actions, and touch-optimized scaling.
 - Enhanced form responsiveness with adjusted typography, spacing, and smooth motion animations.
+- Updated Terms & Conditions page with comprehensive legal content and PDF download functionality.
+- Synchronized all legal documentation with official company identity (Fortuny Consulting LLC).
