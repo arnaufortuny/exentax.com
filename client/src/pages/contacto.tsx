@@ -237,7 +237,7 @@ export default function Contacto() {
                 </div>
 
                 {!isOtpVerified && (
-                  <div className="space-y-4 pt-4 border-t border-gray-100">
+                  <div className="space-y-4 pt-4">
                     <div className="flex flex-col md:flex-row gap-4">
                       {!isOtpSent ? (
                         <Button type="button" onClick={sendOtp} disabled={isLoading} className="w-full md:w-auto bg-[#6EDC8A] text-primary hover:bg-[#6EDC8A]/90 font-bold px-8 h-14 rounded-full active:scale-95 transition-all shadow-lg shadow-[#6EDC8A]/20">
@@ -261,7 +261,7 @@ export default function Contacto() {
                 )}
 
                 {isOtpVerified && (
-                  <div className="space-y-6 pt-4 border-t border-gray-100">
+                  <div className="space-y-6 pt-4">
                     <div className="space-y-3">
                       <FormField control={form.control} name="dataProcessingConsent" render={({ field }) => (
                         <FormItem className="flex items-start gap-3 p-4 rounded-[1.5rem] border border-gray-200 bg-white hover:border-[#6EDC8A]/30 cursor-pointer transition-all">
@@ -287,7 +287,7 @@ export default function Contacto() {
         </div>
 
         {/* Otras vías de contacto */}
-        <div className="mt-24 pt-16 border-t border-gray-100">
+        <div className="mt-24 pt-16">
           <div className="text-center mb-10 flex flex-col items-center justify-center">
             <h2 className="text-2xl sm:text-4xl lg:text-5xl font-black text-primary uppercase tracking-tight text-center">
               <span className="text-accent uppercase tracking-widest text-xs sm:text-sm font-black block mb-0 text-center">OTRAS VÍAS DE CONTACTO</span>
