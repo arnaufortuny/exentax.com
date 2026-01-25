@@ -170,7 +170,7 @@ export default function Servicios() {
             variants={staggerContainer}
           >
             {/* New Mexico */}
-            <motion.div className="border-[2px] border-accent rounded-2xl overflow-hidden relative bg-background shadow-lg flex flex-col h-full transform transition-all hover:scale-[1.01] hover:shadow-xl group mx-auto w-full max-w-[280px] sm:max-w-none" variants={fadeIn}>
+            <motion.div className="border-[2px] border-accent rounded-2xl overflow-hidden relative bg-background shadow-lg flex flex-col h-full transform transition-all hover:scale-[1.01] hover:shadow-xl group mx-auto w-full sm:max-w-none" variants={fadeIn}>
               <div className="p-5 sm:p-6 flex-grow text-center">
                 <div className="flex flex-col items-center justify-center mb-4 sm:mb-4 gap-2">
                   <h3 className="text-xl sm:text-xl font-black text-primary uppercase tracking-tight">New Mexico</h3>
@@ -215,7 +215,7 @@ export default function Servicios() {
             </motion.div>
 
             {/* Wyoming */}
-            <motion.div className="border-[2px] border-accent rounded-2xl overflow-hidden relative bg-background shadow-lg flex flex-col h-full transform transition-all hover:scale-[1.01] hover:shadow-xl group mx-auto w-full max-w-[280px] sm:max-w-none" variants={fadeIn}>
+            <motion.div className="border-[2px] border-accent rounded-2xl overflow-hidden relative bg-background shadow-lg flex flex-col h-full transform transition-all hover:scale-[1.01] hover:shadow-xl group mx-auto w-full sm:max-w-none" variants={fadeIn}>
               <div className="p-5 sm:p-6 flex-grow text-center">
                 <div className="flex flex-col items-center justify-center mb-4 sm:mb-4 gap-2">
                   <h3 className="text-xl sm:text-xl font-black text-primary uppercase tracking-tight">Wyoming</h3>
@@ -260,7 +260,7 @@ export default function Servicios() {
             </motion.div>
 
             {/* Delaware */}
-            <motion.div className="border-[2px] border-accent rounded-2xl overflow-hidden relative bg-background shadow-lg flex flex-col h-full transform transition-all hover:scale-[1.01] hover:shadow-xl group mx-auto w-full max-w-[280px] sm:max-w-none" variants={fadeIn}>
+            <motion.div className="border-[2px] border-accent rounded-2xl overflow-hidden relative bg-background shadow-lg flex flex-col h-full transform transition-all hover:scale-[1.01] hover:shadow-xl group mx-auto w-full sm:max-w-none" variants={fadeIn}>
               <div className="p-5 sm:p-6 flex-grow text-center">
                 <div className="flex flex-col items-center justify-center mb-4 sm:mb-4 gap-2">
                   <h3 className="text-xl sm:text-xl font-black text-primary uppercase tracking-tight">Delaware</h3>
@@ -397,7 +397,7 @@ export default function Servicios() {
               { state: "Wyoming", price: "499€", annual: true },
               { state: "Delaware", price: "599€", annual: true }
             ].map((item, i) => (
-              <motion.div key={i} className="border-[2px] border-accent rounded-2xl overflow-hidden relative bg-background shadow-lg flex flex-col h-full transform transition-all hover:scale-[1.01] hover:shadow-xl group text-center mx-auto w-full max-w-[280px] sm:max-w-none" variants={fadeIn}>
+              <motion.div key={i} className="border-[2px] border-accent rounded-2xl overflow-hidden relative bg-background shadow-lg flex flex-col h-full transform transition-all hover:scale-[1.01] hover:shadow-xl group text-center mx-auto w-full sm:max-w-none" variants={fadeIn}>
                 <div className="p-5 sm:p-6 flex-grow text-center">
                   <div className="flex flex-col items-center justify-center mb-4 sm:mb-4 gap-2">
                     <h3 className="text-xl sm:text-xl font-black text-primary uppercase tracking-tight">{item.state}</h3>
