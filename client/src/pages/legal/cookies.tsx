@@ -7,7 +7,14 @@ export default function Cookies() {
   return (
     <div className="min-h-screen font-sans bg-white">
       <Navbar />
-      <HeroSection title="Política de Cookies" />
+      <HeroSection 
+        title="Política de Cookies" 
+        subtitle={
+          <p className="text-lg sm:text-xl text-brand-dark font-medium max-w-2xl mb-8">
+            Easy US LLC - Última actualización: 25 de enero de 2026
+          </p>
+        }
+      />
       <div className="container max-w-4xl mx-auto py-12 sm:py-16 px-5 sm:px-8 text-left">
         <div className="prose prose-slate max-w-none">
           <h2 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6 text-primary">1. ¿Qué son las Cookies?</h2>

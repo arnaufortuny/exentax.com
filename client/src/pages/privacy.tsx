@@ -24,7 +24,7 @@ export default function Privacy() {
         }
         subtitle={
           <p className="text-lg sm:text-xl text-brand-dark font-medium max-w-2xl mb-8">
-            Fortuny Consulting LLC - Última actualización: 25 de enero de 2026
+            Easy US LLC - Última actualización: 25 de enero de 2026
           </p>
         }
       />
