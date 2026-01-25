@@ -566,7 +566,22 @@ export async function registerRoutes(
   </div>
 `;
 
-// Improved Admin Order/Contact Notification
+      // Admin Activity Notification Logic (production)
+      app.post("/api/activity/track", async (req, res) => {
+        const { action, details } = req.body;
+        if (action === "CLICK_ELEGIR_ESTADO") {
+          let price = "639€";
+          if (details.includes("Wyoming")) price = "799€";
+          if (details.includes("Delaware")) price = "999€";
+          
+          logActivity("Selección de Estado", { 
+            "Pack": details, 
+            "Precio Base": price,
+            "IP": req.ip 
+          });
+        }
+        res.json({ success: true });
+      });
 const orderHtml = `
   <div style="background-color: #f9f9f9; padding: 20px 0;">
     <div style="font-family: 'Inter', Arial, sans-serif; max-width: 600px; margin: auto; border-radius: 8px; overflow: hidden; color: #1a1a1a; background-color: #ffffff; border: 1px solid #e5e5e5;">
