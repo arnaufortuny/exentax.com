@@ -348,8 +348,103 @@ export default function Legal() {
                   <span className="w-2 h-10 bg-brand-lime rounded-full" />
                   <h2 className="text-xl sm:text-2xl font-black text-brand-dark uppercase tracking-tighter">24. Jurisdicción y Ley Aplicable</h2>
                 </div>
+                <div className="text-sm sm:text-base space-y-4">
+                  <p>Este contrato se rige exclusivamente por las leyes del Estado de New Mexico, USA. Cualquier litigio será resuelto en los tribunales de Albuquerque, NM, renunciando el cliente a cualquier otro fuero que pudiera corresponderle.</p>
+                </div>
+              </section>
+
+              <section>
+                <div className="flex items-center gap-4 mb-6">
+                  <span className="w-2 h-10 bg-brand-lime rounded-full" />
+                  <h2 className="text-xl sm:text-2xl font-black text-brand-dark uppercase tracking-tighter">25. Mantenimiento y renovaciones</h2>
+                </div>
+                <div className="text-sm sm:text-base space-y-4">
+                  <p>Una vez finalizado el periodo inicial de 12 meses, el cliente será responsable de renovar los servicios necesarios para el mantenimiento de su LLC, incluyendo, entre otros, Registered Agent, cumplimiento anual u otras obligaciones estatales o federales.</p>
+                  <p>Easy US LLC no será responsable de sanciones, multas o consecuencias derivadas de la falta de renovación de servicios una vez finalizado el periodo contratado.</p>
+                </div>
+              </section>
+
+              <section>
+                <div className="flex items-center gap-4 mb-6">
+                  <span className="w-2 h-10 bg-brand-lime rounded-full" />
+                  <h2 className="text-xl sm:text-2xl font-black text-brand-dark uppercase tracking-tighter">26. Disolución de la LLC</h2>
+                </div>
+                <div className="text-sm sm:text-base space-y-4">
+                  <p>Easy US LLC podrá ofrecer, previa solicitud del cliente, servicios administrativos de disolución de la LLC. Dichos servicios estarán sujetos a condiciones específicas, costes adicionales y a la información proporcionada por el cliente.</p>
+                  <p>Easy US LLC no será responsable de obligaciones pendientes, deudas, impuestos o responsabilidades que subsistan tras la disolución, siendo estas responsabilidad exclusiva del cliente.</p>
+                </div>
+              </section>
+
+              <section>
+                <div className="flex items-center gap-4 mb-6">
+                  <span className="w-2 h-10 bg-brand-lime rounded-full" />
+                  <h2 className="text-xl sm:text-2xl font-black text-brand-dark uppercase tracking-tighter">27. Confidencialidad</h2>
+                </div>
+                <div className="text-sm sm:text-base space-y-4">
+                  <p>Easy US LLC se compromete a tratar de forma confidencial la información y documentación facilitada por el cliente, utilizándola únicamente para la prestación del servicio y cumplimiento de obligaciones legales.</p>
+                  <p>Esta obligación de confidencialidad se mantendrá vigente incluso tras la finalización de la relación contractual, en la medida permitida por la ley.</p>
+                </div>
+              </section>
+
+              <section>
+                <div className="flex items-center gap-4 mb-6">
+                  <span className="w-2 h-10 bg-brand-lime rounded-full" />
+                  <h2 className="text-xl sm:text-2xl font-black text-brand-dark uppercase tracking-tighter">28. Comunicaciones electrónicas</h2>
+                </div>
+                <div className="text-sm sm:text-base space-y-4">
+                  <p>El cliente acepta expresamente el uso de medios electrónicos como forma válida de comunicación. Cualquier notificación enviada al correo electrónico facilitado por el cliente se considerará válida y efectiva.</p>
+                  <p>Es responsabilidad del cliente mantener actualizados sus datos de contacto.</p>
+                </div>
+              </section>
+
+              <section>
+                <div className="flex items-center gap-4 mb-6">
+                  <span className="w-2 h-10 bg-brand-lime rounded-full" />
+                  <h2 className="text-xl sm:text-2xl font-black text-brand-dark uppercase tracking-tighter">29. Modificación de los servicios y condiciones</h2>
+                </div>
+                <div className="text-sm sm:text-base space-y-4">
+                  <p>Easy US LLC se reserva el derecho de modificar o actualizar sus servicios, procesos internos y los presentes Términos y Condiciones cuando sea necesario por motivos legales, operativos o comerciales.</p>
+                  <p>Las modificaciones no afectarán a servicios ya contratados, salvo que resulte necesario por imperativo legal.</p>
+                </div>
+              </section>
+
+              <section>
+                <div className="flex items-center gap-4 mb-6">
+                  <span className="w-2 h-10 bg-brand-lime rounded-full" />
+                  <h2 className="text-xl sm:text-2xl font-black text-brand-dark uppercase tracking-tighter">30. Fuerza mayor</h2>
+                </div>
+                <div className="text-sm sm:text-base space-y-4">
+                  <p>Easy US LLC no será responsable de retrasos o incumplimientos derivados de causas de fuerza mayor, incluyendo, entre otras, fallos técnicos, interrupciones de servicios, incidencias en organismos públicos, decisiones de terceros, conflictos, desastres naturales o situaciones fuera de su control razonable.</p>
+                </div>
+              </section>
+
+              <section>
+                <div className="flex items-center gap-4 mb-6">
+                  <span className="w-2 h-10 bg-brand-lime rounded-full" />
+                  <h2 className="text-xl sm:text-2xl font-black text-brand-dark uppercase tracking-tighter">31. Integridad del acuerdo</h2>
+                </div>
+                <div className="text-sm sm:text-base space-y-4">
+                  <p>Los presentes Términos y Condiciones constituyen el acuerdo completo entre Easy US LLC y el cliente, sustituyendo cualquier comunicación, acuerdo o entendimiento previo, verbal o escrito.</p>
+                </div>
+              </section>
+
+              <section>
+                <div className="flex items-center gap-4 mb-6">
+                  <span className="w-2 h-10 bg-brand-lime rounded-full" />
+                  <h2 className="text-xl sm:text-2xl font-black text-brand-dark uppercase tracking-tighter">32. Legislación aplicable y jurisdicción</h2>
+                </div>
+                <div className="text-sm sm:text-base space-y-4">
+                  <p>Los presentes Términos y Condiciones se regirán por la legislación del Estado de New Mexico (Estados Unidos). Para cualquier controversia derivada de su interpretación o ejecución, las partes se someten a los tribunales competentes, salvo norma imperativa en contrario.</p>
+                </div>
+              </section>
+
+              <section>
+                <div className="flex items-center gap-4 mb-6">
+                  <span className="w-2 h-10 bg-brand-lime rounded-full" />
+                  <h2 className="text-xl sm:text-2xl font-black text-brand-dark uppercase tracking-tighter">33. Aceptación final</h2>
+                </div>
                 <div className="bg-brand-dark text-white rounded-2xl p-8 sm:p-12">
-                  <p className="text-sm sm:text-base leading-relaxed opacity-90">Este contrato se rige exclusivamente por las leyes del Estado de New Mexico, USA. Cualquier litigio será resuelto en los tribunales de Albuquerque, NM, renunciando el cliente a cualquier otro fuero que pudiera corresponderle.</p>
+                  <p className="text-sm sm:text-base leading-relaxed opacity-90 font-bold">La contratación de los servicios ofrecidos por Easy US LLC implica que el cliente declara haber leído, comprendido y aceptado íntegramente los presentes Términos y Condiciones.</p>
                 </div>
               </section>
 
