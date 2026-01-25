@@ -44,7 +44,6 @@ function Router() {
         <Route path="/maintenance" component={MaintenancePage} />
         <Route path="/llc/formation" component={LlcFormation} />
         <Route path="/legal" component={Legal} />
-        <Route path="/privacy" component={Privacidad} />
         <Route path="/privacidad" component={Privacidad} />
         <Route path="/reembolsos" component={Reembolsos} />
         <Route path="/cookies" component={Cookies} />
