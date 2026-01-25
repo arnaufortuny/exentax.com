@@ -139,12 +139,12 @@ export default function Contacto() {
     <div className="min-h-screen bg-background font-sans overflow-x-hidden">
       <Navbar />
       <main className="pt-24 pb-16 w-full max-w-4xl mx-auto px-4 md:px-6">
-        <div className="text-center mb-2 sm:mb-10 flex flex-col items-center justify-center">
-          <h2 className="text-2xl sm:text-4xl lg:text-5xl font-black text-primary uppercase tracking-tight text-center">
-            <span className="text-accent uppercase tracking-widest text-xs sm:text-sm font-black block mb-0 text-center">CONTACTO</span>
+        <div className="text-center mb-8 sm:mb-10 flex flex-col items-center justify-center">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-primary uppercase tracking-tight text-center">
+            <span className="text-accent uppercase tracking-widest text-xs sm:text-sm font-black block mb-2 text-center">CONTACTO</span>
             Contactanos
           </h2>
-          <p className="hidden sm:block text-accent font-black uppercase tracking-wide text-base sm:text-lg mt-0.5 text-center">(Siempre listos para ayudarte)</p>
+          <p className="hidden sm:block text-accent font-black uppercase tracking-wide text-base sm:text-lg mt-1 sm:mt-2 text-center">(Siempre listos para ayudarte)</p>
         </div>
 
         <div className="grid grid-cols-1 gap-12 mt-12 sm:mt-16">
