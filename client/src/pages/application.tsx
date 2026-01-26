@@ -17,6 +17,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
 import { insertLlcApplicationSchema } from "@shared/schema";
+import { useAuth } from "@/hooks/use-auth";
 
 const BUSINESS_CATEGORIES = [
   "Tecnología y Software (SaaS, desarrollo web/apps, IT services)",
@@ -59,6 +60,7 @@ const formSchema = z.object({
 type FormValues = z.infer<typeof formSchema>;
 
 export default function ApplicationWizard() {
+  const { user, isAuthenticated } = useAuth();
   const [, setLocation] = useLocation();
   const [step, setStep] = useState(0);
   const [appId, setAppId] = useState<number | null>(null);
@@ -90,6 +92,21 @@ export default function ApplicationWizard() {
       termsConsent: false
     },
   });
+
+  useEffect(() => {
+    if (isAuthenticated && user) {
+      form.reset({
+        ...form.getValues(),
+        ownerFullName: `${user.firstName || ""} ${user.lastName || ""}`.trim(),
+        ownerEmail: user.email || "",
+        ownerPhone: user.phone || "",
+      });
+      // If email is already verified in profile, skip OTP step later
+      if (user.emailVerified) {
+        setIsEmailVerified(true);
+      }
+    }
+  }, [isAuthenticated, user, form]);
 
   useEffect(() => {
     async function init() {

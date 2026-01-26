@@ -97,6 +97,21 @@ export default function Dashboard() {
                   exit={{ opacity: 0, x: 20 }}
                   className="space-y-6"
                 >
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+                    <Card className="rounded-3xl border-0 shadow-sm p-6 bg-white">
+                      <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground mb-1">Actividad de Cuenta</p>
+                      <h4 className="text-2xl font-black text-primary">{orders?.length || 0}</h4>
+                      <p className="text-xs text-muted-foreground font-medium">Servicios totales contratados</p>
+                    </Card>
+                    <Card className="rounded-3xl border-0 shadow-sm p-6 bg-white">
+                      <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground mb-1">Estado Global</p>
+                      <h4 className="text-2xl font-black text-accent uppercase">
+                        {orders?.some(o => o.status === 'pending') ? 'Pendiente' : 'Al día'}
+                      </h4>
+                      <p className="text-xs text-muted-foreground font-medium">Situación de tus trámites</p>
+                    </Card>
+                  </div>
+                  
                   <h2 className="text-xl md:text-2xl font-black text-primary uppercase tracking-tight mb-6">Tus Servicios Activos</h2>
                   {ordersLoading ? (
                     <div className="space-y-4">

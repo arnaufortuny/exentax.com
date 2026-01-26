@@ -48,6 +48,7 @@ export const llcApplications = pgTable("llc_applications", {
   designator: text("designator"), // LLC, L.L.C., Ltd.
   companyDescription: text("company_description"),
   businessCategory: text("business_category"),
+  businessActivity: text("business_activity"),
   businessCategoryOther: text("business_category_other"),
   ownerNamesAlternates: text("owner_names_alternates"), // Plan B, C, D names
   ownerCount: integer("owner_count").default(1),
