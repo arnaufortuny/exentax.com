@@ -88,6 +88,19 @@ export const newsletterSubscribers = pgTable("newsletter_subscribers", {
   subscribedAt: timestamp("subscribed_at").defaultNow(),
 });
 
+export const messages = pgTable("messages", {
+  id: serial("id").primaryKey(),
+  userId: varchar("user_id").references(() => users.id),
+  name: text("name"),
+  email: text("email").notNull(),
+  subject: text("subject"),
+  content: text("content").notNull(),
+  status: text("status").notNull().default("unread"), // unread, read, archived
+  type: text("type").notNull().default("contact"), // contact, support, system
+  requestCode: text("request_code"),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
 export const contactOtps = pgTable("contact_otps", {
   id: serial("id").primaryKey(),
   email: text("email").notNull(),

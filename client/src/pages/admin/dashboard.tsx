@@ -80,6 +80,9 @@ export default function AdminDashboard() {
             <TabsTrigger value="users" className="rounded-full px-8 py-2 data-[state=active]:bg-accent data-[state=active]:text-primary font-bold  text-xs">
               <Users className="w-4 h-4 mr-2" /> Usuarios
             </TabsTrigger>
+            <TabsTrigger value="messages" className="rounded-full px-8 py-2 data-[state=active]:bg-accent data-[state=active]:text-primary font-bold  text-xs">
+              <Mail className="w-4 h-4 mr-2" /> Mensajes
+            </TabsTrigger>
           </TabsList>
 
           <TabsContent value="orders" className="space-y-8 mt-0">

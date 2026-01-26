@@ -7,8 +7,8 @@ import { z } from "zod";
 import { insertLlcApplicationSchema } from "@shared/schema";
 import { db } from "./db";
 import { sendEmail, getOtpEmailTemplate, getConfirmationEmailTemplate, getReminderEmailTemplate, getWelcomeEmailTemplate, getNewsletterWelcomeTemplate, getAutoReplyTemplate, getEmailFooter, getEmailHeader } from "./lib/email";
-import { contactOtps, products as productsTable, users as usersTable, maintenanceApplications, newsletterSubscribers } from "@shared/schema";
-import { and, eq, gt } from "drizzle-orm";
+import { contactOtps, products as productsTable, users as usersTable, maintenanceApplications, newsletterSubscribers, messages as messagesTable } from "@shared/schema";
+import { and, eq, gt, desc } from "drizzle-orm";
 
 export async function registerRoutes(
   httpServer: Server,
@@ -191,7 +191,70 @@ export async function registerRoutes(
     }
   });
 
-  // LLC Applications (Public for this demo)
+  // Messages API
+  app.get("/api/messages", isAuthenticated, async (req: any, res) => {
+    try {
+      const userMessages = await db.select()
+        .from(messagesTable)
+        .where(eq(messagesTable.userId, req.user.claims.sub))
+        .orderBy(desc(messagesTable.createdAt));
+      res.json(userMessages);
+    } catch (error) {
+      res.status(500).json({ message: "Error fetching messages" });
+    }
+  });
+
+  app.post("/api/messages", async (req: any, res) => {
+    try {
+      const { name, email, subject, content, requestCode } = req.body;
+      const userId = req.isAuthenticated() ? req.user.claims.sub : null;
+      
+      const [message] = await db.insert(messagesTable).values({
+        userId,
+        name,
+        email,
+        subject,
+        content,
+        requestCode,
+        type: "contact"
+      }).returning();
+
+      // Send auto-reply
+      sendEmail({
+        to: email,
+        subject: `Recibimos tu mensaje: ${subject || "Contacto"}`,
+        html: getAutoReplyTemplate(name || "Cliente"),
+      }).catch(console.error);
+
+      // Notify admin
+      logActivity("Nuevo Mensaje de Contacto", {
+        "Nombre": name,
+        "Email": email,
+        "Asunto": subject,
+        "Mensaje": content,
+        "Referencia": requestCode || "N/A"
+      });
+
+      res.status(201).json(message);
+    } catch (error) {
+      res.status(500).json({ message: "Error sending message" });
+    }
+  });
+
+  // Client Update Request Data
+  app.patch("/api/llc/:id/data", isAuthenticated, async (req: any, res) => {
+    try {
+      const appId = Number(req.params.id);
+      const updates = req.body;
+      const [updated] = await db.update(llcApplications)
+        .set({ ...updates, lastUpdated: new Date() })
+        .where(eq(llcApplications.id, appId))
+        .returning();
+      res.json(updated);
+    } catch (error) {
+      res.status(500).json({ message: "Error updating request" });
+    }
+  });
   app.get(api.llc.get.path, async (req: any, res) => {
     const appId = Number(req.params.id);
     

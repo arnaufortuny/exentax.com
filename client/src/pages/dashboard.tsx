@@ -15,7 +15,7 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 
-type Tab = 'services' | 'profile' | 'payments' | 'documents';
+type Tab = 'services' | 'profile' | 'payments' | 'documents' | 'messages';
 
 function NewsletterToggle() {
   const { toast } = useToast();
@@ -97,6 +97,7 @@ export default function Dashboard() {
 
   const menuItems = [
     { id: 'services', label: 'Mis Servicios', icon: Package },
+    { id: 'messages', label: 'Mensajes', icon: Mail },
     { id: 'documents', label: 'Documentos', icon: FileText },
     { id: 'payments', label: 'Pagos y Facturas', icon: CreditCard },
     { id: 'profile', label: 'Mi Perfil', icon: User },
@@ -213,6 +214,23 @@ export default function Dashboard() {
                                 >
                                   <ChevronRight className="w-5 h-5 md:w-6 md:h-6" />
                                 </Button>
+                                <Button 
+                                  variant="ghost" 
+                                  className="rounded-full w-10 h-10 md:w-12 md:h-12 p-0 bg-gray-50 hover:bg-accent hover:text-primary shrink-0"
+                                  title="Editar Datos"
+                                  onClick={() => {
+                                    const newData = prompt("¿Qué datos deseas modificar? (Nombre de empresa, actividad, etc.)");
+                                    if (newData) {
+                                      apiRequest("PATCH", `/api/llc/${order.application?.id}/data`, { notes: newData })
+                                        .then(() => {
+                                          toast({ title: "Solicitud enviada", description: "Tus cambios han sido registrados y serán revisados." });
+                                          queryClient.invalidateQueries({ queryKey: ["/api/orders"] });
+                                        });
+                                    }
+                                  }}
+                                >
+                                  <Settings className="w-5 h-5 md:w-6 md:h-6 text-accent" />
+                                </Button>
                               </div>
                             </div>
                           </CardContent>
@@ -236,7 +254,47 @@ export default function Dashboard() {
                 </motion.div>
               )}
 
-              {activeTab === 'profile' && (
+              {activeTab === 'messages' && (
+                <motion.div
+                  key="messages"
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: 20 }}
+                  className="space-y-6"
+                >
+                  <div className="flex justify-between items-center mb-6">
+                    <h2 className="text-xl md:text-2xl font-bold text-primary tracking-tight">Mis Consultas y Soporte</h2>
+                    <Link href="/contacto">
+                      <Button className="bg-accent text-primary font-bold rounded-full text-xs">Nueva Consulta</Button>
+                    </Link>
+                  </div>
+                  
+                  <div className="space-y-4">
+                    {useQuery<any[]>({ queryKey: ["/api/messages"] }).data?.map((msg) => (
+                      <Card key={msg.id} className="rounded-2xl border-0 shadow-sm p-6 bg-white">
+                        <div className="flex justify-between items-start mb-2">
+                          <h4 className="font-bold text-primary">{msg.subject || 'Sin asunto'}</h4>
+                          <span className={`text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-widest ${
+                            msg.status === 'unread' ? 'bg-accent text-primary' : 'bg-gray-100 text-gray-500'
+                          }`}>
+                            {msg.status === 'unread' ? 'Pendiente' : 'Leído'}
+                          </span>
+                        </div>
+                        <p className="text-sm text-muted-foreground mb-4 line-clamp-2">{msg.content}</p>
+                        <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-widest">
+                          {new Date(msg.createdAt).toLocaleString()}
+                        </p>
+                      </Card>
+                    ))}
+                    {(!useQuery<any[]>({ queryKey: ["/api/messages"] }).data || useQuery<any[]>({ queryKey: ["/api/messages"] }).data?.length === 0) && (
+                      <div className="text-center py-12 bg-white rounded-3xl">
+                        <Mail className="w-12 h-12 text-gray-200 mx-auto mb-4" />
+                        <p className="text-muted-foreground font-bold">No tienes mensajes pendientes.</p>
+                      </div>
+                    )}
+                  </div>
+                </motion.div>
+              )}
                 <motion.div
                   key="profile"
                   initial={{ opacity: 0, x: -20 }}
