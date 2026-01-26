@@ -54,10 +54,10 @@ export function Footer() {
           <div className="flex flex-col items-start">
             <h4 className="font-bold text-base uppercase tracking-wider mb-5 border-b border-white/20 pb-1 w-full">Legal</h4>
             <nav className="flex flex-col gap-3 text-base text-primary-foreground/70">
-              <Link href="/legal" className="hover:text-primary-foreground transition-colors py-1">Términos</Link>
-              <Link href="/privacidad" className="hover:text-primary-foreground transition-colors py-1">Privacidad</Link>
-              <Link href="/reembolsos" className="hover:text-primary-foreground transition-colors py-1">Reembolsos</Link>
-              <Link href="/cookies" className="hover:text-primary-foreground transition-colors py-1">Cookies</Link>
+              <a href="/terminos_y_condiciones.pdf" target="_blank" className="hover:text-primary-foreground transition-colors py-1 block w-full">Términos</a>
+              <a href="/politica_privacidad.pdf" target="_blank" className="hover:text-primary-foreground transition-colors py-1 block w-full">Privacidad</a>
+              <a href="/politica_reembolsos.pdf" target="_blank" className="hover:text-primary-foreground transition-colors py-1 block w-full">Reembolsos</a>
+              <a href="/politica_cookies.pdf" target="_blank" className="hover:text-primary-foreground transition-colors py-1 block w-full">Cookies</a>
             </nav>
           </div>
         </div>
@@ -102,10 +102,10 @@ export function Footer() {
           <div className="flex flex-col items-start">
             <h4 className="font-bold text-base uppercase tracking-wider mb-5">Legal</h4>
             <nav className="flex flex-col gap-3 text-base text-primary-foreground/70">
-              <Link href="/legal" className="hover:text-primary-foreground transition-colors">Términos y Condiciones</Link>
-              <Link href="/privacidad" className="hover:text-primary-foreground transition-colors">Política de Privacidad</Link>
-              <Link href="/reembolsos" className="hover:text-primary-foreground transition-colors">Política de Reembolsos</Link>
-              <Link href="/cookies" className="hover:text-primary-foreground transition-colors">Aviso de Cookies</Link>
+              <a href="/terminos_y_condiciones.pdf" target="_blank" className="hover:text-primary-foreground transition-colors">Términos y Condiciones</a>
+              <a href="/politica_privacidad.pdf" target="_blank" className="hover:text-primary-foreground transition-colors">Política de Privacidad</a>
+              <a href="/politica_reembolsos.pdf" target="_blank" className="hover:text-primary-foreground transition-colors">Política de Reembolsos</a>
+              <a href="/politica_cookies.pdf" target="_blank" className="hover:text-primary-foreground transition-colors">Aviso de Cookies</a>
             </nav>
           </div>
           
