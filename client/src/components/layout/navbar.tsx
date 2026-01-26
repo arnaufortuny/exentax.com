@@ -1,12 +1,14 @@
 import { Link, useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, X, User as UserIcon, LogOut } from "lucide-react";
 import logoIcon from "@/assets/logo-icon.png";
+import { useAuth } from "@/hooks/use-auth";
 
 export function Navbar() {
   const [location, setLocation] = useLocation();
   const [isOpen, setIsOpen] = useState(false);
+  const { user, isAuthenticated, logout } = useAuth();
 
   const scrollToSection = (id: string) => {
     setIsOpen(false);
@@ -46,6 +48,16 @@ export function Navbar() {
             <button onClick={() => scrollToSection("pricing")} className="text-base font-bold text-foreground hover:text-accent transition-colors">Precios</button>
             <button onClick={() => handleNavClick("/faq")} className="text-base font-bold text-foreground hover:text-accent transition-colors">FAQ</button>
             <button onClick={() => handleNavClick("/contacto")} className="text-base font-bold text-foreground hover:text-accent transition-colors">Contactanos</button>
+            {isAuthenticated ? (
+              <div className="flex items-center gap-4 border-l pl-6 border-border">
+                <Link href="/dashboard" className="text-base font-bold text-foreground hover:text-accent transition-colors flex items-center gap-2">
+                  <UserIcon className="w-4 h-4" /> Mi Área
+                </Link>
+                <button onClick={() => logout()} className="text-sm font-bold text-muted-foreground hover:text-destructive transition-colors">Salir</button>
+              </div>
+            ) : (
+              <Link href="/api/login" className="text-base font-bold text-accent hover:opacity-80 transition-opacity">Área Clientes</Link>
+            )}
           </nav>
 
           <Button 
@@ -70,13 +82,37 @@ export function Navbar() {
         <div className="md:hidden fixed inset-0 bg-background z-[60] overflow-y-auto flex flex-col pt-16 sm:pt-24">
           <div className="absolute top-0 left-0 right-0 h-20 bg-background z-[100] border-b border-border shadow-sm" />
           <div className="flex flex-col flex-grow bg-background p-6 justify-start pt-24">
-            <div className="flex flex-col gap-0.5">
-              <button
-                onClick={() => handleNavClick("/")}
-                className="text-left px-3 py-3 rounded-xl text-foreground hover:bg-secondary transition-colors font-black text-xl uppercase tracking-tighter border border-transparent hover:border-accent/20"
-              >
-                Inicio
-              </button>
+              <div className="flex flex-col gap-0.5">
+                {isAuthenticated ? (
+                  <div className="px-3 py-4 mb-4 bg-accent/5 rounded-2xl border border-accent/20">
+                    <p className="text-xs font-black text-accent uppercase tracking-widest mb-2">Área Personal</p>
+                    <button
+                      onClick={() => handleNavClick("/dashboard")}
+                      className="w-full text-left py-2 text-foreground font-black text-xl uppercase tracking-tighter flex items-center gap-2"
+                    >
+                      <UserIcon className="w-5 h-5" /> Mi Panel
+                    </button>
+                    <button
+                      onClick={() => logout()}
+                      className="w-full text-left py-2 text-muted-foreground font-bold text-lg flex items-center gap-2 mt-2"
+                    >
+                      <LogOut className="w-4 h-4" /> Cerrar Sesión
+                    </button>
+                  </div>
+                ) : (
+                  <button
+                    onClick={() => (window.location.href = "/api/login")}
+                    className="text-left px-3 py-3 rounded-xl text-accent hover:bg-secondary transition-colors font-black text-xl uppercase tracking-tighter border border-transparent hover:border-accent/20 mb-4"
+                  >
+                    Área Clientes
+                  </button>
+                )}
+                <button
+                  onClick={() => handleNavClick("/")}
+                  className="text-left px-3 py-3 rounded-xl text-foreground hover:bg-secondary transition-colors font-black text-xl uppercase tracking-tighter border border-transparent hover:border-accent/20"
+                >
+                  Inicio
+                </button>
               <button
                 onClick={() => handleNavClick("/servicios")}
                 className="text-left px-3 py-3 rounded-xl text-foreground hover:bg-secondary transition-colors font-black text-xl uppercase tracking-tighter border border-transparent hover:border-accent/20"
