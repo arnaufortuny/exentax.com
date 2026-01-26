@@ -13,7 +13,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, FormDes
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useToast } from "@/hooks/use-toast";
-import { apiRequest } from "@/lib/queryClient";
+import { apiRequest, queryClient } from "@/lib/queryClient";
 
 const formSchema = z.object({
   nombre: z.string().min(1, "Dinos tu nombre"),
@@ -104,9 +104,15 @@ export default function Contacto() {
     }
     setIsLoading(true);
     try {
-      await apiRequest("POST", "/api/contact", values);
+      await apiRequest("POST", "/api/messages", {
+        name: `${values.nombre} ${values.apellido}`,
+        email: values.email,
+        subject: values.subject,
+        content: values.mensaje
+      });
       setIsSubmitted(true);
       toast({ title: "Mensaje enviado", variant: "success" });
+      queryClient.invalidateQueries({ queryKey: ["/api/messages"] });
     } catch (err) {
       toast({ title: "Error", description: "No se pudo enviar el mensaje", variant: "destructive" });
     } finally {

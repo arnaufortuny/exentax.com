@@ -240,6 +240,48 @@ export default function AdminDashboard() {
               </CardContent>
             </Card>
           </TabsContent>
+          <TabsContent value="messages" className="space-y-8 mt-0">
+            <Card className="rounded-3xl border-0 shadow-sm overflow-hidden">
+              <CardHeader className="bg-white border-b border-gray-100 p-6">
+                <CardTitle className="text-xl font-bold">Bandeja de Entrada</CardTitle>
+              </CardHeader>
+              <CardContent className="p-0">
+                <Table>
+                  <TableHeader>
+                    <TableRow className="hover:bg-transparent border-gray-100">
+                      <TableHead className="font-bold text-xs px-6">Fecha / Cliente</TableHead>
+                      <TableHead className="font-bold text-xs">Asunto</TableHead>
+                      <TableHead className="font-bold text-xs">Mensaje</TableHead>
+                      <TableHead className="font-bold text-xs">Estado</TableHead>
+                      <TableHead className="font-bold text-xs text-right px-6">Acciones</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {useQuery<any[]>({ queryKey: ["/api/admin/messages"] }).data?.map((msg) => (
+                      <TableRow key={msg.id} className="border-gray-50 hover:bg-gray-50/50">
+                        <TableCell className="px-6">
+                          <p className="font-bold">{msg.name || 'Cliente'}</p>
+                          <p className="text-[10px] text-muted-foreground">{new Date(msg.createdAt).toLocaleString()}</p>
+                        </TableCell>
+                        <TableCell className="font-medium text-sm">{msg.subject}</TableCell>
+                        <TableCell className="max-w-xs truncate text-xs text-muted-foreground">{msg.content}</TableCell>
+                        <TableCell>
+                          <Badge className={`font-bold text-[10px] ${msg.status === 'unread' ? 'bg-accent text-primary' : 'bg-gray-100'}`}>
+                            {msg.status}
+                          </Badge>
+                        </TableCell>
+                        <TableCell className="text-right px-6">
+                          <Button size="sm" variant="ghost" onClick={() => apiRequest("PATCH", `/api/admin/messages/${msg.id}/status`, { status: 'read' }).then(() => queryClient.invalidateQueries({ queryKey: ["/api/admin/messages"] }))}>
+                            <CheckCircle className="w-4 h-4" />
+                          </Button>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </CardContent>
+            </Card>
+          </TabsContent>
         </Tabs>
       </main>
       <Footer />

@@ -537,6 +537,20 @@ export async function registerRoutes(
     next();
   };
 
+  app.get("/api/admin/messages", isAdmin, async (req, res) => {
+    const messages = await db.select().from(messagesTable).orderBy(desc(messagesTable.createdAt));
+    res.json(messages);
+  });
+
+  app.patch("/api/admin/messages/:id/status", isAdmin, async (req, res) => {
+    const { status } = req.body;
+    const [message] = await db.update(messagesTable)
+      .set({ status })
+      .where(eq(messagesTable.id, Number(req.params.id)))
+      .returning();
+    res.json(message);
+  });
+
   app.get("/api/admin/users", isAdmin, async (req, res) => {
     try {
       const users = await db.select().from(usersTable);

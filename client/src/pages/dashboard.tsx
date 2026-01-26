@@ -295,6 +295,8 @@ export default function Dashboard() {
                   </div>
                 </motion.div>
               )}
+
+              {activeTab === 'profile' && (
                 <motion.div
                   key="profile"
                   initial={{ opacity: 0, x: -20 }}
