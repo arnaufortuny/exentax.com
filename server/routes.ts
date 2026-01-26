@@ -324,6 +324,79 @@ export async function registerRoutes(
     }
   });
 
+  // === Admin Routes ===
+  const isAdmin = async (req: any, res: any, next: any) => {
+    if (!req.isAuthenticated() || !req.user?.isAdmin) {
+      return res.status(403).json({ message: "Forbidden" });
+    }
+    next();
+  };
+
+  app.get("/api/admin/orders", isAdmin, async (req, res) => {
+    const orders = await storage.getAllOrders();
+    res.json(orders);
+  });
+
+  app.patch("/api/admin/orders/:id/status", isAdmin, async (req, res) => {
+    const { status } = req.body;
+    const order = await storage.updateOrderStatus(Number(req.params.id), status);
+    res.json(order);
+  });
+
+  app.get("/api/admin/invoice/:id", isAdmin, async (req, res) => {
+    const orderId = Number(req.params.id);
+    const order = await storage.getOrder(orderId);
+    if (!order) return res.status(404).json({ message: "Order not found" });
+    
+    // Simple HTML Invoice for now
+    res.setHeader('Content-Type', 'text/html');
+    res.send(`
+      <html>
+        <head>
+          <style>
+            body { font-family: Inter, sans-serif; padding: 40px; color: #1a1a1a; }
+            .header { border-bottom: 2px solid #6EDC8A; padding-bottom: 20px; margin-bottom: 40px; }
+            .invoice-title { font-size: 24px; font-weight: 800; text-transform: uppercase; }
+            .details { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-bottom: 40px; }
+            .table { w-full; border-collapse: collapse; }
+            .table th { text-align: left; border-bottom: 1px solid #eee; padding: 10px; font-size: 12px; text-transform: uppercase; color: #666; }
+            .table td { padding: 15px 10px; border-bottom: 1px solid #f9f9f9; }
+            .total { text-align: right; font-size: 20px; font-weight: 800; margin-top: 20px; }
+          </style>
+        </head>
+        <body>
+          <div class="header">
+            <div class="invoice-title">Factura Easy US LLC</div>
+            <p>Referencia: #${order.id}</p>
+          </div>
+          <div class="details">
+            <div>
+              <strong>De:</strong><br/>
+              Fortuny Consulting LLC<br/>
+              EIN: 98-1906730
+            </div>
+            <div>
+              <strong>Para:</strong><br/>
+              Cliente #${order.userId}
+            </div>
+          </div>
+          <table class="table" style="width: 100%">
+            <thead>
+              <tr><th>Concepto</th><th style="text-align: right">Importe</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Servicio de Constitución LLC / Mantenimiento</td>
+                <td style="text-align: right">${(order.amount / 100).toFixed(2)}€</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="total">Total: ${(order.amount / 100).toFixed(2)}€</div>
+        </body>
+      </html>
+    `);
+  });
+
   // Contact form
   app.post("/api/contact/send-otp", async (req, res) => {
     try {

@@ -39,6 +39,10 @@ export interface IStorage {
   // Newsletter
   subscribeToNewsletter(email: string): Promise<void>;
   isSubscribedToNewsletter(email: string): Promise<boolean>;
+
+  // Admin
+  getAllOrders(): Promise<(Order & { product: Product; application: LlcApplication | null; user: any })[]>;
+  updateOrderStatus(orderId: number, status: string): Promise<Order>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -167,6 +171,27 @@ export class DatabaseStorage implements IStorage {
   async isSubscribedToNewsletter(email: string): Promise<boolean> {
     const [subscriber] = await db.select().from(newsletterSubscribers).where(eq(newsletterSubscribers.email, email));
     return !!subscriber;
+  }
+
+  // Admin methods
+  async getAllOrders(): Promise<(Order & { product: Product; application: LlcApplication | null; user: any })[]> {
+    return await db.query.orders.findMany({
+      with: {
+        product: true,
+        application: true,
+        user: true,
+      },
+      orderBy: desc(orders.createdAt),
+    });
+  }
+
+  async updateOrderStatus(orderId: number, status: string): Promise<Order> {
+    const [updated] = await db
+      .update(orders)
+      .set({ status })
+      .where(eq(orders.id, orderId))
+      .returning();
+    return updated;
   }
 }
 
