@@ -534,7 +534,7 @@ export async function registerRoutes(
     const order = await storage.getOrder(orderId);
     
     if (!order) return res.status(404).json({ message: "Pedido no encontrado" });
-    if (order.userId !== req.user.id && !req.user.isAdmin) {
+    if (order.userId !== req.user.claims.sub && !req.user.isAdmin) {
       return res.status(403).json({ message: "No tienes permiso para ver esta factura" });
     }
     
@@ -548,7 +548,7 @@ export async function registerRoutes(
     const order = await storage.getOrder(orderId);
     
     if (!order) return res.status(404).json({ message: "Pedido no encontrado" });
-    if (order.userId !== req.user.id && !req.user.isAdmin) {
+    if (order.userId !== req.user.claims.sub && !req.user.isAdmin) {
       return res.status(403).json({ message: "Acceso denegado" });
     }
     
