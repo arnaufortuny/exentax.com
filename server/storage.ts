@@ -123,7 +123,7 @@ export class DatabaseStorage implements IStorage {
         documents: true,
       },
     });
-    return result;
+    return result as (LlcApplication & { documents: ApplicationDocument[] }) | undefined;
   }
 
   async updateLlcApplication(id: number, updates: Partial<LlcApplication>): Promise<LlcApplication> {

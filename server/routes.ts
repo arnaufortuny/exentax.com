@@ -464,18 +464,18 @@ export async function registerRoutes(
   app.post("/api/llc/:id/pay", async (req, res) => {
     try {
       const appId = parseInt(req.params.id);
-      const app = await storage.getLlcApplication(appId);
-      if (!app) {
+      const application = await storage.getLlcApplication(appId);
+      if (!application) {
         return res.status(404).json({ message: "Application not found" });
       }
       
       // Update order status to paid
-      if (app.orderId) {
-        await storage.updateOrderStatus(app.orderId, "paid");
+      if (application.orderId) {
+        await storage.updateOrderStatus(application.orderId, "paid");
       }
       
       // Update application status to submitted
-      await storage.updateLlcApplication(appId, { status: "submitted" });
+      await storage.updateLlcApplication(appId, { status: "submitted", paymentStatus: "paid" });
       
       res.json({ success: true, message: "Payment successful" });
     } catch (error) {
