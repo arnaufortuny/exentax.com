@@ -8,6 +8,14 @@
     text-rendering: optimizeLegibility;
   }
   
+  [role="combobox"], [data-radix-select-trigger] {
+    z-index: 100 !important;
+  }
+
+  [data-radix-popper-content-wrapper] {
+    z-index: 9999 !important;
+  }
+
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after {
       animation-duration: 0.01ms !important;

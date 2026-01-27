@@ -119,7 +119,11 @@ export async function verifyEmailToken(userId: string, token: string): Promise<b
     .where(eq(emailVerificationTokens.id, tokenRecord.id));
 
   await db.update(users)
-    .set({ emailVerified: true, updatedAt: new Date() })
+    .set({ 
+      emailVerified: true, 
+      accountStatus: 'active', // Auto-verify and activate account
+      updatedAt: new Date() 
+    })
     .where(eq(users.id, userId));
 
   return true;

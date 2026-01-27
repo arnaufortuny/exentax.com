@@ -93,6 +93,15 @@ export async function registerRoutes(
       
       const order = await storage.getOrder(orderId);
       if (order?.user?.email) {
+        const statusLabels: Record<string, string> = {
+          pending: "Pendiente",
+          processing: "En proceso",
+          documents_ready: "Documentos listos",
+          completed: "Completado",
+          cancelled: "Cancelado"
+        };
+        const statusLabel = statusLabels[status] || status.replace(/_/g, " ");
+
         sendEmail({
           to: order.user.email,
           subject: `Actualización de tu pedido ${order.application?.requestCode || `#${order.id}`}`,
@@ -100,7 +109,7 @@ export async function registerRoutes(
             order.user.firstName || "Cliente",
             order.application?.requestCode || `#${order.id}`,
             status,
-            `Tu pedido ha pasado a estado: ${status.replace(/_/g, " ")}`
+            `Tu pedido ha pasado a estado: <strong>${statusLabel}</strong>. Puedes ver los detalles en tu panel de control.`
           )
         }).catch(console.error);
       }
@@ -122,11 +131,44 @@ export async function registerRoutes(
 
   app.patch("/api/admin/users/:id", isAdmin, async (req, res) => {
     try {
-      const { accountStatus, isAdmin: promoteAdmin } = req.body;
+      const { accountStatus, isAdmin: promoteAdmin, firstName, lastName, phone, businessActivity, address } = req.body;
+      const [oldUser] = await db.select().from(usersTable).where(eq(usersTable.id, req.params.id)).limit(1);
+      
       const [updatedUser] = await db.update(usersTable)
-        .set({ accountStatus, isAdmin: promoteAdmin, updatedAt: new Date() })
+        .set({ 
+          accountStatus, 
+          isAdmin: promoteAdmin, 
+          firstName, 
+          lastName, 
+          phone, 
+          businessActivity, 
+          address,
+          updatedAt: new Date() 
+        })
         .where(eq(usersTable.id, req.params.id))
         .returning();
+
+      // If status changed to suspended, send email
+      if (accountStatus === 'suspended' && oldUser?.accountStatus !== 'suspended' && updatedUser?.email) {
+        await sendEmail({
+          to: updatedUser.email,
+          subject: "Aviso importante: Estado de tu cuenta en Easy US LLC",
+          html: `
+            ${getEmailHeader("Cuenta Suspendida")}
+            <div style="padding: 40px; font-family: 'Inter', sans-serif;">
+              <h2 style="font-weight: 900; color: #0E1215;">TU CUENTA HA SIDO BLOQUEADA</h2>
+              <p>Estimado/a ${updatedUser.firstName || 'cliente'},</p>
+              <p>Te informamos que tu cuenta en Easy US LLC ha sido suspendida temporalmente.</p>
+              <p style="background: #F7F7F5; padding: 20px; border-left: 4px solid #6EDC8A;">
+                Por seguridad y cumplimiento normativo, el acceso a tu panel ha sido restringido.
+              </p>
+              <p>Para resolver esta situación, por favor <strong>contacta inmediatamente con nuestro servicio de atención al cliente</strong> respondiendo a este correo o vía WhatsApp.</p>
+            </div>
+            ${getEmailFooter()}
+          `
+        });
+      }
+
       res.json(updatedUser);
     } catch (error) {
       res.status(500).json({ message: "Error updating user" });
@@ -355,8 +397,38 @@ export async function registerRoutes(
     res.json(orders);
   });
 
+  // Invoices
+  app.post("/api/admin/orders/:id/generate-invoice", isAdmin, async (req, res) => {
+    try {
+      const orderId = Number(req.params.id);
+      const { amount, currency } = z.object({ 
+        amount: z.number(), 
+        currency: z.enum(["USD", "EUR"]) 
+      }).parse(req.body);
+      
+      const [updatedOrder] = await db.update(ordersTable)
+        .set({ 
+          amount, 
+          currency, 
+          isInvoiceGenerated: true 
+        })
+        .where(eq(ordersTable.id, orderId))
+        .returning();
+      
+      res.json(updatedOrder);
+    } catch (error) {
+      res.status(500).json({ message: "Error generating invoice" });
+    }
+  });
+
   app.post(api.orders.create.path, async (req: any, res) => {
     try {
+      if (req.session?.userId) {
+        const [currentUser] = await db.select().from(usersTable).where(eq(usersTable.id, req.session.userId)).limit(1);
+        if (currentUser && (currentUser.accountStatus === 'pending' || currentUser.accountStatus === 'suspended')) {
+          return res.status(403).json({ message: "Tu cuenta está en revisión o suspendida. No puedes realizar nuevos pedidos en este momento." });
+        }
+      }
       const { productId } = api.orders.create.input.parse(req.body);
       
       let userId: string;

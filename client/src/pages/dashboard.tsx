@@ -249,7 +249,11 @@ export default function Dashboard() {
       const res = await apiRequest("PATCH", `/api/admin/users/${id}`, data);
       return res.json();
     },
-    onSuccess: () => {
+    onSuccess: (updatedUser) => {
+      queryClient.setQueryData(["/api/admin/users"], (old: any[] | undefined) => {
+        if (!old) return [updatedUser];
+        return old.map(u => u.id === updatedUser.id ? updatedUser : u);
+      });
       queryClient.invalidateQueries({ queryKey: ["/api/admin/users"] });
       toast({ title: "Usuario actualizado" });
       setEditingUser(null);
@@ -429,25 +433,33 @@ export default function Dashboard() {
                               </div>
                               <div className="min-w-0 flex-1">
                                 <h3 className="text-lg md:text-xl font-black text-primary  tracking-tight truncate">{order.product?.name || "Constitución LLC"}</h3>
-                                <p className="text-xs md:text-sm text-muted-foreground font-medium truncate">Pedido #{order.id} • {new Date(order.createdAt).toLocaleDateString()}</p>
+                                <p className="text-xs md:text-sm text-muted-foreground font-medium truncate">Pedido #{order.application?.requestCode || order.id} • {new Date(order.createdAt).toLocaleDateString()}</p>
                               </div>
                             </div>
                             <div className="flex items-center justify-between md:justify-end gap-2 w-full md:w-auto pt-4 md:pt-0 border-t md:border-t-0 border-gray-100">
                               <span className={`px-4 py-1.5 rounded-full text-[10px] font-black  tracking-widest whitespace-nowrap ${
-                                order.status === 'paid' ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'
+                                order.status === 'completed' ? 'bg-green-100 text-green-700' : 
+                                order.status === 'cancelled' ? 'bg-red-100 text-red-700' :
+                                'bg-yellow-100 text-yellow-700'
                               }`}>
-                                {order.status === 'paid' ? 'Activo' : 'Pendiente Pago'}
+                                {order.status === 'completed' ? 'Completado' : 
+                                 order.status === 'cancelled' ? 'Cancelado' : 
+                                 order.status === 'processing' ? 'En proceso' :
+                                 order.status === 'documents_ready' ? 'Docs listos' :
+                                 'Pendiente'}
                               </span>
                               <div className="flex gap-1 md:gap-2">
-                                <Button 
-                                  variant="ghost" 
-                                  className="rounded-full w-9 h-9 md:w-11 md:h-11 p-0 bg-gray-50 shrink-0"
-                                  title="Ver Factura PDF"
-                                  onClick={() => window.open(`/api/orders/${order.id}/invoice`, '_blank')}
-                                  data-testid={`button-invoice-${order.id}`}
-                                >
-                                  <FileText className="w-4 h-4 md:w-5 md:h-5" />
-                                </Button>
+                                {order.isInvoiceGenerated && (
+                                  <Button 
+                                    variant="ghost" 
+                                    className="rounded-full w-9 h-9 md:w-11 md:h-11 p-0 bg-gray-50 shrink-0"
+                                    title="Ver Factura PDF"
+                                    onClick={() => window.open(`/api/orders/${order.id}/invoice`, '_blank')}
+                                    data-testid={`button-invoice-${order.id}`}
+                                  >
+                                    <FileText className="w-4 h-4 md:w-5 md:h-5" />
+                                  </Button>
+                                )}
                                 <Button 
                                   variant="ghost" 
                                   className="rounded-full w-9 h-9 md:w-11 md:h-11 p-0 bg-gray-50 shrink-0"

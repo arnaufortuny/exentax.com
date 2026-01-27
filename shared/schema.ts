@@ -17,9 +17,11 @@ export const orders = pgTable("orders", {
   id: serial("id").primaryKey(),
   userId: varchar("user_id").notNull().references(() => users.id),
   productId: integer("product_id").notNull().references(() => products.id),
-  status: text("status").notNull().default("pending"), // pending, paid, cancelled
+  status: text("status").notNull().default("pending"), // pending, paid, processing, documents_ready, completed, cancelled
   stripeSessionId: text("stripe_session_id"),
   amount: integer("amount").notNull(),
+  currency: varchar("currency", { length: 3 }).notNull().default("EUR"), // USD or EUR
+  isInvoiceGenerated: boolean("is_invoice_generated").notNull().default(false),
   createdAt: timestamp("created_at").defaultNow(),
 }, (table) => ({
   userIdIdx: index("orders_user_id_idx").on(table.userId),
@@ -83,7 +85,8 @@ export const applicationDocuments = pgTable("application_documents", {
   fileName: text("file_name").notNull(),
   fileType: text("file_type").notNull(),
   fileUrl: text("file_url").notNull(),
-  documentType: text("document_type").notNull(), // passport, id, other
+  documentType: text("document_type").notNull(), // passport, id, company_docs, tax_id, other
+  reviewStatus: text("review_status").notNull().default("pending"), // pending, approved, rejected, action_required
   uploadedAt: timestamp("uploaded_at").defaultNow(),
 });
 

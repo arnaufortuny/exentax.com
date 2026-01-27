@@ -116,6 +116,10 @@ export function setupCustomAuth(app: Express) {
         return res.status(401).json({ message: "Email o contraseña incorrectos" });
       }
 
+      if (user.accountStatus === 'suspended') {
+        return res.status(403).json({ message: "CUENTA BLOQUEADA. Contacta a nuestro servicio de atención al cliente para más información." });
+      }
+
       req.session.userId = user.id;
       req.session.email = user.email!;
       req.session.isAdmin = user.isAdmin;
