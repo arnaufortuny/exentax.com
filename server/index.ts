@@ -43,6 +43,28 @@ app.use((req, res, next) => {
 (async () => {
   await registerRoutes(httpServer, app);
 
+  // Simple WebSocket logging for admin panel
+  const { WebSocketServer } = await import('ws');
+  const wss = new WebSocketServer({ noServer: true });
+
+  httpServer.on('upgrade', (request, socket, head) => {
+    const { pathname } = new URL(request.url!, `http://${request.headers.host}`);
+    if (pathname === '/ws/logs') {
+      wss.handleUpgrade(request, socket, head, (ws) => {
+        wss.emit('connection', ws, request);
+      });
+    }
+  });
+
+  const originalLog = console.log;
+  console.log = (...args) => {
+    originalLog(...args);
+    const msg = args.map(arg => typeof arg === 'object' ? JSON.stringify(arg) : arg).join(' ');
+    wss.clients.forEach(client => {
+      if (client.readyState === 1) client.send(msg);
+    });
+  };
+
   app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
     const status = err.status || err.statusCode || 500;
     const message = err.message || "Internal Server Error";

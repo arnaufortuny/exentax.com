@@ -22,6 +22,7 @@ export const orders = pgTable("orders", {
   amount: integer("amount").notNull(),
   currency: varchar("currency", { length: 3 }).notNull().default("EUR"), // USD or EUR
   isInvoiceGenerated: boolean("is_invoice_generated").notNull().default(false),
+  invoiceNumber: text("invoice_number"),
   createdAt: timestamp("created_at").defaultNow(),
 }, (table) => ({
   userIdIdx: index("orders_user_id_idx").on(table.userId),

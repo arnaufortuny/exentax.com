@@ -33,6 +33,7 @@ export const users = pgTable("users", {
   isAdmin: boolean("is_admin").notNull().default(false),
   isActive: boolean("is_active").notNull().default(true),
   accountStatus: text("account_status").notNull().default("active"), // active, pending, suspended, vip
+  internalNotes: text("internal_notes"),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
 });

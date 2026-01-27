@@ -72,7 +72,9 @@ export class DatabaseStorage implements IStorage {
   // Orders
   async createOrder(order: InsertOrder): Promise<Order> {
     const [newOrder] = await db.insert(orders).values(order).returning();
-    return newOrder;
+    const invoiceNumber = String(newOrder.id).padStart(6, '0');
+    await db.update(orders).set({ invoiceNumber }).where(eq(orders.id, newOrder.id));
+    return { ...newOrder, invoiceNumber };
   }
 
   async getOrders(userId?: string): Promise<any[]> {
@@ -223,7 +225,8 @@ export class DatabaseStorage implements IStorage {
     const { encrypt } = await import("./utils/encryption");
     const year = new Date().getFullYear();
     const count = await db.select({ count: sql<number>`count(*)` }).from(messagesTable);
-    const msgId = `MSG-${year}-${String(Number(count[0].count) + 1).padStart(4, '0')}`;
+    const randomSuffix = Math.random().toString(36).substring(2, 4).toUpperCase();
+    const msgId = `MSG-${year}-${String(Number(count[0].count) + 1).padStart(4, '0')}-${randomSuffix}`;
     
     const encryptedContent = encrypt(message.content);
     const [newMessage] = await db.insert(messagesTable).values({

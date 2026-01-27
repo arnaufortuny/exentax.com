@@ -209,7 +209,13 @@ export default function Dashboard() {
     }
   });
 
-  // Admin queries
+  const { data: adminStats } = useQuery<{ totalSales: number }>({
+    queryKey: ["/api/admin/stats"],
+    enabled: !!user?.isAdmin,
+  });
+
+  const totalSales = adminStats?.totalSales ? (adminStats.totalSales / 100).toLocaleString('es-ES', { style: 'currency', currency: 'EUR' }) : '0,00 €';
+
   const { data: adminOrders } = useQuery<any[]>({
     queryKey: ["/api/admin/orders"],
     enabled: !!user?.isAdmin,
@@ -342,7 +348,10 @@ export default function Dashboard() {
     { id: 'documents', label: 'Documentos', icon: FileText, mobileLabel: 'Docs' },
     { id: 'payments', label: 'Pagos y Facturas', icon: CreditCard, mobileLabel: 'Pagos' },
     { id: 'profile', label: 'Mi Perfil', icon: UserIcon, mobileLabel: 'Perfil' },
-    ...(user?.isAdmin ? [{ id: 'admin', label: 'Administración', icon: Shield, mobileLabel: 'Admin' }] : []),
+    ...(user?.isAdmin ? [
+      { id: 'admin', label: 'Administración', icon: Shield, mobileLabel: 'Admin' },
+      { id: 'logs', label: 'Logs Sistema', icon: FileText, mobileLabel: 'Logs' }
+    ] : []),
   ];
 
   return (
@@ -408,13 +417,11 @@ export default function Dashboard() {
                       <h4 className="text-2xl font-black text-primary">{orders?.length || 0}</h4>
                       <p className="text-xs text-muted-foreground font-medium">Servicios totales contratados</p>
                     </Card>
-                    <Card className="rounded-3xl border-0 shadow-sm p-6 bg-white">
-                      <p className="text-[10px] font-black  tracking-widest text-muted-foreground mb-1">Estado Global</p>
-                      <h4 className="text-2xl font-black text-accent ">
-                        {orders?.some(o => o.status === 'pending') ? 'Pendiente' : 'Al día'}
-                      </h4>
-                      <p className="text-xs text-muted-foreground font-medium">Situación de tus trámites</p>
-                    </Card>
+                          <Card className="rounded-3xl border-0 shadow-sm p-6 bg-white">
+                            <p className="text-[10px] font-black tracking-widest text-muted-foreground mb-1">Ventas Totales</p>
+                            <h4 className="text-2xl font-black text-primary">{totalSales}</h4>
+                            <p className="text-xs text-muted-foreground font-medium">Facturación real (completados)</p>
+                          </Card>
                   </div>
                   
                   <h2 className="text-xl md:text-2xl font-black text-primary  tracking-tight mb-6">Tus Servicios Activos</h2>
@@ -1309,6 +1316,14 @@ export default function Dashboard() {
                                             <Input value={editingUser.email || ''} onChange={(e) => setEditingUser({...editingUser, email: e.target.value})} />
                                           </div>
                                           <div>
+                                            <Label>Nueva Contraseña (Dejar en blanco para no cambiar)</Label>
+                                            <Input type="password" placeholder="Nueva contraseña" onChange={(e) => setEditingUser({...editingUser, password: e.target.value})} />
+                                          </div>
+                                          <div>
+                                            <Label>Notas Internas (Solo Admin)</Label>
+                                            <Textarea value={(editingUser as any).internalNotes || ''} onChange={(e) => setEditingUser({...editingUser, internalNotes: e.target.value})} className="h-20" />
+                                          </div>
+                                          <div>
                                             <Label>Teléfono</Label>
                                             <Input value={editingUser.phone || ''} onChange={(e) => setEditingUser({...editingUser, phone: e.target.value})} />
                                           </div>
@@ -1450,6 +1465,30 @@ export default function Dashboard() {
                       </CardContent>
                     </Card>
                   )}
+                </motion.div>
+              )}
+              {activeTab === 'logs' && user?.isAdmin && (
+                <motion.div
+                  key="logs"
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: 20 }}
+                  className="space-y-6"
+                >
+                  <Card className="rounded-3xl border-0 shadow-sm overflow-hidden bg-black text-green-400 p-6 font-mono text-xs h-[600px] overflow-y-auto">
+                    <div className="flex items-center justify-between mb-4 border-b border-green-900 pb-2">
+                      <span className="font-black text-accent tracking-widest uppercase">System Activity Logs (Live)</span>
+                      <Button variant="ghost" size="sm" onClick={() => setActivityLogs([])} className="text-green-400 hover:text-green-300">Limpiar</Button>
+                    </div>
+                    <div className="space-y-1">
+                      {activityLogs.map((log, i) => (
+                        <div key={i} className="border-l-2 border-green-900 pl-2 py-1 hover:bg-white/5 transition-colors">
+                          <span className="text-green-600">[{new Date().toLocaleTimeString()}]</span> {log}
+                        </div>
+                      ))}
+                      {activityLogs.length === 0 && <p className="text-green-800">Esperando actividad...</p>}
+                    </div>
+                  </Card>
                 </motion.div>
               )}
             </AnimatePresence>
