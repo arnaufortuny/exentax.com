@@ -206,7 +206,7 @@ export default function ApplicationWizard() {
   return (
     <div className="min-h-screen bg-background font-sans w-full">
       <Navbar />
-      <main className="pt-24 pb-16 max-w-4xl mx-auto px-4 md:px-6">
+      <main className="pt-24 pb-16 max-w-4xl mx-auto px-5 sm:px-6 md:px-8">
         <h1 className="text-3xl md:text-4xl font-black  mb-4 text-primary leading-tight text-left">
           Constituir mi <span className="text-accent">LLC</span>
         </h1>

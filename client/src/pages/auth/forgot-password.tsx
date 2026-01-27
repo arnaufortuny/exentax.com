@@ -47,7 +47,7 @@ export default function ForgotPassword() {
     return (
       <div className="min-h-screen bg-background font-sans">
         <Navbar />
-        <main className="pt-24 pb-16 px-4 flex flex-col items-center justify-center min-h-[80vh]">
+        <main className="pt-24 pb-16 px-5 sm:px-6 flex flex-col items-center justify-center min-h-[80vh]">
           <motion.div 
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -81,7 +81,7 @@ export default function ForgotPassword() {
   return (
     <div className="min-h-screen bg-background font-sans">
       <Navbar />
-      <main className="pt-24 pb-16 px-4 flex flex-col items-center justify-center min-h-[80vh]">
+      <main className="pt-24 pb-16 px-5 sm:px-6 flex flex-col items-center justify-center min-h-[80vh]">
         <div className="w-full max-w-md">
           <div className="text-center mb-8">
             <h1 className="text-3xl sm:text-4xl font-black text-primary tracking-tight">
