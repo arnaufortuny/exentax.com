@@ -6,13 +6,13 @@ export function getEmailHeader(title: string = "Easy US LLC") {
   const logoUrl = `${protocol}://${domain}/logo-email.png?v=4`;
   
   return `
-    <div style="background-color: #ffffff; padding: 40px 20px; text-align: center; border-bottom: 2px solid #6EDC8A;">
-      <div style="margin-bottom: 20px; display: block; width: 100%; text-align: center;">
+    <div style="background-color: #ffffff; padding: 40px 20px; text-align: center; border-bottom: 3px solid #6EDC8A;">
+      <div style="margin-bottom: 25px; display: block; width: 100%; text-align: center;">
         <a href="https://${domain}" target="_blank" style="text-decoration: none; display: inline-block;">
-          <img src="${logoUrl}" alt="Easy US LLC" width="100" height="100" style="display: inline-block; margin: 0 auto; width: 100px; height: 100px; object-fit: contain; border: 0;" />
+          <img src="${logoUrl}" alt="Easy US LLC" width="120" height="120" style="display: inline-block; margin: 0 auto; width: 120px; height: 120px; object-fit: contain; border: 0;" />
         </a>
       </div>
-      <h1 style="color: #0E1215; margin: 0; font-family: 'Inter', Arial, sans-serif; font-weight: 900; text-transform: uppercase; letter-spacing: -1px; font-size: 24px; line-height: 1;">
+      <h1 style="color: #0E1215; margin: 0; font-family: 'Inter', Arial, sans-serif; font-weight: 900; text-transform: uppercase; letter-spacing: -1.5px; font-size: 28px; line-height: 1.1;">
         ${title}
       </h1>
     </div>

@@ -27,10 +27,10 @@ const toastVariants = cva(
   {
     variants: {
       variant: {
-        default: "border-brand-lime bg-[#0E1215] text-[#F7F7F5] shadow-brand-lime/10",
+        default: "border-accent/30 bg-[#0E1215] text-[#F7F7F5] shadow-brand-lime/10 font-display font-black",
         destructive:
-          "destructive group border-red-500/50 bg-[#0E1215] text-red-500 font-black",
-        success: "border-[#6EDC8A] bg-[#0E1215] text-[#6EDC8A] font-black shadow-lg shadow-[#6EDC8A]/10  tracking-widest text-[10px]",
+          "destructive group border-red-500/50 bg-[#0E1215] text-red-500 font-display font-black",
+        success: "border-[#6EDC8A] bg-[#0E1215] text-[#6EDC8A] font-display font-black shadow-lg shadow-[#6EDC8A]/10 tracking-tight",
       },
     },
     defaultVariants: {
@@ -47,7 +47,7 @@ const Toast = React.forwardRef<
   return (
     <ToastPrimitives.Root
       ref={ref}
-      className={cn(toastVariants({ variant }), className)}
+      className={cn(toastVariants({ variant }), "border-2", className)}
       {...props}
     />
   )
@@ -61,7 +61,7 @@ const ToastAction = React.forwardRef<
   <ToastPrimitives.Action
     ref={ref}
     className={cn(
-      "inline-flex h-8 shrink-0 items-center justify-center rounded-md border bg-transparent px-3 text-sm font-medium ring-offset-background transition-colors hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 group-[.destructive]:border-muted/40 group-[.destructive]:hover:border-destructive/30 group-[.destructive]:hover:bg-destructive group-[.destructive]:hover:text-destructive-foreground group-[.destructive]:focus:ring-destructive",
+      "inline-flex h-8 shrink-0 items-center justify-center rounded-full border bg-transparent px-3 text-sm font-black transition-colors hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 group-[.destructive]:border-muted/40 group-[.destructive]:hover:border-destructive/30 group-[.destructive]:hover:bg-destructive group-[.destructive]:hover:text-destructive-foreground group-[.destructive]:focus:ring-destructive",
       className
     )}
     {...props}

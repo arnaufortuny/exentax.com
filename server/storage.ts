@@ -1,4 +1,5 @@
 import { db } from "./db";
+import { sql } from "drizzle-orm";
 import {
   products, orders, llcApplications, applicationDocuments, newsletterSubscribers,
   maintenanceApplications, messages as messagesTable,
