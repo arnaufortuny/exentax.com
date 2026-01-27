@@ -2,8 +2,8 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { Link, useLocation } from "wouter";
-import { Loader2, Mail, Lock, Eye, EyeOff } from "lucide-react";
+import { Link } from "wouter";
+import { Loader2, Eye, EyeOff } from "lucide-react";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { Button } from "@/components/ui/button";
@@ -20,17 +20,13 @@ const loginSchema = z.object({
 type LoginFormValues = z.infer<typeof loginSchema>;
 
 export default function Login() {
-  const [, setLocation] = useLocation();
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const { toast } = useToast();
 
   const form = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
-    defaultValues: {
-      email: "",
-      password: "",
-    },
+    defaultValues: { email: "", password: "" },
   });
 
   const onSubmit = async (data: LoginFormValues) => {
@@ -40,16 +36,9 @@ export default function Login() {
       const result = await res.json();
       
       if (result.success) {
-        // Wait for the user query to refetch before redirecting
         await queryClient.refetchQueries({ queryKey: ["/api/auth/user"] });
         toast({ title: "Sesión iniciada", variant: "success" });
-        
-        // Use window.location for full page reload to ensure session is recognized
-        if (result.user.isAdmin) {
-          window.location.href = "/admin";
-        } else {
-          window.location.href = "/dashboard";
-        }
+        window.location.href = result.user.isAdmin ? "/admin" : "/dashboard";
       }
     } catch (err: any) {
       toast({ 
@@ -71,9 +60,7 @@ export default function Login() {
             <h1 className="text-3xl sm:text-4xl font-black text-primary tracking-tight">
               Iniciar <span className="text-accent">Sesión</span>
             </h1>
-            <p className="text-muted-foreground mt-2">
-              Accede a tu área de cliente
-            </p>
+            <p className="text-muted-foreground mt-2">Accede a tu área de cliente</p>
           </div>
 
           <div className="bg-white rounded-[2rem] p-8 shadow-xl border border-gray-100">
@@ -100,6 +87,7 @@ export default function Login() {
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
                     className="absolute right-4 top-[42px] text-muted-foreground hover:text-primary transition-colors"
+                    aria-label={showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
                   >
                     {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                   </button>

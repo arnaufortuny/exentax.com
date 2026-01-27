@@ -2,13 +2,13 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { Link, useLocation } from "wouter";
+import { Link } from "wouter";
 import { Loader2, Eye, EyeOff, CheckCircle2 } from "lucide-react";
 import { motion } from "framer-motion";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { Button } from "@/components/ui/button";
-import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
+import { Form } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest, queryClient } from "@/lib/queryClient";
@@ -29,12 +29,12 @@ const registerSchema = z.object({
 type RegisterFormValues = z.infer<typeof registerSchema>;
 
 export default function Register() {
-  const [, setLocation] = useLocation();
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [isRegistered, setIsRegistered] = useState(false);
   const [verificationCode, setVerificationCode] = useState("");
   const [isVerifying, setIsVerifying] = useState(false);
+  const [isResending, setIsResending] = useState(false);
   const { toast } = useToast();
 
   const form = useForm<RegisterFormValues>({
@@ -62,7 +62,7 @@ export default function Register() {
       const result = await res.json();
       
       if (result.success) {
-        queryClient.invalidateQueries({ queryKey: ["/api/auth/user"] });
+        await queryClient.refetchQueries({ queryKey: ["/api/auth/user"] });
         setIsRegistered(true);
         toast({ title: "Cuenta creada", description: "Revisa tu email para el código de verificación" });
       }
@@ -79,7 +79,7 @@ export default function Register() {
 
   const verifyEmail = async () => {
     if (!verificationCode || verificationCode.length < 6) {
-      toast({ title: "Código inválido", variant: "destructive" });
+      toast({ title: "Introduce el código de 6 dígitos", variant: "destructive" });
       return;
     }
     
@@ -90,13 +90,13 @@ export default function Register() {
       
       if (result.success) {
         await queryClient.refetchQueries({ queryKey: ["/api/auth/user"] });
-        toast({ title: "Email verificado", variant: "success" });
+        toast({ title: "Email verificado correctamente" });
         window.location.href = "/dashboard";
       }
     } catch (err: any) {
       toast({ 
         title: "Código incorrecto", 
-        description: "Inténtalo de nuevo o solicita un nuevo código", 
+        description: err.message || "Inténtalo de nuevo o solicita un nuevo código", 
         variant: "destructive" 
       });
     } finally {
@@ -105,11 +105,14 @@ export default function Register() {
   };
 
   const resendCode = async () => {
+    setIsResending(true);
     try {
       await apiRequest("POST", "/api/auth/resend-verification");
       toast({ title: "Código enviado", description: "Revisa tu email" });
     } catch (err) {
       toast({ title: "Error", description: "No se pudo enviar el código", variant: "destructive" });
+    } finally {
+      setIsResending(false);
     }
   };
 
@@ -130,9 +133,7 @@ export default function Register() {
               <h1 className="text-2xl sm:text-3xl font-black text-primary tracking-tight">
                 Verifica tu <span className="text-accent">Email</span>
               </h1>
-              <p className="text-muted-foreground mt-2">
-                Te hemos enviado un código de verificación
-              </p>
+              <p className="text-muted-foreground mt-2">Te hemos enviado un código de verificación</p>
             </div>
 
             <div className="bg-white rounded-[2rem] p-8 shadow-xl border border-gray-100 space-y-6">
@@ -140,17 +141,19 @@ export default function Register() {
                 <label className="text-sm font-black text-primary block mb-2">Código de verificación</label>
                 <Input
                   value={verificationCode}
-                  onChange={(e) => setVerificationCode(e.target.value)}
-                  className="rounded-full h-14 px-6 text-center text-2xl font-black border-gray-200 focus:border-[#6EDC8A]"
+                  onChange={(e) => setVerificationCode(e.target.value.replace(/\D/g, ""))}
+                  className="rounded-full h-14 px-6 text-center text-2xl font-black border-gray-200 focus:border-[#6EDC8A] tracking-[0.5em]"
                   placeholder="000000"
                   maxLength={6}
+                  inputMode="numeric"
+                  autoComplete="one-time-code"
                   data-testid="input-verification-code"
                 />
               </div>
 
               <Button
                 onClick={verifyEmail}
-                disabled={isVerifying}
+                disabled={isVerifying || verificationCode.length < 6}
                 className="w-full bg-[#6EDC8A] text-primary font-black py-7 rounded-full text-lg shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all"
                 data-testid="button-verify"
               >
@@ -160,16 +163,17 @@ export default function Register() {
               <div className="text-center">
                 <button
                   onClick={resendCode}
-                  className="text-sm font-medium text-accent hover:underline"
+                  disabled={isResending}
+                  className="text-sm font-medium text-accent hover:underline disabled:opacity-50"
                   data-testid="button-resend-code"
                 >
-                  Reenviar código
+                  {isResending ? "Enviando..." : "Reenviar código"}
                 </button>
               </div>
 
               <div className="text-center pt-4 border-t border-gray-100">
                 <button
-                  onClick={() => setLocation("/dashboard")}
+                  onClick={() => window.location.href = "/dashboard"}
                   className="text-sm text-muted-foreground hover:text-primary transition-colors"
                 >
                   Verificar más tarde
@@ -192,27 +196,15 @@ export default function Register() {
             <h1 className="text-3xl sm:text-4xl font-black text-primary tracking-tight">
               Crear <span className="text-accent">Cuenta</span>
             </h1>
-            <p className="text-muted-foreground mt-2">
-              Regístrate para gestionar tu LLC
-            </p>
+            <p className="text-muted-foreground mt-2">Regístrate para gestionar tu LLC</p>
           </div>
 
           <div className="bg-white rounded-[2rem] p-8 shadow-xl border border-gray-100">
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
                 <div className="grid grid-cols-2 gap-4">
-                  <FormInput
-                    control={form.control}
-                    name="firstName"
-                    label="Nombre"
-                    placeholder="Tu nombre"
-                  />
-                  <FormInput
-                    control={form.control}
-                    name="lastName"
-                    label="Apellido"
-                    placeholder="Tu apellido"
-                  />
+                  <FormInput control={form.control} name="firstName" label="Nombre" placeholder="Tu nombre" />
+                  <FormInput control={form.control} name="lastName" label="Apellido" placeholder="Tu apellido" />
                 </div>
 
                 <FormInput
@@ -245,6 +237,7 @@ export default function Register() {
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
                     className="absolute right-4 top-[42px] text-muted-foreground hover:text-primary transition-colors"
+                    aria-label={showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
                   >
                     {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                   </button>
