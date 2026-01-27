@@ -8,18 +8,16 @@ const app = express();
 const httpServer = createServer(app);
 
 // Health check endpoint at root (/) to ensure deployment success on Replit
+// This MUST be the first route registered to respond immediately
 app.get("/", (_req, res) => {
   res.status(200).send("OK");
 });
 
-app.use(compression());
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-
-// Additional health check endpoint
 app.get("/health", (_req, res) => {
   res.status(200).send("OK");
 });
+
+app.use(compression());
 
 export function log(message: string, source = "express") {
   const formattedTime = new Date().toLocaleTimeString("en-US", {
