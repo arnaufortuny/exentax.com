@@ -678,7 +678,8 @@ export async function registerRoutes(
         lastName: z.string().min(1).max(100).optional(),
         email: z.string().email().optional(),
         phone: z.string().max(30).optional().nullable(),
-        isActive: z.boolean().optional()
+        isActive: z.boolean().optional(),
+        accountStatus: z.enum(['active', 'pending', 'suspended', 'vip']).optional()
       });
       const data = updateSchema.parse(req.body);
       const [updated] = await db.update(usersTable).set({

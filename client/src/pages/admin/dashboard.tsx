@@ -312,6 +312,15 @@ export default function AdminDashboard() {
                             {u.isActive === false && (
                               <Badge className="text-[10px] font-black bg-red-100 text-red-700">Desactivado</Badge>
                             )}
+                            {u.accountStatus && u.accountStatus !== 'active' && (
+                              <Badge className={`text-[10px] font-black ${
+                                u.accountStatus === 'vip' ? 'bg-accent/20 text-accent-foreground' :
+                                u.accountStatus === 'pending' ? 'bg-yellow-100 text-yellow-700' :
+                                'bg-red-100 text-red-700'
+                              }`}>
+                                {u.accountStatus === 'vip' ? 'VIP' : u.accountStatus === 'pending' ? 'Pendiente' : 'Suspendida'}
+                              </Badge>
+                            )}
                           </div>
                           <p className="text-sm text-muted-foreground">{u.email} • {u.phone || 'Sin teléfono'}</p>
                           <p className="text-xs text-muted-foreground font-mono">{u.id}</p>
@@ -346,6 +355,23 @@ export default function AdminDashboard() {
                                   <div>
                                     <Label>Teléfono</Label>
                                     <Input value={editingUser.phone || ''} onChange={(e) => setEditingUser({...editingUser, phone: e.target.value})} />
+                                  </div>
+                                  <div>
+                                    <Label>Estado de Cuenta</Label>
+                                    <Select 
+                                      value={editingUser.accountStatus || 'active'} 
+                                      onValueChange={(val) => setEditingUser({...editingUser, accountStatus: val})}
+                                    >
+                                      <SelectTrigger>
+                                        <SelectValue />
+                                      </SelectTrigger>
+                                      <SelectContent>
+                                        <SelectItem value="active">Activa</SelectItem>
+                                        <SelectItem value="pending">Pendiente</SelectItem>
+                                        <SelectItem value="vip">VIP</SelectItem>
+                                        <SelectItem value="suspended">Suspendida</SelectItem>
+                                      </SelectContent>
+                                    </Select>
                                   </div>
                                   <DialogFooter>
                                     <Button onClick={() => updateUserMutation.mutate({ id: editingUser.id, data: editingUser })} className="bg-accent text-primary font-black">

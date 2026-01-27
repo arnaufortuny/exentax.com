@@ -111,6 +111,7 @@ export default function Dashboard() {
   const { data: orders, isLoading: ordersLoading } = useQuery<any[]>({
     queryKey: ["/api/orders"],
     enabled: isAuthenticated,
+    refetchInterval: 30000, // Real-time updates every 30 seconds
   });
 
   const { data: messagesData, isLoading: messagesLoading } = useQuery<any[]>({
@@ -141,6 +142,7 @@ export default function Dashboard() {
   const { data: notifications, isLoading: notificationsLoading } = useQuery<any[]>({
     queryKey: ["/api/user/notifications"],
     enabled: isAuthenticated,
+    refetchInterval: 30000, // Real-time updates every 30 seconds
   });
 
   const changePasswordMutation = useMutation({
@@ -222,18 +224,21 @@ export default function Dashboard() {
         {/* Mobile & Desktop Navigation Tabs */}
         <div className="flex overflow-x-auto pb-4 mb-8 gap-2 no-scrollbar -mx-4 px-4 md:mx-0 md:px-0">
           {menuItems.map((item) => (
-            <button
+            <Button
               key={item.id}
+              variant={activeTab === item.id ? "default" : "outline"}
               onClick={() => setActiveTab(item.id as Tab)}
-              className={`flex items-center gap-2 px-5 py-3 rounded-full font-black text-xs md:text-sm  tracking-tight transition-all whitespace-nowrap shrink-0 ${
+              className={`flex items-center gap-2 rounded-full font-black text-xs md:text-sm tracking-tight whitespace-nowrap shrink-0 ${
                 activeTab === item.id 
-                ? 'bg-accent text-primary shadow-lg shadow-accent/20 scale-105' 
-                : 'bg-white text-muted-foreground hover:bg-gray-50'
+                ? 'bg-accent text-primary shadow-lg shadow-accent/20' 
+                : 'bg-white text-muted-foreground border-0'
               }`}
+              data-testid={`button-tab-${item.id}`}
             >
               <item.icon className="w-4 h-4" />
-              {item.label}
-            </button>
+              <span className="hidden sm:inline">{item.label}</span>
+              <span className="sm:hidden">{item.id === 'services' ? 'Servicios' : item.id === 'notifications' ? 'Alertas' : item.id === 'messages' ? 'Msgs' : item.id === 'documents' ? 'Docs' : item.id === 'payments' ? 'Pagos' : 'Perfil'}</span>
+            </Button>
           ))}
         </div>
 
@@ -507,6 +512,31 @@ export default function Dashboard() {
                       <CardDescription className="text-xs md:text-sm">Gestiona tus datos de contacto y preferencias.</CardDescription>
                     </CardHeader>
                     <CardContent className="p-6 md:p-8 pt-0 space-y-6">
+                      {/* Client ID and Account Status */}
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+                        <div className="p-4 bg-accent/5 rounded-2xl border border-accent/10">
+                          <p className="text-[10px] font-black tracking-widest text-muted-foreground uppercase mb-1">ID de Cliente</p>
+                          <p className="text-lg font-black text-primary font-mono">{user?.id?.slice(0, 8).toUpperCase() || 'N/A'}</p>
+                        </div>
+                        <div className="p-4 bg-accent/5 rounded-2xl border border-accent/10">
+                          <p className="text-[10px] font-black tracking-widest text-muted-foreground uppercase mb-1">Estado de Cuenta</p>
+                          <div className="flex items-center gap-2">
+                            <span className={`w-2 h-2 rounded-full ${
+                              user?.accountStatus === 'active' ? 'bg-green-500' :
+                              user?.accountStatus === 'vip' ? 'bg-accent' :
+                              user?.accountStatus === 'pending' ? 'bg-yellow-500' :
+                              'bg-red-500'
+                            }`} />
+                            <p className="text-lg font-black text-primary capitalize">
+                              {user?.accountStatus === 'active' ? 'Activa' :
+                               user?.accountStatus === 'vip' ? 'VIP' :
+                               user?.accountStatus === 'pending' ? 'Pendiente' :
+                               user?.accountStatus === 'suspended' ? 'Suspendida' : 'Activa'}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                      
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                         <div className="space-y-2">
                           <label className="text-[10px] md:text-xs font-black tracking-widest text-muted-foreground uppercase">Nombre</label>
