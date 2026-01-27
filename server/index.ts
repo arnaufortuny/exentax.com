@@ -11,6 +11,11 @@ app.use(compression());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
+// Health check endpoint at root to ensure deployment success
+app.get("/health", (_req, res) => {
+  res.status(200).send("OK");
+});
+
 export function log(message: string, source = "express") {
   const formattedTime = new Date().toLocaleTimeString("en-US", {
     hour: "numeric",

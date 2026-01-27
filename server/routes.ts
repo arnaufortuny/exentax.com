@@ -37,6 +37,11 @@ export async function registerRoutes(
   // Set up Custom Auth
   setupCustomAuth(app);
 
+  // Health check endpoint for deployment
+  app.get("/healthz", (_req, res) => {
+    res.status(200).send("OK");
+  });
+
     // Unified activity log helper
     const logActivity = async (title: string, data: any, req?: any) => {
       const ip = req?.ip || "unknown";
