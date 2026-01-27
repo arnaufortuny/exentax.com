@@ -215,21 +215,27 @@ export async function registerRoutes(
 
   app.get("/api/admin/system-stats", isAdmin, async (req, res) => {
     try {
-      const [[{ totalSales }], [{ userCount }], [{ orderCount }], [{ visitorCount }]] = await Promise.all([
-        db.select({ totalSales: sql<number>`COALESCE(sum(amount), 0)` }).from(ordersTable).where(eq(ordersTable.status, 'completed')),
-        db.select({ userCount: sql<number>`count(*)` }).from(usersTable),
-        db.select({ orderCount: sql<number>`count(*)` }).from(ordersTable),
-        db.select({ visitorCount: sql<number>`count(DISTINCT ip_address)` }).from(sql`activity_logs`) // Assuming activity_logs table exists or use a fallback
-      ]);
+      // Get core metrics
+      const [salesResult] = await db.select({ totalSales: sql<number>`COALESCE(sum(amount), 0)` }).from(ordersTable).where(eq(ordersTable.status, 'completed'));
+      const [userResult] = await db.select({ count: sql<number>`count(*)` }).from(usersTable);
+      const [orderResult] = await db.select({ count: sql<number>`count(*)` }).from(ordersTable);
+      
+      // Get unique visitors from activity logs
+      const [visitorResult] = await db.select({ count: sql<number>`count(DISTINCT ip_address)` }).from(sql`activity_logs`);
 
-      // Calculate conversion rate
+      const totalSales = Number(salesResult?.totalSales || 0);
+      const userCount = Number(userResult?.count || 0);
+      const orderCount = Number(orderResult?.count || 0);
+      const visitorCount = Number(visitorResult?.count || 0);
+
+      // Calculate conversion rate (orders / visitors)
       const conversionRate = visitorCount > 0 ? (orderCount / visitorCount) * 100 : 0;
 
       res.json({ 
-        totalSales: Number(totalSales),
-        userCount: Number(userCount),
-        orderCount: Number(orderCount),
-        visitorCount: Number(visitorCount || 0),
+        totalSales,
+        userCount,
+        orderCount,
+        visitorCount,
         conversionRate: Number(conversionRate.toFixed(2))
       });
     } catch (error) {
@@ -418,12 +424,26 @@ export async function registerRoutes(
   app.delete("/api/user/account", isAuthenticated, async (req: any, res) => {
     try {
       const userId = req.session.userId;
-      await db.delete(usersTable).where(eq(usersTable.id, userId));
+      const { mode } = req.body; // 'hard' for 100% delete, 'soft' to keep data but disable email
+
+      if (mode === 'hard') {
+        await db.delete(usersTable).where(eq(usersTable.id, userId));
+      } else {
+        // Soft delete: Keep record but mark as suspended and change email to prevent reuse
+        const [user] = await db.select().from(usersTable).where(eq(usersTable.id, userId)).limit(1);
+        await db.update(usersTable).set({ 
+          accountStatus: 'suspended',
+          isActive: false,
+          email: `deleted_${userId}_${user.email}`,
+          updatedAt: new Date()
+        }).where(eq(usersTable.id, userId));
+      }
+
       req.session.destroy(() => {});
-      res.json({ success: true, message: "Cuenta eliminada correctamente" });
+      res.json({ success: true, message: "Cuenta procesada correctamente" });
     } catch (error) {
       console.error("Delete account error:", error);
-      res.status(500).json({ message: "Error deleting account" });
+      res.status(500).json({ message: "Error al procesar la eliminación de cuenta" });
     }
   });
 

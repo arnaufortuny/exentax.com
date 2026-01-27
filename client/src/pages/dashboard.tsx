@@ -126,12 +126,18 @@ export default function Dashboard() {
 
   const updateProfile = useMutation({
     mutationFn: async (data: typeof profileData) => {
+      if (user?.accountStatus === 'pending') {
+        throw new Error("Tu cuenta está en revisión. No puedes modificar tus datos en este momento.");
+      }
       await apiRequest("PATCH", "/api/user/profile", data);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/auth/user"] });
       setIsEditing(false);
       toast({ title: "Perfil actualizado" });
+    },
+    onError: (error: any) => {
+      toast({ title: "Error", description: error.message, variant: "destructive" });
     }
   });
 
@@ -198,11 +204,12 @@ export default function Dashboard() {
   });
 
   const deleteAccountMutation = useMutation({
-    mutationFn: async () => {
-      await apiRequest("DELETE", "/api/user/account");
+    mutationFn: async (params: { mode: 'hard' | 'soft' }) => {
+      await apiRequest("DELETE", "/api/user/account", params);
     },
     onSuccess: () => {
       setLocation("/");
+      toast({ title: "Cuenta procesada", description: "Tu solicitud ha sido gestionada correctamente." });
     }
   });
 
@@ -914,8 +921,9 @@ export default function Dashboard() {
                               variant="destructive" 
                               className="rounded-full font-black py-6 text-sm"
                               onClick={() => {
-                                if (confirm("¿Estás seguro de que deseas eliminar tu cuenta? Esta acción es irreversible.")) {
-                                  deleteAccountMutation.mutate();
+                                const mode = confirm("¿Deseas ELIMINACIÓN TOTAL (OK) o solo DESACTIVAR CUENTA (Cancelar)?") ? 'hard' : 'soft';
+                                if (confirm(`¿Confirmas la ${mode === 'hard' ? 'ELIMINACIÓN TOTAL' : 'DESACTIVACIÓN'} de tu cuenta?`)) {
+                                  deleteAccountMutation.mutate({ mode });
                                 }
                               }}
                             >

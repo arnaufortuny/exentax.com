@@ -3,7 +3,9 @@ import session from "express-session";
 import connectPg from "connect-pg-simple";
 import { db } from "../db";
 import { users } from "@shared/models/auth";
+import { userNotifications } from "@shared/schema";
 import { eq } from "drizzle-orm";
+import { sendEmail, getWelcomeEmailTemplate } from "./email";
 import {
   createUser,
   loginUser,
@@ -135,7 +137,7 @@ export function setupCustomAuth(app: Express) {
         }
 
         if (user.accountStatus === 'suspended') {
-          return res.status(403).json({ message: "CUENTA BLOQUEADA. Contacta a nuestro servicio de atención al cliente para más información." });
+          return res.status(403).json({ message: "CUENTA DESACTIVADA. Contacta a nuestro servicio de atención al cliente para más información." });
         }
 
         req.session.userId = user.id;

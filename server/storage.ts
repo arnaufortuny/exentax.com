@@ -73,8 +73,10 @@ export class DatabaseStorage implements IStorage {
   // Orders
   async createOrder(order: InsertOrder): Promise<Order> {
     const [newOrder] = await db.insert(orders).values(order).returning();
-    // Generate 8-digit invoice number
-    const invoiceNumber = Math.floor(10000000 + Math.random() * 90000000).toString();
+    // Generate 8-digit numeric ID (Year + Random 4 digits)
+    const year = new Date().getFullYear().toString().slice(-2);
+    const random = Math.floor(100000 + Math.random() * 900000).toString();
+    const invoiceNumber = `ORD-${year}${random}`;
     await db.update(orders).set({ invoiceNumber }).where(eq(orders.id, newOrder.id));
     return { ...newOrder, invoiceNumber };
   }
