@@ -26,6 +26,18 @@ Easy US LLC is a business formation service for Spanish-speaking entrepreneurs l
 - `server/`: Express backend with Drizzle storage.
 
 ## Recent Changes
+- **Client Dashboard Enhancements (Jan 2026):**
+  - Dynamic order timeline fetched from orderEvents API with real-time updates
+  - Enhanced messaging system with ticket IDs (MSG-{id}) and reply functionality
+  - Proper TanStack Query implementation with hierarchical cache keys
+  - Invoice viewing and Stripe portal integration
+- **Contact Form Improvements:**
+  - Message ID capture and display on confirmation page
+  - URL parameter support for orderId and ticket tracking
+  - Green checkmark confirmation with prominent ticket numbers
+- **Design System Compliance:**
+  - Removed custom hover/active states from Button components
+  - Standardized with built-in shadcn elevation utilities
 - Migrated Navbar and Footer to use semantic design tokens (accent, primary, primary-foreground).
 - Standardized all email notifications (client/admin) with professional minimalist design.
 - Implemented automated response system for customer contact with 24-48h SLAs.
