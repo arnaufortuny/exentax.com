@@ -1039,16 +1039,10 @@ export default function Dashboard() {
                 <p className="text-xs md:text-sm text-muted-foreground mb-6 font-medium">Documento oficial subido por Easy US LLC.</p>
                 <Button 
                   variant="outline" 
-                  className="rounded-full font-black border-2 w-full text-xs py-5 no-default-hover-elevate"
-                  onClick={() => {
-                    if (doc.documentType === 'invoice') {
-                      window.open(doc.fileUrl, "_blank");
-                    } else {
-                      window.open(doc.fileUrl, "_blank");
-                    }
-                  }}
+                  className="rounded-full font-black border-2 w-full text-xs py-5 no-default-hover-elevate bg-white hover:bg-accent/10"
+                  onClick={() => window.open(doc.fileUrl, "_blank")}
                 >
-                  <Download className="w-4 h-4 mr-2" /> {doc.documentType === 'invoice' ? 'Ver Factura' : `Descargar ${doc.fileType?.includes('pdf') ? 'PDF' : 'Doc'}`}
+                  <Download className="w-4 h-4 mr-2 text-accent" /> {doc.documentType === 'invoice' ? 'Ver Factura Oficial' : `Descargar ${doc.fileType?.includes('pdf') ? 'PDF' : 'Documento'}`}
                 </Button>
               </Card>
             ))}

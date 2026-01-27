@@ -146,6 +146,7 @@ export async function loginUser(email: string, password: string): Promise<typeof
   if (user.isActive === false || user.accountStatus === 'suspended') {
     const error = new Error("CUENTA BLOQUEADA TEMPORALMENTE. Por su seguridad su cuenta ha sido temporalmente desactivada, porfavor contacte con nuestro equipo o revise su email para desbloquear su cuenta.");
     (error as any).locked = true;
+    (error as any).status = 403; // Force forbidden status for UI detection
     throw error;
   }
 

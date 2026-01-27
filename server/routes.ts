@@ -455,6 +455,76 @@ export async function registerRoutes(
   });
 
   // Invoices
+  app.get("/api/orders/:id/invoice", isAuthenticated, async (req: any, res) => {
+    try {
+      const orderId = Number(req.params.id);
+      const order = await storage.getOrder(orderId);
+      
+      if (!order || (order.userId !== req.session.userId && !req.session.isAdmin)) {
+        return res.status(403).json({ message: "No autorizado" });
+      }
+
+      // Existing invoice logic...
+      res.send(`
+        <html>
+          <head>
+            <style>
+              body { font-family: 'Inter', sans-serif; padding: 40px; color: #0E1215; }
+              .header { display: flex; justify-content: space-between; border-bottom: 2px solid #6EDC8A; pb: 20px; }
+              .details { margin-top: 40px; }
+              .table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+              .table th, .table td { text-align: left; padding: 12px; border-bottom: 1px solid #E6E9EC; }
+              .total { text-align: right; margin-top: 30px; font-weight: bold; font-size: 1.2rem; }
+              @media print { .no-print { display: none; } }
+            </style>
+          </head>
+          <body>
+            <div class="no-print" style="margin-bottom: 20px;">
+              <button onclick="window.print()" style="background: #6EDC8A; border: none; padding: 10px 20px; border-radius: 20px; cursor: pointer; font-weight: bold;">Imprimir / Guardar PDF</button>
+            </div>
+            <div class="header">
+              <div>
+                <h1 style="margin: 0;">EASY US LLC</h1>
+                <p>Fortuny Consulting LLC</p>
+              </div>
+              <div style="text-align: right;">
+                <p>Factura: INV-${new Date(order.createdAt).getFullYear()}-${String(order.id).padStart(5, '0')}</p>
+                <p>Fecha: ${new Date(order.createdAt).toLocaleDateString()}</p>
+              </div>
+            </div>
+            <div class="details">
+              <h3>Cliente:</h3>
+              <p>${order.user?.firstName} ${order.user?.lastName}<br>${order.user?.email}</p>
+            </div>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Concepto</th>
+                  <th>Estado</th>
+                  <th>Total</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>${order.product?.name}</td>
+                  <td>${order.status.toUpperCase()}</td>
+                  <td>${(order.amount / 100).toFixed(2)} ${order.currency || 'EUR'}</td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="total">
+              TOTAL: ${(order.amount / 100).toFixed(2)} ${order.currency || 'EUR'}
+            </div>
+            <div style="margin-top: 50px; font-size: 0.8rem; color: #6B7280; text-align: center;">
+              Gracias por confiar en Easy US LLC. Este documento es un comprobante oficial de su servicio.
+            </div>
+          </body>
+        </html>
+      `);
+    } catch (error) {
+      res.status(500).send("Error al generar factura");
+    }
+  });
   app.post("/api/admin/orders/:id/generate-invoice", isAdmin, async (req, res) => {
     try {
       const orderId = Number(req.params.id);
