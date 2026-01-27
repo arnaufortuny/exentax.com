@@ -10,19 +10,13 @@ import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Loader2, CheckCircle, XCircle, Clock, FileText, Mail, Download, User as UserIcon, Trash2, Key, Users } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export default function AdminDashboard() {
-  const { user, isAuthenticated, isLoading: authLoading } = useAuth();
+  const { user, isLoading: authLoading } = useAuth();
   const { toast } = useToast();
   const [activeTab, setActiveTab] = useState("orders");
-
-  useEffect(() => {
-    if (!authLoading && (!isAuthenticated || !user?.isAdmin)) {
-      window.location.href = "/";
-    }
-  }, [isAuthenticated, user, authLoading]);
 
   const { data: orders, isLoading: ordersLoading } = useQuery<any[]>({
     queryKey: ["/api/admin/orders"],
@@ -65,10 +59,35 @@ export default function AdminDashboard() {
     }
   });
 
-  if (authLoading || !user?.isAdmin) {
+  if (authLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <Loader2 className="w-8 h-8 animate-spin text-accent" />
+      </div>
+    );
+  }
+
+  if (!user?.isAdmin) {
+    return (
+      <div className="min-h-screen bg-background font-sans flex flex-col">
+        <Navbar />
+        <main className="flex-1 flex items-center justify-center px-4">
+          <Card className="w-full max-w-md">
+            <CardHeader className="text-center">
+              <CardTitle className="text-2xl font-black">Acceso Administrador</CardTitle>
+              <CardDescription>Inicia sesión con una cuenta de administrador</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <Button 
+                onClick={() => window.location.href = "/login"} 
+                className="w-full bg-accent text-primary font-black"
+              >
+                Iniciar Sesión
+              </Button>
+            </CardContent>
+          </Card>
+        </main>
+        <Footer />
       </div>
     );
   }
