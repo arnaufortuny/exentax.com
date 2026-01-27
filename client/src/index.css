@@ -54,12 +54,14 @@
 @layer base {
   * {
     @apply border-border;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
   body {
     @apply bg-background text-foreground antialiased font-sans text-left;
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
     -webkit-text-size-adjust: 100%;
-    text-rendering: optimizeSpeed;
+    text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     overflow-x: hidden;
@@ -67,6 +69,7 @@
     position: relative;
     content-visibility: auto;
     contain-intrinsic-size: 1px 1000px;
+    scroll-behavior: smooth;
   }
   #root {
     overflow-x: hidden;

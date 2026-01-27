@@ -161,7 +161,10 @@ var init_schema = __esm({
       stripeSessionId: (0, import_pg_core2.text)("stripe_session_id"),
       amount: (0, import_pg_core2.integer)("amount").notNull(),
       createdAt: (0, import_pg_core2.timestamp)("created_at").defaultNow()
-    });
+    }, (table) => ({
+      userIdIdx: (0, import_pg_core2.index)("orders_user_id_idx").on(table.userId),
+      statusIdx: (0, import_pg_core2.index)("orders_status_idx").on(table.status)
+    }));
     llcApplications = (0, import_pg_core2.pgTable)("llc_applications", {
       id: (0, import_pg_core2.serial)("id").primaryKey(),
       orderId: (0, import_pg_core2.integer)("order_id").notNull().references(() => orders.id),
@@ -219,7 +222,11 @@ var init_schema = __esm({
       emailOtp: (0, import_pg_core2.text)("email_otp"),
       emailOtpExpires: (0, import_pg_core2.timestamp)("email_otp_expires"),
       emailVerified: (0, import_pg_core2.boolean)("email_verified").notNull().default(false)
-    });
+    }, (table) => ({
+      orderIdIdx: (0, import_pg_core2.index)("llc_apps_order_id_idx").on(table.orderId),
+      requestCodeIdx: (0, import_pg_core2.index)("llc_apps_req_code_idx").on(table.requestCode),
+      statusIdx: (0, import_pg_core2.index)("llc_apps_status_idx").on(table.status)
+    }));
     applicationDocuments = (0, import_pg_core2.pgTable)("application_documents", {
       id: (0, import_pg_core2.serial)("id").primaryKey(),
       applicationId: (0, import_pg_core2.integer)("application_id").notNull().references(() => llcApplications.id),

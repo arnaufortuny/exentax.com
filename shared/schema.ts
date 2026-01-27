@@ -1,5 +1,5 @@
 export * from "./models/auth";
-import { pgTable, text, serial, integer, boolean, timestamp, jsonb, varchar } from "drizzle-orm/pg-core";
+import { pgTable, text, serial, integer, boolean, timestamp, jsonb, varchar, index } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 import { users } from "./models/auth";
@@ -21,7 +21,10 @@ export const orders = pgTable("orders", {
   stripeSessionId: text("stripe_session_id"),
   amount: integer("amount").notNull(),
   createdAt: timestamp("created_at").defaultNow(),
-});
+}, (table) => ({
+  userIdIdx: index("orders_user_id_idx").on(table.userId),
+  statusIdx: index("orders_status_idx").on(table.status),
+}));
 
 export const llcApplications = pgTable("llc_applications", {
   id: serial("id").primaryKey(),
@@ -68,7 +71,11 @@ export const llcApplications = pgTable("llc_applications", {
   emailOtp: text("email_otp"),
   emailOtpExpires: timestamp("email_otp_expires"),
   emailVerified: boolean("email_verified").notNull().default(false),
-});
+}, (table) => ({
+  orderIdIdx: index("llc_apps_order_id_idx").on(table.orderId),
+  requestCodeIdx: index("llc_apps_req_code_idx").on(table.requestCode),
+  statusIdx: index("llc_apps_status_idx").on(table.status),
+}));
 
 export const applicationDocuments = pgTable("application_documents", {
   id: serial("id").primaryKey(),
