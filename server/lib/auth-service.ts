@@ -132,6 +132,11 @@ export async function loginUser(email: string, password: string): Promise<typeof
     return null;
   }
 
+  // Check if user is deactivated
+  if (user.isActive === false) {
+    return null;
+  }
+
   const isValid = await verifyPassword(password, user.passwordHash);
   if (!isValid) {
     return null;

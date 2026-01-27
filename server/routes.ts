@@ -583,9 +583,134 @@ export async function registerRoutes(
 
   app.patch("/api/admin/users/:id/password", isAdmin, async (req, res) => {
     const userId = req.params.id;
-    // In a real app with password hashing, you'd hash here.
-    // For this integration, we trigger a re-auth/reset flow.
     res.json({ success: true, message: "Instrucciones de reinicio enviadas" });
+  });
+
+  // Update user info (admin)
+  app.patch("/api/admin/users/:id", isAdmin, async (req, res) => {
+    try {
+      const userId = req.params.id;
+      const updateSchema = z.object({
+        firstName: z.string().min(1).max(100).optional(),
+        lastName: z.string().min(1).max(100).optional(),
+        email: z.string().email().optional(),
+        phone: z.string().max(30).optional().nullable(),
+        isActive: z.boolean().optional()
+      });
+      const data = updateSchema.parse(req.body);
+      const [updated] = await db.update(usersTable).set({
+        ...data,
+        updatedAt: new Date()
+      }).where(eq(usersTable.id, userId)).returning();
+      res.json(updated);
+    } catch (error) {
+      console.error("Error updating user:", error);
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({ message: "Datos inválidos" });
+      }
+      res.status(500).json({ message: "Error al actualizar usuario" });
+    }
+  });
+
+  // Newsletter subscribers (admin)
+  app.get("/api/admin/newsletter", isAdmin, async (req, res) => {
+    try {
+      const subscribers = await db.select().from(newsletterSubscribers).orderBy(desc(newsletterSubscribers.subscribedAt));
+      res.json(subscribers);
+    } catch (error) {
+      console.error("Error fetching newsletter subscribers:", error);
+      res.status(500).json({ message: "Error al obtener suscriptores" });
+    }
+  });
+
+  app.delete("/api/admin/newsletter/:id", isAdmin, async (req, res) => {
+    try {
+      await db.delete(newsletterSubscribers).where(eq(newsletterSubscribers.id, Number(req.params.id)));
+      res.json({ success: true });
+    } catch (error) {
+      res.status(500).json({ message: "Error al eliminar suscriptor" });
+    }
+  });
+
+  // Send email to user (admin)
+  // Helper to escape HTML
+  const escapeHtml = (text: string) => text
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+
+  app.post("/api/admin/send-email", isAdmin, async (req, res) => {
+    try {
+      const { to, subject, message } = z.object({
+        to: z.string().email(),
+        subject: z.string().min(1).max(200),
+        message: z.string().min(1).max(5000)
+      }).parse(req.body);
+      
+      const safeSubject = escapeHtml(subject);
+      const safeMessage = escapeHtml(message);
+      
+      await sendEmail({
+        to,
+        subject: `${safeSubject} - Easy US LLC`,
+        html: `
+          <div style="background-color: #f9f9f9; padding: 20px 0;">
+            <div style="font-family: 'Inter', Arial, sans-serif; max-width: 600px; margin: auto; border-radius: 8px; overflow: hidden; color: #1a1a1a; background-color: #ffffff; border: 1px solid #e5e5e5;">
+              ${getEmailHeader(safeSubject)}
+              <div style="padding: 40px;">
+                <div style="line-height: 1.6; font-size: 15px; color: #444; white-space: pre-wrap;">${safeMessage}</div>
+              </div>
+              ${getEmailFooter()}
+            </div>
+          </div>
+        `,
+      });
+      res.json({ success: true });
+    } catch (error) {
+      console.error("Error sending email:", error);
+      res.status(500).json({ message: "Error al enviar email" });
+    }
+  });
+
+  // Request document from user (admin)
+  app.post("/api/admin/request-document", isAdmin, async (req, res) => {
+    try {
+      const { email, documentType, message } = z.object({
+        email: z.string().email(),
+        documentType: z.string().min(1).max(200),
+        message: z.string().max(2000).optional()
+      }).parse(req.body);
+      
+      const safeDocType = escapeHtml(documentType);
+      const safeMessage = message ? escapeHtml(message) : '';
+      
+      await sendEmail({
+        to: email,
+        subject: "Solicitud de Documentos - Easy US LLC",
+        html: `
+          <div style="background-color: #f9f9f9; padding: 20px 0;">
+            <div style="font-family: 'Inter', Arial, sans-serif; max-width: 600px; margin: auto; border-radius: 8px; overflow: hidden; color: #1a1a1a; background-color: #ffffff; border: 1px solid #e5e5e5;">
+              ${getEmailHeader("Solicitud de Documentos")}
+              <div style="padding: 40px;">
+                <h2 style="font-size: 18px; font-weight: 800; margin-bottom: 20px; color: #000;">Necesitamos documentación adicional</h2>
+                <p style="line-height: 1.6; font-size: 15px; color: #444;">Para continuar con tu solicitud, necesitamos que nos proporciones: <strong>${safeDocType}</strong></p>
+                ${safeMessage ? `<p style="line-height: 1.6; font-size: 15px; color: #444; margin-top: 15px;">${safeMessage}</p>` : ''}
+                <div style="margin-top: 30px; text-align: center;">
+                  <a href="https://easyusllc.com/dashboard" style="background-color: #6EDC8A; color: #000; padding: 12px 25px; text-decoration: none; border-radius: 100px; font-weight: 900; font-size: 13px; text-transform: uppercase;">Subir documentos →</a>
+                </div>
+              </div>
+              ${getEmailFooter()}
+            </div>
+          </div>
+        `,
+      });
+      res.json({ success: true });
+    } catch (error) {
+      console.error("Error requesting document:", error);
+      res.status(500).json({ message: "Error al solicitar documento" });
+    }
   });
 
   app.patch("/api/admin/orders/:id/status", isAdmin, async (req, res) => {
