@@ -6,8 +6,8 @@ import { api } from "@shared/routes";
 import { z } from "zod";
 import { insertLlcApplicationSchema } from "@shared/schema";
 import { db } from "./db";
-import { sendEmail, getOtpEmailTemplate, getConfirmationEmailTemplate, getReminderEmailTemplate, getWelcomeEmailTemplate, getNewsletterWelcomeTemplate, getAutoReplyTemplate, getEmailFooter, getEmailHeader } from "./lib/email";
-import { contactOtps, products as productsTable, users as usersTable, maintenanceApplications, newsletterSubscribers, messages as messagesTable, orderEvents, messageReplies, userNotifications, orders as ordersTable, llcApplications as llcApplicationsTable } from "@shared/schema";
+import { sendEmail, getOtpEmailTemplate, getConfirmationEmailTemplate, getReminderEmailTemplate, getWelcomeEmailTemplate, getNewsletterWelcomeTemplate, getAutoReplyTemplate, getEmailFooter, getEmailHeader, getOrderUpdateTemplate } from "./lib/email";
+import { contactOtps, products as productsTable, users as usersTable, maintenanceApplications, newsletterSubscribers, messages as messagesTable, orderEvents, messageReplies, userNotifications, orders as ordersTable, llcApplications as llcApplicationsTable, applicationDocuments as applicationDocumentsTable } from "@shared/schema";
 import { and, eq, gt, desc, sql } from "drizzle-orm";
 
 export async function registerRoutes(
@@ -89,7 +89,11 @@ export async function registerRoutes(
     try {
       const orderId = Number(req.params.id);
       const { status } = z.object({ status: z.string() }).parse(req.body);
-      const updatedOrder = await storage.updateOrderStatus(orderId, status);
+      
+      const [updatedOrder] = await db.update(ordersTable)
+        .set({ status })
+        .where(eq(ordersTable.id, orderId))
+        .returning();
       
       const order = await storage.getOrder(orderId);
       if (order?.user?.email) {
@@ -115,6 +119,7 @@ export async function registerRoutes(
       }
       res.json(updatedOrder);
     } catch (error) {
+      console.error("Update status error:", error);
       res.status(500).json({ message: "Error updating status" });
     }
   });
@@ -670,10 +675,30 @@ export async function registerRoutes(
     }
   });
 
-  app.delete(api.documents.delete.path, async (req: any, res) => {
-    const docId = Number(req.params.id);
-    await storage.deleteDocument(docId);
-    res.json({ success: true });
+  app.patch("/api/admin/documents/:id/review", isAdmin, async (req, res) => {
+    try {
+      const docId = Number(req.params.id);
+      const { reviewStatus } = z.object({ reviewStatus: z.enum(["pending", "approved", "rejected", "action_required"]) }).parse(req.body);
+      
+      const [updated] = await db.update(applicationDocumentsTable)
+        .set({ reviewStatus })
+        .where(eq(applicationDocumentsTable.id, docId))
+        .returning();
+      
+      res.json(updated);
+    } catch (error) {
+      res.status(500).json({ message: "Error updating document review status" });
+    }
+  });
+
+  app.delete("/api/admin/documents/:id", isAdmin, async (req, res) => {
+    try {
+      const docId = Number(req.params.id);
+      await db.delete(applicationDocumentsTable).where(eq(applicationDocumentsTable.id, docId));
+      res.json({ success: true });
+    } catch (error) {
+      res.status(500).json({ message: "Error deleting document" });
+    }
   });
 
   // Payment simulation endpoint for LLC
