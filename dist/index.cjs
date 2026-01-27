@@ -31,7 +31,7 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 
 // shared/models/auth.ts
-var import_drizzle_orm, import_pg_core, sessions, users;
+var import_drizzle_orm, import_pg_core, sessions, users, userNotifications, passwordResetTokens, emailVerificationTokens;
 var init_auth = __esm({
   "shared/models/auth.ts"() {
     "use strict";
@@ -49,15 +49,54 @@ var init_auth = __esm({
     users = (0, import_pg_core.pgTable)("users", {
       id: (0, import_pg_core.varchar)("id").primaryKey().default(import_drizzle_orm.sql`gen_random_uuid()`),
       email: (0, import_pg_core.varchar)("email").unique(),
+      passwordHash: (0, import_pg_core.varchar)("password_hash"),
       firstName: (0, import_pg_core.varchar)("first_name"),
       lastName: (0, import_pg_core.varchar)("last_name"),
       profileImageUrl: (0, import_pg_core.varchar)("profile_image_url"),
       phone: (0, import_pg_core.varchar)("phone"),
+      address: (0, import_pg_core.text)("address"),
+      streetType: (0, import_pg_core.text)("street_type"),
+      city: (0, import_pg_core.text)("city"),
+      province: (0, import_pg_core.text)("province"),
+      postalCode: (0, import_pg_core.text)("postal_code"),
+      country: (0, import_pg_core.text)("country"),
       businessActivity: (0, import_pg_core.text)("business_activity"),
+      idNumber: (0, import_pg_core.text)("id_number"),
+      idType: (0, import_pg_core.text)("id_type"),
+      birthDate: (0, import_pg_core.text)("birth_date"),
       emailVerified: (0, import_pg_core.boolean)("email_verified").notNull().default(false),
       isAdmin: (0, import_pg_core.boolean)("is_admin").notNull().default(false),
+      isActive: (0, import_pg_core.boolean)("is_active").notNull().default(true),
+      accountStatus: (0, import_pg_core.text)("account_status").notNull().default("active"),
+      // active, pending, suspended, vip
       createdAt: (0, import_pg_core.timestamp)("created_at").defaultNow(),
       updatedAt: (0, import_pg_core.timestamp)("updated_at").defaultNow()
+    });
+    userNotifications = (0, import_pg_core.pgTable)("user_notifications", {
+      id: (0, import_pg_core.varchar)("id").primaryKey().default(import_drizzle_orm.sql`gen_random_uuid()`),
+      userId: (0, import_pg_core.varchar)("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+      type: (0, import_pg_core.text)("type").notNull(),
+      title: (0, import_pg_core.text)("title").notNull(),
+      message: (0, import_pg_core.text)("message").notNull(),
+      isRead: (0, import_pg_core.boolean)("is_read").notNull().default(false),
+      actionUrl: (0, import_pg_core.text)("action_url"),
+      createdAt: (0, import_pg_core.timestamp)("created_at").defaultNow()
+    });
+    passwordResetTokens = (0, import_pg_core.pgTable)("password_reset_tokens", {
+      id: (0, import_pg_core.varchar)("id").primaryKey().default(import_drizzle_orm.sql`gen_random_uuid()`),
+      userId: (0, import_pg_core.varchar)("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+      token: (0, import_pg_core.varchar)("token").notNull().unique(),
+      expiresAt: (0, import_pg_core.timestamp)("expires_at").notNull(),
+      used: (0, import_pg_core.boolean)("used").notNull().default(false),
+      createdAt: (0, import_pg_core.timestamp)("created_at").defaultNow()
+    });
+    emailVerificationTokens = (0, import_pg_core.pgTable)("email_verification_tokens", {
+      id: (0, import_pg_core.varchar)("id").primaryKey().default(import_drizzle_orm.sql`gen_random_uuid()`),
+      userId: (0, import_pg_core.varchar)("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+      token: (0, import_pg_core.varchar)("token").notNull().unique(),
+      expiresAt: (0, import_pg_core.timestamp)("expires_at").notNull(),
+      used: (0, import_pg_core.boolean)("used").notNull().default(false),
+      createdAt: (0, import_pg_core.timestamp)("created_at").defaultNow()
     });
   }
 });
@@ -68,25 +107,35 @@ __export(schema_exports, {
   applicationDocuments: () => applicationDocuments,
   applicationDocumentsRelations: () => applicationDocumentsRelations,
   contactOtps: () => contactOtps,
+  emailVerificationTokens: () => emailVerificationTokens,
   insertApplicationDocumentSchema: () => insertApplicationDocumentSchema,
   insertContactOtpSchema: () => insertContactOtpSchema,
   insertLlcApplicationSchema: () => insertLlcApplicationSchema,
   insertMaintenanceApplicationSchema: () => insertMaintenanceApplicationSchema,
+  insertMessageReplySchema: () => insertMessageReplySchema,
+  insertOrderEventSchema: () => insertOrderEventSchema,
   insertOrderSchema: () => insertOrderSchema,
   insertProductSchema: () => insertProductSchema,
-  llcApplications: () => llcApplications2,
+  llcApplications: () => llcApplications,
   llcApplicationsRelations: () => llcApplicationsRelations,
   maintenanceApplications: () => maintenanceApplications,
   maintenanceApplicationsRelations: () => maintenanceApplicationsRelations,
+  messageReplies: () => messageReplies,
+  messageRepliesRelations: () => messageRepliesRelations,
   messages: () => messages,
+  messagesRelations: () => messagesRelations,
   newsletterSubscribers: () => newsletterSubscribers,
+  orderEvents: () => orderEvents,
+  orderEventsRelations: () => orderEventsRelations,
   orders: () => orders,
   ordersRelations: () => ordersRelations,
+  passwordResetTokens: () => passwordResetTokens,
   products: () => products,
   sessions: () => sessions,
+  userNotifications: () => userNotifications,
   users: () => users
 });
-var import_pg_core2, import_drizzle_zod, import_drizzle_orm2, products, orders, llcApplications2, applicationDocuments, newsletterSubscribers, messages, contactOtps, ordersRelations, llcApplicationsRelations, applicationDocumentsRelations, insertProductSchema, insertOrderSchema, insertLlcApplicationSchema, insertApplicationDocumentSchema, maintenanceApplications, insertMaintenanceApplicationSchema, insertContactOtpSchema, maintenanceApplicationsRelations;
+var import_pg_core2, import_drizzle_zod, import_drizzle_orm2, products, orders, llcApplications, applicationDocuments, newsletterSubscribers, messages, contactOtps, orderEvents, messageReplies, ordersRelations, orderEventsRelations, messagesRelations, messageRepliesRelations, llcApplicationsRelations, applicationDocumentsRelations, insertProductSchema, insertOrderSchema, insertLlcApplicationSchema, insertApplicationDocumentSchema, maintenanceApplications, insertMaintenanceApplicationSchema, insertContactOtpSchema, maintenanceApplicationsRelations, insertOrderEventSchema, insertMessageReplySchema;
 var init_schema = __esm({
   "shared/schema.ts"() {
     "use strict";
@@ -113,7 +162,7 @@ var init_schema = __esm({
       amount: (0, import_pg_core2.integer)("amount").notNull(),
       createdAt: (0, import_pg_core2.timestamp)("created_at").defaultNow()
     });
-    llcApplications2 = (0, import_pg_core2.pgTable)("llc_applications", {
+    llcApplications = (0, import_pg_core2.pgTable)("llc_applications", {
       id: (0, import_pg_core2.serial)("id").primaryKey(),
       orderId: (0, import_pg_core2.integer)("order_id").notNull().references(() => orders.id),
       requestCode: (0, import_pg_core2.text)("request_code").unique(),
@@ -173,7 +222,7 @@ var init_schema = __esm({
     });
     applicationDocuments = (0, import_pg_core2.pgTable)("application_documents", {
       id: (0, import_pg_core2.serial)("id").primaryKey(),
-      applicationId: (0, import_pg_core2.integer)("application_id").notNull().references(() => llcApplications2.id),
+      applicationId: (0, import_pg_core2.integer)("application_id").notNull().references(() => llcApplications.id),
       fileName: (0, import_pg_core2.text)("file_name").notNull(),
       fileType: (0, import_pg_core2.text)("file_type").notNull(),
       fileUrl: (0, import_pg_core2.text)("file_url").notNull(),
@@ -207,21 +256,47 @@ var init_schema = __esm({
       expiresAt: (0, import_pg_core2.timestamp)("expires_at").notNull(),
       verified: (0, import_pg_core2.boolean)("verified").notNull().default(false)
     });
+    orderEvents = (0, import_pg_core2.pgTable)("order_events", {
+      id: (0, import_pg_core2.serial)("id").primaryKey(),
+      orderId: (0, import_pg_core2.integer)("order_id").notNull().references(() => orders.id),
+      eventType: (0, import_pg_core2.text)("event_type").notNull(),
+      description: (0, import_pg_core2.text)("description").notNull(),
+      createdAt: (0, import_pg_core2.timestamp)("created_at").defaultNow(),
+      createdBy: (0, import_pg_core2.varchar)("created_by").references(() => users.id)
+    });
+    messageReplies = (0, import_pg_core2.pgTable)("message_replies", {
+      id: (0, import_pg_core2.serial)("id").primaryKey(),
+      messageId: (0, import_pg_core2.integer)("message_id").notNull().references(() => messages.id),
+      content: (0, import_pg_core2.text)("content").notNull(),
+      isAdmin: (0, import_pg_core2.boolean)("is_admin").notNull().default(false),
+      createdAt: (0, import_pg_core2.timestamp)("created_at").defaultNow(),
+      createdBy: (0, import_pg_core2.varchar)("created_by").references(() => users.id)
+    });
     ordersRelations = (0, import_drizzle_orm2.relations)(orders, ({ one, many }) => ({
       user: one(users, { fields: [orders.userId], references: [users.id] }),
       product: one(products, { fields: [orders.productId], references: [products.id] }),
-      application: one(llcApplications2, { fields: [orders.id], references: [llcApplications2.orderId] })
+      application: one(llcApplications, { fields: [orders.id], references: [llcApplications.orderId] }),
+      events: many(orderEvents)
     }));
-    llcApplicationsRelations = (0, import_drizzle_orm2.relations)(llcApplications2, ({ one, many }) => ({
-      order: one(orders, { fields: [llcApplications2.orderId], references: [orders.id] }),
+    orderEventsRelations = (0, import_drizzle_orm2.relations)(orderEvents, ({ one }) => ({
+      order: one(orders, { fields: [orderEvents.orderId], references: [orders.id] })
+    }));
+    messagesRelations = (0, import_drizzle_orm2.relations)(messages, ({ many }) => ({
+      replies: many(messageReplies)
+    }));
+    messageRepliesRelations = (0, import_drizzle_orm2.relations)(messageReplies, ({ one }) => ({
+      message: one(messages, { fields: [messageReplies.messageId], references: [messages.id] })
+    }));
+    llcApplicationsRelations = (0, import_drizzle_orm2.relations)(llcApplications, ({ one, many }) => ({
+      order: one(orders, { fields: [llcApplications.orderId], references: [orders.id] }),
       documents: many(applicationDocuments)
     }));
     applicationDocumentsRelations = (0, import_drizzle_orm2.relations)(applicationDocuments, ({ one }) => ({
-      application: one(llcApplications2, { fields: [applicationDocuments.applicationId], references: [llcApplications2.id] })
+      application: one(llcApplications, { fields: [applicationDocuments.applicationId], references: [llcApplications.id] })
     }));
     insertProductSchema = (0, import_drizzle_zod.createInsertSchema)(products).omit({ id: true });
     insertOrderSchema = (0, import_drizzle_zod.createInsertSchema)(orders).omit({ id: true, createdAt: true });
-    insertLlcApplicationSchema = (0, import_drizzle_zod.createInsertSchema)(llcApplications2).omit({ id: true, lastUpdated: true });
+    insertLlcApplicationSchema = (0, import_drizzle_zod.createInsertSchema)(llcApplications).omit({ id: true, lastUpdated: true });
     insertApplicationDocumentSchema = (0, import_drizzle_zod.createInsertSchema)(applicationDocuments).omit({ id: true, uploadedAt: true });
     maintenanceApplications = (0, import_pg_core2.pgTable)("maintenance_applications", {
       id: (0, import_pg_core2.serial)("id").primaryKey(),
@@ -256,584 +331,31 @@ var init_schema = __esm({
     maintenanceApplicationsRelations = (0, import_drizzle_orm2.relations)(maintenanceApplications, ({ one }) => ({
       order: one(orders, { fields: [maintenanceApplications.orderId], references: [orders.id] })
     }));
+    insertOrderEventSchema = (0, import_drizzle_zod.createInsertSchema)(orderEvents).omit({ id: true, createdAt: true });
+    insertMessageReplySchema = (0, import_drizzle_zod.createInsertSchema)(messageReplies).omit({ id: true, createdAt: true });
   }
 });
-
-// vite.config.ts
-var import_vite, import_plugin_react, import_path2, import_meta, vite_config_default;
-var init_vite_config = __esm({
-  "vite.config.ts"() {
-    "use strict";
-    import_vite = require("vite");
-    import_plugin_react = __toESM(require("@vitejs/plugin-react"), 1);
-    import_path2 = __toESM(require("path"), 1);
-    import_meta = {};
-    vite_config_default = (0, import_vite.defineConfig)({
-      plugins: [
-        (0, import_plugin_react.default)()
-      ],
-      resolve: {
-        alias: {
-          "@": import_path2.default.resolve(import_meta.dirname, "client", "src"),
-          "@shared": import_path2.default.resolve(import_meta.dirname, "shared"),
-          "@assets": import_path2.default.resolve(import_meta.dirname, "client", "src", "assets")
-        }
-      },
-      root: import_path2.default.resolve(import_meta.dirname, "client"),
-      build: {
-        outDir: import_path2.default.resolve(import_meta.dirname, "dist/public"),
-        emptyOutDir: true,
-        reportCompressedSize: false,
-        chunkSizeWarningLimit: 1e3,
-        rollupOptions: {
-          output: {
-            manualChunks: {
-              vendor: ["react", "react-dom", "framer-motion"],
-              ui: ["lucide-react", "@radix-ui/react-dialog", "@radix-ui/react-select"]
-            }
-          }
-        }
-      },
-      server: {
-        fs: {
-          strict: true,
-          deny: ["**/.*"]
-        },
-        allowedHosts: true
-      }
-    });
-  }
-});
-
-// node_modules/nanoid/url-alphabet/index.js
-var urlAlphabet;
-var init_url_alphabet = __esm({
-  "node_modules/nanoid/url-alphabet/index.js"() {
-    urlAlphabet = "useandom-26T198340PX75pxJACKVERYMINDBUSHWOLF_GQZbfghjklqvwyzrict";
-  }
-});
-
-// node_modules/nanoid/index.js
-var import_crypto, POOL_SIZE_MULTIPLIER, pool2, poolOffset, fillPool, nanoid;
-var init_nanoid = __esm({
-  "node_modules/nanoid/index.js"() {
-    import_crypto = __toESM(require("crypto"), 1);
-    init_url_alphabet();
-    POOL_SIZE_MULTIPLIER = 128;
-    fillPool = (bytes) => {
-      if (!pool2 || pool2.length < bytes) {
-        pool2 = Buffer.allocUnsafe(bytes * POOL_SIZE_MULTIPLIER);
-        import_crypto.default.randomFillSync(pool2);
-        poolOffset = 0;
-      } else if (poolOffset + bytes > pool2.length) {
-        import_crypto.default.randomFillSync(pool2);
-        poolOffset = 0;
-      }
-      poolOffset += bytes;
-    };
-    nanoid = (size = 21) => {
-      fillPool(size |= 0);
-      let id = "";
-      for (let i = poolOffset - size; i < poolOffset; i++) {
-        id += urlAlphabet[pool2[i] & 63];
-      }
-      return id;
-    };
-  }
-});
-
-// server/vite.ts
-var vite_exports = {};
-__export(vite_exports, {
-  setupVite: () => setupVite
-});
-async function setupVite(server, app2) {
-  const serverOptions = {
-    middlewareMode: true,
-    hmr: { server, path: "/vite-hmr" },
-    allowedHosts: true
-  };
-  const vite = await (0, import_vite2.createServer)({
-    ...vite_config_default,
-    configFile: false,
-    customLogger: {
-      ...viteLogger,
-      error: (msg, options) => {
-        viteLogger.error(msg, options);
-        process.exit(1);
-      }
-    },
-    server: serverOptions,
-    appType: "custom"
-  });
-  app2.use(vite.middlewares);
-  app2.use("*", async (req, res, next) => {
-    const url = req.originalUrl;
-    try {
-      const clientTemplate = import_path3.default.resolve(
-        import_meta2.dirname,
-        "..",
-        "client",
-        "index.html"
-      );
-      let template = await import_fs2.default.promises.readFile(clientTemplate, "utf-8");
-      template = template.replace(
-        `src="/src/main.tsx"`,
-        `src="/src/main.tsx?v=${nanoid()}"`
-      );
-      const page = await vite.transformIndexHtml(url, template);
-      res.status(200).set({ "Content-Type": "text/html" }).end(page);
-    } catch (e) {
-      vite.ssrFixStacktrace(e);
-      next(e);
-    }
-  });
-}
-var import_vite2, import_fs2, import_path3, import_meta2, viteLogger;
-var init_vite = __esm({
-  "server/vite.ts"() {
-    "use strict";
-    import_vite2 = require("vite");
-    init_vite_config();
-    import_fs2 = __toESM(require("fs"), 1);
-    import_path3 = __toESM(require("path"), 1);
-    init_nanoid();
-    import_meta2 = {};
-    viteLogger = (0, import_vite2.createLogger)();
-  }
-});
-
-// server/index.ts
-var index_exports = {};
-__export(index_exports, {
-  log: () => log
-});
-module.exports = __toCommonJS(index_exports);
-var import_express2 = __toESM(require("express"), 1);
-
-// server/replit_integrations/auth/replitAuth.ts
-var client = __toESM(require("openid-client"), 1);
-var import_passport = require("openid-client/passport");
-var import_passport2 = __toESM(require("passport"), 1);
-var import_express_session = __toESM(require("express-session"), 1);
-var import_memoizee = __toESM(require("memoizee"), 1);
-var import_connect_pg_simple = __toESM(require("connect-pg-simple"), 1);
-
-// server/replit_integrations/auth/storage.ts
-init_auth();
 
 // server/db.ts
-var import_node_postgres = require("drizzle-orm/node-postgres");
-var import_pg = __toESM(require("pg"), 1);
-init_schema();
-var { Pool } = import_pg.default;
-if (!process.env.DATABASE_URL) {
-  throw new Error(
-    "DATABASE_URL must be set. Did you forget to provision a database?"
-  );
-}
-var pool = new Pool({ connectionString: process.env.DATABASE_URL });
-var db = (0, import_node_postgres.drizzle)(pool, { schema: schema_exports });
-
-// server/replit_integrations/auth/storage.ts
-var import_drizzle_orm3 = require("drizzle-orm");
-var AuthStorage = class {
-  async getUser(id) {
-    const [user] = await db.select().from(users).where((0, import_drizzle_orm3.eq)(users.id, id));
-    return user;
-  }
-  async upsertUser(userData) {
-    const [user] = await db.insert(users).values(userData).onConflictDoUpdate({
-      target: users.id,
-      set: {
-        ...userData,
-        updatedAt: /* @__PURE__ */ new Date()
-      }
-    }).returning();
-    return user;
-  }
-};
-var authStorage = new AuthStorage();
-
-// server/replit_integrations/auth/replitAuth.ts
-var getOidcConfig = (0, import_memoizee.default)(
-  async () => {
-    return await client.discovery(
-      new URL(process.env.ISSUER_URL ?? "https://replit.com/oidc"),
-      process.env.REPL_ID
-    );
-  },
-  { maxAge: 3600 * 1e3 }
-);
-function getSession() {
-  const sessionTtl = 7 * 24 * 60 * 60 * 1e3;
-  const pgStore = (0, import_connect_pg_simple.default)(import_express_session.default);
-  const sessionStore = new pgStore({
-    conString: process.env.DATABASE_URL,
-    createTableIfMissing: false,
-    ttl: sessionTtl,
-    tableName: "sessions"
-  });
-  return (0, import_express_session.default)({
-    secret: process.env.SESSION_SECRET,
-    store: sessionStore,
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-      httpOnly: true,
-      secure: true,
-      maxAge: sessionTtl
-    }
-  });
-}
-function updateUserSession(user, tokens) {
-  user.claims = tokens.claims();
-  user.access_token = tokens.access_token;
-  user.refresh_token = tokens.refresh_token;
-  user.expires_at = user.claims?.exp;
-}
-async function upsertUser(claims) {
-  await authStorage.upsertUser({
-    id: claims["sub"],
-    email: claims["email"],
-    firstName: claims["first_name"],
-    lastName: claims["last_name"],
-    profileImageUrl: claims["profile_image_url"]
-  });
-}
-async function updateUserDetails(userId, updates) {
-  const user = await authStorage.getUser(userId);
-  if (!user) return;
-  await authStorage.upsertUser({
-    ...user,
-    ...updates,
-    updatedAt: /* @__PURE__ */ new Date()
-  });
-}
-async function setupAuth(app2) {
-  app2.set("trust proxy", 1);
-  app2.use(getSession());
-  app2.use(import_passport2.default.initialize());
-  app2.use(import_passport2.default.session());
-  const config = await getOidcConfig();
-  const verify = async (tokens, verified) => {
-    const user = {};
-    updateUserSession(user, tokens);
-    await upsertUser(tokens.claims());
-    verified(null, user);
-  };
-  const registeredStrategies = /* @__PURE__ */ new Set();
-  const ensureStrategy = (domain) => {
-    const strategyName = `replitauth:${domain}`;
-    if (!registeredStrategies.has(strategyName)) {
-      const strategy = new import_passport.Strategy(
-        {
-          name: strategyName,
-          config,
-          scope: "openid email profile offline_access",
-          callbackURL: `https://${domain}/api/callback`
-        },
-        verify
+var import_node_postgres, import_pg, Pool, pool, db;
+var init_db = __esm({
+  "server/db.ts"() {
+    "use strict";
+    import_node_postgres = require("drizzle-orm/node-postgres");
+    import_pg = __toESM(require("pg"), 1);
+    init_schema();
+    ({ Pool } = import_pg.default);
+    if (!process.env.DATABASE_URL) {
+      throw new Error(
+        "DATABASE_URL must be set. Did you forget to provision a database?"
       );
-      import_passport2.default.use(strategy);
-      registeredStrategies.add(strategyName);
     }
-  };
-  import_passport2.default.serializeUser((user, cb) => cb(null, user));
-  import_passport2.default.deserializeUser((user, cb) => cb(null, user));
-  app2.get("/api/login", (req, res, next) => {
-    ensureStrategy(req.hostname);
-    import_passport2.default.authenticate(`replitauth:${req.hostname}`, {
-      prompt: "login consent",
-      scope: ["openid", "email", "profile", "offline_access"]
-    })(req, res, next);
-  });
-  app2.get("/api/callback", (req, res, next) => {
-    ensureStrategy(req.hostname);
-    import_passport2.default.authenticate(`replitauth:${req.hostname}`, {
-      successReturnToOrRedirect: "/",
-      failureRedirect: "/api/login"
-    })(req, res, next);
-  });
-  app2.get("/api/logout", (req, res) => {
-    req.logout(() => {
-      res.redirect(
-        client.buildEndSessionUrl(config, {
-          client_id: process.env.REPL_ID,
-          post_logout_redirect_uri: `${req.protocol}://${req.hostname}`
-        }).href
-      );
-    });
-  });
-}
-var isAuthenticated = async (req, res, next) => {
-  const user = req.user;
-  if (!req.isAuthenticated() || !user.expires_at) {
-    return res.status(401).json({ message: "Unauthorized" });
+    pool = new Pool({ connectionString: process.env.DATABASE_URL });
+    db = (0, import_node_postgres.drizzle)(pool, { schema: schema_exports });
   }
-  const now = Math.floor(Date.now() / 1e3);
-  if (now <= user.expires_at) {
-    return next();
-  }
-  const refreshToken = user.refresh_token;
-  if (!refreshToken) {
-    res.status(401).json({ message: "Unauthorized" });
-    return;
-  }
-  try {
-    const config = await getOidcConfig();
-    const tokenResponse = await client.refreshTokenGrant(config, refreshToken);
-    updateUserSession(user, tokenResponse);
-    return next();
-  } catch (error) {
-    res.status(401).json({ message: "Unauthorized" });
-    return;
-  }
-};
-
-// server/replit_integrations/auth/routes.ts
-function registerAuthRoutes(app2) {
-  app2.get("/api/auth/user", isAuthenticated, async (req, res) => {
-    try {
-      const userId = req.user.claims.sub;
-      const user = await authStorage.getUser(userId);
-      res.json(user);
-    } catch (error) {
-      console.error("Error fetching user:", error);
-      res.status(500).json({ message: "Failed to fetch user" });
-    }
-  });
-}
-
-// server/storage.ts
-init_schema();
-var import_drizzle_orm4 = require("drizzle-orm");
-var DatabaseStorage = class {
-  // Products
-  async getProducts() {
-    return await db.select().from(products).orderBy(products.price);
-  }
-  async getProduct(id) {
-    const [product] = await db.select().from(products).where((0, import_drizzle_orm4.eq)(products.id, id));
-    return product;
-  }
-  async createProduct(product) {
-    const [newProduct] = await db.insert(products).values(product).returning();
-    return newProduct;
-  }
-  // Orders
-  async createOrder(order) {
-    const [newOrder] = await db.insert(orders).values(order).returning();
-    return newOrder;
-  }
-  async getOrders(userId) {
-    const results = await db.query.orders.findMany({
-      where: (0, import_drizzle_orm4.eq)(orders.userId, userId),
-      with: {
-        product: true,
-        application: true
-      },
-      orderBy: (0, import_drizzle_orm4.desc)(orders.createdAt)
-    });
-    return results;
-  }
-  async getOrder(id) {
-    const [order] = await db.select().from(orders).where((0, import_drizzle_orm4.eq)(orders.id, id));
-    return order;
-  }
-  // LLC Applications
-  async createLlcApplication(app2) {
-    const [newApp] = await db.insert(llcApplications2).values(app2).returning();
-    return newApp;
-  }
-  async getLlcApplication(id) {
-    const [app2] = await db.select().from(llcApplications2).where((0, import_drizzle_orm4.eq)(llcApplications2.id, id));
-    return app2;
-  }
-  async getLlcApplicationByOrderId(orderId) {
-    const [app2] = await db.select().from(llcApplications2).where((0, import_drizzle_orm4.eq)(llcApplications2.orderId, orderId));
-    return app2;
-  }
-  async getLlcApplicationByRequestCode(code) {
-    const result = await db.query.llcApplications.findFirst({
-      where: (0, import_drizzle_orm4.eq)(llcApplications2.requestCode, code),
-      with: {
-        documents: true
-      }
-    });
-    return result;
-  }
-  async updateLlcApplication(id, updates) {
-    const [updated] = await db.update(llcApplications2).set({ ...updates, lastUpdated: /* @__PURE__ */ new Date() }).where((0, import_drizzle_orm4.eq)(llcApplications2.id, id)).returning();
-    return updated;
-  }
-  async setLlcApplicationOtp(id, otp, expires) {
-    await db.update(llcApplications2).set({ emailOtp: otp, emailOtpExpires: expires }).where((0, import_drizzle_orm4.eq)(llcApplications2.id, id));
-  }
-  async verifyLlcApplicationOtp(id, otp) {
-    const [app2] = await db.select().from(llcApplications2).where((0, import_drizzle_orm4.eq)(llcApplications2.id, id));
-    if (!app2 || !app2.emailOtp || !app2.emailOtpExpires) return false;
-    if (app2.emailOtp === otp && /* @__PURE__ */ new Date() < app2.emailOtpExpires) {
-      await db.update(llcApplications2).set({ emailVerified: true, emailOtp: null, emailOtpExpires: null }).where((0, import_drizzle_orm4.eq)(llcApplications2.id, id));
-      return true;
-    }
-    return false;
-  }
-  // Documents
-  async createDocument(doc) {
-    const [newDoc] = await db.insert(applicationDocuments).values(doc).returning();
-    return newDoc;
-  }
-  async getDocumentsByApplicationId(applicationId) {
-    return await db.select().from(applicationDocuments).where((0, import_drizzle_orm4.eq)(applicationDocuments.applicationId, applicationId));
-  }
-  async deleteDocument(id) {
-    await db.delete(applicationDocuments).where((0, import_drizzle_orm4.eq)(applicationDocuments.id, id));
-  }
-  // Newsletter
-  async subscribeToNewsletter(email) {
-    const subscribed = await this.isSubscribedToNewsletter(email);
-    if (!subscribed) {
-      await db.insert(newsletterSubscribers).values({ email });
-    }
-  }
-  async isSubscribedToNewsletter(email) {
-    const [subscriber] = await db.select().from(newsletterSubscribers).where((0, import_drizzle_orm4.eq)(newsletterSubscribers.email, email));
-    return !!subscriber;
-  }
-  // Admin methods
-  async getAllOrders() {
-    return await db.query.orders.findMany({
-      with: {
-        product: true,
-        application: true,
-        user: true
-      },
-      orderBy: (0, import_drizzle_orm4.desc)(orders.createdAt)
-    });
-  }
-  async updateOrderStatus(orderId, status) {
-    const [updated] = await db.update(orders).set({ status }).where((0, import_drizzle_orm4.eq)(orders.id, orderId)).returning();
-    return updated;
-  }
-};
-var storage = new DatabaseStorage();
-
-// shared/routes.ts
-var import_zod = require("zod");
-init_schema();
-var errorSchemas = {
-  validation: import_zod.z.object({
-    message: import_zod.z.string(),
-    field: import_zod.z.string().optional()
-  }),
-  notFound: import_zod.z.object({
-    message: import_zod.z.string()
-  }),
-  internal: import_zod.z.object({
-    message: import_zod.z.string()
-  }),
-  unauthorized: import_zod.z.object({
-    message: import_zod.z.string()
-  })
-};
-var api = {
-  products: {
-    list: {
-      method: "GET",
-      path: "/api/products",
-      responses: {
-        200: import_zod.z.array(import_zod.z.custom())
-      }
-    },
-    get: {
-      method: "GET",
-      path: "/api/products/:id",
-      responses: {
-        200: import_zod.z.custom(),
-        404: errorSchemas.notFound
-      }
-    }
-  },
-  orders: {
-    list: {
-      method: "GET",
-      path: "/api/orders",
-      responses: {
-        200: import_zod.z.array(import_zod.z.custom()),
-        401: errorSchemas.unauthorized
-      }
-    },
-    create: {
-      method: "POST",
-      path: "/api/orders",
-      input: import_zod.z.object({
-        productId: import_zod.z.number()
-      }),
-      responses: {
-        201: import_zod.z.custom(),
-        400: errorSchemas.validation,
-        401: errorSchemas.unauthorized
-      }
-    }
-  },
-  llc: {
-    get: {
-      method: "GET",
-      path: "/api/llc/:id",
-      responses: {
-        200: import_zod.z.custom(),
-        404: errorSchemas.notFound,
-        401: errorSchemas.unauthorized
-      }
-    },
-    update: {
-      method: "PUT",
-      path: "/api/llc/:id",
-      input: insertLlcApplicationSchema.partial(),
-      responses: {
-        200: import_zod.z.custom(),
-        400: errorSchemas.validation,
-        401: errorSchemas.unauthorized,
-        404: errorSchemas.notFound
-      }
-    },
-    getByCode: {
-      method: "GET",
-      path: "/api/llc/code/:code",
-      responses: {
-        200: import_zod.z.custom(),
-        404: errorSchemas.notFound
-      }
-    }
-  },
-  documents: {
-    create: {
-      method: "POST",
-      path: "/api/documents",
-      input: insertApplicationDocumentSchema,
-      responses: {
-        201: import_zod.z.custom(),
-        400: errorSchemas.validation,
-        404: errorSchemas.notFound
-      }
-    },
-    delete: {
-      method: "DELETE",
-      path: "/api/documents/:id",
-      responses: {
-        200: import_zod.z.object({ success: import_zod.z.boolean() }),
-        404: errorSchemas.notFound
-      }
-    }
-  }
-};
-
-// server/routes.ts
-var import_zod2 = require("zod");
+});
 
 // server/lib/email.ts
-var import_nodemailer = __toESM(require("nodemailer"), 1);
 function getEmailHeader(title = "Easy US LLC") {
   const domain = "easyusllc.com";
   const protocol = "https";
@@ -1011,23 +533,6 @@ function getNewsletterWelcomeTemplate() {
     </div>
   `;
 }
-var transporter = import_nodemailer.default.createTransport({
-  host: process.env.SMTP_HOST || "smtp.ionos.es",
-  port: parseInt(process.env.SMTP_PORT || "587"),
-  secure: false,
-  // TLS
-  auth: {
-    user: process.env.SMTP_USER,
-    pass: process.env.SMTP_PASS
-  },
-  tls: {
-    // do not fail on invalid certs
-    rejectUnauthorized: false
-  },
-  pool: true,
-  maxConnections: 5,
-  maxMessages: 100
-});
 async function sendEmail({ to, subject, html }) {
   if (!process.env.SMTP_USER || !process.env.SMTP_PASS) {
     console.warn("Email credentials missing. Email not sent.");
@@ -1047,13 +552,942 @@ async function sendEmail({ to, subject, html }) {
     throw error;
   }
 }
+var import_nodemailer, transporter;
+var init_email = __esm({
+  "server/lib/email.ts"() {
+    "use strict";
+    import_nodemailer = __toESM(require("nodemailer"), 1);
+    transporter = import_nodemailer.default.createTransport({
+      host: process.env.SMTP_HOST || "smtp.ionos.es",
+      port: parseInt(process.env.SMTP_PORT || "587"),
+      secure: false,
+      // TLS
+      auth: {
+        user: process.env.SMTP_USER,
+        pass: process.env.SMTP_PASS
+      },
+      tls: {
+        // do not fail on invalid certs
+        rejectUnauthorized: false
+      },
+      pool: true,
+      maxConnections: 5,
+      maxMessages: 100
+    });
+  }
+});
 
-// server/routes.ts
+// server/lib/auth-service.ts
+var auth_service_exports = {};
+__export(auth_service_exports, {
+  createPasswordResetToken: () => createPasswordResetToken,
+  createUser: () => createUser,
+  generateClientId: () => generateClientId,
+  generateOtp: () => generateOtp,
+  generateToken: () => generateToken,
+  hashPassword: () => hashPassword,
+  loginUser: () => loginUser,
+  resendVerificationEmail: () => resendVerificationEmail,
+  resetPassword: () => resetPassword,
+  verifyEmailToken: () => verifyEmailToken,
+  verifyPassword: () => verifyPassword
+});
+async function hashPassword(password) {
+  return import_bcrypt.default.hash(password, SALT_ROUNDS);
+}
+async function verifyPassword(password, hash) {
+  return import_bcrypt.default.compare(password, hash);
+}
+function generateOtp() {
+  return Math.floor(1e5 + Math.random() * 9e5).toString();
+}
+function generateToken() {
+  return import_crypto.default.randomBytes(32).toString("hex");
+}
+function generateClientId() {
+  const prefix = "CLI";
+  const timestamp3 = Date.now().toString(36).toUpperCase();
+  const random = Math.random().toString(36).substring(2, 6).toUpperCase();
+  return `${prefix}-${timestamp3}-${random}`;
+}
+async function createUser(data) {
+  const existingUser = await db.select().from(users).where((0, import_drizzle_orm3.eq)(users.email, data.email)).limit(1);
+  if (existingUser.length > 0) {
+    throw new Error("El email ya est\xE1 registrado");
+  }
+  const passwordHash = await hashPassword(data.password);
+  const clientId = generateClientId();
+  const isAdminEmail = data.email.toLowerCase() === process.env.ADMIN_EMAIL?.toLowerCase();
+  const [newUser] = await db.insert(users).values({
+    id: clientId,
+    email: data.email,
+    passwordHash,
+    firstName: data.firstName,
+    lastName: data.lastName,
+    phone: data.phone,
+    emailVerified: false,
+    isAdmin: isAdminEmail
+  }).returning();
+  const verificationToken = generateOtp();
+  const expiresAt = new Date(Date.now() + OTP_EXPIRY_MINUTES * 60 * 1e3);
+  await db.insert(emailVerificationTokens).values({
+    userId: newUser.id,
+    token: verificationToken,
+    expiresAt
+  });
+  try {
+    await sendEmail({
+      to: data.email,
+      subject: "Bienvenido a Easy US LLC - Verifica tu cuenta",
+      html: `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+          <h1 style="color: #0E1215;">\xA1Bienvenido a Easy US LLC!</h1>
+          <p>Hola ${data.firstName},</p>
+          <p>Gracias por registrarte. Tu c\xF3digo de verificaci\xF3n es:</p>
+          <div style="background: #6EDC8A; color: #0E1215; font-size: 32px; font-weight: bold; padding: 20px; text-align: center; border-radius: 10px; margin: 20px 0;">
+            ${verificationToken}
+          </div>
+          <p>Este c\xF3digo expira en ${OTP_EXPIRY_MINUTES} minutos.</p>
+          <p>Tu ID de cliente es: <strong>${clientId}</strong></p>
+          <p>Saludos,<br>El equipo de Easy US LLC</p>
+        </div>
+      `
+    });
+  } catch (emailError) {
+    console.error("Failed to send verification email:", emailError);
+  }
+  return { user: newUser, verificationToken };
+}
+async function verifyEmailToken(userId, token) {
+  const [tokenRecord] = await db.select().from(emailVerificationTokens).where(
+    (0, import_drizzle_orm3.and)(
+      (0, import_drizzle_orm3.eq)(emailVerificationTokens.userId, userId),
+      (0, import_drizzle_orm3.eq)(emailVerificationTokens.token, token),
+      (0, import_drizzle_orm3.eq)(emailVerificationTokens.used, false),
+      (0, import_drizzle_orm3.gt)(emailVerificationTokens.expiresAt, /* @__PURE__ */ new Date())
+    )
+  ).limit(1);
+  if (!tokenRecord) {
+    return false;
+  }
+  await db.update(emailVerificationTokens).set({ used: true }).where((0, import_drizzle_orm3.eq)(emailVerificationTokens.id, tokenRecord.id));
+  await db.update(users).set({ emailVerified: true, updatedAt: /* @__PURE__ */ new Date() }).where((0, import_drizzle_orm3.eq)(users.id, userId));
+  return true;
+}
+async function loginUser(email, password) {
+  const [user] = await db.select().from(users).where((0, import_drizzle_orm3.eq)(users.email, email)).limit(1);
+  if (!user || !user.passwordHash) {
+    return null;
+  }
+  if (user.isActive === false) {
+    return null;
+  }
+  const isValid = await verifyPassword(password, user.passwordHash);
+  if (!isValid) {
+    return null;
+  }
+  return user;
+}
+async function createPasswordResetToken(email) {
+  const [user] = await db.select().from(users).where((0, import_drizzle_orm3.eq)(users.email, email)).limit(1);
+  if (!user) {
+    return null;
+  }
+  const token = generateToken();
+  const expiresAt = new Date(Date.now() + PASSWORD_RESET_EXPIRY_HOURS * 60 * 60 * 1e3);
+  await db.insert(passwordResetTokens).values({
+    userId: user.id,
+    token,
+    expiresAt
+  });
+  const resetLink = `${process.env.BASE_URL || "https://easyusllc.com"}/reset-password?token=${token}`;
+  try {
+    await sendEmail({
+      to: email,
+      subject: "Easy US LLC - Recuperar contrase\xF1a",
+      html: `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+          <h1 style="color: #0E1215;">Recuperar contrase\xF1a</h1>
+          <p>Hola ${user.firstName || ""},</p>
+          <p>Has solicitado restablecer tu contrase\xF1a. Haz clic en el siguiente bot\xF3n:</p>
+          <div style="text-align: center; margin: 30px 0;">
+            <a href="${resetLink}" style="background: #6EDC8A; color: #0E1215; padding: 15px 30px; text-decoration: none; border-radius: 30px; font-weight: bold;">
+              Restablecer contrase\xF1a
+            </a>
+          </div>
+          <p>Este enlace expira en ${PASSWORD_RESET_EXPIRY_HOURS} horas.</p>
+          <p>Si no solicitaste este cambio, ignora este email.</p>
+          <p>Saludos,<br>El equipo de Easy US LLC</p>
+        </div>
+      `
+    });
+  } catch (emailError) {
+    console.error("Failed to send password reset email:", emailError);
+  }
+  return token;
+}
+async function resetPassword(token, newPassword) {
+  const [tokenRecord] = await db.select().from(passwordResetTokens).where(
+    (0, import_drizzle_orm3.and)(
+      (0, import_drizzle_orm3.eq)(passwordResetTokens.token, token),
+      (0, import_drizzle_orm3.eq)(passwordResetTokens.used, false),
+      (0, import_drizzle_orm3.gt)(passwordResetTokens.expiresAt, /* @__PURE__ */ new Date())
+    )
+  ).limit(1);
+  if (!tokenRecord) {
+    return false;
+  }
+  const passwordHash = await hashPassword(newPassword);
+  await db.update(users).set({ passwordHash, updatedAt: /* @__PURE__ */ new Date() }).where((0, import_drizzle_orm3.eq)(users.id, tokenRecord.userId));
+  await db.update(passwordResetTokens).set({ used: true }).where((0, import_drizzle_orm3.eq)(passwordResetTokens.id, tokenRecord.id));
+  return true;
+}
+async function resendVerificationEmail(userId) {
+  const [user] = await db.select().from(users).where((0, import_drizzle_orm3.eq)(users.id, userId)).limit(1);
+  if (!user || !user.email) {
+    return false;
+  }
+  const verificationToken = generateOtp();
+  const expiresAt = new Date(Date.now() + OTP_EXPIRY_MINUTES * 60 * 1e3);
+  await db.insert(emailVerificationTokens).values({
+    userId: user.id,
+    token: verificationToken,
+    expiresAt
+  });
+  try {
+    await sendEmail({
+      to: user.email,
+      subject: "Easy US LLC - C\xF3digo de verificaci\xF3n",
+      html: `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+          <h1 style="color: #0E1215;">C\xF3digo de verificaci\xF3n</h1>
+          <p>Hola ${user.firstName || ""},</p>
+          <p>Tu nuevo c\xF3digo de verificaci\xF3n es:</p>
+          <div style="background: #6EDC8A; color: #0E1215; font-size: 32px; font-weight: bold; padding: 20px; text-align: center; border-radius: 10px; margin: 20px 0;">
+            ${verificationToken}
+          </div>
+          <p>Este c\xF3digo expira en ${OTP_EXPIRY_MINUTES} minutos.</p>
+          <p>Saludos,<br>El equipo de Easy US LLC</p>
+        </div>
+      `
+    });
+  } catch (emailError) {
+    console.error("Failed to send verification email:", emailError);
+    return false;
+  }
+  return true;
+}
+var import_bcrypt, import_crypto, import_drizzle_orm3, SALT_ROUNDS, OTP_EXPIRY_MINUTES, PASSWORD_RESET_EXPIRY_HOURS;
+var init_auth_service = __esm({
+  "server/lib/auth-service.ts"() {
+    "use strict";
+    import_bcrypt = __toESM(require("bcrypt"), 1);
+    import_crypto = __toESM(require("crypto"), 1);
+    init_db();
+    init_auth();
+    import_drizzle_orm3 = require("drizzle-orm");
+    init_email();
+    SALT_ROUNDS = 12;
+    OTP_EXPIRY_MINUTES = 15;
+    PASSWORD_RESET_EXPIRY_HOURS = 24;
+  }
+});
+
+// vite.config.ts
+var import_vite, import_plugin_react, import_path2, import_meta, vite_config_default;
+var init_vite_config = __esm({
+  "vite.config.ts"() {
+    "use strict";
+    import_vite = require("vite");
+    import_plugin_react = __toESM(require("@vitejs/plugin-react"), 1);
+    import_path2 = __toESM(require("path"), 1);
+    import_meta = {};
+    vite_config_default = (0, import_vite.defineConfig)({
+      plugins: [
+        (0, import_plugin_react.default)()
+      ],
+      resolve: {
+        alias: {
+          "@": import_path2.default.resolve(import_meta.dirname, "client", "src"),
+          "@shared": import_path2.default.resolve(import_meta.dirname, "shared"),
+          "@assets": import_path2.default.resolve(import_meta.dirname, "client", "src", "assets")
+        }
+      },
+      root: import_path2.default.resolve(import_meta.dirname, "client"),
+      build: {
+        outDir: import_path2.default.resolve(import_meta.dirname, "dist/public"),
+        emptyOutDir: true,
+        reportCompressedSize: false,
+        chunkSizeWarningLimit: 1e3,
+        rollupOptions: {
+          output: {
+            manualChunks: {
+              vendor: ["react", "react-dom", "framer-motion"],
+              ui: ["lucide-react", "@radix-ui/react-dialog", "@radix-ui/react-select"]
+            }
+          }
+        }
+      },
+      server: {
+        fs: {
+          strict: true,
+          deny: ["**/.*"]
+        },
+        allowedHosts: true
+      }
+    });
+  }
+});
+
+// node_modules/nanoid/url-alphabet/index.js
+var urlAlphabet;
+var init_url_alphabet = __esm({
+  "node_modules/nanoid/url-alphabet/index.js"() {
+    urlAlphabet = "useandom-26T198340PX75pxJACKVERYMINDBUSHWOLF_GQZbfghjklqvwyzrict";
+  }
+});
+
+// node_modules/nanoid/index.js
+var import_crypto2, POOL_SIZE_MULTIPLIER, pool2, poolOffset, fillPool, nanoid;
+var init_nanoid = __esm({
+  "node_modules/nanoid/index.js"() {
+    import_crypto2 = __toESM(require("crypto"), 1);
+    init_url_alphabet();
+    POOL_SIZE_MULTIPLIER = 128;
+    fillPool = (bytes) => {
+      if (!pool2 || pool2.length < bytes) {
+        pool2 = Buffer.allocUnsafe(bytes * POOL_SIZE_MULTIPLIER);
+        import_crypto2.default.randomFillSync(pool2);
+        poolOffset = 0;
+      } else if (poolOffset + bytes > pool2.length) {
+        import_crypto2.default.randomFillSync(pool2);
+        poolOffset = 0;
+      }
+      poolOffset += bytes;
+    };
+    nanoid = (size = 21) => {
+      fillPool(size |= 0);
+      let id = "";
+      for (let i = poolOffset - size; i < poolOffset; i++) {
+        id += urlAlphabet[pool2[i] & 63];
+      }
+      return id;
+    };
+  }
+});
+
+// server/vite.ts
+var vite_exports = {};
+__export(vite_exports, {
+  setupVite: () => setupVite
+});
+async function setupVite(server, app2) {
+  const serverOptions = {
+    middlewareMode: true,
+    hmr: { server, path: "/vite-hmr" },
+    allowedHosts: true
+  };
+  const vite = await (0, import_vite2.createServer)({
+    ...vite_config_default,
+    configFile: false,
+    customLogger: {
+      ...viteLogger,
+      error: (msg, options) => {
+        viteLogger.error(msg, options);
+        process.exit(1);
+      }
+    },
+    server: serverOptions,
+    appType: "custom"
+  });
+  app2.use(vite.middlewares);
+  app2.use("*", async (req, res, next) => {
+    const url = req.originalUrl;
+    try {
+      const clientTemplate = import_path3.default.resolve(
+        import_meta2.dirname,
+        "..",
+        "client",
+        "index.html"
+      );
+      let template = await import_fs2.default.promises.readFile(clientTemplate, "utf-8");
+      template = template.replace(
+        `src="/src/main.tsx"`,
+        `src="/src/main.tsx?v=${nanoid()}"`
+      );
+      const page = await vite.transformIndexHtml(url, template);
+      res.status(200).set({ "Content-Type": "text/html" }).end(page);
+    } catch (e) {
+      vite.ssrFixStacktrace(e);
+      next(e);
+    }
+  });
+}
+var import_vite2, import_fs2, import_path3, import_meta2, viteLogger;
+var init_vite = __esm({
+  "server/vite.ts"() {
+    "use strict";
+    import_vite2 = require("vite");
+    init_vite_config();
+    import_fs2 = __toESM(require("fs"), 1);
+    import_path3 = __toESM(require("path"), 1);
+    init_nanoid();
+    import_meta2 = {};
+    viteLogger = (0, import_vite2.createLogger)();
+  }
+});
+
+// server/index.ts
+var index_exports = {};
+__export(index_exports, {
+  log: () => log
+});
+module.exports = __toCommonJS(index_exports);
+var import_express2 = __toESM(require("express"), 1);
+
+// server/lib/custom-auth.ts
+var import_express_session = __toESM(require("express-session"), 1);
+var import_connect_pg_simple = __toESM(require("connect-pg-simple"), 1);
+init_db();
+init_auth();
+var import_drizzle_orm4 = require("drizzle-orm");
+init_auth_service();
+function getSession() {
+  const sessionTtl = 7 * 24 * 60 * 60 * 1e3;
+  const pgStore = (0, import_connect_pg_simple.default)(import_express_session.default);
+  const sessionStore = new pgStore({
+    conString: process.env.DATABASE_URL,
+    createTableIfMissing: false,
+    ttl: sessionTtl,
+    tableName: "sessions"
+  });
+  const isProduction = process.env.NODE_ENV === "production" || process.env.REPLIT_ENVIRONMENT === "production";
+  return (0, import_express_session.default)({
+    secret: process.env.SESSION_SECRET || "easy-us-llc-secret-key-2024",
+    store: sessionStore,
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      httpOnly: true,
+      secure: isProduction,
+      maxAge: sessionTtl,
+      sameSite: isProduction ? "none" : "lax"
+    }
+  });
+}
+function setupCustomAuth(app2) {
+  app2.set("trust proxy", 1);
+  app2.use(getSession());
+  app2.post("/api/auth/register", async (req, res) => {
+    try {
+      const { email, password, firstName, lastName, phone, birthDate } = req.body;
+      if (!email || !password || !firstName || !lastName || !phone) {
+        return res.status(400).json({ message: "Todos los campos son obligatorios" });
+      }
+      if (password.length < 8) {
+        return res.status(400).json({ message: "La contrase\xF1a debe tener al menos 8 caracteres" });
+      }
+      const { user } = await createUser({
+        email,
+        password,
+        firstName,
+        lastName,
+        phone,
+        birthDate
+      });
+      req.session.userId = user.id;
+      req.session.email = user.email;
+      req.session.isAdmin = user.isAdmin;
+      req.session.save((err) => {
+        if (err) {
+          console.error("Session save error:", err);
+          return res.status(500).json({ message: "Error al guardar la sesi\xF3n" });
+        }
+        res.json({
+          success: true,
+          user: {
+            id: user.id,
+            email: user.email,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            emailVerified: user.emailVerified
+          },
+          message: "Cuenta creada. Revisa tu email para verificar tu cuenta."
+        });
+      });
+    } catch (error) {
+      console.error("Registration error:", error);
+      res.status(400).json({ message: error.message || "Error al crear la cuenta" });
+    }
+  });
+  app2.post("/api/auth/login", async (req, res) => {
+    try {
+      const { email, password } = req.body;
+      if (!email || !password) {
+        return res.status(400).json({ message: "Email y contrase\xF1a son obligatorios" });
+      }
+      const user = await loginUser(email, password);
+      if (!user) {
+        return res.status(401).json({ message: "Email o contrase\xF1a incorrectos" });
+      }
+      req.session.userId = user.id;
+      req.session.email = user.email;
+      req.session.isAdmin = user.isAdmin;
+      req.session.save((err) => {
+        if (err) {
+          console.error("Session save error:", err);
+          return res.status(500).json({ message: "Error al guardar la sesi\xF3n" });
+        }
+        res.json({
+          success: true,
+          user: {
+            id: user.id,
+            email: user.email,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            phone: user.phone,
+            emailVerified: user.emailVerified,
+            isAdmin: user.isAdmin
+          }
+        });
+      });
+    } catch (error) {
+      console.error("Login error:", error);
+      res.status(500).json({ message: "Error al iniciar sesi\xF3n" });
+    }
+  });
+  app2.post("/api/auth/logout", (req, res) => {
+    req.session.destroy((err) => {
+      if (err) {
+        console.error("Logout error:", err);
+        return res.status(500).json({ message: "Error al cerrar sesi\xF3n" });
+      }
+      res.clearCookie("connect.sid");
+      res.json({ success: true });
+    });
+  });
+  app2.get("/api/logout", (req, res) => {
+    req.session.destroy((err) => {
+      res.clearCookie("connect.sid");
+      res.redirect("/");
+    });
+  });
+  app2.post("/api/auth/verify-email", async (req, res) => {
+    try {
+      const { code } = req.body;
+      const userId = req.session.userId;
+      if (!userId) {
+        return res.status(401).json({ message: "No autenticado" });
+      }
+      const success = await verifyEmailToken(userId, code);
+      if (!success) {
+        return res.status(400).json({ message: "C\xF3digo inv\xE1lido o expirado" });
+      }
+      res.json({ success: true, message: "Email verificado correctamente" });
+    } catch (error) {
+      console.error("Verify email error:", error);
+      res.status(500).json({ message: "Error al verificar el email" });
+    }
+  });
+  app2.post("/api/auth/resend-verification", async (req, res) => {
+    try {
+      const userId = req.session.userId;
+      if (!userId) {
+        return res.status(401).json({ message: "No autenticado" });
+      }
+      const success = await resendVerificationEmail(userId);
+      if (!success) {
+        return res.status(400).json({ message: "Error al enviar el c\xF3digo" });
+      }
+      res.json({ success: true, message: "C\xF3digo enviado" });
+    } catch (error) {
+      console.error("Resend verification error:", error);
+      res.status(500).json({ message: "Error al enviar el c\xF3digo" });
+    }
+  });
+  app2.post("/api/auth/forgot-password", async (req, res) => {
+    try {
+      const { email } = req.body;
+      if (!email) {
+        return res.status(400).json({ message: "Email es obligatorio" });
+      }
+      await createPasswordResetToken(email);
+      res.json({
+        success: true,
+        message: "Si el email existe, recibir\xE1s instrucciones para recuperar tu contrase\xF1a"
+      });
+    } catch (error) {
+      console.error("Forgot password error:", error);
+      res.status(500).json({ message: "Error al procesar la solicitud" });
+    }
+  });
+  app2.post("/api/auth/reset-password", async (req, res) => {
+    try {
+      const { token, password } = req.body;
+      if (!token || !password) {
+        return res.status(400).json({ message: "Token y contrase\xF1a son obligatorios" });
+      }
+      if (password.length < 8) {
+        return res.status(400).json({ message: "La contrase\xF1a debe tener al menos 8 caracteres" });
+      }
+      const success = await resetPassword(token, password);
+      if (!success) {
+        return res.status(400).json({ message: "Token inv\xE1lido o expirado" });
+      }
+      res.json({ success: true, message: "Contrase\xF1a actualizada correctamente" });
+    } catch (error) {
+      console.error("Reset password error:", error);
+      res.status(500).json({ message: "Error al actualizar la contrase\xF1a" });
+    }
+  });
+  app2.get("/api/auth/user", async (req, res) => {
+    try {
+      const userId = req.session.userId;
+      if (!userId) {
+        return res.status(401).json({ message: "No autenticado" });
+      }
+      const [user] = await db.select().from(users).where((0, import_drizzle_orm4.eq)(users.id, userId)).limit(1);
+      if (!user) {
+        req.session.destroy(() => {
+        });
+        return res.status(401).json({ message: "Usuario no encontrado" });
+      }
+      res.json({
+        id: user.id,
+        email: user.email,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        phone: user.phone,
+        address: user.address,
+        streetType: user.streetType,
+        city: user.city,
+        province: user.province,
+        postalCode: user.postalCode,
+        country: user.country,
+        businessActivity: user.businessActivity,
+        idNumber: user.idNumber,
+        idType: user.idType,
+        birthDate: user.birthDate,
+        emailVerified: user.emailVerified,
+        isAdmin: user.isAdmin,
+        accountStatus: user.accountStatus,
+        profileImageUrl: user.profileImageUrl,
+        createdAt: user.createdAt
+      });
+    } catch (error) {
+      console.error("Get user error:", error);
+      res.status(500).json({ message: "Error al obtener el usuario" });
+    }
+  });
+  app2.patch("/api/auth/user", async (req, res) => {
+    try {
+      const userId = req.session.userId;
+      if (!userId) {
+        return res.status(401).json({ message: "No autenticado" });
+      }
+      const { firstName, lastName, phone, address, businessActivity } = req.body;
+      await db.update(users).set({
+        firstName,
+        lastName,
+        phone,
+        address,
+        businessActivity,
+        updatedAt: /* @__PURE__ */ new Date()
+      }).where((0, import_drizzle_orm4.eq)(users.id, userId));
+      const [updatedUser] = await db.select().from(users).where((0, import_drizzle_orm4.eq)(users.id, userId)).limit(1);
+      res.json({
+        success: true,
+        user: {
+          id: updatedUser.id,
+          email: updatedUser.email,
+          firstName: updatedUser.firstName,
+          lastName: updatedUser.lastName,
+          phone: updatedUser.phone,
+          address: updatedUser.address,
+          businessActivity: updatedUser.businessActivity,
+          emailVerified: updatedUser.emailVerified
+        }
+      });
+    } catch (error) {
+      console.error("Update user error:", error);
+      res.status(500).json({ message: "Error al actualizar el perfil" });
+    }
+  });
+}
+var isAuthenticated = (req, res, next) => {
+  if (!req.session.userId) {
+    return res.status(401).json({ message: "No autenticado" });
+  }
+  next();
+};
+var isAdmin = async (req, res, next) => {
+  if (!req.session.userId) {
+    return res.status(401).json({ message: "No autenticado" });
+  }
+  const [user] = await db.select().from(users).where((0, import_drizzle_orm4.eq)(users.id, req.session.userId)).limit(1);
+  if (!user || !user.isAdmin) {
+    return res.status(403).json({ message: "No autorizado" });
+  }
+  next();
+};
+
+// server/storage.ts
+init_db();
 init_schema();
 var import_drizzle_orm5 = require("drizzle-orm");
+var DatabaseStorage = class {
+  // Products
+  async getProducts() {
+    return await db.select().from(products).orderBy(products.price);
+  }
+  async getProduct(id) {
+    const [product] = await db.select().from(products).where((0, import_drizzle_orm5.eq)(products.id, id));
+    return product;
+  }
+  async createProduct(product) {
+    const [newProduct] = await db.insert(products).values(product).returning();
+    return newProduct;
+  }
+  // Orders
+  async createOrder(order) {
+    const [newOrder] = await db.insert(orders).values(order).returning();
+    return newOrder;
+  }
+  async getOrders(userId) {
+    const results = await db.query.orders.findMany({
+      where: (0, import_drizzle_orm5.eq)(orders.userId, userId),
+      with: {
+        product: true,
+        application: true
+      },
+      orderBy: (0, import_drizzle_orm5.desc)(orders.createdAt)
+    });
+    return results;
+  }
+  async getOrder(id) {
+    const result = await db.query.orders.findFirst({
+      where: (0, import_drizzle_orm5.eq)(orders.id, id),
+      with: {
+        product: true,
+        application: true,
+        user: true
+      }
+    });
+    return result;
+  }
+  // LLC Applications
+  async createLlcApplication(app2) {
+    const [newApp] = await db.insert(llcApplications).values(app2).returning();
+    return newApp;
+  }
+  async getLlcApplication(id) {
+    const [app2] = await db.select().from(llcApplications).where((0, import_drizzle_orm5.eq)(llcApplications.id, id));
+    return app2;
+  }
+  async getLlcApplicationByOrderId(orderId) {
+    const [app2] = await db.select().from(llcApplications).where((0, import_drizzle_orm5.eq)(llcApplications.orderId, orderId));
+    return app2;
+  }
+  async getLlcApplicationByRequestCode(code) {
+    const result = await db.query.llcApplications.findFirst({
+      where: (0, import_drizzle_orm5.eq)(llcApplications.requestCode, code),
+      with: {
+        documents: true
+      }
+    });
+    return result;
+  }
+  async updateLlcApplication(id, updates) {
+    const [updated] = await db.update(llcApplications).set({ ...updates, lastUpdated: /* @__PURE__ */ new Date() }).where((0, import_drizzle_orm5.eq)(llcApplications.id, id)).returning();
+    return updated;
+  }
+  async setOtp(type, id, otp, expires) {
+    const table = type === "llc" ? llcApplications : maintenanceApplications;
+    await db.update(table).set({ emailOtp: otp, emailOtpExpires: expires }).where((0, import_drizzle_orm5.eq)(table.id, id));
+  }
+  async verifyOtp(type, id, otp) {
+    const table = type === "llc" ? llcApplications : maintenanceApplications;
+    const [app2] = await db.select().from(table).where((0, import_drizzle_orm5.eq)(table.id, id));
+    if (!app2 || !app2.emailOtp || !app2.emailOtpExpires) return false;
+    if (app2.emailOtp === otp && /* @__PURE__ */ new Date() < app2.emailOtpExpires) {
+      await db.update(table).set({ emailVerified: true, emailOtp: null, emailOtpExpires: null }).where((0, import_drizzle_orm5.eq)(table.id, id));
+      return true;
+    }
+    return false;
+  }
+  // Documents
+  async createDocument(doc) {
+    const [newDoc] = await db.insert(applicationDocuments).values(doc).returning();
+    return newDoc;
+  }
+  async getDocumentsByApplicationId(applicationId) {
+    return await db.select().from(applicationDocuments).where((0, import_drizzle_orm5.eq)(applicationDocuments.applicationId, applicationId));
+  }
+  async deleteDocument(id) {
+    await db.delete(applicationDocuments).where((0, import_drizzle_orm5.eq)(applicationDocuments.id, id));
+  }
+  // Newsletter
+  async subscribeToNewsletter(email) {
+    const subscribed = await this.isSubscribedToNewsletter(email);
+    if (!subscribed) {
+      await db.insert(newsletterSubscribers).values({ email });
+    }
+  }
+  async isSubscribedToNewsletter(email) {
+    const [subscriber] = await db.select().from(newsletterSubscribers).where((0, import_drizzle_orm5.eq)(newsletterSubscribers.email, email));
+    return !!subscriber;
+  }
+  // Admin methods
+  async getAllOrders() {
+    return await db.query.orders.findMany({
+      with: {
+        product: true,
+        application: true,
+        user: true
+      },
+      orderBy: (0, import_drizzle_orm5.desc)(orders.createdAt)
+    });
+  }
+  async updateOrderStatus(orderId, status) {
+    const [updated] = await db.update(orders).set({ status }).where((0, import_drizzle_orm5.eq)(orders.id, orderId)).returning();
+    return updated;
+  }
+  // Messages
+  async createMessage(message) {
+    const [newMessage] = await db.insert(messages).values(message).returning();
+    return newMessage;
+  }
+  async getMessagesByUserId(userId) {
+    return await db.select().from(messages).where((0, import_drizzle_orm5.eq)(messages.userId, userId)).orderBy((0, import_drizzle_orm5.desc)(messages.createdAt));
+  }
+  async getAllMessages() {
+    return await db.select().from(messages).orderBy((0, import_drizzle_orm5.desc)(messages.createdAt));
+  }
+  async updateMessageStatus(id, status) {
+    const [updated] = await db.update(messages).set({ status }).where((0, import_drizzle_orm5.eq)(messages.id, id)).returning();
+    return updated;
+  }
+};
+var storage = new DatabaseStorage();
+
+// shared/routes.ts
+var import_zod = require("zod");
+init_schema();
+var errorSchemas = {
+  validation: import_zod.z.object({
+    message: import_zod.z.string(),
+    field: import_zod.z.string().optional()
+  }),
+  notFound: import_zod.z.object({
+    message: import_zod.z.string()
+  }),
+  internal: import_zod.z.object({
+    message: import_zod.z.string()
+  }),
+  unauthorized: import_zod.z.object({
+    message: import_zod.z.string()
+  })
+};
+var api = {
+  products: {
+    list: {
+      method: "GET",
+      path: "/api/products",
+      responses: {
+        200: import_zod.z.array(import_zod.z.custom())
+      }
+    },
+    get: {
+      method: "GET",
+      path: "/api/products/:id",
+      responses: {
+        200: import_zod.z.custom(),
+        404: errorSchemas.notFound
+      }
+    }
+  },
+  orders: {
+    list: {
+      method: "GET",
+      path: "/api/orders",
+      responses: {
+        200: import_zod.z.array(import_zod.z.custom()),
+        401: errorSchemas.unauthorized
+      }
+    },
+    create: {
+      method: "POST",
+      path: "/api/orders",
+      input: import_zod.z.object({
+        productId: import_zod.z.number()
+      }),
+      responses: {
+        201: import_zod.z.custom(),
+        400: errorSchemas.validation,
+        401: errorSchemas.unauthorized
+      }
+    }
+  },
+  llc: {
+    get: {
+      method: "GET",
+      path: "/api/llc/:id",
+      responses: {
+        200: import_zod.z.custom(),
+        404: errorSchemas.notFound,
+        401: errorSchemas.unauthorized
+      }
+    },
+    update: {
+      method: "PUT",
+      path: "/api/llc/:id",
+      input: insertLlcApplicationSchema.partial(),
+      responses: {
+        200: import_zod.z.custom(),
+        400: errorSchemas.validation,
+        401: errorSchemas.unauthorized,
+        404: errorSchemas.notFound
+      }
+    },
+    getByCode: {
+      method: "GET",
+      path: "/api/llc/code/:code",
+      responses: {
+        200: import_zod.z.custom(),
+        404: errorSchemas.notFound
+      }
+    }
+  },
+  documents: {
+    create: {
+      method: "POST",
+      path: "/api/documents",
+      input: insertApplicationDocumentSchema,
+      responses: {
+        201: import_zod.z.custom(),
+        400: errorSchemas.validation,
+        404: errorSchemas.notFound
+      }
+    },
+    delete: {
+      method: "DELETE",
+      path: "/api/documents/:id",
+      responses: {
+        200: import_zod.z.object({ success: import_zod.z.boolean() }),
+        404: errorSchemas.notFound
+      }
+    }
+  }
+};
+
+// server/routes.ts
+var import_zod2 = require("zod");
+init_db();
+init_email();
+init_schema();
+var import_drizzle_orm6 = require("drizzle-orm");
 async function registerRoutes(httpServer2, app2) {
-  await setupAuth(app2);
-  registerAuthRoutes(app2);
+  setupCustomAuth(app2);
   const logActivity = (title, data) => {
     if (process.env.NODE_ENV === "development") {
       console.log(`[LOG] ${title}:`, data);
@@ -1085,29 +1519,118 @@ async function registerRoutes(httpServer2, app2) {
     }
     res.json({ success: true });
   });
-  app2.patch("/api/user/profile", isAuthenticated, async (req, res) => {
-    try {
-      const { firstName, lastName, phone, businessActivity } = req.body;
-      const userId = req.user.claims.sub;
-      await updateUserDetails(userId, { firstName, lastName, phone, businessActivity });
-      res.json({ success: true });
-    } catch (error) {
-      console.error("Profile update error:", error);
-      res.status(500).json({ message: "Error updating profile" });
-    }
-  });
   app2.get(api.products.list.path, async (req, res) => {
     const products3 = await storage.getProducts();
     res.json(products3);
   });
+  app2.post("/api/seed-admin", async (req, res) => {
+    try {
+      const secretToken = process.env.ADMIN_SEED_SECRET;
+      const providedToken = req.body.secret || req.headers["x-admin-secret"];
+      if (secretToken && providedToken !== secretToken) {
+        return res.status(403).json({ message: "Unauthorized: Invalid admin secret" });
+      }
+      const adminEmail = process.env.ADMIN_EMAIL;
+      if (!adminEmail) {
+        return res.status(400).json({ message: "ADMIN_EMAIL not configured" });
+      }
+      const [existingUser] = await db.select().from(users).where((0, import_drizzle_orm6.eq)(users.email, adminEmail)).limit(1);
+      if (!existingUser) {
+        return res.status(404).json({ message: "Admin user not found. Please register first." });
+      }
+      if (existingUser.isAdmin) {
+        return res.json({ message: "User is already an admin" });
+      }
+      await db.update(users).set({ isAdmin: true }).where((0, import_drizzle_orm6.eq)(users.email, adminEmail));
+      res.json({ success: true, message: "Admin role assigned successfully" });
+    } catch (error) {
+      console.error("Seed admin error:", error);
+      res.status(500).json({ message: "Error seeding admin" });
+    }
+  });
   app2.delete("/api/user/account", isAuthenticated, async (req, res) => {
     try {
-      const userId = req.user.claims.sub;
-      await db.delete(users).where((0, import_drizzle_orm5.eq)(users.id, userId));
+      const userId = req.session.userId;
+      await db.delete(users).where((0, import_drizzle_orm6.eq)(users.id, userId));
+      req.session.destroy(() => {
+      });
       res.json({ success: true, message: "Cuenta eliminada correctamente" });
     } catch (error) {
       console.error("Delete account error:", error);
       res.status(500).json({ message: "Error deleting account" });
+    }
+  });
+  const updateProfileSchema = import_zod2.z.object({
+    firstName: import_zod2.z.string().optional(),
+    lastName: import_zod2.z.string().optional(),
+    phone: import_zod2.z.string().optional(),
+    businessActivity: import_zod2.z.string().optional(),
+    address: import_zod2.z.string().optional(),
+    streetType: import_zod2.z.string().optional(),
+    city: import_zod2.z.string().optional(),
+    province: import_zod2.z.string().optional(),
+    postalCode: import_zod2.z.string().optional(),
+    country: import_zod2.z.string().optional(),
+    idNumber: import_zod2.z.string().optional(),
+    idType: import_zod2.z.string().optional(),
+    birthDate: import_zod2.z.string().optional()
+  });
+  app2.patch("/api/user/profile", isAuthenticated, async (req, res) => {
+    try {
+      const userId = req.session.userId;
+      const validatedData = updateProfileSchema.parse(req.body);
+      await db.update(users).set(validatedData).where((0, import_drizzle_orm6.eq)(users.id, userId));
+      const [updatedUser] = await db.select().from(users).where((0, import_drizzle_orm6.eq)(users.id, userId)).limit(1);
+      res.json(updatedUser);
+    } catch (error) {
+      if (error instanceof import_zod2.z.ZodError) {
+        return res.status(400).json({ message: error.errors[0].message });
+      }
+      console.error("Update profile error:", error);
+      res.status(500).json({ message: "Error updating profile" });
+    }
+  });
+  app2.get("/api/user/notifications", isAuthenticated, async (req, res) => {
+    try {
+      const notifications = await db.select().from(userNotifications).where((0, import_drizzle_orm6.eq)(userNotifications.userId, req.session.userId)).orderBy((0, import_drizzle_orm6.desc)(userNotifications.createdAt));
+      res.json(notifications);
+    } catch (error) {
+      console.error("Error fetching notifications:", error);
+      res.status(500).json({ message: "Error al obtener notificaciones" });
+    }
+  });
+  app2.patch("/api/user/notifications/:id/read", isAuthenticated, async (req, res) => {
+    try {
+      await db.update(userNotifications).set({ isRead: true }).where((0, import_drizzle_orm6.and)((0, import_drizzle_orm6.eq)(userNotifications.id, req.params.id), (0, import_drizzle_orm6.eq)(userNotifications.userId, req.session.userId)));
+      res.json({ success: true });
+    } catch (error) {
+      res.status(500).json({ message: "Error" });
+    }
+  });
+  app2.post("/api/user/change-password", isAuthenticated, async (req, res) => {
+    try {
+      const { currentPassword, newPassword } = import_zod2.z.object({
+        currentPassword: import_zod2.z.string().min(1),
+        newPassword: import_zod2.z.string().min(8)
+      }).parse(req.body);
+      const [user] = await db.select().from(users).where((0, import_drizzle_orm6.eq)(users.id, req.session.userId));
+      if (!user?.passwordHash) {
+        return res.status(400).json({ message: "No se puede cambiar la contrase\xF1a" });
+      }
+      const { verifyPassword: verifyPassword2, hashPassword: hashPassword2 } = await Promise.resolve().then(() => (init_auth_service(), auth_service_exports));
+      const isValid = await verifyPassword2(currentPassword, user.passwordHash);
+      if (!isValid) {
+        return res.status(400).json({ message: "Contrase\xF1a actual incorrecta" });
+      }
+      const newHash = await hashPassword2(newPassword);
+      await db.update(users).set({ passwordHash: newHash, updatedAt: /* @__PURE__ */ new Date() }).where((0, import_drizzle_orm6.eq)(users.id, req.session.userId));
+      res.json({ success: true });
+    } catch (error) {
+      if (error instanceof import_zod2.z.ZodError) {
+        return res.status(400).json({ message: "Datos inv\xE1lidos" });
+      }
+      console.error("Change password error:", error);
+      res.status(500).json({ message: "Error al cambiar contrase\xF1a" });
     }
   });
   app2.get(api.products.get.path, async (req, res) => {
@@ -1116,18 +1639,18 @@ async function registerRoutes(httpServer2, app2) {
     res.json(product);
   });
   app2.get(api.orders.list.path, async (req, res) => {
-    if (!req.user) {
+    if (!req.session.userId) {
       return res.status(401).json({ message: "Unauthorized" });
     }
-    const orders3 = await storage.getOrders(req.user.id);
+    const orders3 = await storage.getOrders(req.session.userId);
     res.json(orders3);
   });
   app2.post(api.orders.create.path, async (req, res) => {
     try {
       const { productId } = api.orders.create.input.parse(req.body);
       let userId;
-      if (req.user?.id) {
-        userId = req.user.id;
+      if (req.session?.userId) {
+        userId = req.session.userId;
       } else {
         const guestId = `guest_${Date.now()}_${Math.random().toString(36).substring(7)}`;
         await db.insert(users).values({
@@ -1163,9 +1686,9 @@ async function registerRoutes(httpServer2, app2) {
       if (product.name.includes("Wyoming")) statePrefix = "WY";
       else if (product.name.includes("Delaware")) statePrefix = "DE";
       else if (product.name.includes("Mantenimiento") || product.name.includes("Maintenance")) statePrefix = "MN";
-      const timestamp3 = Date.now().toString();
-      const randomPart = Math.random().toString(36).substring(7).toUpperCase();
-      const requestCode = `${statePrefix}-${timestamp3.substring(timestamp3.length - 4)}-${randomPart.substring(0, 3)}-${Math.floor(Math.random() * 9)}`;
+      const year = (/* @__PURE__ */ new Date()).getFullYear().toString().slice(-2);
+      const orderNum = String(order.id).padStart(6, "0");
+      const requestCode = `${statePrefix}-${year}${orderNum.slice(0, 2)}-${orderNum.slice(2)}`;
       const updatedApplication = await storage.updateLlcApplication(application.id, { requestCode });
       logActivity("Nuevo Pedido Recibido", {
         "Referencia": requestCode,
@@ -1175,12 +1698,15 @@ async function registerRoutes(httpServer2, app2) {
         "IP": req.ip
       });
       res.status(201).json({ ...order, application: updatedApplication });
-      if (req.user?.email) {
-        sendEmail({
-          to: req.user.email,
-          subject: "\xA1Bienvenido a Easy US LLC! - Pr\xF3ximos pasos",
-          html: getWelcomeEmailTemplate(req.user.firstName || "Cliente")
-        }).catch((err) => console.error("Error sending welcome email:", err));
+      if (req.session?.email) {
+        const [userData] = await db.select().from(users).where((0, import_drizzle_orm6.eq)(users.id, req.session.userId)).limit(1);
+        if (userData?.email) {
+          sendEmail({
+            to: userData.email,
+            subject: "\xA1Bienvenido a Easy US LLC! - Pr\xF3ximos pasos",
+            html: getWelcomeEmailTemplate(userData.firstName || "Cliente")
+          }).catch((err) => console.error("Error sending welcome email:", err));
+        }
       }
     } catch (err) {
       if (err instanceof import_zod2.z.ZodError) {
@@ -1192,7 +1718,7 @@ async function registerRoutes(httpServer2, app2) {
   });
   app2.get("/api/messages", isAuthenticated, async (req, res) => {
     try {
-      const userMessages = await db.select().from(messages).where((0, import_drizzle_orm5.eq)(messages.userId, req.user.claims.sub)).orderBy((0, import_drizzle_orm5.desc)(messages.createdAt));
+      const userMessages = await storage.getMessagesByUserId(req.session.userId);
       res.json(userMessages);
     } catch (error) {
       res.status(500).json({ message: "Error fetching messages" });
@@ -1201,8 +1727,8 @@ async function registerRoutes(httpServer2, app2) {
   app2.post("/api/messages", async (req, res) => {
     try {
       const { name, email, subject, content, requestCode } = req.body;
-      const userId = req.isAuthenticated() ? req.user.claims.sub : null;
-      const [message] = await db.insert(messages).values({
+      const userId = req.session?.userId || null;
+      const message = await storage.createMessage({
         userId,
         name,
         email,
@@ -1210,7 +1736,7 @@ async function registerRoutes(httpServer2, app2) {
         content,
         requestCode,
         type: "contact"
-      }).returning();
+      });
       sendEmail({
         to: email,
         subject: `Recibimos tu mensaje: ${subject || "Contacto"}`,
@@ -1232,7 +1758,7 @@ async function registerRoutes(httpServer2, app2) {
     try {
       const appId = Number(req.params.id);
       const updates = req.body;
-      const [updated] = await db.update(llcApplications).set({ ...updates, lastUpdated: /* @__PURE__ */ new Date() }).where((0, import_drizzle_orm5.eq)(llcApplications.id, appId)).returning();
+      const [updated] = await db.update(messages).set({ ...updates, createdAt: /* @__PURE__ */ new Date() }).where((0, import_drizzle_orm6.eq)(messages.id, appId)).returning();
       res.json(updated);
     } catch (error) {
       res.status(500).json({ message: "Error updating request" });
@@ -1312,14 +1838,32 @@ async function registerRoutes(httpServer2, app2) {
     await storage.deleteDocument(docId);
     res.json({ success: true });
   });
-  app2.post("/api/llc/:id/send-otp", async (req, res) => {
+  app2.post("/api/llc/:id/pay", async (req, res) => {
     try {
+      const appId = parseInt(req.params.id);
+      const app3 = await storage.getLlcApplication(appId);
+      if (!app3) {
+        return res.status(404).json({ message: "Application not found" });
+      }
+      if (app3.orderId) {
+        await storage.updateOrder(app3.orderId, { status: "paid" });
+      }
+      await storage.updateLlcApplication(appId, { status: "submitted" });
+      res.json({ success: true, message: "Payment successful" });
+    } catch (error) {
+      console.error("Payment error:", error);
+      res.status(500).json({ message: "Payment processing failed" });
+    }
+  });
+  app2.post("/api/:type(llc|maintenance)/:id/send-otp", async (req, res) => {
+    try {
+      const type = req.params.type;
       const appId = Number(req.params.id);
       const { email } = req.body;
       if (!email) return res.status(400).json({ message: "Email is required" });
       const otp = Math.floor(1e5 + Math.random() * 9e5).toString();
       const expires = new Date(Date.now() + 10 * 60 * 1e3);
-      await storage.setLlcApplicationOtp(appId, otp, expires);
+      await storage.setOtp(type, appId, otp, expires);
       await sendEmail({
         to: email,
         subject: "C\xF3digo de verificaci\xF3n - Easy US LLC",
@@ -1327,15 +1871,16 @@ async function registerRoutes(httpServer2, app2) {
       });
       res.json({ success: true });
     } catch (error) {
-      console.error("Error sending LLC OTP:", error);
+      console.error(`Error sending ${req.params.type} OTP:`, error);
       res.status(500).json({ message: "Error al enviar el c\xF3digo de verificaci\xF3n" });
     }
   });
-  app2.post("/api/llc/:id/verify-otp", async (req, res) => {
+  app2.post("/api/:type(llc|maintenance)/:id/verify-otp", async (req, res) => {
+    const type = req.params.type;
     const appId = Number(req.params.id);
     const { otp } = req.body;
     if (!otp) return res.status(400).json({ message: "OTP is required" });
-    const success = await storage.verifyLlcApplicationOtp(appId, otp);
+    const success = await storage.verifyOtp(type, appId, otp);
     if (success) {
       res.json({ success: true });
     } else {
@@ -1346,8 +1891,8 @@ async function registerRoutes(httpServer2, app2) {
     try {
       const { productId, state } = req.body;
       let userId;
-      if (req.user?.id) {
-        userId = req.user.id;
+      if (req.session?.userId) {
+        userId = req.session.userId;
       } else {
         const guestId = `guest_${Date.now()}_${Math.random().toString(36).substring(7)}`;
         await db.insert(users).values({
@@ -1375,59 +1920,25 @@ async function registerRoutes(httpServer2, app2) {
       const timestamp3 = Date.now().toString();
       const randomPart = Math.random().toString(36).substring(7).toUpperCase();
       const requestCode = `MN-${timestamp3.substring(timestamp3.length - 4)}-${randomPart.substring(0, 3)}-${Math.floor(Math.random() * 9)}`;
-      await db.update(maintenanceApplications).set({ requestCode }).where((0, import_drizzle_orm5.eq)(maintenanceApplications.id, application.id));
+      await db.update(maintenanceApplications).set({ requestCode }).where((0, import_drizzle_orm6.eq)(maintenanceApplications.id, application.id));
       res.status(201).json({ ...order, application: { ...application, requestCode } });
     } catch (err) {
       console.error("Error creating maintenance order:", err);
       res.status(500).json({ message: "Error creating maintenance order" });
     }
   });
-  app2.put("/api/maintenance/:id", async (req, res) => {
-    try {
-      const appId = Number(req.params.id);
-      const updates = req.body;
-      const [updated] = await db.update(maintenanceApplications).set({ ...updates, lastUpdated: /* @__PURE__ */ new Date() }).where((0, import_drizzle_orm5.eq)(maintenanceApplications.id, appId)).returning();
-      res.json(updated);
-    } catch (err) {
-      res.status(500).json({ message: "Error updating maintenance application" });
-    }
-  });
-  app2.post("/api/maintenance/:id/send-otp", async (req, res) => {
-    try {
-      const appId = Number(req.params.id);
-      const { email } = req.body;
-      const otp = Math.floor(1e5 + Math.random() * 9e5).toString();
-      const expires = new Date(Date.now() + 10 * 60 * 1e3);
-      await db.update(maintenanceApplications).set({ emailOtp: otp, emailOtpExpires: expires }).where((0, import_drizzle_orm5.eq)(maintenanceApplications.id, appId));
-      await sendEmail({ to: email, subject: "C\xF3digo de verificaci\xF3n", html: getOtpEmailTemplate(otp) });
-      res.json({ success: true });
-    } catch (err) {
-      res.status(500).json({ success: false });
-    }
-  });
-  app2.post("/api/maintenance/:id/verify-otp", async (req, res) => {
-    const appId = Number(req.params.id);
-    const { otp } = req.body;
-    const [app3] = await db.select().from(maintenanceApplications).where((0, import_drizzle_orm5.eq)(maintenanceApplications.id, appId));
-    if (app3 && app3.emailOtp === otp && /* @__PURE__ */ new Date() < (app3.emailOtpExpires || /* @__PURE__ */ new Date(0))) {
-      await db.update(maintenanceApplications).set({ emailVerified: true }).where((0, import_drizzle_orm5.eq)(maintenanceApplications.id, appId));
-      res.json({ success: true });
-    } else {
-      res.status(400).json({ message: "C\xF3digo inv\xE1lido" });
-    }
-  });
   app2.get("/api/newsletter/status", isAuthenticated, async (req, res) => {
-    const isSubscribed = await storage.isSubscribedToNewsletter(req.user.email);
+    const isSubscribed = await storage.isSubscribedToNewsletter(req.session.email);
     res.json({ isSubscribed });
   });
   app2.post("/api/newsletter/unsubscribe", isAuthenticated, async (req, res) => {
-    await db.delete(newsletterSubscribers).where((0, import_drizzle_orm5.eq)(newsletterSubscribers.email, req.user.email));
+    await db.delete(newsletterSubscribers).where((0, import_drizzle_orm6.eq)(newsletterSubscribers.email, req.session.email));
     res.json({ success: true });
   });
   app2.post("/api/newsletter/subscribe", async (req, res) => {
     try {
       const { email } = import_zod2.z.object({ email: import_zod2.z.string().email().optional() }).parse(req.body);
-      const targetEmail = email || (req.isAuthenticated() ? req.user.email : null);
+      const targetEmail = email || req.session?.email || null;
       if (!targetEmail) {
         return res.status(400).json({ message: "Se requiere un email" });
       }
@@ -1449,20 +1960,22 @@ async function registerRoutes(httpServer2, app2) {
       res.status(500).json({ message: "Error al suscribirse" });
     }
   });
-  const isAdmin = async (req, res, next) => {
-    if (!req.isAuthenticated() || !req.user?.isAdmin) {
-      return res.status(403).json({ message: "Forbidden" });
-    }
-    next();
-  };
   app2.get("/api/admin/messages", isAdmin, async (req, res) => {
-    const messages2 = await db.select().from(messages).orderBy((0, import_drizzle_orm5.desc)(messages.createdAt));
-    res.json(messages2);
+    try {
+      const messages2 = await storage.getAllMessages();
+      res.json(messages2);
+    } catch (error) {
+      res.status(500).json({ message: "Error fetching admin messages" });
+    }
   });
   app2.patch("/api/admin/messages/:id/status", isAdmin, async (req, res) => {
-    const { status } = req.body;
-    const [message] = await db.update(messages).set({ status }).where((0, import_drizzle_orm5.eq)(messages.id, Number(req.params.id))).returning();
-    res.json(message);
+    try {
+      const { status } = req.body;
+      const message = await storage.updateMessageStatus(Number(req.params.id), status);
+      res.json(message);
+    } catch (error) {
+      res.status(500).json({ message: "Error updating message status" });
+    }
   });
   app2.get("/api/admin/users", isAdmin, async (req, res) => {
     try {
@@ -1476,7 +1989,7 @@ async function registerRoutes(httpServer2, app2) {
   app2.delete("/api/admin/users/:id", isAdmin, async (req, res) => {
     try {
       const userId = req.params.id;
-      await db.delete(users).where((0, import_drizzle_orm5.eq)(users.id, userId));
+      await db.delete(users).where((0, import_drizzle_orm6.eq)(users.id, userId));
       res.json({ success: true });
     } catch (error) {
       console.error("Error deleting user:", error);
@@ -1486,6 +1999,160 @@ async function registerRoutes(httpServer2, app2) {
   app2.patch("/api/admin/users/:id/password", isAdmin, async (req, res) => {
     const userId = req.params.id;
     res.json({ success: true, message: "Instrucciones de reinicio enviadas" });
+  });
+  app2.patch("/api/admin/users/:id", isAdmin, async (req, res) => {
+    try {
+      const userId = req.params.id;
+      const updateSchema = import_zod2.z.object({
+        firstName: import_zod2.z.string().min(1).max(100).optional(),
+        lastName: import_zod2.z.string().min(1).max(100).optional(),
+        email: import_zod2.z.string().email().optional(),
+        phone: import_zod2.z.string().max(30).optional().nullable(),
+        isActive: import_zod2.z.boolean().optional(),
+        accountStatus: import_zod2.z.enum(["active", "pending", "suspended", "vip"]).optional()
+      });
+      const data = updateSchema.parse(req.body);
+      const [updated] = await db.update(users).set({
+        ...data,
+        updatedAt: /* @__PURE__ */ new Date()
+      }).where((0, import_drizzle_orm6.eq)(users.id, userId)).returning();
+      res.json(updated);
+    } catch (error) {
+      console.error("Error updating user:", error);
+      if (error instanceof import_zod2.z.ZodError) {
+        return res.status(400).json({ message: "Datos inv\xE1lidos" });
+      }
+      res.status(500).json({ message: "Error al actualizar usuario" });
+    }
+  });
+  app2.get("/api/admin/newsletter", isAdmin, async (req, res) => {
+    try {
+      const subscribers = await db.select().from(newsletterSubscribers).orderBy((0, import_drizzle_orm6.desc)(newsletterSubscribers.subscribedAt));
+      res.json(subscribers);
+    } catch (error) {
+      console.error("Error fetching newsletter subscribers:", error);
+      res.status(500).json({ message: "Error al obtener suscriptores" });
+    }
+  });
+  app2.delete("/api/admin/newsletter/:id", isAdmin, async (req, res) => {
+    try {
+      await db.delete(newsletterSubscribers).where((0, import_drizzle_orm6.eq)(newsletterSubscribers.id, Number(req.params.id)));
+      res.json({ success: true });
+    } catch (error) {
+      res.status(500).json({ message: "Error al eliminar suscriptor" });
+    }
+  });
+  const escapeHtml = (text3) => text3.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+  app2.post("/api/admin/send-email", isAdmin, async (req, res) => {
+    try {
+      const { to, subject, message } = import_zod2.z.object({
+        to: import_zod2.z.string().email(),
+        subject: import_zod2.z.string().min(1).max(200),
+        message: import_zod2.z.string().min(1).max(5e3)
+      }).parse(req.body);
+      const safeSubject = escapeHtml(subject);
+      const safeMessage = escapeHtml(message);
+      await sendEmail({
+        to,
+        subject: `${safeSubject} - Easy US LLC`,
+        html: `
+          <div style="background-color: #f9f9f9; padding: 20px 0;">
+            <div style="font-family: 'Inter', Arial, sans-serif; max-width: 600px; margin: auto; border-radius: 8px; overflow: hidden; color: #1a1a1a; background-color: #ffffff; border: 1px solid #e5e5e5;">
+              ${getEmailHeader(safeSubject)}
+              <div style="padding: 40px;">
+                <div style="line-height: 1.6; font-size: 15px; color: #444; white-space: pre-wrap;">${safeMessage}</div>
+              </div>
+              ${getEmailFooter()}
+            </div>
+          </div>
+        `
+      });
+      res.json({ success: true });
+    } catch (error) {
+      console.error("Error sending email:", error);
+      res.status(500).json({ message: "Error al enviar email" });
+    }
+  });
+  app2.post("/api/admin/request-document", isAdmin, async (req, res) => {
+    try {
+      const { email, documentType, message } = import_zod2.z.object({
+        email: import_zod2.z.string().email(),
+        documentType: import_zod2.z.string().min(1).max(200),
+        message: import_zod2.z.string().max(2e3).optional()
+      }).parse(req.body);
+      const safeDocType = escapeHtml(documentType);
+      const safeMessage = message ? escapeHtml(message) : "";
+      await sendEmail({
+        to: email,
+        subject: "Solicitud de Documentos - Easy US LLC",
+        html: `
+          <div style="background-color: #f9f9f9; padding: 20px 0;">
+            <div style="font-family: 'Inter', Arial, sans-serif; max-width: 600px; margin: auto; border-radius: 8px; overflow: hidden; color: #1a1a1a; background-color: #ffffff; border: 1px solid #e5e5e5;">
+              ${getEmailHeader("Solicitud de Documentos")}
+              <div style="padding: 40px;">
+                <h2 style="font-size: 18px; font-weight: 800; margin-bottom: 20px; color: #000;">Necesitamos documentaci\xF3n adicional</h2>
+                <p style="line-height: 1.6; font-size: 15px; color: #444;">Para continuar con tu solicitud, necesitamos que nos proporciones: <strong>${safeDocType}</strong></p>
+                ${safeMessage ? `<p style="line-height: 1.6; font-size: 15px; color: #444; margin-top: 15px;">${safeMessage}</p>` : ""}
+                <div style="margin-top: 30px; text-align: center;">
+                  <a href="https://easyusllc.com/dashboard" style="background-color: #6EDC8A; color: #000; padding: 12px 25px; text-decoration: none; border-radius: 100px; font-weight: 900; font-size: 13px; text-transform: uppercase;">Subir documentos \u2192</a>
+                </div>
+              </div>
+              ${getEmailFooter()}
+            </div>
+          </div>
+        `
+      });
+      res.json({ success: true });
+    } catch (error) {
+      console.error("Error requesting document:", error);
+      res.status(500).json({ message: "Error al solicitar documento" });
+    }
+  });
+  app2.post("/api/admin/send-note", isAdmin, async (req, res) => {
+    try {
+      const { userId, email, title, message, type, sendEmail: shouldSendEmail } = import_zod2.z.object({
+        userId: import_zod2.z.string(),
+        email: import_zod2.z.string().email(),
+        title: import_zod2.z.string().min(1).max(200),
+        message: import_zod2.z.string().min(1).max(5e3),
+        type: import_zod2.z.enum(["info", "action_required", "update"]).default("info"),
+        sendEmail: import_zod2.z.boolean().default(true)
+      }).parse(req.body);
+      const safeTitle = escapeHtml(title);
+      const safeMessage = escapeHtml(message);
+      await db.insert(userNotifications).values({
+        userId,
+        type,
+        title: safeTitle,
+        message: safeMessage,
+        actionUrl: "/dashboard"
+      });
+      if (shouldSendEmail) {
+        await sendEmail({
+          to: email,
+          subject: `${safeTitle} - Easy US LLC`,
+          html: `
+            <div style="background-color: #f9f9f9; padding: 20px 0;">
+              <div style="font-family: 'Inter', Arial, sans-serif; max-width: 600px; margin: auto; border-radius: 8px; overflow: hidden; color: #1a1a1a; background-color: #ffffff; border: 1px solid #e5e5e5;">
+                ${getEmailHeader(type === "action_required" ? "Acci\xF3n Requerida" : "Nueva Nota")}
+                <div style="padding: 40px;">
+                  <h2 style="font-size: 18px; font-weight: 800; margin-bottom: 20px; color: #000;">${safeTitle}</h2>
+                  <div style="line-height: 1.6; font-size: 15px; color: #444; white-space: pre-wrap;">${safeMessage}</div>
+                  <div style="margin-top: 30px; text-align: center;">
+                    <a href="https://easyusllc.com/dashboard" style="background-color: #6EDC8A; color: #000; padding: 12px 25px; text-decoration: none; border-radius: 100px; font-weight: 900; font-size: 13px; text-transform: uppercase;">Ver en mi panel \u2192</a>
+                  </div>
+                </div>
+                ${getEmailFooter()}
+              </div>
+            </div>
+          `
+        });
+      }
+      res.json({ success: true });
+    } catch (error) {
+      console.error("Error sending note:", error);
+      res.status(500).json({ message: "Error al enviar nota" });
+    }
   });
   app2.patch("/api/admin/orders/:id/status", isAdmin, async (req, res) => {
     const { status } = req.body;
@@ -1525,7 +2192,7 @@ async function registerRoutes(httpServer2, app2) {
     const orderId = Number(req.params.id);
     const order = await storage.getOrder(orderId);
     if (!order) return res.status(404).json({ message: "Pedido no encontrado" });
-    if (order.userId !== req.user.claims.sub && !req.user.isAdmin) {
+    if (order.userId !== req.session.userId && !req.session.isAdmin) {
       return res.status(403).json({ message: "No tienes permiso para ver esta factura" });
     }
     res.setHeader("Content-Type", "text/html");
@@ -1535,22 +2202,130 @@ async function registerRoutes(httpServer2, app2) {
     const orderId = Number(req.params.id);
     const order = await storage.getOrder(orderId);
     if (!order) return res.status(404).json({ message: "Pedido no encontrado" });
-    if (order.userId !== req.user.claims.sub && !req.user.isAdmin) {
+    if (order.userId !== req.session.userId && !req.session.isAdmin) {
       return res.status(403).json({ message: "Acceso denegado" });
     }
     res.setHeader("Content-Type", "text/html");
     res.send(generateReceiptHtml(order));
   });
+  app2.get("/api/orders/:id/events", isAuthenticated, async (req, res) => {
+    try {
+      const orderId = Number(req.params.id);
+      const order = await storage.getOrder(orderId);
+      if (!order) return res.status(404).json({ message: "Pedido no encontrado" });
+      if (order.userId !== req.session.userId && !req.session.isAdmin) {
+        return res.status(403).json({ message: "Acceso denegado" });
+      }
+      const events = await db.select().from(orderEvents).where((0, import_drizzle_orm6.eq)(orderEvents.orderId, orderId)).orderBy((0, import_drizzle_orm6.desc)(orderEvents.createdAt));
+      res.json(events);
+    } catch (error) {
+      console.error("Error fetching order events:", error);
+      res.status(500).json({ message: "Error al obtener eventos" });
+    }
+  });
+  app2.post("/api/admin/orders/:id/events", isAdmin, async (req, res) => {
+    try {
+      const orderId = Number(req.params.id);
+      const { eventType, description } = req.body;
+      const [event] = await db.insert(orderEvents).values({
+        orderId,
+        eventType,
+        description,
+        createdBy: req.session.userId
+      }).returning();
+      const order = await storage.getOrder(orderId);
+      if (order) {
+        const [user] = await db.select().from(users).where((0, import_drizzle_orm6.eq)(users.id, order.userId)).limit(1);
+        if (user?.email) {
+          sendEmail({
+            to: user.email,
+            subject: "Actualizaci\xF3n de tu pedido - Easy US LLC",
+            html: `
+              <div style="font-family: 'Inter', sans-serif; max-width: 600px; margin: auto; padding: 40px; background: #fff;">
+                ${getEmailHeader()}
+                <div style="padding: 30px;">
+                  <h2 style="color: #000; font-weight: 900;">Actualizaci\xF3n de Pedido #${orderId}</h2>
+                  <div style="background: #f4f4f4; border-left: 4px solid #6EDC8A; padding: 20px; margin: 20px 0;">
+                    <p style="margin: 0; font-weight: 700;">${eventType}</p>
+                    <p style="margin: 10px 0 0; color: #666;">${description}</p>
+                  </div>
+                  <p style="color: #666; font-size: 14px;">Fecha: ${(/* @__PURE__ */ new Date()).toLocaleString("es-ES")}</p>
+                </div>
+                ${getEmailFooter()}
+              </div>
+            `
+          }).catch((e) => console.error("Error sending event email:", e));
+        }
+      }
+      res.json(event);
+    } catch (error) {
+      console.error("Error creating order event:", error);
+      res.status(500).json({ message: "Error al crear evento" });
+    }
+  });
+  app2.get("/api/messages/:id/replies", isAuthenticated, async (req, res) => {
+    try {
+      const messageId = Number(req.params.id);
+      const replies = await db.select().from(messageReplies).where((0, import_drizzle_orm6.eq)(messageReplies.messageId, messageId)).orderBy(messageReplies.createdAt);
+      res.json(replies);
+    } catch (error) {
+      console.error("Error fetching message replies:", error);
+      res.status(500).json({ message: "Error al obtener respuestas" });
+    }
+  });
+  app2.post("/api/messages/:id/reply", isAuthenticated, async (req, res) => {
+    try {
+      const messageId = Number(req.params.id);
+      const { content } = req.body;
+      const [reply] = await db.insert(messageReplies).values({
+        messageId,
+        content,
+        isAdmin: req.session.isAdmin || false,
+        createdBy: req.session.userId
+      }).returning();
+      const [message] = await db.select().from(messages).where((0, import_drizzle_orm6.eq)(messages.id, messageId)).limit(1);
+      if (message?.email && !req.session.isAdmin) {
+        sendEmail({
+          to: message.email,
+          subject: "Nueva respuesta a tu consulta - Easy US LLC",
+          html: `
+            <div style="font-family: 'Inter', sans-serif; max-width: 600px; margin: auto; padding: 40px; background: #fff;">
+              ${getEmailHeader()}
+              <div style="padding: 30px;">
+                <h2 style="color: #000; font-weight: 900;">Respuesta a tu consulta</h2>
+                <p style="color: #666;">Ticket ID: MSG-${messageId}</p>
+                <div style="background: #f4f4f4; border-left: 4px solid #6EDC8A; padding: 20px; margin: 20px 0;">
+                  <p style="margin: 0;">${content}</p>
+                </div>
+                <p style="color: #666; font-size: 14px;">Puedes responder accediendo a tu \xE1rea de clientes.</p>
+              </div>
+              ${getEmailFooter()}
+            </div>
+          `
+        }).catch((e) => console.error("Error sending reply email:", e));
+      }
+      res.json(reply);
+    } catch (error) {
+      console.error("Error creating reply:", error);
+      res.status(500).json({ message: "Error al crear respuesta" });
+    }
+  });
   function generateInvoiceHtml(order) {
+    const requestCode = order.application?.requestCode || `ORD-${order.id}`;
+    const userName = order.user ? `${order.user.firstName || ""} ${order.user.lastName || ""}`.trim() : "Cliente";
+    const userEmail = order.user?.email || "";
+    const productName = order.product?.name || "Servicio de Constituci\xF3n LLC";
     return `
       <html>
         <head>
           <style>
-            body { font-family: 'Inter', sans-serif; padding: 40px; color: #1a1a1a; line-height: 1.6; }
+            @media print { body { -webkit-print-color-adjust: exact; print-color-adjust: exact; } }
+            body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; padding: 40px; color: #1a1a1a; line-height: 1.6; }
             .header { border-bottom: 4px solid #6EDC8A; padding-bottom: 20px; margin-bottom: 40px; display: flex; justify-content: space-between; align-items: flex-end; }
-            .invoice-title { font-size: 32px; font-weight: 900; text-transform: uppercase; tracking-tighter; margin: 0; }
+            .invoice-title { font-size: 32px; font-weight: 900; text-transform: uppercase; margin: 0; }
+            .order-code { background: #6EDC8A; color: #000; padding: 8px 16px; border-radius: 100px; font-weight: 900; font-size: 14px; display: inline-block; margin-top: 10px; }
             .details { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; margin-bottom: 60px; }
-            .section-title { font-size: 10px; font-weight: 900; text-transform: uppercase; color: #6EDC8A; margin-bottom: 10px; tracking-widest; }
+            .section-title { font-size: 10px; font-weight: 900; text-transform: uppercase; color: #6EDC8A; margin-bottom: 10px; letter-spacing: 0.1em; }
             .table { width: 100%; border-collapse: collapse; margin-bottom: 40px; }
             .table th { text-align: left; border-bottom: 2px solid #f0f0f0; padding: 15px 10px; font-size: 11px; text-transform: uppercase; font-weight: 900; }
             .table td { padding: 20px 10px; border-bottom: 1px solid #f9f9f9; font-size: 14px; font-weight: 500; }
@@ -1558,39 +2333,46 @@ async function registerRoutes(httpServer2, app2) {
             .total-label { font-size: 12px; font-weight: 900; text-transform: uppercase; color: #666; }
             .total-amount { font-size: 28px; font-weight: 900; color: #000; }
             .footer { margin-top: 80px; font-size: 12px; color: #999; text-align: center; border-top: 1px solid #eee; padding-top: 20px; }
+            .print-btn { background: #6EDC8A; color: #000; padding: 12px 30px; border: none; border-radius: 100px; font-weight: 900; cursor: pointer; font-size: 14px; margin-bottom: 30px; }
+            @media print { .print-btn { display: none; } }
           </style>
         </head>
         <body>
+          <button class="print-btn" onclick="window.print()">Imprimir / Descargar PDF</button>
           <div class="header">
             <div>
-              <h1 class="invoice-title">Factura Oficial</h1>
-              <p style="margin: 5px 0 0 0; font-weight: 700;">Ref: INV-${order.id}-${new Date(order.createdAt).getFullYear()}</p>
+              <h1 class="invoice-title">Factura</h1>
+              <div class="order-code">${requestCode}</div>
             </div>
             <div style="text-align: right">
-              <p style="margin: 0; font-weight: 800;">Easy US LLC</p>
-              <p style="margin: 0; font-size: 13px; color: #666;">Fecha: ${new Date(order.createdAt).toLocaleDateString("es-ES")}</p>
+              <p style="margin: 0; font-weight: 800; font-size: 18px;">Easy US LLC</p>
+              <p style="margin: 5px 0 0 0; font-size: 13px; color: #666;">Fecha: ${new Date(order.createdAt).toLocaleDateString("es-ES")}</p>
             </div>
           </div>
           <div class="details">
             <div>
               <div class="section-title">Emisor</div>
-              <p style="margin: 0;"><strong>Fortuny Consulting LLC</strong></p>
-              <p style="margin: 0; font-size: 14px;">EIN: 98-1906730</p>
-              <p style="margin: 0; font-size: 14px;">USA / Espa\xF1a</p>
+              <p style="margin: 0;"><strong>EASY US LLC</strong></p>
+              <p style="margin: 5px 0 0 0; font-size: 14px;">FORTUNY CONSULTING LLC</p>
+              <p style="margin: 5px 0 0 0; font-size: 14px;">1209 Mountain Road Place Northeast</p>
+              <p style="margin: 0; font-size: 14px;">STE R</p>
+              <p style="margin: 0; font-size: 14px;">Albuquerque, NM 87110, USA</p>
+              <p style="margin: 10px 0 0 0; font-size: 14px;">info@easyusllc.com</p>
+              <p style="margin: 0; font-size: 14px;">+34 614 91 69 10</p>
             </div>
             <div>
               <div class="section-title">Cliente</div>
-              <p style="margin: 0;"><strong>ID Usuario: #${order.userId}</strong></p>
-              <p style="margin: 0; font-size: 14px;">Servicios de Constituci\xF3n / Mantenimiento</p>
+              <p style="margin: 0;"><strong>${userName}</strong></p>
+              <p style="margin: 0; font-size: 14px;">${userEmail}</p>
             </div>
           </div>
           <table class="table">
             <thead>
-              <tr><th>Descripci\xF3n del Servicio</th><th style="text-align: right">Precio Unitario</th></tr>
+              <tr><th>Descripci\xF3n del Servicio</th><th style="text-align: right">Precio</th></tr>
             </thead>
             <tbody>
               <tr>
-                <td>Constituci\xF3n de Empresa LLC / Mantenimiento Anual</td>
+                <td>${productName}</td>
                 <td style="text-align: right">${(order.amount / 100).toFixed(2)}\u20AC</td>
               </tr>
             </tbody>
@@ -1600,55 +2382,71 @@ async function registerRoutes(httpServer2, app2) {
             <div class="total-amount">${(order.amount / 100).toFixed(2)}\u20AC</div>
           </div>
           <div class="footer">
-            Easy US LLC \u2022 Gracias por confiar en nosotros para expandir tu negocio a USA.
+            EASY US LLC \u2022 FORTUNY CONSULTING LLC<br>
+            1209 Mountain Road Place Northeast, STE R, Albuquerque, NM 87110<br>
+            info@easyusllc.com \u2022 +34 614 91 69 10
           </div>
         </body>
       </html>
     `;
   }
   function generateReceiptHtml(order) {
+    const requestCode = order.application?.requestCode || `ORD-${order.id}`;
+    const userName = order.user ? `${order.user.firstName || ""} ${order.user.lastName || ""}`.trim() : "Cliente";
+    const productName = order.product?.name || "Servicio de Constituci\xF3n LLC";
     return `
       <html>
         <head>
           <style>
-            body { font-family: 'Inter', sans-serif; padding: 40px; color: #1a1a1a; line-height: 1.6; background: #fcfcfc; }
-            .card { background: white; max-width: 600px; margin: auto; padding: 50px; border-radius: 40px; shadow: 0 20px 40px rgba(0,0,0,0.05); border: 1px solid #eee; }
-            .logo { width: 60px; margin-bottom: 30px; }
-            .status { display: inline-block; background: #6EDC8A; color: #000; padding: 6px 15px; border-radius: 100px; font-size: 10px; font-weight: 900; text-transform: uppercase; margin-bottom: 20px; }
-            h1 { font-size: 28px; font-weight: 900; margin: 0 0 10px 0; tracking: -0.03em; }
+            @media print { body { -webkit-print-color-adjust: exact; print-color-adjust: exact; } }
+            body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; padding: 40px; color: #1a1a1a; line-height: 1.6; background: #fcfcfc; }
+            .card { background: white; max-width: 600px; margin: auto; padding: 50px; border-radius: 40px; box-shadow: 0 20px 40px rgba(0,0,0,0.05); border: 1px solid #eee; }
+            .status { display: inline-block; background: #6EDC8A; color: #000; padding: 8px 20px; border-radius: 100px; font-size: 12px; font-weight: 900; text-transform: uppercase; margin-bottom: 20px; }
+            h1 { font-size: 28px; font-weight: 900; margin: 0 0 10px 0; letter-spacing: -0.03em; }
+            .order-code { font-size: 24px; font-weight: 900; color: #6EDC8A; margin-bottom: 20px; }
             .msg { color: #666; margin-bottom: 40px; }
             .info-row { display: flex; justify-content: space-between; padding: 15px 0; border-bottom: 1px solid #f5f5f5; font-size: 14px; }
             .label { font-weight: 800; color: #999; text-transform: uppercase; font-size: 11px; }
             .val { font-weight: 700; color: #000; }
             .footer { margin-top: 40px; text-align: center; font-size: 12px; color: #999; }
+            .print-btn { background: #6EDC8A; color: #000; padding: 12px 30px; border: none; border-radius: 100px; font-weight: 900; cursor: pointer; font-size: 14px; display: block; margin: 0 auto 30px; }
+            @media print { .print-btn { display: none; } }
           </style>
         </head>
         <body>
           <div class="card">
+            <button class="print-btn" onclick="window.print()">Imprimir / Descargar PDF</button>
             <div class="status">Recibo de Solicitud</div>
             <h1>Confirmaci\xF3n de Pedido</h1>
+            <div class="order-code">${requestCode}</div>
             <p class="msg">Hemos recibido correctamente tu solicitud. Tu proceso de constituci\xF3n est\xE1 en marcha.</p>
             
             <div class="info-row">
-              <span class="label">Referencia del Pedido</span>
-              <span class="val">#${order.id}</span>
+              <span class="label">Cliente</span>
+              <span class="val">${userName}</span>
+            </div>
+            <div class="info-row">
+              <span class="label">Servicio</span>
+              <span class="val">${productName}</span>
             </div>
             <div class="info-row">
               <span class="label">Fecha</span>
               <span class="val">${new Date(order.createdAt).toLocaleDateString("es-ES")}</span>
             </div>
             <div class="info-row">
-              <span class="label">Estado del Pago</span>
+              <span class="label">Estado</span>
               <span class="val">${order.status === "paid" ? "PAGADO" : "PENDIENTE"}</span>
             </div>
             <div class="info-row" style="border-bottom: 0;">
-              <span class="label">Total Importe</span>
+              <span class="label">Total</span>
               <span class="val" style="font-size: 20px; color: #6EDC8A;">${(order.amount / 100).toFixed(2)}\u20AC</span>
             </div>
             
             <div class="footer">
               Conserva este recibo para tus registros.<br/>
-              Easy US LLC \u2022 Fortuny Consulting LLC
+              EASY US LLC \u2022 FORTUNY CONSULTING LLC<br/>
+              1209 Mountain Road Place Northeast, STE R, Albuquerque, NM 87110<br/>
+              info@easyusllc.com \u2022 +34 614 91 69 10
             </div>
           </div>
         </body>
@@ -1680,16 +2478,16 @@ async function registerRoutes(httpServer2, app2) {
     try {
       const { email, otp } = import_zod2.z.object({ email: import_zod2.z.string().email(), otp: import_zod2.z.string() }).parse(req.body);
       const [record] = await db.select().from(contactOtps).where(
-        (0, import_drizzle_orm5.and)(
-          (0, import_drizzle_orm5.eq)(contactOtps.email, email),
-          (0, import_drizzle_orm5.eq)(contactOtps.otp, otp),
-          (0, import_drizzle_orm5.gt)(contactOtps.expiresAt, /* @__PURE__ */ new Date())
+        (0, import_drizzle_orm6.and)(
+          (0, import_drizzle_orm6.eq)(contactOtps.email, email),
+          (0, import_drizzle_orm6.eq)(contactOtps.otp, otp),
+          (0, import_drizzle_orm6.gt)(contactOtps.expiresAt, /* @__PURE__ */ new Date())
         )
       ).limit(1);
       if (!record) {
         return res.status(400).json({ message: "C\xF3digo inv\xE1lido o caducado" });
       }
-      await db.update(contactOtps).set({ verified: true }).where((0, import_drizzle_orm5.eq)(contactOtps.id, record.id));
+      await db.update(contactOtps).set({ verified: true }).where((0, import_drizzle_orm6.eq)(contactOtps.id, record.id));
       res.json({ success: true });
     } catch (err) {
       console.error("Error verifying contact OTP:", err);
@@ -1708,10 +2506,10 @@ async function registerRoutes(httpServer2, app2) {
         otp: import_zod2.z.string()
       }).parse(req.body);
       const [otpRecord] = await db.select().from(contactOtps).where(
-        (0, import_drizzle_orm5.and)(
-          (0, import_drizzle_orm5.eq)(contactOtps.email, contactData.email),
-          (0, import_drizzle_orm5.eq)(contactOtps.otp, contactData.otp),
-          (0, import_drizzle_orm5.eq)(contactOtps.verified, true)
+        (0, import_drizzle_orm6.and)(
+          (0, import_drizzle_orm6.eq)(contactOtps.email, contactData.email),
+          (0, import_drizzle_orm6.eq)(contactOtps.otp, contactData.otp),
+          (0, import_drizzle_orm6.eq)(contactOtps.verified, true)
         )
       ).limit(1);
       if (!otpRecord) {
@@ -1739,12 +2537,12 @@ async function registerRoutes(httpServer2, app2) {
       res.status(400).json({ message: "Error al procesar el mensaje" });
     }
   });
-  app2.post("/api/maintenance/orders", async (req, res) => {
+  app2.post("/api/maintenance/orders-legacy", async (req, res) => {
     try {
       const { productId, state } = req.body;
       let userId;
-      if (req.user?.id) {
-        userId = req.user.id;
+      if (req.session?.userId) {
+        userId = req.session.userId;
       } else {
         const guestId = `guest_${Date.now()}_${Math.random().toString(36).substring(7)}`;
         await db.insert(users).values({
@@ -1784,7 +2582,7 @@ async function registerRoutes(httpServer2, app2) {
     const { email } = req.body;
     const otp = Math.floor(1e5 + Math.random() * 9e5).toString();
     const expires = new Date(Date.now() + 10 * 60 * 1e3);
-    await db.update(maintenanceApplications).set({ emailOtp: otp, emailOtpExpires: expires }).where((0, import_drizzle_orm5.eq)(maintenanceApplications.id, Number(req.params.id)));
+    await db.update(maintenanceApplications).set({ emailOtp: otp, emailOtpExpires: expires }).where((0, import_drizzle_orm6.eq)(maintenanceApplications.id, Number(req.params.id)));
     await sendEmail({
       to: email,
       subject: "C\xF3digo de verificaci\xF3n - Easy US LLC",
@@ -1795,13 +2593,13 @@ async function registerRoutes(httpServer2, app2) {
   app2.post("/api/maintenance/:id/verify-otp", async (req, res) => {
     const appId = Number(req.params.id);
     const { otp } = req.body;
-    const [app3] = await db.select().from(maintenanceApplications).where((0, import_drizzle_orm5.and)(
-      (0, import_drizzle_orm5.eq)(maintenanceApplications.id, appId),
-      (0, import_drizzle_orm5.eq)(maintenanceApplications.emailOtp, otp),
-      (0, import_drizzle_orm5.gt)(maintenanceApplications.emailOtpExpires, /* @__PURE__ */ new Date())
+    const [app3] = await db.select().from(maintenanceApplications).where((0, import_drizzle_orm6.and)(
+      (0, import_drizzle_orm6.eq)(maintenanceApplications.id, appId),
+      (0, import_drizzle_orm6.eq)(maintenanceApplications.emailOtp, otp),
+      (0, import_drizzle_orm6.gt)(maintenanceApplications.emailOtpExpires, /* @__PURE__ */ new Date())
     ));
     if (app3) {
-      await db.update((init_schema(), __toCommonJS(schema_exports)).maintenanceApplications).set({ emailVerified: true }).where((0, import_drizzle_orm5.eq)((init_schema(), __toCommonJS(schema_exports)).maintenanceApplications.id, appId));
+      await db.update((init_schema(), __toCommonJS(schema_exports)).maintenanceApplications).set({ emailVerified: true }).where((0, import_drizzle_orm6.eq)((init_schema(), __toCommonJS(schema_exports)).maintenanceApplications.id, appId));
       res.json({ success: true });
     } else {
       res.status(400).json({ message: "Invalid OTP" });
@@ -1810,7 +2608,7 @@ async function registerRoutes(httpServer2, app2) {
   app2.put("/api/maintenance/:id", async (req, res) => {
     const appId = Number(req.params.id);
     const updates = req.body;
-    const [updatedApp] = await db.update(maintenanceApplications).set({ ...updates, lastUpdated: /* @__PURE__ */ new Date() }).where((0, import_drizzle_orm5.eq)(maintenanceApplications.id, appId)).returning();
+    const [updatedApp] = await db.update(maintenanceApplications).set({ ...updates, lastUpdated: /* @__PURE__ */ new Date() }).where((0, import_drizzle_orm6.eq)(maintenanceApplications.id, appId)).returning();
     if (updates.status === "submitted") {
       logActivity("Nueva Solicitud Mantenimiento", {
         "Propietario": updatedApp.ownerFullName,
@@ -2029,8 +2827,10 @@ app.use((req, res, next) => {
   app.use((err, _req, res, _next) => {
     const status = err.status || err.statusCode || 500;
     const message = err.message || "Internal Server Error";
-    res.status(status).json({ message });
-    throw err;
+    if (!res.headersSent) {
+      res.status(status).json({ message });
+    }
+    console.error(`[Error ${status}]`, message, err.stack || "");
   });
   if (process.env.NODE_ENV === "production") {
     serveStatic(app);
