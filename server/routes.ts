@@ -826,10 +826,13 @@ export async function registerRoutes(
           <div class="details">
             <div>
               <div class="section-title">Emisor</div>
-              <p style="margin: 0;"><strong>Fortuny Consulting LLC</strong></p>
-              <p style="margin: 0; font-size: 14px;">EIN: 98-1906730</p>
-              <p style="margin: 0; font-size: 14px;">1209 Mountain Road Pl NE, STE R</p>
+              <p style="margin: 0;"><strong>EASY US LLC</strong></p>
+              <p style="margin: 5px 0 0 0; font-size: 14px;">FORTUNY CONSULTING LLC</p>
+              <p style="margin: 5px 0 0 0; font-size: 14px;">1209 Mountain Road Place Northeast</p>
+              <p style="margin: 0; font-size: 14px;">STE R</p>
               <p style="margin: 0; font-size: 14px;">Albuquerque, NM 87110, USA</p>
+              <p style="margin: 10px 0 0 0; font-size: 14px;">info@easyusllc.com</p>
+              <p style="margin: 0; font-size: 14px;">+34 614 91 69 10</p>
             </div>
             <div>
               <div class="section-title">Cliente</div>
@@ -853,7 +856,9 @@ export async function registerRoutes(
             <div class="total-amount">${(order.amount / 100).toFixed(2)}€</div>
           </div>
           <div class="footer">
-            Easy US LLC • Fortuny Consulting LLC • info@easyusllc.com
+            EASY US LLC • FORTUNY CONSULTING LLC<br>
+            1209 Mountain Road Place Northeast, STE R, Albuquerque, NM 87110<br>
+            info@easyusllc.com • +34 614 91 69 10
           </div>
         </body>
       </html>
@@ -915,7 +920,9 @@ export async function registerRoutes(
             
             <div class="footer">
               Conserva este recibo para tus registros.<br/>
-              Easy US LLC • Fortuny Consulting LLC • info@easyusllc.com
+              EASY US LLC • FORTUNY CONSULTING LLC<br/>
+              1209 Mountain Road Place Northeast, STE R, Albuquerque, NM 87110<br/>
+              info@easyusllc.com • +34 614 91 69 10
             </div>
           </div>
         </body>
