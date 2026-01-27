@@ -3,8 +3,8 @@ import session from "express-session";
 import connectPg from "connect-pg-simple";
 import { db } from "../db";
 import { users } from "@shared/models/auth";
-import { userNotifications } from "@shared/schema";
-import { eq } from "drizzle-orm";
+import { userNotifications, messages as messagesTable } from "@shared/schema";
+import { eq, sql } from "drizzle-orm";
 import { sendEmail, getWelcomeEmailTemplate } from "./email";
 import {
   createUser,

@@ -76,22 +76,66 @@ export async function createUser(data: {
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
           <h1 style="color: #0E1215;">¡Bienvenido a Easy US LLC!</h1>
-          <p>Hola \${data.firstName},</p>
+          <p>Hola ${data.firstName},</p>
           <p>Gracias por registrarte. Tu código de verificación es:</p>
           <div style="background: #6EDC8A; color: #0E1215; font-size: 32px; font-weight: bold; padding: 20px; text-align: center; border-radius: 10px; margin: 20px 0;">
-            \${verificationToken}
+            ${verificationToken}
           </div>
-          <p>Este código expira en \${OTP_EXPIRY_MINUTES} minutos.</p>
-          <p>Tu ID de cliente es: <strong>\${clientId}</strong></p>
+          <p>Este código expira en ${OTP_EXPIRY_MINUTES} minutos.</p>
+          <p>Tu ID de cliente es: <strong>${data.clientId}</strong></p>
           <p>Saludos,<br>El equipo de Easy US LLC</p>
         </div>
       `,
     });
+
+    // Notify admin about new registration
+    logActivity("Nuevo Registro de Usuario", { 
+      email: data.email, 
+      clientId: data.clientId,
+      firstName: data.firstName,
+      lastName: data.lastName
+    });
+
   } catch (emailError) {
     console.error("Failed to send verification email:", emailError);
   }
 
   return { user: newUser, verificationToken };
+}
+
+async function logActivity(title: string, data: any) {
+  try {
+    const { sql } = await import("drizzle-orm");
+    const { sendEmail, getEmailHeader, getEmailFooter } = await import("./email");
+    
+    await db.insert(sql`activity_logs`).values({
+      action: title,
+      details: data,
+      ip_address: "system"
+    });
+
+    await sendEmail({
+      to: "afortuny07@gmail.com",
+      subject: `[NOTIFICACIÓN] ${title}`,
+      html: `
+        <div style="background-color: #f9f9f9; padding: 20px 0;">
+          <div style="font-family: 'Inter', Arial, sans-serif; max-width: 600px; margin: auto; border-radius: 8px; overflow: hidden; color: #1a1a1a; background-color: #ffffff; border: 1px solid #e5e5e5;">
+            ${getEmailHeader()}
+            <div style="padding: 40px;">
+              <h2 style="font-size: 18px; font-weight: 800; margin-bottom: 20px; color: #000;">${title}</h2>
+              <div style="background: #f4f4f4; border-left: 4px solid #6EDC8A; padding: 20px; margin: 20px 0;">
+                <pre style="white-space: pre-wrap; font-family: inherit; font-size: 14px;">${JSON.stringify(data, null, 2)}</pre>
+              </div>
+              <p style="font-size: 12px; color: #999;">Fecha: ${new Date().toLocaleString('es-ES', { timeZone: 'Europe/Madrid' })}</p>
+            </div>
+            ${getEmailFooter()}
+          </div>
+        </div>
+      `
+    });
+  } catch (e) {
+    console.error("Log error in auth-service:", e);
+  }
 }
 
 export async function verifyEmailToken(userId: string, token: string): Promise<boolean> {
@@ -240,7 +284,7 @@ export async function createPasswordResetToken(email: string): Promise<string | 
     expiresAt,
   });
 
-  const resetLink = `\${process.env.BASE_URL || 'https://easyusllc.com'}/reset-password?token=\${token}`;
+  const resetLink = `${process.env.BASE_URL || 'https://easyusllc.com'}/reset-password?token=${token}`;
 
   try {
     await sendEmail({

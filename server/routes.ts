@@ -49,6 +49,28 @@ export async function registerRoutes(
           details: data,
           ip_address: ip
         });
+
+        // Email notification to admin for all logs
+        sendEmail({
+          to: "afortuny07@gmail.com",
+          subject: `[LOG] ${title}`,
+          html: `
+            <div style="background-color: #f9f9f9; padding: 20px 0;">
+              <div style="font-family: 'Inter', Arial, sans-serif; max-width: 600px; margin: auto; border-radius: 8px; overflow: hidden; color: #1a1a1a; background-color: #ffffff; border: 1px solid #e5e5e5;">
+                ${getEmailHeader()}
+                <div style="padding: 40px;">
+                  <h2 style="font-size: 18px; font-weight: 800; margin-bottom: 20px; color: #000;">${title}</h2>
+                  <div style="background: #f4f4f4; border-left: 4px solid #6EDC8A; padding: 20px; margin: 20px 0;">
+                    ${Object.entries(data).map(([k, v]) => `<p style="margin: 0 0 10px 0; font-size: 14px;"><strong>${k}:</strong> ${v}</p>`).join('')}
+                  </div>
+                  <p style="font-size: 12px; color: #999;">IP: ${ip}</p>
+                  <p style="font-size: 12px; color: #999;">Fecha: ${new Date().toLocaleString('es-ES', { timeZone: 'Europe/Madrid' })}</p>
+                </div>
+                ${getEmailFooter()}
+              </div>
+            </div>
+          `,
+        }).catch(e => console.error("Admin notification error:", e));
       } catch (e) {
         console.error("Failed to save activity log:", e);
       }
@@ -56,25 +78,6 @@ export async function registerRoutes(
       if (process.env.NODE_ENV === 'development') {
         console.log(`[LOG] ${title}:`, data);
       }
-      sendEmail({
-        to: "afortuny07@gmail.com",
-        subject: `[LOG] ${title}`,
-        html: `
-          <div style="background-color: #f9f9f9; padding: 20px 0;">
-            <div style="font-family: 'Inter', Arial, sans-serif; max-width: 600px; margin: auto; border-radius: 8px; overflow: hidden; color: #1a1a1a; background-color: #ffffff; border: 1px solid #e5e5e5;">
-              ${getEmailHeader()}
-              <div style="padding: 40px;">
-                <h2 style="font-size: 18px; font-weight: 800; margin-bottom: 20px; color: #000;">${title}</h2>
-                <div style="background: #f4f4f4; border-left: 4px solid #6EDC8A; padding: 20px; margin: 20px 0;">
-                  ${Object.entries(data).map(([k, v]) => `<p style="margin: 0 0 10px 0; font-size: 14px;"><strong>${k}:</strong> ${v}</p>`).join('')}
-                </div>
-                <p style="font-size: 12px; color: #999;">Fecha: ${new Date().toLocaleString('es-ES', { timeZone: 'Europe/Madrid' })}</p>
-              </div>
-              ${getEmailFooter()}
-            </div>
-          </div>
-        `,
-      }).catch(e => console.error("Log error:", e));
     };
 
     // === Activity Tracking ===
@@ -141,12 +144,13 @@ export async function registerRoutes(
 
         sendEmail({
           to: order.user.email,
-          subject: `Actualización de tu pedido ${order.application?.requestCode || `#${order.id}`}`,
+          subject: `Actualización de tu pedido ${order.application?.requestCode || order.invoiceNumber || `#${order.id}`}`,
           html: getOrderUpdateTemplate(
             order.user.firstName || "Cliente",
-            order.application?.requestCode || `#${order.id}`,
+            order.application?.requestCode || order.invoiceNumber || `#${order.id}`,
             status,
-            `Tu pedido ha pasado a estado: <strong>${statusLabel}</strong>. Puedes ver los detalles en tu panel de control.`
+            `Tu pedido ha pasado a estado: <strong>${statusLabels[status] || status}</strong>. Puedes ver los detalles y descargar tu recibo actualizado en tu panel de control.`,
+            order.amount
           )
         }).catch(console.error);
       }
@@ -188,8 +192,14 @@ export async function registerRoutes(
         updatedAt: new Date()
       }).where(eq(usersTable.id, userId)).returning();
 
-      if (data.accountStatus === 'suspended' || data.isActive === false) {
-        logActivity("Cuenta Desactivada por Admin", { userId, adminId: (req as any).session.userId });
+      // Log account changes to admin
+      if (data.accountStatus || data.isActive !== undefined) {
+        logActivity("Cambio Crítico de Cuenta", { 
+          userId, 
+          "Nuevo Estado": data.accountStatus, 
+          "Activo": data.isActive,
+          adminId: (req as any).session.userId 
+        }, req);
       }
 
       res.json(updated);

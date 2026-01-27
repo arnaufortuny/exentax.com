@@ -266,16 +266,27 @@ export function getNoteReceivedTemplate(name: string, noteContent: string, order
   `;
 }
 
-export function getOrderUpdateTemplate(name: string, orderNumber: string, newStatus: string, statusDescription: string) {
+export function getOrderUpdateTemplate(name: string, orderNumber: string, newStatus: string, statusDescription: string, amount?: number) {
   const statusColors: Record<string, { bg: string; border: string; text: string }> = {
     pending: { bg: "#FEF3C7", border: "#F59E0B", text: "#92400E" },
     processing: { bg: "#DBEAFE", border: "#3B82F6", text: "#1E40AF" },
+    paid: { bg: "#D1FAE5", border: "#10B981", text: "#065F46" },
     documents_ready: { bg: "#E0E7FF", border: "#6366F1", text: "#3730A3" },
     completed: { bg: "#D1FAE5", border: "#10B981", text: "#065F46" },
     cancelled: { bg: "#FEE2E2", border: "#EF4444", text: "#991B1B" },
   };
   
   const colors = statusColors[newStatus] || statusColors.processing;
+  const statusLabels: Record<string, string> = {
+    pending: "PENDIENTE",
+    processing: "EN PROCESO",
+    paid: "PAGADO",
+    filed: "PRESENTADO",
+    documents_ready: "DOCUMENTOS LISTOS",
+    completed: "COMPLETADO",
+    cancelled: "CANCELADO"
+  };
+  const statusLabel = statusLabels[newStatus] || newStatus.toUpperCase().replace(/_/g, " ");
   
   return `
     <div style="background-color: #f9f9f9; padding: 20px 0;">
@@ -290,14 +301,15 @@ export function getOrderUpdateTemplate(name: string, orderNumber: string, newSta
             <p style="margin: 0 0 20px 0; font-size: 20px; font-weight: 900; color: #0E1215;">${orderNumber}</p>
             
             <div style="background: ${colors.bg}; padding: 15px 20px; border-radius: 8px; border-left: 4px solid ${colors.border};">
-              <p style="margin: 0; font-size: 14px; font-weight: 800; color: ${colors.text}; text-transform: uppercase;">${newStatus.replace(/_/g, " ")}</p>
+              <p style="margin: 0; font-size: 14px; font-weight: 800; color: ${colors.text}; text-transform: uppercase;">${statusLabel}</p>
             </div>
+            ${amount ? `<p style="margin: 15px 0 0 0; font-size: 14px; color: #6B7280;">Total pagado: <strong>$${(amount/100).toFixed(2)}</strong></p>` : ''}
           </div>
           
           <p style="line-height: 1.6; font-size: 15px; color: #444; margin-bottom: 25px;">${statusDescription}</p>
 
           <div style="text-align: center; margin-top: 30px;">
-            <a href="https://easyusllc.com/dashboard" style="background-color: #0E1215; color: #fff; padding: 15px 35px; text-decoration: none; border-radius: 6px; font-weight: 800; display: inline-block; text-transform: uppercase; font-size: 13px; letter-spacing: 1px;">Ver Detalles →</a>
+            <a href="${process.env.BASE_URL || 'https://easyusllc.com'}/dashboard" style="background-color: #0E1215; color: #fff; padding: 15px 35px; text-decoration: none; border-radius: 6px; font-weight: 800; display: inline-block; text-transform: uppercase; font-size: 13px; letter-spacing: 1px;">Ver Detalles →</a>
           </div>
         </div>
         ${getEmailFooter()}

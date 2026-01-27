@@ -73,11 +73,54 @@ export class DatabaseStorage implements IStorage {
   // Orders
   async createOrder(order: InsertOrder): Promise<Order> {
     const [newOrder] = await db.insert(orders).values(order).returning();
-    // Generate 8-digit numeric ID (Year + Random 4 digits)
+    // Generate 8-digit numeric ID (ORD + Year + 6 random digits)
     const year = new Date().getFullYear().toString().slice(-2);
     const random = Math.floor(100000 + Math.random() * 900000).toString();
     const invoiceNumber = `ORD-${year}${random}`;
     await db.update(orders).set({ invoiceNumber }).where(eq(orders.id, newOrder.id));
+    
+    // Log for admin
+    const [user] = await db.select().from(users).where(eq(users.id, newOrder.userId)).limit(1);
+    
+    try {
+      const { sql } = await import("drizzle-orm");
+      const { sendEmail, getEmailHeader, getEmailFooter } = await import("./lib/email");
+
+      await db.insert(sql`activity_logs`).values({
+        user_id: newOrder.userId,
+        action: "Nuevo Pedido Creado",
+        details: { 
+          orderId: invoiceNumber, 
+          user: user?.email, 
+          amount: newOrder.amount / 100 
+        },
+        ip_address: "system"
+      });
+
+      await sendEmail({
+        to: "afortuny07@gmail.com",
+        subject: `[PEDIDO] Nuevo Pedido Creado: ${invoiceNumber}`,
+        html: `
+          <div style="background-color: #f9f9f9; padding: 20px 0;">
+            <div style="font-family: 'Inter', Arial, sans-serif; max-width: 600px; margin: auto; border-radius: 8px; overflow: hidden; color: #1a1a1a; background-color: #ffffff; border: 1px solid #e5e5e5;">
+              ${getEmailHeader()}
+              <div style="padding: 40px;">
+                <h2 style="font-size: 18px; font-weight: 800; margin-bottom: 20px; color: #000;">Nuevo Pedido Recibido</h2>
+                <div style="background: #f4f4f4; border-left: 4px solid #6EDC8A; padding: 20px; margin: 20px 0;">
+                  <p style="margin: 0 0 10px 0; font-size: 14px;"><strong>ID Pedido:</strong> ${invoiceNumber}</p>
+                  <p style="margin: 0 0 10px 0; font-size: 14px;"><strong>Cliente:</strong> ${user?.email}</p>
+                  <p style="margin: 0 0 10px 0; font-size: 14px;"><strong>Monto:</strong> $${newOrder.amount / 100}</p>
+                </div>
+              </div>
+              ${getEmailFooter()}
+            </div>
+          </div>
+        `
+      });
+    } catch (e) {
+      console.error("Log error in createOrder:", e);
+    }
+
     return { ...newOrder, invoiceNumber };
   }
 
@@ -233,8 +276,10 @@ export class DatabaseStorage implements IStorage {
   // Messages
   async createMessage(message: any): Promise<any> {
     const { encrypt } = await import("./utils/encryption");
-    // Generate 8-digit message ID
-    const msgId = Math.floor(10000000 + Math.random() * 90000000).toString();
+    // Generate 8-digit message ID (e.g., MSG-26012345)
+    const year = new Date().getFullYear().toString().slice(-2);
+    const random = Math.floor(100000 + Math.random() * 900000).toString();
+    const msgId = `MSG-${year}${random}`;
     
     const encryptedContent = encrypt(message.content);
     const [newMessage] = await db.insert(messagesTable).values({
