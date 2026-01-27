@@ -39,7 +39,7 @@ export default function Login() {
       if (result.success) {
         await queryClient.refetchQueries({ queryKey: ["/api/auth/user"] });
         toast({ title: "Sesión iniciada", variant: "success" });
-        setLocation(result.user.isAdmin ? "/admin" : "/dashboard");
+        setLocation("/dashboard");
       }
     } catch (err: any) {
       toast({ 
