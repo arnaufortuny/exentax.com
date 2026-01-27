@@ -89,9 +89,9 @@ export default function Register() {
       const result = await res.json();
       
       if (result.success) {
-        queryClient.invalidateQueries({ queryKey: ["/api/auth/user"] });
+        await queryClient.refetchQueries({ queryKey: ["/api/auth/user"] });
         toast({ title: "Email verificado", variant: "success" });
-        setLocation("/dashboard");
+        window.location.href = "/dashboard";
       }
     } catch (err: any) {
       toast({ 

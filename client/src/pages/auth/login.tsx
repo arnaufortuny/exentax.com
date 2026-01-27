@@ -40,13 +40,15 @@ export default function Login() {
       const result = await res.json();
       
       if (result.success) {
-        queryClient.invalidateQueries({ queryKey: ["/api/auth/user"] });
+        // Wait for the user query to refetch before redirecting
+        await queryClient.refetchQueries({ queryKey: ["/api/auth/user"] });
         toast({ title: "Sesión iniciada", variant: "success" });
         
+        // Use window.location for full page reload to ensure session is recognized
         if (result.user.isAdmin) {
-          setLocation("/admin");
+          window.location.href = "/admin";
         } else {
-          setLocation("/dashboard");
+          window.location.href = "/dashboard";
         }
       }
     } catch (err: any) {
