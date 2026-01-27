@@ -51,12 +51,19 @@ export function Navbar() {
             {isAuthenticated ? (
               <div className="flex items-center gap-4 border-l pl-6 border-border">
                 <Link href="/dashboard" className="text-base font-black text-foreground hover:text-accent transition-colors flex items-center gap-2">
-                  <UserIcon className="w-4 h-4" /> Mi Área
+                  <UserIcon className="w-4 h-4" /> Mi Cuenta
                 </Link>
                 <button onClick={() => logout()} className="text-sm font-black text-muted-foreground hover:text-destructive transition-colors">Salir</button>
               </div>
             ) : (
-              <Link href="/login" className="text-base font-black text-accent hover:opacity-80 transition-opacity">Área Clientes</Link>
+              <Button 
+                onClick={() => setLocation("/login")}
+                variant="outline"
+                className="rounded-full border-2 border-accent text-foreground font-black text-sm h-10 px-5 flex items-center gap-2"
+                data-testid="button-desktop-login"
+              >
+                <UserIcon className="w-4 h-4" /> Mi Cuenta
+              </Button>
             )}
           </nav>
 
@@ -148,6 +155,19 @@ export function Navbar() {
               >
                 Contactanos
               </button>
+              {!isAuthenticated && (
+                <div className="px-3 py-4 mb-4 bg-accent/5 rounded-2xl border border-accent/20">
+                  <p className="text-xs font-black text-accent tracking-widest mb-2">Área de Clientes</p>
+                  <button
+                    onClick={() => handleNavClick("/login")}
+                    className="w-full text-left py-2 text-foreground font-black text-xl tracking-tighter flex items-center gap-2"
+                    data-testid="button-mobile-login-menu"
+                  >
+                    <UserIcon className="w-5 h-5" /> Mi Cuenta
+                  </button>
+                  <p className="text-sm text-muted-foreground mt-1">Inicia sesión o crea tu cuenta</p>
+                </div>
+              )}
               <div className="mt-8 px-3 flex flex-col gap-3">
                 <Button 
                   onClick={() => {
