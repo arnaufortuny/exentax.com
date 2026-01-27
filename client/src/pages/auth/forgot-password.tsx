@@ -91,7 +91,7 @@ export default function ForgotPassword() {
             </p>
           </div>
 
-          <div className="bg-white rounded-[2rem] p-8 shadow-xl border border-gray-100">
+          <div>
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
                 <FormInput

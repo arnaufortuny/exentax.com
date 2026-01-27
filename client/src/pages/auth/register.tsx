@@ -136,7 +136,7 @@ export default function Register() {
               <p className="text-muted-foreground mt-2">Te hemos enviado un código de verificación</p>
             </div>
 
-            <div className="bg-white rounded-[2rem] p-8 shadow-xl border border-gray-100 space-y-6">
+            <div className="space-y-6">
               <div>
                 <label className="text-sm font-black text-primary block mb-2">Código de verificación</label>
                 <Input
@@ -199,7 +199,7 @@ export default function Register() {
             <p className="text-muted-foreground mt-2">Regístrate para gestionar tu LLC</p>
           </div>
 
-          <div className="bg-white rounded-[2rem] p-8 shadow-xl border border-gray-100">
+          <div>
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
                 <div className="grid grid-cols-2 gap-4">

@@ -63,7 +63,7 @@ export default function Login() {
             <p className="text-muted-foreground mt-2">Accede a tu área de cliente</p>
           </div>
 
-          <div className="bg-white rounded-[2rem] p-8 shadow-xl border border-gray-100">
+          <div>
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
                 <FormInput
