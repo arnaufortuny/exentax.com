@@ -93,7 +93,15 @@ export function Navbar() {
             )}
             <button 
               className="p-2 text-foreground"
-              onClick={() => setIsOpen(!isOpen)}
+              onClick={() => {
+                const newIsOpen = !isOpen;
+                setIsOpen(newIsOpen);
+                if (newIsOpen) {
+                  document.body.style.overflow = 'hidden';
+                } else {
+                  document.body.style.overflow = '';
+                }
+              }}
               aria-label={isOpen ? "Cerrar menú" : "Abrir menú"}
               data-testid="button-mobile-menu"
             >
@@ -104,9 +112,8 @@ export function Navbar() {
       </div>
 
       {isOpen && (
-        <div className="md:hidden fixed inset-0 bg-background z-[60] overflow-y-auto flex flex-col pt-16 sm:pt-24">
-          <div className="absolute top-0 left-0 right-0 h-20 bg-background z-[100] border-b border-border shadow-sm" />
-          <div className="flex flex-col flex-grow bg-background p-6 justify-start pt-24">
+        <div className="md:hidden fixed inset-0 bg-background z-[60] flex flex-col pt-20 overflow-hidden">
+          <div className="flex flex-col flex-grow bg-background p-6 justify-start overflow-y-auto">
               <div className="flex flex-col gap-0.5">
                 {isAuthenticated && (
                   <div className="px-3 py-4 mb-4 bg-accent/5 rounded-2xl border border-accent/20">
