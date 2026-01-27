@@ -95,14 +95,10 @@ export default function Dashboard() {
   const [selectedMessage, setSelectedMessage] = useState<any>(null);
   const [replyContent, setReplyContent] = useState("");
 
+  const selectedOrderId = orders?.[0]?.id;
   const { data: selectedOrderEvents } = useQuery<any[]>({
-    queryKey: ["/api/orders", orders?.[0]?.id, "events"],
-    queryFn: async () => {
-      if (!orders?.[0]?.id) return [];
-      const res = await fetch(`/api/orders/${orders[0].id}/events`, { credentials: "include" });
-      return res.json();
-    },
-    enabled: !!orders?.[0]?.id,
+    queryKey: selectedOrderId ? [`/api/orders/${selectedOrderId}/events`] : ["no-order"],
+    enabled: !!selectedOrderId,
   });
 
   const sendReplyMutation = useMutation({

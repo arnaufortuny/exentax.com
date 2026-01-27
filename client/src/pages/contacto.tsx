@@ -39,6 +39,7 @@ const SUBJECT_OPTIONS = [
 export default function Contacto() {
   const { user, isAuthenticated } = useAuth();
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [submittedMessageId, setSubmittedMessageId] = useState<number | null>(null);
   const [isOtpSent, setIsOtpSent] = useState(false);
   const [isOtpVerified, setIsOtpVerified] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -121,12 +122,14 @@ export default function Contacto() {
     }
     setIsLoading(true);
     try {
-      await apiRequest("POST", "/api/messages", {
+      const response = await apiRequest("POST", "/api/messages", {
         name: `${values.nombre} ${values.apellido}`,
         email: values.email,
         subject: values.subject,
         content: values.mensaje
       });
+      const data = await response.json();
+      setSubmittedMessageId(data.id);
       setIsSubmitted(true);
       toast({ title: "Mensaje enviado", variant: "success" });
       queryClient.invalidateQueries({ queryKey: ["/api/messages"] });
@@ -140,6 +143,8 @@ export default function Contacto() {
   const params = new URLSearchParams(window.location.search);
   const isUrlSubmitted = params.get("success") === "true";
   const successType = params.get("type");
+  const urlOrderId = params.get("orderId");
+  const urlTicketId = params.get("ticket");
 
   if (isSubmitted || isUrlSubmitted) {
     const isLLC = successType === "llc";
@@ -166,6 +171,17 @@ export default function Contacto() {
             </div>
 
             <div className="bg-gray-50 border border-gray-100 p-6 sm:p-10 rounded-[2rem] sm:rounded-[3rem] space-y-6 shadow-sm">
+              {/* Show ticket/order ID if available */}
+              {(submittedMessageId || urlTicketId || urlOrderId) && (
+                <div className="bg-white border-2 border-[#6EDC8A] p-4 rounded-2xl inline-block">
+                  <span className="text-xs font-black text-gray-500 tracking-widest uppercase">
+                    {urlOrderId ? "Número de Pedido" : "Número de Ticket"}
+                  </span>
+                  <p className="text-2xl font-black text-black">
+                    {urlOrderId ? `ORD-${urlOrderId}` : `MSG-${submittedMessageId || urlTicketId}`}
+                  </p>
+                </div>
+              )}
               <p className="text-xl sm:text-2xl font-black text-black leading-tight">
                 {isLLC || isMaintenance 
                   ? "Tu solicitud se ha procesado correctamente." 
@@ -175,6 +191,11 @@ export default function Contacto() {
                 <p>
                   Un experto de nuestro equipo revisará los detalles y te contactará personalmente en un plazo de <span className="text-black font-black">24-48h laborables</span>.
                 </p>
+                {(submittedMessageId || urlTicketId) && (
+                  <p className="text-sm sm:text-base bg-white p-4 rounded-2xl border border-gray-100">
+                    Guarda tu número de ticket <span className="font-black text-black">MSG-{submittedMessageId || urlTicketId}</span> para hacer seguimiento de tu consulta en el panel de cliente.
+                  </p>
+                )}
                 {(isLLC || isMaintenance) && (
                   <p className="text-sm sm:text-base bg-white p-4 rounded-2xl border border-gray-100">
                     Te hemos enviado un correo de confirmación con los siguientes pasos y la copia de tu solicitud.
