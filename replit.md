@@ -26,6 +26,12 @@ Easy US LLC is a business formation service for Spanish-speaking entrepreneurs l
 - `server/`: Express backend with Drizzle storage.
 
 ## Recent Changes
+- **Contact Form & Order System (Jan 2026):**
+  - Completely rewrote contact form to use 7-step wizard pattern matching LLC/Maintenance forms
+  - Steps: name, surname, email, phone, subject, message, OTP verification, submit
+  - Unified deterministic order number format: `${statePrefix}-${year}${orderNum.slice(0,2)}-${orderNum.slice(2)}` (e.g., NM-2600-0001)
+  - Storage layer getOrder now populates product, application, and user relations for invoice/receipt generation
+  - Order submission works both with and without user login (optional userId)
 - **Mobile & Admin Optimizations (Jan 2026):**
   - Added discreet login button (UserIcon) to mobile navbar for guests, dashboard link for authenticated users
   - Admin dashboard fully responsive with card-based views on mobile (<md breakpoint) replacing tables
