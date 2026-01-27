@@ -54,19 +54,6 @@ export async function registerRoutes(
 
   // === API Routes ===
 
-  // Profile Updates
-  app.patch("/api/user/profile", isAuthenticated, async (req: any, res) => {
-    try {
-      const { firstName, lastName, phone, businessActivity } = req.body;
-      const userId = req.user.claims.sub;
-      await updateUserDetails(userId, { firstName, lastName, phone, businessActivity });
-      res.json({ success: true });
-    } catch (error) {
-      console.error("Profile update error:", error);
-      res.status(500).json({ message: "Error updating profile" });
-    }
-  });
-
   // Products
   app.get(api.products.list.path, async (req, res) => {
     const products = await storage.getProducts();
@@ -76,10 +63,9 @@ export async function registerRoutes(
   // Client Delete Account
   app.delete("/api/user/account", isAuthenticated, async (req: any, res) => {
     try {
-      const userId = req.user.claims.sub;
-      // In a real scenario, we might want to anonymize or delete all linked data
-      // For now, we delete the user record
+      const userId = req.session.userId;
       await db.delete(usersTable).where(eq(usersTable.id, userId));
+      req.session.destroy(() => {});
       res.json({ success: true, message: "Cuenta eliminada correctamente" });
     } catch (error) {
       console.error("Delete account error:", error);
@@ -95,10 +81,10 @@ export async function registerRoutes(
 
   // Orders (Requires authentication)
   app.get(api.orders.list.path, async (req: any, res) => {
-    if (!req.user) {
+    if (!req.session.userId) {
       return res.status(401).json({ message: "Unauthorized" });
     }
-    const orders = await storage.getOrders(req.user.id);
+    const orders = await storage.getOrders(req.session.userId);
     res.json(orders);
   });
 
@@ -108,8 +94,8 @@ export async function registerRoutes(
       
       let userId: string;
       
-      if (req.user?.id) {
-        userId = req.user.id;
+      if (req.session?.userId) {
+        userId = req.session.userId;
       } else {
         // Create a guest user record
         const guestId = `guest_${Date.now()}_${Math.random().toString(36).substring(7)}`;
@@ -174,12 +160,15 @@ export async function registerRoutes(
       res.status(201).json({ ...order, application: updatedApplication });
 
       // Send welcome email if user is authenticated and has email
-      if (req.user?.email) {
-        sendEmail({
-          to: req.user.email,
-          subject: "¡Bienvenido a Easy US LLC! - Próximos pasos",
-          html: getWelcomeEmailTemplate(req.user.firstName || "Cliente"),
-        }).catch(err => console.error("Error sending welcome email:", err));
+      if (req.session?.email) {
+        const [userData] = await db.select().from(usersTable).where(eq(usersTable.id, req.session.userId)).limit(1);
+        if (userData?.email) {
+          sendEmail({
+            to: userData.email,
+            subject: "¡Bienvenido a Easy US LLC! - Próximos pasos",
+            html: getWelcomeEmailTemplate(userData.firstName || "Cliente"),
+          }).catch(err => console.error("Error sending welcome email:", err));
+        }
       }
     } catch (err) {
       if (err instanceof z.ZodError) {
@@ -193,7 +182,7 @@ export async function registerRoutes(
   // Messages API
   app.get("/api/messages", isAuthenticated, async (req: any, res) => {
     try {
-      const userMessages = await storage.getMessagesByUserId(req.user.claims.sub);
+      const userMessages = await storage.getMessagesByUserId(req.session.userId);
       res.json(userMessages);
     } catch (error) {
       res.status(500).json({ message: "Error fetching messages" });
@@ -203,7 +192,7 @@ export async function registerRoutes(
   app.post("/api/messages", async (req: any, res) => {
     try {
       const { name, email, subject, content, requestCode } = req.body;
-      const userId = req.isAuthenticated() ? req.user.claims.sub : null;
+      const userId = req.session?.userId || null;
       
       const message = await storage.createMessage({
         userId,
@@ -394,8 +383,8 @@ export async function registerRoutes(
       const { productId, state } = req.body;
       
       let userId: string;
-      if (req.user?.id) {
-        userId = req.user.id;
+      if (req.session?.userId) {
+        userId = req.session.userId;
       } else {
         const guestId = `guest_${Date.now()}_${Math.random().toString(36).substring(7)}`;
         await db.insert(usersTable).values({
@@ -443,21 +432,21 @@ export async function registerRoutes(
 
   // Newsletter
   app.get("/api/newsletter/status", isAuthenticated, async (req: any, res) => {
-    const isSubscribed = await storage.isSubscribedToNewsletter(req.user.email);
+    const isSubscribed = await storage.isSubscribedToNewsletter(req.session.email);
     res.json({ isSubscribed });
   });
 
   app.post("/api/newsletter/unsubscribe", isAuthenticated, async (req: any, res) => {
-    await db.delete(newsletterSubscribers).where(eq(newsletterSubscribers.email, req.user.email));
+    await db.delete(newsletterSubscribers).where(eq(newsletterSubscribers.email, req.session.email));
     res.json({ success: true });
   });
 
-  app.post("/api/newsletter/subscribe", async (req, res) => {
+  app.post("/api/newsletter/subscribe", async (req: any, res) => {
     try {
       const { email } = z.object({ email: z.string().email().optional() }).parse(req.body);
       
       // If no email provided, try to use authenticated user's email
-      const targetEmail = email || (req.isAuthenticated() ? (req.user as any).email : null);
+      const targetEmail = email || req.session?.email || null;
       
       if (!targetEmail) {
         return res.status(400).json({ message: "Se requiere un email" });
@@ -487,13 +476,6 @@ export async function registerRoutes(
   });
 
   // === Admin Routes ===
-  const isAdmin = async (req: any, res: any, next: any) => {
-    if (!req.isAuthenticated() || !req.user?.isAdmin) {
-      return res.status(403).json({ message: "Forbidden" });
-    }
-    next();
-  };
-
   app.get("/api/admin/messages", isAdmin, async (req, res) => {
     try {
       const messages = await storage.getAllMessages();
@@ -587,7 +569,7 @@ export async function registerRoutes(
     const order = await storage.getOrder(orderId);
     
     if (!order) return res.status(404).json({ message: "Pedido no encontrado" });
-    if (order.userId !== req.user.claims.sub && !req.user.isAdmin) {
+    if (order.userId !== req.session.userId && !req.session.isAdmin) {
       return res.status(403).json({ message: "No tienes permiso para ver esta factura" });
     }
     
@@ -601,7 +583,7 @@ export async function registerRoutes(
     const order = await storage.getOrder(orderId);
     
     if (!order) return res.status(404).json({ message: "Pedido no encontrado" });
-    if (order.userId !== req.user.claims.sub && !req.user.isAdmin) {
+    if (order.userId !== req.session.userId && !req.session.isAdmin) {
       return res.status(403).json({ message: "Acceso denegado" });
     }
     
@@ -835,14 +817,14 @@ export async function registerRoutes(
     }
   });
 
-  // Maintenance Orders
-  app.post("/api/maintenance/orders", async (req: any, res) => {
+  // Maintenance Orders (second route - keeping for legacy support)
+  app.post("/api/maintenance/orders-legacy", async (req: any, res) => {
     try {
       const { productId, state } = req.body;
       let userId: string;
       
-      if (req.user?.id) {
-        userId = req.user.id;
+      if (req.session?.userId) {
+        userId = req.session.userId;
       } else {
         const guestId = `guest_${Date.now()}_${Math.random().toString(36).substring(7)}`;
         await db.insert(usersTable).values({
