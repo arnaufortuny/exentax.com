@@ -138,13 +138,15 @@ export async function loginUser(email: string, password: string): Promise<typeof
 
   // Check if account is locked
   if (user.lockUntil && user.lockUntil > new Date()) {
-    const error = new Error("Cuenta bloqueada temporalmente por demasiados intentos fallidos");
+    const error = new Error("CUENTA BLOQUEADA TEMPORALMENTE. Por su seguridad su cuenta ha sido temporalmente desactivada, porfavor contacte con nuestro equipo o revise su email para desbloquear su cuenta.");
     (error as any).locked = true;
     throw error;
   }
 
   if (user.isActive === false || user.accountStatus === 'suspended') {
-    return null;
+    const error = new Error("CUENTA BLOQUEADA TEMPORALMENTE. Por su seguridad su cuenta ha sido temporalmente desactivada, porfavor contacte con nuestro equipo o revise su email para desbloquear su cuenta.");
+    (error as any).locked = true;
+    throw error;
   }
 
   const isValid = await verifyPassword(password, user.passwordHash);
@@ -159,28 +161,49 @@ export async function loginUser(email: string, password: string): Promise<typeof
       updates.lockUntil = new Date(Date.now() + 60 * 60 * 1000);
       updates.accountStatus = 'suspended';
       
-      // Send lock email
+      const msgId = `MSG-${Math.floor(10000000 + Math.random() * 90000000)}`;
+
+      // Send lock email from Claudia
       try {
         await sendEmail({
           to: user.email!,
-          subject: "Seguridad Easy US LLC - Cuenta bloqueada",
+          subject: "Seguridad Easy US LLC - Cuenta Desactivada Temporalmente",
           html: `
             <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
               <h1 style="color: #0E1215;">Seguridad de tu cuenta</h1>
               <p>Hola ${user.firstName || ''},</p>
-              <p>Tu cuenta ha sido bloqueada temporalmente tras 5 intentos fallidos de inicio de sesión.</p>
-              <p>Por seguridad, la cuenta permanecerá bloqueada durante 1 hora. Si no has sido tú, te recomendamos restablecer tu contraseña inmediatamente.</p>
+              <p>Soy <strong>Claudia, Agente de Seguridad</strong> de Easy US LLC.</p>
+              <p>Por su seguridad, su cuenta ha sido temporalmente desactivada tras detectar múltiples intentos de acceso fallidos.</p>
+              <p>Para desbloquear su cuenta y verificar su identidad, necesitamos que nos envíe lo siguiente respondiendo a este correo o a través de nuestro soporte:</p>
+              <ul>
+                <li>Imagen del DNI/Pasaporte de alta resolución (ambas caras).</li>
+                <li>Su fecha de nacimiento confirmada.</li>
+              </ul>
+              <p>Su Ticket ID de referencia es: <strong>${msgId}</strong></p>
               <div style="text-align: center; margin: 30px 0;">
                 <a href="${process.env.BASE_URL || 'https://easyusllc.com'}/forgot-password" style="background: #6EDC8A; color: #0E1215; padding: 15px 30px; text-decoration: none; border-radius: 30px; font-weight: bold;">
                   Restablecer contraseña
                 </a>
               </div>
-              <p>Saludos,<br>El equipo de Easy US LLC</p>
+              <p>Saludos,<br>Claudia<br>Seguridad Easy US LLC</p>
             </div>
           `
         });
+
+        // Add to messages for admin visibility
+        await db.insert(messagesTable).values({
+          userId: user.id,
+          name: "Claudia (Seguridad)",
+          email: "seguridad@easyusllc.com",
+          subject: "Cuenta Bloqueada - Verificación Requerida",
+          content: `Cuenta desactivada temporalmente por seguridad. Se ha solicitado DNI y fecha de nacimiento. Ticket ID: ${msgId}`,
+          status: "unread",
+          type: "support",
+          messageId: msgId
+        });
+
       } catch (e) {
-        console.error("Error sending lock email:", e);
+        console.error("Error handling account lock:", e);
       }
     }
     

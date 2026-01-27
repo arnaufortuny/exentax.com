@@ -1040,9 +1040,15 @@ export default function Dashboard() {
                 <Button 
                   variant="outline" 
                   className="rounded-full font-black border-2 w-full text-xs py-5 no-default-hover-elevate"
-                  onClick={() => window.open(doc.fileUrl, "_blank")}
+                  onClick={() => {
+                    if (doc.documentType === 'invoice') {
+                      window.open(doc.fileUrl, "_blank");
+                    } else {
+                      window.open(doc.fileUrl, "_blank");
+                    }
+                  }}
                 >
-                  <Download className="w-4 h-4 mr-2" /> Descargar {doc.fileType?.includes('pdf') ? 'PDF' : 'Doc'}
+                  <Download className="w-4 h-4 mr-2" /> {doc.documentType === 'invoice' ? 'Ver Factura' : `Descargar ${doc.fileType?.includes('pdf') ? 'PDF' : 'Doc'}`}
                 </Button>
               </Card>
             ))}

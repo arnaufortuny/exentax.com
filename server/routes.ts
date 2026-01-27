@@ -471,6 +471,18 @@ export async function registerRoutes(
         })
         .where(eq(ordersTable.id, orderId))
         .returning();
+
+      // Automatically make invoice available in documentation center
+      const invoiceNumber = `INV-${new Date().getFullYear()}-${String(orderId).padStart(5, '0')}`;
+      await db.insert(applicationDocumentsTable).values({
+        orderId,
+        fileName: `Factura ${invoiceNumber}`,
+        fileType: "application/pdf",
+        fileUrl: `/api/orders/${orderId}/invoice`, // Link to the HTML/PDF generator
+        documentType: "invoice",
+        reviewStatus: "approved",
+        uploadedBy: (req as any).session.userId
+      });
       
       res.json(updatedOrder);
     } catch (error) {
