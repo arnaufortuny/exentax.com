@@ -155,71 +155,39 @@ export async function registerRoutes(
 
   app.patch("/api/admin/users/:id", isAdmin, async (req, res) => {
     try {
-      const { accountStatus, isAdmin: promoteAdmin, firstName, lastName, phone, businessActivity, address, internalNotes, password } = req.body;
-      const [oldUser] = await db.select().from(usersTable).where(eq(usersTable.id, req.params.id)).limit(1);
-      
-      const updates: any = { 
-        accountStatus, 
-        isAdmin: promoteAdmin, 
-        firstName, 
-        lastName, 
-        phone, 
-        businessActivity, 
-        address,
-        internalNotes,
-        updatedAt: new Date() 
-      };
-
-      if (password) {
-        const { hashPassword } = await import("./lib/auth-service");
-        updates.passwordHash = await hashPassword(password);
-      }
-      
-      const [updatedUser] = await db.update(usersTable)
-        .set(updates)
-        .where(eq(usersTable.id, req.params.id))
-        .returning();
-
-      // NOTIFICATION: Account status change
-      if (accountStatus !== oldUser?.accountStatus) {
-        const statusLabels: Record<string, string> = {
-          active: "Activa",
-          pending: "Pendiente de revisión",
-          suspended: "Suspendida",
-          vip: "VIP"
-        };
-        const statusLabel = statusLabels[accountStatus as string] || accountStatus;
-
-        await db.insert(userNotifications).values({
-          userId: updatedUser.id,
-          title: "Actualización de cuenta",
-          message: `El estado de tu cuenta ha sido actualizado a: ${statusLabel}.`,
-          type: 'info',
-          isRead: false
-        });
-
-        if (updatedUser?.email) {
-          sendEmail({
-            to: updatedUser.email,
-            subject: "Actualización en el estado de tu cuenta - Easy US LLC",
-            html: getAutoReplyTemplate(updatedUser.firstName || "Cliente", `El estado de tu cuenta ha sido actualizado a: <strong>${statusLabel}</strong>.`)
-          }).catch(console.error);
-        }
-      }
-
-      res.json(updatedUser);
+      const userId = req.params.id;
+      const updateSchema = z.object({
+        firstName: z.string().min(1).max(100).optional(),
+        lastName: z.string().min(1).max(100).optional(),
+        email: z.string().email().optional(),
+        phone: z.string().max(30).optional().nullable(),
+        isActive: z.boolean().optional(),
+        accountStatus: z.enum(['active', 'pending', 'suspended', 'vip']).optional(),
+        internalNotes: z.string().optional()
+      });
+      const data = updateSchema.parse(req.body);
+      const [updated] = await db.update(usersTable).set({
+        ...data,
+        updatedAt: new Date()
+      }).where(eq(usersTable.id, userId)).returning();
+      res.json(updated);
     } catch (error) {
-      console.error("Update user error:", error);
-      res.status(500).json({ message: "Error updating user" });
+      console.error("Error updating user:", error);
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({ message: "Datos inválidos" });
+      }
+      res.status(500).json({ message: "Error al actualizar usuario" });
     }
   });
 
   app.delete("/api/admin/users/:id", isAdmin, async (req, res) => {
     try {
-      await db.delete(usersTable).where(eq(usersTable.id, req.params.id));
+      const userId = req.params.id;
+      await db.delete(usersTable).where(eq(usersTable.id, userId));
       res.json({ success: true });
     } catch (error) {
-      res.status(500).json({ message: "Error deleting user" });
+      console.error("Error deleting user:", error);
+      res.status(500).json({ message: "Error al eliminar usuario" });
     }
   });
 
