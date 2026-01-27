@@ -6,7 +6,7 @@ import { Download } from "lucide-react";
 
 export default function Reembolsos() {
   const handleDownload = () => {
-    window.open("/politica_reembolsos.pdf", "_blank");
+    window.print();
   };
 
   return (

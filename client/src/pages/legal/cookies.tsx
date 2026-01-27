@@ -6,7 +6,7 @@ import { Download } from "lucide-react";
 
 export default function Cookies() {
   const handleDownload = () => {
-    window.open("/politica_cookies.pdf", "_blank");
+    window.print();
   };
 
   return (

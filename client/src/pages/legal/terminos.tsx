@@ -6,7 +6,7 @@ import { Download } from "lucide-react";
 
 export default function Terminos() {
   const handleDownload = () => {
-    window.open("/terminos_y_condiciones.pdf", "_blank");
+    window.print();
   };
 
   return (

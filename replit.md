@@ -27,6 +27,9 @@ Easy US LLC is a business formation service for Spanish-speaking entrepreneurs l
 
 ## Recent Changes
 - **System Optimization (Jan 2026):**
+  - Updated legal pages to use browser print functionality for PDF generation (window.print())
+  - Removed placeholder PDF files from client/public/ directory
+  - Updated footer legal links to use proper SPA navigation (Link component) instead of PDF file links
   - Removed duplicate reembolsos.tsx page (consolidated to legal/reembolsos.tsx)
   - Replaced all window.location.href with wouter navigation (setLocation/Link) for proper SPA routing
   - Fixed server error handler to prevent unhandled rejections
