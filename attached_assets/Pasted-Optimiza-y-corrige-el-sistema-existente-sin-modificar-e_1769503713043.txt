@@ -1,0 +1,116 @@
+Optimiza y corrige el sistema existente sin modificar el diseño visual actual. El objetivo es lograr un sistema 100% funcional, optimizado para móvil, con rutas limpias, datos unificados y flujos completos cliente–administración–email.
+	1.	Optimización móvil
+	•	Todas las vistas deben ser completamente funcionales en móvil.
+	•	Formularios, panel cliente y panel admin deben ser responsive y usables.
+	•	Evitar scrolls innecesarios, inputs inaccesibles o botones fuera de pantalla.
+	•	Priorizar rendimiento y carga rápida en dispositivos móviles.
+	2.	Rutas
+	•	Eliminar rutas duplicadas.
+	•	Unificar rutas para:
+	•	Formularios
+	•	Área clientes
+	•	Panel administrativo
+	•	Tickets
+	•	Todas las rutas deben estar correctamente enlazadas y funcionales.
+	•	Evitar lógica duplicada entre rutas similares.
+	3.	Sistema de autenticación propio
+	•	Registro obligatorio con:
+	•	Email
+	•	Teléfono
+	•	Contraseña
+	•	Fecha de nacimiento
+	•	Autenticación propia (NO Google, NO Replit auth).
+	•	Base de datos persistente.
+	•	Implementar:
+	•	Email de creación de cuenta
+	•	Email con OTP / verificación
+	•	Recuperación de contraseña
+	4.	Usuarios
+	•	Cada usuario debe tener:
+	•	ID único de cliente (no repetible)
+	•	Email verificado (estado visible)
+	•	Teléfono
+	•	Fecha de nacimiento
+	•	Dirección completa
+	•	Actividad seleccionable
+	•	Datos deben estar unificados y reutilizados en todo el sistema.
+	5.	Área de clientes
+	•	Mostrar datos reales desde base de datos.
+	•	Autocompletar formularios si el usuario tiene sesión iniciada.
+	•	Visualizar:
+	•	Pedidos
+	•	Estado del pedido
+	•	Mensajes / tickets
+	•	Facturas
+	•	Logs básicos del proceso
+	•	Actualizaciones en tiempo real o reflejadas inmediatamente tras cambios admin.
+	6.	Pedidos
+	•	Cada pedido debe tener:
+	•	ID de pedido único y trazable
+	•	Estado del pedido
+	•	Estado del pago
+	•	Moneda (EUR / USD)
+	•	Al crear un nuevo pedido:
+	•	Cliente recibe email
+	•	Admin recibe notificación
+	•	Pedido aparece en panel admin y área cliente
+	7.	Tickets / mensajes
+	•	Sistema de soporte con:
+	•	ID de mensaje único (no repetible)
+	•	Asociado a cliente y pedido
+	•	Al crear o responder un ticket:
+	•	Cliente recibe email
+	•	Admin recibe email
+	•	Se genera LOG
+	•	El estado se refleja en área clientes
+	•	Al actualizar estado del ticket desde admin:
+	•	Cliente recibe notificación por email
+	8.	Panel administrativo
+Implementar gestión completa:
+	•	Crear usuarios
+	•	Eliminar usuarios
+	•	Bloquear / desbloquear cuentas
+	•	Cambiar contraseña de usuarios
+	•	Editar ficha completa del cliente
+	•	Solicitar información adicional (cliente recibe email)
+	•	Cambiar estado del pedido (cliente recibe email)
+	•	Ver logs de acciones (usuarios, pedidos, tickets)
+	9.	Facturación
+	•	Generador de facturas automatizado en panel admin.
+	•	Facturas deben incluir:
+	•	Datos del cliente (autorrellenados desde su ficha)
+	•	ID de factura
+	•	ID de pedido
+	•	Fecha
+	•	Moneda (EUR / USD)
+	•	Estado del pago
+	•	El cliente debe poder descargar su factura desde el área clientes.
+	•	El admin debe poder generar y regenerar facturas manualmente.
+	10.	Emails automáticos
+Implementar emails para:
+	•	Creación de cuenta
+	•	OTP / verificación
+	•	Nuevo pedido
+	•	Cambio de estado de pedido
+	•	Solicitud de información
+	•	Nuevo mensaje / ticket
+	•	Respuesta a ticket
+	•	Factura generada
+	11.	Unificación técnica
+	•	Centralizar:
+	•	IDs (cliente, pedido, mensaje, factura)
+	•	Validaciones
+	•	Servicios de email
+	•	Helpers y utilidades
+	•	Eliminar código duplicado.
+	•	Simplificar estructura de archivos.
+	•	Mantener consistencia visual en inputs, tipografías y colores.
+
+Restricciones
+	•	No cambiar la UI existente.
+	•	No introducir librerías innecesarias.
+	•	Priorizar estabilidad, trazabilidad y claridad del sistema.
+	•	Todo debe ser funcional, no mock.
+
+Resultado esperado
+Un sistema estable, trazable, optimizado para móvil, con flujos completos y automatizados entre cliente, administración y emails.
