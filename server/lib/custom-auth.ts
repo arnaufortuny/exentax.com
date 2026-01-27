@@ -74,16 +74,24 @@ export function setupCustomAuth(app: Express) {
       req.session.email = user.email!;
       req.session.isAdmin = user.isAdmin;
 
-      res.json({
-        success: true,
-        user: {
-          id: user.id,
-          email: user.email,
-          firstName: user.firstName,
-          lastName: user.lastName,
-          emailVerified: user.emailVerified,
-        },
-        message: "Cuenta creada. Revisa tu email para verificar tu cuenta.",
+      // Save session explicitly before responding
+      req.session.save((err) => {
+        if (err) {
+          console.error("Session save error:", err);
+          return res.status(500).json({ message: "Error al guardar la sesión" });
+        }
+        
+        res.json({
+          success: true,
+          user: {
+            id: user.id,
+            email: user.email,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            emailVerified: user.emailVerified,
+          },
+          message: "Cuenta creada. Revisa tu email para verificar tu cuenta.",
+        });
       });
     } catch (error: any) {
       console.error("Registration error:", error);
@@ -110,17 +118,25 @@ export function setupCustomAuth(app: Express) {
       req.session.email = user.email!;
       req.session.isAdmin = user.isAdmin;
 
-      res.json({
-        success: true,
-        user: {
-          id: user.id,
-          email: user.email,
-          firstName: user.firstName,
-          lastName: user.lastName,
-          phone: user.phone,
-          emailVerified: user.emailVerified,
-          isAdmin: user.isAdmin,
-        },
+      // Save session explicitly before responding
+      req.session.save((err) => {
+        if (err) {
+          console.error("Session save error:", err);
+          return res.status(500).json({ message: "Error al guardar la sesión" });
+        }
+        
+        res.json({
+          success: true,
+          user: {
+            id: user.id,
+            email: user.email,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            phone: user.phone,
+            emailVerified: user.emailVerified,
+            isAdmin: user.isAdmin,
+          },
+        });
       });
     } catch (error) {
       console.error("Login error:", error);
