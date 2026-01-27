@@ -21,7 +21,7 @@ export interface IStorage {
   // Orders
   createOrder(order: InsertOrder): Promise<Order>;
   getOrders(userId: string): Promise<(Order & { product: Product; application: LlcApplication | null })[]>;
-  getOrder(id: number): Promise<Order | undefined>;
+  getOrder(id: number): Promise<(Order & { product?: Product; application?: LlcApplication; user?: any }) | undefined>;
 
   // LLC Applications
   createLlcApplication(app: InsertLlcApplication): Promise<LlcApplication>;
@@ -88,9 +88,16 @@ export class DatabaseStorage implements IStorage {
     return results;
   }
 
-  async getOrder(id: number): Promise<Order | undefined> {
-    const [order] = await db.select().from(orders).where(eq(orders.id, id));
-    return order;
+  async getOrder(id: number): Promise<(Order & { product?: Product; application?: LlcApplication; user?: any }) | undefined> {
+    const result = await db.query.orders.findFirst({
+      where: eq(orders.id, id),
+      with: {
+        product: true,
+        application: true,
+        user: true,
+      },
+    });
+    return result;
   }
 
   // LLC Applications

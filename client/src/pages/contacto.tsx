@@ -3,16 +3,18 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { motion } from "framer-motion";
-import { Loader2, CheckCircle2, Info, Mail } from "lucide-react";
+import { Loader2, CheckCircle2, Info, Mail, User, Phone, MessageSquare, HelpCircle, ShieldCheck } from "lucide-react";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { NewsletterSection } from "@/components/layout/newsletter-section";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
+import { Textarea } from "@/components/ui/textarea";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, FormDescription } from "@/components/ui/form";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Card, CardContent } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest, queryClient } from "@/lib/queryClient";
-import { FormInput, FormTextarea, FormRadioGroup, FormCheckbox } from "@/components/forms";
 import { useAuth } from "@/hooks/use-auth";
 
 const formSchema = z.object({
@@ -22,10 +24,12 @@ const formSchema = z.object({
   telefono: z.string().optional(),
   subject: z.string().min(1, "Selecciona un motivo"),
   mensaje: z.string().min(1, "Cuéntanos un poco más"),
-  otp: z.string().min(1, "Verificación requerida"),
+  otp: z.string().optional(),
   dataProcessingConsent: z.boolean().refine(val => val === true, "Debes aceptar"),
   termsConsent: z.boolean().refine(val => val === true, "Debes aceptar"),
 });
+
+type FormValues = z.infer<typeof formSchema>;
 
 const SUBJECT_OPTIONS = [
   "Constituir una LLC",
@@ -38,6 +42,7 @@ const SUBJECT_OPTIONS = [
 
 export default function Contacto() {
   const { user, isAuthenticated } = useAuth();
+  const [step, setStep] = useState(0);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [submittedMessageId, setSubmittedMessageId] = useState<number | null>(null);
   const [isOtpSent, setIsOtpSent] = useState(false);
@@ -45,7 +50,7 @@ export default function Contacto() {
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
 
-  const form = useForm<z.infer<typeof formSchema>>({
+  const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       nombre: "",
@@ -71,7 +76,6 @@ export default function Contacto() {
       });
       if (user.emailVerified) {
         setIsOtpVerified(true);
-        form.setValue("otp", "verified");
       }
     }
   }, [isAuthenticated, user, form]);
@@ -81,6 +85,34 @@ export default function Contacto() {
     if (params.get("success")) setIsSubmitted(true);
     if (params.get("subject")) form.setValue("subject", params.get("subject") as string);
   }, [form]);
+
+  const nextStep = async () => {
+    const stepsValidation: Record<number, (keyof FormValues)[]> = {
+      0: ["nombre"],
+      1: ["apellido"],
+      2: ["email"],
+      3: [],
+      4: ["subject"],
+      5: ["mensaje"],
+    };
+
+    const fieldsToValidate = stepsValidation[step];
+    if (fieldsToValidate && fieldsToValidate.length > 0) {
+      const isValid = await form.trigger(fieldsToValidate);
+      if (!isValid) return;
+    }
+
+    if (step === 5) {
+      if (isOtpVerified) setStep(7);
+      else setStep(6);
+    } else {
+      setStep(s => s + 1);
+    }
+  };
+
+  const prevStep = () => {
+    if (step > 0) setStep(s => s - 1);
+  };
 
   const sendOtp = async () => {
     const email = form.getValues("email");
@@ -108,6 +140,7 @@ export default function Contacto() {
       await apiRequest("POST", "/api/contact/verify-otp", { email, otp });
       setIsOtpVerified(true);
       toast({ title: "Email verificado", variant: "success" });
+      setStep(7);
     } catch (err) {
       toast({ title: "Código incorrecto", variant: "destructive" });
     } finally {
@@ -115,7 +148,7 @@ export default function Contacto() {
     }
   };
 
-  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+  const onSubmit = async (values: FormValues) => {
     if (!isOtpVerified) {
       toast({ title: "Verificación requerida", description: "Verifica tu email primero" });
       return;
@@ -125,6 +158,7 @@ export default function Contacto() {
       const response = await apiRequest("POST", "/api/messages", {
         name: `${values.nombre} ${values.apellido}`,
         email: values.email,
+        phone: values.telefono,
         subject: values.subject,
         content: values.mensaje
       });
@@ -171,14 +205,13 @@ export default function Contacto() {
             </div>
 
             <div className="bg-gray-50 border border-gray-100 p-6 sm:p-10 rounded-[2rem] sm:rounded-[3rem] space-y-6 shadow-sm">
-              {/* Show ticket/order ID if available */}
               {(submittedMessageId || urlTicketId || urlOrderId) && (
                 <div className="bg-white border-2 border-[#6EDC8A] p-4 rounded-2xl inline-block">
                   <span className="text-xs font-black text-gray-500 tracking-widest uppercase">
                     {urlOrderId ? "Número de Pedido" : "Número de Ticket"}
                   </span>
                   <p className="text-2xl font-black text-black">
-                    {urlOrderId ? `ORD-${urlOrderId}` : `MSG-${submittedMessageId || urlTicketId}`}
+                    {urlOrderId || `MSG-${submittedMessageId || urlTicketId}`}
                   </p>
                 </div>
               )}
@@ -191,7 +224,7 @@ export default function Contacto() {
                 <p>
                   Un experto de nuestro equipo revisará los detalles y te contactará personalmente en un plazo de <span className="text-black font-black">24-48h laborables</span>.
                 </p>
-                {(submittedMessageId || urlTicketId) && (
+                {(submittedMessageId || urlTicketId) && !urlOrderId && (
                   <p className="text-sm sm:text-base bg-white p-4 rounded-2xl border border-gray-100">
                     Guarda tu número de ticket <span className="font-black text-black">MSG-{submittedMessageId || urlTicketId}</span> para hacer seguimiento de tu consulta en el panel de cliente.
                   </p>
@@ -235,161 +268,271 @@ export default function Contacto() {
   }
 
   return (
-    <div className="min-h-screen bg-background font-sans overflow-x-hidden">
+    <div className="min-h-screen bg-background font-sans w-full">
       <Navbar />
-      <main className="pt-20 pb-16 w-full max-w-4xl mx-auto px-4 md:px-6">
-        <div className="text-center mb-8 sm:mb-10 flex flex-col items-center justify-center">
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-primary tracking-tight text-center">
-            <span className="text-accent tracking-widest text-xs sm:text-sm font-black block mb-2 text-center">CONTACTO</span>
-            Contactanos
-          </h2>
-          <p className="hidden sm:block text-accent font-black tracking-wide text-base sm:text-lg mt-1 sm:mt-2 text-center">(Siempre listos para ayudarte)</p>
-        </div>
+      <main className="pt-24 pb-16 max-w-4xl mx-auto px-4 md:px-6">
+        <h1 className="text-3xl md:text-4xl font-black mb-4 text-primary leading-tight text-left">
+          <span className="text-accent">Contáctanos</span>
+        </h1>
+        <p className="text-muted-foreground font-medium mb-8">Estamos aquí para ayudarte</p>
 
-        <div className="grid grid-cols-1 gap-12 mt-12 sm:mt-16">
-          <div>
+        <Card className="rounded-[2rem] md:rounded-[3rem] border-0 shadow-2xl overflow-hidden bg-white/80 backdrop-blur-xl">
+          <CardContent className="p-6 md:p-12">
             <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 px-4 sm:px-0">
-                  <FormInput
-                    control={form.control}
-                    name="nombre"
-                    label="Nombre:"
-                    placeholder="Tu nombre"
-                  />
-                  <FormInput
-                    control={form.control}
-                    name="apellido"
-                    label="Apellido:"
-                    placeholder="Tu apellido"
-                  />
-                </div>
+              <form className="space-y-6 md:space-y-8" onSubmit={form.handleSubmit(onSubmit)}>
+                
+                {step === 0 && (
+                  <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
+                    <h2 className="text-xl md:text-2xl font-black text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
+                      <User className="w-6 h-6 text-accent" /> 1️⃣ ¿Cómo te llamas?
+                    </h2>
+                    <FormDescription>Tu nombre de pila</FormDescription>
+                    <FormField control={form.control} name="nombre" render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-sm md:text-base font-black text-primary">Nombre:</FormLabel>
+                        <FormControl>
+                          <Input {...field} className="rounded-full h-14 px-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-black text-primary placeholder:text-primary/30 text-lg" placeholder="Tu nombre" data-testid="input-nombre" />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )} />
+                    <Button type="button" onClick={nextStep} className="w-full bg-[#6EDC8A] text-primary font-black py-7 rounded-full text-lg shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all" data-testid="button-next-0">Siguiente</Button>
+                  </motion.div>
+                )}
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 px-4 sm:px-0">
-                  <FormInput
-                    control={form.control}
-                    name="email"
-                    label="Email:"
-                    type="email"
-                    inputMode="email"
-                    disabled={isOtpVerified}
-                    placeholder="email@ejemplo.com"
-                  />
-                  <FormInput
-                    control={form.control}
-                    name="telefono"
-                    label="Teléfono (opcional):"
-                    type="tel"
-                    inputMode="tel"
-                    placeholder="+34..."
-                  />
-                </div>
-
-                <div className="px-4 sm:px-0">
-                  <FormRadioGroup
-                    control={form.control}
-                    name="subject"
-                    label="Motivo de tu mensaje:"
-                    options={SUBJECT_OPTIONS}
-                    columns={3}
-                  />
-                </div>
-
-                <div className="px-4 sm:px-0">
-                  <FormTextarea
-                    control={form.control}
-                    name="mensaje"
-                    label="Tu mensaje:"
-                    placeholder="Cuéntanos cómo podemos ayudarte..."
-                  />
-                </div>
-
-                <div className="mx-4 sm:mx-0">
-                  <div className="bg-[#6EDC8A]/10 p-6 md:p-8 rounded-[2rem] border-2 border-[#6EDC8A]/30 space-y-4 relative overflow-hidden">
-                    <div className="absolute top-0 right-0 p-4 opacity-20">
-                      <Info className="w-16 h-16 text-[#6EDC8A]" />
+                {step === 1 && (
+                  <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
+                    <h2 className="text-xl md:text-2xl font-black text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
+                      <User className="w-6 h-6 text-accent" /> 2️⃣ ¿Y tu apellido?
+                    </h2>
+                    <FormField control={form.control} name="apellido" render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-sm md:text-base font-black text-primary">Apellido:</FormLabel>
+                        <FormControl>
+                          <Input {...field} className="rounded-full h-14 px-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-black text-primary placeholder:text-primary/30 text-lg" placeholder="Tu apellido" data-testid="input-apellido" />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )} />
+                    <div className="flex gap-3">
+                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-black border-gray-200 active:scale-95 transition-all">Atrás</Button>
+                      <Button type="button" onClick={nextStep} className="flex-[2] bg-[#6EDC8A] text-primary font-black rounded-full h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all" data-testid="button-next-1">Siguiente</Button>
                     </div>
-                    <h3 className="text-primary font-black text-sm md:text-base tracking-tight flex items-center gap-2">
-                      Nota tranquilizadora
-                    </h3>
-                    <p className="text-sm md:text-base font-medium text-primary/80 leading-relaxed">
-                      Leemos personalmente todos los mensajes y respondemos lo antes posible. Si vemos que una LLC no es la mejor opción para ti, también te lo diremos.
-                    </p>
-                  </div>
-                </div>
+                  </motion.div>
+                )}
 
-                {!isOtpVerified && (
-                  <div className="space-y-4 pt-4 px-4 sm:px-0">
-                    <div className="flex flex-col md:flex-row gap-4">
-                      {!isOtpSent ? (
+                {step === 2 && (
+                  <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
+                    <h2 className="text-xl md:text-2xl font-black text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
+                      <Mail className="w-6 h-6 text-accent" /> 3️⃣ Tu email
+                    </h2>
+                    <FormDescription>Para poder responderte</FormDescription>
+                    <FormField control={form.control} name="email" render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-sm md:text-base font-black text-primary">Email:</FormLabel>
+                        <FormControl>
+                          <Input {...field} type="email" inputMode="email" className="rounded-full h-14 px-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-black text-primary placeholder:text-primary/30 text-lg" placeholder="email@ejemplo.com" data-testid="input-email" />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )} />
+                    <div className="flex gap-3">
+                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-black border-gray-200 active:scale-95 transition-all">Atrás</Button>
+                      <Button type="button" onClick={nextStep} className="flex-[2] bg-[#6EDC8A] text-primary font-black rounded-full h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all" data-testid="button-next-2">Siguiente</Button>
+                    </div>
+                  </motion.div>
+                )}
+
+                {step === 3 && (
+                  <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
+                    <h2 className="text-xl md:text-2xl font-black text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
+                      <Phone className="w-6 h-6 text-accent" /> 4️⃣ Teléfono (opcional)
+                    </h2>
+                    <FormDescription>Si prefieres que te llamemos</FormDescription>
+                    <FormField control={form.control} name="telefono" render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-sm md:text-base font-black text-primary">Teléfono:</FormLabel>
+                        <FormControl>
+                          <Input {...field} type="tel" inputMode="tel" className="rounded-full h-14 px-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-black text-primary placeholder:text-primary/30 text-lg" placeholder="+34..." data-testid="input-telefono" />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )} />
+                    <div className="flex gap-3">
+                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-black border-gray-200 active:scale-95 transition-all">Atrás</Button>
+                      <Button type="button" onClick={nextStep} className="flex-[2] bg-[#6EDC8A] text-primary font-black rounded-full h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all" data-testid="button-next-3">Siguiente</Button>
+                    </div>
+                  </motion.div>
+                )}
+
+                {step === 4 && (
+                  <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
+                    <h2 className="text-xl md:text-2xl font-black text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
+                      <HelpCircle className="w-6 h-6 text-accent" /> 5️⃣ ¿En qué podemos ayudarte?
+                    </h2>
+                    <FormField control={form.control} name="subject" render={({ field }) => (
+                      <FormItem className="space-y-3">
+                        <FormLabel className="text-sm md:text-base font-black text-primary">Motivo:</FormLabel>
+                        <FormControl>
+                          <div className="flex flex-col gap-3">
+                            {SUBJECT_OPTIONS.map((opt) => (
+                              <label key={opt} className="flex items-center gap-3 p-4 rounded-full border border-gray-200 bg-white hover:border-[#6EDC8A] cursor-pointer transition-all active:scale-[0.98]">
+                                <input type="radio" {...field} value={opt} checked={field.value === opt} className="w-5 h-5 accent-[#6EDC8A]" />
+                                <span className="font-black text-primary text-sm md:text-base">{opt}</span>
+                              </label>
+                            ))}
+                          </div>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )} />
+                    <div className="flex gap-3">
+                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-black border-gray-200 active:scale-95 transition-all">Atrás</Button>
+                      <Button type="button" onClick={nextStep} className="flex-[2] bg-[#6EDC8A] text-primary font-black rounded-full h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all" data-testid="button-next-4">Siguiente</Button>
+                    </div>
+                  </motion.div>
+                )}
+
+                {step === 5 && (
+                  <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
+                    <h2 className="text-xl md:text-2xl font-black text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
+                      <MessageSquare className="w-6 h-6 text-accent" /> 6️⃣ Cuéntanos más
+                    </h2>
+                    <FormDescription>Describe tu consulta o situación</FormDescription>
+                    <FormField control={form.control} name="mensaje" render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-sm md:text-base font-black text-primary">Tu mensaje:</FormLabel>
+                        <FormControl>
+                          <Textarea {...field} className="rounded-2xl min-h-[150px] px-6 py-4 border-gray-200 focus:border-[#6EDC8A] transition-all font-medium text-primary placeholder:text-primary/30 text-base" placeholder="Cuéntanos cómo podemos ayudarte..." data-testid="input-mensaje" />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )} />
+                    <div className="bg-[#6EDC8A]/10 p-6 rounded-2xl border border-[#6EDC8A]/30">
+                      <div className="flex items-start gap-3">
+                        <Info className="w-5 h-5 text-[#6EDC8A] mt-0.5 shrink-0" />
+                        <p className="text-sm font-medium text-primary/80">
+                          Leemos personalmente todos los mensajes y respondemos lo antes posible. Si vemos que una LLC no es la mejor opción para ti, también te lo diremos.
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex gap-3">
+                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-black border-gray-200 active:scale-95 transition-all">Atrás</Button>
+                      <Button type="button" onClick={nextStep} className="flex-[2] bg-[#6EDC8A] text-primary font-black rounded-full h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all" data-testid="button-next-5">Siguiente</Button>
+                    </div>
+                  </motion.div>
+                )}
+
+                {step === 6 && (
+                  <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
+                    <h2 className="text-xl md:text-2xl font-black text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
+                      <ShieldCheck className="w-6 h-6 text-accent" /> 7️⃣ Verifica tu email
+                    </h2>
+                    <FormDescription>Te enviamos un código de 6 dígitos a tu email</FormDescription>
+                    
+                    {!isOtpSent ? (
+                      <div className="space-y-4">
+                        <p className="text-sm text-muted-foreground">Email: <span className="font-black text-primary">{form.getValues("email")}</span></p>
                         <Button 
                           type="button" 
                           onClick={sendOtp} 
                           disabled={isLoading} 
-                          style={{ backgroundColor: '#6EDC8A' }} 
-                          className="w-full md:w-auto text-primary font-black px-8 h-14 rounded-full transition-all shadow-lg shadow-[#6EDC8A]/20"
+                          className="w-full bg-[#6EDC8A] text-primary font-black py-7 rounded-full text-lg shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all"
                           data-testid="button-send-otp"
                         >
                           {isLoading ? <Loader2 className="animate-spin" /> : "Enviar código de verificación"}
                         </Button>
-                      ) : (
-                        <div className="flex flex-col md:flex-row gap-4 w-full">
-                          <FormField control={form.control} name="otp" render={({ field }) => (
-                            <FormItem className="flex-1">
-                              <FormControl>
-                                <Input 
-                                  {...field} 
-                                  className="rounded-full h-14 px-6 text-center text-2xl font-black border-gray-200 focus:border-[#6EDC8A] text-primary placeholder:text-primary/30" 
-                                  placeholder="Código (6 dígitos)" 
-                                  data-testid="input-otp"
-                                />
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
-                          )} />
-                          <Button 
-                            type="button" 
-                            onClick={verifyOtp} 
-                            disabled={isLoading} 
-                            className="bg-[#6EDC8A] text-primary font-black px-12 h-14 rounded-full transition-all shadow-lg shadow-[#6EDC8A]/20"
-                            data-testid="button-verify-otp"
-                          >
-                            {isLoading ? <Loader2 className="animate-spin" /> : "Verificar"}
-                          </Button>
-                        </div>
-                      )}
-                    </div>
-                  </div>
+                      </div>
+                    ) : (
+                      <div className="space-y-4">
+                        <FormField control={form.control} name="otp" render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="text-sm md:text-base font-black text-primary">Código:</FormLabel>
+                            <FormControl>
+                              <Input 
+                                {...field} 
+                                className="rounded-full h-14 px-6 text-center text-2xl font-black border-gray-200 focus:border-[#6EDC8A] text-primary placeholder:text-primary/30 tracking-[0.5em]" 
+                                placeholder="000000" 
+                                maxLength={6}
+                                data-testid="input-otp"
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )} />
+                        <Button 
+                          type="button" 
+                          onClick={verifyOtp} 
+                          disabled={isLoading} 
+                          className="w-full bg-[#6EDC8A] text-primary font-black py-7 rounded-full text-lg shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all"
+                          data-testid="button-verify-otp"
+                        >
+                          {isLoading ? <Loader2 className="animate-spin" /> : "Verificar código"}
+                        </Button>
+                        <button type="button" onClick={sendOtp} className="w-full text-center text-sm text-muted-foreground hover:text-primary transition-colors">
+                          ¿No recibiste el código? Reenviar
+                        </button>
+                      </div>
+                    )}
+                    
+                    <Button type="button" variant="outline" onClick={prevStep} className="w-full rounded-full h-14 font-black border-gray-200 active:scale-95 transition-all mt-4">Atrás</Button>
+                  </motion.div>
                 )}
 
-                {isOtpVerified && (
-                  <div className="space-y-6 pt-4 px-4 sm:px-0">
-                    <div className="space-y-3">
-                      <FormCheckbox
-                        control={form.control}
-                        name="dataProcessingConsent"
-                        label="Acepto el tratamiento de mis datos para poder responder a mi solicitud."
-                      />
-                      <FormCheckbox
-                        control={form.control}
-                        name="termsConsent"
-                        label="He leído y acepto los términos del servicio y la política de privacidad."
-                      />
+                {step === 7 && (
+                  <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
+                    <h2 className="text-xl md:text-2xl font-black text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
+                      <CheckCircle2 className="w-6 h-6 text-accent" /> Confirmar y enviar
+                    </h2>
+                    
+                    <div className="bg-gray-50 p-6 rounded-2xl space-y-3">
+                      <p className="text-sm"><span className="font-black">Nombre:</span> {form.getValues("nombre")} {form.getValues("apellido")}</p>
+                      <p className="text-sm"><span className="font-black">Email:</span> {form.getValues("email")}</p>
+                      {form.getValues("telefono") && <p className="text-sm"><span className="font-black">Teléfono:</span> {form.getValues("telefono")}</p>}
+                      <p className="text-sm"><span className="font-black">Motivo:</span> {form.getValues("subject")}</p>
+                      <p className="text-sm"><span className="font-black">Mensaje:</span> {form.getValues("mensaje")}</p>
                     </div>
-                    <Button 
-                      type="submit" 
-                      disabled={isLoading} 
-                      className="w-full bg-[#6EDC8A] text-primary font-black py-8 rounded-full text-lg md:text-xl transition-all shadow-2xl shadow-[#6EDC8A]/20"
-                      data-testid="button-submit"
-                    >
-                      {isLoading ? <Loader2 className="animate-spin" /> : "Enviar mensaje"}
-                    </Button>
-                  </div>
+
+                    <div className="space-y-4">
+                      <FormField control={form.control} name="dataProcessingConsent" render={({ field }) => (
+                        <FormItem className="flex items-start gap-3">
+                          <FormControl>
+                            <Checkbox checked={field.value} onCheckedChange={field.onChange} className="mt-1 data-[state=checked]:bg-[#6EDC8A] data-[state=checked]:border-[#6EDC8A]" />
+                          </FormControl>
+                          <FormLabel className="text-sm font-medium text-primary/80 leading-relaxed cursor-pointer">
+                            Acepto el tratamiento de mis datos para poder responder a mi solicitud.
+                          </FormLabel>
+                        </FormItem>
+                      )} />
+                      <FormField control={form.control} name="termsConsent" render={({ field }) => (
+                        <FormItem className="flex items-start gap-3">
+                          <FormControl>
+                            <Checkbox checked={field.value} onCheckedChange={field.onChange} className="mt-1 data-[state=checked]:bg-[#6EDC8A] data-[state=checked]:border-[#6EDC8A]" />
+                          </FormControl>
+                          <FormLabel className="text-sm font-medium text-primary/80 leading-relaxed cursor-pointer">
+                            He leído y acepto los <a href="/terminos" className="text-accent hover:underline">términos del servicio</a> y la <a href="/privacidad" className="text-accent hover:underline">política de privacidad</a>.
+                          </FormLabel>
+                        </FormItem>
+                      )} />
+                    </div>
+
+                    <div className="flex gap-3">
+                      <Button type="button" variant="outline" onClick={() => setStep(5)} className="flex-1 rounded-full h-14 font-black border-gray-200 active:scale-95 transition-all">Atrás</Button>
+                      <Button 
+                        type="submit" 
+                        disabled={isLoading || !form.getValues("dataProcessingConsent") || !form.getValues("termsConsent")} 
+                        className="flex-[2] bg-[#6EDC8A] text-primary font-black rounded-full h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all disabled:opacity-50"
+                        data-testid="button-submit"
+                      >
+                        {isLoading ? <Loader2 className="animate-spin" /> : "Enviar mensaje"}
+                      </Button>
+                    </div>
+                  </motion.div>
                 )}
               </form>
             </Form>
-          </div>
-        </div>
+          </CardContent>
+        </Card>
 
         <div className="mt-24 pt-16">
           <div className="text-center mb-10 flex flex-col items-center justify-center">

@@ -200,15 +200,15 @@ export async function registerRoutes(
         state: product.name.split(" ")[0], // Extract state name correctly
       });
 
-      // Generate localized request code: NM-XXXX-XXX-X, WY-XXXX-XXX-X, DE-XXXX-XXXX-X, MN-XXXX-XXXX-X
+      // Generate unified request code: NM-YYXX-XXXX (year + sequential ID, no random)
       let statePrefix = "NM";
       if (product.name.includes("Wyoming")) statePrefix = "WY";
       else if (product.name.includes("Delaware")) statePrefix = "DE";
       else if (product.name.includes("Mantenimiento") || product.name.includes("Maintenance")) statePrefix = "MN";
       
-      const timestamp = Date.now().toString();
-      const randomPart = Math.random().toString(36).substring(7).toUpperCase();
-      const requestCode = `${statePrefix}-${timestamp.substring(timestamp.length - 4)}-${randomPart.substring(0, 3)}-${Math.floor(Math.random() * 9)}`;
+      const year = new Date().getFullYear().toString().slice(-2);
+      const orderNum = String(order.id).padStart(6, '0');
+      const requestCode = `${statePrefix}-${year}${orderNum.slice(0, 2)}-${orderNum.slice(2)}`;
 
       const updatedApplication = await storage.updateLlcApplication(application.id, { requestCode });
 
@@ -784,15 +784,22 @@ export async function registerRoutes(
   });
 
   function generateInvoiceHtml(order: any) {
+    const requestCode = order.application?.requestCode || `ORD-${order.id}`;
+    const userName = order.user ? `${order.user.firstName || ''} ${order.user.lastName || ''}`.trim() : 'Cliente';
+    const userEmail = order.user?.email || '';
+    const productName = order.product?.name || 'Servicio de Constitución LLC';
+    
     return `
       <html>
         <head>
           <style>
-            body { font-family: 'Inter', sans-serif; padding: 40px; color: #1a1a1a; line-height: 1.6; }
+            @media print { body { -webkit-print-color-adjust: exact; print-color-adjust: exact; } }
+            body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; padding: 40px; color: #1a1a1a; line-height: 1.6; }
             .header { border-bottom: 4px solid #6EDC8A; padding-bottom: 20px; margin-bottom: 40px; display: flex; justify-content: space-between; align-items: flex-end; }
-            .invoice-title { font-size: 32px; font-weight: 900; text-transform: uppercase; tracking-tighter; margin: 0; }
+            .invoice-title { font-size: 32px; font-weight: 900; text-transform: uppercase; margin: 0; }
+            .order-code { background: #6EDC8A; color: #000; padding: 8px 16px; border-radius: 100px; font-weight: 900; font-size: 14px; display: inline-block; margin-top: 10px; }
             .details { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; margin-bottom: 60px; }
-            .section-title { font-size: 10px; font-weight: 900; text-transform: uppercase; color: #6EDC8A; margin-bottom: 10px; tracking-widest; }
+            .section-title { font-size: 10px; font-weight: 900; text-transform: uppercase; color: #6EDC8A; margin-bottom: 10px; letter-spacing: 0.1em; }
             .table { width: 100%; border-collapse: collapse; margin-bottom: 40px; }
             .table th { text-align: left; border-bottom: 2px solid #f0f0f0; padding: 15px 10px; font-size: 11px; text-transform: uppercase; font-weight: 900; }
             .table td { padding: 20px 10px; border-bottom: 1px solid #f9f9f9; font-size: 14px; font-weight: 500; }
@@ -800,17 +807,20 @@ export async function registerRoutes(
             .total-label { font-size: 12px; font-weight: 900; text-transform: uppercase; color: #666; }
             .total-amount { font-size: 28px; font-weight: 900; color: #000; }
             .footer { margin-top: 80px; font-size: 12px; color: #999; text-align: center; border-top: 1px solid #eee; padding-top: 20px; }
+            .print-btn { background: #6EDC8A; color: #000; padding: 12px 30px; border: none; border-radius: 100px; font-weight: 900; cursor: pointer; font-size: 14px; margin-bottom: 30px; }
+            @media print { .print-btn { display: none; } }
           </style>
         </head>
         <body>
+          <button class="print-btn" onclick="window.print()">Imprimir / Descargar PDF</button>
           <div class="header">
             <div>
-              <h1 class="invoice-title">Factura Oficial</h1>
-              <p style="margin: 5px 0 0 0; font-weight: 700;">Ref: INV-${order.id}-${new Date(order.createdAt).getFullYear()}</p>
+              <h1 class="invoice-title">Factura</h1>
+              <div class="order-code">${requestCode}</div>
             </div>
             <div style="text-align: right">
-              <p style="margin: 0; font-weight: 800;">Easy US LLC</p>
-              <p style="margin: 0; font-size: 13px; color: #666;">Fecha: ${new Date(order.createdAt).toLocaleDateString('es-ES')}</p>
+              <p style="margin: 0; font-weight: 800; font-size: 18px;">Easy US LLC</p>
+              <p style="margin: 5px 0 0 0; font-size: 13px; color: #666;">Fecha: ${new Date(order.createdAt).toLocaleDateString('es-ES')}</p>
             </div>
           </div>
           <div class="details">
@@ -818,21 +828,22 @@ export async function registerRoutes(
               <div class="section-title">Emisor</div>
               <p style="margin: 0;"><strong>Fortuny Consulting LLC</strong></p>
               <p style="margin: 0; font-size: 14px;">EIN: 98-1906730</p>
-              <p style="margin: 0; font-size: 14px;">USA / España</p>
+              <p style="margin: 0; font-size: 14px;">1209 Mountain Road Pl NE, STE R</p>
+              <p style="margin: 0; font-size: 14px;">Albuquerque, NM 87110, USA</p>
             </div>
             <div>
               <div class="section-title">Cliente</div>
-              <p style="margin: 0;"><strong>ID Usuario: #${order.userId}</strong></p>
-              <p style="margin: 0; font-size: 14px;">Servicios de Constitución / Mantenimiento</p>
+              <p style="margin: 0;"><strong>${userName}</strong></p>
+              <p style="margin: 0; font-size: 14px;">${userEmail}</p>
             </div>
           </div>
           <table class="table">
             <thead>
-              <tr><th>Descripción del Servicio</th><th style="text-align: right">Precio Unitario</th></tr>
+              <tr><th>Descripción del Servicio</th><th style="text-align: right">Precio</th></tr>
             </thead>
             <tbody>
               <tr>
-                <td>Constitución de Empresa LLC / Mantenimiento Anual</td>
+                <td>${productName}</td>
                 <td style="text-align: right">${(order.amount / 100).toFixed(2)}€</td>
               </tr>
             </tbody>
@@ -842,7 +853,7 @@ export async function registerRoutes(
             <div class="total-amount">${(order.amount / 100).toFixed(2)}€</div>
           </div>
           <div class="footer">
-            Easy US LLC • Gracias por confiar en nosotros para expandir tu negocio a USA.
+            Easy US LLC • Fortuny Consulting LLC • info@easyusllc.com
           </div>
         </body>
       </html>
@@ -850,48 +861,61 @@ export async function registerRoutes(
   }
 
   function generateReceiptHtml(order: any) {
+    const requestCode = order.application?.requestCode || `ORD-${order.id}`;
+    const userName = order.user ? `${order.user.firstName || ''} ${order.user.lastName || ''}`.trim() : 'Cliente';
+    const productName = order.product?.name || 'Servicio de Constitución LLC';
+    
     return `
       <html>
         <head>
           <style>
-            body { font-family: 'Inter', sans-serif; padding: 40px; color: #1a1a1a; line-height: 1.6; background: #fcfcfc; }
-            .card { background: white; max-width: 600px; margin: auto; padding: 50px; border-radius: 40px; shadow: 0 20px 40px rgba(0,0,0,0.05); border: 1px solid #eee; }
-            .logo { width: 60px; margin-bottom: 30px; }
-            .status { display: inline-block; background: #6EDC8A; color: #000; padding: 6px 15px; border-radius: 100px; font-size: 10px; font-weight: 900; text-transform: uppercase; margin-bottom: 20px; }
-            h1 { font-size: 28px; font-weight: 900; margin: 0 0 10px 0; tracking: -0.03em; }
+            @media print { body { -webkit-print-color-adjust: exact; print-color-adjust: exact; } }
+            body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; padding: 40px; color: #1a1a1a; line-height: 1.6; background: #fcfcfc; }
+            .card { background: white; max-width: 600px; margin: auto; padding: 50px; border-radius: 40px; box-shadow: 0 20px 40px rgba(0,0,0,0.05); border: 1px solid #eee; }
+            .status { display: inline-block; background: #6EDC8A; color: #000; padding: 8px 20px; border-radius: 100px; font-size: 12px; font-weight: 900; text-transform: uppercase; margin-bottom: 20px; }
+            h1 { font-size: 28px; font-weight: 900; margin: 0 0 10px 0; letter-spacing: -0.03em; }
+            .order-code { font-size: 24px; font-weight: 900; color: #6EDC8A; margin-bottom: 20px; }
             .msg { color: #666; margin-bottom: 40px; }
             .info-row { display: flex; justify-content: space-between; padding: 15px 0; border-bottom: 1px solid #f5f5f5; font-size: 14px; }
             .label { font-weight: 800; color: #999; text-transform: uppercase; font-size: 11px; }
             .val { font-weight: 700; color: #000; }
             .footer { margin-top: 40px; text-align: center; font-size: 12px; color: #999; }
+            .print-btn { background: #6EDC8A; color: #000; padding: 12px 30px; border: none; border-radius: 100px; font-weight: 900; cursor: pointer; font-size: 14px; display: block; margin: 0 auto 30px; }
+            @media print { .print-btn { display: none; } }
           </style>
         </head>
         <body>
           <div class="card">
+            <button class="print-btn" onclick="window.print()">Imprimir / Descargar PDF</button>
             <div class="status">Recibo de Solicitud</div>
             <h1>Confirmación de Pedido</h1>
+            <div class="order-code">${requestCode}</div>
             <p class="msg">Hemos recibido correctamente tu solicitud. Tu proceso de constitución está en marcha.</p>
             
             <div class="info-row">
-              <span class="label">Referencia del Pedido</span>
-              <span class="val">#${order.id}</span>
+              <span class="label">Cliente</span>
+              <span class="val">${userName}</span>
+            </div>
+            <div class="info-row">
+              <span class="label">Servicio</span>
+              <span class="val">${productName}</span>
             </div>
             <div class="info-row">
               <span class="label">Fecha</span>
               <span class="val">${new Date(order.createdAt).toLocaleDateString('es-ES')}</span>
             </div>
             <div class="info-row">
-              <span class="label">Estado del Pago</span>
+              <span class="label">Estado</span>
               <span class="val">${order.status === 'paid' ? 'PAGADO' : 'PENDIENTE'}</span>
             </div>
             <div class="info-row" style="border-bottom: 0;">
-              <span class="label">Total Importe</span>
+              <span class="label">Total</span>
               <span class="val" style="font-size: 20px; color: #6EDC8A;">${(order.amount / 100).toFixed(2)}€</span>
             </div>
             
             <div class="footer">
               Conserva este recibo para tus registros.<br/>
-              Easy US LLC • Fortuny Consulting LLC
+              Easy US LLC • Fortuny Consulting LLC • info@easyusllc.com
             </div>
           </div>
         </body>
