@@ -359,6 +359,22 @@ var init_db = __esm({
 });
 
 // server/lib/email.ts
+var email_exports = {};
+__export(email_exports, {
+  getActionRequiredTemplate: () => getActionRequiredTemplate,
+  getAutoReplyTemplate: () => getAutoReplyTemplate,
+  getConfirmationEmailTemplate: () => getConfirmationEmailTemplate,
+  getEmailFooter: () => getEmailFooter,
+  getEmailHeader: () => getEmailHeader,
+  getInvoiceEmailTemplate: () => getInvoiceEmailTemplate,
+  getNewsletterWelcomeTemplate: () => getNewsletterWelcomeTemplate,
+  getNoteReceivedTemplate: () => getNoteReceivedTemplate,
+  getOrderUpdateTemplate: () => getOrderUpdateTemplate2,
+  getOtpEmailTemplate: () => getOtpEmailTemplate,
+  getReminderEmailTemplate: () => getReminderEmailTemplate,
+  getWelcomeEmailTemplate: () => getWelcomeEmailTemplate,
+  sendEmail: () => sendEmail
+});
 function getEmailHeader(title = "Easy US LLC") {
   const domain = "easyusllc.com";
   const protocol = "https";
@@ -530,6 +546,191 @@ function getNewsletterWelcomeTemplate() {
           </div>
 
           <p style="line-height: 1.6; font-size: 14px; color: #666; margin-top: 25px; text-align: center;">Bienvenido al ecosistema global de emprendimiento.</p>
+        </div>
+        ${getEmailFooter()}
+      </div>
+    </div>
+  `;
+}
+function getReminderEmailTemplate(name, requestCode) {
+  return `
+    <div style="background-color: #f9f9f9; padding: 20px 0;">
+      <div style="font-family: 'Inter', Arial, sans-serif; max-width: 600px; margin: auto; border-radius: 8px; overflow: hidden; color: #1a1a1a; background-color: #ffffff; border: 1px solid #e5e5e5;">
+        ${getEmailHeader()}
+        <div style="padding: 40px;">
+          <h2 style="font-size: 20px; font-weight: 800; margin-bottom: 20px; color: #000;">Termina tu registro</h2>
+          <p style="line-height: 1.6; font-size: 15px; color: #444;">Hola <strong>${name}</strong>, hemos notado que tu solicitud para una nueva LLC a\xFAn no est\xE1 completa.</p>
+          
+          <div style="background: #f1f5f9; padding: 25px; border-radius: 8px; margin: 35px 0; border: 1px dashed #cbd5e1; text-align: center;">
+            <p style="margin: 0; font-size: 15px; color: #000;"><strong>Solicitud pendiente:</strong> ${requestCode}</p>
+          </div>
+
+          <div style="text-align: center; margin-top: 30px;">
+            <a href="https://easyusllc.com/seguimiento" style="background-color: #000; color: #fff; padding: 15px 35px; text-decoration: none; border-radius: 6px; font-weight: 800; display: inline-block; text-transform: uppercase; font-size: 13px; letter-spacing: 1px;">Continuar Solicitud \u2192</a>
+          </div>
+        </div>
+        ${getEmailFooter()}
+      </div>
+    </div>
+  `;
+}
+function getActionRequiredTemplate(name, orderNumber, actionDescription) {
+  return `
+    <div style="background-color: #f9f9f9; padding: 20px 0;">
+      <div style="font-family: 'Inter', Arial, sans-serif; max-width: 600px; margin: auto; border-radius: 8px; overflow: hidden; color: #1a1a1a; background-color: #ffffff; border: 1px solid #e5e5e5;">
+        ${getEmailHeader("Acci\xF3n Requerida")}
+        <div style="padding: 40px;">
+          <div style="background: #FEF2F2; padding: 15px; border-radius: 8px; margin-bottom: 25px; border-left: 4px solid #EF4444;">
+            <p style="margin: 0; font-size: 13px; font-weight: 700; color: #DC2626; text-transform: uppercase;">Requiere tu atenci\xF3n</p>
+          </div>
+          
+          <h2 style="font-size: 20px; font-weight: 800; margin-bottom: 20px; color: #000;">Hola ${name},</h2>
+          <p style="line-height: 1.6; font-size: 15px; color: #444; margin-bottom: 25px;">Necesitamos tu ayuda para continuar con el proceso de tu solicitud. Por favor, revisa la siguiente informaci\xF3n:</p>
+          
+          <div style="background: #fcfcfc; padding: 25px; border-radius: 8px; margin: 25px 0; border: 1px solid #e5e5e5;">
+            <p style="margin: 0 0 10px 0; font-size: 12px; font-weight: 800; text-transform: uppercase; color: #6B7280; letter-spacing: 1px;">Pedido</p>
+            <p style="margin: 0 0 20px 0; font-size: 20px; font-weight: 900; color: #0E1215;">${orderNumber}</p>
+            <p style="margin: 0 0 10px 0; font-size: 12px; font-weight: 800; text-transform: uppercase; color: #6B7280; letter-spacing: 1px;">Acci\xF3n Necesaria</p>
+            <p style="margin: 0; font-size: 15px; color: #444; line-height: 1.6;">${actionDescription}</p>
+          </div>
+
+          <div style="text-align: center; margin-top: 30px;">
+            <a href="https://easyusllc.com/dashboard" style="background-color: #0E1215; color: #fff; padding: 15px 35px; text-decoration: none; border-radius: 6px; font-weight: 800; display: inline-block; text-transform: uppercase; font-size: 13px; letter-spacing: 1px;">Ir a Mi Panel \u2192</a>
+          </div>
+          
+          <p style="line-height: 1.6; font-size: 14px; color: #6B7280; margin-top: 25px; text-align: center;">Tambi\xE9n puedes responder directamente a este correo si tienes alguna duda.</p>
+        </div>
+        ${getEmailFooter()}
+      </div>
+    </div>
+  `;
+}
+function getNoteReceivedTemplate(name, noteContent, orderNumber) {
+  return `
+    <div style="background-color: #f9f9f9; padding: 20px 0;">
+      <div style="font-family: 'Inter', Arial, sans-serif; max-width: 600px; margin: auto; border-radius: 8px; overflow: hidden; color: #1a1a1a; background-color: #ffffff; border: 1px solid #e5e5e5;">
+        ${getEmailHeader("Nuevo Mensaje")}
+        <div style="padding: 40px;">
+          <h2 style="font-size: 20px; font-weight: 800; margin-bottom: 20px; color: #000;">Hola ${name},</h2>
+          <p style="line-height: 1.6; font-size: 15px; color: #444; margin-bottom: 25px;">Has recibido un nuevo mensaje de nuestro equipo${orderNumber ? ` relacionado con tu pedido <strong>${orderNumber}</strong>` : ""}:</p>
+          
+          <div style="background: #F0FDF4; padding: 25px; border-radius: 8px; margin: 25px 0; border-left: 4px solid #6EDC8A;">
+            <p style="margin: 0; font-size: 15px; color: #0E1215; line-height: 1.6; white-space: pre-wrap;">${noteContent}</p>
+          </div>
+
+          <div style="text-align: center; margin-top: 30px;">
+            <a href="https://easyusllc.com/dashboard" style="background-color: #6EDC8A; color: #0E1215; padding: 15px 35px; text-decoration: none; border-radius: 6px; font-weight: 800; display: inline-block; text-transform: uppercase; font-size: 13px; letter-spacing: 1px;">Ver en Mi Panel \u2192</a>
+          </div>
+          
+          <p style="line-height: 1.6; font-size: 14px; color: #6B7280; margin-top: 25px; text-align: center;">Si tienes alguna pregunta, no dudes en contactarnos.</p>
+        </div>
+        ${getEmailFooter()}
+      </div>
+    </div>
+  `;
+}
+function getOrderUpdateTemplate2(name, orderNumber, newStatus, statusDescription) {
+  const statusColors = {
+    pending: { bg: "#FEF3C7", border: "#F59E0B", text: "#92400E" },
+    processing: { bg: "#DBEAFE", border: "#3B82F6", text: "#1E40AF" },
+    documents_ready: { bg: "#E0E7FF", border: "#6366F1", text: "#3730A3" },
+    completed: { bg: "#D1FAE5", border: "#10B981", text: "#065F46" },
+    cancelled: { bg: "#FEE2E2", border: "#EF4444", text: "#991B1B" }
+  };
+  const colors = statusColors[newStatus] || statusColors.processing;
+  return `
+    <div style="background-color: #f9f9f9; padding: 20px 0;">
+      <div style="font-family: 'Inter', Arial, sans-serif; max-width: 600px; margin: auto; border-radius: 8px; overflow: hidden; color: #1a1a1a; background-color: #ffffff; border: 1px solid #e5e5e5;">
+        ${getEmailHeader("Actualizaci\xF3n de Pedido")}
+        <div style="padding: 40px;">
+          <h2 style="font-size: 20px; font-weight: 800; margin-bottom: 20px; color: #000;">Hola ${name},</h2>
+          <p style="line-height: 1.6; font-size: 15px; color: #444; margin-bottom: 25px;">Tu pedido ha sido actualizado con un nuevo estado:</p>
+          
+          <div style="background: #fcfcfc; padding: 25px; border-radius: 8px; margin: 25px 0; border: 1px solid #e5e5e5;">
+            <p style="margin: 0 0 10px 0; font-size: 12px; font-weight: 800; text-transform: uppercase; color: #6B7280; letter-spacing: 1px;">N\xFAmero de Pedido</p>
+            <p style="margin: 0 0 20px 0; font-size: 20px; font-weight: 900; color: #0E1215;">${orderNumber}</p>
+            
+            <div style="background: ${colors.bg}; padding: 15px 20px; border-radius: 8px; border-left: 4px solid ${colors.border};">
+              <p style="margin: 0; font-size: 14px; font-weight: 800; color: ${colors.text}; text-transform: uppercase;">${newStatus.replace(/_/g, " ")}</p>
+            </div>
+          </div>
+          
+          <p style="line-height: 1.6; font-size: 15px; color: #444; margin-bottom: 25px;">${statusDescription}</p>
+
+          <div style="text-align: center; margin-top: 30px;">
+            <a href="https://easyusllc.com/dashboard" style="background-color: #0E1215; color: #fff; padding: 15px 35px; text-decoration: none; border-radius: 6px; font-weight: 800; display: inline-block; text-transform: uppercase; font-size: 13px; letter-spacing: 1px;">Ver Detalles \u2192</a>
+          </div>
+        </div>
+        ${getEmailFooter()}
+      </div>
+    </div>
+  `;
+}
+function getInvoiceEmailTemplate(name, orderNumber, invoiceDetails) {
+  const itemsHtml = invoiceDetails.items.map((item) => `
+    <tr>
+      <td style="padding: 12px 0; border-bottom: 1px solid #f0f0f0; font-size: 14px; color: #444;">${item.description}</td>
+      <td style="padding: 12px 0; border-bottom: 1px solid #f0f0f0; font-size: 14px; color: #444; text-align: center;">${item.quantity}</td>
+      <td style="padding: 12px 0; border-bottom: 1px solid #f0f0f0; font-size: 14px; color: #444; text-align: right;">$${item.price.toFixed(2)}</td>
+    </tr>
+  `).join("");
+  return `
+    <div style="background-color: #f9f9f9; padding: 20px 0;">
+      <div style="font-family: 'Inter', Arial, sans-serif; max-width: 600px; margin: auto; border-radius: 8px; overflow: hidden; color: #1a1a1a; background-color: #ffffff; border: 1px solid #e5e5e5;">
+        ${getEmailHeader("Factura")}
+        <div style="padding: 40px;">
+          <div style="display: flex; justify-content: space-between; margin-bottom: 30px;">
+            <div>
+              <p style="margin: 0 0 5px 0; font-size: 12px; font-weight: 800; text-transform: uppercase; color: #6B7280;">Factura</p>
+              <p style="margin: 0; font-size: 18px; font-weight: 900; color: #0E1215;">${invoiceDetails.invoiceNumber}</p>
+            </div>
+            <div style="text-align: right;">
+              <p style="margin: 0 0 5px 0; font-size: 12px; font-weight: 800; text-transform: uppercase; color: #6B7280;">Fecha</p>
+              <p style="margin: 0; font-size: 14px; color: #444;">${invoiceDetails.issueDate}</p>
+            </div>
+          </div>
+          
+          <div style="margin-bottom: 25px;">
+            <p style="margin: 0 0 5px 0; font-size: 12px; font-weight: 800; text-transform: uppercase; color: #6B7280;">Cliente</p>
+            <p style="margin: 0; font-size: 16px; font-weight: 700; color: #0E1215;">${name}</p>
+            <p style="margin: 5px 0 0 0; font-size: 14px; color: #6B7280;">Pedido: ${orderNumber}</p>
+          </div>
+
+          <table style="width: 100%; border-collapse: collapse; margin: 25px 0;">
+            <thead>
+              <tr style="background: #f9f9f9;">
+                <th style="padding: 12px 0; text-align: left; font-size: 11px; font-weight: 800; text-transform: uppercase; color: #6B7280; border-bottom: 2px solid #e5e5e5;">Descripci\xF3n</th>
+                <th style="padding: 12px 0; text-align: center; font-size: 11px; font-weight: 800; text-transform: uppercase; color: #6B7280; border-bottom: 2px solid #e5e5e5;">Cant.</th>
+                <th style="padding: 12px 0; text-align: right; font-size: 11px; font-weight: 800; text-transform: uppercase; color: #6B7280; border-bottom: 2px solid #e5e5e5;">Precio</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${itemsHtml}
+            </tbody>
+          </table>
+
+          <div style="border-top: 2px solid #0E1215; padding-top: 15px; margin-top: 15px;">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+              <span style="font-size: 14px; color: #6B7280;">Subtotal</span>
+              <span style="font-size: 14px; color: #444;">$${invoiceDetails.subtotal.toFixed(2)}</span>
+            </div>
+            ${invoiceDetails.tax ? `
+            <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+              <span style="font-size: 14px; color: #6B7280;">Impuestos</span>
+              <span style="font-size: 14px; color: #444;">$${invoiceDetails.tax.toFixed(2)}</span>
+            </div>
+            ` : ""}
+            <div style="display: flex; justify-content: space-between; padding-top: 10px; border-top: 1px solid #e5e5e5;">
+              <span style="font-size: 16px; font-weight: 800; color: #0E1215;">TOTAL</span>
+              <span style="font-size: 18px; font-weight: 900; color: #6EDC8A;">$${invoiceDetails.total.toFixed(2)}</span>
+            </div>
+          </div>
+
+          <div style="background: #F0FDF4; padding: 20px; border-radius: 8px; margin-top: 30px; border: 1px solid #6EDC8A;">
+            <p style="margin: 0; font-size: 14px; color: #065F46; text-align: center;"><strong>Pago confirmado</strong> - Gracias por tu confianza</p>
+          </div>
+          
+          <p style="line-height: 1.6; font-size: 12px; color: #6B7280; margin-top: 25px; text-align: center;">Este documento sirve como comprobante de pago. Para cualquier consulta sobre facturaci\xF3n, contacta con nosotros.</p>
         </div>
         ${getEmailFooter()}
       </div>
@@ -1290,15 +1491,24 @@ var DatabaseStorage = class {
     return newOrder;
   }
   async getOrders(userId) {
-    const results = await db.query.orders.findMany({
-      where: (0, import_drizzle_orm6.eq)(orders.userId, userId),
+    if (userId) {
+      return await db.query.orders.findMany({
+        where: (0, import_drizzle_orm6.eq)(orders.userId, userId),
+        with: {
+          product: true,
+          application: true
+        },
+        orderBy: (0, import_drizzle_orm6.desc)(orders.createdAt)
+      });
+    }
+    return await db.query.orders.findMany({
       with: {
         product: true,
-        application: true
+        application: true,
+        user: true
       },
       orderBy: (0, import_drizzle_orm6.desc)(orders.createdAt)
     });
-    return results;
   }
   async getOrder(id) {
     const result = await db.query.orders.findFirst({
@@ -1406,7 +1616,12 @@ var DatabaseStorage = class {
     return await db.select().from(messages).where((0, import_drizzle_orm6.eq)(messages.userId, userId)).orderBy((0, import_drizzle_orm6.desc)(messages.createdAt));
   }
   async getAllMessages() {
-    return await db.select().from(messages).orderBy((0, import_drizzle_orm6.desc)(messages.createdAt));
+    return await db.query.messages.findMany({
+      orderBy: (0, import_drizzle_orm6.desc)(messages.createdAt),
+      with: {
+        replies: true
+      }
+    });
   }
   async updateMessageStatus(id, status) {
     const [updated] = await db.update(messages).set({ status }).where((0, import_drizzle_orm6.eq)(messages.id, id)).returning();
@@ -1563,6 +1778,120 @@ async function registerRoutes(httpServer2, app2) {
       logActivity("Selecci\xF3n de Estado", { "Detalles": details, "IP": req.ip });
     }
     res.json({ success: true });
+  });
+  app2.get("/api/admin/orders", isAdmin, async (req, res) => {
+    try {
+      const allOrders = await storage.getAllOrders();
+      res.json(allOrders);
+    } catch (error) {
+      console.error("Admin orders error:", error);
+      res.status(500).json({ message: "Error fetching orders" });
+    }
+  });
+  app2.patch("/api/admin/orders/:id/status", isAdmin, async (req, res) => {
+    try {
+      const orderId = Number(req.params.id);
+      const { status } = import_zod2.z.object({ status: import_zod2.z.string() }).parse(req.body);
+      const updatedOrder = await storage.updateOrderStatus(orderId, status);
+      const order = await storage.getOrder(orderId);
+      if (order?.user?.email) {
+        sendEmail({
+          to: order.user.email,
+          subject: `Actualizaci\xF3n de tu pedido ${order.application?.requestCode || `#${order.id}`}`,
+          html: getOrderUpdateTemplate(
+            order.user.firstName || "Cliente",
+            order.application?.requestCode || `#${order.id}`,
+            status,
+            `Tu pedido ha pasado a estado: ${status.replace(/_/g, " ")}`
+          )
+        }).catch(console.error);
+      }
+      res.json(updatedOrder);
+    } catch (error) {
+      res.status(500).json({ message: "Error updating status" });
+    }
+  });
+  app2.get("/api/admin/users", isAdmin, async (req, res) => {
+    try {
+      const users2 = await db.select().from(users).orderBy((0, import_drizzle_orm7.desc)(users.createdAt));
+      res.json(users2);
+    } catch (error) {
+      res.status(500).json({ message: "Error fetching users" });
+    }
+  });
+  app2.patch("/api/admin/users/:id", isAdmin, async (req, res) => {
+    try {
+      const { accountStatus, isAdmin: promoteAdmin } = req.body;
+      const [updatedUser] = await db.update(users).set({ accountStatus, isAdmin: promoteAdmin, updatedAt: /* @__PURE__ */ new Date() }).where((0, import_drizzle_orm7.eq)(users.id, req.params.id)).returning();
+      res.json(updatedUser);
+    } catch (error) {
+      res.status(500).json({ message: "Error updating user" });
+    }
+  });
+  app2.get("/api/admin/newsletter", isAdmin, async (req, res) => {
+    try {
+      const subscribers = await db.select().from(newsletterSubscribers).orderBy((0, import_drizzle_orm7.desc)(newsletterSubscribers.subscribedAt));
+      res.json(subscribers);
+    } catch (error) {
+      res.status(500).json({ message: "Error" });
+    }
+  });
+  app2.get("/api/admin/messages", isAdmin, async (req, res) => {
+    try {
+      const allMessages = await storage.getAllMessages();
+      res.json(allMessages);
+    } catch (error) {
+      res.status(500).json({ message: "Error" });
+    }
+  });
+  app2.patch("/api/admin/messages/:id/status", isAdmin, async (req, res) => {
+    try {
+      const updated = await storage.updateMessageStatus(Number(req.params.id), req.body.status);
+      res.json(updated);
+    } catch (error) {
+      res.status(500).json({ message: "Error" });
+    }
+  });
+  app2.post("/api/admin/request-document", isAdmin, async (req, res) => {
+    try {
+      const { email, documentType, message } = req.body;
+      const { getActionRequiredTemplate: getActionRequiredTemplate2 } = await Promise.resolve().then(() => (init_email(), email_exports));
+      await sendEmail({
+        to: email,
+        subject: "Acci\xF3n Requerida: Documentaci\xF3n para tu LLC",
+        html: getActionRequiredTemplate2("Cliente", "Solicitud de Documentos", message || `Necesitamos tu ${documentType} para continuar.`)
+      });
+      res.json({ success: true });
+    } catch (error) {
+      res.status(500).json({ message: "Error al solicitar documento" });
+    }
+  });
+  app2.post("/api/admin/send-note", isAdmin, async (req, res) => {
+    try {
+      const { userId, title, message, type, sendEmail: shouldSendEmail } = req.body;
+      await db.insert(userNotifications).values({
+        userId,
+        title,
+        message,
+        type: type || "info",
+        isRead: false
+      });
+      if (shouldSendEmail) {
+        const [targetUser] = await db.select().from(users).where((0, import_drizzle_orm7.eq)(users.id, userId)).limit(1);
+        if (targetUser?.email) {
+          const { getNoteReceivedTemplate: getNoteReceivedTemplate2 } = await Promise.resolve().then(() => (init_email(), email_exports));
+          await sendEmail({
+            to: targetUser.email,
+            subject: `Nuevo mensaje de Easy US LLC: ${title}`,
+            html: getNoteReceivedTemplate2(targetUser.firstName || "Cliente", message)
+          });
+        }
+      }
+      res.json({ success: true });
+    } catch (error) {
+      console.error("Send note error:", error);
+      res.status(500).json({ message: "Error al enviar nota" });
+    }
   });
   app2.get(api.products.list.path, async (req, res) => {
     const products3 = await storage.getProducts();

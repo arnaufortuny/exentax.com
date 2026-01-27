@@ -54,6 +54,144 @@ export async function registerRoutes(
 
   // === API Routes ===
 
+  // Admin Orders
+  app.get("/api/admin/orders", isAdmin, async (req, res) => {
+    try {
+      const allOrders = await storage.getAllOrders();
+      res.json(allOrders);
+    } catch (error) {
+      console.error("Admin orders error:", error);
+      res.status(500).json({ message: "Error fetching orders" });
+    }
+  });
+
+  app.patch("/api/admin/orders/:id/status", isAdmin, async (req, res) => {
+    try {
+      const orderId = Number(req.params.id);
+      const { status } = z.object({ status: z.string() }).parse(req.body);
+      const updatedOrder = await storage.updateOrderStatus(orderId, status);
+      
+      const order = await storage.getOrder(orderId);
+      if (order?.user?.email) {
+        sendEmail({
+          to: order.user.email,
+          subject: `Actualización de tu pedido ${order.application?.requestCode || `#${order.id}`}`,
+          html: getOrderUpdateTemplate(
+            order.user.firstName || "Cliente",
+            order.application?.requestCode || `#${order.id}`,
+            status,
+            `Tu pedido ha pasado a estado: ${status.replace(/_/g, " ")}`
+          )
+        }).catch(console.error);
+      }
+      res.json(updatedOrder);
+    } catch (error) {
+      res.status(500).json({ message: "Error updating status" });
+    }
+  });
+
+  // Admin Users
+  app.get("/api/admin/users", isAdmin, async (req, res) => {
+    try {
+      const users = await db.select().from(usersTable).orderBy(desc(usersTable.createdAt));
+      res.json(users);
+    } catch (error) {
+      res.status(500).json({ message: "Error fetching users" });
+    }
+  });
+
+  app.patch("/api/admin/users/:id", isAdmin, async (req, res) => {
+    try {
+      const { accountStatus, isAdmin: promoteAdmin } = req.body;
+      const [updatedUser] = await db.update(usersTable)
+        .set({ accountStatus, isAdmin: promoteAdmin, updatedAt: new Date() })
+        .where(eq(usersTable.id, req.params.id))
+        .returning();
+      res.json(updatedUser);
+    } catch (error) {
+      res.status(500).json({ message: "Error updating user" });
+    }
+  });
+
+  // Admin Newsletter
+  app.get("/api/admin/newsletter", isAdmin, async (req, res) => {
+    try {
+      const subscribers = await db.select().from(newsletterSubscribers).orderBy(desc(newsletterSubscribers.subscribedAt));
+      res.json(subscribers);
+    } catch (error) {
+      res.status(500).json({ message: "Error" });
+    }
+  });
+
+  // Admin Messages
+  app.get("/api/admin/messages", isAdmin, async (req, res) => {
+    try {
+      const allMessages = await storage.getAllMessages();
+      res.json(allMessages);
+    } catch (error) {
+      res.status(500).json({ message: "Error" });
+    }
+  });
+
+  app.patch("/api/admin/messages/:id/status", isAdmin, async (req, res) => {
+    try {
+      const updated = await storage.updateMessageStatus(Number(req.params.id), req.body.status);
+      res.json(updated);
+    } catch (error) {
+      res.status(500).json({ message: "Error" });
+    }
+  });
+
+  // Document Requests
+  app.post("/api/admin/request-document", isAdmin, async (req, res) => {
+    try {
+      const { email, documentType, message } = req.body;
+      const { getActionRequiredTemplate } = await import("./lib/email");
+      
+      await sendEmail({
+        to: email,
+        subject: "Acción Requerida: Documentación para tu LLC",
+        html: getActionRequiredTemplate("Cliente", "Solicitud de Documentos", message || `Necesitamos tu ${documentType} para continuar.`)
+      });
+      
+      res.json({ success: true });
+    } catch (error) {
+      res.status(500).json({ message: "Error al solicitar documento" });
+    }
+  });
+
+  // Custom Notes/Messages to Clients
+  app.post("/api/admin/send-note", isAdmin, async (req, res) => {
+    try {
+      const { userId, title, message, type, sendEmail: shouldSendEmail } = req.body;
+      
+      await db.insert(userNotifications).values({
+        userId,
+        title,
+        message,
+        type: type || 'info',
+        isRead: false
+      });
+      
+      if (shouldSendEmail) {
+        const [targetUser] = await db.select().from(usersTable).where(eq(usersTable.id, userId)).limit(1);
+        if (targetUser?.email) {
+          const { getNoteReceivedTemplate } = await import("./lib/email");
+          await sendEmail({
+            to: targetUser.email,
+            subject: `Nuevo mensaje de Easy US LLC: ${title}`,
+            html: getNoteReceivedTemplate(targetUser.firstName || "Cliente", message)
+          });
+        }
+      }
+      
+      res.json({ success: true });
+    } catch (error) {
+      console.error("Send note error:", error);
+      res.status(500).json({ message: "Error al enviar nota" });
+    }
+  });
+
   // Products
   app.get(api.products.list.path, async (req, res) => {
     const products = await storage.getProducts();

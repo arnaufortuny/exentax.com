@@ -75,18 +75,25 @@ export class DatabaseStorage implements IStorage {
     return newOrder;
   }
 
-  async getOrders(userId: string): Promise<(Order & { product: Product; application: LlcApplication | null })[]> {
-    // Perform a join to get order + product + application
-    // Drizzle's query builder with relations is cleaner:
-    const results = await db.query.orders.findMany({
-      where: eq(orders.userId, userId),
+  async getOrders(userId?: string): Promise<any[]> {
+    if (userId) {
+      return await db.query.orders.findMany({
+        where: eq(orders.userId, userId),
+        with: {
+          product: true,
+          application: true,
+        },
+        orderBy: desc(orders.createdAt),
+      });
+    }
+    return await db.query.orders.findMany({
       with: {
         product: true,
         application: true,
+        user: true,
       },
       orderBy: desc(orders.createdAt),
     });
-    return results;
   }
 
   async getOrder(id: number): Promise<(Order & { product?: Product; application?: LlcApplication; user?: any }) | undefined> {
@@ -234,7 +241,12 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getAllMessages(): Promise<any[]> {
-    return await db.select().from(messagesTable).orderBy(desc(messagesTable.createdAt));
+    return await db.query.messages.findMany({
+      orderBy: desc(messagesTable.createdAt),
+      with: {
+        replies: true
+      }
+    });
   }
 
   async updateMessageStatus(id: number, status: string): Promise<any> {

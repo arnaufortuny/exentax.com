@@ -213,11 +213,13 @@ export default function Dashboard() {
   const { data: adminOrders } = useQuery<any[]>({
     queryKey: ["/api/admin/orders"],
     enabled: !!user?.isAdmin,
+    refetchInterval: 30000,
   });
 
   const { data: adminUsers } = useQuery<any[]>({
     queryKey: ["/api/admin/users"],
     enabled: !!user?.isAdmin,
+    refetchInterval: 60000,
   });
 
   const { data: adminNewsletter } = useQuery<any[]>({
