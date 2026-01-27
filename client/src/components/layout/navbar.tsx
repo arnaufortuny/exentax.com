@@ -47,7 +47,7 @@ export function Navbar() {
             <button onClick={() => handleNavClick("/servicios")} className="text-base font-black text-foreground hover:text-accent transition-colors">Nuestros Servicios</button>
             <button onClick={() => scrollToSection("pricing")} className="text-base font-black text-foreground hover:text-accent transition-colors">Precios</button>
             <button onClick={() => handleNavClick("/faq")} className="text-base font-black text-foreground hover:text-accent transition-colors">FAQ</button>
-            <button onClick={() => handleNavClick("/contacto")} className="text-base font-black text-foreground hover:text-accent transition-colors">Contactanos</button>
+            <button onClick={() => handleNavClick("/contacto")} className="text-base font-black text-foreground hover:text-accent transition-colors">Contáctanos</button>
             {isAuthenticated ? (
               <div className="flex items-center gap-4 border-l pl-6 border-border">
                 <Link href="/dashboard" className="text-base font-black text-foreground hover:text-accent transition-colors flex items-center gap-2">
