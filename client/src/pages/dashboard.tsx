@@ -89,6 +89,10 @@ export default function Dashboard() {
   // Admin state
   const [editingUser, setEditingUser] = useState<AdminUserData | null>(null);
   const [emailDialog, setEmailDialog] = useState<{ open: boolean; user: AdminUserData | null }>({ open: false, user: null });
+  const [paymentDialog, setPaymentDialog] = useState<{ open: boolean; user: AdminUserData | null }>({ open: false, user: null });
+  const [paymentLink, setPaymentLink] = useState("");
+  const [paymentAmount, setPaymentAmount] = useState("");
+  const [paymentMessage, setPaymentMessage] = useState("");
   const [docDialog, setDocDialog] = useState<{ open: boolean; user: AdminUserData | null }>({ open: false, user: null });
   const [emailSubject, setEmailSubject] = useState("");
   const [emailMessage, setEmailMessage] = useState("");
@@ -141,6 +145,33 @@ export default function Dashboard() {
     queryKey: ["/api/orders"],
     enabled: isAuthenticated,
     refetchInterval: 5000,
+  });
+
+  const { data: messagesData, isLoading: messagesLoading } = useQuery<any[]>({
+    queryKey: ["/api/messages"],
+    enabled: isAuthenticated,
+    refetchInterval: 5000,
+  });
+
+  const [selectedMessage, setSelectedMessage] = useState<any>(null);
+  const [replyContent, setReplyContent] = useState("");
+
+  const selectedOrderId = orders?.[0]?.id;
+  const { data: selectedOrderEvents } = useQuery<any[]>({
+    queryKey: ["/api/orders", selectedOrderId, "events"],
+    enabled: !!selectedOrderId,
+    refetchInterval: 5000,
+  });
+
+  const sendReplyMutation = useMutation({
+    mutationFn: async (messageId: number) => {
+      await apiRequest("POST", `/api/messages/${messageId}/reply`, { content: replyContent });
+    },
+    onSuccess: () => {
+      setReplyContent("");
+      queryClient.invalidateQueries({ queryKey: ["/api/messages"] });
+      toast({ title: "Respuesta enviada", description: "Tu mensaje ha sido registrado." });
+    }
   });
 
   const { data: notifications, isLoading: notificationsLoading } = useQuery<any[]>({

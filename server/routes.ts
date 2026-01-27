@@ -162,14 +162,22 @@ export async function registerRoutes(
         email: z.string().email().optional(),
         phone: z.string().max(30).optional().nullable(),
         isActive: z.boolean().optional(),
+        isAdmin: z.boolean().optional(),
         accountStatus: z.enum(['active', 'pending', 'suspended', 'vip']).optional(),
         internalNotes: z.string().optional()
       });
       const data = updateSchema.parse(req.body);
+      
+      // If status is being updated to suspended, we consider it "Desactivado"
       const [updated] = await db.update(usersTable).set({
         ...data,
         updatedAt: new Date()
       }).where(eq(usersTable.id, userId)).returning();
+
+      if (data.accountStatus === 'suspended' || data.isActive === false) {
+        logActivity("Cuenta Desactivada por Admin", { userId, adminId: (req as any).session.userId });
+      }
+
       res.json(updated);
     } catch (error) {
       console.error("Error updating user:", error);
@@ -442,14 +450,86 @@ export async function registerRoutes(
       if (shouldSendEmail && user.email) {
         await sendEmail({
           to: user.email,
-          subject: title,
-          html: getNoteReceivedTemplate(user.firstName || "Cliente", message, title)
+          subject: `Notificación de Easy US LLC: ${title}`,
+          html: `
+            <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+              ${getEmailHeader()}
+              <div style="padding: 20px;">
+                <h2 style="color: #0E1215;">${title}</h2>
+                <p>Hola ${user.firstName || 'Cliente'},</p>
+                <div style="background: #f4f4f4; border-left: 4px solid #6EDC8A; padding: 15px; margin: 20px 0;">
+                  <p>${message}</p>
+                </div>
+                <p>Puedes ver más detalles accediendo a tu panel de cliente.</p>
+                <div style="text-align: center; margin: 30px 0;">
+                  <a href="${process.env.BASE_URL || 'https://easyusllc.com'}/dashboard" style="background: #6EDC8A; color: #0E1215; padding: 15px 30px; text-decoration: none; border-radius: 30px; font-weight: bold;">
+                    Ver en mi Panel
+                  </a>
+                </div>
+              </div>
+              ${getEmailFooter()}
+            </div>
+          `
         });
       }
 
       res.json({ success: true });
     } catch (error) {
       res.status(500).json({ message: "Error al enviar nota" });
+    }
+  });
+
+  // Admin Payment Link system
+  app.post("/api/admin/send-payment-link", isAdmin, async (req, res) => {
+    try {
+      const { userId, paymentLink, message, amount } = z.object({
+        userId: z.string(),
+        paymentLink: z.string().url(),
+        message: z.string(),
+        amount: z.string().optional()
+      }).parse(req.body);
+
+      const [user] = await db.select().from(usersTable).where(eq(usersTable.id, userId)).limit(1);
+      if (!user || !user.email) return res.status(404).json({ message: "Usuario o email no encontrado" });
+
+      await sendEmail({
+        to: user.email,
+        subject: "Easy US LLC - Acción Requerida: Pago Pendiente",
+        html: `
+          <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+            ${getEmailHeader()}
+            <div style="padding: 20px;">
+              <h2 style="color: #0E1215;">Pago Pendiente de Trámite</h2>
+              <p>Hola ${user.firstName || 'Cliente'},</p>
+              <p>Se ha generado una solicitud de pago para continuar con su trámite${amount ? ` por un valor de <strong>${amount}</strong>` : ''}.</p>
+              <div style="background: #f4f4f4; border-left: 4px solid #6EDC8A; padding: 15px; margin: 20px 0;">
+                <p><strong>Mensaje del administrador:</strong> ${message}</p>
+              </div>
+              <div style="text-align: center; margin: 30px 0;">
+                <a href="${paymentLink}" style="background: #6EDC8A; color: #0E1215; padding: 15px 30px; text-decoration: none; border-radius: 30px; font-weight: bold; font-size: 1.1rem;">
+                  REALIZAR PAGO AHORA
+                </a>
+              </div>
+              <p style="font-size: 0.8rem; color: #6B7280; text-align: center;">Si el botón no funciona, copie y pegue este enlace: <br>${paymentLink}</p>
+            </div>
+            ${getEmailFooter()}
+          </div>
+        `
+      });
+
+      // Create internal notification
+      await db.insert(userNotifications).values({
+        userId,
+        title: "Pago Pendiente Solicitado",
+        message: `Se ha enviado un enlace de pago por ${amount || 'el trámite'}. Revisa tu email.`,
+        type: 'action_required',
+        isRead: false
+      });
+
+      res.json({ success: true });
+    } catch (error) {
+      console.error("Send payment link error:", error);
+      res.status(500).json({ message: "Error al enviar enlace de pago" });
     }
   });
 
