@@ -74,12 +74,11 @@ export default function Home() {
             </motion.div>
 
             <motion.h1 
-              className="font-black  tracking-tighter text-foreground mb-4 sm:mb-4 w-full block [text-wrap:balance] [word-break:keep-all] [overflow-wrap:break-word] text-center" 
+              className="font-black tracking-tighter text-foreground mb-4 sm:mb-4 w-full block [text-wrap:balance] [word-break:keep-all] [overflow-wrap:break-word] text-center uppercase" 
               style={{ fontSize: 'clamp(34px, 10vw, 76px)', lineHeight: '0.85' }}
               variants={fadeIn}
             >
-              OPTIMIZA LA ESTRUCTURA FISCAL DE TU NEGOCIO DIGITAL<br />
-              <span className="text-accent">CON UNA LLC AMERICANA</span>
+              CONSTITUIMOS TU LLC EN ESTADOS UNIDOS DE FORMA SIMPLE, RÁPIDA Y TRANSPARENTE
             </motion.h1>
           </motion.div>
         }

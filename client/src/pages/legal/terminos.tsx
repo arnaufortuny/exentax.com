@@ -17,13 +17,13 @@ export default function Terminos() {
       <HeroSection 
         className="pt-20 sm:pt-24 lg:pt-28 pb-0"
         title={
-          <h1 className="text-4xl sm:text-5xl lg:text-7xl font-black tracking-tight text-brand-dark leading-[1.1] text-center sm:text-left">
+          <h1 className="text-4xl sm:text-5xl lg:text-7xl font-black tracking-tight text-brand-dark leading-[1.1] text-center sm:text-left uppercase">
             Términos y <span className="text-brand-lime">Condiciones</span>
           </h1>
         }
         subtitle={
           <p className="text-lg sm:text-xl text-brand-dark font-medium max-w-2xl mb-8 text-center sm:text-left mx-auto sm:mx-0">
-            Easy US LLC - Última actualización: 25 de enero de 2026
+            EASY US LLC - ÚLTIMA ACTUALIZACIÓN: 25 DE ENERO DE 2026
           </p>
         }
       />
@@ -35,7 +35,7 @@ export default function Terminos() {
               <Button 
                 onClick={handleDownload}
                 variant="outline" 
-                className="rounded-full border-brand-lime text-brand-dark hover:bg-brand-lime transition-all gap-3 h-14 sm:h-12 px-10 sm:px-8 font-black text-sm tracking-wider w-full sm:w-auto shadow-sm no-default-hover-elevate"
+                className="rounded-full border-brand-lime text-brand-dark hover:bg-brand-lime transition-all gap-3 h-14 sm:h-12 px-10 sm:px-8 font-black text-sm tracking-wider w-full sm:w-auto shadow-sm no-default-hover-elevate uppercase"
               >
                 <Download className="w-5 h-5 sm:w-4 sm:h-4" />
                 Descargar PDF
@@ -44,7 +44,7 @@ export default function Terminos() {
 
             <div className="space-y-16 text-brand-dark leading-relaxed">
               <section>
-                <h2 className="text-2xl sm:text-3xl font-black text-brand-dark tracking-tighter mb-6">
+                <h2 className="text-2xl sm:text-3xl font-black text-brand-dark tracking-tighter mb-6 uppercase">
                   <span className="text-brand-lime mr-4">01</span> Identidad del prestador del servicio
                 </h2>
                 <div className="space-y-4 text-base sm:text-lg">
@@ -63,7 +63,7 @@ export default function Terminos() {
               </section>
 
               <section>
-                <h2 className="text-2xl sm:text-3xl font-black text-brand-dark tracking-tighter mb-6">
+                <h2 className="text-2xl sm:text-3xl font-black text-brand-dark tracking-tighter mb-6 uppercase">
                   <span className="text-brand-lime mr-4">02</span> Ámbito de actividad
                 </h2>
                 <div className="space-y-4 text-base sm:text-lg">
@@ -73,7 +73,7 @@ export default function Terminos() {
               </section>
 
               <section>
-                <h2 className="text-2xl sm:text-3xl font-black text-brand-dark tracking-tighter mb-6">
+                <h2 className="text-2xl sm:text-3xl font-black text-brand-dark tracking-tighter mb-6 uppercase">
                   <span className="text-brand-lime mr-4">03</span> Servicios ofrecidos
                 </h2>
                 <div className="space-y-4 text-base sm:text-lg">
@@ -89,12 +89,12 @@ export default function Terminos() {
                     <li className="flex gap-3"><span className="text-brand-lime font-black">•</span> Asistencia en apertura de cuentas bancarias</li>
                     <li className="flex gap-3"><span className="text-brand-lime font-black">•</span> Soporte administrativo durante la vigencia</li>
                   </ul>
-                  <p className="text-sm opacity-70 italic mt-6">Los servicios se prestan con carácter administrativo, basándose en la información proporcionada por el cliente.</p>
+                  <p className="text-sm opacity-70 italic mt-6 uppercase">Los servicios se prestan con carácter administrativo, basándose en la información proporcionada por el cliente.</p>
                 </div>
               </section>
 
               <section>
-                <h2 className="text-2xl sm:text-3xl font-black text-brand-dark tracking-tighter mb-6">
+                <h2 className="text-2xl sm:text-3xl font-black text-brand-dark tracking-tighter mb-6 uppercase">
                   <span className="text-brand-lime mr-4">04</span> Packs de constitución y precios
                 </h2>
                 <div className="space-y-8">
@@ -112,12 +112,12 @@ export default function Terminos() {
                       <p className="text-xs font-black tracking-widest opacity-60 mt-2 uppercase">Pack Delaware</p>
                     </div>
                   </div>
-                  <p className="text-base sm:text-lg opacity-80">Los precios indicados incluyen las tasas estatales de constitución, así como los servicios detallados en cada pack en el momento de la contratación. Los precios pueden estar sujetos a actualización, sin que ello afecte a servicios ya contratados y abonados.</p>
+                  <p className="text-base sm:text-lg opacity-80 uppercase">Los precios indicados incluyen las tasas estatales de constitución, así como los servicios detallados en cada pack en el momento de la contratación. Los precios pueden estar sujetos a actualización, sin que ello afecte a servicios ya contratados y abonados.</p>
                 </div>
               </section>
 
               <section>
-                <h2 className="text-2xl sm:text-3xl font-black text-brand-dark tracking-tighter mb-6">
+                <h2 className="text-2xl sm:text-3xl font-black text-brand-dark tracking-tighter mb-6 uppercase">
                   <span className="text-brand-lime mr-4">05</span> Plazos de prestación del servicio
                 </h2>
                 <div className="text-base sm:text-lg space-y-4">
@@ -127,29 +127,29 @@ export default function Terminos() {
               </section>
 
               <section>
-                <h2 className="text-2xl sm:text-3xl font-black text-brand-dark tracking-tighter mb-6">
+                <h2 className="text-2xl sm:text-3xl font-black text-brand-dark tracking-tighter mb-6 uppercase">
                   <span className="text-brand-lime mr-4">06</span> Duración del servicio
                 </h2>
-                <div className="text-base sm:text-lg">
+                <div className="text-base sm:text-lg uppercase">
                   <p>Los packs de constitución y mantenimiento tienen una duración de 12 meses desde la fecha de activación del servicio, salvo que se indique expresamente lo contrario. Una vez finalizado dicho periodo, el cliente podrá contratar packs de mantenimiento adicionales, cuyos términos y condiciones se regirán por lo establecido en el momento de su contratación.</p>
                 </div>
               </section>
 
               <section>
-                <h2 className="text-2xl sm:text-3xl font-black text-brand-dark tracking-tighter mb-6">
+                <h2 className="text-2xl sm:text-3xl font-black text-brand-dark tracking-tighter mb-6 uppercase">
                   <span className="text-brand-lime mr-4">07</span> Registered Agent
                 </h2>
-                <div className="text-base sm:text-lg space-y-4">
+                <div className="text-base sm:text-lg space-y-4 uppercase">
                   <p>El servicio de Registered Agent se incluye durante los primeros 12 meses en los packs que así lo indiquen. Finalizado dicho periodo, el cliente será responsable de renovar este servicio, ya sea con Easy US LLC o con un proveedor de su elección.</p>
                   <p>Easy US LLC no será responsable de sanciones, multas o consecuencias derivadas de la falta de renovación del Registered Agent una vez finalizado el periodo incluido.</p>
                 </div>
               </section>
 
               <section>
-                <h2 className="text-2xl sm:text-3xl font-black text-brand-dark tracking-tighter mb-6">
+                <h2 className="text-2xl sm:text-3xl font-black text-brand-dark tracking-tighter mb-6 uppercase">
                   <span className="text-brand-lime mr-4">08</span> Plazos ampliados y derecho de rechazo
                 </h2>
-                <div className="text-base sm:text-lg space-y-4">
+                <div className="text-base sm:text-lg space-y-4 uppercase">
                   <p>El cliente reconoce y acepta que, si bien el plazo habitual estimado para la constitución de una LLC es de 2 a 3 días hábiles, en determinados casos el proceso puede extenderse hasta un máximo de 15 días hábiles, debido a verificaciones adicionales, requerimientos de información, cargas administrativas de los organismos competentes o cualquier circunstancia ajena al control de Easy US LLC.</p>
                   <p>Easy US LLC se reserva el derecho de rechazar, suspender o no aceptar una solicitud a su entera discreción, especialmente cuando la información facilitada sea incompleta, inconsistente, inexacta o no se ajuste a los criterios internos de la empresa. En estos casos, Easy US LLC no estará obligada a justificar la decisión ni a continuar con el proceso.</p>
                   <p>Asimismo, Easy US LLC no asume responsabilidad alguna cuando el cliente actúe en nombre de terceros sin haber informado previamente de dicha circunstancia. El cliente será el único responsable de la veracidad y legalidad de la información proporcionada.</p>
@@ -157,10 +157,10 @@ export default function Terminos() {
               </section>
 
               <section>
-                <h2 className="text-2xl sm:text-3xl font-black text-brand-dark tracking-tighter mb-6">
+                <h2 className="text-2xl sm:text-3xl font-black text-brand-dark tracking-tighter mb-6 uppercase">
                   <span className="text-brand-lime mr-4">09</span> Pagos y política de no reembolso
                 </h2>
-                <div className="text-base sm:text-lg space-y-4">
+                <div className="text-base sm:text-lg space-y-4 uppercase">
                   <p>Todos los servicios ofrecidos por Easy US LLC deberán ser abonados por adelantado. El pago implica la aceptación expresa de los presentes Términos y Condiciones.</p>
                   <p>Dado que los servicios prestados por Easy US LLC tienen carácter administrativo, personalizado y de <strong>ejecución inmediata</strong>, no se admiten reembolsos, totales ni parciales, una vez iniciado el proceso, presentada la documentación ante organismos públicos o realizados trámites en nombre del cliente.</p>
                   <p>El cliente entiende que los costes asociados a tasas estatales, registros oficiales, presentación de formularios y gestión administrativa no son recuperables.</p>
@@ -168,10 +168,10 @@ export default function Terminos() {
               </section>
 
               <section>
-                <h2 className="text-2xl sm:text-3xl font-black text-brand-dark tracking-tighter mb-6">
+                <h2 className="text-2xl sm:text-3xl font-black text-brand-dark tracking-tighter mb-6 uppercase">
                   <span className="text-brand-lime mr-4">10</span> Bancos, fintech y terceros
                 </h2>
-                <div className="text-base sm:text-lg space-y-4">
+                <div className="text-base sm:text-lg space-y-4 uppercase">
                   <p>Easy US LLC ofrece asistencia y acompañamiento en procesos de apertura de cuentas bancarias y plataformas financieras. No obstante, el cliente reconoce que:</p>
                   <ul className="list-disc pl-8 space-y-2 font-medium">
                     <li>Easy US LLC no garantiza la aprobación de cuentas bancarias o de plataformas de pago.</li>
@@ -183,10 +183,10 @@ export default function Terminos() {
               </section>
 
               <section>
-                <h2 className="text-2xl sm:text-3xl font-black text-brand-dark tracking-tighter mb-6">
+                <h2 className="text-2xl sm:text-3xl font-black text-brand-dark tracking-tighter mb-6 uppercase">
                   <span className="text-brand-lime mr-4">11</span> Obligaciones del cliente
                 </h2>
-                <div className="text-base sm:text-lg space-y-4">
+                <div className="text-base sm:text-lg space-y-4 uppercase">
                   <p>El cliente se compromete a:</p>
                   <ul className="list-disc pl-8 space-y-2 font-medium">
                     <li>Facilitar información veraz, completa y actualizada en todo momento.</li>
@@ -199,10 +199,10 @@ export default function Terminos() {
               </section>
 
               <section>
-                <h2 className="text-2xl sm:text-3xl font-black text-brand-dark tracking-tighter mb-6">
+                <h2 className="text-2xl sm:text-3xl font-black text-brand-dark tracking-tighter mb-6 uppercase">
                   <span className="text-brand-lime mr-4">12</span> Legislación aplicable
                 </h2>
-                <div className="bg-brand-dark text-white rounded-2xl p-10 sm:p-12 shadow-xl">
+                <div className="bg-brand-dark text-white rounded-2xl p-10 sm:p-12 shadow-xl uppercase">
                   <p className="text-lg sm:text-xl leading-relaxed opacity-90 font-medium">Estos Términos y Condiciones se rigen por la legislación vigente en los Estados Unidos de América, específicamente en los estados de New Mexico, Wyoming o Delaware, según corresponda a la jurisdicción de constitución de la entidad. Cualquier controversia será resuelta ante los tribunales competentes de dicha jurisdicción.</p>
                 </div>
               </section>

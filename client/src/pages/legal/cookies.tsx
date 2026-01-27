@@ -17,13 +17,13 @@ export default function Cookies() {
       <HeroSection 
         className="pt-20 sm:pt-24 lg:pt-28 pb-0"
         title={
-          <h1 className="text-4xl sm:text-5xl lg:text-7xl font-black tracking-tight text-brand-dark leading-[1.1] text-center sm:text-left">
+          <h1 className="text-4xl sm:text-5xl lg:text-7xl font-black tracking-tight text-brand-dark leading-[1.1] text-center sm:text-left uppercase">
             Aviso de <span className="text-brand-lime">Cookies</span>
           </h1>
         }
         subtitle={
           <p className="text-lg sm:text-xl text-brand-dark font-medium max-w-2xl mb-8 text-center sm:text-left mx-auto sm:mx-0">
-            Easy US LLC - Última actualización: 25 de enero de 2026
+            EASY US LLC - ÚLTIMA ACTUALIZACIÓN: 25 DE ENERO DE 2026
           </p>
         }
       />
@@ -35,7 +35,7 @@ export default function Cookies() {
               <Button 
                 onClick={handleDownload}
                 variant="outline" 
-                className="rounded-full border-brand-lime text-brand-dark hover:bg-brand-lime transition-all gap-3 h-14 sm:h-12 px-10 sm:px-8 font-black text-sm tracking-wider w-full sm:w-auto shadow-sm no-default-hover-elevate"
+                className="rounded-full border-brand-lime text-brand-dark hover:bg-brand-lime transition-all gap-3 h-14 sm:h-12 px-10 sm:px-8 font-black text-sm tracking-wider w-full sm:w-auto shadow-sm no-default-hover-elevate uppercase"
               >
                 <Download className="w-5 h-5 sm:w-4 sm:h-4" />
                 Descargar PDF
@@ -45,25 +45,25 @@ export default function Cookies() {
             <div className="space-y-16 text-brand-dark leading-relaxed">
               
               <section>
-                <h2 className="text-2xl sm:text-3xl font-black text-brand-dark tracking-tighter mb-6">
+                <h2 className="text-2xl sm:text-3xl font-black text-brand-dark tracking-tighter mb-6 uppercase">
                   <span className="text-brand-lime mr-4">01</span> ¿Qué son las cookies?
                 </h2>
-                <div className="text-base sm:text-lg space-y-4">
+                <div className="text-base sm:text-lg space-y-4 uppercase">
                   <p>Las cookies son pequeños archivos de texto que se almacenan en el dispositivo del usuario cuando visita un sitio web. Permiten, entre otras cosas, reconocer el dispositivo, recordar preferencias y mejorar la experiencia de navegación.</p>
                 </div>
               </section>
 
               <section>
-                <h2 className="text-2xl sm:text-3xl font-black text-brand-dark tracking-tighter mb-6">
+                <h2 className="text-2xl sm:text-3xl font-black text-brand-dark tracking-tighter mb-6 uppercase">
                   <span className="text-brand-lime mr-4">02</span> Uso de cookies
                 </h2>
-                <div className="text-base sm:text-lg space-y-4">
+                <div className="text-base sm:text-lg space-y-4 uppercase">
                   <p>El sitio web de Easy US LLC utiliza cookies propias y de terceros con el fin de garantizar el correcto funcionamiento del sitio, mejorar la experiencia del usuario y analizar el uso que se hace del mismo.</p>
                 </div>
               </section>
 
               <section>
-                <h2 className="text-2xl sm:text-3xl font-black text-brand-dark tracking-tighter mb-6">
+                <h2 className="text-2xl sm:text-3xl font-black text-brand-dark tracking-tighter mb-6 uppercase">
                   <span className="text-brand-lime mr-4">03</span> Tipos de cookies
                 </h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -79,10 +79,10 @@ export default function Cookies() {
               </section>
 
               <section>
-                <h2 className="text-2xl sm:text-3xl font-black text-brand-dark tracking-tighter mb-6">
+                <h2 className="text-2xl sm:text-3xl font-black text-brand-dark tracking-tighter mb-6 uppercase">
                   <span className="text-brand-lime mr-4">04</span> Actualización
                 </h2>
-                <div className="bg-brand-dark text-white rounded-2xl p-10 sm:p-12 shadow-xl">
+                <div className="bg-brand-dark text-white rounded-2xl p-10 sm:p-12 shadow-xl uppercase">
                   <p className="text-lg sm:text-xl leading-relaxed opacity-90 font-medium">Easy US LLC se reserva el derecho de modificar el presente Aviso de Cookies para adaptarlo a cambios legales o técnicos. La versión vigente será siempre la publicada aquí.</p>
                 </div>
               </section>

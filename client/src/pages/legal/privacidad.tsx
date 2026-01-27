@@ -17,13 +17,13 @@ export default function Privacidad() {
       <HeroSection 
         className="pt-20 sm:pt-24 lg:pt-28 pb-0"
         title={
-          <h1 className="text-4xl sm:text-5xl lg:text-7xl font-black tracking-tight text-brand-dark leading-[1.1] text-center sm:text-left">
+          <h1 className="text-4xl sm:text-5xl lg:text-7xl font-black tracking-tight text-brand-dark leading-[1.1] text-center sm:text-left uppercase">
             Política de <span className="text-brand-lime">Privacidad</span>
           </h1>
         }
         subtitle={
           <p className="text-lg sm:text-xl text-brand-dark font-medium max-w-2xl mb-8 text-center sm:text-left mx-auto sm:mx-0">
-            Easy US LLC - Última actualización: 25 de enero de 2026
+            EASY US LLC - ÚLTIMA ACTUALIZACIÓN: 25 DE ENERO DE 2026
           </p>
         }
       />
@@ -35,7 +35,7 @@ export default function Privacidad() {
               <Button 
                 onClick={handleDownload}
                 variant="outline" 
-                className="rounded-full border-brand-lime text-brand-dark hover:bg-brand-lime transition-all gap-3 h-14 sm:h-12 px-10 sm:px-8 font-black text-sm tracking-wider w-full sm:w-auto shadow-sm no-default-hover-elevate"
+                className="rounded-full border-brand-lime text-brand-dark hover:bg-brand-lime transition-all gap-3 h-14 sm:h-12 px-10 sm:px-8 font-black text-sm tracking-wider w-full sm:w-auto shadow-sm no-default-hover-elevate uppercase"
               >
                 <Download className="w-5 h-5 sm:w-4 sm:h-4" />
                 Descargar PDF
@@ -45,7 +45,7 @@ export default function Privacidad() {
             <div className="space-y-16 text-brand-dark leading-relaxed">
               
               <section>
-                <h2 className="text-2xl sm:text-3xl font-black text-brand-dark tracking-tighter mb-6">
+                <h2 className="text-2xl sm:text-3xl font-black text-brand-dark tracking-tighter mb-6 uppercase">
                   <span className="text-brand-lime mr-4">01</span> Responsable del tratamiento
                 </h2>
                 <div className="space-y-4 text-base sm:text-lg">
@@ -62,7 +62,7 @@ export default function Privacidad() {
               </section>
 
               <section>
-                <h2 className="text-2xl sm:text-3xl font-black text-brand-dark tracking-tighter mb-6">
+                <h2 className="text-2xl sm:text-3xl font-black text-brand-dark tracking-tighter mb-6 uppercase">
                   <span className="text-brand-lime mr-4">02</span> Datos personales objeto de tratamiento
                 </h2>
                 <div className="space-y-4 text-base sm:text-lg">
@@ -81,10 +81,10 @@ export default function Privacidad() {
               </section>
 
               <section>
-                <h2 className="text-2xl sm:text-3xl font-black text-brand-dark tracking-tighter mb-6">
+                <h2 className="text-2xl sm:text-3xl font-black text-brand-dark tracking-tighter mb-6 uppercase">
                   <span className="text-brand-lime mr-4">03</span> Finalidad del tratamiento
                 </h2>
-                <div className="space-y-4 text-base sm:text-lg font-medium">
+                <div className="space-y-4 text-base sm:text-lg font-medium uppercase">
                   <p>Los datos personales serán tratados con las siguientes finalidades:</p>
                   <ul className="list-disc pl-8 space-y-2">
                     <li>Gestionar solicitudes de información y contacto</li>
@@ -97,55 +97,55 @@ export default function Privacidad() {
               </section>
 
               <section>
-                <h2 className="text-2xl sm:text-3xl font-black text-brand-dark tracking-tighter mb-6">
+                <h2 className="text-2xl sm:text-3xl font-black text-brand-dark tracking-tighter mb-6 uppercase">
                   <span className="text-brand-lime mr-4">04</span> Base jurídica del tratamiento
                 </h2>
-                <div className="text-base sm:text-lg space-y-4">
+                <div className="text-base sm:text-lg space-y-4 uppercase">
                   <p>El tratamiento se realiza sobre la base de la ejecución de un contrato, el consentimiento expreso del usuario, el cumplimiento de obligaciones legales y el interés legítimo del responsable.</p>
                 </div>
               </section>
 
               <section>
-                <h2 className="text-2xl sm:text-3xl font-black text-brand-dark tracking-tighter mb-6">
+                <h2 className="text-2xl sm:text-3xl font-black text-brand-dark tracking-tighter mb-6 uppercase">
                   <span className="text-brand-lime mr-4">05</span> Conservación de los datos
                 </h2>
-                <div className="text-base sm:text-lg space-y-4">
+                <div className="text-base sm:text-lg space-y-4 uppercase">
                   <p>Los datos se conservarán durante el tiempo necesario para cumplir las finalidades y los plazos exigidos por la normativa legal, fiscal y administrativa.</p>
                 </div>
               </section>
 
               <section>
-                <h2 className="text-2xl sm:text-3xl font-black text-brand-dark tracking-tighter mb-6">
+                <h2 className="text-2xl sm:text-3xl font-black text-brand-dark tracking-tighter mb-6 uppercase">
                   <span className="text-brand-lime mr-4">06</span> Destinatarios y cesión de datos
                 </h2>
-                <div className="text-base sm:text-lg space-y-4">
+                <div className="text-base sm:text-lg space-y-4 uppercase">
                   <p>Los datos podrán ser comunicados a organismos públicos, Registered Agents, entidades bancarias y proveedores tecnológicos necesarios para la operativa del servicio.</p>
                 </div>
               </section>
 
               <section>
-                <h2 className="text-2xl sm:text-3xl font-black text-brand-dark tracking-tighter mb-6">
+                <h2 className="text-2xl sm:text-3xl font-black text-brand-dark tracking-tighter mb-6 uppercase">
                   <span className="text-brand-lime mr-4">07</span> Transferencias internacionales
                 </h2>
-                <div className="text-base sm:text-lg space-y-4">
+                <div className="text-base sm:text-lg space-y-4 uppercase">
                   <p>Dada la naturaleza del servicio, los datos podrán ser tratados o almacenados en Estados Unidos, garantizando siempre un nivel adecuado de protección.</p>
                 </div>
               </section>
 
               <section>
-                <h2 className="text-2xl sm:text-3xl font-black text-brand-dark tracking-tighter mb-6">
+                <h2 className="text-2xl sm:text-3xl font-black text-brand-dark tracking-tighter mb-6 uppercase">
                   <span className="text-brand-lime mr-4">08</span> Derechos del interesado
                 </h2>
-                <div className="text-base sm:text-lg space-y-4">
+                <div className="text-base sm:text-lg space-y-4 uppercase">
                   <p>El usuario puede ejercer sus derechos de acceso, rectificación, supresión y portabilidad mediante solicitud a <strong>info@easyusllc.com</strong>.</p>
                 </div>
               </section>
 
               <section>
-                <h2 className="text-2xl sm:text-3xl font-black text-brand-dark tracking-tighter mb-6">
+                <h2 className="text-2xl sm:text-3xl font-black text-brand-dark tracking-tighter mb-6 uppercase">
                   <span className="text-brand-lime mr-4">09</span> Legislación aplicable
                 </h2>
-                <div className="bg-brand-dark text-white rounded-2xl p-10 sm:p-12 shadow-xl">
+                <div className="bg-brand-dark text-white rounded-2xl p-10 sm:p-12 shadow-xl uppercase">
                   <p className="text-lg sm:text-xl leading-relaxed opacity-90 font-medium">Esta política se rige por el Reglamento General de Protección de Datos (RGPD) y la normativa estadounidense correspondiente, asegurando la privacidad y seguridad de su información en todo momento.</p>
                 </div>
               </section>
