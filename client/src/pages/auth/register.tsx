@@ -566,11 +566,11 @@ export default function Register() {
 
                     <p className="text-xs text-muted-foreground text-center">
                       Al registrarte aceptas nuestros{" "}
-                      <Link href="/terminos" data-testid="link-terms">
+                      <Link href="/legal/terminos" data-testid="link-terms">
                         <span className="text-accent underline cursor-pointer">Términos y Condiciones</span>
                       </Link>{" "}
                       y{" "}
-                      <Link href="/privacidad" data-testid="link-privacy">
+                      <Link href="/legal/privacidad" data-testid="link-privacy">
                         <span className="text-accent underline cursor-pointer">Política de Privacidad</span>
                       </Link>
                     </p>

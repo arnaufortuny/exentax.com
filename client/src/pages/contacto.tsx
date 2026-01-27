@@ -7,6 +7,7 @@ import { Loader2, CheckCircle2, Info, Mail, User, Phone, MessageSquare, HelpCirc
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { Button } from "@/components/ui/button";
+import { Link } from "wouter";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, FormDescription } from "@/components/ui/form";
@@ -511,7 +512,7 @@ export default function Contacto() {
                             <Checkbox checked={field.value} onCheckedChange={field.onChange} className="mt-1 data-[state=checked]:bg-[#6EDC8A] data-[state=checked]:border-[#6EDC8A]" />
                           </FormControl>
                           <FormLabel className="text-sm font-medium text-primary/80 leading-relaxed cursor-pointer">
-                            He leído y acepto los <a href="/terminos" className="text-accent hover:underline">términos del servicio</a> y la <a href="/privacidad" className="text-accent hover:underline">política de privacidad</a>.
+                            He leído y acepto los <a href="/legal/terminos" className="text-accent hover:underline">términos del servicio</a> y la <a href="/legal/privacidad" className="text-accent hover:underline">política de privacidad</a>.
                           </FormLabel>
                         </FormItem>
                       )} />
