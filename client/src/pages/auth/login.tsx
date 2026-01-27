@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { Link, useLocation } from "wouter";
-import { Loader2, Eye, EyeOff, LogIn, Mail, Lock } from "lucide-react";
+import { Loader2, Eye, EyeOff } from "lucide-react";
 import { motion } from "framer-motion";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
@@ -88,9 +88,6 @@ export default function Login() {
           variants={fadeIn}
         >
           <div className="text-center mb-8">
-            <div className="w-16 h-16 bg-accent/20 rounded-full flex items-center justify-center mx-auto mb-4">
-              <LogIn className="w-8 h-8 text-accent" />
-            </div>
             <h1 className="text-3xl sm:text-4xl font-black text-primary tracking-tight">
               Iniciar <span className="text-accent">Sesión</span>
             </h1>
@@ -111,14 +108,10 @@ export default function Login() {
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
                 <div className="space-y-1">
-                  <div className="flex items-center gap-2 mb-2">
-                    <Mail className="w-4 h-4 text-muted-foreground" />
-                    <span className="text-sm font-black text-primary">Email</span>
-                  </div>
                   <FormInput
                     control={form.control}
                     name="email"
-                    label=""
+                    label="Email"
                     type="email"
                     inputMode="email"
                     placeholder="tu@email.com"
@@ -126,15 +119,11 @@ export default function Login() {
                 </div>
 
                 <div className="space-y-1">
-                  <div className="flex items-center gap-2 mb-2">
-                    <Lock className="w-4 h-4 text-muted-foreground" />
-                    <span className="text-sm font-black text-primary">Contraseña</span>
-                  </div>
                   <div className="relative">
                     <FormInput
                       control={form.control}
                       name="password"
-                      label=""
+                      label="Contraseña"
                       type={showPassword ? "text" : "password"}
                       placeholder="Tu contraseña"
                     />
@@ -173,10 +162,7 @@ export default function Login() {
                       Iniciando sesión...
                     </>
                   ) : (
-                    <>
-                      <LogIn className="mr-2 w-5 h-5" />
-                      Iniciar Sesión
-                    </>
+                    "Iniciar Sesión"
                   )}
                 </Button>
               </form>
