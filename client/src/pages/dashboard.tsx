@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { useEffect, useState, useCallback } from "react";
 import { useToast } from "@/hooks/use-toast";
-import { Link } from "wouter";
+import { Link, useLocation } from "wouter";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
@@ -48,6 +48,7 @@ function NewsletterToggle() {
 }
 
 export default function Dashboard() {
+  const [, setLocation] = useLocation();
   const { user, isAuthenticated, isLoading: authLoading } = useAuth();
   const [activeTab, setActiveTab] = useState<Tab>('services');
   const [isEditing, setIsEditing] = useState(false);
@@ -103,9 +104,9 @@ export default function Dashboard() {
 
   useEffect(() => {
     if (!authLoading && !isAuthenticated) {
-      window.location.href = "/login";
+      setLocation("/login");
     }
-  }, [isAuthenticated, authLoading]);
+  }, [isAuthenticated, authLoading, setLocation]);
 
   const { data: orders, isLoading: ordersLoading } = useQuery<any[]>({
     queryKey: ["/api/orders"],
@@ -164,7 +165,7 @@ export default function Dashboard() {
       await apiRequest("DELETE", "/api/user/account");
     },
     onSuccess: () => {
-      window.location.href = "/";
+      setLocation("/");
     }
   });
 

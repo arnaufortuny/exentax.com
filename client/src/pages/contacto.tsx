@@ -237,13 +237,15 @@ export default function Contacto() {
             </div>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-4">
-              <Button 
-                onClick={() => (window.location.href = "/")} 
-                className="bg-[#6EDC8A] text-black font-black px-8 sm:px-12 py-6 sm:py-8 rounded-full text-lg sm:text-xl transition-all shadow-lg w-full sm:w-auto"
-                data-testid="button-home"
-              > 
-                Volver al inicio 
-              </Button>
+              <Link href="/">
+                <Button 
+                  className="bg-accent text-black font-black px-8 sm:px-12 rounded-full text-lg sm:text-xl shadow-lg w-full sm:w-auto"
+                  size="lg"
+                  data-testid="button-home"
+                > 
+                  Volver al inicio 
+                </Button>
+              </Link>
               <a 
                 href="https://wa.me/34614916910" 
                 target="_blank" 

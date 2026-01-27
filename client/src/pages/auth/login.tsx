@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { Link } from "wouter";
+import { Link, useLocation } from "wouter";
 import { Loader2, Eye, EyeOff } from "lucide-react";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
@@ -20,6 +20,7 @@ const loginSchema = z.object({
 type LoginFormValues = z.infer<typeof loginSchema>;
 
 export default function Login() {
+  const [, setLocation] = useLocation();
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const { toast } = useToast();
@@ -38,7 +39,7 @@ export default function Login() {
       if (result.success) {
         await queryClient.refetchQueries({ queryKey: ["/api/auth/user"] });
         toast({ title: "Sesión iniciada", variant: "success" });
-        window.location.href = result.user.isAdmin ? "/admin" : "/dashboard";
+        setLocation(result.user.isAdmin ? "/admin" : "/dashboard");
       }
     } catch (err: any) {
       toast({ 

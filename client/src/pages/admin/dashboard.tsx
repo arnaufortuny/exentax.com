@@ -1,3 +1,4 @@
+import { Link } from "wouter";
 import { useAuth } from "@/hooks/use-auth";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { queryClient, apiRequest } from "@/lib/queryClient";
@@ -162,12 +163,11 @@ export default function AdminDashboard() {
               <CardDescription>Inicia sesión con una cuenta de administrador</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
-              <Button 
-                onClick={() => window.location.href = "/login"} 
-                className="w-full bg-accent text-primary font-black"
-              >
-                Iniciar Sesión
-              </Button>
+              <Link href="/login">
+                <Button className="w-full bg-accent text-primary font-black">
+                  Iniciar Sesión
+                </Button>
+              </Link>
             </CardContent>
           </Card>
         </main>

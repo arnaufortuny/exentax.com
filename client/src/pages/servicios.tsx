@@ -46,11 +46,11 @@ export default function Servicios() {
   });
 
   const handleSelectProduct = (stateName: string) => {
-    window.location.href = `/application?state=${encodeURIComponent(stateName)}`;
+    setLocation(`/application?state=${encodeURIComponent(stateName)}`);
   };
 
   const handleSelectMaintenance = (stateName: string) => {
-    window.location.href = `/maintenance?state=${encodeURIComponent(stateName)}`;
+    setLocation(`/maintenance?state=${encodeURIComponent(stateName)}`);
   };
 
   const packFeatures = [
@@ -201,15 +201,14 @@ export default function Servicios() {
                 </Button>
               </div>
                   <div className="bg-accent/5 px-5 py-3 sm:px-5 sm:py-3 border-t border-accent/10 mt-auto text-center">
-                    <button 
-                      onClick={() => {
-                        const subject = encodeURIComponent("Mantenimiento New Mexico");
-                        window.location.href = `/contacto?subject=${subject}`;
-                      }}
-                      className="font-black text-[10px] sm:text-[9px]  tracking-widest text-primary/70 hover:text-accent transition-colors"
+                    <Button 
+                      variant="link"
+                      onClick={() => setLocation(`/contacto?subject=${encodeURIComponent("Mantenimiento New Mexico")}`)}
+                      className="font-black text-[10px] sm:text-[9px] tracking-widest text-primary/70 p-0 h-auto"
+                      data-testid="button-maintenance-nm"
                     >
                       Mantenimiento Año 2: 349€
-                    </button>
+                    </Button>
                   </div>
             </motion.div>
 
@@ -246,15 +245,14 @@ export default function Servicios() {
                 </Button>
               </div>
                   <div className="bg-accent/5 px-5 py-3 sm:px-5 sm:py-3 border-t border-accent/10 mt-auto text-center">
-                    <button 
-                      onClick={() => {
-                        const subject = encodeURIComponent("Mantenimiento Wyoming");
-                        window.location.href = `/contacto?subject=${subject}`;
-                      }}
-                      className="font-black text-[10px] sm:text-[9px]  tracking-widest text-primary/70 hover:text-accent transition-colors"
+                    <Button 
+                      variant="link"
+                      onClick={() => setLocation(`/contacto?subject=${encodeURIComponent("Mantenimiento Wyoming")}`)}
+                      className="font-black text-[10px] sm:text-[9px] tracking-widest text-primary/70 p-0 h-auto"
+                      data-testid="button-maintenance-wy"
                     >
                       Mantenimiento Año 2: 499€
-                    </button>
+                    </Button>
                   </div>
             </motion.div>
 
@@ -291,15 +289,14 @@ export default function Servicios() {
                 </Button>
               </div>
                   <div className="bg-accent/5 px-5 py-3 sm:px-5 sm:py-3 border-t border-accent/10 mt-auto text-center">
-                    <button 
-                      onClick={() => {
-                        const subject = encodeURIComponent("Mantenimiento Delaware");
-                        window.location.href = `/contacto?subject=${subject}`;
-                      }}
-                      className="font-black text-[10px] sm:text-[9px]  tracking-widest text-primary/70 hover:text-accent transition-colors"
+                    <Button 
+                      variant="link"
+                      onClick={() => setLocation(`/contacto?subject=${encodeURIComponent("Mantenimiento Delaware")}`)}
+                      className="font-black text-[10px] sm:text-[9px] tracking-widest text-primary/70 p-0 h-auto"
+                      data-testid="button-maintenance-de"
                     >
                       Mantenimiento Año 2: 599€
-                    </button>
+                    </Button>
                   </div>
             </motion.div>
           </motion.div>
