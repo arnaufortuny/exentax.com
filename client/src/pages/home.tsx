@@ -7,7 +7,6 @@ import { Footer } from "@/components/layout/footer";
 import { HeroSection } from "@/components/layout/hero-section";
 import { apiRequest } from "@/lib/queryClient";
 import type { Product } from "@shared/schema";
-import { NewsletterSection } from "@/components/layout/newsletter-section";
 import trustpilotLogo from "@assets/trustpilot-logo.png";
 import { motion } from "framer-motion";
 import { ChevronDown, ArrowRight } from "lucide-react";
@@ -252,7 +251,6 @@ export default function Home() {
         </div>
       </section>
 
-      <NewsletterSection />
       <Footer />
     </div>
   );

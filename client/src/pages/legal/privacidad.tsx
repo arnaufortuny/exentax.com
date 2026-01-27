@@ -2,7 +2,6 @@ import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { Button } from "@/components/ui/button";
 import { HeroSection } from "@/components/layout/hero-section";
-import { NewsletterSection } from "@/components/layout/newsletter-section";
 import { Download } from "lucide-react";
 
 export default function Privacidad() {
@@ -155,7 +154,6 @@ export default function Privacidad() {
         </div>
       </section>
 
-      <NewsletterSection />
       <Footer />
     </div>
   );

@@ -6,7 +6,6 @@ import { motion } from "framer-motion";
 import { Loader2, CheckCircle2, Info, Mail, User, Phone, MessageSquare, HelpCircle, ShieldCheck } from "lucide-react";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
-import { NewsletterSection } from "@/components/layout/newsletter-section";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -575,7 +574,6 @@ export default function Contacto() {
           </div>
         </div>
       </main>
-      <NewsletterSection />
       <Footer />
     </div>
   );

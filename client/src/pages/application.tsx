@@ -7,7 +7,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Check, ShieldCheck, Mail, Building2, Loader2, MessageCircle, Info, Upload, CreditCard, Calendar, User, Phone, Globe, MapPin, Briefcase, HelpCircle } from "lucide-react";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
-import { NewsletterSection } from "@/components/layout/newsletter-section";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, FormDescription } from "@/components/ui/form";
@@ -578,7 +577,6 @@ export default function ApplicationWizard() {
           </CardContent>
         </Card>
       </main>
-      <NewsletterSection />
       <Footer />
     </div>
   );
