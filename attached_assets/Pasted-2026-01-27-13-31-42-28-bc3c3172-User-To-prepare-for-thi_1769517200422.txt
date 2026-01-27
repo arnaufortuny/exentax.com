@@ -1,0 +1,116 @@
+2026-01-27 13:31:42.28
+bc3c3172
+User
+To prepare for this change:
+2026-01-27 13:31:42.28
+bc3c3172
+User
+In the next major version (pg-connection-string v3.0.0 and pg v9.0.0), these modes will adopt standard libpq semantics, which have weaker security guarantees.
+2026-01-27 13:31:42.28
+bc3c3172
+User
+- If you want libpq compatibility now, use 'uselibpqcompat=true&sslmode=require'
+2026-01-27 13:31:42.28
+bc3c3172
+User
+- If you want the current behavior, explicitly use 'sslmode=verify-full'
+2026-01-27 13:31:42.28
+bc3c3172
+User
+(node:28) Warning: SECURITY WARNING: The SSL modes 'prefer', 'require', and 'verify-ca' are treated as aliases for 'verify-full'.
+2026-01-27 13:31:42.28
+bc3c3172
+User
+(Use `node --trace-warnings ...` to show where the warning was created)
+2026-01-27 13:31:42.28
+bc3c3172
+User
+See https://www.postgresql.org/docs/current/libpq-ssl.html for libpq SSL mode definitions.
+2026-01-27 13:31:45.83
+bc3c3172
+User
+}
+2026-01-27 13:31:45.83
+bc3c3172
+User
+at __init (/home/runner/workspace/dist/index.cjs:9:56)
+2026-01-27 13:31:45.83
+bc3c3172
+User
+code: 'ERR_INVALID_ARG_TYPE'
+2026-01-27 13:31:45.83
+bc3c3172
+User
+at vite.config.ts (/home/runner/workspace/dist/index.cjs:811:37)
+2026-01-27 13:31:45.83
+bc3c3172
+User
+at Object.resolve (node:path:1212:7)
+2026-01-27 13:31:45.83
+bc3c3172
+User
+at __init (/home/runner/workspace/dist/index.cjs:9:56)
+2026-01-27 13:31:45.83
+bc3c3172
+User
+at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+2026-01-27 13:31:45.83
+bc3c3172
+User
+^
+2026-01-27 13:31:45.83
+bc3c3172
+User
+at async /home/runner/workspace/dist/index.cjs:2957:39 {
+2026-01-27 13:31:45.83
+bc3c3172
+User
+at server/vite.ts (/home/runner/workspace/dist/index.cjs:931:5)
+2026-01-27 13:31:45.83
+bc3c3172
+User
+TypeError [ERR_INVALID_ARG_TYPE]: The "paths[0]" argument must be of type string. Received undefined
+2026-01-27 13:31:45.83
+bc3c3172
+User
+at /home/runner/workspace/dist/index.cjs:2957:75
+2026-01-27 13:31:45.83
+bc3c3172
+User
+validateString(path, `paths[${i}]`);
+2026-01-27 13:31:45.83
+bc3c3172
+User
+Node.js v20.20.0
+2026-01-27 13:31:45.83
+bc3c3172
+User
+node:path:1212
+2026-01-27 13:31:45.83
+bc3c3172
+System
+command finished with error [node ./dist/index.cjs]: exit status 1
+2026-01-27 13:31:46.40
+bc3c3172
+User
+See https://www.postgresql.org/docs/current/libpq-ssl.html for libpq SSL mode definitions.
+2026-01-27 13:31:46.40
+bc3c3172
+User
+- If you want the current behavior, explicitly use 'sslmode=verify-full'
+2026-01-27 13:31:46.40
+bc3c3172
+User
+- If you want libpq compatibility now, use 'uselibpqcompat=true&sslmode=require'
+2026-01-27 13:31:46.40
+bc3c3172
+User
+In the next major version (pg-connection-string v3.0.0 and pg v9.0.0), these modes will adopt standard libpq semantics, which have weaker security guarantees.
+2026-01-27 13:31:46.40
+bc3c3172
+User
+(Use `node --trace-warnings ...` to show where the warning was created)
+2026-01-27 13:31:46.40
+bc3c3172
+User
+(node:40) Warning: SECURITY WARNING: The SSL modes 'prefer', 'require', and 'verify-ca' are treated as aliases for 'verify-full'.
