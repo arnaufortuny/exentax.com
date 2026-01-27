@@ -271,6 +271,7 @@ export function getOrderUpdateTemplate(name: string, orderNumber: string, newSta
     pending: { bg: "#FEF3C7", border: "#F59E0B", text: "#92400E" },
     processing: { bg: "#DBEAFE", border: "#3B82F6", text: "#1E40AF" },
     paid: { bg: "#D1FAE5", border: "#10B981", text: "#065F46" },
+    filed: { bg: "#E0E7FF", border: "#6366F1", text: "#3730A3" },
     documents_ready: { bg: "#E0E7FF", border: "#6366F1", text: "#3730A3" },
     completed: { bg: "#D1FAE5", border: "#10B981", text: "#065F46" },
     cancelled: { bg: "#FEE2E2", border: "#EF4444", text: "#991B1B" },
@@ -309,7 +310,7 @@ export function getOrderUpdateTemplate(name: string, orderNumber: string, newSta
           <p style="line-height: 1.6; font-size: 15px; color: #444; margin-bottom: 25px;">${statusDescription}</p>
 
           <div style="text-align: center; margin-top: 30px;">
-            <a href="${process.env.BASE_URL || 'https://easyusllc.com'}/dashboard" style="background-color: #0E1215; color: #fff; padding: 15px 35px; text-decoration: none; border-radius: 6px; font-weight: 800; display: inline-block; text-transform: uppercase; font-size: 13px; letter-spacing: 1px;">Ver Detalles →</a>
+            <a href="${process.env.BASE_URL || 'https://easyusllc.com'}/dashboard" style="background-color: #0E1215; color: #fff; padding: 15px 35px; text-decoration: none; border-radius: 6px; font-weight: 800; display: inline-block; text-transform: uppercase; font-size: 13px; letter-spacing: 1px;">Ver Detalles y Recibo →</a>
           </div>
         </div>
         ${getEmailFooter()}
