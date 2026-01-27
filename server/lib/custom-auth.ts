@@ -22,6 +22,8 @@ export function getSession() {
     ttl: sessionTtl,
     tableName: "sessions",
   });
+  const isProduction = process.env.NODE_ENV === "production" || process.env.REPLIT_ENVIRONMENT === "production";
+  
   return session({
     secret: process.env.SESSION_SECRET || "easy-us-llc-secret-key-2024",
     store: sessionStore,
@@ -29,9 +31,9 @@ export function getSession() {
     saveUninitialized: false,
     cookie: {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
+      secure: isProduction,
       maxAge: sessionTtl,
-      sameSite: "lax",
+      sameSite: isProduction ? "none" : "lax",
     },
   });
 }
