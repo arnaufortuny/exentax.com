@@ -79,7 +79,7 @@ export default function LlcFormation() {
   useEffect(() => {
     async function init() {
       try {
-        const res = await apiRequest("POST", "/api/llc/orders", { productId: 1 });
+        const res = await apiRequest("POST", "/api/orders", { productId: 1 });
         const data = await res.json();
         setAppId(data.application.id);
       } catch (err) {

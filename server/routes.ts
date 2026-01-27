@@ -460,6 +460,30 @@ export async function registerRoutes(
     res.json({ success: true });
   });
 
+  // Payment simulation endpoint for LLC
+  app.post("/api/llc/:id/pay", async (req, res) => {
+    try {
+      const appId = parseInt(req.params.id);
+      const app = await storage.getLlcApplication(appId);
+      if (!app) {
+        return res.status(404).json({ message: "Application not found" });
+      }
+      
+      // Update order status to paid
+      if (app.orderId) {
+        await storage.updateOrder(app.orderId, { status: "paid" });
+      }
+      
+      // Update application status to submitted
+      await storage.updateLlcApplication(appId, { status: "submitted" });
+      
+      res.json({ success: true, message: "Payment successful" });
+    } catch (error) {
+      console.error("Payment error:", error);
+      res.status(500).json({ message: "Payment processing failed" });
+    }
+  });
+
   // OTP Endpoints
   app.post("/api/:type(llc|maintenance)/:id/send-otp", async (req, res) => {
     try {
