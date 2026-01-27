@@ -55,6 +55,7 @@ function Router() {
         <Route path="/forgot-password" component={ForgotPassword} />
         <Route path="/reset-password" component={ResetPassword} />
         <Route path="/legal" component={Legal} />
+        <Route path="/legal/terminos" component={Legal} />
         <Route path="/legal/privacidad" component={Privacidad} />
         <Route path="/legal/reembolsos" component={Reembolsos} />
         <Route path="/legal/cookies" component={Cookies} />
