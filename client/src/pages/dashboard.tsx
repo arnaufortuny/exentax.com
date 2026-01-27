@@ -391,7 +391,15 @@ export default function Dashboard() {
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8">
           {/* Main Content Area */}
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+                            <div className="flex justify-between items-center">
+                              <h2 className="text-xl md:text-2xl font-black text-primary tracking-tight">Mis Servicios</h2>
+                              <div className="flex items-center gap-2">
+                                <Clock className="w-4 h-4 text-accent animate-pulse" />
+                                <span className="text-[10px] font-bold text-muted-foreground uppercase">Actualización en tiempo real</span>
+                              </div>
+                            </div>
+                            
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
                     {orders?.map((order) => (
                       <Card 
                         key={order.id} 
@@ -414,7 +422,10 @@ export default function Dashboard() {
                             {order.events?.slice(0, 3).map((event: any, i: number) => (
                               <div key={i} className="relative">
                                 <div className={`absolute -left-[1.35rem] top-1.5 w-3 h-3 rounded-full border-2 border-white ${i === 0 ? 'bg-accent animate-pulse' : 'bg-gray-300'}`} />
-                                <p className={`text-xs font-black ${i === 0 ? 'text-primary' : 'text-muted-foreground'}`}>{event.eventType}</p>
+                                <div className="flex justify-between items-center">
+                                  <p className={`text-xs font-black ${i === 0 ? 'text-primary' : 'text-muted-foreground'}`}>{event.eventType}</p>
+                                  <span className="text-[9px] text-muted-foreground">{new Date(event.createdAt).toLocaleDateString()}</span>
+                                </div>
                                 <p className="text-[10px] text-muted-foreground line-clamp-1">{event.description}</p>
                               </div>
                             ))}
@@ -426,6 +437,15 @@ export default function Dashboard() {
                               </div>
                             )}
                           </div>
+                          
+                          {/* Order Actions */}
+                          {order.status === 'pending' && (
+                            <div className="mt-6 pt-4 border-t border-gray-50 flex gap-2">
+                              <Button variant="outline" size="sm" className="flex-1 text-[10px] h-8 rounded-full font-black">
+                                MODIFICAR DATOS
+                              </Button>
+                            </div>
+                          )}
                         </CardContent>
                       </Card>
                     ))}

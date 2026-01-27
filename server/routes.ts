@@ -310,8 +310,41 @@ export async function registerRoutes(
     }
   });
 
-  // Products
-  app.get(api.products.list.path, async (req, res) => {
+  // Client document upload
+  app.post("/api/documents/upload", isAuthenticated, async (req: any, res) => {
+    try {
+      const { orderId, fileName, fileUrl, documentType, applicationId } = z.object({
+        orderId: z.number(),
+        applicationId: z.number(),
+        fileName: z.string(),
+        fileUrl: z.string(),
+        documentType: z.string()
+      }).parse(req.body);
+
+      const [doc] = await db.insert(applicationDocumentsTable).values({
+        orderId,
+        applicationId,
+        fileName,
+        fileType: "application/pdf",
+        fileUrl,
+        documentType,
+        reviewStatus: "pending",
+        uploadedBy: req.session.userId
+      }).returning();
+
+      logActivity("Documento Subido por Cliente", { 
+        "Cliente ID": req.session.userId,
+        "Pedido ID": orderId,
+        "Tipo": documentType
+      });
+
+      res.json(doc);
+    } catch (error) {
+      res.status(500).json({ message: "Error al subir documento" });
+    }
+  });
+
+  app.get("/api/products", async (req, res) => {
     const products = await storage.getProducts();
     res.json(products);
   });
@@ -383,15 +416,74 @@ export async function registerRoutes(
   });
 
   // User notifications
-  app.get("/api/user/notifications", isAuthenticated, async (req: any, res) => {
+  // Admin Note/Notification system
+  app.post("/api/admin/send-note", isAdmin, async (req, res) => {
     try {
-      const notifications = await db.select().from(userNotifications)
-        .where(eq(userNotifications.userId, req.session.userId))
-        .orderBy(desc(userNotifications.createdAt));
-      res.json(notifications);
+      const { userId, title, message, type, sendEmail: shouldSendEmail } = z.object({
+        userId: z.string(),
+        title: z.string(),
+        message: z.string(),
+        type: z.enum(['update', 'info', 'action_required']),
+        sendEmail: z.boolean().default(true)
+      }).parse(req.body);
+
+      const [user] = await db.select().from(usersTable).where(eq(usersTable.id, userId)).limit(1);
+      if (!user) return res.status(404).json({ message: "Usuario no encontrado" });
+
+      // Create Notification
+      await db.insert(userNotifications).values({
+        userId,
+        title,
+        message,
+        type,
+        isRead: false
+      });
+
+      if (shouldSendEmail && user.email) {
+        await sendEmail({
+          to: user.email,
+          subject: title,
+          html: getNoteReceivedTemplate(user.firstName || "Cliente", message, title)
+        });
+      }
+
+      res.json({ success: true });
     } catch (error) {
-      console.error("Error fetching notifications:", error);
-      res.status(500).json({ message: "Error al obtener notificaciones" });
+      res.status(500).json({ message: "Error al enviar nota" });
+    }
+  });
+
+  // Client update order (allowed fields before processing)
+  app.patch("/api/orders/:id", isAuthenticated, async (req: any, res) => {
+    try {
+      const orderId = Number(req.params.id);
+      const order = await storage.getOrder(orderId);
+      
+      if (!order || order.userId !== req.session.userId) {
+        return res.status(403).json({ message: "No autorizado" });
+      }
+
+      if (order.status !== 'pending') {
+        return res.status(400).json({ message: "El pedido ya está en trámite y no puede modificarse." });
+      }
+
+      const updateSchema = z.object({
+        companyNameOption2: z.string().optional(),
+        designator: z.string().optional(),
+        companyDescription: z.string().optional(),
+        ownerNamesAlternates: z.string().optional(),
+        notes: z.string().optional()
+      });
+
+      const validatedData = updateSchema.parse(req.body);
+      
+      await db.update(llcApplicationsTable)
+        .set({ ...validatedData, lastUpdated: new Date() })
+        .where(eq(llcApplicationsTable.orderId, orderId));
+
+      res.json({ success: true });
+    } catch (error) {
+      res.status(500).json({ message: "Error al actualizar pedido" });
     }
   });
 
