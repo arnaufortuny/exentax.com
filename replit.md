@@ -26,6 +26,13 @@ Easy US LLC is a business formation service for Spanish-speaking entrepreneurs l
 - `server/`: Express backend with Drizzle storage.
 
 ## Recent Changes
+- **Authentication System Fix (Jan 2026):**
+  - Fixed login/register race condition - now waits for session confirmation before redirect
+  - Uses window.location.href for full page reload ensuring cookies are sent
+  - Email sending failures no longer block registration/password reset
+  - Invoice generator updated with complete business details (EASY US LLC, FORTUNY CONSULTING LLC)
+  - Newsletter section unified across all pages (integrated into Footer)
+  - Newsletter text now displays in black color
 - **Contact Form & Order System (Jan 2026):**
   - Completely rewrote contact form to use 7-step wizard pattern matching LLC/Maintenance forms
   - Steps: name, surname, email, phone, subject, message, OTP verification, submit
