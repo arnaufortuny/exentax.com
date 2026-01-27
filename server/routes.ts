@@ -8,12 +8,32 @@ import { insertLlcApplicationSchema } from "@shared/schema";
 import { db } from "./db";
 import { sendEmail, getOtpEmailTemplate, getConfirmationEmailTemplate, getReminderEmailTemplate, getWelcomeEmailTemplate, getNewsletterWelcomeTemplate, getAutoReplyTemplate, getEmailFooter, getEmailHeader } from "./lib/email";
 import { contactOtps, products as productsTable, users as usersTable, maintenanceApplications, newsletterSubscribers, messages as messagesTable, orderEvents, messageReplies, userNotifications, orders as ordersTable, llcApplications as llcApplicationsTable } from "@shared/schema";
-import { and, eq, gt, desc } from "drizzle-orm";
+import { and, eq, gt, desc, sql } from "drizzle-orm";
 
 export async function registerRoutes(
   httpServer: Server,
   app: Express
 ): Promise<Server> {
+  // Rate limiting simulation / protection
+  const rateLimit = new Map<string, number[]>();
+  app.use("/api/", (req, res, next) => {
+    const now = Date.now();
+    const ip = req.ip || "unknown";
+    const windowMs = 60000;
+    const maxRequests = 100;
+    
+    const timestamps = rateLimit.get(ip) || [];
+    const validTimestamps = timestamps.filter(t => now - t < windowMs);
+    
+    if (validTimestamps.length >= maxRequests) {
+      return res.status(429).json({ message: "Demasiadas peticiones. Por favor, espera un minuto." });
+    }
+    
+    validTimestamps.push(now);
+    rateLimit.set(ip, validTimestamps);
+    next();
+  });
+
   // Set up Custom Auth
   setupCustomAuth(app);
 

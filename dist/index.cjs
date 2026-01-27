@@ -1754,6 +1754,21 @@ init_email();
 init_schema();
 var import_drizzle_orm7 = require("drizzle-orm");
 async function registerRoutes(httpServer2, app2) {
+  const rateLimit = /* @__PURE__ */ new Map();
+  app2.use("/api/", (req, res, next) => {
+    const now = Date.now();
+    const ip = req.ip || "unknown";
+    const windowMs = 6e4;
+    const maxRequests = 100;
+    const timestamps = rateLimit.get(ip) || [];
+    const validTimestamps = timestamps.filter((t) => now - t < windowMs);
+    if (validTimestamps.length >= maxRequests) {
+      return res.status(429).json({ message: "Demasiadas peticiones. Por favor, espera un minuto." });
+    }
+    validTimestamps.push(now);
+    rateLimit.set(ip, validTimestamps);
+    next();
+  });
   setupCustomAuth(app2);
   const logActivity = (title, data) => {
     if (process.env.NODE_ENV === "development") {
@@ -3304,6 +3319,9 @@ app.use((req, res, next) => {
   res.setHeader("X-Frame-Options", "DENY");
   res.setHeader("X-XSS-Protection", "1; mode=block");
   res.setHeader("Strict-Transport-Security", "max-age=31536000; includeSubDomains");
+  res.setHeader("Content-Security-Policy", "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://js.stripe.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://*.stripe.com; connect-src 'self' https://api.stripe.com; frame-src 'self' https://js.stripe.com;");
+  res.setHeader("Referrer-Policy", "strict-origin-when-cross-origin");
+  res.setHeader("Permissions-Policy", "camera=(), microphone=(), geolocation=()");
   if (req.method === "GET") {
     const isAsset = req.path.startsWith("/assets/") || req.path.match(/\.(jpg|jpeg|png|gif|svg|webp|ico|css|js|woff2|woff)$/);
     if (isAsset) {
