@@ -74,28 +74,32 @@ export async function registerRoutes(
   });
 
   // Client Update Profile
+  const updateProfileSchema = z.object({
+    firstName: z.string().optional(),
+    lastName: z.string().optional(),
+    phone: z.string().optional(),
+    businessActivity: z.string().optional(),
+    address: z.string().optional(),
+    streetType: z.string().optional(),
+    city: z.string().optional(),
+    province: z.string().optional(),
+    postalCode: z.string().optional(),
+    country: z.string().optional(),
+  });
+  
   app.patch("/api/user/profile", isAuthenticated, async (req: any, res) => {
     try {
       const userId = req.session.userId;
-      const { firstName, lastName, phone, businessActivity, address, streetType, city, province, postalCode, country } = req.body;
+      const validatedData = updateProfileSchema.parse(req.body);
       
-      await db.update(usersTable).set({
-        firstName,
-        lastName,
-        phone,
-        businessActivity,
-        address,
-        streetType,
-        city,
-        province,
-        postalCode,
-        country,
-        updatedAt: new Date()
-      }).where(eq(usersTable.id, userId));
+      await db.update(usersTable).set(validatedData).where(eq(usersTable.id, userId));
       
       const [updatedUser] = await db.select().from(usersTable).where(eq(usersTable.id, userId)).limit(1);
       res.json(updatedUser);
     } catch (error) {
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({ message: error.errors[0].message });
+      }
       console.error("Update profile error:", error);
       res.status(500).json({ message: "Error updating profile" });
     }

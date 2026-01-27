@@ -97,11 +97,25 @@ export default function ApplicationWizard() {
 
   useEffect(() => {
     if (isAuthenticated && user) {
+      // Build full address from user profile fields
+      const addressParts = [
+        user.address,
+        user.streetType,
+        user.city,
+        user.province,
+        user.postalCode,
+        user.country
+      ].filter(Boolean);
+      const fullAddress = addressParts.join(", ");
+      
       form.reset({
         ...form.getValues(),
         ownerFullName: `${user.firstName || ""} ${user.lastName || ""}`.trim(),
         ownerEmail: user.email || "",
         ownerPhone: user.phone || "",
+        ownerAddress: fullAddress || form.getValues().ownerAddress,
+        ownerCountryResidency: user.country || form.getValues().ownerCountryResidency,
+        businessActivity: user.businessActivity || form.getValues().businessActivity,
       });
       if (user.emailVerified) {
         setIsEmailVerified(true);
