@@ -1394,7 +1394,7 @@ export default function Dashboard() {
                                                 <SelectItem value="active">Activa</SelectItem>
                                                 <SelectItem value="pending">Pendiente</SelectItem>
                                                 <SelectItem value="vip">VIP</SelectItem>
-                                                <SelectItem value="suspended">Suspendida</SelectItem>
+                                                <SelectItem value="suspended">Desactivada</SelectItem>
                                               </SelectContent>
                                             </Select>
                                           </div>
@@ -1407,9 +1407,9 @@ export default function Dashboard() {
                                       )}
                                     </DialogContent>
                                   </Dialog>
-                                  <Button size="icon" variant="ghost" className="w-8 h-8 md:w-9 md:h-9" title={u.isActive === false ? "Activar" : "Desactivar"} 
-                                    onClick={() => updateUserMutation.mutate({ id: u.id, data: { isActive: u.isActive === false ? true : false } })}>
-                                    <Power className={`w-3.5 h-3.5 md:w-4 md:h-4 ${u.isActive === false ? 'text-green-600' : 'text-yellow-600'}`} />
+                                  <Button size="icon" variant="ghost" className="w-8 h-8 md:w-9 md:h-9" title={u.accountStatus === "suspended" ? "Activar" : "Desactivar"} 
+                                    onClick={() => updateUserMutation.mutate({ id: u.id, data: { accountStatus: u.accountStatus === "suspended" ? "active" : "suspended" } })}>
+                                    <Power className={`w-3.5 h-3.5 md:w-4 md:h-4 ${u.accountStatus === "suspended" ? 'text-green-600' : 'text-red-600'}`} />
                                   </Button>
                                   <Button size="icon" variant="ghost" className="w-8 h-8 md:w-9 md:h-9" title="Enviar Email" onClick={() => setEmailDialog({ open: true, user: u })}>
                                     <Send className="w-3.5 h-3.5 md:w-4 md:h-4 text-blue-600" />
