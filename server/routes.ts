@@ -7,7 +7,7 @@ import { z } from "zod";
 import { insertLlcApplicationSchema } from "@shared/schema";
 import { db } from "./db";
 import { sendEmail, getOtpEmailTemplate, getConfirmationEmailTemplate, getReminderEmailTemplate, getWelcomeEmailTemplate, getNewsletterWelcomeTemplate, getAutoReplyTemplate, getEmailFooter, getEmailHeader } from "./lib/email";
-import { contactOtps, products as productsTable, users as usersTable, maintenanceApplications, newsletterSubscribers, messages as messagesTable, orderEvents, messageReplies, userNotifications } from "@shared/schema";
+import { contactOtps, products as productsTable, users as usersTable, maintenanceApplications, newsletterSubscribers, messages as messagesTable, orderEvents, messageReplies, userNotifications, orders as ordersTable, llcApplications as llcApplicationsTable } from "@shared/schema";
 import { and, eq, gt, desc } from "drizzle-orm";
 
 export async function registerRoutes(
@@ -471,7 +471,7 @@ export async function registerRoutes(
       
       // Update order status to paid
       if (app.orderId) {
-        await storage.updateOrder(app.orderId, { status: "paid" });
+        await storage.updateOrderStatus(app.orderId, "paid");
       }
       
       // Update application status to submitted
@@ -848,6 +848,26 @@ export async function registerRoutes(
     } catch (error) {
       console.error("Error sending note:", error);
       res.status(500).json({ message: "Error al enviar nota" });
+    }
+  });
+
+  // Get all orders (admin)
+  app.get("/api/admin/orders", isAdmin, async (req, res) => {
+    try {
+      const orders = await db.select().from(ordersTable).orderBy(desc(ordersTable.createdAt));
+      
+      // Populate relations
+      const populatedOrders = await Promise.all(orders.map(async (order) => {
+        const [product] = order.productId ? await db.select().from(productsTable).where(eq(productsTable.id, order.productId)).limit(1) : [null];
+        const [user] = order.userId ? await db.select().from(usersTable).where(eq(usersTable.id, order.userId)).limit(1) : [null];
+        const [application] = await db.select().from(llcApplicationsTable).where(eq(llcApplicationsTable.orderId, order.id)).limit(1);
+        return { ...order, product, user, application };
+      }));
+      
+      res.json(populatedOrders);
+    } catch (error) {
+      console.error("Error fetching admin orders:", error);
+      res.status(500).json({ message: "Error al obtener pedidos" });
     }
   });
 
