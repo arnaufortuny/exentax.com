@@ -85,7 +85,7 @@ export default function LlcFormation() {
         const data = await res.json();
         setAppId(data.application.id);
       } catch (err) {
-        console.error("Error initializing LLC application:", err);
+        toast({ title: "Error al iniciar", description: "No se pudo crear la solicitud", variant: "destructive" });
       }
     }
     init();

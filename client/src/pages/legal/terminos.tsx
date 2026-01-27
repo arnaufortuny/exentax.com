@@ -34,7 +34,8 @@ export default function Terminos() {
               <Button 
                 onClick={handleDownload}
                 variant="outline" 
-                className="rounded-full border-brand-lime text-brand-dark hover:bg-brand-lime transition-all gap-3 h-14 sm:h-12 px-10 sm:px-8 font-black text-sm tracking-wider w-full sm:w-auto shadow-sm no-default-hover-elevate"
+                className="rounded-full border-brand-lime text-brand-dark transition-all gap-3 px-10 sm:px-8 font-black text-sm tracking-wider w-full sm:w-auto shadow-sm"
+                data-testid="button-download-terminos"
               >
                 <Download className="w-5 h-5 sm:w-4 sm:h-4" />
                 Descargar PDF

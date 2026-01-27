@@ -66,6 +66,7 @@ export default function ForgotPassword() {
               <Button
                 variant="outline"
                 className="rounded-full px-8 font-black"
+                data-testid="button-back-to-login"
               >
                 Volver al Login
               </Button>

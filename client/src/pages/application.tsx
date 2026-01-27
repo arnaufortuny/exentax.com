@@ -130,7 +130,7 @@ export default function ApplicationWizard() {
         const data = await res.json();
         setAppId(data.application.id);
       } catch (err) {
-        console.error("Error initializing application:", err);
+        toast({ title: "Error al iniciar", description: "No se pudo crear la solicitud", variant: "destructive" });
       }
     }
     init();

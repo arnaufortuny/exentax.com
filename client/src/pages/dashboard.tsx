@@ -4,7 +4,7 @@ import { Footer } from "@/components/layout/footer";
 import { useAuth } from "@/hooks/use-auth";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { queryClient, apiRequest } from "@/lib/queryClient";
-import { Building2, FileText, Clock, ChevronRight, User, Settings, Package, CreditCard, PlusCircle, Download, ExternalLink, Mail, BellRing, CheckCircle2, AlertCircle, MessageSquare, Send, Shield, Users, Power, Edit, Trash2, FileUp, Newspaper, Loader2, CheckCircle } from "lucide-react";
+import { Building2, FileText, Clock, ChevronRight, User as UserIcon, Settings, Package, CreditCard, PlusCircle, Download, ExternalLink, Mail, BellRing, CheckCircle2, AlertCircle, MessageSquare, Send, Shield, Users, Power, Edit, Trash2, FileUp, Newspaper, Loader2, CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { useEffect, useState, useCallback } from "react";
@@ -19,6 +19,18 @@ import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 type Tab = 'services' | 'profile' | 'payments' | 'documents' | 'messages' | 'notifications' | 'admin';
+
+// Admin-specific types for flexible user data handling
+interface AdminUserData {
+  id?: string;
+  email?: string | null;
+  firstName?: string | null;
+  lastName?: string | null;
+  phone?: string | null;
+  isAdmin?: boolean;
+  accountStatus?: string;
+  [key: string]: unknown;
+}
 
 function NewsletterToggle() {
   const { toast } = useToast();
@@ -75,14 +87,14 @@ export default function Dashboard() {
   const { toast } = useToast();
   
   // Admin state
-  const [editingUser, setEditingUser] = useState<any>(null);
-  const [emailDialog, setEmailDialog] = useState<{ open: boolean; user: any | null }>({ open: false, user: null });
-  const [docDialog, setDocDialog] = useState<{ open: boolean; user: any | null }>({ open: false, user: null });
+  const [editingUser, setEditingUser] = useState<AdminUserData | null>(null);
+  const [emailDialog, setEmailDialog] = useState<{ open: boolean; user: AdminUserData | null }>({ open: false, user: null });
+  const [docDialog, setDocDialog] = useState<{ open: boolean; user: AdminUserData | null }>({ open: false, user: null });
   const [emailSubject, setEmailSubject] = useState("");
   const [emailMessage, setEmailMessage] = useState("");
   const [docType, setDocType] = useState("");
   const [docMessage, setDocMessage] = useState("");
-  const [noteDialog, setNoteDialog] = useState<{ open: boolean; user: any | null }>({ open: false, user: null });
+  const [noteDialog, setNoteDialog] = useState<{ open: boolean; user: AdminUserData | null }>({ open: false, user: null });
   const [noteTitle, setNoteTitle] = useState("");
   const [noteMessage, setNoteMessage] = useState("");
   const [noteType, setNoteType] = useState("info");
@@ -323,7 +335,7 @@ export default function Dashboard() {
     { id: 'messages', label: 'Mensajes', icon: Mail, mobileLabel: 'Msgs' },
     { id: 'documents', label: 'Documentos', icon: FileText, mobileLabel: 'Docs' },
     { id: 'payments', label: 'Pagos y Facturas', icon: CreditCard, mobileLabel: 'Pagos' },
-    { id: 'profile', label: 'Mi Perfil', icon: User, mobileLabel: 'Perfil' },
+    { id: 'profile', label: 'Mi Perfil', icon: UserIcon, mobileLabel: 'Perfil' },
     ...(user?.isAdmin ? [{ id: 'admin', label: 'Administración', icon: Shield, mobileLabel: 'Admin' }] : []),
   ];
 
@@ -1302,7 +1314,7 @@ export default function Dashboard() {
                                             </Select>
                                           </div>
                                           <DialogFooter>
-                                            <Button onClick={() => updateUserMutation.mutate({ id: editingUser.id, data: editingUser })} className="bg-accent text-primary font-black">
+                                            <Button onClick={() => editingUser?.id && updateUserMutation.mutate({ id: editingUser.id, data: editingUser })} disabled={!editingUser?.id || updateUserMutation.isPending} className="bg-accent text-primary font-black">
                                               Guardar Cambios
                                             </Button>
                                           </DialogFooter>
@@ -1530,8 +1542,8 @@ export default function Dashboard() {
                   <Textarea value={emailMessage} onChange={(e) => setEmailMessage(e.target.value)} placeholder="Escribe tu mensaje..." rows={5} />
                 </div>
                 <DialogFooter>
-                  <Button onClick={() => sendEmailMutation.mutate({ to: emailDialog.user?.email, subject: emailSubject, message: emailMessage })}
-                    disabled={!emailSubject || !emailMessage || sendEmailMutation.isPending}
+                  <Button onClick={() => emailDialog.user?.email && sendEmailMutation.mutate({ to: emailDialog.user.email, subject: emailSubject, message: emailMessage })}
+                    disabled={!emailDialog.user?.email || !emailSubject || !emailMessage || sendEmailMutation.isPending}
                     className="bg-accent text-primary font-black">
                     {sendEmailMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : <Send className="w-4 h-4 mr-2" />}
                     Enviar Email
@@ -1569,8 +1581,8 @@ export default function Dashboard() {
                   <Textarea value={docMessage} onChange={(e) => setDocMessage(e.target.value)} placeholder="Instrucciones adicionales..." rows={3} />
                 </div>
                 <DialogFooter>
-                  <Button onClick={() => requestDocMutation.mutate({ email: docDialog.user?.email, documentType: docType, message: docMessage })}
-                    disabled={!docType || requestDocMutation.isPending}
+                  <Button onClick={() => docDialog.user?.email && requestDocMutation.mutate({ email: docDialog.user.email, documentType: docType, message: docMessage })}
+                    disabled={!docDialog.user?.email || !docType || requestDocMutation.isPending}
                     className="bg-accent text-primary font-black">
                     {requestDocMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : <FileUp className="w-4 h-4 mr-2" />}
                     Solicitar Documento
@@ -1610,8 +1622,8 @@ export default function Dashboard() {
                   <Textarea value={noteMessage} onChange={(e) => setNoteMessage(e.target.value)} placeholder="Escribe tu mensaje..." rows={4} />
                 </div>
                 <DialogFooter>
-                  <Button onClick={() => sendNoteMutation.mutate({ userId: noteDialog.user?.id, email: noteDialog.user?.email, title: noteTitle, message: noteMessage, type: noteType })}
-                    disabled={!noteTitle || !noteMessage || sendNoteMutation.isPending}
+                  <Button onClick={() => noteDialog.user?.id && noteDialog.user?.email && sendNoteMutation.mutate({ userId: noteDialog.user.id, email: noteDialog.user.email, title: noteTitle, message: noteMessage, type: noteType })}
+                    disabled={!noteDialog.user?.id || !noteDialog.user?.email || !noteTitle || !noteMessage || sendNoteMutation.isPending}
                     className="bg-accent text-primary font-black">
                     {sendNoteMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : <MessageSquare className="w-4 h-4 mr-2" />}
                     Enviar Nota

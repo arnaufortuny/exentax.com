@@ -94,7 +94,7 @@ export default function MaintenanceApplication() {
         const data = await res.json();
         setAppId(data.application.id);
       } catch (err) {
-        console.error("Error initializing maintenance application:", err);
+        toast({ title: "Error al iniciar", description: "No se pudo crear la solicitud", variant: "destructive" });
       }
     }
     init();
