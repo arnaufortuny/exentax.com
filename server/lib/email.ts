@@ -1,20 +1,41 @@
 import nodemailer from "nodemailer";
 
-export function getEmailHeader(title: string = "Easy US LLC") {
+export interface EmailMetadata {
+  clientId?: string;
+  date?: Date;
+  reference?: string;
+  ip?: string;
+}
+
+export function getEmailHeader(title: string = "Easy US LLC", metadata?: EmailMetadata) {
   const domain = "easyusllc.com";
   const protocol = 'https';
-  const logoUrl = `${protocol}://${domain}/logo-email.png?v=4`;
+  const logoUrl = `${protocol}://${domain}/logo-email.png?v=5`;
+  const now = metadata?.date || new Date();
+  const dateStr = now.toLocaleDateString('es-ES', { timeZone: 'Europe/Madrid', day: '2-digit', month: '2-digit', year: 'numeric' });
+  const timeStr = now.toLocaleTimeString('es-ES', { timeZone: 'Europe/Madrid', hour: '2-digit', minute: '2-digit' });
+  
+  const metadataHtml = (metadata?.clientId || metadata?.reference) ? `
+    <table style="width: 100%; margin-top: 20px; border-collapse: collapse;">
+      <tr>
+        ${metadata?.clientId ? `<td style="text-align: left; font-size: 10px; color: #6B7280; text-transform: uppercase; letter-spacing: 0.5px;"><strong>ID Cliente:</strong> ${metadata.clientId}</td>` : '<td></td>'}
+        <td style="text-align: center; font-size: 10px; color: #6B7280; text-transform: uppercase; letter-spacing: 0.5px;"><strong>Fecha:</strong> ${dateStr} ${timeStr}</td>
+        ${metadata?.reference ? `<td style="text-align: right; font-size: 10px; color: #6B7280; text-transform: uppercase; letter-spacing: 0.5px;"><strong>Ref:</strong> ${metadata.reference}</td>` : '<td></td>'}
+      </tr>
+    </table>
+  ` : '';
   
   return `
-    <div style="background-color: #ffffff; padding: 40px 20px; text-align: center; border-bottom: 3px solid #6EDC8A;">
-      <div style="margin-bottom: 25px; display: block; width: 100%; text-align: center;">
+    <div style="background: linear-gradient(180deg, #ffffff 0%, #F7F7F5 100%); padding: 35px 20px 25px; text-align: center; border-bottom: 4px solid #6EDC8A;">
+      <div style="margin-bottom: 20px; display: block; width: 100%; text-align: center;">
         <a href="https://${domain}" target="_blank" style="text-decoration: none; display: inline-block;">
-          <img src="${logoUrl}" alt="Easy US LLC" width="120" height="120" style="display: inline-block; margin: 0 auto; width: 120px; height: 120px; object-fit: contain; border: 0;" />
+          <img src="${logoUrl}" alt="Easy US LLC" width="100" height="100" style="display: inline-block; margin: 0 auto; width: 100px; height: 100px; object-fit: contain; border: 0; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.08);" />
         </a>
       </div>
-      <h1 style="color: #0E1215; margin: 0; font-family: 'Inter', Arial, sans-serif; font-weight: 900; text-transform: uppercase; letter-spacing: -1.5px; font-size: 28px; line-height: 1.1;">
+      <h1 style="color: #0E1215; margin: 0; font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; font-weight: 900; text-transform: uppercase; letter-spacing: -1px; font-size: 24px; line-height: 1.2;">
         ${title}
       </h1>
+      ${metadataHtml}
     </div>
   `;
 }
@@ -22,14 +43,22 @@ export function getEmailHeader(title: string = "Easy US LLC") {
 export function getEmailFooter() {
   const year = new Date().getFullYear();
   return `
-    <div style="background-color: #0E1215; padding: 40px 20px; text-align: center; color: #F7F7F5; font-family: 'Inter', Arial, sans-serif;">
-      <p style="margin: 0 0 15px 0; font-weight: 800; color: #6EDC8A; text-transform: uppercase; font-size: 12px; letter-spacing: 1px;">Expertos en formación de LLC</p>
-      <p style="margin: 0; font-size: 13px; color: #F7F7F5; font-weight: 500;">New Mexico, USA | <a href="mailto:info@easyusllc.com" style="color: #6EDC8A; text-decoration: none; font-weight: 700;">info@easyusllc.com</a></p>
-      <div style="margin-top: 20px;">
-        <a href="https://wa.me/34614916910" style="color: #F7F7F5; text-decoration: none; font-weight: 800; font-size: 11px; text-transform: uppercase; margin: 0 15px; border-bottom: 1px solid #6EDC8A;">WhatsApp</a>
-        <a href="https://easyusllc.com" style="color: #F7F7F5; text-decoration: none; font-weight: 800; font-size: 11px; text-transform: uppercase; margin: 0 15px; border-bottom: 1px solid #6EDC8A;">Web Oficial</a>
+    <div style="background-color: #0E1215; padding: 35px 20px; text-align: center; color: #F7F7F5; font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;">
+      <table style="width: 100%; max-width: 400px; margin: 0 auto; border-collapse: collapse;">
+        <tr>
+          <td style="padding: 0 10px;">
+            <a href="https://wa.me/34614916910" style="display: inline-block; background: #6EDC8A; color: #0E1215; text-decoration: none; font-weight: 800; font-size: 11px; text-transform: uppercase; padding: 10px 20px; border-radius: 6px;">WhatsApp</a>
+          </td>
+          <td style="padding: 0 10px;">
+            <a href="https://easyusllc.com/dashboard" style="display: inline-block; background: transparent; color: #F7F7F5; text-decoration: none; font-weight: 800; font-size: 11px; text-transform: uppercase; padding: 10px 20px; border-radius: 6px; border: 1px solid #6EDC8A;">Mi Panel</a>
+          </td>
+        </tr>
+      </table>
+      <div style="margin-top: 25px; padding-top: 20px; border-top: 1px solid #333;">
+        <p style="margin: 0 0 8px 0; font-weight: 700; color: #6EDC8A; text-transform: uppercase; font-size: 11px; letter-spacing: 1px;">Expertos en formación de LLC en EE.UU.</p>
+        <p style="margin: 0; font-size: 12px; color: #9CA3AF;">New Mexico, USA | <a href="mailto:info@easyusllc.com" style="color: #6EDC8A; text-decoration: none; font-weight: 600;">info@easyusllc.com</a></p>
       </div>
-      <p style="margin-top: 30px; font-size: 10px; color: #6B7280; text-transform: uppercase; letter-spacing: 1px;">© ${year} Easy US LLC. Todos los derechos reservados.</p>
+      <p style="margin-top: 20px; font-size: 10px; color: #6B7280;">© ${year} Easy US LLC. Todos los derechos reservados.</p>
     </div>
   `;
 }
@@ -115,20 +144,29 @@ export function getAutoReplyTemplate(ticketId: string, name: string = "Cliente")
   `;
 }
 
-export function getOtpEmailTemplate(otp: string) {
+export function getOtpEmailTemplate(otp: string, purpose: string = "verificar tu email") {
   return `
     <div style="background-color: #F7F7F5; padding: 20px 0;">
-      <div style="font-family: 'Inter', Arial, sans-serif; max-width: 600px; margin: auto; border-radius: 8px; overflow: hidden; color: #0E1215; background-color: #ffffff; border: 1px solid #E6E9EC;">
-        ${getEmailHeader()}
+      <div style="font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; max-width: 600px; margin: auto; border-radius: 12px; overflow: hidden; color: #0E1215; background-color: #ffffff; box-shadow: 0 4px 20px rgba(0,0,0,0.06);">
+        ${getEmailHeader("Código de Verificación")}
         <div style="padding: 40px;">
-          <h2 style="font-size: 20px; font-weight: 800; margin-bottom: 20px; color: #0E1215;">Verificación de Identidad</h2>
-          <p style="line-height: 1.6; font-size: 15px; color: #0E1215; margin-bottom: 25px;">Verifica tu email con el siguiente código de seguridad:</p>
+          <div style="text-align: center; margin-bottom: 25px;">
+            <div style="display: inline-block; background: #EEF2FF; border-radius: 50%; padding: 15px; margin-bottom: 15px;">
+              <span style="font-size: 28px;">🔐</span>
+            </div>
+            <h2 style="font-size: 20px; font-weight: 900; margin: 0; color: #0E1215;">Verificación de Seguridad</h2>
+          </div>
           
-          <div style="background: #F7F7F5; padding: 25px; border-radius: 8px; margin: 25px 0; text-align: center; border: 2px solid #6EDC8A;">
-            <p style="margin: 0; font-size: 32px; font-weight: 900; color: #0E1215; letter-spacing: 8px;">${otp}</p>
+          <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 25px; text-align: center;">Usa el siguiente código para ${purpose}:</p>
+          
+          <div style="background: linear-gradient(135deg, #F0FDF4 0%, #ECFDF5 100%); padding: 30px; border-radius: 12px; margin: 25px 0; text-align: center; border: 2px solid #6EDC8A;">
+            <p style="margin: 0; font-size: 36px; font-weight: 900; color: #0E1215; letter-spacing: 10px; font-family: 'SF Mono', 'Consolas', monospace;">${otp}</p>
           </div>
 
-          <p style="line-height: 1.6; font-size: 12px; color: #6B7280; margin-top: 20px;">Este código caducará en 10 minutos.</p>
+          <div style="text-align: center;">
+            <p style="line-height: 1.6; font-size: 13px; color: #6B7280; margin: 0;">Este código es válido por <strong>10 minutos</strong>.</p>
+            <p style="line-height: 1.6; font-size: 12px; color: #9CA3AF; margin-top: 10px;">Si no solicitaste este código, ignora este mensaje.</p>
+          </div>
         </div>
         ${getEmailFooter()}
       </div>
@@ -136,25 +174,29 @@ export function getOtpEmailTemplate(otp: string) {
   `;
 }
 
-export function getWelcomeEmailTemplate(name: string) {
+export function getWelcomeEmailTemplate(name: string, clientId?: string) {
   return `
-    <div style="background-color: #f9f9f9; padding: 20px 0;">
-      <div style="font-family: 'Inter', Arial, sans-serif; max-width: 600px; margin: auto; border-radius: 8px; overflow: hidden; color: #1a1a1a; background-color: #ffffff; border: 1px solid #e5e5e5;">
-        ${getEmailHeader()}
+    <div style="background-color: #F7F7F5; padding: 20px 0;">
+      <div style="font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; max-width: 600px; margin: auto; border-radius: 12px; overflow: hidden; color: #0E1215; background-color: #ffffff; box-shadow: 0 4px 20px rgba(0,0,0,0.06);">
+        ${getEmailHeader("¡Bienvenido!", { clientId })}
         <div style="padding: 40px;">
-          <h2 style="font-size: 20px; font-weight: 800; margin-bottom: 20px; color: #000;">Bienvenido a Easy US LLC, ${name}</h2>
-          <p style="line-height: 1.6; font-size: 15px; color: #444; margin-bottom: 20px;">Es un placer acompañarte en la expansión de tu negocio hacia los Estados Unidos. Nuestra misión es simplificar cada paso administrativo para que tú puedas centrarte en crecer.</p>
+          <h2 style="font-size: 22px; font-weight: 900; margin-bottom: 20px; color: #0E1215;">Hola ${name},</h2>
+          <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 25px;">Es un placer acompañarte en la expansión de tu negocio hacia Estados Unidos. Nuestra misión es simplificar cada paso administrativo para que tú puedas centrarte en crecer.</p>
           
-          <div style="background: #fcfcfc; border-left: 3px solid #000; padding: 20px; margin: 25px 0;">
-            <p style="margin: 0; font-size: 15px; font-weight: 700; color: #000;">¿Qué esperar ahora?</p>
-            <ul style="margin: 15px 0 0 0; padding-left: 20px; color: #555; font-size: 14px; line-height: 1.6;">
-              <li style="margin-bottom: 8px;">Asignación de un agente especializado a tu expediente.</li>
-              <li style="margin-bottom: 8px;">Revisión de disponibilidad de nombres en el estado seleccionado.</li>
-              <li style="margin-bottom: 8px;">Preparación de documentos constitutivos oficiales.</li>
+          <div style="background: linear-gradient(135deg, #F0FDF4 0%, #ECFDF5 100%); border-radius: 12px; padding: 25px; margin: 25px 0; border: 1px solid #6EDC8A;">
+            <p style="margin: 0 0 15px 0; font-size: 14px; font-weight: 800; color: #0E1215; text-transform: uppercase; letter-spacing: 0.5px;">¿Qué esperar ahora?</p>
+            <ul style="margin: 0; padding-left: 20px; color: #374151; font-size: 14px; line-height: 1.8;">
+              <li style="margin-bottom: 10px;">Asignación de un agente especializado a tu expediente</li>
+              <li style="margin-bottom: 10px;">Revisión de disponibilidad de nombres en el estado seleccionado</li>
+              <li style="margin-bottom: 0;">Preparación de documentos constitutivos oficiales</li>
             </ul>
           </div>
 
-          <p style="line-height: 1.6; font-size: 14px; color: #666;">Recibirás actualizaciones periódicas sobre el estado de tu formación. Si tienes cualquier consulta, nuestro equipo está a tu disposición vía WhatsApp o email.</p>
+          <div style="text-align: center; margin: 30px 0;">
+            <a href="https://easyusllc.com/dashboard" style="display: inline-block; background: #6EDC8A; color: #0E1215; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 8px; letter-spacing: 0.5px;">Acceder a Mi Panel</a>
+          </div>
+
+          <p style="line-height: 1.6; font-size: 13px; color: #6B7280; text-align: center;">Recibirás actualizaciones periódicas sobre el estado de tu formación.</p>
         </div>
         ${getEmailFooter()}
       </div>
@@ -162,37 +204,45 @@ export function getWelcomeEmailTemplate(name: string) {
   `;
 }
 
-export function getConfirmationEmailTemplate(name: string, requestCode: string, details?: any) {
+export function getConfirmationEmailTemplate(name: string, requestCode: string, details?: any, clientId?: string) {
   const now = new Date();
-  const dateStr = now.toLocaleDateString('es-ES', { timeZone: 'Europe/Madrid' });
+  const dateStr = now.toLocaleDateString('es-ES', { timeZone: 'Europe/Madrid', day: '2-digit', month: 'long', year: 'numeric' });
   const timeStr = now.toLocaleTimeString('es-ES', { timeZone: 'Europe/Madrid', hour: '2-digit', minute: '2-digit' });
 
   return `
-    <div style="background-color: #f9f9f9; padding: 20px 0;">
-      <div style="font-family: 'Inter', Arial, sans-serif; max-width: 600px; margin: auto; border-radius: 8px; overflow: hidden; color: #1a1a1a; background-color: #ffffff; border: 1px solid #e5e5e5;">
-        ${getEmailHeader()}
+    <div style="background-color: #F7F7F5; padding: 20px 0;">
+      <div style="font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; max-width: 600px; margin: auto; border-radius: 12px; overflow: hidden; color: #0E1215; background-color: #ffffff; box-shadow: 0 4px 20px rgba(0,0,0,0.06);">
+        ${getEmailHeader("Solicitud Recibida", { clientId, reference: requestCode })}
         <div style="padding: 40px;">
-          <h2 style="font-size: 20px; font-weight: 800; margin-bottom: 20px; color: #000;">¡Gracias por tu solicitud, ${name}!</h2>
-          <p style="line-height: 1.6; font-size: 15px; color: #444; margin-bottom: 25px;">Hemos recibido correctamente los datos para el registro de tu nueva LLC. Nuestro equipo de especialistas comenzará con la revisión técnica de inmediato.</p>
+          <div style="text-align: center; margin-bottom: 25px;">
+            <div style="display: inline-block; background: #D1FAE5; border-radius: 50%; padding: 15px; margin-bottom: 15px;">
+              <span style="font-size: 28px;">✓</span>
+            </div>
+            <h2 style="font-size: 22px; font-weight: 900; margin: 0; color: #0E1215;">¡Gracias, ${name}!</h2>
+          </div>
           
-          <div style="background: #fcfcfc; padding: 25px; border-radius: 8px; margin: 25px 0; border: 1px solid #6EDC8A;">
-            <p style="margin: 0 0 15px 0; font-size: 12px; font-weight: 800; text-transform: uppercase; color: #6B7280; letter-spacing: 1px;">Referencia de Solicitud</p>
-            <p style="margin: 0; font-size: 24px; font-weight: 900; color: #0E1215;">${requestCode}</p>
+          <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 25px; text-align: center;">Hemos recibido correctamente los datos para el registro de tu nueva LLC. Nuestro equipo comenzará con la revisión de inmediato.</p>
+          
+          <div style="background: linear-gradient(135deg, #F0FDF4 0%, #ECFDF5 100%); padding: 25px; border-radius: 12px; margin: 25px 0; border: 2px solid #6EDC8A; text-align: center;">
+            <p style="margin: 0 0 8px 0; font-size: 11px; font-weight: 800; text-transform: uppercase; color: #6B7280; letter-spacing: 1px;">Número de Referencia</p>
+            <p style="margin: 0; font-size: 28px; font-weight: 900; color: #0E1215; letter-spacing: 1px;">${requestCode}</p>
           </div>
 
-          <div style="margin-bottom: 25px;">
-            <h3 style="margin: 0 0 15px 0; font-size: 13px; font-weight: 800; text-transform: uppercase; color: #000; border-bottom: 1px solid #f0f0f0; padding-bottom: 8px;">Resumen del Registro</h3>
+          <div style="background: #F9FAFB; border-radius: 10px; padding: 20px; margin-bottom: 25px;">
+            <h3 style="margin: 0 0 15px 0; font-size: 12px; font-weight: 800; text-transform: uppercase; color: #0E1215; letter-spacing: 0.5px;">Resumen del Registro</h3>
             <table style="width: 100%; font-size: 14px; border-collapse: collapse;">
               <tr>
-                <td style="padding: 8px 0; color: #666;">Fecha y hora:</td>
-                <td style="padding: 8px 0; font-weight: 700; text-align: right;">${dateStr} | ${timeStr}</td>
+                <td style="padding: 10px 0; color: #6B7280; border-bottom: 1px solid #E5E7EB;">Fecha y hora</td>
+                <td style="padding: 10px 0; font-weight: 700; text-align: right; border-bottom: 1px solid #E5E7EB;">${dateStr}, ${timeStr}</td>
               </tr>
               <tr>
-                <td style="padding: 8px 0; color: #666;">Nombre Propuesto:</td>
-                <td style="padding: 8px 0; font-weight: 700; text-align: right;">${details?.companyName || 'Pendiente'}</td>
+                <td style="padding: 10px 0; color: #6B7280; border-bottom: 1px solid #E5E7EB;">Nombre Propuesto</td>
+                <td style="padding: 10px 0; font-weight: 700; text-align: right; border-bottom: 1px solid #E5E7EB;">${details?.companyName || 'Pendiente de confirmación'}</td>
               </tr>
+              ${details?.state ? `<tr><td style="padding: 10px 0; color: #6B7280; border-bottom: 1px solid #E5E7EB;">Estado</td><td style="padding: 10px 0; font-weight: 700; text-align: right; border-bottom: 1px solid #E5E7EB;">${details.state}</td></tr>` : ''}
+              ${details?.price ? `<tr><td style="padding: 10px 0; color: #6B7280; border-bottom: 1px solid #E5E7EB;">Importe</td><td style="padding: 10px 0; font-weight: 700; text-align: right; color: #059669; border-bottom: 1px solid #E5E7EB;">${details.price} €</td></tr>` : ''}
               <tr>
-                <td style="padding: 8px 0; color: #666;">Estado de Pago:</td>
+                <td style="padding: 10px 0; color: #6B7280;">Estado de Pago</td>
                 <td style="padding: 8px 0; font-weight: 700; text-align: right; color: #0d9488;">Confirmado / Procesando</td>
               </tr>
             </table>
@@ -388,7 +438,7 @@ export function getInvoiceEmailTemplate(name: string, orderNumber: string, invoi
     <tr>
       <td style="padding: 12px 0; border-bottom: 1px solid #f0f0f0; font-size: 14px; color: #444;">${item.description}</td>
       <td style="padding: 12px 0; border-bottom: 1px solid #f0f0f0; font-size: 14px; color: #444; text-align: center;">${item.quantity}</td>
-      <td style="padding: 12px 0; border-bottom: 1px solid #f0f0f0; font-size: 14px; color: #444; text-align: right;">$${item.price.toFixed(2)}</td>
+      <td style="padding: 12px 0; border-bottom: 1px solid #f0f0f0; font-size: 14px; color: #444; text-align: right;">${item.price.toFixed(2)} €</td>
     </tr>
   `).join("");
 
@@ -430,17 +480,17 @@ export function getInvoiceEmailTemplate(name: string, orderNumber: string, invoi
           <div style="border-top: 2px solid #0E1215; padding-top: 15px; margin-top: 15px;">
             <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
               <span style="font-size: 14px; color: #6B7280;">Subtotal</span>
-              <span style="font-size: 14px; color: #444;">$${invoiceDetails.subtotal.toFixed(2)}</span>
+              <span style="font-size: 14px; color: #444;">${invoiceDetails.subtotal.toFixed(2)} €</span>
             </div>
             ${invoiceDetails.tax ? `
             <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
               <span style="font-size: 14px; color: #6B7280;">Impuestos</span>
-              <span style="font-size: 14px; color: #444;">$${invoiceDetails.tax.toFixed(2)}</span>
+              <span style="font-size: 14px; color: #444;">${invoiceDetails.tax.toFixed(2)} €</span>
             </div>
             ` : ""}
             <div style="display: flex; justify-content: space-between; padding-top: 10px; border-top: 1px solid #e5e5e5;">
               <span style="font-size: 16px; font-weight: 800; color: #0E1215;">TOTAL</span>
-              <span style="font-size: 18px; font-weight: 900; color: #6EDC8A;">$${invoiceDetails.total.toFixed(2)}</span>
+              <span style="font-size: 18px; font-weight: 900; color: #6EDC8A;">${invoiceDetails.total.toFixed(2)} €</span>
             </div>
           </div>
 

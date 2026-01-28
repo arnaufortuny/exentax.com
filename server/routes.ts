@@ -1480,18 +1480,6 @@ export async function registerRoutes(
 
       // Return order with application
       res.status(201).json({ ...order, application: updatedApplication });
-
-      // Send welcome email if user is authenticated and has email
-      if (req.session?.userId) {
-        const [userData] = await db.select().from(usersTable).where(eq(usersTable.id, req.session.userId)).limit(1);
-        if (userData?.email) {
-          sendEmail({
-            to: userData.email,
-            subject: "¡Bienvenido a Easy US LLC! - Próximos pasos",
-            html: getWelcomeEmailTemplate(userData.firstName || "Cliente"),
-          }).catch(err => console.error("Error sending welcome email:", err));
-        }
-      }
     } catch (err) {
       if (err instanceof z.ZodError) {
         return res.status(400).json({ message: err.errors[0].message });

@@ -91,11 +91,11 @@ export function setupCustomAuth(app: Express) {
         isRead: false
       });
 
-      // Send Welcome Email
+      // Send Welcome Email with Client ID
       sendEmail({
         to: user.email!,
         subject: "¡Bienvenido a Easy US LLC!",
-        html: getWelcomeEmailTemplate(user.firstName || "Cliente")
+        html: getWelcomeEmailTemplate(user.firstName || "Cliente", clientId)
       }).catch(console.error);
 
       req.session.userId = user.id;
