@@ -1,6 +1,7 @@
 import type { Express, RequestHandler } from "express";
 import session from "express-session";
 import connectPg from "connect-pg-simple";
+import express from "express";
 import { db } from "../db";
 import { users } from "@shared/models/auth";
 import { userNotifications, messages as messagesTable } from "@shared/schema";
@@ -50,6 +51,11 @@ declare module "express-session" {
 
 export function setupCustomAuth(app: Express) {
   app.set("trust proxy", 1);
+  
+  // JSON body parser must be before session and routes
+  app.use(express.json());
+  app.use(express.urlencoded({ extended: true }));
+  
   app.use(getSession());
 
   // Register endpoint
