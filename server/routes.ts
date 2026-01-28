@@ -877,7 +877,10 @@ export async function registerRoutes(
               <div class="details-box">
                 <h3>Cliente</h3>
                 <p>${order.user?.firstName} ${order.user?.lastName}</p>
+                <p style="font-size: 0.85rem; font-weight: 600; color: #6B7280;">ID: ${order.user?.clientId || order.user?.id?.slice(0, 8).toUpperCase() || ''}</p>
+                ${order.user?.idNumber ? `<p style="font-size: 0.85rem; font-weight: 400; color: #6B7280;">${order.user?.idType?.toUpperCase() || 'ID'}: ${order.user?.idNumber}</p>` : ''}
                 <p style="font-size: 0.9rem; font-weight: 400; color: #6B7280; margin-top: 5px;">${order.user?.email}</p>
+                ${order.user?.phone ? `<p style="font-size: 0.9rem; font-weight: 400; color: #6B7280;">${order.user?.phone}</p>` : ''}
               </div>
             </div>
             <table class="table">
@@ -1736,6 +1739,7 @@ export async function registerRoutes(
     const userName = order.user ? `${order.user.firstName || ''} ${order.user.lastName || ''}`.trim() : 'Cliente';
     const userEmail = order.user?.email || '';
     const userPhone = order.user?.phone || '';
+    const userClientId = order.user?.clientId || order.user?.id?.slice(0, 8).toUpperCase() || '';
     const userAddress = order.user ? [
       order.user.streetType,
       order.user.address,
@@ -1827,6 +1831,7 @@ export async function registerRoutes(
               <div class="detail-label">Datos del Cliente</div>
               <div class="detail-content">
                 <p><strong>${userName}</strong></p>
+                ${userClientId ? `<p style="font-size: 12px; color: #6B7280;"><strong>ID Cliente:</strong> ${userClientId}</p>` : ''}
                 ${userIdNumber ? `<p>${userIdNumber}</p>` : ''}
                 <p>${userEmail}</p>
                 ${userPhone ? `<p>${userPhone}</p>` : ''}
