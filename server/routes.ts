@@ -155,6 +155,25 @@ export async function registerRoutes(
     res.json(updatedOrder);
   }));
 
+  // Update LLC important dates
+  app.patch("/api/admin/llc/:appId/dates", isAdmin, asyncHandler(async (req: Request, res: Response) => {
+    const appId = Number(req.params.appId);
+    const { field, value } = z.object({ 
+      field: z.enum(['llcCreatedDate', 'agentRenewalDate', 'irs1120DueDate', 'irs5472DueDate', 'annualReportDueDate']),
+      value: z.string()
+    }).parse(req.body);
+    
+    const dateValue = value ? new Date(value) : null;
+    const updateData: Record<string, Date | null> = {};
+    updateData[field] = dateValue;
+    
+    await db.update(llcApplicationsTable)
+      .set(updateData)
+      .where(eq(llcApplicationsTable.id, appId));
+    
+    res.json({ success: true });
+  }));
+
   // Admin Users
   app.get("/api/admin/users", isAdmin, async (req, res) => {
     try {

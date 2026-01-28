@@ -74,6 +74,12 @@ export const llcApplications = pgTable("llc_applications", {
   emailOtp: text("email_otp"),
   emailOtpExpires: timestamp("email_otp_expires"),
   emailVerified: boolean("email_verified").notNull().default(false),
+  // Important dates for calendar
+  llcCreatedDate: timestamp("llc_created_date"),
+  agentRenewalDate: timestamp("agent_renewal_date"),
+  irs1120DueDate: timestamp("irs_1120_due_date"),
+  irs5472DueDate: timestamp("irs_5472_due_date"),
+  annualReportDueDate: timestamp("annual_report_due_date"),
 }, (table) => ({
   orderIdIdx: index("llc_apps_order_id_idx").on(table.orderId),
   requestCodeIdx: index("llc_apps_req_code_idx").on(table.requestCode),

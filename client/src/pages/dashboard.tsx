@@ -4,7 +4,7 @@ import { Footer } from "@/components/layout/footer";
 import { useAuth } from "@/hooks/use-auth";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { queryClient, apiRequest } from "@/lib/queryClient";
-import { Building2, FileText, Clock, ChevronRight, User as UserIcon, Settings, Package, CreditCard, PlusCircle, Download, ExternalLink, Mail, BellRing, CheckCircle2, AlertCircle, MessageSquare, Send, Shield, Users, Power, Edit, Trash2, FileUp, Newspaper, Loader2, CheckCircle, Receipt, Plus } from "lucide-react";
+import { Building2, FileText, Clock, ChevronRight, User as UserIcon, Settings, Package, CreditCard, PlusCircle, Download, ExternalLink, Mail, BellRing, CheckCircle2, AlertCircle, MessageSquare, Send, Shield, Users, Power, Edit, Trash2, FileUp, Newspaper, Loader2, CheckCircle, Receipt, Plus, Calendar } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { useEffect, useState } from "react";
@@ -18,7 +18,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogD
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
-type Tab = 'services' | 'profile' | 'payments' | 'documents' | 'messages' | 'notifications' | 'admin' | 'logs';
+type Tab = 'services' | 'profile' | 'payments' | 'documents' | 'messages' | 'notifications' | 'admin' | 'calendar';
 
 interface AdminUserData {
   id?: string;
@@ -95,8 +95,7 @@ export default function Dashboard() {
   
   // Only allow profile editing for active and VIP accounts
   const canEdit = user?.accountStatus === 'active' || user?.accountStatus === 'vip';
-  const [activityLogs, setActivityLogs] = useState<string[]>([]);
-  
+    
   const [editingUser, setEditingUser] = useState<AdminUserData | null>(null);
   const [emailDialog, setEmailDialog] = useState<{ open: boolean; user: AdminUserData | null }>({ open: false, user: null });
   const [paymentDialog, setPaymentDialog] = useState<{ open: boolean; user: AdminUserData | null }>({ open: false, user: null });
@@ -252,6 +251,20 @@ export default function Dashboard() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/admin/orders"] });
       toast({ title: "Estado actualizado" });
+    }
+  });
+
+  const updateLlcDatesMutation = useMutation({
+    mutationFn: async ({ appId, field, value }: { appId: number, field: string, value: string }) => {
+      await apiRequest("PATCH", `/api/admin/llc/${appId}/dates`, { field, value });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/admin/orders"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/orders"] });
+      toast({ title: "Fecha actualizada" });
+    },
+    onError: () => {
+      toast({ title: "Error", description: "No se pudo actualizar la fecha", variant: "destructive" });
     }
   });
 
@@ -411,10 +424,10 @@ export default function Dashboard() {
     { id: 'messages', label: '¿Necesitas ayuda?', icon: Mail, mobileLabel: 'Ayuda' },
     { id: 'documents', label: 'Documentos', icon: FileText, mobileLabel: 'Docs' },
     { id: 'payments', label: 'Pagos', icon: CreditCard, mobileLabel: 'Pagos' },
+    { id: 'calendar', label: 'Calendario', icon: Calendar, mobileLabel: 'Fechas' },
     { id: 'profile', label: 'Mi Perfil', icon: UserIcon, mobileLabel: 'Perfil' },
     ...(user?.isAdmin ? [
-      { id: 'admin', label: 'Admin', icon: Shield, mobileLabel: 'Admin' },
-      { id: 'logs', label: 'Logs', icon: FileText, mobileLabel: 'Logs' }
+      { id: 'admin', label: 'Admin', icon: Shield, mobileLabel: 'Admin' }
     ] : []),
   ];
 
@@ -782,6 +795,88 @@ export default function Dashboard() {
                 </motion.div>
               )}
 
+              {activeTab === 'calendar' && (
+                <motion.div key="calendar" initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 20 }} className="space-y-6">
+                  <div className="mb-6">
+                    <h2 className="text-xl md:text-2xl font-black text-primary tracking-tight">Calendario Fiscal</h2>
+                    <p className="text-xs text-muted-foreground font-medium">Fechas importantes de tu LLC</p>
+                  </div>
+                  {orders && orders.length > 0 ? (
+                    <div className="space-y-4">
+                      {orders.map((order: any) => {
+                        const app = order.application;
+                        if (!app) return null;
+                        const dates = [
+                          { label: 'Creación de LLC', date: app.llcCreatedDate, icon: Building2, color: 'bg-green-100 text-green-700' },
+                          { label: 'Renovación Agente Registrado', date: app.agentRenewalDate, icon: Users, color: 'bg-blue-100 text-blue-700' },
+                          { label: 'IRS Form 1120', date: app.irs1120DueDate, icon: FileText, color: 'bg-orange-100 text-orange-700' },
+                          { label: 'IRS Form 5472', date: app.irs5472DueDate, icon: FileText, color: 'bg-red-100 text-red-700' },
+                          { label: 'Reporte Anual', date: app.annualReportDueDate, icon: Newspaper, color: 'bg-purple-100 text-purple-700' },
+                        ];
+                        const hasDates = dates.some(d => d.date);
+                        return (
+                          <Card key={order.id} className="rounded-2xl border-0 shadow-sm bg-white overflow-hidden">
+                            <CardHeader className="pb-2 border-b bg-gray-50">
+                              <CardTitle className="text-base font-black flex items-center gap-2">
+                                <Building2 className="w-4 h-4 text-accent" />
+                                {app.companyName || 'LLC en proceso'} 
+                                <Badge variant="outline" className="ml-2 text-[10px]">{app.state}</Badge>
+                              </CardTitle>
+                            </CardHeader>
+                            <CardContent className="p-4">
+                              {hasDates ? (
+                                <div className="grid gap-3">
+                                  {dates.map((item, idx) => {
+                                    if (!item.date) return null;
+                                    const date = new Date(item.date);
+                                    const isUpcoming = date > new Date();
+                                    const isPast = date < new Date();
+                                    const daysUntil = Math.ceil((date.getTime() - Date.now()) / (1000 * 60 * 60 * 24));
+                                    return (
+                                      <div key={idx} className={`flex items-center justify-between p-3 rounded-xl ${item.color}`}>
+                                        <div className="flex items-center gap-3">
+                                          <item.icon className="w-4 h-4" />
+                                          <span className="font-bold text-sm">{item.label}</span>
+                                        </div>
+                                        <div className="text-right">
+                                          <div className="font-black text-sm">{date.toLocaleDateString('es-ES', { day: 'numeric', month: 'short', year: 'numeric' })}</div>
+                                          {isUpcoming && daysUntil <= 30 && (
+                                            <span className="text-[10px] font-bold">En {daysUntil} días</span>
+                                          )}
+                                          {isPast && (
+                                            <span className="text-[10px] font-bold opacity-70">Completado</span>
+                                          )}
+                                        </div>
+                                      </div>
+                                    );
+                                  })}
+                                </div>
+                              ) : (
+                                <div className="text-center py-8">
+                                  <Calendar className="w-12 h-12 mx-auto text-gray-300 mb-3" />
+                                  <p className="text-sm text-muted-foreground">Las fechas importantes aparecerán aquí cuando tu LLC esté activa</p>
+                                </div>
+                              )}
+                            </CardContent>
+                          </Card>
+                        );
+                      })}
+                    </div>
+                  ) : (
+                    <Card className="rounded-[2rem] border-0 shadow-sm p-8 bg-white text-center">
+                      <Calendar className="w-12 h-12 mx-auto text-gray-300 mb-4" />
+                      <h3 className="text-lg font-black text-primary mb-2">Sin fechas programadas</h3>
+                      <p className="text-sm text-muted-foreground mb-4">Contrata tu primera LLC para ver las fechas importantes</p>
+                      <Link href="/servicios#pricing">
+                        <Button className="bg-accent text-primary font-black rounded-full">
+                          <PlusCircle className="w-4 h-4 mr-2" /> Comenzar
+                        </Button>
+                      </Link>
+                    </Card>
+                  )}
+                </motion.div>
+              )}
+
               {activeTab === 'profile' && (
                 <motion.div key="profile" initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 20 }} className="space-y-6">
                   <Card className="rounded-[1.5rem] md:rounded-[2rem] border-0 shadow-sm p-6 md:p-8 bg-white">
@@ -1024,8 +1119,8 @@ export default function Dashboard() {
               {activeTab === 'admin' && user?.isAdmin && (
                 <motion.div key="admin" initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 20 }} className="space-y-6">
                   <div className="flex gap-2 mb-6">
-                    {['orders', 'users', 'newsletter', 'inbox'].map(tab => (
-                      <Button key={tab} variant={adminSubTab === tab ? "default" : "outline"} onClick={() => setAdminSubTab(tab)} className="rounded-full text-xs font-black capitalize">{tab}</Button>
+                    {['orders', 'users', 'calendar', 'newsletter', 'inbox'].map(tab => (
+                      <Button key={tab} variant={adminSubTab === tab ? "default" : "outline"} onClick={() => setAdminSubTab(tab)} className="rounded-full text-xs font-black capitalize">{tab === 'calendar' ? 'Fechas' : tab}</Button>
                     ))}
                   </div>
                   {adminSubTab === 'orders' && (
@@ -1122,21 +1217,89 @@ export default function Dashboard() {
                       </div>
                     </Card>
                   )}
+                  {adminSubTab === 'calendar' && (
+                    <Card className="rounded-2xl border-0 shadow-sm p-4 overflow-hidden">
+                      <h4 className="font-black text-sm mb-4 flex items-center gap-2"><Calendar className="w-4 h-4 text-accent" /> Gestión de Fechas Fiscales</h4>
+                      <div className="space-y-4">
+                        {adminOrders?.map((order: any) => {
+                          const app = order.application;
+                          if (!app) return null;
+                          return (
+                            <div key={order.id} className="border rounded-xl p-4 bg-gray-50">
+                              <div className="flex items-center justify-between mb-3">
+                                <div>
+                                  <p className="font-black text-sm">{app.companyName || 'LLC pendiente'}</p>
+                                  <p className="text-[10px] text-muted-foreground">{order.user?.firstName} {order.user?.lastName} • {app.state}</p>
+                                </div>
+                                <Badge variant="outline" className="text-[10px]">ORD-{order.id}</Badge>
+                              </div>
+                              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                <div>
+                                  <Label className="text-[10px] text-muted-foreground">Creación LLC</Label>
+                                  <Input 
+                                    type="date" 
+                                    className="h-8 text-xs" 
+                                    defaultValue={app.llcCreatedDate ? new Date(app.llcCreatedDate).toISOString().split('T')[0] : ''}
+                                    onChange={e => updateLlcDatesMutation.mutate({ appId: app.id, field: 'llcCreatedDate', value: e.target.value })}
+                                    data-testid={`input-llc-created-${app.id}`}
+                                  />
+                                </div>
+                                <div>
+                                  <Label className="text-[10px] text-muted-foreground">Renovación Agente</Label>
+                                  <Input 
+                                    type="date" 
+                                    className="h-8 text-xs" 
+                                    defaultValue={app.agentRenewalDate ? new Date(app.agentRenewalDate).toISOString().split('T')[0] : ''}
+                                    onChange={e => updateLlcDatesMutation.mutate({ appId: app.id, field: 'agentRenewalDate', value: e.target.value })}
+                                    data-testid={`input-agent-renewal-${app.id}`}
+                                  />
+                                </div>
+                                <div>
+                                  <Label className="text-[10px] text-muted-foreground">IRS 1120</Label>
+                                  <Input 
+                                    type="date" 
+                                    className="h-8 text-xs" 
+                                    defaultValue={app.irs1120DueDate ? new Date(app.irs1120DueDate).toISOString().split('T')[0] : ''}
+                                    onChange={e => updateLlcDatesMutation.mutate({ appId: app.id, field: 'irs1120DueDate', value: e.target.value })}
+                                    data-testid={`input-irs1120-${app.id}`}
+                                  />
+                                </div>
+                                <div>
+                                  <Label className="text-[10px] text-muted-foreground">IRS 5472</Label>
+                                  <Input 
+                                    type="date" 
+                                    className="h-8 text-xs" 
+                                    defaultValue={app.irs5472DueDate ? new Date(app.irs5472DueDate).toISOString().split('T')[0] : ''}
+                                    onChange={e => updateLlcDatesMutation.mutate({ appId: app.id, field: 'irs5472DueDate', value: e.target.value })}
+                                    data-testid={`input-irs5472-${app.id}`}
+                                  />
+                                </div>
+                                <div className="md:col-span-2">
+                                  <Label className="text-[10px] text-muted-foreground">Reporte Anual</Label>
+                                  <Input 
+                                    type="date" 
+                                    className="h-8 text-xs" 
+                                    defaultValue={app.annualReportDueDate ? new Date(app.annualReportDueDate).toISOString().split('T')[0] : ''}
+                                    onChange={e => updateLlcDatesMutation.mutate({ appId: app.id, field: 'annualReportDueDate', value: e.target.value })}
+                                    data-testid={`input-annual-report-${app.id}`}
+                                  />
+                                </div>
+                              </div>
+                            </div>
+                          );
+                        })}
+                        {(!adminOrders || adminOrders.length === 0) && (
+                          <div className="text-center py-8 text-muted-foreground text-sm">
+                            No hay pedidos con LLCs para gestionar
+                          </div>
+                        )}
+                      </div>
+                    </Card>
+                  )}
                 </motion.div>
               )}
 
-              {activeTab === 'logs' && user?.isAdmin && (
-                <motion.div key="logs" initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 20 }} className="space-y-6">
-                  <Card className="rounded-3xl bg-black text-green-400 p-6 font-mono text-xs h-[500px] overflow-y-auto">
-                    <div className="flex justify-between mb-4 border-b border-green-900 pb-2">
-                      <span className="font-black uppercase">System Activity Logs</span>
-                      <Button variant="ghost" size="sm" onClick={() => setActivityLogs([])} className="text-green-400">Limpiar</Button>
-                    </div>
-                    {activityLogs.map((log, i) => <div key={i} className="py-1">[{new Date().toLocaleTimeString()}] {log}</div>)}
-                  </Card>
-                </motion.div>
-              )}
-            </AnimatePresence>
+                          </AnimatePresence>
           </div>
 
           <div className="space-y-6 md:gap-8 order-1 lg:order-2">
