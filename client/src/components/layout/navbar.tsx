@@ -164,7 +164,6 @@ export function Navbar() {
               </button>
               {!isAuthenticated && (
                 <div className="px-3 py-4 mb-4 bg-accent/5 rounded-2xl border border-accent/20">
-                  <p className="text-sm font-black text-accent tracking-tighter mb-2" style={{ fontFamily: 'var(--font-display)' }}>Área de Clientes</p>
                   <button
                     onClick={() => handleNavClick("/login")}
                     className="w-full text-left py-2 text-foreground font-black text-xl tracking-tighter flex items-center gap-2"

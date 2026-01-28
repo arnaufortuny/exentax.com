@@ -411,7 +411,6 @@ export default function Dashboard() {
             className="flex flex-col md:flex-row md:items-center justify-between gap-6"
           >
             <div>
-              <p className="text-accent font-black tracking-widest text-[10px] md:text-sm mb-1 md:mb-2 uppercase">Área de Clientes</p>
               <h1 className="text-3xl md:text-5xl font-black text-primary tracking-tighter leading-tight md:leading-none">
                 Bienvenido a tu espacio personal, {user?.firstName || 'Cliente'}
               </h1>
