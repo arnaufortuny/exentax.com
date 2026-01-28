@@ -1165,7 +1165,7 @@ export async function registerRoutes(
           <head>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Factura INV-${new Date(order.createdAt || Date.now()).getFullYear()}-${String(order.id).padStart(5, '0')}</title>
+            <title>Factura ${order.invoiceNumber || 'ORD-' + String(order.id).padStart(5, '0')}</title>
             <style>
               @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
               body { font-family: 'Inter', sans-serif; padding: 40px; color: #0E1215; background: #fff; line-height: 1.5; }
@@ -1202,7 +1202,7 @@ export async function registerRoutes(
               </div>
               <div class="invoice-info">
                 <p class="label">Nº Factura</p>
-                <p style="font-size: 1.2rem;">INV-${new Date(order.createdAt || Date.now()).getFullYear()}-${String(order.id).padStart(5, '0')}</p>
+                <p style="font-size: 1.2rem;">${order.invoiceNumber || 'ORD-' + String(order.id).padStart(5, '0')}</p>
                 <p class="label" style="margin-top: 10px;">Fecha de Emisión</p>
                 <p>${new Date(order.createdAt || Date.now()).toLocaleDateString('es-ES')}</p>
               </div>
@@ -1282,7 +1282,7 @@ export async function registerRoutes(
         .returning();
 
       // Automatically make invoice available in documentation center
-      const invoiceNumber = `INV-${new Date().getFullYear()}-${String(orderId).padStart(5, '0')}`;
+      const displayInvoiceNumber = order.invoiceNumber || `ORD-${String(orderId).padStart(5, '0')}`;
       
       // Check if invoice already exists to avoid duplicates
       const existingDoc = await db.select().from(applicationDocumentsTable)
@@ -1292,7 +1292,7 @@ export async function registerRoutes(
       if (existingDoc.length === 0) {
         await db.insert(applicationDocumentsTable).values({
           orderId,
-          fileName: `Factura ${invoiceNumber}`,
+          fileName: `Factura ${displayInvoiceNumber}`,
           fileType: "application/pdf",
           fileUrl: `/api/orders/${orderId}/invoice`,
           documentType: "invoice",
@@ -1430,6 +1430,10 @@ export async function registerRoutes(
         const [currentUser] = await db.select().from(usersTable).where(eq(usersTable.id, req.session.userId)).limit(1);
         if (currentUser && (currentUser.accountStatus === 'pending' || currentUser.accountStatus === 'deactivated')) {
           return res.status(403).json({ message: "Tu cuenta está en revisión o desactivada. No puedes realizar nuevos pedidos en este momento." });
+        }
+        // Check if email is verified before allowing order creation
+        if (currentUser && !currentUser.emailVerified) {
+          return res.status(403).json({ message: "Debes verificar tu email antes de realizar un pedido. Por favor revisa tu bandeja de entrada." });
         }
       }
       const { productId } = api.orders.create.input.parse(req.body);
@@ -2215,7 +2219,7 @@ export async function registerRoutes(
             <div style="font-family: 'Inter', sans-serif; max-width: 600px; margin: auto; background: #fff;">
               ${getEmailHeader("Nueva Respuesta")}
               <div style="padding: 30px;">
-                <h2 style="color: #0E1215; font-weight: 900; margin-bottom: 15px;">Hola ${message.firstName || 'Cliente'},</h2>
+                <h2 style="color: #0E1215; font-weight: 900; margin-bottom: 15px;">Hola ${message.name?.split(' ')[0] || 'Cliente'},</h2>
                 <p style="color: #666; margin-bottom: 20px;">Hemos respondido a tu consulta (Ticket: MSG-${messageId}):</p>
                 <div style="background: #F0FDF4; border-left: 4px solid #6EDC8A; padding: 20px; margin: 20px 0; border-radius: 8px;">
                   <p style="margin: 0; color: #0E1215; line-height: 1.6;">${content}</p>
@@ -2262,7 +2266,7 @@ export async function registerRoutes(
     ].filter(Boolean).join(', ') : '';
     const userIdNumber = order.user?.idNumber ? `${order.user.idType?.toUpperCase() || 'ID'}: ${order.user.idNumber}` : '';
     const productName = order.product?.name || 'Servicio de Constitución LLC';
-    const invoiceNumber = `INV-${new Date(order.createdAt || Date.now()).getFullYear()}-${String(order.id).padStart(5, '0')}`;
+    const invoiceNumber = order.invoiceNumber || `ORD-${String(order.id).padStart(5, '0')}`;
     
     return `
       <!DOCTYPE html>
