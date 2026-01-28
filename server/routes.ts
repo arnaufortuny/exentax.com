@@ -654,6 +654,22 @@ export async function registerRoutes(
     }
   });
 
+  // Get user notifications
+  app.get("/api/user/notifications", isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.session.userId;
+      const notifs = await db.select()
+        .from(userNotifications)
+        .where(eq(userNotifications.userId, userId))
+        .orderBy(desc(userNotifications.createdAt))
+        .limit(50);
+      res.json(notifs);
+    } catch (error) {
+      console.error("Get notifications error:", error);
+      res.status(500).json({ message: "Error fetching notifications" });
+    }
+  });
+
   app.patch("/api/user/notifications/:id/read", isAuthenticated, async (req: any, res) => {
     try {
       await db.update(userNotifications)

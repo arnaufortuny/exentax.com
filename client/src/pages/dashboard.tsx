@@ -1127,7 +1127,19 @@ export default function Dashboard() {
                   </div>
                   <div>
                     <Label className="text-xs">Actividad de Negocio</Label>
-                    <Input value={editingUser.businessActivity || ''} onChange={e => setEditingUser({...editingUser, businessActivity: e.target.value})} data-testid="input-edit-activity" />
+                    <Select value={editingUser.businessActivity || ''} onValueChange={val => setEditingUser({...editingUser, businessActivity: val})}>
+                      <SelectTrigger data-testid="select-edit-activity"><SelectValue placeholder="Seleccionar actividad" /></SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="ecommerce">E-commerce</SelectItem>
+                        <SelectItem value="dropshipping">Dropshipping</SelectItem>
+                        <SelectItem value="consulting">Consultoría</SelectItem>
+                        <SelectItem value="marketing">Marketing Digital</SelectItem>
+                        <SelectItem value="software">Desarrollo de Software</SelectItem>
+                        <SelectItem value="trading">Trading / Inversiones</SelectItem>
+                        <SelectItem value="freelance">Freelance</SelectItem>
+                        <SelectItem value="other">Otra</SelectItem>
+                      </SelectContent>
+                    </Select>
                   </div>
                   <div>
                     <Label className="text-xs">Dirección</Label>
