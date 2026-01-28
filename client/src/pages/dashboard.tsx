@@ -406,12 +406,12 @@ export default function Dashboard() {
   }
 
   const menuItems = [
-    { id: 'services', label: 'Servicios', icon: Package, mobileLabel: 'Servicios' },
-    { id: 'notifications', label: 'Alertas', icon: BellRing, mobileLabel: 'Alertas' },
-    { id: 'messages', label: 'Mensajes', icon: Mail, mobileLabel: 'Msgs' },
-    { id: 'documents', label: 'Docs', icon: FileText, mobileLabel: 'Docs' },
+    { id: 'services', label: 'Mis Servicios', icon: Package, mobileLabel: 'Servicios' },
+    { id: 'notifications', label: 'Seguimiento', icon: BellRing, mobileLabel: 'Seguim.' },
+    { id: 'messages', label: '¿Necesitas ayuda?', icon: Mail, mobileLabel: 'Ayuda' },
+    { id: 'documents', label: 'Documentos', icon: FileText, mobileLabel: 'Docs' },
     { id: 'payments', label: 'Pagos', icon: CreditCard, mobileLabel: 'Pagos' },
-    { id: 'profile', label: 'Perfil', icon: UserIcon, mobileLabel: 'Perfil' },
+    { id: 'profile', label: 'Mi Perfil', icon: UserIcon, mobileLabel: 'Perfil' },
     ...(user?.isAdmin ? [
       { id: 'admin', label: 'Admin', icon: Shield, mobileLabel: 'Admin' },
       { id: 'logs', label: 'Logs', icon: FileText, mobileLabel: 'Logs' }
