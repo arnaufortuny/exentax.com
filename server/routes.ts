@@ -1264,6 +1264,9 @@ export async function registerRoutes(
   });
 
   // Client document upload endpoint
+  const MAX_FILE_SIZE_MB = 5;
+  const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 * 1024;
+  
   app.post("/api/user/documents/upload", isAuthenticated, async (req: any, res) => {
     try {
       const userId = req.session.userId;
@@ -1277,21 +1280,30 @@ export async function registerRoutes(
         return res.status(400).json({ message: "No tienes pedidos activos" });
       }
 
-      // Use multer or similar for file handling - for now, handle base64/form-data
+      // Use busboy for file handling with size limit
       const busboy = (await import('busboy')).default;
-      const bb = busboy({ headers: req.headers });
+      const bb = busboy({ 
+        headers: req.headers,
+        limits: { fileSize: MAX_FILE_SIZE_BYTES }
+      });
       
       let fileName = '';
       let fileBuffer: Buffer | null = null;
+      let fileTruncated = false;
       
       bb.on('file', (name: string, file: any, info: any) => {
         fileName = info.filename || `documento_${Date.now()}`;
         const chunks: Buffer[] = [];
         file.on('data', (data: Buffer) => chunks.push(data));
+        file.on('limit', () => { fileTruncated = true; });
         file.on('end', () => { fileBuffer = Buffer.concat(chunks); });
       });
 
       bb.on('finish', async () => {
+        if (fileTruncated) {
+          return res.status(413).json({ message: `El archivo excede el límite de ${MAX_FILE_SIZE_MB}MB` });
+        }
+        
         if (!fileBuffer) {
           return res.status(400).json({ message: "No se recibió ningún archivo" });
         }
@@ -1306,6 +1318,9 @@ export async function registerRoutes(
         const filePath = path.join(uploadDir, safeFileName);
         await fs.writeFile(filePath, fileBuffer);
         
+        // Generate ticket ID for this document upload
+        const ticketId = `DOC-${Math.floor(10000000 + Math.random() * 90000000)}`;
+        
         // Create document record
         const doc = await db.insert(applicationDocumentsTable).values({
           orderId: userOrders[0].id,
@@ -1317,13 +1332,62 @@ export async function registerRoutes(
           uploadedBy: userId
         }).returning();
 
-        // Notify admin about new document
+        // Get user data for admin notification
         const userData = await db.select().from(usersTable).where(eq(usersTable.id, userId)).limit(1);
-        if (userData[0]) {
-          console.log(`[Document Upload] User ${userData[0].firstName} ${userData[0].lastName} uploaded: ${fileName}`);
+        const user = userData[0];
+        
+        if (user) {
+          // Create message in admin panel as support ticket
+          const { encrypt } = await import("./utils/encryption");
+          const messageContent = `El cliente ha subido un nuevo documento: ${fileName}\n\nArchivo disponible en: ${doc[0].fileUrl}`;
+          
+          await db.insert(messagesTable).values({
+            userId,
+            name: `${user.firstName || ''} ${user.lastName || ''}`.trim() || 'Cliente',
+            email: user.email || 'sin-email@cliente.com',
+            subject: `Documento Recibido: ${fileName}`,
+            content: messageContent,
+            encryptedContent: encrypt(messageContent),
+            type: 'support',
+            status: 'unread',
+            messageId: ticketId
+          });
+          
+          // Log for admin with ticket ID
+          console.log(`[Document Upload] Ticket ${ticketId} - User ${user.firstName} ${user.lastName} (${user.email}) uploaded: ${fileName}`);
+          
+          // Email notification to admin
+          await sendEmail({
+            to: "afortuny07@gmail.com",
+            subject: `[${ticketId}] Nuevo Documento Recibido`,
+            html: `
+              <div style="background-color: #f9f9f9; padding: 20px 0;">
+                <div style="font-family: 'Inter', Arial, sans-serif; max-width: 600px; margin: auto; border-radius: 8px; overflow: hidden; color: #1a1a1a; background-color: #ffffff; border: 1px solid #e5e5e5;">
+                  ${getEmailHeader("Nuevo Documento")}
+                  <div style="padding: 40px;">
+                    <h2 style="font-size: 18px; font-weight: 800; margin-bottom: 20px; color: #000;">Documento recibido de cliente</h2>
+                    <div style="background: #F0FDF4; padding: 15px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #6EDC8A;">
+                      <p style="margin: 0; font-size: 12px; color: #6B7280; text-transform: uppercase;">Ticket ID</p>
+                      <p style="margin: 5px 0 0; font-size: 20px; font-weight: 900; color: #0E1215;">${ticketId}</p>
+                    </div>
+                    <table style="width: 100%; font-size: 14px; line-height: 1.6;">
+                      <tr><td style="padding: 8px 0; color: #6B7280;">Cliente:</td><td style="padding: 8px 0; font-weight: 600;">${user.firstName} ${user.lastName}</td></tr>
+                      <tr><td style="padding: 8px 0; color: #6B7280;">Email:</td><td style="padding: 8px 0;">${user.email}</td></tr>
+                      <tr><td style="padding: 8px 0; color: #6B7280;">Archivo:</td><td style="padding: 8px 0; font-weight: 600;">${fileName}</td></tr>
+                      <tr><td style="padding: 8px 0; color: #6B7280;">Tamaño:</td><td style="padding: 8px 0;">${(fileBuffer.length / 1024).toFixed(1)} KB</td></tr>
+                    </table>
+                    <div style="margin-top: 30px; text-align: center;">
+                      <a href="${process.env.BASE_URL || 'https://easyusllc.com'}/dashboard" style="background-color: #6EDC8A; color: #000; padding: 12px 25px; text-decoration: none; border-radius: 100px; font-weight: 900; font-size: 13px; text-transform: uppercase;">Ver en Panel Admin →</a>
+                    </div>
+                  </div>
+                  ${getEmailFooter()}
+                </div>
+              </div>
+            `
+          }).catch(console.error);
         }
 
-        res.json({ success: true, document: doc[0] });
+        res.json({ success: true, document: doc[0], ticketId });
       });
 
       req.pipe(bb);
