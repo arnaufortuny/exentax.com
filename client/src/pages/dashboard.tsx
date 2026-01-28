@@ -1406,16 +1406,38 @@ export default function Dashboard() {
                   {adminSubTab === 'orders' && (
                     <Card className="rounded-2xl border-0 shadow-sm p-0 overflow-hidden">
                       <div className="divide-y">
-                        {adminOrders?.map(order => (
+                        {adminOrders?.map(order => {
+                          const app = order.application || order.maintenanceApplication;
+                          const isMaintenance = !!order.maintenanceApplication && !order.application;
+                          const orderCode = app?.requestCode || order.invoiceNumber || `ORD-${order.id}`;
+                          const appStatus = app?.status;
+                          const isFormComplete = appStatus === 'submitted';
+                          
+                          return (
                           <div key={order.id} className="p-4 space-y-3">
-                            <div className="flex justify-between items-start">
-                              <div>
-                                <p className="font-black">{order.application?.requestCode || `ORD-${order.id}`} - {order.user?.firstName} {order.user?.lastName}</p>
-                                <p className="text-xs text-muted-foreground">{order.user?.email}</p>
-                                <p className="text-xs text-muted-foreground">{order.product?.name} • {(order.amount / 100).toFixed(2)}€</p>
+                            <div className="flex justify-between items-start gap-2">
+                              <div className="flex-1 min-w-0">
+                                <div className="flex items-center gap-2 flex-wrap mb-1">
+                                  <p className="font-black text-sm">{orderCode}</p>
+                                  <Badge className={`text-[9px] ${isMaintenance ? 'bg-blue-100 text-blue-700' : 'bg-green-100 text-green-700'}`}>
+                                    {isMaintenance ? 'MANTENIMIENTO' : 'LLC'}
+                                  </Badge>
+                                  {!isFormComplete && <Badge className="text-[9px] bg-orange-100 text-orange-700">FORMULARIO INCOMPLETO</Badge>}
+                                </div>
+                                <p className="text-xs font-semibold">{app?.ownerFullName || `${order.user?.firstName || ''} ${order.user?.lastName || ''}`}</p>
+                                <p className="text-xs text-muted-foreground">{app?.ownerEmail || order.user?.email}</p>
+                                {app?.ownerPhone && <p className="text-xs text-muted-foreground">{app.ownerPhone}</p>}
+                                <p className="text-xs text-muted-foreground mt-1">
+                                  <strong>Empresa:</strong> {app?.companyName || 'No especificada'} • <strong>Estado:</strong> {app?.state || 'N/A'}
+                                </p>
+                                <p className="text-xs text-muted-foreground">
+                                  <strong>Producto:</strong> {order.product?.name} • <strong>Monto:</strong> {(order.amount / 100).toFixed(2)}€
+                                </p>
+                                {app?.businessCategory && <p className="text-xs text-muted-foreground"><strong>Categoría:</strong> {app.businessCategory}</p>}
+                                {isMaintenance && app?.ein && <p className="text-xs text-muted-foreground"><strong>EIN:</strong> {app.ein}</p>}
                               </div>
                               <Select value={order.status} onValueChange={val => updateStatusMutation.mutate({ id: order.id, status: val })}>
-                                <SelectTrigger className="w-full md:w-32 h-9 rounded-full text-xs bg-white border"><SelectValue /></SelectTrigger>
+                                <SelectTrigger className="w-28 h-9 rounded-full text-xs bg-white border"><SelectValue /></SelectTrigger>
                                 <SelectContent>
                                   <SelectItem value="pending">Pendiente</SelectItem>
                                   <SelectItem value="paid">Pagado</SelectItem>
@@ -1440,7 +1462,7 @@ export default function Dashboard() {
                               </Button>
                             </div>
                           </div>
-                        ))}
+                        )})}
                       </div>
                     </Card>
                   )}

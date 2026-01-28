@@ -88,13 +88,27 @@ export async function createUser(data: {
       `,
     });
 
-    // Notify admin about new registration
-    logActivity("Nuevo Registro de Usuario", { 
-      email: data.email, 
-      clientId: data.clientId,
-      firstName: data.firstName,
-      lastName: data.lastName
-    });
+    // Email notification to admin about new registration
+    const adminEmail = process.env.ADMIN_EMAIL || "afortuny07@gmail.com";
+    await sendEmail({
+      to: adminEmail,
+      subject: `[NUEVA CUENTA] ${data.firstName} ${data.lastName}`,
+      html: `
+        <div style="background-color: #f9f9f9; padding: 20px 0;">
+          <div style="font-family: 'Inter', Arial, sans-serif; max-width: 600px; margin: auto; border-radius: 8px; overflow: hidden; color: #1a1a1a; background-color: #ffffff; border: 1px solid #e5e5e5;">
+            <div style="padding: 40px;">
+              <h2 style="font-size: 18px; font-weight: 800; margin-bottom: 20px; color: #000;">Nueva Cuenta Creada</h2>
+              <div style="background: #f4f4f4; border-left: 4px solid #6EDC8A; padding: 20px; margin: 20px 0;">
+                <p style="margin: 0 0 10px 0; font-size: 14px;"><strong>Cliente ID:</strong> ${data.clientId}</p>
+                <p style="margin: 0 0 10px 0; font-size: 14px;"><strong>Nombre:</strong> ${data.firstName} ${data.lastName}</p>
+                <p style="margin: 0 0 10px 0; font-size: 14px;"><strong>Email:</strong> ${data.email}</p>
+                ${data.phone ? `<p style="margin: 0; font-size: 14px;"><strong>Teléfono:</strong> ${data.phone}</p>` : ''}
+              </div>
+            </div>
+          </div>
+        </div>
+      `
+    }).catch(() => {});
 
   } catch (emailError) {
     // Email error silenced

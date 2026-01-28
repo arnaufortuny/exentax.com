@@ -1665,26 +1665,46 @@ export async function registerRoutes(
       if (updates.status === "submitted" && updatedApp.ownerEmail) {
         const orderIdentifier = updatedApp.requestCode || `#${updatedApp.id}`;
         
-        // Unified Notification to admin
-        logActivity("Nueva Solicitud LLC", {
-          "Referencia": orderIdentifier,
-          "Estado Pago": "CONFIRMADO / COMPLETADO",
-          "Propietario": updatedApp.ownerFullName,
-          "DNI/Pasaporte": updatedApp.ownerIdNumber || 'No proporcionado',
-          "Email": updatedApp.ownerEmail,
-          "Teléfono": updatedApp.ownerPhone,
-          "Empresa": updatedApp.companyName,
-          "Estado Registro": updatedApp.state,
-          "Categoría": updatedApp.businessCategory === "Otra (especificar)" ? updatedApp.businessCategoryOther : updatedApp.businessCategory,
-          "Notas": updatedApp.notes || "Ninguna"
-        });
+        // Get order info for price
+        const [order] = await db.select().from(ordersTable).where(eq(ordersTable.id, updatedApp.orderId)).limit(1);
+        const orderAmount = order ? (order.amount / 100).toFixed(2) : 'N/A';
+        
+        // Email notification to admin about completed order
+        const adminEmail = process.env.ADMIN_EMAIL || "afortuny07@gmail.com";
+        sendEmail({
+          to: adminEmail,
+          subject: `[PEDIDO REALIZADO] ${orderIdentifier} - ${updatedApp.companyName}`,
+          html: `
+            <div style="background-color: #f9f9f9; padding: 20px 0;">
+              <div style="font-family: 'Inter', Arial, sans-serif; max-width: 600px; margin: auto; border-radius: 8px; overflow: hidden; color: #1a1a1a; background-color: #ffffff; border: 1px solid #e5e5e5;">
+                ${getEmailHeader()}
+                <div style="padding: 40px;">
+                  <h2 style="font-size: 18px; font-weight: 800; margin-bottom: 20px; color: #000;">Nuevo Pedido LLC Completado</h2>
+                  <div style="background: #f4f4f4; border-left: 4px solid #6EDC8A; padding: 20px; margin: 20px 0;">
+                    <p style="margin: 0 0 10px 0; font-size: 14px;"><strong>Referencia:</strong> ${orderIdentifier}</p>
+                    <p style="margin: 0 0 10px 0; font-size: 14px;"><strong>Propietario:</strong> ${updatedApp.ownerFullName}</p>
+                    <p style="margin: 0 0 10px 0; font-size: 14px;"><strong>Email:</strong> ${updatedApp.ownerEmail}</p>
+                    <p style="margin: 0 0 10px 0; font-size: 14px;"><strong>Teléfono:</strong> ${updatedApp.ownerPhone || 'No proporcionado'}</p>
+                    <p style="margin: 0 0 10px 0; font-size: 14px;"><strong>DNI/Pasaporte:</strong> ${updatedApp.ownerIdNumber || 'No proporcionado'}</p>
+                    <p style="margin: 0 0 10px 0; font-size: 14px;"><strong>Empresa:</strong> ${updatedApp.companyName}</p>
+                    <p style="margin: 0 0 10px 0; font-size: 14px;"><strong>Estado:</strong> ${updatedApp.state}</p>
+                    <p style="margin: 0 0 10px 0; font-size: 14px;"><strong>Categoría:</strong> ${updatedApp.businessCategory === "Otra (especificar)" ? updatedApp.businessCategoryOther : updatedApp.businessCategory}</p>
+                    <p style="margin: 0 0 10px 0; font-size: 14px;"><strong>Monto:</strong> ${orderAmount}€</p>
+                    ${updatedApp.notes ? `<p style="margin: 0; font-size: 14px;"><strong>Notas:</strong> ${updatedApp.notes}</p>` : ''}
+                  </div>
+                </div>
+                ${getEmailFooter()}
+              </div>
+            </div>
+          `
+        }).catch(() => {});
 
         // Confirmation to client with full info
-      sendEmail({
-        to: updatedApp.ownerEmail,
-        subject: `Confirmación de Solicitud ${orderIdentifier} - Easy US LLC`,
-        html: getConfirmationEmailTemplate(updatedApp.ownerFullName || "Cliente", orderIdentifier, { companyName: updatedApp.companyName }),
-      }).catch(() => {});
+        sendEmail({
+          to: updatedApp.ownerEmail,
+          subject: `Confirmación de Solicitud ${orderIdentifier} - Easy US LLC`,
+          html: getConfirmationEmailTemplate(updatedApp.ownerFullName || "Cliente", orderIdentifier, { companyName: updatedApp.companyName }),
+        }).catch(() => {});
     }
 
     res.json(updatedApp);
@@ -1854,38 +1874,6 @@ export async function registerRoutes(
             messageId: ticketId
           });
           
-          // Log for admin with ticket ID
-          console.log(`[Document Upload] Ticket ${ticketId} - User ${user.firstName} ${user.lastName} (${user.email}) uploaded: ${fileName}`);
-          
-          // Email notification to admin
-          await sendEmail({
-            to: "afortuny07@gmail.com",
-            subject: `[${ticketId}] Nuevo Documento Recibido`,
-            html: `
-              <div style="background-color: #f9f9f9; padding: 20px 0;">
-                <div style="font-family: 'Inter', Arial, sans-serif; max-width: 600px; margin: auto; border-radius: 8px; overflow: hidden; color: #1a1a1a; background-color: #ffffff; border: 1px solid #e5e5e5;">
-                  ${getEmailHeader("Nuevo Documento")}
-                  <div style="padding: 40px;">
-                    <h2 style="font-size: 18px; font-weight: 800; margin-bottom: 20px; color: #000;">Documento recibido de cliente</h2>
-                    <div style="background: #F0FDF4; padding: 15px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #6EDC8A;">
-                      <p style="margin: 0; font-size: 12px; color: #6B7280; text-transform: uppercase;">Ticket ID</p>
-                      <p style="margin: 5px 0 0; font-size: 20px; font-weight: 900; color: #0E1215;">${ticketId}</p>
-                    </div>
-                    <table style="width: 100%; font-size: 14px; line-height: 1.6;">
-                      <tr><td style="padding: 8px 0; color: #6B7280;">Cliente:</td><td style="padding: 8px 0; font-weight: 600;">${user.firstName} ${user.lastName}</td></tr>
-                      <tr><td style="padding: 8px 0; color: #6B7280;">Email:</td><td style="padding: 8px 0;">${user.email}</td></tr>
-                      <tr><td style="padding: 8px 0; color: #6B7280;">Archivo:</td><td style="padding: 8px 0; font-weight: 600;">${fileName}</td></tr>
-                      <tr><td style="padding: 8px 0; color: #6B7280;">Tamaño:</td><td style="padding: 8px 0;">${(fileBuffer.length / 1024).toFixed(1)} KB</td></tr>
-                    </table>
-                    <div style="margin-top: 30px; text-align: center;">
-                      <a href="${process.env.BASE_URL || 'https://easyusllc.com'}/dashboard" style="background-color: #6EDC8A; color: #000; padding: 12px 25px; text-decoration: none; border-radius: 100px; font-weight: 900; font-size: 13px; text-transform: uppercase;">Ver en Panel Admin →</a>
-                    </div>
-                  </div>
-                  ${getEmailFooter()}
-                </div>
-              </div>
-            `
-          }).catch(() => {});
         }
 
         res.json({ success: true, document: doc[0], ticketId });
@@ -2057,15 +2045,50 @@ export async function registerRoutes(
       }
       
       if (updates.status === "submitted") {
-        logActivity("Nueva Solicitud Mantenimiento", {
-          "Propietario": updatedApp.ownerFullName,
-          "LLC": updatedApp.companyName,
-          "EIN": updatedApp.ein,
-          "Estado": updatedApp.state,
-          "Email": updatedApp.ownerEmail,
-          "Disolver": updatedApp.wantsDissolve || "No",
-          "Servicios": updatedApp.expectedServices
-        });
+        const orderIdentifier = updatedApp.requestCode || `MN-${updatedApp.id}`;
+        
+        // Get order info for price
+        const [order] = await db.select().from(ordersTable).where(eq(ordersTable.id, updatedApp.orderId)).limit(1);
+        const orderAmount = order ? (order.amount / 100).toFixed(2) : 'N/A';
+        
+        // Email notification to admin about completed maintenance order
+        const adminEmail = process.env.ADMIN_EMAIL || "afortuny07@gmail.com";
+        sendEmail({
+          to: adminEmail,
+          subject: `[PEDIDO REALIZADO] ${orderIdentifier} - Mantenimiento ${updatedApp.companyName}`,
+          html: `
+            <div style="background-color: #f9f9f9; padding: 20px 0;">
+              <div style="font-family: 'Inter', Arial, sans-serif; max-width: 600px; margin: auto; border-radius: 8px; overflow: hidden; color: #1a1a1a; background-color: #ffffff; border: 1px solid #e5e5e5;">
+                ${getEmailHeader()}
+                <div style="padding: 40px;">
+                  <h2 style="font-size: 18px; font-weight: 800; margin-bottom: 20px; color: #000;">Nuevo Pedido Mantenimiento Completado</h2>
+                  <div style="background: #f4f4f4; border-left: 4px solid #6EDC8A; padding: 20px; margin: 20px 0;">
+                    <p style="margin: 0 0 10px 0; font-size: 14px;"><strong>Referencia:</strong> ${orderIdentifier}</p>
+                    <p style="margin: 0 0 10px 0; font-size: 14px;"><strong>Propietario:</strong> ${updatedApp.ownerFullName}</p>
+                    <p style="margin: 0 0 10px 0; font-size: 14px;"><strong>Email:</strong> ${updatedApp.ownerEmail}</p>
+                    <p style="margin: 0 0 10px 0; font-size: 14px;"><strong>Teléfono:</strong> ${updatedApp.ownerPhone || 'No proporcionado'}</p>
+                    <p style="margin: 0 0 10px 0; font-size: 14px;"><strong>Empresa:</strong> ${updatedApp.companyName}</p>
+                    <p style="margin: 0 0 10px 0; font-size: 14px;"><strong>EIN:</strong> ${updatedApp.ein || 'No proporcionado'}</p>
+                    <p style="margin: 0 0 10px 0; font-size: 14px;"><strong>Estado:</strong> ${updatedApp.state}</p>
+                    <p style="margin: 0 0 10px 0; font-size: 14px;"><strong>Monto:</strong> ${orderAmount}€</p>
+                    <p style="margin: 0 0 10px 0; font-size: 14px;"><strong>Disolver:</strong> ${updatedApp.wantsDissolve || 'No'}</p>
+                    <p style="margin: 0; font-size: 14px;"><strong>Servicios:</strong> ${updatedApp.expectedServices || 'No especificados'}</p>
+                  </div>
+                </div>
+                ${getEmailFooter()}
+              </div>
+            </div>
+          `
+        }).catch(() => {});
+        
+        // Confirmation to client
+        if (updatedApp.ownerEmail) {
+          sendEmail({
+            to: updatedApp.ownerEmail,
+            subject: `Confirmación de Mantenimiento ${orderIdentifier} - Easy US LLC`,
+            html: getConfirmationEmailTemplate(updatedApp.ownerFullName || "Cliente", orderIdentifier, { companyName: updatedApp.companyName }),
+          }).catch(() => {});
+        }
       }
       
       res.json(updatedApp);
