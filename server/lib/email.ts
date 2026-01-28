@@ -152,7 +152,7 @@ export function getOtpEmailTemplate(otp: string, purpose: string = "verificar tu
         <div style="padding: 40px;">
           <div style="text-align: center; margin-bottom: 25px;">
             <div style="display: inline-block; margin-bottom: 15px;">
-              <img src="https://easyusllc.com/logo-email.png?v=5" alt="Easy US LLC" width="60" height="60" style="display: block; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);" />
+              <img src="https://easyusllc.com/logo-email.png?v=5" alt="Easy US LLC" width="60" height="60" style="display: block;" />
             </div>
             <h2 style="font-size: 20px; font-weight: 900; margin: 0; color: #0E1215;">Verificación de Seguridad</h2>
           </div>
@@ -216,7 +216,7 @@ export function getConfirmationEmailTemplate(name: string, requestCode: string, 
         <div style="padding: 40px;">
           <div style="text-align: center; margin-bottom: 25px;">
             <div style="display: inline-block; margin-bottom: 15px;">
-              <img src="https://easyusllc.com/logo-email.png?v=5" alt="Easy US LLC" width="60" height="60" style="display: block; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);" />
+              <img src="https://easyusllc.com/logo-email.png?v=5" alt="Easy US LLC" width="60" height="60" style="display: block;" />
             </div>
             <h2 style="font-size: 22px; font-weight: 900; margin: 0; color: #0E1215;">¡Gracias, ${name}!</h2>
           </div>
