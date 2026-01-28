@@ -52,14 +52,19 @@ type FormValues = z.infer<typeof formSchema>;
 
 export default function LlcFormation() {
   const { user, isAuthenticated } = useAuth();
-  const [, setLocation] = useLocation();
+  const [location, setLocation] = useLocation();
   const [step, setStep] = useState(0);
   const [appId, setAppId] = useState<number | null>(null);
   const [isOtpSent, setIsOtpSent] = useState(false);
   const [isEmailVerified, setIsEmailVerified] = useState(false);
   const [acceptedInfo, setAcceptedInfo] = useState(false);
   const [acceptedTerms, setAcceptedTerms] = useState(false);
+  const [isEditMode, setIsEditMode] = useState(false);
   const { toast } = useToast();
+  
+  // Check for edit parameter in URL
+  const urlParams = new URLSearchParams(window.location.search);
+  const editAppId = urlParams.get('edit');
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -127,15 +132,53 @@ export default function LlcFormation() {
   useEffect(() => {
     async function init() {
       try {
+        // If in edit mode, load existing application data
+        if (editAppId) {
+          const res = await fetch(`/api/llc/${editAppId}`);
+          if (res.ok) {
+            const appData = await res.json();
+            setAppId(Number(editAppId));
+            setIsEditMode(true);
+            setIsEmailVerified(true); // Skip email verification for edit mode
+            
+            // Populate form with existing data
+            form.reset({
+              ownerFullName: appData.ownerFullName || "",
+              ownerEmail: appData.ownerEmail || "",
+              ownerPhone: appData.ownerPhone || "",
+              companyName: appData.companyName || "",
+              companyNameOption2: appData.companyNameOption2 || "",
+              ownerNamesAlternates: appData.ownerNamesAlternates || "",
+              state: appData.state || "New Mexico",
+              ownerCount: appData.ownerCount || 1,
+              ownerCountryResidency: appData.ownerCountryResidency || "",
+              ownerAddress: appData.ownerAddress || "",
+              ownerBirthDate: appData.ownerBirthDate || "",
+              businessActivity: appData.businessActivity || "",
+              isSellingOnline: appData.isSellingOnline || "",
+              needsBankAccount: appData.needsBankAccount || "",
+              willUseStripe: appData.willUseStripe || "",
+              wantsBoiReport: appData.wantsBoiReport || "",
+              wantsMaintenancePack: appData.wantsMaintenancePack || "",
+              notes: appData.notes || "",
+              idDocumentUrl: appData.idDocumentUrl || "",
+              otp: ""
+            });
+            toast({ title: "Datos cargados", description: "Puedes modificar los datos de tu solicitud" });
+            return;
+          }
+        }
+        
+        // Normal flow: create new order
         const res = await apiRequest("POST", "/api/orders", { productId: 1 });
         const data = await res.json();
         setAppId(data.application.id);
       } catch (err) {
-        toast({ title: "Error al iniciar", description: "No se pudo crear la solicitud", variant: "destructive" });
+        toast({ title: "Error al iniciar", description: "No se pudo cargar la solicitud", variant: "destructive" });
       }
     }
     init();
-  }, []);
+  }, [editAppId]);
 
   useEffect(() => {
     if (isAuthenticated && user) {
@@ -224,6 +267,16 @@ export default function LlcFormation() {
 
   const onSubmit = async (data: FormValues) => {
     try {
+      // In edit mode, save changes and redirect to dashboard
+      if (isEditMode) {
+        await apiRequest("PUT", `/api/llc/${appId}`, data);
+        toast({ title: "Datos actualizados", description: "Los cambios han sido guardados correctamente." });
+        clearDraft();
+        setLocation("/dashboard");
+        return;
+      }
+      
+      // Normal flow: submit and proceed to payment
       await apiRequest("PUT", `/api/llc/${appId}`, { ...data, status: "submitted" });
       
       // Update user profile with form data if authenticated
@@ -253,6 +306,19 @@ export default function LlcFormation() {
       toast({ title: "Error al guardar", variant: "destructive" });
     }
   };
+  
+  // Save changes in edit mode
+  const handleSaveChanges = async () => {
+    const data = form.getValues();
+    try {
+      await apiRequest("PUT", `/api/llc/${appId}`, data);
+      toast({ title: "Datos actualizados", description: "Los cambios han sido guardados correctamente." });
+      clearDraft();
+      setLocation("/dashboard");
+    } catch {
+      toast({ title: "Error al guardar", variant: "destructive" });
+    }
+  };
 
   const handlePayment = async () => {
     toast({ title: "Redirigiendo a Stripe...", description: "Simulación de pago en curso." });
@@ -267,7 +333,37 @@ export default function LlcFormation() {
     <div className="min-h-screen bg-background font-sans w-full">
       <Navbar />
       <main className="pt-24 pb-16 max-w-4xl mx-auto px-4 md:px-6">
-        <h1 className="text-3xl md:text-4xl font-black  mb-4 text-primary leading-tight">Constituir mi <span className="text-accent">LLC</span></h1>
+        {isEditMode && (
+          <div className="bg-accent/10 border border-accent/20 rounded-2xl p-4 mb-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <div>
+              <p className="font-black text-primary">Modo Edición</p>
+              <p className="text-sm text-muted-foreground">Estás modificando los datos de tu pedido pendiente</p>
+            </div>
+            <div className="flex gap-2">
+              <Button 
+                type="button"
+                variant="outline" 
+                className="rounded-full"
+                onClick={() => setLocation("/dashboard")}
+              >
+                Cancelar
+              </Button>
+              <Button 
+                type="button"
+                className="bg-accent text-primary font-black rounded-full"
+                onClick={handleSaveChanges}
+                data-testid="button-save-changes"
+              >
+                Guardar Cambios
+              </Button>
+            </div>
+          </div>
+        )}
+        
+        <h1 className="text-3xl md:text-4xl font-black  mb-4 text-primary leading-tight">
+          {isEditMode ? "Modificar datos de " : "Constituir mi "}
+          <span className="text-accent">LLC</span>
+        </h1>
         
         <StepProgress currentStep={step} totalSteps={TOTAL_STEPS} className="mb-8" />
         
@@ -275,7 +371,7 @@ export default function LlcFormation() {
           <form className="space-y-6 md:space-y-8" onSubmit={form.handleSubmit(onSubmit)}>
             
             {step === 0 && (
-              <div key="step-0"}}} className="space-y-6 text-left">
+              <div key="step-0" className="space-y-6 text-left">
                 <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight">1️⃣ ¿Cómo te llamas?</h2>
                 <FormDescription>El nombre real, el que pondremos en los documentos oficiales</FormDescription>
                 <FormField control={form.control} name="ownerFullName" render={({ field }) => (
@@ -290,7 +386,7 @@ export default function LlcFormation() {
             )}
 
             {step === 1 && (
-              <div key={"step-" + step}}}} className="space-y-6 text-left">
+              <div key={"step-" + step} className="space-y-6 text-left">
                 <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight">2️⃣ Email de contacto</h2>
                 <FormDescription>Aquí te enviaremos los avances y documentos de tu LLC</FormDescription>
                 <FormField control={form.control} name="ownerEmail" render={({ field }) => (
@@ -308,7 +404,7 @@ export default function LlcFormation() {
             )}
 
             {step === 2 && (
-              <div key={"step-" + step}}}} className="space-y-6 text-left">
+              <div key={"step-" + step} className="space-y-6 text-left">
                 <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight">3️⃣ WhatsApp (muy recomendado)</h2>
                 <FormDescription>Para dudas rápidas y avisos importantes</FormDescription>
                 <FormField control={form.control} name="ownerPhone" render={({ field }) => (
@@ -326,7 +422,7 @@ export default function LlcFormation() {
             )}
 
             {step === 3 && (
-              <div key={"step-" + step}}}} className="space-y-6 text-left">
+              <div key={"step-" + step} className="space-y-6 text-left">
                 <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight">4️⃣ ¿Cómo quieres que se llame tu LLC?</h2>
                 <FormDescription>Si no estás 100% seguro, no pasa nada. Lo revisamos contigo</FormDescription>
                 <FormField control={form.control} name="companyName" render={({ field }) => (
@@ -344,7 +440,7 @@ export default function LlcFormation() {
             )}
 
             {step === 4 && (
-              <div key={"step-" + step}}}} className="space-y-6 text-left">
+              <div key={"step-" + step} className="space-y-6 text-left">
                 <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight">5️⃣ ¿Tienes nombres alternativos? (opcional)</h2>
                 <FormDescription>Plan B, C o D por si el primero no está disponible</FormDescription>
                 <div className="space-y-4">
@@ -371,7 +467,7 @@ export default function LlcFormation() {
             )}
 
             {step === 5 && (
-              <div key={"step-" + step}}}} className="space-y-6 text-left">
+              <div key={"step-" + step} className="space-y-6 text-left">
                 <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight">6️⃣ Estado donde quieres crear la LLC</h2>
                 <FormDescription>Si dudas, te asesoramos antes de continuar</FormDescription>
                 <FormField control={form.control} name="state" render={({ field }) => (
@@ -396,7 +492,7 @@ export default function LlcFormation() {
             )}
 
             {step === 6 && (
-              <div key={"step-" + step}}}} className="space-y-6 text-left">
+              <div key={"step-" + step} className="space-y-6 text-left">
                 <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight">7️⃣ ¿Quién será el propietario?</h2>
                 <FormDescription>Esto es importante a nivel fiscal</FormDescription>
                 <FormField control={form.control} name="ownerCount" render={({ field }) => (
@@ -432,7 +528,7 @@ export default function LlcFormation() {
             )}
 
             {step === 7 && (
-              <div key={"step-" + step}}}} className="space-y-6 text-left">
+              <div key={"step-" + step} className="space-y-6 text-left">
                 <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight">9️⃣ País de residencia</h2>
                 <FormField control={form.control} name="ownerCountryResidency" render={({ field }) => (
                   <FormItem>
@@ -449,7 +545,7 @@ export default function LlcFormation() {
             )}
 
             {step === 8 && (
-              <div key={"step-" + step}}}} className="space-y-6 text-left">
+              <div key={"step-" + step} className="space-y-6 text-left">
                 <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight">🔟 Dirección completa</h2>
                 <FormDescription>Calle, número, ciudad, código postal y país de tu residencia habitual</FormDescription>
                 <FormField control={form.control} name="ownerAddress" render={({ field }) => (
@@ -467,7 +563,7 @@ export default function LlcFormation() {
             )}
 
             {step === 9 && (
-              <div key={"step-" + step}}}} className="space-y-6 text-left">
+              <div key={"step-" + step} className="space-y-6 text-left">
                 <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight">1️⃣1️⃣ Fecha de nacimiento</h2>
                 <FormField control={form.control} name="ownerBirthDate" render={({ field }) => (
                   <FormItem>
@@ -484,7 +580,7 @@ export default function LlcFormation() {
             )}
 
             {step === 10 && (
-              <div key={"step-" + step}}}} className="space-y-6 text-left">
+              <div key={"step-" + step} className="space-y-6 text-left">
                 <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight">1️⃣2️⃣ Documento de identidad</h2>
                 <FormDescription>DNI o pasaporte en vigor (puedes proporcionarlo más tarde)</FormDescription>
                 <div className="space-y-4">
@@ -522,7 +618,7 @@ export default function LlcFormation() {
             )}
 
             {step === 11 && (
-              <div key={"step-" + step}}}} className="space-y-6 text-left">
+              <div key={"step-" + step} className="space-y-6 text-left">
                 <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight">1️⃣3️⃣ ¿A qué se dedicará tu LLC?</h2>
                 <FormDescription>Explícalo con tus palabras, sin tecnicismos</FormDescription>
                 <FormField control={form.control} name="businessActivity" render={({ field }) => (
@@ -539,7 +635,7 @@ export default function LlcFormation() {
             )}
 
             {step >= 12 && step <= 17 && (
-              <div key={"step-" + step}}}} className="space-y-6 text-left">
+              <div key={"step-" + step} className="space-y-6 text-left">
                 {step === 12 && (
                   <>
                     <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight">1️⃣4️⃣ ¿Vas a vender online?</h2>
@@ -643,7 +739,7 @@ export default function LlcFormation() {
             )}
 
             {step === 18 && (
-              <div key={"step-" + step}}}} className="space-y-8 text-left">
+              <div key={"step-" + step} className="space-y-8 text-left">
                 <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight">Revisión Final</h2>
                 <div className="bg-accent/5 p-6 md:p-8 rounded-[2rem] border border-accent/20 space-y-4">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs md:text-sm">
@@ -684,7 +780,7 @@ export default function LlcFormation() {
             )}
 
             {step === 20 && (
-              <div key={"step-" + step}}}} className="space-y-8 text-center">
+              <div key={"step-" + step} className="space-y-8 text-center">
                 <div className="w-16 h-16 md:w-20 md:h-20 bg-accent/20 rounded-full flex items-center justify-center mx-auto mb-6">
                   <CreditCard className="w-8 h-8 md:w-10 md:h-10 text-accent" />
                 </div>

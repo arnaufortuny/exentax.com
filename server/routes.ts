@@ -2444,7 +2444,7 @@ export async function registerRoutes(
     const userName = order.user ? `${order.user.firstName || ''} ${order.user.lastName || ''}`.trim() : 'Cliente';
     const userEmail = order.user?.email || '';
     const productName = order.product?.name || 'Servicio de Constitución LLC';
-    const receiptNumber = `REC-${new Date(order.createdAt).getFullYear()}-${String(order.id).padStart(5, '0')}`;
+    const receiptNumber = requestCode;
     const statusLabels: Record<string, string> = {
       'paid': 'Pagado',
       'pending': 'Pendiente',

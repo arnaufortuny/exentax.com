@@ -525,11 +525,7 @@ export default function Dashboard() {
       <div className="min-h-screen bg-[#F7F7F5] font-sans flex flex-col">
         <Navbar />
         <main className="flex-1 flex items-center justify-center p-4">
-          <div 
-           }
-           }
-            className="max-w-md w-full"
-          >
+          <div className="max-w-md w-full">
             <Card className="rounded-[2rem] border-0 shadow-2xl overflow-hidden bg-white">
               <div className="bg-red-500 h-2 w-full" />
               <CardContent className="p-8 md:p-12 text-center">
@@ -583,11 +579,7 @@ export default function Dashboard() {
       <Navbar />
       <main className="pt-20 pb-12 px-4 md:px-8 max-w-7xl mx-auto">
         <header className="mb-6 md:mb-8">
-          <div 
-           }
-           }
-            className="flex flex-col md:flex-row md:items-center justify-between gap-4"
-          >
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
               <p className="text-accent font-black tracking-widest text-[10px] md:text-xs mb-1 uppercase">Área de Clientes</p>
               <h1 className="text-2xl md:text-4xl font-black text-primary tracking-tighter leading-tight">
@@ -630,13 +622,7 @@ export default function Dashboard() {
           <div className="lg:col-span-2 space-y-4 md:space-y-6 order-1">
             
               {activeTab === 'services' && (
-                <div
-                  key="services"
-                 }
-                 }
-                 }
-                  className="space-y-6"
-                >
+                <div key="services" className="space-y-6">
                   <div className="mb-4 md:mb-6">
                     <h2 className="text-lg md:text-2xl font-black text-primary tracking-tight">Mis Servicios</h2>
                     <p className="text-[11px] md:text-xs text-muted-foreground font-medium">Gestiona tus trámites activos</p>
@@ -694,9 +680,15 @@ export default function Dashboard() {
                                 </div>
                               )}
                             </div>
-                            {order.status === 'pending' && (
+                            {order.status === 'pending' && order.application && (
                               <div className="mt-6 pt-4 border-t border-gray-50 flex gap-2">
-                                <Button variant="outline" size="sm" className="flex-1 text-[10px] h-8 rounded-full font-black">
+                                <Button 
+                                  variant="outline" 
+                                  size="sm" 
+                                  className="flex-1 text-[10px] h-8 rounded-full font-black"
+                                  onClick={() => window.location.href = `/llc/formation?edit=${order.application.id}`}
+                                  data-testid={`button-modify-order-${order.id}`}
+                                >
                                   MODIFICAR DATOS
                                 </Button>
                               </div>
@@ -710,13 +702,7 @@ export default function Dashboard() {
               )}
 
               {activeTab === 'notifications' && (
-                <div
-                  key="notifications"
-                 }
-                 }
-                 }
-                  className="space-y-6"
-                >
+                <div key="notifications" className="space-y-6">
                   <h2 className="text-xl md:text-2xl font-black text-primary tracking-tight">Notificaciones</h2>
                   {notificationsLoading ? (
                     <div className="space-y-3">
@@ -780,13 +766,7 @@ export default function Dashboard() {
               )}
 
               {activeTab === 'messages' && (
-                <div
-                  key="messages"
-                 }
-                 }
-                 }
-                  className="space-y-6"
-                >
+                <div key="messages" className="space-y-6">
                   <div className="flex justify-between items-center mb-6">
                     <h2 className="text-xl md:text-2xl font-black text-primary tracking-tight">Mis Consultas y Soporte</h2>
                     <Link href="/contacto">
@@ -827,7 +807,7 @@ export default function Dashboard() {
               )}
 
               {activeTab === 'documents' && (
-                <div key="documents"}}} className="space-y-6">
+                <div key="documents" className="space-y-6">
                   <h2 className="text-xl md:text-2xl font-black text-primary tracking-tight mb-6">Centro de Documentación</h2>
                   
                   {notifications?.some((n: any) => n.type === 'action_required' && !n.isRead) && (
@@ -933,7 +913,7 @@ export default function Dashboard() {
               )}
 
               {activeTab === 'payments' && (
-                <div key="payments"}}} className="space-y-6">
+                <div key="payments" className="space-y-6">
                   <h2 className="text-xl md:text-2xl font-black text-primary tracking-tight">Historial de Pagos</h2>
                   <div className="space-y-4">
                     {(!orders || orders.length === 0) ? (
@@ -946,7 +926,7 @@ export default function Dashboard() {
                       orders.map((order: any) => (
                         <Card key={order.id} className="rounded-2xl border-0 shadow-sm p-6 flex justify-between items-center bg-white">
                           <div>
-                            <p className="font-black text-xs md:text-sm">Factura ORD-{order.id}</p>
+                            <p className="font-black text-xs md:text-sm">Factura {order.application?.requestCode || `ORD-${order.id}`}</p>
                             <p className="text-[10px] text-muted-foreground">{new Date(order.createdAt).toLocaleDateString()}</p>
                           </div>
                           <div className="flex gap-2">
@@ -961,7 +941,7 @@ export default function Dashboard() {
               )}
 
               {activeTab === 'calendar' && (
-                <div key="calendar"}}} className="space-y-6">
+                <div key="calendar" className="space-y-6">
                   <div className="mb-6">
                     <h2 className="text-xl md:text-2xl font-black text-primary tracking-tight">Calendario Fiscal</h2>
                     <p className="text-xs text-muted-foreground font-medium">Fechas importantes de tu LLC</p>
@@ -1043,7 +1023,7 @@ export default function Dashboard() {
               )}
 
               {activeTab === 'profile' && (
-                <div key="profile"}}} className="space-y-6">
+                <div key="profile" className="space-y-6">
                   <Card className="rounded-[1.5rem] md:rounded-[2rem] border-0 shadow-sm p-6 md:p-8 bg-white">
                     <div className="flex justify-between items-center mb-6">
                       <h3 className="text-xl font-black">Información Personal</h3>
@@ -1282,7 +1262,7 @@ export default function Dashboard() {
               )}
 
               {activeTab === 'admin' && user?.isAdmin && (
-                <div key="admin"}}} className="space-y-6">
+                <div key="admin" className="space-y-6">
                   <div className="flex flex-wrap gap-1.5 md:gap-2 mb-4 md:mb-6">
                     {['dashboard', 'orders', 'users', 'calendar', 'newsletter', 'inbox'].map(tab => (
                       <Button key={tab} variant={adminSubTab === tab ? "default" : "outline"} onClick={() => setAdminSubTab(tab)} className="rounded-full text-[10px] md:text-xs font-black capitalize px-2 md:px-3" data-testid={`button-admin-tab-${tab}`}>
@@ -1428,7 +1408,7 @@ export default function Dashboard() {
                           <div key={order.id} className="p-4 space-y-3">
                             <div className="flex justify-between items-start">
                               <div>
-                                <p className="font-black">ORD-{order.id} - {order.user?.firstName} {order.user?.lastName}</p>
+                                <p className="font-black">{order.application?.requestCode || `ORD-${order.id}`} - {order.user?.firstName} {order.user?.lastName}</p>
                                 <p className="text-xs text-muted-foreground">{order.user?.email}</p>
                                 <p className="text-xs text-muted-foreground">{order.product?.name} • {(order.amount / 100).toFixed(2)}€</p>
                               </div>
@@ -1549,50 +1529,55 @@ export default function Dashboard() {
                                   <p className="font-black text-base md:text-lg">{app.companyName || 'LLC pendiente'}</p>
                                   <p className="text-xs md:text-sm text-muted-foreground">{order.user?.firstName} {order.user?.lastName} • {app.state}</p>
                                 </div>
-                                <Badge variant="outline" className="text-xs w-fit">ORD-{order.id}</Badge>
+                                <Badge variant="outline" className="text-xs w-fit">{order.application?.requestCode || `ORD-${order.id}`}</Badge>
                               </div>
-                              {/* Fechas - Stack vertical en móvil, grid en desktop */}
-                              <div className="space-y-3 md:space-y-0 md:grid md:grid-cols-2 md:gap-4">
-                                <div className="bg-white p-3 rounded-xl border">
-                                  <Label className="text-xs font-bold text-muted-foreground mb-2 block">Creación LLC</Label>
+                              {/* Fechas - Grid compacto en móvil */}
+                              <div className="grid grid-cols-2 gap-2 md:gap-4">
+                                <div className="bg-white p-2 md:p-3 rounded-lg md:rounded-xl border">
+                                  <Label className="text-[10px] md:text-xs font-bold text-muted-foreground mb-1 block truncate">Creación LLC</Label>
                                   <Input 
                                     type="date" 
+                                    className="h-8 md:h-10 text-xs md:text-sm px-2 md:px-3"
                                     defaultValue={app.llcCreatedDate ? new Date(app.llcCreatedDate).toISOString().split('T')[0] : ''}
                                     onChange={e => updateLlcDatesMutation.mutate({ appId: app.id, field: 'llcCreatedDate', value: e.target.value })}
                                     data-testid={`input-llc-created-${app.id}`}
                                   />
                                 </div>
-                                <div className="bg-white p-3 rounded-xl border">
-                                  <Label className="text-xs font-bold text-muted-foreground mb-2 block">Renovación Agente</Label>
+                                <div className="bg-white p-2 md:p-3 rounded-lg md:rounded-xl border">
+                                  <Label className="text-[10px] md:text-xs font-bold text-muted-foreground mb-1 block truncate">Renovación Agente</Label>
                                   <Input 
                                     type="date" 
+                                    className="h-8 md:h-10 text-xs md:text-sm px-2 md:px-3"
                                     defaultValue={app.agentRenewalDate ? new Date(app.agentRenewalDate).toISOString().split('T')[0] : ''}
                                     onChange={e => updateLlcDatesMutation.mutate({ appId: app.id, field: 'agentRenewalDate', value: e.target.value })}
                                     data-testid={`input-agent-renewal-${app.id}`}
                                   />
                                 </div>
-                                <div className="bg-white p-3 rounded-xl border">
-                                  <Label className="text-xs font-bold text-muted-foreground mb-2 block">IRS 1120</Label>
+                                <div className="bg-white p-2 md:p-3 rounded-lg md:rounded-xl border">
+                                  <Label className="text-[10px] md:text-xs font-bold text-muted-foreground mb-1 block truncate">IRS 1120</Label>
                                   <Input 
                                     type="date" 
+                                    className="h-8 md:h-10 text-xs md:text-sm px-2 md:px-3"
                                     defaultValue={app.irs1120DueDate ? new Date(app.irs1120DueDate).toISOString().split('T')[0] : ''}
                                     onChange={e => updateLlcDatesMutation.mutate({ appId: app.id, field: 'irs1120DueDate', value: e.target.value })}
                                     data-testid={`input-irs1120-${app.id}`}
                                   />
                                 </div>
-                                <div className="bg-white p-3 rounded-xl border">
-                                  <Label className="text-xs font-bold text-muted-foreground mb-2 block">IRS 5472</Label>
+                                <div className="bg-white p-2 md:p-3 rounded-lg md:rounded-xl border">
+                                  <Label className="text-[10px] md:text-xs font-bold text-muted-foreground mb-1 block truncate">IRS 5472</Label>
                                   <Input 
                                     type="date" 
+                                    className="h-8 md:h-10 text-xs md:text-sm px-2 md:px-3"
                                     defaultValue={app.irs5472DueDate ? new Date(app.irs5472DueDate).toISOString().split('T')[0] : ''}
                                     onChange={e => updateLlcDatesMutation.mutate({ appId: app.id, field: 'irs5472DueDate', value: e.target.value })}
                                     data-testid={`input-irs5472-${app.id}`}
                                   />
                                 </div>
-                                <div className="bg-white p-3 rounded-xl border md:col-span-2">
-                                  <Label className="text-xs font-bold text-muted-foreground mb-2 block">Reporte Anual</Label>
+                                <div className="bg-white p-2 md:p-3 rounded-lg md:rounded-xl border col-span-2">
+                                  <Label className="text-[10px] md:text-xs font-bold text-muted-foreground mb-1 block truncate">Reporte Anual</Label>
                                   <Input 
                                     type="date" 
+                                    className="h-8 md:h-10 text-xs md:text-sm px-2 md:px-3"
                                     defaultValue={app.annualReportDueDate ? new Date(app.annualReportDueDate).toISOString().split('T')[0] : ''}
                                     onChange={e => updateLlcDatesMutation.mutate({ appId: app.id, field: 'annualReportDueDate', value: e.target.value })}
                                     data-testid={`input-annual-report-${app.id}`}
