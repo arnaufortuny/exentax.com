@@ -113,6 +113,7 @@ export default function Dashboard() {
   const [noteType, setNoteType] = useState("info");
   const [adminSubTab, setAdminSubTab] = useState("orders");
   const [deleteConfirm, setDeleteConfirm] = useState<{ open: boolean; user: AdminUserData | null }>({ open: false, user: null });
+  const [deleteOwnAccountDialog, setDeleteOwnAccountDialog] = useState(false);
 
   useEffect(() => {
     if (user) {
@@ -307,7 +308,23 @@ export default function Dashboard() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/admin/users"] });
       toast({ title: "Usuario eliminado" });
-      setNoteType("info");
+      setDeleteConfirm({ open: false, user: null });
+    },
+    onError: () => {
+      toast({ title: "Error", description: "No se pudo eliminar el usuario", variant: "destructive" });
+    }
+  });
+
+  const deleteOwnAccountMutation = useMutation({
+    mutationFn: async () => {
+      await apiRequest("DELETE", "/api/user/account");
+    },
+    onSuccess: () => {
+      toast({ title: "Cuenta eliminada", description: "Tu cuenta ha sido eliminada correctamente." });
+      window.location.href = "/";
+    },
+    onError: () => {
+      toast({ title: "Error", description: "No se pudo eliminar la cuenta", variant: "destructive" });
     }
   });
 
@@ -666,7 +683,7 @@ export default function Dashboard() {
                         </div>
                         <div className="p-4 bg-accent/5 rounded-xl border border-accent/10">
                           <p className="text-[10px] font-black uppercase text-muted-foreground mb-1">Estado</p>
-                          <p className="text-lg font-black">{user?.accountStatus === 'active' ? 'Verificado' : user?.accountStatus === 'pending' ? 'Pendiente' : user?.accountStatus === 'suspended' ? 'Suspendido' : user?.accountStatus === 'vip' ? 'VIP' : 'Verificado'}</p>
+                          <p className="text-lg font-black">{user?.accountStatus === 'active' ? 'Verificado' : user?.accountStatus === 'pending' ? 'Pendiente' : user?.accountStatus === 'suspended' ? 'Suspendido' : user?.accountStatus === 'deactivated' ? 'Desactivado' : user?.accountStatus === 'vip' ? 'VIP' : 'Verificado'}</p>
                         </div>
                       </div>
                       <div className="grid grid-cols-2 gap-4">
@@ -699,6 +716,17 @@ export default function Dashboard() {
                           <p className="text-xs text-muted-foreground">Recibe noticias y consejos para tu LLC.</p>
                         </div>
                         <NewsletterToggle />
+                      </div>
+                    </div>
+                    <div className="mt-8 pt-8 border-t">
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <h4 className="font-black text-red-600">Eliminar Cuenta</h4>
+                          <p className="text-xs text-muted-foreground">Esta acción es irreversible. Se eliminarán todos tus datos.</p>
+                        </div>
+                        <Button variant="outline" className="border-red-200 text-red-600 hover:bg-red-50 rounded-full" onClick={() => setDeleteOwnAccountDialog(true)} data-testid="button-delete-own-account">
+                          <Trash2 className="w-4 h-4 mr-2" /> Eliminar
+                        </Button>
                       </div>
                     </div>
                   </Card>
@@ -744,8 +772,8 @@ export default function Dashboard() {
                               <div className="flex-1">
                                 <div className="flex items-center gap-2 flex-wrap">
                                   <p className="font-black text-sm">{u.firstName} {u.lastName}</p>
-                                  <Badge variant={u.accountStatus === 'active' ? 'default' : u.accountStatus === 'vip' ? 'default' : 'secondary'} className={`text-[9px] ${u.accountStatus === 'suspended' ? 'bg-red-100 text-red-700' : u.accountStatus === 'vip' ? 'bg-yellow-100 text-yellow-700' : u.accountStatus === 'pending' ? 'bg-orange-100 text-orange-700' : ''}`}>
-                                    {u.accountStatus === 'active' ? 'VERIFICADO' : u.accountStatus === 'pending' ? 'PENDIENTE' : u.accountStatus === 'suspended' ? 'SUSPENDIDO' : u.accountStatus === 'vip' ? 'VIP' : 'VERIFICADO'}
+                                  <Badge variant={u.accountStatus === 'active' ? 'default' : u.accountStatus === 'vip' ? 'default' : 'secondary'} className={`text-[9px] ${u.accountStatus === 'suspended' ? 'bg-red-100 text-red-700' : u.accountStatus === 'deactivated' ? 'bg-gray-200 text-gray-600' : u.accountStatus === 'vip' ? 'bg-yellow-100 text-yellow-700' : u.accountStatus === 'pending' ? 'bg-orange-100 text-orange-700' : ''}`}>
+                                    {u.accountStatus === 'active' ? 'VERIFICADO' : u.accountStatus === 'pending' ? 'PENDIENTE' : u.accountStatus === 'suspended' ? 'SUSPENDIDO' : u.accountStatus === 'deactivated' ? 'DESACTIVADO' : u.accountStatus === 'vip' ? 'VIP' : 'VERIFICADO'}
                                   </Badge>
                                   {u.isAdmin && <Badge className="text-[9px] bg-purple-100 text-purple-700">ADMIN</Badge>}
                                 </div>
@@ -762,6 +790,7 @@ export default function Dashboard() {
                                   <SelectItem value="active">Activo</SelectItem>
                                   <SelectItem value="pending">Revisión</SelectItem>
                                   <SelectItem value="suspended">Suspendido</SelectItem>
+                                  <SelectItem value="deactivated">Desactivado</SelectItem>
                                   <SelectItem value="vip">VIP</SelectItem>
                                 </SelectContent>
                               </Select>
@@ -1016,6 +1045,23 @@ export default function Dashboard() {
           </Dialog>
         </>
       )}
+
+      <Dialog open={deleteOwnAccountDialog} onOpenChange={setDeleteOwnAccountDialog}>
+        <DialogContent className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 max-w-sm w-[90vw] bg-white rounded-lg shadow-2xl z-[100]">
+          <DialogHeader><DialogTitle className="text-lg font-bold text-red-600">Eliminar Mi Cuenta</DialogTitle></DialogHeader>
+          <div className="py-4">
+            <p className="text-sm text-muted-foreground">¿Estás seguro de que deseas eliminar tu cuenta permanentemente?</p>
+            <p className="text-xs text-red-500 mt-2">Esta acción no se puede deshacer. Todos tus datos serán eliminados.</p>
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setDeleteOwnAccountDialog(false)}>Cancelar</Button>
+            <Button variant="destructive" onClick={() => deleteOwnAccountMutation.mutate()} disabled={deleteOwnAccountMutation.isPending} data-testid="button-confirm-delete-account">
+              {deleteOwnAccountMutation.isPending ? 'Eliminando...' : 'Eliminar Mi Cuenta'}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
       <Footer />
     </div>
   );
