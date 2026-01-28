@@ -1499,11 +1499,11 @@ export async function registerRoutes(
         return res.status(400).json({ message: "Invalid product" });
       }
 
-      // CRITICAL: Ensure pricing follows NM 639, WY 799, DE 999
+      // CRITICAL: Ensure pricing follows NM 739€, WY 899€, DE 1199€
       let finalPrice = product.price;
-      if (product.name.includes("New Mexico")) finalPrice = 63900;
-      else if (product.name.includes("Wyoming")) finalPrice = 79900;
-      else if (product.name.includes("Delaware")) finalPrice = 99900;
+      if (product.name.includes("New Mexico")) finalPrice = 73900;
+      else if (product.name.includes("Wyoming")) finalPrice = 89900;
+      else if (product.name.includes("Delaware")) finalPrice = 119900;
 
       // Create the order
       const order = await storage.createOrder({
@@ -1995,11 +1995,11 @@ export async function registerRoutes(
       const product = await storage.getProduct(productId);
       if (!product) return res.status(400).json({ message: "Invalid product" });
 
-      // State-specific pricing for maintenance: NM 349€, WY 499€, DE 599€
+      // State-specific pricing for maintenance: NM 539€, WY 699€, DE 899€
       let finalPrice = product.price;
-      if (state?.includes("New Mexico")) finalPrice = 34900;
-      else if (state?.includes("Wyoming")) finalPrice = 49900;
-      else if (state?.includes("Delaware")) finalPrice = 59900;
+      if (state?.includes("New Mexico")) finalPrice = 53900;
+      else if (state?.includes("Wyoming")) finalPrice = 69900;
+      else if (state?.includes("Delaware")) finalPrice = 89900;
 
       const order = await storage.createOrder({
         userId,
@@ -2694,7 +2694,7 @@ export async function registerRoutes(
               <div style="background: #f4f4f4; border-left: 4px solid #000; padding: 20px; margin: 20px 0;">
                 <p style="margin: 0 0 10px 0; font-size: 14px;"><strong>Acción:</strong> Clic en botón elegir</p>
                 <p style="margin: 0 0 10px 0; font-size: 14px;"><strong>Estado:</strong> New Mexico Pack</p>
-          <p style="margin: 0; font-size: 14px;"><strong>Precio:</strong> 639€</p>
+          <p style="margin: 0; font-size: 14px;"><strong>Precio:</strong> 739€</p>
         </div>
         <p style="font-size: 12px; color: #999;">IP Origen: 127.0.0.1 | Fecha: ${new Date().toLocaleString('es-ES', { timeZone: 'Europe/Madrid' })}</p>
       </div>
@@ -2764,7 +2764,7 @@ async function seedDatabase() {
     await storage.createProduct({
       name: "New Mexico LLC",
       description: "Constitución rápida en el estado más eficiente. Ideal para bajo coste de mantenimiento.",
-      price: 63900,
+      price: 73900,
       features: [
         "Tasas del estado pagadas",
         "Registered Agent (12 meses)",
@@ -2779,7 +2779,7 @@ async function seedDatabase() {
     await storage.createProduct({
       name: "Wyoming LLC",
       description: "Constitución premium en el estado más prestigioso de USA. Máxima privacidad y protección.",
-      price: 79900,
+      price: 89900,
       features: [
         "Tasas del estado pagadas",
         "Registered Agent (12 meses)",
@@ -2795,7 +2795,7 @@ async function seedDatabase() {
     await storage.createProduct({
       name: "Delaware LLC",
       description: "El estándar para startups y empresas tecnológicas. Reconocimiento legal global.",
-      price: 99900,
+      price: 119900,
       features: [
         "Tasas del estado pagadas",
         "Registered Agent (12 meses)",

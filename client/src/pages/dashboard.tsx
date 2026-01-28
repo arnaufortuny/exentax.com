@@ -1305,107 +1305,92 @@ export default function Dashboard() {
                     <div className="space-y-4 md:space-y-6" data-testid="admin-dashboard-metrics">
                       {/* Ventas */}
                       <div data-testid="section-sales">
-                        <h3 className="text-sm font-bold mb-3 flex items-center gap-2" data-testid="heading-sales"><DollarSign className="w-4 h-4 text-accent" /> Ventas</h3>
+                        <h3 className="text-sm font-bold mb-3" data-testid="heading-sales">Ventas</h3>
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-3">
-                          <Card className="p-3 md:p-4 rounded-xl border-0 shadow-sm bg-gradient-to-br from-green-50 to-white">
+                          <Card className="p-3 md:p-4 rounded-xl border-0 shadow-sm bg-gradient-to-br from-green-50 to-white dark:from-green-950/20 dark:to-background">
                             <p className="text-[10px] md:text-xs text-muted-foreground">Total Ventas</p>
-                            <p className="text-lg md:text-2xl font-black text-green-600" data-testid="stat-total-sales">{((adminStats?.totalSales || 0) / 100).toLocaleString('es-ES', { style: 'currency', currency: 'EUR' })}</p>
+                            <p className="text-lg md:text-2xl font-black text-green-600 dark:text-green-500" data-testid="stat-total-sales">{((adminStats?.totalSales || 0) / 100).toLocaleString('es-ES', { style: 'currency', currency: 'EUR' })}</p>
                           </Card>
-                          <Card className="p-3 md:p-4 rounded-xl border-0 shadow-sm bg-gradient-to-br from-yellow-50 to-white">
+                          <Card className="p-3 md:p-4 rounded-xl border-0 shadow-sm bg-gradient-to-br from-green-50 to-white dark:from-green-950/20 dark:to-background">
                             <p className="text-[10px] md:text-xs text-muted-foreground">Pendiente Cobro</p>
-                            <p className="text-lg md:text-2xl font-black text-yellow-600" data-testid="stat-pending-sales">{((adminStats?.pendingSales || 0) / 100).toLocaleString('es-ES', { style: 'currency', currency: 'EUR' })}</p>
+                            <p className="text-lg md:text-2xl font-black text-green-600 dark:text-green-500" data-testid="stat-pending-sales">{((adminStats?.pendingSales || 0) / 100).toLocaleString('es-ES', { style: 'currency', currency: 'EUR' })}</p>
                           </Card>
-                          <Card className="p-3 md:p-4 rounded-xl border-0 shadow-sm">
+                          <Card className="p-3 md:p-4 rounded-xl border-0 shadow-sm bg-gradient-to-br from-green-50 to-white dark:from-green-950/20 dark:to-background">
                             <p className="text-[10px] md:text-xs text-muted-foreground">Pedidos Totales</p>
-                            <p className="text-lg md:text-2xl font-black" data-testid="stat-total-orders">{adminStats?.orderCount || 0}</p>
+                            <p className="text-lg md:text-2xl font-black text-green-600 dark:text-green-500" data-testid="stat-total-orders">{adminStats?.orderCount || 0}</p>
                           </Card>
-                          <Card className="p-3 md:p-4 rounded-xl border-0 shadow-sm">
+                          <Card className="p-3 md:p-4 rounded-xl border-0 shadow-sm bg-gradient-to-br from-green-50 to-white dark:from-green-950/20 dark:to-background">
                             <p className="text-[10px] md:text-xs text-muted-foreground">Conversión</p>
-                            <p className="text-lg md:text-2xl font-black text-accent" data-testid="stat-conversion">{adminStats?.conversionRate || 0}%</p>
+                            <p className="text-lg md:text-2xl font-black text-green-600 dark:text-green-500" data-testid="stat-conversion">{adminStats?.conversionRate || 0}%</p>
                           </Card>
                         </div>
                       </div>
 
                       {/* Estado Pedidos */}
                       <div data-testid="section-orders">
-                        <h3 className="text-sm font-bold mb-3 flex items-center gap-2" data-testid="heading-orders"><Package className="w-4 h-4 text-accent" /> Estado de Pedidos</h3>
+                        <h3 className="text-sm font-bold mb-3" data-testid="heading-orders">Estado de Pedidos</h3>
                         <div className="grid grid-cols-3 gap-2 md:gap-3">
-                          <Card className="p-3 md:p-4 rounded-xl border-0 shadow-sm bg-gradient-to-br from-orange-50 to-white">
+                          <Card className="p-3 md:p-4 rounded-xl border-0 shadow-sm bg-gradient-to-br from-green-50 to-white dark:from-green-950/20 dark:to-background">
                             <p className="text-[10px] md:text-xs text-muted-foreground">Pendientes</p>
-                            <p className="text-xl md:text-3xl font-black text-orange-500" data-testid="stat-pending-orders">{adminStats?.pendingOrders || 0}</p>
+                            <p className="text-xl md:text-3xl font-black text-green-600 dark:text-green-500" data-testid="stat-pending-orders">{adminStats?.pendingOrders || 0}</p>
                           </Card>
-                          <Card className="p-3 md:p-4 rounded-xl border-0 shadow-sm bg-gradient-to-br from-blue-50 to-white">
+                          <Card className="p-3 md:p-4 rounded-xl border-0 shadow-sm bg-gradient-to-br from-green-50 to-white dark:from-green-950/20 dark:to-background">
                             <p className="text-[10px] md:text-xs text-muted-foreground">En Proceso</p>
-                            <p className="text-xl md:text-3xl font-black text-blue-500" data-testid="stat-processing-orders">{adminStats?.processingOrders || 0}</p>
+                            <p className="text-xl md:text-3xl font-black text-green-600 dark:text-green-500" data-testid="stat-processing-orders">{adminStats?.processingOrders || 0}</p>
                           </Card>
-                          <Card className="p-3 md:p-4 rounded-xl border-0 shadow-sm bg-gradient-to-br from-green-50 to-white">
+                          <Card className="p-3 md:p-4 rounded-xl border-0 shadow-sm bg-gradient-to-br from-green-50 to-white dark:from-green-950/20 dark:to-background">
                             <p className="text-[10px] md:text-xs text-muted-foreground">Completados</p>
-                            <p className="text-xl md:text-3xl font-black text-green-500" data-testid="stat-completed-orders">{adminStats?.completedOrders || 0}</p>
+                            <p className="text-xl md:text-3xl font-black text-green-600 dark:text-green-500" data-testid="stat-completed-orders">{adminStats?.completedOrders || 0}</p>
                           </Card>
                         </div>
                       </div>
 
                       {/* Usuarios */}
                       <div data-testid="section-crm">
-                        <h3 className="text-sm font-bold mb-3 flex items-center gap-2" data-testid="heading-crm"><Users className="w-4 h-4 text-accent" /> Clientes (CRM)</h3>
+                        <h3 className="text-sm font-bold mb-3" data-testid="heading-crm">Clientes (CRM)</h3>
                         <div className="grid grid-cols-2 md:grid-cols-5 gap-2 md:gap-3">
-                          <Card className="p-3 md:p-4 rounded-xl border-0 shadow-sm">
+                          <Card className="p-3 md:p-4 rounded-xl border-0 shadow-sm bg-gradient-to-br from-green-50 to-white dark:from-green-950/20 dark:to-background">
                             <p className="text-[10px] md:text-xs text-muted-foreground">Total Usuarios</p>
-                            <p className="text-xl md:text-3xl font-black" data-testid="stat-total-users">{adminStats?.userCount || 0}</p>
+                            <p className="text-xl md:text-3xl font-black text-green-600 dark:text-green-500" data-testid="stat-total-users">{adminStats?.userCount || 0}</p>
                           </Card>
-                          <Card className="p-3 md:p-4 rounded-xl border-0 shadow-sm bg-gradient-to-br from-green-50 to-white">
-                            <div className="flex items-center gap-1">
-                              <UserCheck className="w-3 h-3 text-green-500" />
-                              <p className="text-[10px] md:text-xs text-muted-foreground">Activos</p>
-                            </div>
-                            <p className="text-xl md:text-3xl font-black text-green-500" data-testid="stat-active-users">{adminStats?.activeAccounts || 0}</p>
+                          <Card className="p-3 md:p-4 rounded-xl border-0 shadow-sm bg-gradient-to-br from-green-50 to-white dark:from-green-950/20 dark:to-background">
+                            <p className="text-[10px] md:text-xs text-muted-foreground">Activos</p>
+                            <p className="text-xl md:text-3xl font-black text-green-600 dark:text-green-500" data-testid="stat-active-users">{adminStats?.activeAccounts || 0}</p>
                           </Card>
-                          <Card className="p-3 md:p-4 rounded-xl border-0 shadow-sm bg-gradient-to-br from-yellow-50 to-white">
-                            <div className="flex items-center gap-1">
-                              <Star className="w-3 h-3 text-yellow-500" />
-                              <p className="text-[10px] md:text-xs text-muted-foreground">VIP</p>
-                            </div>
-                            <p className="text-xl md:text-3xl font-black text-yellow-500" data-testid="stat-vip-users">{adminStats?.vipAccounts || 0}</p>
+                          <Card className="p-3 md:p-4 rounded-xl border-0 shadow-sm bg-gradient-to-br from-green-50 to-white dark:from-green-950/20 dark:to-background">
+                            <p className="text-[10px] md:text-xs text-muted-foreground">VIP</p>
+                            <p className="text-xl md:text-3xl font-black text-green-600 dark:text-green-500" data-testid="stat-vip-users">{adminStats?.vipAccounts || 0}</p>
                           </Card>
-                          <Card className="p-3 md:p-4 rounded-xl border-0 shadow-sm bg-gradient-to-br from-orange-50 to-white">
-                            <div className="flex items-center gap-1">
-                              <Eye className="w-3 h-3 text-orange-500" />
-                              <p className="text-[10px] md:text-xs text-muted-foreground">En Revisión</p>
-                            </div>
-                            <p className="text-xl md:text-3xl font-black text-orange-500" data-testid="stat-pending-accounts">{adminStats?.pendingAccounts || 0}</p>
+                          <Card className="p-3 md:p-4 rounded-xl border-0 shadow-sm bg-gradient-to-br from-green-50 to-white dark:from-green-950/20 dark:to-background">
+                            <p className="text-[10px] md:text-xs text-muted-foreground">En Revisión</p>
+                            <p className="text-xl md:text-3xl font-black text-green-600 dark:text-green-500" data-testid="stat-pending-accounts">{adminStats?.pendingAccounts || 0}</p>
                           </Card>
-                          <Card className="p-3 md:p-4 rounded-xl border-0 shadow-sm bg-gradient-to-br from-red-50 to-white">
-                            <div className="flex items-center gap-1">
-                              <UserX className="w-3 h-3 text-red-500" />
-                              <p className="text-[10px] md:text-xs text-muted-foreground">Desactivadas</p>
-                            </div>
-                            <p className="text-xl md:text-3xl font-black text-red-500" data-testid="stat-deactivated-users">{adminStats?.deactivatedAccounts || 0}</p>
+                          <Card className="p-3 md:p-4 rounded-xl border-0 shadow-sm bg-gradient-to-br from-green-50 to-white dark:from-green-950/20 dark:to-background">
+                            <p className="text-[10px] md:text-xs text-muted-foreground">Desactivadas</p>
+                            <p className="text-xl md:text-3xl font-black text-green-600 dark:text-green-500" data-testid="stat-deactivated-users">{adminStats?.deactivatedAccounts || 0}</p>
                           </Card>
                         </div>
                       </div>
 
                       {/* Comunicaciones y Documentos */}
                       <div data-testid="section-communications">
-                        <h3 className="text-sm font-bold mb-3 flex items-center gap-2" data-testid="heading-communications"><MessageSquare className="w-4 h-4 text-accent" /> Comunicaciones</h3>
+                        <h3 className="text-sm font-bold mb-3" data-testid="heading-communications">Comunicaciones</h3>
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-3">
-                          <Card className="p-3 md:p-4 rounded-xl border-0 shadow-sm">
+                          <Card className="p-3 md:p-4 rounded-xl border-0 shadow-sm bg-gradient-to-br from-green-50 to-white dark:from-green-950/20 dark:to-background">
                             <p className="text-[10px] md:text-xs text-muted-foreground">Suscriptores Newsletter</p>
-                            <p className="text-xl md:text-3xl font-black text-accent" data-testid="stat-subscribers">{adminStats?.subscriberCount || 0}</p>
+                            <p className="text-xl md:text-3xl font-black text-green-600 dark:text-green-500" data-testid="stat-subscribers">{adminStats?.subscriberCount || 0}</p>
                           </Card>
-                          <Card className="p-3 md:p-4 rounded-xl border-0 shadow-sm">
+                          <Card className="p-3 md:p-4 rounded-xl border-0 shadow-sm bg-gradient-to-br from-green-50 to-white dark:from-green-950/20 dark:to-background">
                             <p className="text-[10px] md:text-xs text-muted-foreground">Mensajes Totales</p>
-                            <p className="text-xl md:text-3xl font-black" data-testid="stat-total-messages">{adminStats?.totalMessages || 0}</p>
+                            <p className="text-xl md:text-3xl font-black text-green-600 dark:text-green-500" data-testid="stat-total-messages">{adminStats?.totalMessages || 0}</p>
                           </Card>
-                          <Card className="p-3 md:p-4 rounded-xl border-0 shadow-sm bg-gradient-to-br from-orange-50 to-white">
+                          <Card className="p-3 md:p-4 rounded-xl border-0 shadow-sm bg-gradient-to-br from-green-50 to-white dark:from-green-950/20 dark:to-background">
                             <p className="text-[10px] md:text-xs text-muted-foreground">Mensajes Pendientes</p>
-                            <p className="text-xl md:text-3xl font-black text-orange-500" data-testid="stat-pending-messages">{adminStats?.pendingMessages || 0}</p>
+                            <p className="text-xl md:text-3xl font-black text-green-600 dark:text-green-500" data-testid="stat-pending-messages">{adminStats?.pendingMessages || 0}</p>
                           </Card>
-                          <Card className="p-3 md:p-4 rounded-xl border-0 shadow-sm bg-gradient-to-br from-blue-50 to-white">
-                            <div className="flex items-center gap-1">
-                              <FileCheck className="w-3 h-3 text-blue-500" />
-                              <p className="text-[10px] md:text-xs text-muted-foreground">Docs Pendientes</p>
-                            </div>
-                            <p className="text-xl md:text-3xl font-black text-blue-500" data-testid="stat-pending-docs">{adminStats?.pendingDocs || 0}</p>
+                          <Card className="p-3 md:p-4 rounded-xl border-0 shadow-sm bg-gradient-to-br from-green-50 to-white dark:from-green-950/20 dark:to-background">
+                            <p className="text-[10px] md:text-xs text-muted-foreground">Docs Pendientes</p>
+                            <p className="text-xl md:text-3xl font-black text-green-600 dark:text-green-500" data-testid="stat-pending-docs">{adminStats?.pendingDocs || 0}</p>
                           </Card>
                         </div>
                       </div>
@@ -1967,7 +1952,7 @@ export default function Dashboard() {
                     step="0.01" 
                     value={orderInvoiceAmount} 
                     onChange={e => setOrderInvoiceAmount(e.target.value)} 
-                    placeholder="639.00"
+                    placeholder="739.00"
                     data-testid="input-invoice-amount"
                   />
                 </div>
@@ -2085,7 +2070,7 @@ export default function Dashboard() {
                       type="number" 
                       value={invoiceAmount} 
                       onChange={e => setInvoiceAmount(e.target.value)} 
-                      placeholder="639" 
+                      placeholder="739" 
                       className="w-full"
                       data-testid="input-invoice-amount"
                     />
@@ -2279,15 +2264,15 @@ export default function Dashboard() {
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent className="bg-white z-[9999]">
-                  <SelectItem value="New Mexico">New Mexico - 639€</SelectItem>
-                  <SelectItem value="Wyoming">Wyoming - 799€</SelectItem>
-                  <SelectItem value="Delaware">Delaware - 999€</SelectItem>
+                  <SelectItem value="New Mexico">New Mexico - 739€</SelectItem>
+                  <SelectItem value="Wyoming">Wyoming - 899€</SelectItem>
+                  <SelectItem value="Delaware">Delaware - 1199€</SelectItem>
                 </SelectContent>
               </Select>
             </div>
             <div>
               <Label className="text-xs font-medium">Importe (€)</Label>
-              <Input type="number" value={newOrderData.amount} onChange={e => setNewOrderData(p => ({ ...p, amount: e.target.value }))} placeholder="639" className="mt-1" data-testid="input-order-amount" />
+              <Input type="number" value={newOrderData.amount} onChange={e => setNewOrderData(p => ({ ...p, amount: e.target.value }))} placeholder="739" className="mt-1" data-testid="input-order-amount" />
             </div>
           </div>
           <DialogFooter className="mt-4 flex-col sm:flex-row gap-2">

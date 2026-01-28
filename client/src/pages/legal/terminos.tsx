@@ -105,15 +105,15 @@ export default function Terminos() {
                 <div className="space-y-8">
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
                     <div className="bg-white p-8 rounded-2xl border-2 border-brand-lime/20 text-center shadow-sm">
-                      <p className="text-3xl font-black text-brand-dark">639 €</p>
+                      <p className="text-3xl font-black text-brand-dark">739 €</p>
                       <p className="text-xs font-black tracking-widest opacity-60 mt-2 uppercase">Pack New Mexico</p>
                     </div>
                     <div className="bg-white p-8 rounded-2xl border-2 border-brand-lime/20 text-center shadow-sm">
-                      <p className="text-3xl font-black text-brand-dark">799 €</p>
+                      <p className="text-3xl font-black text-brand-dark">899 €</p>
                       <p className="text-xs font-black tracking-widest opacity-60 mt-2 uppercase">Pack Wyoming</p>
                     </div>
                     <div className="bg-white p-8 rounded-2xl border-2 border-brand-lime/20 text-center shadow-sm">
-                      <p className="text-3xl font-black text-brand-dark">999 €</p>
+                      <p className="text-3xl font-black text-brand-dark">1199 €</p>
                       <p className="text-xs font-black tracking-widest opacity-60 mt-2 uppercase">Pack Delaware</p>
                     </div>
                   </div>
