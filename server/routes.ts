@@ -285,6 +285,92 @@ export async function registerRoutes(
     }
   });
 
+  app.post("/api/admin/users/create", isAdmin, asyncHandler(async (req: Request, res: Response) => {
+    const schema = z.object({
+      firstName: z.string().optional(),
+      lastName: z.string().optional(),
+      email: z.string().email(),
+      phone: z.string().optional(),
+      password: z.string().min(6)
+    });
+    const { firstName, lastName, email, phone, password } = schema.parse(req.body);
+    
+    const existing = await db.select().from(usersTable).where(eq(usersTable.email, email)).limit(1);
+    if (existing.length > 0) {
+      return res.status(400).json({ message: "El email ya está registrado" });
+    }
+    
+    const bcrypt = await import("bcrypt");
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const id = crypto.randomUUID();
+    
+    await db.insert(usersTable).values({
+      id,
+      email,
+      firstName: firstName || null,
+      lastName: lastName || null,
+      phone: phone || null,
+      password: hashedPassword,
+      isEmailVerified: true,
+      accountStatus: 'active'
+    });
+    
+    res.json({ success: true, userId: id });
+  }));
+
+  app.post("/api/admin/orders/create", isAdmin, asyncHandler(async (req: Request, res: Response) => {
+    const validStates = ["New Mexico", "Wyoming", "Delaware"] as const;
+    const schema = z.object({
+      userId: z.string().uuid(),
+      state: z.enum(validStates),
+      amount: z.string().or(z.number()).refine(val => Number(val) > 0, { message: "El importe debe ser mayor que 0" })
+    });
+    const { userId, state, amount } = schema.parse(req.body);
+    
+    const [user] = await db.select().from(usersTable).where(eq(usersTable.id, userId)).limit(1);
+    if (!user) {
+      return res.status(404).json({ message: "Usuario no encontrado" });
+    }
+    
+    const productMap: Record<string, { id: number; name: string }> = {
+      "New Mexico": { id: 1, name: "LLC New Mexico" },
+      "Wyoming": { id: 2, name: "LLC Wyoming" },
+      "Delaware": { id: 3, name: "LLC Delaware" }
+    };
+    const product = productMap[state];
+    const amountCents = Math.round(Number(amount) * 100);
+    
+    const statePrefix = state === "Wyoming" ? "WY" : state === "Delaware" ? "DE" : "NM";
+    const year = new Date().getFullYear().toString().slice(-2);
+    const timestamp = Date.now().toString(36).toUpperCase().slice(-4);
+    const randomSuffix = Math.random().toString(36).substring(2, 6).toUpperCase();
+    const invoiceNumber = `${statePrefix}-${year}${timestamp}-${randomSuffix}`;
+    
+    const [order] = await db.insert(ordersTable).values({
+      userId,
+      productId: product.id,
+      amount: amountCents,
+      status: 'pending',
+      invoiceNumber
+    }).returning();
+    
+    await db.insert(orderEvents).values({
+      orderId: order.id,
+      eventType: 'order_created',
+      eventDescription: `Pedido ${invoiceNumber} creado por administrador`
+    });
+    
+    await db.insert(userNotifications).values({
+      userId,
+      title: 'Nuevo pedido registrado',
+      message: `Se ha registrado el pedido ${invoiceNumber} para ${product.name}`,
+      type: 'info',
+      isRead: false
+    });
+    
+    res.json({ success: true, orderId: order.id, invoiceNumber });
+  }));
+
   app.get("/api/admin/system-stats", isAdmin, async (req, res) => {
     try {
       // Get core metrics

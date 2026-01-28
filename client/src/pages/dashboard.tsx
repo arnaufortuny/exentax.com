@@ -115,6 +115,10 @@ export default function Dashboard() {
   const [invoiceConcept, setInvoiceConcept] = useState("");
   const [invoiceAmount, setInvoiceAmount] = useState("");
   const [adminSubTab, setAdminSubTab] = useState("orders");
+  const [createUserDialog, setCreateUserDialog] = useState(false);
+  const [newUserData, setNewUserData] = useState({ firstName: '', lastName: '', email: '', phone: '', password: '' });
+  const [createOrderDialog, setCreateOrderDialog] = useState(false);
+  const [newOrderData, setNewOrderData] = useState({ userId: '', productId: '1', amount: '', state: 'New Mexico' });
   const [deleteConfirm, setDeleteConfirm] = useState<{ open: boolean; user: AdminUserData | null }>({ open: false, user: null });
   const [deleteOwnAccountDialog, setDeleteOwnAccountDialog] = useState(false);
   const [uploadDialog, setUploadDialog] = useState<{ open: boolean; file: File | null }>({ open: false, file: null });
@@ -366,6 +370,38 @@ export default function Dashboard() {
     }
   });
 
+  const createUserMutation = useMutation({
+    mutationFn: async (data: typeof newUserData) => {
+      const res = await apiRequest("POST", "/api/admin/users/create", data);
+      return res.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/admin/users"] });
+      toast({ title: "Usuario creado", description: "El usuario ha sido registrado correctamente" });
+      setCreateUserDialog(false);
+      setNewUserData({ firstName: '', lastName: '', email: '', phone: '', password: '' });
+    },
+    onError: () => {
+      toast({ title: "Error", description: "No se pudo crear el usuario", variant: "destructive" });
+    }
+  });
+
+  const createOrderMutation = useMutation({
+    mutationFn: async (data: typeof newOrderData) => {
+      const res = await apiRequest("POST", "/api/admin/orders/create", data);
+      return res.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/admin/orders"] });
+      toast({ title: "Pedido creado", description: "El pedido ha sido registrado correctamente" });
+      setCreateOrderDialog(false);
+      setNewOrderData({ userId: '', productId: '1', amount: '', state: 'New Mexico' });
+    },
+    onError: () => {
+      toast({ title: "Error", description: "No se pudo crear el pedido", variant: "destructive" });
+    }
+  });
+
   const deleteOwnAccountMutation = useMutation({
     mutationFn: async () => {
       await apiRequest("DELETE", "/api/user/account");
@@ -503,28 +539,29 @@ export default function Dashboard() {
           </motion.div>
         </header>
 
-        <div className="flex overflow-x-auto pb-4 mb-8 gap-2 no-scrollbar -mx-4 px-4 md:mx-0 md:px-0">
+        <div className="flex overflow-x-auto pb-3 mb-6 gap-1.5 no-scrollbar -mx-4 px-4 md:mx-0 md:px-0 md:gap-2 md:pb-4 md:mb-8">
           {menuItems.map((item) => (
             <Button
               key={item.id}
               variant={activeTab === item.id ? "default" : "outline"}
               onClick={() => setActiveTab(item.id as Tab)}
-              className={`flex items-center gap-2 rounded-full font-black text-xs md:text-sm tracking-tight whitespace-nowrap shrink-0 ${
+              size="sm"
+              className={`flex items-center gap-1.5 md:gap-2 rounded-full font-bold text-[11px] md:text-xs tracking-tight whitespace-nowrap shrink-0 ${
                 activeTab === item.id 
                 ? 'bg-accent text-primary shadow-lg shadow-accent/20' 
                 : 'bg-white text-muted-foreground border-0'
               }`}
               data-testid={`button-tab-${item.id}`}
             >
-              <item.icon className="w-4 h-4" />
+              <item.icon className="w-3.5 h-3.5 md:w-4 md:h-4" />
               <span className="hidden sm:inline">{item.label}</span>
               <span className="sm:hidden">{item.mobileLabel}</span>
             </Button>
           ))}
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8">
-          <div className="lg:col-span-2 space-y-6 order-2 lg:order-1">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6 lg:gap-8">
+          <div className="lg:col-span-2 space-y-4 md:space-y-6 order-2 lg:order-1">
             <AnimatePresence mode="wait">
               {activeTab === 'services' && (
                 <motion.div
@@ -534,9 +571,9 @@ export default function Dashboard() {
                   exit={{ opacity: 0, x: 20 }}
                   className="space-y-6"
                 >
-                  <div className="mb-6">
-                    <h2 className="text-xl md:text-2xl font-black text-primary tracking-tight">Mis Servicios</h2>
-                    <p className="text-xs text-muted-foreground font-medium">Gestiona tus trámites activos</p>
+                  <div className="mb-4 md:mb-6">
+                    <h2 className="text-lg md:text-2xl font-black text-primary tracking-tight">Mis Servicios</h2>
+                    <p className="text-[11px] md:text-xs text-muted-foreground font-medium">Gestiona tus trámites activos</p>
                   </div>
                   
                   {(!orders || orders.length === 0) ? (
@@ -557,30 +594,30 @@ export default function Dashboard() {
                       </div>
                     </Card>
                   ) : (
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+                    <div className="grid grid-cols-1 gap-3 md:gap-4">
                       {orders.map((order) => (
-                        <Card key={order.id} className="rounded-2xl border-0 shadow-sm hover:shadow-md transition-shadow bg-white overflow-hidden">
-                          <CardHeader className="bg-primary/5 pb-4">
-                            <div className="flex justify-between items-start">
-                              <div>
-                                <p className="text-[10px] font-black text-accent uppercase tracking-widest mb-1">Pedido ID: {order.application?.requestCode || order.invoiceNumber || order.id}</p>
-                                <CardTitle className="text-lg font-black text-primary">{order.product?.name}</CardTitle>
+                        <Card key={order.id} className="rounded-xl md:rounded-2xl border-0 shadow-sm hover:shadow-md transition-shadow bg-white overflow-hidden">
+                          <CardHeader className="bg-primary/5 pb-3 md:pb-4 p-3 md:p-6">
+                            <div className="flex justify-between items-start gap-2">
+                              <div className="min-w-0 flex-1">
+                                <p className="text-[9px] md:text-[10px] font-black text-accent uppercase tracking-widest mb-1">Pedido: {order.application?.requestCode || order.invoiceNumber || order.id}</p>
+                                <CardTitle className="text-base md:text-lg font-black text-primary truncate">{order.product?.name}</CardTitle>
                               </div>
-                              <Badge className="bg-accent text-primary font-black uppercase text-[10px]">
+                              <Badge className="bg-accent text-primary font-black uppercase text-[9px] md:text-[10px] shrink-0">
                                 {order.status}
                               </Badge>
                             </div>
                           </CardHeader>
-                          <CardContent className="pt-6">
-                            <div className="relative pl-6 space-y-4 before:absolute before:left-2 before:top-2 before:bottom-2 before:w-0.5 before:bg-gray-100">
+                          <CardContent className="pt-4 md:pt-6 p-3 md:p-6">
+                            <div className="relative pl-5 md:pl-6 space-y-3 md:space-y-4 before:absolute before:left-1.5 md:before:left-2 before:top-2 before:bottom-2 before:w-0.5 before:bg-gray-100">
                               {order.events?.slice(0, 3).map((event: any, i: number) => (
                                 <div key={i} className="relative">
-                                  <div className={`absolute -left-[1.35rem] top-1.5 w-3 h-3 rounded-full border-2 border-white ${i === 0 ? 'bg-accent animate-pulse' : 'bg-gray-300'}`} />
-                                  <div className="flex justify-between items-center">
-                                    <p className={`text-xs font-black ${i === 0 ? 'text-primary' : 'text-muted-foreground'}`}>{event.eventType}</p>
-                                    <span className="text-[9px] text-muted-foreground">{new Date(event.createdAt).toLocaleDateString()}</span>
+                                  <div className={`absolute -left-[1.1rem] md:-left-[1.35rem] top-1 md:top-1.5 w-2.5 h-2.5 md:w-3 md:h-3 rounded-full border-2 border-white ${i === 0 ? 'bg-accent animate-pulse' : 'bg-gray-300'}`} />
+                                  <div className="flex justify-between items-center gap-2">
+                                    <p className={`text-[11px] md:text-xs font-bold ${i === 0 ? 'text-primary' : 'text-muted-foreground'}`}>{event.eventType}</p>
+                                    <span className="text-[9px] text-muted-foreground shrink-0">{new Date(event.createdAt).toLocaleDateString()}</span>
                                   </div>
-                                  <p className="text-[10px] text-muted-foreground line-clamp-1">{event.description}</p>
+                                  <p className="text-[9px] md:text-[10px] text-muted-foreground line-clamp-1">{event.description}</p>
                                 </div>
                               ))}
                               {!order.events?.length && (
@@ -1163,10 +1200,25 @@ export default function Dashboard() {
 
               {activeTab === 'admin' && user?.isAdmin && (
                 <motion.div key="admin" initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 20 }} className="space-y-6">
-                  <div className="flex gap-2 mb-6">
+                  <div className="flex flex-wrap gap-2 mb-6">
                     {['orders', 'users', 'calendar', 'newsletter', 'inbox'].map(tab => (
-                      <Button key={tab} variant={adminSubTab === tab ? "default" : "outline"} onClick={() => setAdminSubTab(tab)} className="rounded-full text-xs font-black capitalize">{tab === 'calendar' ? 'Fechas' : tab}</Button>
+                      <Button key={tab} variant={adminSubTab === tab ? "default" : "outline"} onClick={() => setAdminSubTab(tab)} className="rounded-full text-xs font-black capitalize" data-testid={`button-admin-tab-${tab}`}>
+                        <span className="hidden sm:inline">{tab === 'calendar' ? 'Fechas' : tab === 'orders' ? 'Pedidos' : tab === 'users' ? 'Clientes' : tab}</span>
+                        <span className="sm:hidden">{tab === 'calendar' ? 'Cal' : tab === 'orders' ? 'Ord' : tab === 'users' ? 'Cli' : tab === 'newsletter' ? 'News' : 'Msg'}</span>
+                      </Button>
                     ))}
+                  </div>
+                  <div className="flex gap-2 mb-4">
+                    <Button variant="outline" size="sm" className="rounded-full text-xs font-semibold" onClick={() => setCreateUserDialog(true)} data-testid="button-create-user">
+                      <Plus className="w-3 h-3 mr-1" />
+                      <span className="hidden sm:inline">Nuevo Cliente</span>
+                      <span className="sm:hidden">Cliente</span>
+                    </Button>
+                    <Button variant="outline" size="sm" className="rounded-full text-xs font-semibold" onClick={() => setCreateOrderDialog(true)} data-testid="button-create-order">
+                      <Plus className="w-3 h-3 mr-1" />
+                      <span className="hidden sm:inline">Nuevo Pedido</span>
+                      <span className="sm:hidden">Pedido</span>
+                    </Button>
                   </div>
                   {adminSubTab === 'orders' && (
                     <Card className="rounded-2xl border-0 shadow-sm p-0 overflow-hidden">
@@ -1777,6 +1829,86 @@ export default function Dashboard() {
               data-testid="button-confirm-upload"
             >
               Subir Documento
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={createUserDialog} onOpenChange={setCreateUserDialog}>
+        <DialogContent className="max-w-md w-[95vw] bg-white rounded-2xl">
+          <DialogHeader><DialogTitle className="text-lg font-bold">Crear Nuevo Cliente</DialogTitle></DialogHeader>
+          <div className="space-y-3 pt-2">
+            <div className="grid grid-cols-2 gap-2">
+              <div>
+                <Label className="text-xs font-medium">Nombre</Label>
+                <Input value={newUserData.firstName} onChange={e => setNewUserData(p => ({ ...p, firstName: e.target.value }))} placeholder="Nombre" className="mt-1" data-testid="input-create-user-firstname" />
+              </div>
+              <div>
+                <Label className="text-xs font-medium">Apellidos</Label>
+                <Input value={newUserData.lastName} onChange={e => setNewUserData(p => ({ ...p, lastName: e.target.value }))} placeholder="Apellidos" className="mt-1" data-testid="input-create-user-lastname" />
+              </div>
+            </div>
+            <div>
+              <Label className="text-xs font-medium">Email</Label>
+              <Input type="email" value={newUserData.email} onChange={e => setNewUserData(p => ({ ...p, email: e.target.value }))} placeholder="email@ejemplo.com" className="mt-1" data-testid="input-create-user-email" />
+            </div>
+            <div>
+              <Label className="text-xs font-medium">Teléfono</Label>
+              <Input value={newUserData.phone} onChange={e => setNewUserData(p => ({ ...p, phone: e.target.value }))} placeholder="+34 600 000 000" className="mt-1" data-testid="input-create-user-phone" />
+            </div>
+            <div>
+              <Label className="text-xs font-medium">Contraseña</Label>
+              <Input type="password" value={newUserData.password} onChange={e => setNewUserData(p => ({ ...p, password: e.target.value }))} placeholder="Mínimo 6 caracteres" className="mt-1" data-testid="input-create-user-password" />
+            </div>
+          </div>
+          <DialogFooter className="mt-4 gap-2">
+            <Button variant="outline" onClick={() => setCreateUserDialog(false)} data-testid="button-cancel-create-user">Cancelar</Button>
+            <Button onClick={() => createUserMutation.mutate(newUserData)} disabled={createUserMutation.isPending || !newUserData.email || !newUserData.password} data-testid="button-confirm-create-user">
+              {createUserMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Crear Cliente'}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={createOrderDialog} onOpenChange={setCreateOrderDialog}>
+        <DialogContent className="max-w-md w-[95vw] bg-white rounded-2xl">
+          <DialogHeader><DialogTitle className="text-lg font-bold">Crear Nuevo Pedido</DialogTitle></DialogHeader>
+          <div className="space-y-3 pt-2">
+            <div>
+              <Label className="text-xs font-medium">Cliente</Label>
+              <Select value={newOrderData.userId} onValueChange={val => setNewOrderData(p => ({ ...p, userId: val }))}>
+                <SelectTrigger className="w-full mt-1 bg-white" data-testid="select-order-user">
+                  <SelectValue placeholder="Seleccionar cliente..." />
+                </SelectTrigger>
+                <SelectContent className="bg-white z-[9999]">
+                  {adminUsers?.map((u: any) => (
+                    <SelectItem key={u.id} value={u.id}>{u.firstName} {u.lastName} ({u.email})</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            <div>
+              <Label className="text-xs font-medium">Estado (LLC)</Label>
+              <Select value={newOrderData.state} onValueChange={val => setNewOrderData(p => ({ ...p, state: val }))}>
+                <SelectTrigger className="w-full mt-1 bg-white" data-testid="select-order-state">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent className="bg-white z-[9999]">
+                  <SelectItem value="New Mexico">New Mexico - $639</SelectItem>
+                  <SelectItem value="Wyoming">Wyoming - $799</SelectItem>
+                  <SelectItem value="Delaware">Delaware - $999</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div>
+              <Label className="text-xs font-medium">Importe (€)</Label>
+              <Input type="number" value={newOrderData.amount} onChange={e => setNewOrderData(p => ({ ...p, amount: e.target.value }))} placeholder="639" className="mt-1" data-testid="input-order-amount" />
+            </div>
+          </div>
+          <DialogFooter className="mt-4 gap-2">
+            <Button variant="outline" onClick={() => setCreateOrderDialog(false)} data-testid="button-cancel-create-order">Cancelar</Button>
+            <Button onClick={() => createOrderMutation.mutate(newOrderData)} disabled={createOrderMutation.isPending || !newOrderData.userId || !newOrderData.amount} data-testid="button-confirm-create-order">
+              {createOrderMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Crear Pedido'}
             </Button>
           </DialogFooter>
         </DialogContent>
