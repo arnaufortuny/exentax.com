@@ -73,16 +73,41 @@ export default function MaintenanceApplication() {
 
   useEffect(() => {
     if (isAuthenticated && user) {
+      const ownerFullName = `${user.firstName || ""} ${user.lastName || ""}`.trim();
+      const ownerEmail = user.email || "";
+      const ownerPhone = user.phone || "";
+      const businessActivity = user.businessActivity || "";
+      
       form.reset({
         ...form.getValues(),
-        ownerFullName: `${user.firstName || ""} ${user.lastName || ""}`.trim(),
-        ownerEmail: user.email || "",
-        ownerPhone: user.phone || "",
-        businessActivity: user.businessActivity || "",
+        ownerFullName,
+        ownerEmail,
+        ownerPhone,
+        businessActivity,
       });
+      
       if (user.emailVerified) {
         setIsEmailVerified(true);
       }
+      
+      // Skip to first empty required field (step 0 is creationSource, always needs input)
+      // Steps: 0=creationSource, 1=name, 2=phone, 3=email, 4=companyName, 5=ein, 6=state, 7=businessActivity
+      const fieldsToCheck = [
+        { step: 0, value: "" }, // creationSource - always needs input
+        { step: 1, value: ownerFullName },
+        { step: 2, value: ownerPhone },
+        { step: 3, value: ownerEmail },
+        { step: 4, value: "" }, // companyName - always needs input
+      ];
+      
+      for (const field of fieldsToCheck) {
+        if (!field.value) {
+          setStep(field.step);
+          return;
+        }
+      }
+      // If basic info complete, start at company name (step 4)
+      setStep(4);
     }
   }, [isAuthenticated, user, form]);
 

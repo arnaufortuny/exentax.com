@@ -95,19 +95,45 @@ export default function LlcFormation() {
     if (isAuthenticated && user) {
       const fullAddress = [user.streetType, user.address, user.city, user.province, user.postalCode, user.country]
         .filter(Boolean).join(', ');
+      const ownerFullName = `${user.firstName || ""} ${user.lastName || ""}`.trim();
+      const ownerEmail = user.email || "";
+      const ownerPhone = user.phone || "";
+      const ownerAddress = fullAddress || user.address || "";
+      const ownerCountryResidency = user.country || "";
+      const ownerBirthDate = user.birthDate || "";
+      const businessActivity = user.businessActivity || "";
+      
       form.reset({
         ...form.getValues(),
-        ownerFullName: `${user.firstName || ""} ${user.lastName || ""}`.trim(),
-        ownerEmail: user.email || "",
-        ownerPhone: user.phone || "",
-        ownerAddress: fullAddress || user.address || "",
-        ownerCountryResidency: user.country || "",
-        ownerBirthDate: user.birthDate || "",
-        businessActivity: user.businessActivity || "",
+        ownerFullName,
+        ownerEmail,
+        ownerPhone,
+        ownerAddress,
+        ownerCountryResidency,
+        ownerBirthDate,
+        businessActivity,
       });
+      
       if (user.emailVerified) {
         setIsEmailVerified(true);
       }
+      
+      // Skip to first empty required field
+      const fieldsToCheck = [
+        { step: 0, value: ownerFullName },
+        { step: 1, value: ownerEmail },
+        { step: 2, value: ownerPhone },
+        { step: 3, value: "" }, // companyName - always needs input
+      ];
+      
+      for (const field of fieldsToCheck) {
+        if (!field.value) {
+          setStep(field.step);
+          return;
+        }
+      }
+      // If basic info complete, start at company name (step 3)
+      setStep(3);
     }
   }, [isAuthenticated, user, form]);
 

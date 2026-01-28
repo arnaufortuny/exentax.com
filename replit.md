@@ -27,7 +27,10 @@ Easy US LLC is a business formation service for Spanish-speaking entrepreneurs l
 
 ## Recent Changes
 - **Profile & Form Auto-fill Enhancement (Jan 2026):**
-  - Forms (LLC, Maintenance) now auto-fill all user profile fields: name, email, phone, full address, country, birth date, business activity
+  - Forms (LLC, Maintenance) auto-fill AND skip completed fields: name, email, phone, full address, country, birth date, business activity
+  - Smart step navigation: authenticated users jump directly to first empty required field
+  - LLC form: if name/email/phone complete, starts at "Nombre de empresa" (step 3)
+  - Maintenance form: starts at "creationSource" then skips to first empty field
   - Profile editing controlled by account status: only 'active' and 'vip' can edit
   - Status-specific warning messages: orange (pending), yellow (suspended), red (deactivated)
   - canEdit variable centralizes edit permission logic across dashboard
