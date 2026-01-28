@@ -11,31 +11,6 @@ const app = express();
 app.use('/uploads', express.static(path.join(process.cwd(), 'uploads')));
 const httpServer = createServer(app);
 
-// Improved health check logic: 
-// Only respond with "OK" if it's explicitly a health check or a Replit bot.
-// This prevents blocking the actual website for real users.
-httpServer.on('request', (req, res) => {
-  try {
-    const url = req.url || '/';
-    const accept = req.headers['accept'] || '';
-    const userAgent = req.headers['user-agent'] || '';
-    const isReplit = !!(req.headers['x-replit-deployment-id'] || userAgent.includes('Replit'));
-    
-    // Respond OK only for:
-    // 1. Explicit health check paths
-    // 2. The root path IF it's a Replit bot or NOT seeking HTML
-    if (url === '/health' || url === '/healthz' || 
-       (url === '/' && (isReplit || !accept.includes('text/html')))) {
-      res.writeHead(200, {
-        'Content-Type': 'text/plain',
-        'Cache-Control': 'no-cache, no-store, must-revalidate',
-        'Connection': 'close'
-      });
-      res.end('OK');
-      return;
-    }
-  } catch (e) {}
-});
 
 app.use(compression());
 
