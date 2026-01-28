@@ -650,7 +650,7 @@ export default function Dashboard() {
                                 </div>
                                 <h3 className="font-black text-sm md:text-base">{notif.title}</h3>
                                 <p className="text-sm text-muted-foreground mt-1">{notif.message}</p>
-                                {notif.type === 'action_required' && (
+                                {notif.type === 'action_required' && canEdit && (
                                   <Button 
                                     className="mt-3 bg-accent text-primary font-black rounded-full text-xs px-4"
                                     onClick={() => {
