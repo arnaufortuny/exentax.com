@@ -408,51 +408,70 @@ export default function Dashboard() {
                     </div>
                   </div>
                   
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
-                    {orders?.map((order) => (
-                      <Card key={order.id} className="rounded-2xl border-0 shadow-sm hover:shadow-md transition-shadow bg-white overflow-hidden">
-                        <CardHeader className="bg-primary/5 pb-4">
-                          <div className="flex justify-between items-start">
-                            <div>
-                              <p className="text-[10px] font-black text-accent uppercase tracking-widest mb-1">Pedido ID: {order.application?.requestCode || order.invoiceNumber || order.id}</p>
-                              <CardTitle className="text-lg font-black text-primary">{order.product?.name}</CardTitle>
-                            </div>
-                            <Badge className="bg-accent text-primary font-black uppercase text-[10px]">
-                              {order.status}
-                            </Badge>
-                          </div>
-                        </CardHeader>
-                        <CardContent className="pt-6">
-                          <div className="relative pl-6 space-y-4 before:absolute before:left-2 before:top-2 before:bottom-2 before:w-0.5 before:bg-gray-100">
-                            {order.events?.slice(0, 3).map((event: any, i: number) => (
-                              <div key={i} className="relative">
-                                <div className={`absolute -left-[1.35rem] top-1.5 w-3 h-3 rounded-full border-2 border-white ${i === 0 ? 'bg-accent animate-pulse' : 'bg-gray-300'}`} />
-                                <div className="flex justify-between items-center">
-                                  <p className={`text-xs font-black ${i === 0 ? 'text-primary' : 'text-muted-foreground'}`}>{event.eventType}</p>
-                                  <span className="text-[9px] text-muted-foreground">{new Date(event.createdAt).toLocaleDateString()}</span>
-                                </div>
-                                <p className="text-[10px] text-muted-foreground line-clamp-1">{event.description}</p>
+                  {(!orders || orders.length === 0) ? (
+                    <Card className="rounded-2xl border-0 shadow-sm bg-white p-8 text-center">
+                      <div className="flex flex-col items-center gap-4">
+                        <div className="w-16 h-16 bg-accent/10 rounded-full flex items-center justify-center">
+                          <Package className="w-8 h-8 text-accent" />
+                        </div>
+                        <div>
+                          <h3 className="text-lg font-black text-primary mb-2">Ningún servicio activo</h3>
+                          <p className="text-sm text-muted-foreground mb-6">¡Crea tu LLC hoy mismo! Conoce nuestros packs.</p>
+                        </div>
+                        <Link href="/servicios#pricing">
+                          <Button className="bg-accent text-primary font-black rounded-full px-8 py-3" data-testid="button-view-packs">
+                            Ver Packs
+                          </Button>
+                        </Link>
+                      </div>
+                    </Card>
+                  ) : (
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+                      {orders.map((order) => (
+                        <Card key={order.id} className="rounded-2xl border-0 shadow-sm hover:shadow-md transition-shadow bg-white overflow-hidden">
+                          <CardHeader className="bg-primary/5 pb-4">
+                            <div className="flex justify-between items-start">
+                              <div>
+                                <p className="text-[10px] font-black text-accent uppercase tracking-widest mb-1">Pedido ID: {order.application?.requestCode || order.invoiceNumber || order.id}</p>
+                                <CardTitle className="text-lg font-black text-primary">{order.product?.name}</CardTitle>
                               </div>
-                            ))}
-                            {!order.events?.length && (
-                              <div className="relative">
-                                <div className="absolute -left-[1.35rem] top-1.5 w-3 h-3 rounded-full border-2 border-white bg-accent animate-pulse" />
-                                <p className="text-xs font-black text-primary">Pedido Recibido</p>
-                                <p className="text-[10px] text-muted-foreground">Estamos revisando tu solicitud.</p>
+                              <Badge className="bg-accent text-primary font-black uppercase text-[10px]">
+                                {order.status}
+                              </Badge>
+                            </div>
+                          </CardHeader>
+                          <CardContent className="pt-6">
+                            <div className="relative pl-6 space-y-4 before:absolute before:left-2 before:top-2 before:bottom-2 before:w-0.5 before:bg-gray-100">
+                              {order.events?.slice(0, 3).map((event: any, i: number) => (
+                                <div key={i} className="relative">
+                                  <div className={`absolute -left-[1.35rem] top-1.5 w-3 h-3 rounded-full border-2 border-white ${i === 0 ? 'bg-accent animate-pulse' : 'bg-gray-300'}`} />
+                                  <div className="flex justify-between items-center">
+                                    <p className={`text-xs font-black ${i === 0 ? 'text-primary' : 'text-muted-foreground'}`}>{event.eventType}</p>
+                                    <span className="text-[9px] text-muted-foreground">{new Date(event.createdAt).toLocaleDateString()}</span>
+                                  </div>
+                                  <p className="text-[10px] text-muted-foreground line-clamp-1">{event.description}</p>
+                                </div>
+                              ))}
+                              {!order.events?.length && (
+                                <div className="relative">
+                                  <div className="absolute -left-[1.35rem] top-1.5 w-3 h-3 rounded-full border-2 border-white bg-accent animate-pulse" />
+                                  <p className="text-xs font-black text-primary">Pedido Recibido</p>
+                                  <p className="text-[10px] text-muted-foreground">Estamos revisando tu solicitud.</p>
+                                </div>
+                              )}
+                            </div>
+                            {order.status === 'pending' && (
+                              <div className="mt-6 pt-4 border-t border-gray-50 flex gap-2">
+                                <Button variant="outline" size="sm" className="flex-1 text-[10px] h-8 rounded-full font-black">
+                                  MODIFICAR DATOS
+                                </Button>
                               </div>
                             )}
-                          </div>
-                          {order.status === 'pending' && (
-                            <div className="mt-6 pt-4 border-t border-gray-50 flex gap-2">
-                              <Button variant="outline" size="sm" className="flex-1 text-[10px] h-8 rounded-full font-black">
-                                MODIFICAR DATOS
-                              </Button>
-                            </div>
-                          )}
-                        </CardContent>
-                      </Card>
-                    ))}
-                  </div>
+                          </CardContent>
+                        </Card>
+                      ))}
+                    </div>
+                  )}
                 </motion.div>
               )}
 
