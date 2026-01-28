@@ -10,13 +10,13 @@ const httpServer = createServer(app);
 // Absolute priority health check for Replit deployment
 // This must respond with 200 OK immediately for the root path
 app.get("/", (req, res, next) => {
-  // If it's a browser requesting HTML, we let the normal flow handle it (e.g., serving static files/Vite)
-  // However, for Replit's health check which usually doesn't have text/html in Accept, 
-  // or for anything else, we respond OK immediately to ensure deployment success.
+  // Respond OK immediately for Replit health checks to satisfy the deployment system.
+  // We check for common Replit deployment headers or a non-browser Accept header.
   const accept = req.headers["accept"] || "";
-  const isReplit = req.headers["x-replit-deployment-id"] || (req.headers["user-agent"] && req.headers["user-agent"].includes("Replit"));
+  const isReplit = req.headers["x-replit-deployment-id"] || 
+                  (req.headers["user-agent"] && req.headers["user-agent"].includes("Replit"));
   
-  if (!accept.includes("text/html") || isReplit) {
+  if (isReplit || !accept.includes("text/html")) {
     res.setHeader("Content-Type", "text/plain");
     res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
     return res.status(200).send("OK");
