@@ -10,24 +10,23 @@ const httpServer = createServer(app);
 // ABSOLUTELY FIRST: Respond to health checks immediately at the Node.js layer.
 // This bypasses ALL Express middleware, logic, and routing.
 httpServer.on('request', (req, res) => {
-  // Catch ANY request to '/' or '/health' or '/healthz'
-  const url = req.url || '/';
-  if (url === '/' || url === '/health' || url === '/healthz') {
-    // If it's a browser asking for HTML, we skip and let Express handle it later
-    const accept = req.headers['accept'] || '';
-    if (accept.includes('text/html') && !req.headers['x-replit-deployment-id']) {
-      return; 
+  try {
+    const url = req.url || '/';
+    // Simplified: ANY request for '/' that is NOT explicitly seeking HTML 
+    // or ANY request to /health/healthz gets an immediate 200 OK.
+    if (url === '/' || url === '/health' || url === '/healthz') {
+      const accept = req.headers['accept'] || '';
+      if (!accept.includes('text/html') || req.headers['x-replit-deployment-id']) {
+        res.writeHead(200, {
+          'Content-Type': 'text/plain',
+          'Cache-Control': 'no-cache, no-store, must-revalidate',
+          'Connection': 'close'
+        });
+        res.end('OK');
+        return;
+      }
     }
-
-    // Otherwise, respond IMMEDIATELY with 200 OK.
-    // This is for Replit health checks and deployment bots.
-    res.writeHead(200, {
-      'Content-Type': 'text/plain',
-      'Cache-Control': 'no-cache, no-store, must-revalidate',
-      'Connection': 'close'
-    });
-    res.end('OK');
-  }
+  } catch (e) {}
 });
 
 app.use(compression());
