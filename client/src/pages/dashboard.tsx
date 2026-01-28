@@ -4,7 +4,7 @@ import { Footer } from "@/components/layout/footer";
 import { useAuth } from "@/hooks/use-auth";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { queryClient, apiRequest } from "@/lib/queryClient";
-import { Building2, FileText, Clock, ChevronRight, User as UserIcon, Settings, Package, CreditCard, PlusCircle, Download, ExternalLink, Mail, BellRing, CheckCircle2, AlertCircle, MessageSquare, Send, Shield, Users, Power, Edit, Trash2, FileUp, Newspaper, Loader2, CheckCircle, Receipt, Plus, Calendar, DollarSign, TrendingUp, BarChart3, UserCheck, UserX, Star, Eye, FileCheck } from "lucide-react";
+import { Building2, FileText, Clock, ChevronRight, User as UserIcon, Settings, Package, CreditCard, PlusCircle, Download, ExternalLink, Mail, BellRing, CheckCircle2, AlertCircle, MessageSquare, Send, Shield, Users, Power, Edit, Trash2, FileUp, Newspaper, Loader2, CheckCircle, Receipt, Plus, Calendar, DollarSign, TrendingUp, BarChart3, UserCheck, UserX, Star, Eye, FileCheck, Upload } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { useEffect, useState } from "react";
@@ -731,14 +731,15 @@ export default function Dashboard() {
                                 <p className="text-sm text-muted-foreground mt-1">{notif.message}</p>
                                 {notif.type === 'action_required' && canEdit && (
                                   <Button 
-                                    className="mt-3 bg-accent text-primary font-black rounded-full text-xs px-4"
+                                    className="mt-3 bg-accent text-primary font-black rounded-full text-xs px-4 gap-2"
                                     onClick={() => {
                                       markNotificationRead.mutate(notif.id);
                                       setActiveTab('documents');
                                     }}
-                                    data-testid={`button-complete-action-${notif.id}`}
+                                    data-testid={`button-upload-document-${notif.id}`}
                                   >
-                                    Completar
+                                    <Upload className="w-3 h-3" />
+                                    Subir Documento
                                   </Button>
                                 )}
                               </div>
