@@ -458,15 +458,9 @@ export default function Dashboard() {
                   exit={{ opacity: 0, x: 20 }}
                   className="space-y-6"
                 >
-                  <div className="flex justify-between items-center mb-6">
-                    <div>
-                      <h2 className="text-xl md:text-2xl font-black text-primary tracking-tight">Mis Servicios</h2>
-                      <p className="text-xs text-muted-foreground font-medium">Gestiona tus trámites activos en tiempo real</p>
-                    </div>
-                    <div className="flex items-center gap-2 bg-accent/10 px-3 py-1.5 rounded-full border border-accent/20">
-                      <Clock className="w-3.5 h-3.5 text-accent animate-pulse" />
-                      <span className="text-[10px] font-black text-accent uppercase tracking-wider">En vivo</span>
-                    </div>
+                  <div className="mb-6">
+                    <h2 className="text-xl md:text-2xl font-black text-primary tracking-tight">Mis Servicios</h2>
+                    <p className="text-xs text-muted-foreground font-medium">Gestiona tus trámites activos</p>
                   </div>
                   
                   {(!orders || orders.length === 0) ? (
