@@ -1287,6 +1287,13 @@ export async function registerRoutes(
       let fileName = '';
       let fileBuffer: Buffer | null = null;
       let fileTruncated = false;
+      let documentType = 'passport';
+      let notes = '';
+      
+      bb.on('field', (name: string, val: string) => {
+        if (name === 'documentType') documentType = val;
+        if (name === 'notes') notes = val;
+      });
       
       bb.on('file', (name: string, file: any, info: any) => {
         fileName = info.filename || `documento_${Date.now()}`;
@@ -1318,13 +1325,22 @@ export async function registerRoutes(
         // Generate ticket ID for this document upload
         const ticketId = `DOC-${Math.floor(10000000 + Math.random() * 90000000)}`;
         
+        // Translate document type for display
+        const docTypeLabelsUpload: Record<string, string> = {
+          'passport': 'Pasaporte / Documento de Identidad',
+          'address_proof': 'Comprobante de Domicilio',
+          'tax_id': 'Identificación Fiscal',
+          'other': 'Otro Documento'
+        };
+        const docTypeLabel = docTypeLabelsUpload[documentType] || documentType;
+        
         // Create document record
         const doc = await db.insert(applicationDocumentsTable).values({
           orderId: userOrders[0].id,
           fileName: fileName,
           fileType: fileName.endsWith('.pdf') ? 'application/pdf' : 'image/jpeg',
           fileUrl: `/uploads/client-docs/${safeFileName}`,
-          documentType: 'client_upload',
+          documentType: documentType,
           reviewStatus: 'pending',
           uploadedBy: userId
         }).returning();
@@ -1336,13 +1352,14 @@ export async function registerRoutes(
         if (user) {
           // Create message in admin panel as support ticket
           const { encrypt } = await import("./utils/encryption");
-          const messageContent = `El cliente ha subido un nuevo documento: ${fileName}\n\nArchivo disponible en: ${doc[0].fileUrl}`;
+          const notesText = documentType === 'other' && notes ? `\n\nNotas del cliente: ${notes}` : '';
+          const messageContent = `El cliente ha subido un nuevo documento.\n\nTipo: ${docTypeLabel}\nArchivo: ${fileName}${notesText}\n\nArchivo disponible en: ${doc[0].fileUrl}`;
           
           await db.insert(messagesTable).values({
             userId,
             name: `${user.firstName || ''} ${user.lastName || ''}`.trim() || 'Cliente',
             email: user.email || 'sin-email@cliente.com',
-            subject: `Documento Recibido: ${fileName}`,
+            subject: `Documento Recibido: ${docTypeLabel}`,
             content: messageContent,
             encryptedContent: encrypt(messageContent),
             type: 'support',

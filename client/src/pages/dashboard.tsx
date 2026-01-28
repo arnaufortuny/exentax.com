@@ -117,6 +117,9 @@ export default function Dashboard() {
   const [adminSubTab, setAdminSubTab] = useState("orders");
   const [deleteConfirm, setDeleteConfirm] = useState<{ open: boolean; user: AdminUserData | null }>({ open: false, user: null });
   const [deleteOwnAccountDialog, setDeleteOwnAccountDialog] = useState(false);
+  const [uploadDialog, setUploadDialog] = useState<{ open: boolean; file: File | null }>({ open: false, file: null });
+  const [uploadDocType, setUploadDocType] = useState("passport");
+  const [uploadNotes, setUploadNotes] = useState("");
 
   useEffect(() => {
     if (user) {
@@ -692,25 +695,12 @@ export default function Dashboard() {
                           type="file" 
                           className="hidden" 
                           accept=".pdf,.jpg,.jpeg,.png"
-                          onChange={async (e) => {
+                          onChange={(e) => {
                             const file = e.target.files?.[0];
-                            if (!file) return;
-                            const formData = new FormData();
-                            formData.append('file', file);
-                            try {
-                              const res = await fetch('/api/user/documents/upload', {
-                                method: 'POST',
-                                body: formData,
-                                credentials: 'include'
-                              });
-                              if (res.ok) {
-                                toast({ title: "Documento subido", description: "Tu documento ha sido enviado correctamente." });
-                                queryClient.invalidateQueries({ queryKey: ['/api/user/documents'] });
-                              } else {
-                                toast({ title: "Error", description: "No se pudo subir el documento", variant: "destructive" });
-                              }
-                            } catch {
-                              toast({ title: "Error", description: "Error de conexión", variant: "destructive" });
+                            if (file) {
+                              setUploadDialog({ open: true, file });
+                              setUploadDocType("passport");
+                              setUploadNotes("");
                             }
                           }}
                           data-testid="input-upload-new-document"
@@ -1281,6 +1271,84 @@ export default function Dashboard() {
             <Button variant="outline" onClick={() => setDeleteOwnAccountDialog(false)}>Cancelar</Button>
             <Button variant="destructive" onClick={() => deleteOwnAccountMutation.mutate()} disabled={deleteOwnAccountMutation.isPending} data-testid="button-confirm-delete-account">
               {deleteOwnAccountMutation.isPending ? 'Eliminando...' : 'Eliminar Mi Cuenta'}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={uploadDialog.open} onOpenChange={(open) => { if (!open) setUploadDialog({ open: false, file: null }); }}>
+        <DialogContent className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 max-w-md w-[90vw] bg-white rounded-lg shadow-2xl z-[100]">
+          <DialogHeader><DialogTitle className="text-lg font-bold">Subir Documento</DialogTitle></DialogHeader>
+          <div className="space-y-4 pt-2">
+            {uploadDialog.file && (
+              <div className="p-3 bg-gray-50 rounded-lg flex items-center gap-3">
+                <FileUp className="w-8 h-8 text-accent" />
+                <div className="flex-1 min-w-0">
+                  <p className="font-medium text-sm truncate">{uploadDialog.file.name}</p>
+                  <p className="text-xs text-muted-foreground">{(uploadDialog.file.size / 1024 / 1024).toFixed(2)} MB</p>
+                </div>
+              </div>
+            )}
+            <div>
+              <Label className="text-sm font-medium mb-2 block">Tipo de documento</Label>
+              <Select value={uploadDocType} onValueChange={setUploadDocType}>
+                <SelectTrigger className="w-full bg-white" data-testid="select-upload-doc-type">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent className="bg-white z-[9999]" side="bottom" align="start" sideOffset={4}>
+                  <SelectItem value="passport">Pasaporte / Documento de Identidad</SelectItem>
+                  <SelectItem value="address_proof">Comprobante de Domicilio</SelectItem>
+                  <SelectItem value="tax_id">Identificación Fiscal</SelectItem>
+                  <SelectItem value="other">Otro</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            {uploadDocType === "other" && (
+              <div>
+                <Label className="text-sm font-medium mb-2 block">Descripción del documento</Label>
+                <Textarea 
+                  value={uploadNotes} 
+                  onChange={(e) => setUploadNotes(e.target.value)} 
+                  placeholder="Describe el tipo de documento que estás subiendo..."
+                  className="min-h-[80px]"
+                  data-testid="input-upload-notes"
+                />
+              </div>
+            )}
+          </div>
+          <DialogFooter className="mt-4">
+            <Button variant="outline" onClick={() => setUploadDialog({ open: false, file: null })}>Cancelar</Button>
+            <Button 
+              onClick={async () => {
+                if (!uploadDialog.file) return;
+                const formData = new FormData();
+                formData.append('file', uploadDialog.file);
+                formData.append('documentType', uploadDocType);
+                if (uploadDocType === 'other' && uploadNotes) {
+                  formData.append('notes', uploadNotes);
+                }
+                try {
+                  const res = await fetch('/api/user/documents/upload', {
+                    method: 'POST',
+                    body: formData,
+                    credentials: 'include'
+                  });
+                  if (res.ok) {
+                    toast({ title: "Documento subido", description: "Tu documento ha sido enviado correctamente." });
+                    queryClient.invalidateQueries({ queryKey: ['/api/user/documents'] });
+                    setUploadDialog({ open: false, file: null });
+                  } else {
+                    const data = await res.json();
+                    toast({ title: "Error", description: data.message || "No se pudo subir el documento", variant: "destructive" });
+                  }
+                } catch {
+                  toast({ title: "Error", description: "Error de conexión", variant: "destructive" });
+                }
+              }}
+              disabled={uploadDocType === 'other' && !uploadNotes.trim()}
+              data-testid="button-confirm-upload"
+            >
+              Subir Documento
             </Button>
           </DialogFooter>
         </DialogContent>
