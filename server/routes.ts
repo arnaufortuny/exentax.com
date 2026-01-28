@@ -922,34 +922,46 @@ export async function registerRoutes(
   app.post("/api/admin/orders/:id/generate-invoice", isAdmin, async (req, res) => {
     try {
       const orderId = Number(req.params.id);
-      const { amount, currency } = z.object({ 
-        amount: z.number(), 
-        currency: z.enum(["USD", "EUR"]) 
-      }).parse(req.body);
+      
+      // Get existing order data
+      const [order] = await db.select().from(ordersTable).where(eq(ordersTable.id, orderId)).limit(1);
+      if (!order) {
+        return res.status(404).json({ message: "Pedido no encontrado" });
+      }
+      
+      // Optional: update amount/currency if provided
+      const updateData: any = { isInvoiceGenerated: true };
+      if (req.body.amount) updateData.amount = req.body.amount;
+      if (req.body.currency) updateData.currency = req.body.currency;
       
       const [updatedOrder] = await db.update(ordersTable)
-        .set({ 
-          amount, 
-          currency, 
-          isInvoiceGenerated: true 
-        })
+        .set(updateData)
         .where(eq(ordersTable.id, orderId))
         .returning();
 
       // Automatically make invoice available in documentation center
       const invoiceNumber = `INV-${new Date().getFullYear()}-${String(orderId).padStart(5, '0')}`;
-      await db.insert(applicationDocumentsTable).values({
-        orderId,
-        fileName: `Factura ${invoiceNumber}`,
-        fileType: "application/pdf",
-        fileUrl: `/api/orders/${orderId}/invoice`, // Link to the HTML/PDF generator
-        documentType: "invoice",
-        reviewStatus: "approved",
-        uploadedBy: (req as any).session.userId
-      });
+      
+      // Check if invoice already exists to avoid duplicates
+      const existingDoc = await db.select().from(applicationDocumentsTable)
+        .where(and(eq(applicationDocumentsTable.orderId, orderId), eq(applicationDocumentsTable.documentType, "invoice")))
+        .limit(1);
+      
+      if (existingDoc.length === 0) {
+        await db.insert(applicationDocumentsTable).values({
+          orderId,
+          fileName: `Factura ${invoiceNumber}`,
+          fileType: "application/pdf",
+          fileUrl: `/api/orders/${orderId}/invoice`,
+          documentType: "invoice",
+          reviewStatus: "approved",
+          uploadedBy: (req as any).session.userId
+        });
+      }
       
       res.json(updatedOrder);
     } catch (error) {
+      console.error("Error generating invoice:", error);
       res.status(500).json({ message: "Error generating invoice" });
     }
   });
@@ -1724,8 +1736,17 @@ export async function registerRoutes(
     const userName = order.user ? `${order.user.firstName || ''} ${order.user.lastName || ''}`.trim() : 'Cliente';
     const userEmail = order.user?.email || '';
     const userPhone = order.user?.phone || '';
+    const userAddress = order.user ? [
+      order.user.streetType,
+      order.user.address,
+      order.user.city,
+      order.user.province,
+      order.user.postalCode,
+      order.user.country
+    ].filter(Boolean).join(', ') : '';
+    const userIdNumber = order.user?.idNumber ? `${order.user.idType?.toUpperCase() || 'ID'}: ${order.user.idNumber}` : '';
     const productName = order.product?.name || 'Servicio de Constitución LLC';
-    const invoiceNumber = `INV-${new Date(order.createdAt).getFullYear()}-${String(order.id).padStart(5, '0')}`;
+    const invoiceNumber = `INV-${new Date(order.createdAt || Date.now()).getFullYear()}-${String(order.id).padStart(5, '0')}`;
     
     return `
       <!DOCTYPE html>
@@ -1806,8 +1827,10 @@ export async function registerRoutes(
               <div class="detail-label">Datos del Cliente</div>
               <div class="detail-content">
                 <p><strong>${userName}</strong></p>
+                ${userIdNumber ? `<p>${userIdNumber}</p>` : ''}
                 <p>${userEmail}</p>
                 ${userPhone ? `<p>${userPhone}</p>` : ''}
+                ${userAddress ? `<p style="margin-top: 6px;">${userAddress}</p>` : ''}
                 <p style="margin-top: 10px;"><strong>Ref. Pedido:</strong> ${requestCode}</p>
               </div>
             </div>

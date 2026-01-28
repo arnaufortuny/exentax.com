@@ -4,7 +4,7 @@ import { Footer } from "@/components/layout/footer";
 import { useAuth } from "@/hooks/use-auth";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { queryClient, apiRequest } from "@/lib/queryClient";
-import { Building2, FileText, Clock, ChevronRight, User as UserIcon, Settings, Package, CreditCard, PlusCircle, Download, ExternalLink, Mail, BellRing, CheckCircle2, AlertCircle, MessageSquare, Send, Shield, Users, Power, Edit, Trash2, FileUp, Newspaper, Loader2, CheckCircle, Receipt } from "lucide-react";
+import { Building2, FileText, Clock, ChevronRight, User as UserIcon, Settings, Package, CreditCard, PlusCircle, Download, ExternalLink, Mail, BellRing, CheckCircle2, AlertCircle, MessageSquare, Send, Shield, Users, Power, Edit, Trash2, FileUp, Newspaper, Loader2, CheckCircle, Receipt, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { useEffect, useState } from "react";
@@ -931,20 +931,39 @@ export default function Dashboard() {
                     <Card className="rounded-2xl border-0 shadow-sm p-0 overflow-hidden">
                       <div className="divide-y">
                         {adminOrders?.map(order => (
-                          <div key={order.id} className="p-4 flex justify-between items-center">
-                            <div>
-                              <p className="font-black">ORD-{order.id} - {order.user?.firstName}</p>
-                              <p className="text-xs text-muted-foreground">{order.product?.name} • {(order.amount / 100).toFixed(2)}€</p>
+                          <div key={order.id} className="p-4 space-y-3">
+                            <div className="flex justify-between items-start">
+                              <div>
+                                <p className="font-black">ORD-{order.id} - {order.user?.firstName} {order.user?.lastName}</p>
+                                <p className="text-xs text-muted-foreground">{order.user?.email}</p>
+                                <p className="text-xs text-muted-foreground">{order.product?.name} • {(order.amount / 100).toFixed(2)}€</p>
+                              </div>
+                              <Select value={order.status} onValueChange={val => updateStatusMutation.mutate({ id: order.id, status: val })}>
+                                <SelectTrigger className="w-32 h-8 rounded-full text-xs"><SelectValue /></SelectTrigger>
+                                <SelectContent>
+                                  <SelectItem value="pending">Pendiente</SelectItem>
+                                  <SelectItem value="paid">Pagado</SelectItem>
+                                  <SelectItem value="filed">Presentado</SelectItem>
+                                  <SelectItem value="cancelled">Cancelado</SelectItem>
+                                </SelectContent>
+                              </Select>
                             </div>
-                            <Select value={order.status} onValueChange={val => updateStatusMutation.mutate({ id: order.id, status: val })}>
-                              <SelectTrigger className="w-32 h-8 rounded-full text-xs"><SelectValue /></SelectTrigger>
-                              <SelectContent>
-                                <SelectItem value="pending">Pendiente</SelectItem>
-                                <SelectItem value="paid">Pagado</SelectItem>
-                                <SelectItem value="filed">Presentado</SelectItem>
-                                <SelectItem value="cancelled">Cancelado</SelectItem>
-                              </SelectContent>
-                            </Select>
+                            <div className="flex gap-2 flex-wrap">
+                              <Button size="sm" variant="outline" className="h-7 text-xs rounded-full" onClick={() => window.open(`/api/admin/invoice/${order.id}`, '_blank')} data-testid={`btn-view-invoice-${order.id}`}>
+                                <FileText className="w-3 h-3 mr-1" /> Ver Factura
+                              </Button>
+                              <Button size="sm" variant="default" className="h-7 text-xs rounded-full bg-accent text-primary" onClick={async () => {
+                                try {
+                                  await apiRequest("POST", `/api/admin/orders/${order.id}/generate-invoice`);
+                                  toast({ title: "Factura generada", description: "La factura ha sido creada y añadida al centro de documentos del cliente." });
+                                  queryClient.invalidateQueries({ queryKey: ["/api/admin/orders"] });
+                                } catch (err) {
+                                  toast({ title: "Error", description: "No se pudo generar la factura", variant: "destructive" });
+                                }
+                              }} data-testid={`btn-generate-invoice-${order.id}`}>
+                                <Plus className="w-3 h-3 mr-1" /> Generar Factura
+                              </Button>
+                            </div>
                           </div>
                         ))}
                       </div>
