@@ -312,6 +312,28 @@ export default function LlcFormation() {
     const data = form.getValues();
     try {
       await apiRequest("PUT", `/api/llc/${appId}`, data);
+      
+      // Sync user profile with form data
+      if (isAuthenticated && user) {
+        try {
+          const nameParts = data.ownerFullName.split(' ');
+          const firstName = nameParts[0] || '';
+          const lastName = nameParts.slice(1).join(' ') || '';
+          
+          await apiRequest("PATCH", "/api/user/profile", {
+            firstName,
+            lastName,
+            phone: data.ownerPhone,
+            address: data.ownerAddress,
+            country: data.ownerCountryResidency,
+            birthDate: data.ownerBirthDate,
+            businessActivity: data.businessActivity,
+          });
+        } catch {
+          // Profile update failed silently - not critical
+        }
+      }
+      
       toast({ title: "Datos actualizados", description: "Los cambios han sido guardados correctamente." });
       clearDraft();
       setLocation("/dashboard");

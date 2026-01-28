@@ -388,6 +388,9 @@ export default function Dashboard() {
   });
   
   const [deleteOrderConfirm, setDeleteOrderConfirm] = useState<{ open: boolean; order: any }>({ open: false, order: null });
+  const [generateInvoiceDialog, setGenerateInvoiceDialog] = useState<{ open: boolean; order: any }>({ open: false, order: null });
+  const [orderInvoiceAmount, setOrderInvoiceAmount] = useState("");
+  const [orderInvoiceCurrency, setOrderInvoiceCurrency] = useState("EUR");
   
   const deleteOrderMutation = useMutation({
     mutationFn: async (orderId: number) => {
@@ -1426,14 +1429,10 @@ export default function Dashboard() {
                               <Button size="sm" variant="outline" className="rounded-full" onClick={() => window.open(`/api/admin/invoice/${order.id}`, '_blank')} data-testid={`btn-view-invoice-${order.id}`}>
                                 <FileText className="w-3 h-3 mr-1" /> Ver Factura
                               </Button>
-                              <Button size="sm" variant="default" className="rounded-full bg-accent text-primary" onClick={async () => {
-                                try {
-                                  await apiRequest("POST", `/api/admin/orders/${order.id}/generate-invoice`);
-                                  toast({ title: "Factura generada", description: "La factura ha sido creada y añadida al centro de documentos del cliente." });
-                                  queryClient.invalidateQueries({ queryKey: ["/api/admin/orders"] });
-                                } catch (err) {
-                                  toast({ title: "Error", description: "No se pudo generar la factura", variant: "destructive" });
-                                }
+                              <Button size="sm" variant="default" className="rounded-full bg-accent text-primary" onClick={() => {
+                                setOrderInvoiceAmount(((order.amount || 0) / 100).toFixed(2));
+                                setOrderInvoiceCurrency("EUR");
+                                setGenerateInvoiceDialog({ open: true, order });
                               }} data-testid={`btn-generate-invoice-${order.id}`}>
                                 <Plus className="w-3 h-3 mr-1" /> Generar Factura
                               </Button>
@@ -1731,7 +1730,14 @@ export default function Dashboard() {
                         {idx < selectedOrderEvents.length - 1 && <div className="absolute left-3 top-6 w-0.5 h-8 bg-gray-100" />}
                         <div className="w-6 h-6 rounded-full flex items-center justify-center shrink-0 z-10 bg-accent text-primary"><CheckCircle2 className="w-3 h-3" /></div>
                         <div className="min-w-0 flex-1">
-                          <p className="text-xs md:text-sm font-black text-primary truncate">{event.eventType}</p>
+                          <div className="flex items-center gap-2 flex-wrap">
+                            <p className="text-xs md:text-sm font-black text-primary truncate">{event.eventType}</p>
+                            {event.createdAt && (
+                              <span className="text-[9px] text-muted-foreground whitespace-nowrap">
+                                {new Date(event.createdAt).toLocaleDateString('es-ES', { day: '2-digit', month: 'short', year: 'numeric' })}
+                              </span>
+                            )}
+                          </div>
                           <p className="text-[10px] text-muted-foreground">{event.description}</p>
                         </div>
                       </div>
@@ -1930,6 +1936,64 @@ export default function Dashboard() {
                 <Button variant="outline" onClick={() => setDeleteOrderConfirm({ open: false, order: null })} className="w-full sm:w-auto">Cancelar</Button>
                 <Button variant="destructive" onClick={() => deleteOrderConfirm.order?.id && deleteOrderMutation.mutate(deleteOrderConfirm.order.id)} disabled={deleteOrderMutation.isPending} className="w-full sm:w-auto" data-testid="button-confirm-delete-order">
                   {deleteOrderMutation.isPending ? 'Eliminando...' : 'Eliminar Pedido'}
+                </Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
+          
+          <Dialog open={generateInvoiceDialog.open} onOpenChange={(open) => setGenerateInvoiceDialog({ open, order: open ? generateInvoiceDialog.order : null })}>
+            <DialogContent className="max-w-sm bg-white">
+              <DialogHeader><DialogTitle className="text-lg font-bold">Generar Factura</DialogTitle></DialogHeader>
+              <div className="space-y-4 pt-2">
+                <p className="text-sm text-muted-foreground">Pedido: <strong>{generateInvoiceDialog.order?.invoiceNumber || `ORD-${generateInvoiceDialog.order?.id}`}</strong></p>
+                <div>
+                  <Label className="text-xs font-medium mb-1 block">Importe</Label>
+                  <Input 
+                    type="number" 
+                    step="0.01" 
+                    value={orderInvoiceAmount} 
+                    onChange={e => setOrderInvoiceAmount(e.target.value)} 
+                    placeholder="639.00"
+                    data-testid="input-invoice-amount"
+                  />
+                </div>
+                <div>
+                  <Label className="text-xs font-medium mb-1 block">Divisa</Label>
+                  <Select value={orderInvoiceCurrency} onValueChange={setOrderInvoiceCurrency}>
+                    <SelectTrigger className="w-full bg-white"><SelectValue placeholder="Seleccionar divisa" /></SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="EUR">EUR (€)</SelectItem>
+                      <SelectItem value="USD">USD ($)</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+              <DialogFooter className="flex-col sm:flex-row gap-2 pt-4">
+                <Button variant="outline" onClick={() => setGenerateInvoiceDialog({ open: false, order: null })} className="w-full sm:w-auto">Cancelar</Button>
+                <Button 
+                  className="w-full sm:w-auto bg-accent text-primary"
+                  disabled={!orderInvoiceAmount || isNaN(parseFloat(orderInvoiceAmount)) || parseFloat(orderInvoiceAmount) <= 0}
+                  onClick={async () => {
+                    try {
+                      const amountCents = Math.round(parseFloat(orderInvoiceAmount) * 100);
+                      if (amountCents <= 0) {
+                        toast({ title: "Error", description: "El importe debe ser mayor que 0", variant: "destructive" });
+                        return;
+                      }
+                      await apiRequest("POST", `/api/admin/orders/${generateInvoiceDialog.order?.id}/generate-invoice`, {
+                        amount: amountCents,
+                        currency: orderInvoiceCurrency
+                      });
+                      toast({ title: "Factura generada", description: `Factura creada por ${orderInvoiceAmount} ${orderInvoiceCurrency}` });
+                      queryClient.invalidateQueries({ queryKey: ["/api/admin/orders"] });
+                      setGenerateInvoiceDialog({ open: false, order: null });
+                    } catch (err) {
+                      toast({ title: "Error", description: "No se pudo generar la factura", variant: "destructive" });
+                    }
+                  }}
+                  data-testid="button-confirm-generate-invoice"
+                >
+                  Generar Factura
                 </Button>
               </DialogFooter>
             </DialogContent>
