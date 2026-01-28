@@ -131,13 +131,6 @@ export function getOtpEmailTemplate(otp: string, purpose: string = "verificar tu
       <div style="font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; max-width: 600px; margin: auto; border-radius: 12px; overflow: hidden; color: #0E1215; background-color: #ffffff; box-shadow: 0 4px 20px rgba(0,0,0,0.06);">
         ${getEmailHeader("Código de Verificación")}
         <div style="padding: 40px;">
-          <div style="text-align: center; margin-bottom: 25px;">
-            <div style="display: inline-block; margin-bottom: 15px;">
-              <img src="https://easyusllc.com/logo-icon.png" alt="Easy US LLC" width="60" height="60" style="display: block;" />
-            </div>
-            <h2 style="font-size: 20px; font-weight: 900; margin: 0; color: #0E1215;">Verificación de Seguridad</h2>
-          </div>
-          
           <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 25px; text-align: center;">Usa el siguiente código para ${purpose}:</p>
           
           <div style="background: linear-gradient(135deg, #F0FDF4 0%, #ECFDF5 100%); padding: 30px; border-radius: 12px; margin: 25px 0; text-align: center; border: 2px solid #6EDC8A;">
@@ -195,13 +188,7 @@ export function getConfirmationEmailTemplate(name: string, requestCode: string, 
       <div style="font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; max-width: 600px; margin: auto; border-radius: 12px; overflow: hidden; color: #0E1215; background-color: #ffffff; box-shadow: 0 4px 20px rgba(0,0,0,0.06);">
         ${getEmailHeader("Solicitud Recibida", { clientId, reference: requestCode })}
         <div style="padding: 40px;">
-          <div style="text-align: center; margin-bottom: 25px;">
-            <div style="display: inline-block; margin-bottom: 15px;">
-              <img src="https://easyusllc.com/logo-icon.png" alt="Easy US LLC" width="60" height="60" style="display: block;" />
-            </div>
-            <h2 style="font-size: 22px; font-weight: 900; margin: 0; color: #0E1215;">¡Gracias, ${name}!</h2>
-          </div>
-          
+          <h2 style="font-size: 22px; font-weight: 900; margin: 0 0 20px 0; color: #0E1215; text-align: center;">¡Gracias, ${name}!</h2>
           <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 25px; text-align: center;">Hemos recibido correctamente los datos para el registro de tu nueva LLC. Nuestro equipo comenzará con la revisión de inmediato.</p>
           
           <div style="background: linear-gradient(135deg, #F0FDF4 0%, #ECFDF5 100%); padding: 25px; border-radius: 12px; margin: 25px 0; border: 2px solid #6EDC8A; text-align: center;">
