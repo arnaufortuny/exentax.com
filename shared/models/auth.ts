@@ -50,7 +50,10 @@ export const userNotifications = pgTable("user_notifications", {
   isRead: boolean("is_read").notNull().default(false),
   actionUrl: text("action_url"),
   createdAt: timestamp("created_at").defaultNow(),
-});
+}, (table) => [
+  index("user_notifications_user_id_idx").on(table.userId),
+  index("user_notifications_is_read_idx").on(table.isRead),
+]);
 
 export const passwordResetTokens = pgTable("password_reset_tokens", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),

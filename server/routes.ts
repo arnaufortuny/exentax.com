@@ -15,18 +15,47 @@ export async function registerRoutes(
   httpServer: Server,
   app: Express
 ): Promise<Server> {
-  // Rate limiting simulation / protection
+  // Enhanced Rate limiting with automatic cleanup
   const rateLimit = new Map<string, number[]>();
+  const WINDOW_MS = 60000;
+  const MAX_REQUESTS = 100;
+  const CLEANUP_INTERVAL = 300000; // Clean up every 5 minutes
+  
+  // Periodic cleanup of stale IPs to prevent memory leak
+  setInterval(() => {
+    const now = Date.now();
+    const entries = Array.from(rateLimit.entries());
+    for (let i = 0; i < entries.length; i++) {
+      const [ip, timestamps] = entries[i];
+      const valid = timestamps.filter((t: number) => now - t < WINDOW_MS);
+      if (valid.length === 0) {
+        rateLimit.delete(ip);
+      } else {
+        rateLimit.set(ip, valid);
+      }
+    }
+  }, CLEANUP_INTERVAL);
+  
+  // Cleanup expired OTPs every 10 minutes
+  setInterval(async () => {
+    try {
+      await db.delete(contactOtps).where(
+        sql`${contactOtps.expiresAt} < NOW()`
+      );
+    } catch (e) {
+      console.error("OTP cleanup error:", e);
+    }
+  }, 600000);
+  
   app.use("/api/", (req, res, next) => {
     const now = Date.now();
-    const ip = req.ip || "unknown";
-    const windowMs = 60000;
-    const maxRequests = 100;
+    const ip = req.ip || req.headers['x-forwarded-for']?.toString().split(',')[0] || "unknown";
     
     const timestamps = rateLimit.get(ip) || [];
-    const validTimestamps = timestamps.filter(t => now - t < windowMs);
+    const validTimestamps = timestamps.filter(t => now - t < WINDOW_MS);
     
-    if (validTimestamps.length >= maxRequests) {
+    if (validTimestamps.length >= MAX_REQUESTS) {
+      res.setHeader('Retry-After', '60');
       return res.status(429).json({ message: "Demasiadas peticiones. Por favor, espera un minuto." });
     }
     

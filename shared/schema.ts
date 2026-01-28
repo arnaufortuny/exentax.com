@@ -97,7 +97,11 @@ export const applicationDocuments = pgTable("application_documents", {
   reviewStatus: text("review_status").notNull().default("pending"), // pending, approved, rejected, action_required
   uploadedBy: varchar("uploaded_by").references(() => users.id),
   uploadedAt: timestamp("uploaded_at").defaultNow(),
-});
+}, (table) => ({
+  applicationIdIdx: index("app_docs_application_id_idx").on(table.applicationId),
+  orderIdIdx: index("app_docs_order_id_idx").on(table.orderId),
+  uploadedByIdx: index("app_docs_uploaded_by_idx").on(table.uploadedBy),
+}));
 
 export const newsletterSubscribers = pgTable("newsletter_subscribers", {
   id: serial("id").primaryKey(),
@@ -127,7 +131,10 @@ export const contactOtps = pgTable("contact_otps", {
   otpType: text("otp_type").notNull().default("contact"), // contact, password_change
   expiresAt: timestamp("expires_at").notNull(),
   verified: boolean("verified").notNull().default(false),
-});
+}, (table) => ({
+  emailIdx: index("contact_otps_email_idx").on(table.email),
+  expiresAtIdx: index("contact_otps_expires_at_idx").on(table.expiresAt),
+}));
 
 export const orderEvents = pgTable("order_events", {
   id: serial("id").primaryKey(),
@@ -136,7 +143,9 @@ export const orderEvents = pgTable("order_events", {
   description: text("description").notNull(),
   createdAt: timestamp("created_at").defaultNow(),
   createdBy: varchar("created_by").references(() => users.id),
-});
+}, (table) => ({
+  orderIdIdx: index("order_events_order_id_idx").on(table.orderId),
+}));
 
 export const messageReplies = pgTable("message_replies", {
   id: serial("id").primaryKey(),

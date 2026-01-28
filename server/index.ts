@@ -26,22 +26,34 @@ export function log(message: string, source = "express") {
 }
 
 app.use((req, res, next) => {
+  // Security Headers
   res.setHeader("X-Content-Type-Options", "nosniff");
-  res.setHeader("X-Frame-Options", "DENY");
+  res.setHeader("X-Frame-Options", "SAMEORIGIN");
   res.setHeader("X-XSS-Protection", "1; mode=block");
-  res.setHeader("Strict-Transport-Security", "max-age=31536000; includeSubDomains");
-  res.setHeader("Content-Security-Policy", "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://js.stripe.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://*.stripe.com; connect-src 'self' https://api.stripe.com; frame-src 'self' https://js.stripe.com;");
+  res.setHeader("Strict-Transport-Security", "max-age=31536000; includeSubDomains; preload");
+  res.setHeader("Content-Security-Policy", "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://js.stripe.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob: https://*.stripe.com; connect-src 'self' https://api.stripe.com wss://*.replit.dev; frame-src 'self' https://js.stripe.com; frame-ancestors 'self' https://*.replit.dev https://*.replit.app;");
   res.setHeader("Referrer-Policy", "strict-origin-when-cross-origin");
-  res.setHeader("Permissions-Policy", "camera=(), microphone=(), geolocation=()");
+  res.setHeader("Permissions-Policy", "camera=(), microphone=(), geolocation=(), payment=()");
+  res.setHeader("Cross-Origin-Opener-Policy", "same-origin-allow-popups");
+  res.setHeader("Cross-Origin-Resource-Policy", "same-origin");
+  
   // Performance Headers
   if (req.method === 'GET') {
     const isAsset = req.path.startsWith('/assets/') || req.path.match(/\.(jpg|jpeg|png|gif|svg|webp|ico|css|js|woff2|woff)$/);
     if (isAsset) {
       res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
+      res.setHeader('Vary', 'Accept-Encoding');
     }
-    // Pre-connect and hints
     res.setHeader("X-DNS-Prefetch-Control", "on");
   }
+  
+  // Prevent caching of API responses
+  if (req.path.startsWith('/api/')) {
+    res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+    res.setHeader('Pragma', 'no-cache');
+    res.setHeader('Expires', '0');
+  }
+  
   next();
 });
 
