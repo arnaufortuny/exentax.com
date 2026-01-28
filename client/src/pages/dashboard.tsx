@@ -603,26 +603,34 @@ export default function Dashboard() {
                     </Link>
                   </div>
                   <div className="space-y-4">
-                    {messagesData?.map((msg) => (
-                      <Card key={msg.id} className="rounded-2xl border-0 shadow-sm p-6 bg-white hover:shadow-md transition-shadow cursor-pointer" onClick={() => setSelectedMessage(selectedMessage?.id === msg.id ? null : msg)}>
-                        <div className="flex justify-between items-start mb-2">
-                          <div className="flex items-center gap-2">
-                            <MessageSquare className="w-4 h-4 text-accent" />
-                            <h4 className="font-black text-primary">{msg.subject || 'Sin asunto'}</h4>
-                          </div>
-                          <span className="text-[10px] text-muted-foreground">MSG-{msg.id}</span>
-                        </div>
-                        <p className="text-sm text-muted-foreground mb-4 line-clamp-2">{msg.content}</p>
-                        {selectedMessage?.id === msg.id && (
-                          <div className="mt-4 pt-4 border-t border-gray-100 space-y-4">
-                            <Textarea value={replyContent} onChange={(e) => setReplyContent(e.target.value)} placeholder="Escribe tu respuesta..." className="rounded-xl min-h-[80px] text-sm" />
-                            <Button onClick={(e) => { e.stopPropagation(); sendReplyMutation.mutate(msg.id); }} disabled={!replyContent.trim() || sendReplyMutation.isPending} className="bg-accent text-primary font-black rounded-full px-6">
-                              Enviar Respuesta
-                            </Button>
-                          </div>
-                        )}
+                    {(!messagesData || messagesData.length === 0) ? (
+                      <Card className="rounded-2xl border-0 shadow-sm p-8 bg-white text-center">
+                        <MessageSquare className="w-12 h-12 text-gray-300 mx-auto mb-4" />
+                        <p className="text-muted-foreground font-medium">Todavía no hay mensajes</p>
+                        <p className="text-sm text-muted-foreground mt-2">Tus conversaciones con soporte aparecerán aquí</p>
                       </Card>
-                    ))}
+                    ) : (
+                      messagesData.map((msg) => (
+                        <Card key={msg.id} className="rounded-2xl border-0 shadow-sm p-6 bg-white hover:shadow-md transition-shadow cursor-pointer" onClick={() => setSelectedMessage(selectedMessage?.id === msg.id ? null : msg)}>
+                          <div className="flex justify-between items-start mb-2">
+                            <div className="flex items-center gap-2">
+                              <MessageSquare className="w-4 h-4 text-accent" />
+                              <h4 className="font-black text-primary">{msg.subject || 'Sin asunto'}</h4>
+                            </div>
+                            <span className="text-[10px] text-muted-foreground">MSG-{msg.id}</span>
+                          </div>
+                          <p className="text-sm text-muted-foreground mb-4 line-clamp-2">{msg.content}</p>
+                          {selectedMessage?.id === msg.id && (
+                            <div className="mt-4 pt-4 border-t border-gray-100 space-y-4">
+                              <Textarea value={replyContent} onChange={(e) => setReplyContent(e.target.value)} placeholder="Escribe tu respuesta..." className="rounded-xl min-h-[80px] text-sm" />
+                              <Button onClick={(e) => { e.stopPropagation(); sendReplyMutation.mutate(msg.id); }} disabled={!replyContent.trim() || sendReplyMutation.isPending} className="bg-accent text-primary font-black rounded-full px-6">
+                                Enviar Respuesta
+                              </Button>
+                            </div>
+                          )}
+                        </Card>
+                      ))
+                    )}
                   </div>
                 </motion.div>
               )}
@@ -678,14 +686,6 @@ export default function Dashboard() {
                   )}
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <Card className="rounded-[1.5rem] md:rounded-[2rem] border-0 shadow-sm p-6 md:p-8 flex flex-col items-center text-center bg-white">
-                      <FileText className="w-12 h-12 text-primary mb-4" />
-                      <h3 className="font-black text-primary mb-2 text-sm md:text-base">Contrato de Servicio</h3>
-                      <Button variant="outline" className="rounded-full font-black border-2 w-full text-xs py-5" onClick={() => window.print()}>
-                        <Download className="w-4 h-4 mr-2" /> Imprimir / PDF
-                      </Button>
-                    </Card>
-                    
                     <Card className="rounded-[1.5rem] md:rounded-[2rem] border-0 shadow-sm p-6 md:p-8 flex flex-col items-center text-center bg-white border-2 border-dashed border-gray-200">
                       <label className="cursor-pointer w-full">
                         <input 
@@ -742,18 +742,26 @@ export default function Dashboard() {
                 <motion.div key="payments" initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 20 }} className="space-y-6">
                   <h2 className="text-xl md:text-2xl font-black text-primary tracking-tight">Historial de Pagos</h2>
                   <div className="space-y-4">
-                    {orders?.map((order: any) => (
-                      <Card key={order.id} className="rounded-2xl border-0 shadow-sm p-6 flex justify-between items-center bg-white">
-                        <div>
-                          <p className="font-black text-xs md:text-sm">Factura ORD-{order.id}</p>
-                          <p className="text-[10px] text-muted-foreground">{new Date(order.createdAt).toLocaleDateString()}</p>
-                        </div>
-                        <div className="flex gap-2">
-                          <Button variant="outline" size="sm" onClick={() => window.open(`/api/orders/${order.id}/invoice`, '_blank')}>Factura</Button>
-                          <Button variant="outline" size="sm" onClick={() => window.open(`/api/orders/${order.id}/receipt`, '_blank')}>Recibo</Button>
-                        </div>
+                    {(!orders || orders.length === 0) ? (
+                      <Card className="rounded-2xl border-0 shadow-sm p-8 bg-white text-center">
+                        <CreditCard className="w-12 h-12 text-gray-300 mx-auto mb-4" />
+                        <p className="text-muted-foreground font-medium">Todavía no has contratado ningún servicio</p>
+                        <p className="text-sm text-muted-foreground mt-2">Tus facturas y recibos aparecerán aquí</p>
                       </Card>
-                    ))}
+                    ) : (
+                      orders.map((order: any) => (
+                        <Card key={order.id} className="rounded-2xl border-0 shadow-sm p-6 flex justify-between items-center bg-white">
+                          <div>
+                            <p className="font-black text-xs md:text-sm">Factura ORD-{order.id}</p>
+                            <p className="text-[10px] text-muted-foreground">{new Date(order.createdAt).toLocaleDateString()}</p>
+                          </div>
+                          <div className="flex gap-2">
+                            <Button variant="outline" size="sm" onClick={() => window.open(`/api/orders/${order.id}/invoice`, '_blank')}>Factura</Button>
+                            <Button variant="outline" size="sm" onClick={() => window.open(`/api/orders/${order.id}/receipt`, '_blank')}>Recibo</Button>
+                          </div>
+                        </Card>
+                      ))
+                    )}
                   </div>
                 </motion.div>
               )}
