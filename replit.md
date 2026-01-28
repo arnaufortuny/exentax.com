@@ -1,194 +1,35 @@
 # Easy US LLC - Project Overview
 
-## Description
-Easy US LLC is a business formation service for Spanish-speaking entrepreneurs looking to establish LLCs in the United States (New Mexico, Wyoming, Delaware).
+## Overview
+Easy US LLC is a business formation service catering to Spanish-speaking entrepreneurs. It facilitates the establishment of LLCs in New Mexico, Wyoming, and Delaware, offering comprehensive support including banking assistance, annual maintenance services, and multilingual support with a strong focus on Spanish. The project aims to provide a streamlined and user-friendly experience for international clients navigating the US business landscape.
 
-## Design System
-- **Colors**:
-  - Primary Green: #6EDC8A
-  - Carbon Black: #0E1215
-  - Off White: #F7F7F5
-  - Soft Gray: #E6E9EC
-  - Text Gray: #6B7280
-- **Typography**: Inter for titles, Sans-serif for body.
-- **Animations**: Framer Motion (fadeIn, staggerContainer).
+## User Preferences
+I want to be communicated with in a clear and concise manner. I prefer explanations that are easy to understand, avoiding overly technical jargon. I appreciate an iterative development approach where I can provide feedback throughout the process. Please ask for my approval before implementing any significant changes to the codebase or design.
 
-## Key Features
-- LLC formation in 3 states.
-- Banking assistance (Mercury, Relay).
-- Annual maintenance services.
-- Multilingual support (Spanish focus).
+## System Architecture
+The application features a modern UI/UX with a consistent design system (Primary Green: #6EDC8A, Carbon Black: #0E1215, Off White: #F7F7F5, Soft Gray: #E6E9EC, Text Gray: #6B7280) and typography (Inter for titles, Sans-serif for body). Animations are handled with Framer Motion.
 
-## Project Structure
-- `client/src/pages/`: Main application pages (Home, Servicios, FAQ, Contacto).
-- `client/src/components/layout/`: Shared layout components (Navbar, Footer, HeroSection, Newsletter).
-- `shared/schema.ts`: Drizzle database schema and Zod types.
-- `server/`: Express backend with Drizzle storage.
+The architecture includes:
+- **Client-side:** Built with React, utilizing pages for main application sections (Home, Servicios, FAQ, Contacto) and shared layout components (Navbar, Footer, HeroSection, Newsletter).
+- **Server-side:** An Express backend with Drizzle ORM for database interactions.
+- **Database:** Drizzle schema and Zod types define the data structure. Key database indexes are applied for performance.
+- **Email System:** Professional, modern email templates with metadata, SVG icons, and a unified design.
+- **Authentication:** Robust authentication system with OTP verification, session management, and secure password handling.
+- **Form Management:** Multi-step wizard patterns for LLC, maintenance, and contact forms with auto-fill capabilities for authenticated users.
+- **Admin Panel:** Integrated directly into the client dashboard for users with admin privileges, providing full control over orders, users, and messages.
+- **Performance:** Gzip compression, advanced cache headers, lazy loading, `content-visibility: auto` for images, non-blocking font loading, and optimized animation durations.
+- **Security:** Enhanced rate limiting, comprehensive security headers (HSTS, COOP, CORP, CSP), and secure API endpoints with validation.
+- **Internationalization:** Primary focus on Spanish language support.
+- **Responsiveness:** Fully responsive design across all components, including mobile-optimized dashboards, forms, and admin interfaces.
 
-## Recent Changes
-- **Email System Enhancement (Jan 2026):**
-  - Eliminated duplicate welcome emails (now only sent on registration, not order creation)
-  - All prices converted to euros (€) across all email templates
-  - Professional metadata system: EmailMetadata interface with clientId, date, reference, IP tracking
-  - Modern email design: gradients, shadows, Inter font stack, rounded corners
-  - SVG icons replace emojis for professional appearance (lock icon for OTP, checkmark for confirmations)
-  - Enhanced OTP template with purpose parameter for context-specific messages
-  - Welcome email now includes client ID for tracking
-  - Email header improvements: logo with cache control, metadata table, gradient backgrounds
-  - Footer improvements: button-style CTAs for WhatsApp and dashboard access
-- **System Optimization & Hardening (Jan 2026):**
-  - Fixed activity_logs references (table no longer exists) - now uses email-only logging
-  - Optimized query polling intervals: orders 30s, messages/notifications 60s with staleTime
-  - Removed unused visitorCount from system stats (no frontend dependency)
-  - Database indexes verified: orders (userId, status), llcApplications (orderId, requestCode, status)
-  - Security headers in place: CSP, HSTS, X-XSS-Protection, X-Frame-Options, X-Content-Type-Options
-  - Compression enabled (gzip), cache headers for assets (1 year immutable)
-  - Connection pool optimized: 10 connections, 10s timeout
-- **Document & Account Management (Jan 2026):**
-  - Client document deletion: DELETE /api/user/documents/:id endpoint with ownership verification
-  - Document deletion UI: trash button visible only for active/vip accounts (canEdit permission)
-  - Account deletion restricted to active/vip accounts only
-  - All buttons follow design system (no custom hover:bg-* states)
-  - Responsive document cards with compact mobile layout
-- **Mobile UI & Admin Panel Enhancements (Jan 2026):**
-  - Improved mobile dashboard: compact tabs with shorter labels, smaller gaps, responsive cards
-  - Admin panel: Create new users directly (name, email, phone, password) with email verification auto-set
-  - Admin panel: Create new orders directly with client selector, state selection, and amount
-  - Unique invoice number generation using timestamp+random suffix (concurrency-safe)
-  - State validation in order creation (only New Mexico, Wyoming, Delaware)
-  - Amount validation (must be positive number)
-  - All new interactive elements have data-testid attributes for testing
-  - Order creation generates timeline event and client notification automatically
-- **Profile & Form Auto-fill Enhancement (Jan 2026):**
-  - Forms (LLC, Maintenance) auto-fill AND skip completed fields: name, email, phone, full address, country, birth date, business activity
-  - Smart step navigation: authenticated users jump directly to first empty required field
-  - LLC form: if name/email/phone complete, starts at "Nombre de empresa" (step 3)
-  - Maintenance form: starts at "creationSource" then skips to first empty field
-  - Profile editing controlled by account status: only 'active' and 'vip' can edit
-  - Status-specific warning messages: orange (pending), yellow (suspended), red (deactivated)
-  - canEdit variable centralizes edit permission logic across dashboard
-- **Client Profile & Admin Panel Enhancement (Jan 2026):**
-  - Extended client profile with full fields: ID type/number, birth date, business activity, full address
-  - Profile editing blocked for accounts with 'pending' status (with visual message)
-  - Added 'deactivated' status option for accounts (Desactivado in Spanish)
-  - Account status selector with white background positioned above user info in admin panel
-  - Mobile-optimized admin panel: icon-only buttons on small screens, full labels on desktop
-  - Client document upload functionality: clients can upload files when admin requests documents
-  - Upload notifications with orange alert card in Documents section
-  - Drag-and-drop style upload card for easy document submission
-  - Delete own account feature with confirmation dialog
-  - All profile fields color-coded by status (green=verified, orange=pending, red=suspended, gray=deactivated, yellow=VIP)
-- **Deployment & Stability Optimization (Jan 2026):**
-  - Fixed Replit deployment health check failures with Node.js-level httpServer interception
-  - Activity logging switched to email-only (removed non-existent activity_logs table references)
-  - Added proper TypeScript types for Request/Response in admin route handlers
-  - Fixed Date null handling in invoice generators with Date.now() fallbacks
-  - Removed invalid passwordResetTokens.updatedAt field reference
-  - Added missing insertApplicationDocumentSchema import
-  - Database connection optimized with 10s timeout and max 10 connections
-  - All LSP errors resolved across server codebase
-- **Form & Auth UX Improvements (Jan 2026):**
-  - FormInput component now supports autoComplete prop with smart defaults (email, password)
-  - Login page: Error handling improved with status code detection, proper Button components for toggle/links
-  - Registration form: Password fields use autoComplete="new-password" for better browser integration
-  - Password visibility toggle buttons converted to shadcn Button size="icon" variant="ghost"
-  - Forgot password link uses Button variant="link" for consistent styling
-- **Performance Optimization (Jan 2026):**
-  - Reduced Google Fonts from 25+ families to only Inter + DM Sans (used fonts only)
-  - Non-blocking font loading with media="print" onload pattern
-  - Faster Framer Motion animations (0.25-0.3s duration, reduced stagger)
-  - GPU acceleration utilities (.gpu-accelerated class)
-  - Reduced motion preference support (@media prefers-reduced-motion)
-  - CSS will-change optimization for hover states
-  - Image content-visibility: auto for lazy rendering
-- **Mobile Optimization (Jan 2026):**
-  - Admin panel: Compact action buttons (w-8 h-8 on mobile, w-9 h-9 on desktop)
-  - Client management: Hide document request/note buttons on mobile (sm:flex)
-  - Orders section: Smaller status selectors and PDF buttons on mobile
-  - PDF generators: Unified button sizes with Download icon for receipts
-  - Newsletter/Messages: Responsive button sizing throughout
-- **System Optimization (Jan 2026):**
-  - Updated legal pages to use browser print functionality for PDF generation (window.print())
-  - Removed placeholder PDF files from client/public/ directory
-  - Updated footer legal links to use proper SPA navigation (Link component) instead of PDF file links
-  - Removed duplicate reembolsos.tsx page (consolidated to legal/reembolsos.tsx)
-  - Replaced all window.location.href with wouter navigation (setLocation/Link) for proper SPA routing
-  - Fixed server error handler to prevent unhandled rejections
-  - Cleaned up unused attached_assets files (temp PDFs, text files, images)
-  - Fixed auth-utils.ts redirect path from /api/login to /login
-  - Auth system confirmed stable with explicit session.save() and proper error handling
-- **Registration Wizard Enhancement (Jan 2026):**
-  - Converted registration to 6-step wizard: name, email, phone, business activity, password, confirmation
-  - Business activity selector with 8 options (E-commerce, Dropshipping, Consulting, etc.)
-  - Full design system compliance: shadcn Button components, toggle-elevate classes, semantic colors
-  - All interactive elements have data-testid attributes for testing
-  - Navigation uses wouter (Link/useLocation) instead of window.location.href
-- **Authentication System Fix (Jan 2026):**
-  - Fixed login/register race condition - now waits for session confirmation before redirect
-  - Email sending failures no longer block registration/password reset
-  - Invoice generator updated with complete business details (EASY US LLC, FORTUNY CONSULTING LLC)
-  - Newsletter section unified across all pages (integrated into Footer)
-  - Newsletter text now displays in black color
-- **Contact Form & Order System (Jan 2026):**
-  - Completely rewrote contact form to use 7-step wizard pattern matching LLC/Maintenance forms
-  - Steps: name, surname, email, phone, subject, message, OTP verification, submit
-  - Unified deterministic order number format: `${statePrefix}-${year}${orderNum.slice(0,2)}-${orderNum.slice(2)}` (e.g., NM-2600-0001)
-  - Storage layer getOrder now populates product, application, and user relations for invoice/receipt generation
-  - Order submission works both with and without user login (optional userId)
-- **Mobile & Admin Optimizations (Jan 2026):**
-  - Added discreet login button (UserIcon) to mobile navbar for guests, dashboard link for authenticated users
-  - Admin dashboard fully responsive with card-based views on mobile (<md breakpoint) replacing tables
-  - Tabs show icons only on mobile with full labels on desktop
-  - Secure admin role system using ADMIN_EMAIL env var (auto-assigned on registration)
-  - Protected /api/seed-admin endpoint with ADMIN_SEED_SECRET token requirement
-- **Profile & Auto-fill Enhancements (Jan 2026):**
-  - Added PATCH /api/user/profile endpoint with Zod validation for profile updates
-  - Enhanced user profile with address fields (streetType, city, province, postalCode, country)
-  - Auto-fill support in application forms for logged-in users (name, email, phone, address, businessActivity)
-  - Dashboard profile section displays all fields including email verification status
-- **Client Dashboard Enhancements (Jan 2026):**
-  - Dynamic order timeline fetched from orderEvents API with real-time updates
-  - Enhanced messaging system with ticket IDs (MSG-{id}) and reply functionality
-  - Proper TanStack Query implementation with hierarchical cache keys
-  - Invoice viewing and Stripe portal integration
-  - Notifications tab: Shows admin notes with read/unread status and type badges (action_required, update, info)
-  - Profile fields expanded: ID type (DNI/NIE/Passport), ID number, birth date
-  - In-line change password form within profile section
-  - Delete account functionality with confirmation dialog
-  - Real-time polling (30s intervals) for orders and notifications
-  - Client ID display (first 8 chars of user.id in uppercase)
-  - Account status indicator with color-coded badges (VIP/Pending/Suspended)
-- **Admin User Management (Jan 2026):**
-  - Added accountStatus field (active/pending/suspended/vip) to user schema
-  - Admin can update user account status via edit dialog
-  - Status badges displayed in admin user list
-  - Newsletter section auto-hides for authenticated users
-  - /api/auth/user returns all profile fields including accountStatus
-- **Admin Panel Integration (Jan 2026):**
-  - Integrated admin panel directly into client dashboard as "Administración" tab
-  - Admin tab only visible for users with isAdmin=true
-  - Removed separate /admin route - all admin functionality now within /dashboard
-  - Admin sub-tabs: Pedidos, Clientes, Newsletter, Mensajes
-  - Full admin functionality: order status management, user editing, email sending, document requests, notes
-- **Contact Form Improvements:**
-  - Message ID capture and display on confirmation page
-  - URL parameter support for orderId and ticket tracking
-  - Green checkmark confirmation with prominent ticket numbers
-- **Design System Compliance:**
-  - Removed custom hover/active states from Button components
-  - Standardized with built-in shadcn elevation utilities
-- Migrated Navbar and Footer to use semantic design tokens (accent, primary, primary-foreground).
-- Standardized all email notifications (client/admin) with professional minimalist design.
-- Implemented automated response system for customer contact with 24-48h SLAs.
-- Enhanced application tracking with unified ticket IDs for both client and admin.
-- Added optional phone number field to contact form for improved lead quality.
-- Optimized performance: Implemented Gzip compression, advanced cache headers (1 year for assets), and Lazy Loading for all routes.
-- Improved rendering efficiency using `content-visibility: auto` in CSS and better font smoothing.
-- Refined project structure and error handling across backend services.
-- Removed legacy popups for maintenance packs and streamlined navigation to contact form with auto-subject.
-- Cleaned up unused components (state-selector-popup) and documentation files.
-- Standardized mobile UI across all application forms (LLC Formation and Maintenance Pack).
-- Implemented consistent design tokens: rounded-full buttons, flex-2 primary actions, and touch-optimized scaling.
-- Enhanced form responsiveness with adjusted typography, spacing, and smooth motion animations.
-- Updated Terms & Conditions page with comprehensive legal content and PDF download functionality.
-- Synchronized all legal documentation with official company identity (Fortuny Consulting LLC).
+## External Dependencies
+- **Drizzle ORM:** For database interaction and schema definition.
+- **Zod:** For data validation.
+- **Express.js:** Backend framework.
+- **Framer Motion:** For UI animations.
+- **shadcn/ui:** For consistent UI components and design system.
+- **TanStack Query:** For data fetching and caching on the client-side.
+- **wouter:** For client-side routing.
+- **Mercury / Relay:** For banking assistance integrations.
+- **Stripe:** For payment processing portal integration.
+- **Google Fonts:** Inter and DM Sans for typography.
