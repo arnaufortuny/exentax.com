@@ -943,7 +943,7 @@ export default function Dashboard() {
                       orders.map((order: any) => (
                         <Card key={order.id} className="rounded-2xl border-0 shadow-sm p-6 flex justify-between items-center bg-white">
                           <div>
-                            <p className="font-black text-xs md:text-sm">Factura {order.application?.requestCode || `ORD-${order.id}`}</p>
+                            <p className="font-black text-xs md:text-sm">Factura {order.application?.requestCode || order.maintenanceApplication?.requestCode || order.invoiceNumber || `ORD-${order.id}`}</p>
                             <p className="text-[10px] text-muted-foreground">{new Date(order.createdAt).toLocaleDateString()}</p>
                           </div>
                           <div className="flex gap-2">
@@ -1549,7 +1549,7 @@ export default function Dashboard() {
                                   <p className="font-black text-base md:text-lg">{app.companyName || 'LLC pendiente'}</p>
                                   <p className="text-xs md:text-sm text-muted-foreground">{order.user?.firstName} {order.user?.lastName} • {app.state}</p>
                                 </div>
-                                <Badge variant="outline" className="text-xs w-fit">{order.application?.requestCode || `ORD-${order.id}`}</Badge>
+                                <Badge variant="outline" className="text-xs w-fit">{orderCode}</Badge>
                               </div>
                               {/* Fechas - Grid compacto en móvil */}
                               <div className="grid grid-cols-2 gap-2 md:gap-4">
@@ -1966,7 +1966,7 @@ export default function Dashboard() {
             <DialogContent className="max-w-sm bg-white">
               <DialogHeader><DialogTitle className="text-lg font-bold">Generar Factura</DialogTitle></DialogHeader>
               <div className="space-y-4 pt-2">
-                <p className="text-sm text-muted-foreground">Pedido: <strong>{generateInvoiceDialog.order?.invoiceNumber || `ORD-${generateInvoiceDialog.order?.id}`}</strong></p>
+                <p className="text-sm text-muted-foreground">Pedido: <strong>{generateInvoiceDialog.order?.application?.requestCode || generateInvoiceDialog.order?.maintenanceApplication?.requestCode || generateInvoiceDialog.order?.invoiceNumber || `ORD-${generateInvoiceDialog.order?.id}`}</strong></p>
                 <div>
                   <Label className="text-xs font-medium mb-1 block">Importe</Label>
                   <Input 

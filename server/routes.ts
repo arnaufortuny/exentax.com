@@ -1198,6 +1198,11 @@ export async function registerRoutes(
         return res.status(403).json({ message: "No autorizado" });
       }
 
+      // Get application requestCode (LLC or Maintenance)
+      const [llcApp] = await db.select().from(llcApplicationsTable).where(eq(llcApplicationsTable.orderId, orderId)).limit(1);
+      const [maintApp] = await db.select().from(maintenanceApplicationsTable).where(eq(maintenanceApplicationsTable.orderId, orderId)).limit(1);
+      const invoiceNumber = llcApp?.requestCode || maintApp?.requestCode || order.invoiceNumber || 'ORD-' + String(order.id).padStart(5, '0');
+
       // Invoice Template
       res.send(`
         <!DOCTYPE html>
@@ -1205,7 +1210,7 @@ export async function registerRoutes(
           <head>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Factura ${order.invoiceNumber || 'ORD-' + String(order.id).padStart(5, '0')}</title>
+            <title>Factura ${invoiceNumber}</title>
             <style>
               @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
               body { font-family: 'Inter', sans-serif; padding: 40px; color: #0E1215; background: #fff; line-height: 1.5; }
@@ -1242,7 +1247,7 @@ export async function registerRoutes(
               </div>
               <div class="invoice-info">
                 <p class="label">Nº Factura</p>
-                <p style="font-size: 1.2rem;">${order.invoiceNumber || 'ORD-' + String(order.id).padStart(5, '0')}</p>
+                <p style="font-size: 1.2rem;">${invoiceNumber}</p>
                 <p class="label" style="margin-top: 10px;">Fecha de Emisión</p>
                 <p>${new Date(order.createdAt || Date.now()).toLocaleDateString('es-ES')}</p>
               </div>
@@ -2175,8 +2180,13 @@ export async function registerRoutes(
       return res.status(403).json({ message: "Acceso denegado" });
     }
     
+    // Get application requestCode (LLC or Maintenance)
+    const [llcApp] = await db.select().from(llcApplicationsTable).where(eq(llcApplicationsTable.orderId, orderId)).limit(1);
+    const [maintApp] = await db.select().from(maintenanceApplicationsTable).where(eq(maintenanceApplicationsTable.orderId, orderId)).limit(1);
+    const requestCode = llcApp?.requestCode || maintApp?.requestCode || order.invoiceNumber || `ORD-${order.id}`;
+    
     res.setHeader('Content-Type', 'text/html');
-    res.send(generateReceiptHtml(order));
+    res.send(generateReceiptHtml(order, requestCode));
   });
 
   // Order Events Timeline
@@ -2471,12 +2481,11 @@ export async function registerRoutes(
     `;
   }
 
-  function generateReceiptHtml(order: any) {
-    const requestCode = order.application?.requestCode || `ORD-${order.id}`;
+  function generateReceiptHtml(order: any, requestCode?: string) {
+    const receiptNumber = requestCode || order.application?.requestCode || `ORD-${order.id}`;
     const userName = order.user ? `${order.user.firstName || ''} ${order.user.lastName || ''}`.trim() : 'Cliente';
     const userEmail = order.user?.email || '';
     const productName = order.product?.name || 'Servicio de Constitución LLC';
-    const receiptNumber = requestCode;
     const statusLabels: Record<string, string> = {
       'paid': 'Pagado',
       'pending': 'Pendiente',
