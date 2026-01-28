@@ -379,7 +379,7 @@ export function getOrderUpdateTemplate(name: string, orderNumber: string, newSta
             <div style="background: ${colors.bg}; padding: 15px 20px; border-radius: 8px; border-left: 4px solid ${colors.border};">
               <p style="margin: 0; font-size: 14px; font-weight: 800; color: ${colors.text}; text-transform: uppercase;">${statusLabel}</p>
             </div>
-            ${amount ? `<p style="margin: 15px 0 0 0; font-size: 14px; color: #6B7280;">Total pagado: <strong>$${(amount/100).toFixed(2)}</strong></p>` : ''}
+            ${amount ? `<p style="margin: 15px 0 0 0; font-size: 14px; color: #6B7280;">Total pagado: <strong>${(amount/100).toFixed(2)} €</strong></p>` : ''}
           </div>
           
           <p style="line-height: 1.6; font-size: 15px; color: #444; margin-bottom: 25px;">${statusDescription}</p>

@@ -789,7 +789,7 @@ export default function LlcFormation() {
                 
                 <div className="bg-accent text-primary p-8 rounded-[2rem] max-w-xs mx-auto my-8">
                   <p className=" text-[10px] font-black tracking-widest opacity-50 mb-2">Total a pagar</p>
-                  <p className="text-4xl md:text-5xl font-black mb-4">$399.00</p>
+                  <p className="text-4xl md:text-5xl font-black mb-4">399.00 €</p>
                   <p className="text-[10px] md:text-xs opacity-80 italic">Incluye tasas estatales de {form.getValues("state")}</p>
                 </div>
 
