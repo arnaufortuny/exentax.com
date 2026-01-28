@@ -94,6 +94,9 @@ export default function Dashboard() {
   const [passwordData, setPasswordData] = useState({ current: '', newPassword: '', confirm: '' });
   const [showPasswordChange, setShowPasswordChange] = useState(false);
   const { toast } = useToast();
+  
+  // Only allow profile editing for active and VIP accounts
+  const canEdit = user?.accountStatus === 'active' || user?.accountStatus === 'vip';
   const [activityLogs, setActivityLogs] = useState<string[]>([]);
   
   const [editingUser, setEditingUser] = useState<AdminUserData | null>(null);
@@ -137,8 +140,8 @@ export default function Dashboard() {
 
   const updateProfile = useMutation({
     mutationFn: async (data: typeof profileData) => {
-      if (user?.accountStatus === 'pending') {
-        throw new Error("Tu cuenta está en revisión. No puedes modificar tus datos en este momento.");
+      if (!canEdit) {
+        throw new Error("No puedes modificar tus datos en el estado actual de tu cuenta.");
       }
       await apiRequest("PATCH", "/api/user/profile", data);
     },
@@ -760,13 +763,19 @@ export default function Dashboard() {
                   <Card className="rounded-[1.5rem] md:rounded-[2rem] border-0 shadow-sm p-6 md:p-8 bg-white">
                     <div className="flex justify-between items-center mb-6">
                       <h3 className="text-xl font-black">Información Personal</h3>
-                      {user?.accountStatus !== 'pending' && (
+                      {canEdit && (
                         <Button variant="ghost" size="sm" onClick={() => setIsEditing(!isEditing)} data-testid="button-toggle-edit">{isEditing ? 'Cancelar' : 'Editar'}</Button>
                       )}
                     </div>
-                    {user?.accountStatus === 'pending' && (
-                      <div className="mb-4 p-3 bg-orange-50 border border-orange-200 rounded-lg">
-                        <p className="text-sm text-orange-700">Tu cuenta está en revisión. No puedes modificar tu perfil hasta que sea verificada.</p>
+                    {!canEdit && (
+                      <div className={`mb-4 p-3 rounded-lg ${user?.accountStatus === 'pending' ? 'bg-orange-50 border border-orange-200' : user?.accountStatus === 'suspended' ? 'bg-yellow-50 border border-yellow-200' : 'bg-red-50 border border-red-200'}`}>
+                        <p className={`text-sm ${user?.accountStatus === 'pending' ? 'text-orange-700' : user?.accountStatus === 'suspended' ? 'text-yellow-700' : 'text-red-700'}`}>
+                          {user?.accountStatus === 'pending' 
+                            ? 'Tu cuenta está en revisión. No puedes modificar tu perfil hasta que sea verificada.' 
+                            : user?.accountStatus === 'suspended' 
+                            ? 'Tu cuenta está suspendida temporalmente. Contacta con soporte para más información.'
+                            : 'Tu cuenta ha sido desactivada. No puedes modificar tu perfil.'}
+                        </p>
                       </div>
                     )}
                     <div className="space-y-4">
@@ -785,11 +794,11 @@ export default function Dashboard() {
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div className="space-y-1">
                           <Label>Nombre</Label>
-                          {isEditing && user?.accountStatus !== 'pending' ? <Input value={profileData.firstName} onChange={e => setProfileData({...profileData, firstName: e.target.value})} data-testid="input-firstname" /> : <div className="p-3 bg-gray-50 rounded-lg text-sm">{user?.firstName || '-'}</div>}
+                          {isEditing && canEdit ? <Input value={profileData.firstName} onChange={e => setProfileData({...profileData, firstName: e.target.value})} data-testid="input-firstname" /> : <div className="p-3 bg-gray-50 rounded-lg text-sm">{user?.firstName || '-'}</div>}
                         </div>
                         <div className="space-y-1">
                           <Label>Apellido</Label>
-                          {isEditing && user?.accountStatus !== 'pending' ? <Input value={profileData.lastName} onChange={e => setProfileData({...profileData, lastName: e.target.value})} data-testid="input-lastname" /> : <div className="p-3 bg-gray-50 rounded-lg text-sm">{user?.lastName || '-'}</div>}
+                          {isEditing && canEdit ? <Input value={profileData.lastName} onChange={e => setProfileData({...profileData, lastName: e.target.value})} data-testid="input-lastname" /> : <div className="p-3 bg-gray-50 rounded-lg text-sm">{user?.lastName || '-'}</div>}
                         </div>
                       </div>
                       <div className="space-y-1">
@@ -801,12 +810,12 @@ export default function Dashboard() {
                       </div>
                       <div className="space-y-1">
                         <Label>Teléfono</Label>
-                        {isEditing && user?.accountStatus !== 'pending' ? <Input value={profileData.phone} onChange={e => setProfileData({...profileData, phone: e.target.value})} data-testid="input-phone" /> : <div className="p-3 bg-gray-50 rounded-lg text-sm">{user?.phone || 'No proporcionado'}</div>}
+                        {isEditing && canEdit ? <Input value={profileData.phone} onChange={e => setProfileData({...profileData, phone: e.target.value})} data-testid="input-phone" /> : <div className="p-3 bg-gray-50 rounded-lg text-sm">{user?.phone || 'No proporcionado'}</div>}
                       </div>
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div className="space-y-1">
                           <Label>Tipo de Documento</Label>
-                          {isEditing && user?.accountStatus !== 'pending' ? (
+                          {isEditing && canEdit ? (
                             <Select value={profileData.idType} onValueChange={val => setProfileData({...profileData, idType: val})}>
                               <SelectTrigger data-testid="select-idtype"><SelectValue placeholder="Seleccionar" /></SelectTrigger>
                               <SelectContent>
@@ -819,16 +828,16 @@ export default function Dashboard() {
                         </div>
                         <div className="space-y-1">
                           <Label>Número de Documento</Label>
-                          {isEditing && user?.accountStatus !== 'pending' ? <Input value={profileData.idNumber} onChange={e => setProfileData({...profileData, idNumber: e.target.value})} placeholder="Ej: 12345678A" data-testid="input-idnumber" /> : <div className="p-3 bg-gray-50 rounded-lg text-sm">{user?.idNumber || 'No proporcionado'}</div>}
+                          {isEditing && canEdit ? <Input value={profileData.idNumber} onChange={e => setProfileData({...profileData, idNumber: e.target.value})} placeholder="Ej: 12345678A" data-testid="input-idnumber" /> : <div className="p-3 bg-gray-50 rounded-lg text-sm">{user?.idNumber || 'No proporcionado'}</div>}
                         </div>
                       </div>
                       <div className="space-y-1">
                         <Label>Fecha de Nacimiento</Label>
-                        {isEditing && user?.accountStatus !== 'pending' ? <Input type="date" value={profileData.birthDate} onChange={e => setProfileData({...profileData, birthDate: e.target.value})} data-testid="input-birthdate" /> : <div className="p-3 bg-gray-50 rounded-lg text-sm">{user?.birthDate || 'No proporcionado'}</div>}
+                        {isEditing && canEdit ? <Input type="date" value={profileData.birthDate} onChange={e => setProfileData({...profileData, birthDate: e.target.value})} data-testid="input-birthdate" /> : <div className="p-3 bg-gray-50 rounded-lg text-sm">{user?.birthDate || 'No proporcionado'}</div>}
                       </div>
                       <div className="space-y-1">
                         <Label>Actividad de Negocio</Label>
-                        {isEditing && user?.accountStatus !== 'pending' ? (
+                        {isEditing && canEdit ? (
                           <Select value={profileData.businessActivity} onValueChange={val => setProfileData({...profileData, businessActivity: val})}>
                             <SelectTrigger data-testid="select-activity"><SelectValue placeholder="Seleccionar actividad" /></SelectTrigger>
                             <SelectContent>
@@ -849,7 +858,7 @@ export default function Dashboard() {
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                           <div className="space-y-1">
                             <Label>Tipo de Vía</Label>
-                            {isEditing && user?.accountStatus !== 'pending' ? (
+                            {isEditing && canEdit ? (
                               <Select value={profileData.streetType} onValueChange={val => setProfileData({...profileData, streetType: val})}>
                                 <SelectTrigger><SelectValue placeholder="Seleccionar" /></SelectTrigger>
                                 <SelectContent>
@@ -863,29 +872,29 @@ export default function Dashboard() {
                           </div>
                           <div className="space-y-1">
                             <Label>Dirección</Label>
-                            {isEditing && user?.accountStatus !== 'pending' ? <Input value={profileData.address} onChange={e => setProfileData({...profileData, address: e.target.value})} placeholder="Nombre de la calle y número" /> : <div className="p-3 bg-gray-50 rounded-lg text-sm">{user?.address || '-'}</div>}
+                            {isEditing && canEdit ? <Input value={profileData.address} onChange={e => setProfileData({...profileData, address: e.target.value})} placeholder="Nombre de la calle y número" /> : <div className="p-3 bg-gray-50 rounded-lg text-sm">{user?.address || '-'}</div>}
                           </div>
                         </div>
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-4">
                           <div className="space-y-1">
                             <Label>Ciudad</Label>
-                            {isEditing && user?.accountStatus !== 'pending' ? <Input value={profileData.city} onChange={e => setProfileData({...profileData, city: e.target.value})} /> : <div className="p-3 bg-gray-50 rounded-lg text-sm">{user?.city || '-'}</div>}
+                            {isEditing && canEdit ? <Input value={profileData.city} onChange={e => setProfileData({...profileData, city: e.target.value})} /> : <div className="p-3 bg-gray-50 rounded-lg text-sm">{user?.city || '-'}</div>}
                           </div>
                           <div className="space-y-1">
                             <Label>Provincia</Label>
-                            {isEditing && user?.accountStatus !== 'pending' ? <Input value={profileData.province} onChange={e => setProfileData({...profileData, province: e.target.value})} /> : <div className="p-3 bg-gray-50 rounded-lg text-sm">{user?.province || '-'}</div>}
+                            {isEditing && canEdit ? <Input value={profileData.province} onChange={e => setProfileData({...profileData, province: e.target.value})} /> : <div className="p-3 bg-gray-50 rounded-lg text-sm">{user?.province || '-'}</div>}
                           </div>
                           <div className="space-y-1">
                             <Label>C.P.</Label>
-                            {isEditing && user?.accountStatus !== 'pending' ? <Input value={profileData.postalCode} onChange={e => setProfileData({...profileData, postalCode: e.target.value})} /> : <div className="p-3 bg-gray-50 rounded-lg text-sm">{user?.postalCode || '-'}</div>}
+                            {isEditing && canEdit ? <Input value={profileData.postalCode} onChange={e => setProfileData({...profileData, postalCode: e.target.value})} /> : <div className="p-3 bg-gray-50 rounded-lg text-sm">{user?.postalCode || '-'}</div>}
                           </div>
                           <div className="space-y-1">
                             <Label>País</Label>
-                            {isEditing && user?.accountStatus !== 'pending' ? <Input value={profileData.country} onChange={e => setProfileData({...profileData, country: e.target.value})} /> : <div className="p-3 bg-gray-50 rounded-lg text-sm">{user?.country || '-'}</div>}
+                            {isEditing && canEdit ? <Input value={profileData.country} onChange={e => setProfileData({...profileData, country: e.target.value})} /> : <div className="p-3 bg-gray-50 rounded-lg text-sm">{user?.country || '-'}</div>}
                           </div>
                         </div>
                       </div>
-                      {isEditing && user?.accountStatus !== 'pending' && <Button onClick={() => { updateProfile.mutate(profileData); setIsEditing(false); }} className="w-full bg-accent text-primary font-black rounded-full mt-4" disabled={updateProfile.isPending} data-testid="button-save-profile">Guardar Cambios</Button>}
+                      {isEditing && canEdit && <Button onClick={() => { updateProfile.mutate(profileData); setIsEditing(false); }} className="w-full bg-accent text-primary font-black rounded-full mt-4" disabled={updateProfile.isPending} data-testid="button-save-profile">Guardar Cambios</Button>}
                     </div>
                     <div className="mt-8 pt-8 border-t">
                       <div className="flex items-center justify-between">

@@ -26,6 +26,11 @@ Easy US LLC is a business formation service for Spanish-speaking entrepreneurs l
 - `server/`: Express backend with Drizzle storage.
 
 ## Recent Changes
+- **Profile & Form Auto-fill Enhancement (Jan 2026):**
+  - Forms (LLC, Maintenance) now auto-fill all user profile fields: name, email, phone, full address, country, birth date, business activity
+  - Profile editing controlled by account status: only 'active' and 'vip' can edit
+  - Status-specific warning messages: orange (pending), yellow (suspended), red (deactivated)
+  - canEdit variable centralizes edit permission logic across dashboard
 - **Client Profile & Admin Panel Enhancement (Jan 2026):**
   - Extended client profile with full fields: ID type/number, birth date, business activity, full address
   - Profile editing blocked for accounts with 'pending' status (with visual message)

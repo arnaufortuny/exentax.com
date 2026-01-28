@@ -93,12 +93,16 @@ export default function LlcFormation() {
 
   useEffect(() => {
     if (isAuthenticated && user) {
+      const fullAddress = [user.streetType, user.address, user.city, user.province, user.postalCode, user.country]
+        .filter(Boolean).join(', ');
       form.reset({
         ...form.getValues(),
         ownerFullName: `${user.firstName || ""} ${user.lastName || ""}`.trim(),
         ownerEmail: user.email || "",
         ownerPhone: user.phone || "",
-        ownerAddress: user.address || "",
+        ownerAddress: fullAddress || user.address || "",
+        ownerCountryResidency: user.country || "",
+        ownerBirthDate: user.birthDate || "",
         businessActivity: user.businessActivity || "",
       });
       if (user.emailVerified) {
