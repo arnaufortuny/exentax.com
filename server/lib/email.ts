@@ -475,7 +475,7 @@ const transporter = nodemailer.createTransport({
 
 export async function sendEmail({ to, subject, html }: { to: string; subject: string; html: string }) {
   if (!process.env.SMTP_USER || !process.env.SMTP_PASS) {
-    console.warn("Email credentials missing. Email not sent.");
+    console.warn("[Email] Credentials missing - email not sent");
     return;
   }
 
@@ -486,10 +486,12 @@ export async function sendEmail({ to, subject, html }: { to: string; subject: st
       subject,
       html,
     });
-    console.log("Email sent: %s", info.messageId);
+    console.log("[Email] Sent to %s: %s", to, info.messageId);
     return info;
-  } catch (error) {
-    console.error("Error sending email:", error);
-    throw error;
+  } catch (error: any) {
+    const code = error?.responseCode || error?.code || 'UNKNOWN';
+    const recipient = error?.rejected?.[0] || to;
+    console.warn(`[Email] Failed (${code}) to ${recipient}: ${error?.response || error?.message || 'Unknown error'}`);
+    return null;
   }
 }
