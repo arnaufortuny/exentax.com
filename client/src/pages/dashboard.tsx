@@ -26,9 +26,21 @@ interface AdminUserData {
   firstName?: string | null;
   lastName?: string | null;
   phone?: string | null;
+  address?: string | null;
+  streetType?: string | null;
+  city?: string | null;
+  province?: string | null;
+  postalCode?: string | null;
+  country?: string | null;
+  idNumber?: string | null;
+  idType?: string | null;
+  birthDate?: string | null;
+  businessActivity?: string | null;
   isAdmin?: boolean;
+  isActive?: boolean;
   accountStatus?: string;
-  [key: string]: unknown;
+  internalNotes?: string | null;
+  createdAt?: string | null;
 }
 
 function NewsletterToggle() {
@@ -100,6 +112,7 @@ export default function Dashboard() {
   const [noteMessage, setNoteMessage] = useState("");
   const [noteType, setNoteType] = useState("info");
   const [adminSubTab, setAdminSubTab] = useState("orders");
+  const [deleteConfirm, setDeleteConfirm] = useState<{ open: boolean; user: AdminUserData | null }>({ open: false, user: null });
 
   useEffect(() => {
     if (user) {
@@ -269,6 +282,31 @@ export default function Dashboard() {
       setNoteDialog({ open: false, user: null });
       setNoteTitle("");
       setNoteMessage("");
+    }
+  });
+
+  const updateUserMutation = useMutation({
+    mutationFn: async (data: Partial<AdminUserData> & { id: string }) => {
+      const { id, ...updateData } = data;
+      await apiRequest("PATCH", `/api/admin/users/${id}`, updateData);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/admin/users"] });
+      toast({ title: "Usuario actualizado" });
+      setEditingUser(null);
+    },
+    onError: (error: any) => {
+      toast({ title: "Error", description: error.message, variant: "destructive" });
+    }
+  });
+
+  const deleteUserMutation = useMutation({
+    mutationFn: async (userId: string) => {
+      await apiRequest("DELETE", `/api/admin/users/${userId}`);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/admin/users"] });
+      toast({ title: "Usuario eliminado" });
       setNoteType("info");
     }
   });
@@ -713,14 +751,49 @@ export default function Dashboard() {
                     <Card className="rounded-2xl border-0 shadow-sm p-0 overflow-hidden">
                       <div className="divide-y">
                         {adminUsers?.map(u => (
-                          <div key={u.id} className="p-4 flex justify-between items-center">
-                            <div>
-                              <p className="font-black">{u.firstName} {u.lastName}</p>
-                              <p className="text-xs text-muted-foreground">{u.email}</p>
+                          <div key={u.id} className="p-4 space-y-3">
+                            <div className="flex justify-between items-start">
+                              <div className="flex-1">
+                                <div className="flex items-center gap-2 flex-wrap">
+                                  <p className="font-black text-sm">{u.firstName} {u.lastName}</p>
+                                  <Badge variant={u.accountStatus === 'active' ? 'default' : u.accountStatus === 'vip' ? 'default' : 'secondary'} className={`text-[9px] ${u.accountStatus === 'suspended' ? 'bg-red-100 text-red-700' : u.accountStatus === 'vip' ? 'bg-yellow-100 text-yellow-700' : u.accountStatus === 'pending' ? 'bg-orange-100 text-orange-700' : ''}`}>
+                                    {u.accountStatus?.toUpperCase() || 'ACTIVE'}
+                                  </Badge>
+                                  {u.isAdmin && <Badge className="text-[9px] bg-purple-100 text-purple-700">ADMIN</Badge>}
+                                </div>
+                                <p className="text-xs text-muted-foreground">{u.email}</p>
+                                <p className="text-[10px] text-muted-foreground mt-1">
+                                  {u.phone && <span className="mr-2">{u.phone}</span>}
+                                  {u.businessActivity && <span className="mr-2">• {u.businessActivity}</span>}
+                                  {u.city && <span>• {u.city}</span>}
+                                </p>
+                              </div>
+                              <Select value={u.accountStatus || 'active'} onValueChange={val => u.id && updateUserMutation.mutate({ id: u.id, accountStatus: val as any })}>
+                                <SelectTrigger className="w-24 h-7 rounded-full text-[10px]"><SelectValue /></SelectTrigger>
+                                <SelectContent>
+                                  <SelectItem value="active">Activo</SelectItem>
+                                  <SelectItem value="pending">Revisión</SelectItem>
+                                  <SelectItem value="suspended">Suspendido</SelectItem>
+                                  <SelectItem value="vip">VIP</SelectItem>
+                                </SelectContent>
+                              </Select>
                             </div>
-                            <div className="flex gap-1">
-                              <Button size="icon" variant="ghost" onClick={() => setEmailDialog({ open: true, user: u })}><Mail className="w-4 h-4" /></Button>
-                              <Button size="icon" variant="ghost" onClick={() => setNoteDialog({ open: true, user: u })}><MessageSquare className="w-4 h-4" /></Button>
+                            <div className="flex flex-wrap gap-1">
+                              <Button size="sm" variant="outline" className="h-7 text-[10px] rounded-full" onClick={() => setEditingUser(u)} data-testid={`button-edit-user-${u.id}`}>
+                                <Edit className="w-3 h-3 mr-1" /> Editar
+                              </Button>
+                              <Button size="sm" variant="outline" className="h-7 text-[10px] rounded-full" onClick={() => setEmailDialog({ open: true, user: u })} data-testid={`button-email-user-${u.id}`}>
+                                <Mail className="w-3 h-3 mr-1" /> Email
+                              </Button>
+                              <Button size="sm" variant="outline" className="h-7 text-[10px] rounded-full" onClick={() => setNoteDialog({ open: true, user: u })} data-testid={`button-note-user-${u.id}`}>
+                                <MessageSquare className="w-3 h-3 mr-1" /> Nota
+                              </Button>
+                              <Button size="sm" variant="outline" className="h-7 text-[10px] rounded-full" onClick={() => setDocDialog({ open: true, user: u })} data-testid={`button-doc-user-${u.id}`}>
+                                <FileUp className="w-3 h-3 mr-1" /> Docs
+                              </Button>
+                              <Button size="sm" variant="outline" className="h-7 text-[10px] rounded-full text-red-600 hover:bg-red-50" onClick={() => setDeleteConfirm({ open: true, user: u })} data-testid={`button-delete-user-${u.id}`}>
+                                <Trash2 className="w-3 h-3 mr-1" /> Eliminar
+                              </Button>
                             </div>
                           </div>
                         ))}
@@ -809,6 +882,145 @@ export default function Dashboard() {
                 <DialogFooter>
                   <Button onClick={() => noteDialog.user?.id && noteDialog.user?.email && sendNoteMutation.mutate({ userId: noteDialog.user.id, email: noteDialog.user.email, title: noteTitle, message: noteMessage, type: noteType })} disabled={!noteTitle || !noteMessage || sendNoteMutation.isPending} data-testid="button-send-note">
                     Enviar Nota
+                  </Button>
+                </DialogFooter>
+              </div>
+            </DialogContent>
+          </Dialog>
+
+          <Dialog open={!!editingUser} onOpenChange={(open) => !open && setEditingUser(null)}>
+            <DialogContent className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 max-w-lg w-[95vw] bg-white rounded-lg shadow-2xl z-[100] max-h-[90vh] overflow-y-auto">
+              <DialogHeader><DialogTitle className="text-lg font-bold">Editar Usuario</DialogTitle></DialogHeader>
+              {editingUser && (
+                <div className="space-y-4 pt-2">
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <Label className="text-xs">Nombre</Label>
+                      <Input value={editingUser.firstName || ''} onChange={e => setEditingUser({...editingUser, firstName: e.target.value})} data-testid="input-edit-firstname" />
+                    </div>
+                    <div>
+                      <Label className="text-xs">Apellidos</Label>
+                      <Input value={editingUser.lastName || ''} onChange={e => setEditingUser({...editingUser, lastName: e.target.value})} data-testid="input-edit-lastname" />
+                    </div>
+                  </div>
+                  <div>
+                    <Label className="text-xs">Email</Label>
+                    <Input value={editingUser.email || ''} onChange={e => setEditingUser({...editingUser, email: e.target.value})} data-testid="input-edit-email" />
+                  </div>
+                  <div>
+                    <Label className="text-xs">Teléfono</Label>
+                    <Input value={editingUser.phone || ''} onChange={e => setEditingUser({...editingUser, phone: e.target.value})} data-testid="input-edit-phone" />
+                  </div>
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <Label className="text-xs">Tipo ID</Label>
+                      <Select value={editingUser.idType || ''} onValueChange={val => setEditingUser({...editingUser, idType: val})}>
+                        <SelectTrigger><SelectValue placeholder="Seleccionar" /></SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="dni">DNI</SelectItem>
+                          <SelectItem value="nie">NIE</SelectItem>
+                          <SelectItem value="passport">Pasaporte</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div>
+                      <Label className="text-xs">Número ID</Label>
+                      <Input value={editingUser.idNumber || ''} onChange={e => setEditingUser({...editingUser, idNumber: e.target.value})} data-testid="input-edit-idnumber" />
+                    </div>
+                  </div>
+                  <div>
+                    <Label className="text-xs">Fecha Nacimiento</Label>
+                    <Input type="date" value={editingUser.birthDate || ''} onChange={e => setEditingUser({...editingUser, birthDate: e.target.value})} data-testid="input-edit-birthdate" />
+                  </div>
+                  <div>
+                    <Label className="text-xs">Actividad de Negocio</Label>
+                    <Input value={editingUser.businessActivity || ''} onChange={e => setEditingUser({...editingUser, businessActivity: e.target.value})} data-testid="input-edit-activity" />
+                  </div>
+                  <div>
+                    <Label className="text-xs">Dirección</Label>
+                    <Input value={editingUser.address || ''} onChange={e => setEditingUser({...editingUser, address: e.target.value})} placeholder="Calle y número" data-testid="input-edit-address" />
+                  </div>
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <Label className="text-xs">Ciudad</Label>
+                      <Input value={editingUser.city || ''} onChange={e => setEditingUser({...editingUser, city: e.target.value})} data-testid="input-edit-city" />
+                    </div>
+                    <div>
+                      <Label className="text-xs">Código Postal</Label>
+                      <Input value={editingUser.postalCode || ''} onChange={e => setEditingUser({...editingUser, postalCode: e.target.value})} data-testid="input-edit-postal" />
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <Label className="text-xs">Provincia</Label>
+                      <Input value={editingUser.province || ''} onChange={e => setEditingUser({...editingUser, province: e.target.value})} data-testid="input-edit-province" />
+                    </div>
+                    <div>
+                      <Label className="text-xs">País</Label>
+                      <Input value={editingUser.country || ''} onChange={e => setEditingUser({...editingUser, country: e.target.value})} data-testid="input-edit-country" />
+                    </div>
+                  </div>
+                  <div>
+                    <Label className="text-xs">Notas Internas (solo admin)</Label>
+                    <Textarea value={editingUser.internalNotes || ''} onChange={e => setEditingUser({...editingUser, internalNotes: e.target.value})} rows={2} data-testid="input-edit-notes" />
+                  </div>
+                  <DialogFooter>
+                    <Button variant="outline" onClick={() => setEditingUser(null)}>Cancelar</Button>
+                    <Button onClick={() => editingUser.id && updateUserMutation.mutate({ id: editingUser.id, ...editingUser })} disabled={updateUserMutation.isPending} data-testid="button-save-user">
+                      {updateUserMutation.isPending ? 'Guardando...' : 'Guardar'}
+                    </Button>
+                  </DialogFooter>
+                </div>
+              )}
+            </DialogContent>
+          </Dialog>
+
+          <Dialog open={deleteConfirm.open} onOpenChange={(open) => setDeleteConfirm({ open, user: open ? deleteConfirm.user : null })}>
+            <DialogContent className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 max-w-sm w-[90vw] bg-white rounded-lg shadow-2xl z-[100]">
+              <DialogHeader><DialogTitle className="text-lg font-bold text-red-600">Eliminar Usuario</DialogTitle></DialogHeader>
+              <div className="py-4">
+                <p className="text-sm text-muted-foreground">¿Estás seguro de que deseas eliminar a <strong>{deleteConfirm.user?.firstName} {deleteConfirm.user?.lastName}</strong>?</p>
+                <p className="text-xs text-red-500 mt-2">Esta acción no se puede deshacer.</p>
+              </div>
+              <DialogFooter>
+                <Button variant="outline" onClick={() => setDeleteConfirm({ open: false, user: null })}>Cancelar</Button>
+                <Button variant="destructive" onClick={() => deleteConfirm.user?.id && deleteUserMutation.mutate(deleteConfirm.user.id)} disabled={deleteUserMutation.isPending} data-testid="button-confirm-delete">
+                  {deleteUserMutation.isPending ? 'Eliminando...' : 'Eliminar'}
+                </Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
+
+          <Dialog open={docDialog.open} onOpenChange={(open) => setDocDialog({ open, user: open ? docDialog.user : null })}>
+            <DialogContent className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 max-w-md w-[90vw] bg-white rounded-lg shadow-2xl z-[100]">
+              <DialogHeader><DialogTitle className="text-lg font-bold">Solicitar Documentos</DialogTitle></DialogHeader>
+              <div className="space-y-4 pt-2">
+                <Select value={docType} onValueChange={setDocType}>
+                  <SelectTrigger><SelectValue placeholder="Tipo de documento" /></SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="passport">Pasaporte / ID</SelectItem>
+                    <SelectItem value="address_proof">Comprobante de Domicilio</SelectItem>
+                    <SelectItem value="tax_id">Identificación Fiscal</SelectItem>
+                    <SelectItem value="other">Otro</SelectItem>
+                  </SelectContent>
+                </Select>
+                <Textarea value={docMessage} onChange={e => setDocMessage(e.target.value)} placeholder="Mensaje para el cliente" rows={3} data-testid="input-doc-message" />
+                <DialogFooter>
+                  <Button onClick={() => {
+                    if (docDialog.user?.id && docDialog.user?.email) {
+                      sendNoteMutation.mutate({ 
+                        userId: docDialog.user.id, 
+                        email: docDialog.user.email, 
+                        title: `Solicitud de Documento: ${docType}`, 
+                        message: docMessage || `Por favor, sube tu ${docType} a tu panel de cliente.`, 
+                        type: 'action_required' 
+                      });
+                      setDocDialog({ open: false, user: null });
+                      setDocType('');
+                      setDocMessage('');
+                    }
+                  }} disabled={!docType || sendNoteMutation.isPending} data-testid="button-request-doc">
+                    Solicitar
                   </Button>
                 </DialogFooter>
               </div>
