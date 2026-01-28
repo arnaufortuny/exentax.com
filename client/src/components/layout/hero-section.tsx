@@ -23,7 +23,7 @@ export function HeroSection({
 }: HeroSectionProps) {
   return (
     <section 
-      className={`relative overflow-hidden pt-8 pb-6 sm:pt-24 sm:pb-20 lg:pt-32 lg:pb-24 bg-white flex flex-col items-center justify-center text-center ${className}`}
+      className={`relative overflow-hidden pt-8 pb-6 sm:pt-16 sm:pb-16 lg:pt-20 lg:pb-20 bg-white flex flex-col items-center justify-center text-center ${className}`}
     >
       <div className="container max-w-7xl mx-auto px-4 sm:px-8 relative z-10 flex flex-col items-center justify-center text-center">
         <motion.div 
