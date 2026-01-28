@@ -403,20 +403,20 @@ export default function Dashboard() {
   return (
     <div className="min-h-screen bg-[#F7F7F5] font-sans">
       <Navbar />
-      <main className="pt-24 pb-16 px-4 md:px-8 max-w-7xl mx-auto">
-        <header className="mb-8 md:mb-12">
+      <main className="pt-20 pb-12 px-4 md:px-8 max-w-7xl mx-auto">
+        <header className="mb-6 md:mb-8">
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="flex flex-col md:flex-row md:items-center justify-between gap-6"
+            className="flex flex-col md:flex-row md:items-center justify-between gap-4"
           >
             <div>
-              <p className="text-accent font-black tracking-widest text-[10px] md:text-sm mb-1 md:mb-2 uppercase">Área de Clientes</p>
-              <h1 className="text-3xl md:text-5xl font-black text-primary tracking-tighter leading-tight md:leading-none">
-                Bienvenido a tu espacio personal, {user?.firstName || 'Cliente'}
+              <p className="text-accent font-black tracking-widest text-[10px] md:text-xs mb-1 uppercase">Área de Clientes</p>
+              <h1 className="text-2xl md:text-4xl font-black text-primary tracking-tighter leading-tight">
+                Bienvenido, {user?.firstName || 'Cliente'}
               </h1>
-              <p className="text-muted-foreground font-medium mt-2">
-                Estás en tu área privada, ¡realiza tus gestiones en unos clics!
+              <p className="text-muted-foreground text-sm mt-1">
+                Tu espacio privado de gestión
               </p>
             </div>
             <Link href="/servicios#pricing">
