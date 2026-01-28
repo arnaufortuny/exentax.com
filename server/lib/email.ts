@@ -151,8 +151,10 @@ export function getOtpEmailTemplate(otp: string, purpose: string = "verificar tu
         ${getEmailHeader("Código de Verificación")}
         <div style="padding: 40px;">
           <div style="text-align: center; margin-bottom: 25px;">
-            <div style="display: inline-block; background: #EEF2FF; border-radius: 50%; padding: 15px; margin-bottom: 15px;">
-              <span style="font-size: 28px;">🔐</span>
+            <div style="display: inline-block; background: #EEF2FF; border-radius: 50%; padding: 18px; margin-bottom: 15px;">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 1C8.676 1 6 3.676 6 7V8H5C3.895 8 3 8.895 3 10V20C3 21.105 3.895 22 5 22H19C20.105 22 21 21.105 21 20V10C21 8.895 20.105 8 19 8H18V7C18 3.676 15.324 1 12 1ZM12 3C14.243 3 16 4.757 16 7V8H8V7C8 4.757 9.757 3 12 3ZM12 13C13.105 13 14 13.895 14 15C14 15.739 13.598 16.372 13 16.723V18C13 18.553 12.553 19 12 19C11.447 19 11 18.553 11 18V16.723C10.402 16.372 10 15.739 10 15C10 13.895 10.895 13 12 13Z" fill="#4F46E5"/>
+              </svg>
             </div>
             <h2 style="font-size: 20px; font-weight: 900; margin: 0; color: #0E1215;">Verificación de Seguridad</h2>
           </div>
@@ -215,8 +217,10 @@ export function getConfirmationEmailTemplate(name: string, requestCode: string, 
         ${getEmailHeader("Solicitud Recibida", { clientId, reference: requestCode })}
         <div style="padding: 40px;">
           <div style="text-align: center; margin-bottom: 25px;">
-            <div style="display: inline-block; background: #D1FAE5; border-radius: 50%; padding: 15px; margin-bottom: 15px;">
-              <span style="font-size: 28px;">✓</span>
+            <div style="display: inline-block; background: #D1FAE5; border-radius: 50%; padding: 18px; margin-bottom: 15px;">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" fill="#059669"/>
+              </svg>
             </div>
             <h2 style="font-size: 22px; font-weight: 900; margin: 0; color: #0E1215;">¡Gracias, ${name}!</h2>
           </div>
