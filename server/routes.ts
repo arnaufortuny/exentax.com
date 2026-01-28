@@ -7,7 +7,7 @@ import { z } from "zod";
 import { insertLlcApplicationSchema, insertApplicationDocumentSchema } from "@shared/schema";
 import type { Request, Response, NextFunction } from "express";
 import { db } from "./db";
-import { sendEmail, getOtpEmailTemplate, getConfirmationEmailTemplate, getReminderEmailTemplate, getWelcomeEmailTemplate, getNewsletterWelcomeTemplate, getAutoReplyTemplate, getEmailFooter, getEmailHeader, getOrderUpdateTemplate, getNoteReceivedTemplate, getAccountSuspendedTemplate, getClaudiaMessageTemplate } from "./lib/email";
+import { sendEmail, getOtpEmailTemplate, getConfirmationEmailTemplate, getReminderEmailTemplate, getWelcomeEmailTemplate, getNewsletterWelcomeTemplate, getAutoReplyTemplate, getEmailFooter, getEmailHeader, getOrderUpdateTemplate, getNoteReceivedTemplate, getAccountSuspendedTemplate, getAccountDeactivatedTemplate, getClaudiaMessageTemplate } from "./lib/email";
 import { contactOtps, products as productsTable, users as usersTable, maintenanceApplications, newsletterSubscribers, messages as messagesTable, orderEvents, messageReplies, userNotifications, orders as ordersTable, llcApplications as llcApplicationsTable, applicationDocuments as applicationDocumentsTable } from "@shared/schema";
 import { and, eq, gt, desc, sql } from "drizzle-orm";
 
@@ -195,24 +195,43 @@ export async function registerRoutes(
       updatedAt: new Date()
     }).where(eq(usersTable.id, userId)).returning();
 
-    // Trigger emails if account is suspended
-    if (data.accountStatus === 'suspended') {
+    // Trigger emails if account status changes
+    if (data.accountStatus === 'suspended' || data.accountStatus === 'deactivated') {
       const [user] = await db.select().from(usersTable).where(eq(usersTable.id, userId)).limit(1);
       if (user && user.email) {
-        // 1. Send system suspension email
+        const isSuspended = data.accountStatus === 'suspended';
+        
+        // 1. Send appropriate email based on status
         await sendEmail({
           to: user.email,
-          subject: "Tu cuenta ha sido desactivada - Easy US LLC",
-          html: getAccountSuspendedTemplate(user.firstName || "Cliente")
+          subject: isSuspended 
+            ? "Tu cuenta ha sido suspendida temporalmente - Easy US LLC" 
+            : "Tu cuenta ha sido desactivada - Easy US LLC",
+          html: isSuspended 
+            ? getAccountSuspendedTemplate(user.firstName || "Cliente")
+            : getAccountDeactivatedTemplate(user.firstName || "Cliente")
         }).catch(console.error);
 
-        // 2. Send Claudia's personal email (using internalNotes or a default message)
-        const claudiaMsg = data.internalNotes || "Tu cuenta ha sido desactivada debido a que necesitamos verificar información adicional sobre tu registro. Por favor, responde a este correo para proceder.";
+        // 2. Send Claudia's personal email
+        const claudiaMsg = data.internalNotes || (isSuspended 
+          ? "Tu cuenta ha sido suspendida temporalmente mientras verificamos información adicional. Por favor, responde a este correo para proceder con la reactivación."
+          : "Tu cuenta ha sido desactivada permanentemente. Si consideras que esto es un error, por favor contacta con nosotros.");
         await sendEmail({
           to: user.email,
           subject: "Información importante sobre tu cuenta - Claudia (Easy US LLC)",
           html: getClaudiaMessageTemplate(user.firstName || "Cliente", claudiaMsg)
         }).catch(console.error);
+
+        // 3. Create notification for client
+        await db.insert(userNotifications).values({
+          userId,
+          title: isSuspended ? "Cuenta suspendida temporalmente" : "Cuenta desactivada",
+          message: isSuspended 
+            ? "Tu cuenta ha sido suspendida temporalmente. Revisa tu email para más detalles."
+            : "Tu cuenta ha sido desactivada permanentemente. Contacta con soporte si tienes dudas.",
+          type: 'action_required',
+          isRead: false
+        });
       }
     }
 
@@ -989,6 +1008,17 @@ export async function registerRoutes(
         createdBy: userId
       });
 
+      // NOTIFICATION: New order created
+      if (userId && !userId.startsWith('guest_')) {
+        await db.insert(userNotifications).values({
+          userId,
+          title: "Nuevo pedido registrado",
+          message: `Tu pedido de ${product.name} ha sido registrado correctamente. Te mantendremos informado del progreso.`,
+          type: 'info',
+          isRead: false
+        });
+      }
+
       // Create an empty application linked to the order
       const application = await storage.createLlcApplication({
         orderId: order.id,
@@ -1421,6 +1451,17 @@ export async function registerRoutes(
       await db.update(maintenanceApplications)
         .set({ requestCode })
         .where(eq(maintenanceApplications.id, application.id));
+
+      // NOTIFICATION: New maintenance order
+      if (userId && !userId.startsWith('guest_')) {
+        await db.insert(userNotifications).values({
+          userId,
+          title: "Nuevo pedido de mantenimiento",
+          message: `Tu pedido de mantenimiento anual ha sido registrado. Te mantendremos informado del progreso.`,
+          type: 'info',
+          isRead: false
+        });
+      }
 
       res.status(201).json({ ...order, application: { ...application, requestCode } });
     } catch (err) {
@@ -2255,6 +2296,17 @@ export async function registerRoutes(
         state: state || "New Mexico",
       }).returning();
       const application = maintenanceResults[0];
+
+      // NOTIFICATION: New maintenance order
+      if (userId && !userId.startsWith('guest_')) {
+        await db.insert(userNotifications).values({
+          userId,
+          title: "Nuevo pedido de mantenimiento",
+          message: `Tu pedido de mantenimiento anual ha sido registrado. Te mantendremos informado del progreso.`,
+          type: 'info',
+          isRead: false
+        });
+      }
 
       res.status(201).json({ ...order, application });
     } catch (err) {

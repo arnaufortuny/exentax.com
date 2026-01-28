@@ -952,8 +952,8 @@ export default function Dashboard() {
                                 <SelectContent>
                                   <SelectItem value="active">Activo</SelectItem>
                                   <SelectItem value="pending">Revisión</SelectItem>
-                                  <SelectItem value="suspended">Suspendido</SelectItem>
-                                  <SelectItem value="deactivated">Desactivado</SelectItem>
+                                  <SelectItem value="suspended">Suspendido (Temporal)</SelectItem>
+                                  <SelectItem value="deactivated">Desactivado (Permanente)</SelectItem>
                                   <SelectItem value="vip">VIP</SelectItem>
                                 </SelectContent>
                               </Select>

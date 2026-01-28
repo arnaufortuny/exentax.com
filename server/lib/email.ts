@@ -38,14 +38,33 @@ export function getAccountSuspendedTemplate(name: string) {
   return `
     <div style="background-color: #f9f9f9; padding: 20px 0;">
       <div style="font-family: 'Inter', Arial, sans-serif; max-width: 600px; margin: auto; border-radius: 8px; overflow: hidden; color: #1a1a1a; background-color: #ffffff; border: 1px solid #e5e5e5;">
+        ${getEmailHeader("Cuenta Suspendida Temporalmente")}
+        <div style="padding: 40px;">
+          <h2 style="font-size: 20px; font-weight: 800; margin-bottom: 20px; color: #000;">Hola ${name},</h2>
+          <p style="line-height: 1.6; font-size: 15px; color: #444; margin-bottom: 25px;">Te informamos que tu cuenta en Easy US LLC ha sido <strong>suspendida temporalmente</strong>.</p>
+          <div style="background: #FEF3CD; padding: 20px; border-radius: 8px; margin: 25px 0; border-left: 4px solid #FFC107;">
+            <p style="margin: 0; font-size: 14px; color: #856404; line-height: 1.6;">Esta suspensión es temporal y puede deberse a documentación pendiente o verificación de datos. Revisa el correo de nuestro equipo de atención al cliente para conocer los pasos a seguir y restaurar el acceso.</p>
+          </div>
+          <p style="line-height: 1.6; font-size: 14px; color: #6B7280; margin-top: 25px; text-align: center;">Si tienes alguna duda urgente, puedes contactarnos vía WhatsApp.</p>
+        </div>
+        ${getEmailFooter()}
+      </div>
+    </div>
+  `;
+}
+
+export function getAccountDeactivatedTemplate(name: string) {
+  return `
+    <div style="background-color: #f9f9f9; padding: 20px 0;">
+      <div style="font-family: 'Inter', Arial, sans-serif; max-width: 600px; margin: auto; border-radius: 8px; overflow: hidden; color: #1a1a1a; background-color: #ffffff; border: 1px solid #e5e5e5;">
         ${getEmailHeader("Cuenta Desactivada")}
         <div style="padding: 40px;">
           <h2 style="font-size: 20px; font-weight: 800; margin-bottom: 20px; color: #000;">Hola ${name},</h2>
-          <p style="line-height: 1.6; font-size: 15px; color: #444; margin-bottom: 25px;">Te informamos que tu cuenta en Easy US LLC ha sido desactivada temporalmente.</p>
-          <div style="background: #FEF2F2; padding: 20px; border-radius: 8px; margin: 25px 0; border-left: 4px solid #EF4444;">
-            <p style="margin: 0; font-size: 14px; color: #B91C1C; line-height: 1.6;">Debido a políticas internas o falta de documentación necesaria, el acceso a tu panel ha sido restringido. Por favor, revisa el correo enviado por nuestro equipo de atención al cliente (Claudia) para conocer los pasos a seguir.</p>
+          <p style="line-height: 1.6; font-size: 15px; color: #444; margin-bottom: 25px;">Te informamos que tu cuenta en Easy US LLC ha sido <strong>desactivada permanentemente</strong>.</p>
+          <div style="background: #FEE2E2; padding: 20px; border-radius: 8px; margin: 25px 0; border-left: 4px solid #EF4444;">
+            <p style="margin: 0; font-size: 14px; color: #B91C1C; line-height: 1.6;">Esta desactivación es definitiva debido a incumplimiento de políticas o por solicitud propia. Si crees que esto es un error, contacta con nuestro equipo de soporte.</p>
           </div>
-          <p style="line-height: 1.6; font-size: 14px; color: #6B7280; margin-top: 25px; text-align: center;">Si tienes alguna duda urgente, puedes contactarnos vía WhatsApp.</p>
+          <p style="line-height: 1.6; font-size: 14px; color: #6B7280; margin-top: 25px; text-align: center;">Si tienes alguna consulta, puedes contactarnos vía WhatsApp o email.</p>
         </div>
         ${getEmailFooter()}
       </div>
