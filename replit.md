@@ -26,6 +26,17 @@ Easy US LLC is a business formation service for Spanish-speaking entrepreneurs l
 - `server/`: Express backend with Drizzle storage.
 
 ## Recent Changes
+- **Client Profile & Admin Panel Enhancement (Jan 2026):**
+  - Extended client profile with full fields: ID type/number, birth date, business activity, full address
+  - Profile editing blocked for accounts with 'pending' status (with visual message)
+  - Added 'deactivated' status option for accounts (Desactivado in Spanish)
+  - Account status selector with white background positioned above user info in admin panel
+  - Mobile-optimized admin panel: icon-only buttons on small screens, full labels on desktop
+  - Client document upload functionality: clients can upload files when admin requests documents
+  - Upload notifications with orange alert card in Documents section
+  - Drag-and-drop style upload card for easy document submission
+  - Delete own account feature with confirmation dialog
+  - All profile fields color-coded by status (green=verified, orange=pending, red=suspended, gray=deactivated, yellow=VIP)
 - **Deployment & Stability Optimization (Jan 2026):**
   - Fixed Replit deployment health check failures with Node.js-level httpServer interception
   - Activity logging switched to email-only (removed non-existent activity_logs table references)

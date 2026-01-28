@@ -1217,6 +1217,76 @@ export async function registerRoutes(
     }
   });
 
+  // Client document upload endpoint
+  app.post("/api/user/documents/upload", isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.session.userId;
+      if (!userId) {
+        return res.status(401).json({ message: "No autorizado" });
+      }
+
+      // Get user's orders to attach document
+      const userOrders = await storage.getOrders(userId);
+      if (!userOrders.length) {
+        return res.status(400).json({ message: "No tienes pedidos activos" });
+      }
+
+      // Use multer or similar for file handling - for now, handle base64/form-data
+      const busboy = (await import('busboy')).default;
+      const bb = busboy({ headers: req.headers });
+      
+      let fileName = '';
+      let fileBuffer: Buffer | null = null;
+      
+      bb.on('file', (name: string, file: any, info: any) => {
+        fileName = info.filename || `documento_${Date.now()}`;
+        const chunks: Buffer[] = [];
+        file.on('data', (data: Buffer) => chunks.push(data));
+        file.on('end', () => { fileBuffer = Buffer.concat(chunks); });
+      });
+
+      bb.on('finish', async () => {
+        if (!fileBuffer) {
+          return res.status(400).json({ message: "No se recibió ningún archivo" });
+        }
+
+        // Save file (in production, use cloud storage)
+        const fs = await import('fs/promises');
+        const path = await import('path');
+        const uploadDir = path.join(process.cwd(), 'uploads', 'client-docs');
+        await fs.mkdir(uploadDir, { recursive: true });
+        
+        const safeFileName = `${userId}_${Date.now()}_${fileName.replace(/[^a-zA-Z0-9.-]/g, '_')}`;
+        const filePath = path.join(uploadDir, safeFileName);
+        await fs.writeFile(filePath, fileBuffer);
+        
+        // Create document record
+        const doc = await db.insert(applicationDocumentsTable).values({
+          orderId: userOrders[0].id,
+          fileName: fileName,
+          fileType: fileName.endsWith('.pdf') ? 'application/pdf' : 'image/jpeg',
+          fileUrl: `/uploads/client-docs/${safeFileName}`,
+          documentType: 'client_upload',
+          reviewStatus: 'pending',
+          uploadedBy: userId
+        }).returning();
+
+        // Notify admin about new document
+        const userData = await db.select().from(usersTable).where(eq(usersTable.id, userId)).limit(1);
+        if (userData[0]) {
+          console.log(`[Document Upload] User ${userData[0].firstName} ${userData[0].lastName} uploaded: ${fileName}`);
+        }
+
+        res.json({ success: true, document: doc[0] });
+      });
+
+      req.pipe(bb);
+    } catch (error: any) {
+      console.error("Client upload error:", error);
+      res.status(500).json({ message: "Error al subir documento" });
+    }
+  });
+
   app.delete("/api/admin/documents/:id", isAdmin, async (req, res) => {
     try {
       const docId = Number(req.params.id);

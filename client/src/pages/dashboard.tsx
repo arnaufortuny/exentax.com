@@ -627,6 +627,53 @@ export default function Dashboard() {
               {activeTab === 'documents' && (
                 <motion.div key="documents" initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 20 }} className="space-y-6">
                   <h2 className="text-xl md:text-2xl font-black text-primary tracking-tight mb-6">Centro de Documentación</h2>
+                  
+                  {notifications?.some((n: any) => n.type === 'action_required' && !n.isRead) && (
+                    <Card className="rounded-xl border-2 border-orange-200 bg-orange-50 p-4 mb-4">
+                      <div className="flex items-start gap-3">
+                        <FileUp className="w-5 h-5 text-orange-600 mt-0.5" />
+                        <div className="flex-1">
+                          <h4 className="font-bold text-orange-800 text-sm">Documentos Solicitados</h4>
+                          <p className="text-xs text-orange-700 mt-1">Tienes solicitudes de documentos pendientes. Por favor, sube los documentos requeridos.</p>
+                          <div className="mt-3">
+                            <label className="cursor-pointer">
+                              <input 
+                                type="file" 
+                                className="hidden" 
+                                accept=".pdf,.jpg,.jpeg,.png"
+                                onChange={async (e) => {
+                                  const file = e.target.files?.[0];
+                                  if (!file) return;
+                                  const formData = new FormData();
+                                  formData.append('file', file);
+                                  try {
+                                    const res = await fetch('/api/user/documents/upload', {
+                                      method: 'POST',
+                                      body: formData,
+                                      credentials: 'include'
+                                    });
+                                    if (res.ok) {
+                                      toast({ title: "Documento subido", description: "Tu documento ha sido enviado correctamente." });
+                                      queryClient.invalidateQueries({ queryKey: ['/api/user/documents'] });
+                                    } else {
+                                      toast({ title: "Error", description: "No se pudo subir el documento", variant: "destructive" });
+                                    }
+                                  } catch {
+                                    toast({ title: "Error", description: "Error de conexión", variant: "destructive" });
+                                  }
+                                }}
+                                data-testid="input-upload-document"
+                              />
+                              <Button variant="outline" className="rounded-full text-xs border-orange-300 text-orange-700" asChild>
+                                <span><FileUp className="w-3 h-3 mr-1" /> Subir Documento</span>
+                              </Button>
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                    </Card>
+                  )}
+                  
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <Card className="rounded-[1.5rem] md:rounded-[2rem] border-0 shadow-sm p-6 md:p-8 flex flex-col items-center text-center bg-white">
                       <FileText className="w-12 h-12 text-primary mb-4" />
@@ -635,10 +682,50 @@ export default function Dashboard() {
                         <Download className="w-4 h-4 mr-2" /> Imprimir / PDF
                       </Button>
                     </Card>
+                    
+                    <Card className="rounded-[1.5rem] md:rounded-[2rem] border-0 shadow-sm p-6 md:p-8 flex flex-col items-center text-center bg-white border-2 border-dashed border-gray-200">
+                      <label className="cursor-pointer w-full">
+                        <input 
+                          type="file" 
+                          className="hidden" 
+                          accept=".pdf,.jpg,.jpeg,.png"
+                          onChange={async (e) => {
+                            const file = e.target.files?.[0];
+                            if (!file) return;
+                            const formData = new FormData();
+                            formData.append('file', file);
+                            try {
+                              const res = await fetch('/api/user/documents/upload', {
+                                method: 'POST',
+                                body: formData,
+                                credentials: 'include'
+                              });
+                              if (res.ok) {
+                                toast({ title: "Documento subido", description: "Tu documento ha sido enviado correctamente." });
+                                queryClient.invalidateQueries({ queryKey: ['/api/user/documents'] });
+                              } else {
+                                toast({ title: "Error", description: "No se pudo subir el documento", variant: "destructive" });
+                              }
+                            } catch {
+                              toast({ title: "Error", description: "Error de conexión", variant: "destructive" });
+                            }
+                          }}
+                          data-testid="input-upload-new-document"
+                        />
+                        <FileUp className="w-12 h-12 text-gray-400 mb-4 mx-auto" />
+                        <h3 className="font-black text-gray-600 mb-2 text-sm md:text-base">Subir Documento</h3>
+                        <p className="text-[10px] text-muted-foreground mb-4">PDF, JPG o PNG (máx. 10MB)</p>
+                        <Button variant="outline" className="rounded-full font-black border-2 w-full text-xs py-5" asChild>
+                          <span><FileUp className="w-4 h-4 mr-2" /> SELECCIONAR ARCHIVO</span>
+                        </Button>
+                      </label>
+                    </Card>
+                    
                     {userDocuments?.map((doc: any) => (
                       <Card key={doc.id} className="rounded-[1.5rem] md:rounded-[2rem] border-0 shadow-sm p-6 md:p-8 flex flex-col items-center text-center bg-white">
                         <FileUp className="w-12 h-12 text-accent mb-4" />
                         <h3 className="font-black text-primary mb-2 text-sm md:text-base">{doc.fileName}</h3>
+                        <p className="text-[10px] text-muted-foreground mb-4">{new Date(doc.createdAt).toLocaleDateString()}</p>
                         <Button variant="outline" className="rounded-full font-black border-2 w-full text-xs py-5" onClick={() => window.open(doc.fileUrl, "_blank")}>
                           <Download className="w-4 h-4 mr-2" /> DESCARGAR
                         </Button>
@@ -673,41 +760,132 @@ export default function Dashboard() {
                   <Card className="rounded-[1.5rem] md:rounded-[2rem] border-0 shadow-sm p-6 md:p-8 bg-white">
                     <div className="flex justify-between items-center mb-6">
                       <h3 className="text-xl font-black">Información Personal</h3>
-                      <Button variant="ghost" size="sm" onClick={() => setIsEditing(!isEditing)}>{isEditing ? 'Cancelar' : 'Editar'}</Button>
+                      {user?.accountStatus !== 'pending' && (
+                        <Button variant="ghost" size="sm" onClick={() => setIsEditing(!isEditing)} data-testid="button-toggle-edit">{isEditing ? 'Cancelar' : 'Editar'}</Button>
+                      )}
                     </div>
+                    {user?.accountStatus === 'pending' && (
+                      <div className="mb-4 p-3 bg-orange-50 border border-orange-200 rounded-lg">
+                        <p className="text-sm text-orange-700">Tu cuenta está en revisión. No puedes modificar tu perfil hasta que sea verificada.</p>
+                      </div>
+                    )}
                     <div className="space-y-4">
                       <div className="grid grid-cols-2 gap-4">
                         <div className="p-4 bg-accent/5 rounded-xl border border-accent/10">
                           <p className="text-[10px] font-black uppercase text-muted-foreground mb-1">ID Cliente</p>
-                          <p className="text-lg font-black font-mono">{user?.id?.slice(0, 8).toUpperCase()}</p>
+                          <p className="text-lg font-black font-mono">{user?.clientId || user?.id?.slice(0, 8).toUpperCase()}</p>
                         </div>
                         <div className="p-4 bg-accent/5 rounded-xl border border-accent/10">
                           <p className="text-[10px] font-black uppercase text-muted-foreground mb-1">Estado</p>
-                          <p className="text-lg font-black">{user?.accountStatus === 'active' ? 'Verificado' : user?.accountStatus === 'pending' ? 'Pendiente' : user?.accountStatus === 'suspended' ? 'Suspendido' : user?.accountStatus === 'deactivated' ? 'Desactivado' : user?.accountStatus === 'vip' ? 'VIP' : 'Verificado'}</p>
+                          <p className={`text-lg font-black ${user?.accountStatus === 'active' ? 'text-green-600' : user?.accountStatus === 'pending' ? 'text-orange-500' : user?.accountStatus === 'suspended' ? 'text-red-600' : user?.accountStatus === 'deactivated' ? 'text-gray-500' : user?.accountStatus === 'vip' ? 'text-yellow-600' : 'text-green-600'}`}>
+                            {user?.accountStatus === 'active' ? 'Verificado' : user?.accountStatus === 'pending' ? 'Pendiente' : user?.accountStatus === 'suspended' ? 'Suspendido' : user?.accountStatus === 'deactivated' ? 'Desactivado' : user?.accountStatus === 'vip' ? 'VIP' : 'Verificado'}
+                          </p>
                         </div>
                       </div>
-                      <div className="grid grid-cols-2 gap-4">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div className="space-y-1">
                           <Label>Nombre</Label>
-                          {isEditing ? <Input value={profileData.firstName} onChange={e => setProfileData({...profileData, firstName: e.target.value})} /> : <div className="p-3 bg-gray-50 rounded-lg">{user?.firstName}</div>}
+                          {isEditing && user?.accountStatus !== 'pending' ? <Input value={profileData.firstName} onChange={e => setProfileData({...profileData, firstName: e.target.value})} data-testid="input-firstname" /> : <div className="p-3 bg-gray-50 rounded-lg text-sm">{user?.firstName || '-'}</div>}
                         </div>
                         <div className="space-y-1">
                           <Label>Apellido</Label>
-                          {isEditing ? <Input value={profileData.lastName} onChange={e => setProfileData({...profileData, lastName: e.target.value})} /> : <div className="p-3 bg-gray-50 rounded-lg">{user?.lastName}</div>}
+                          {isEditing && user?.accountStatus !== 'pending' ? <Input value={profileData.lastName} onChange={e => setProfileData({...profileData, lastName: e.target.value})} data-testid="input-lastname" /> : <div className="p-3 bg-gray-50 rounded-lg text-sm">{user?.lastName || '-'}</div>}
                         </div>
                       </div>
                       <div className="space-y-1">
                         <Label>Email</Label>
-                        <div className="p-3 bg-gray-50 rounded-lg flex justify-between items-center">
+                        <div className="p-3 bg-gray-50 rounded-lg flex justify-between items-center text-sm">
                           <span>{user?.email}</span>
                           {user?.emailVerified && <CheckCircle2 className="w-4 h-4 text-green-500" />}
                         </div>
                       </div>
                       <div className="space-y-1">
                         <Label>Teléfono</Label>
-                        {isEditing ? <Input value={profileData.phone} onChange={e => setProfileData({...profileData, phone: e.target.value})} /> : <div className="p-3 bg-gray-50 rounded-lg">{user?.phone || 'No proporcionado'}</div>}
+                        {isEditing && user?.accountStatus !== 'pending' ? <Input value={profileData.phone} onChange={e => setProfileData({...profileData, phone: e.target.value})} data-testid="input-phone" /> : <div className="p-3 bg-gray-50 rounded-lg text-sm">{user?.phone || 'No proporcionado'}</div>}
                       </div>
-                      {isEditing && <Button onClick={() => updateProfile.mutate(profileData)} className="w-full bg-accent text-primary font-black rounded-full" disabled={updateProfile.isPending}>Guardar Cambios</Button>}
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div className="space-y-1">
+                          <Label>Tipo de Documento</Label>
+                          {isEditing && user?.accountStatus !== 'pending' ? (
+                            <Select value={profileData.idType} onValueChange={val => setProfileData({...profileData, idType: val})}>
+                              <SelectTrigger data-testid="select-idtype"><SelectValue placeholder="Seleccionar" /></SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="dni">DNI</SelectItem>
+                                <SelectItem value="nie">NIE</SelectItem>
+                                <SelectItem value="passport">Pasaporte</SelectItem>
+                              </SelectContent>
+                            </Select>
+                          ) : <div className="p-3 bg-gray-50 rounded-lg text-sm">{user?.idType === 'dni' ? 'DNI' : user?.idType === 'nie' ? 'NIE' : user?.idType === 'passport' ? 'Pasaporte' : 'No proporcionado'}</div>}
+                        </div>
+                        <div className="space-y-1">
+                          <Label>Número de Documento</Label>
+                          {isEditing && user?.accountStatus !== 'pending' ? <Input value={profileData.idNumber} onChange={e => setProfileData({...profileData, idNumber: e.target.value})} placeholder="Ej: 12345678A" data-testid="input-idnumber" /> : <div className="p-3 bg-gray-50 rounded-lg text-sm">{user?.idNumber || 'No proporcionado'}</div>}
+                        </div>
+                      </div>
+                      <div className="space-y-1">
+                        <Label>Fecha de Nacimiento</Label>
+                        {isEditing && user?.accountStatus !== 'pending' ? <Input type="date" value={profileData.birthDate} onChange={e => setProfileData({...profileData, birthDate: e.target.value})} data-testid="input-birthdate" /> : <div className="p-3 bg-gray-50 rounded-lg text-sm">{user?.birthDate || 'No proporcionado'}</div>}
+                      </div>
+                      <div className="space-y-1">
+                        <Label>Actividad de Negocio</Label>
+                        {isEditing && user?.accountStatus !== 'pending' ? (
+                          <Select value={profileData.businessActivity} onValueChange={val => setProfileData({...profileData, businessActivity: val})}>
+                            <SelectTrigger data-testid="select-activity"><SelectValue placeholder="Seleccionar actividad" /></SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="ecommerce">E-commerce</SelectItem>
+                              <SelectItem value="dropshipping">Dropshipping</SelectItem>
+                              <SelectItem value="consulting">Consultoría</SelectItem>
+                              <SelectItem value="marketing">Marketing Digital</SelectItem>
+                              <SelectItem value="software">Desarrollo de Software</SelectItem>
+                              <SelectItem value="trading">Trading / Inversiones</SelectItem>
+                              <SelectItem value="freelance">Freelance</SelectItem>
+                              <SelectItem value="other">Otra</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        ) : <div className="p-3 bg-gray-50 rounded-lg text-sm">{user?.businessActivity || 'No proporcionado'}</div>}
+                      </div>
+                      <div className="pt-4 border-t">
+                        <h4 className="font-bold text-sm mb-3">Dirección</h4>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          <div className="space-y-1">
+                            <Label>Tipo de Vía</Label>
+                            {isEditing && user?.accountStatus !== 'pending' ? (
+                              <Select value={profileData.streetType} onValueChange={val => setProfileData({...profileData, streetType: val})}>
+                                <SelectTrigger><SelectValue placeholder="Seleccionar" /></SelectTrigger>
+                                <SelectContent>
+                                  <SelectItem value="calle">Calle</SelectItem>
+                                  <SelectItem value="avenida">Avenida</SelectItem>
+                                  <SelectItem value="paseo">Paseo</SelectItem>
+                                  <SelectItem value="plaza">Plaza</SelectItem>
+                                </SelectContent>
+                              </Select>
+                            ) : <div className="p-3 bg-gray-50 rounded-lg text-sm">{user?.streetType || '-'}</div>}
+                          </div>
+                          <div className="space-y-1">
+                            <Label>Dirección</Label>
+                            {isEditing && user?.accountStatus !== 'pending' ? <Input value={profileData.address} onChange={e => setProfileData({...profileData, address: e.target.value})} placeholder="Nombre de la calle y número" /> : <div className="p-3 bg-gray-50 rounded-lg text-sm">{user?.address || '-'}</div>}
+                          </div>
+                        </div>
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-4">
+                          <div className="space-y-1">
+                            <Label>Ciudad</Label>
+                            {isEditing && user?.accountStatus !== 'pending' ? <Input value={profileData.city} onChange={e => setProfileData({...profileData, city: e.target.value})} /> : <div className="p-3 bg-gray-50 rounded-lg text-sm">{user?.city || '-'}</div>}
+                          </div>
+                          <div className="space-y-1">
+                            <Label>Provincia</Label>
+                            {isEditing && user?.accountStatus !== 'pending' ? <Input value={profileData.province} onChange={e => setProfileData({...profileData, province: e.target.value})} /> : <div className="p-3 bg-gray-50 rounded-lg text-sm">{user?.province || '-'}</div>}
+                          </div>
+                          <div className="space-y-1">
+                            <Label>C.P.</Label>
+                            {isEditing && user?.accountStatus !== 'pending' ? <Input value={profileData.postalCode} onChange={e => setProfileData({...profileData, postalCode: e.target.value})} /> : <div className="p-3 bg-gray-50 rounded-lg text-sm">{user?.postalCode || '-'}</div>}
+                          </div>
+                          <div className="space-y-1">
+                            <Label>País</Label>
+                            {isEditing && user?.accountStatus !== 'pending' ? <Input value={profileData.country} onChange={e => setProfileData({...profileData, country: e.target.value})} /> : <div className="p-3 bg-gray-50 rounded-lg text-sm">{user?.country || '-'}</div>}
+                          </div>
+                        </div>
+                      </div>
+                      {isEditing && user?.accountStatus !== 'pending' && <Button onClick={() => { updateProfile.mutate(profileData); setIsEditing(false); }} className="w-full bg-accent text-primary font-black rounded-full mt-4" disabled={updateProfile.isPending} data-testid="button-save-profile">Guardar Cambios</Button>}
                     </div>
                     <div className="mt-8 pt-8 border-t">
                       <div className="flex items-center justify-between">
@@ -767,25 +945,10 @@ export default function Dashboard() {
                     <Card className="rounded-2xl border-0 shadow-sm p-0 overflow-hidden">
                       <div className="divide-y">
                         {adminUsers?.map(u => (
-                          <div key={u.id} className="p-4 space-y-3">
-                            <div className="flex justify-between items-start">
-                              <div className="flex-1">
-                                <div className="flex items-center gap-2 flex-wrap">
-                                  <p className="font-black text-sm">{u.firstName} {u.lastName}</p>
-                                  <Badge variant={u.accountStatus === 'active' ? 'default' : u.accountStatus === 'vip' ? 'default' : 'secondary'} className={`text-[9px] ${u.accountStatus === 'suspended' ? 'bg-red-100 text-red-700' : u.accountStatus === 'deactivated' ? 'bg-gray-200 text-gray-600' : u.accountStatus === 'vip' ? 'bg-yellow-100 text-yellow-700' : u.accountStatus === 'pending' ? 'bg-orange-100 text-orange-700' : ''}`}>
-                                    {u.accountStatus === 'active' ? 'VERIFICADO' : u.accountStatus === 'pending' ? 'PENDIENTE' : u.accountStatus === 'suspended' ? 'SUSPENDIDO' : u.accountStatus === 'deactivated' ? 'DESACTIVADO' : u.accountStatus === 'vip' ? 'VIP' : 'VERIFICADO'}
-                                  </Badge>
-                                  {u.isAdmin && <Badge className="text-[9px] bg-purple-100 text-purple-700">ADMIN</Badge>}
-                                </div>
-                                <p className="text-xs text-muted-foreground">{u.email}</p>
-                                <p className="text-[10px] text-muted-foreground mt-1">
-                                  {u.phone && <span className="mr-2">{u.phone}</span>}
-                                  {u.businessActivity && <span className="mr-2">• {u.businessActivity}</span>}
-                                  {u.city && <span>• {u.city}</span>}
-                                </p>
-                              </div>
+                          <div key={u.id} className="p-3 md:p-4 space-y-2">
+                            <div className="flex flex-col gap-2">
                               <Select value={u.accountStatus || 'active'} onValueChange={val => u.id && updateUserMutation.mutate({ id: u.id, accountStatus: val as any })}>
-                                <SelectTrigger className="w-24 h-7 rounded-full text-[10px]"><SelectValue /></SelectTrigger>
+                                <SelectTrigger className="w-full md:w-28 h-8 rounded-full text-xs bg-white border shadow-sm"><SelectValue /></SelectTrigger>
                                 <SelectContent>
                                   <SelectItem value="active">Activo</SelectItem>
                                   <SelectItem value="pending">Revisión</SelectItem>
@@ -794,19 +957,32 @@ export default function Dashboard() {
                                   <SelectItem value="vip">VIP</SelectItem>
                                 </SelectContent>
                               </Select>
+                              <div className="flex items-center gap-2 flex-wrap">
+                                <p className="font-black text-sm">{u.firstName} {u.lastName}</p>
+                                <Badge variant={u.accountStatus === 'active' ? 'default' : u.accountStatus === 'vip' ? 'default' : 'secondary'} className={`text-[9px] ${u.accountStatus === 'suspended' ? 'bg-red-100 text-red-700' : u.accountStatus === 'deactivated' ? 'bg-gray-200 text-gray-600' : u.accountStatus === 'vip' ? 'bg-yellow-100 text-yellow-700' : u.accountStatus === 'pending' ? 'bg-orange-100 text-orange-700' : ''}`}>
+                                  {u.accountStatus === 'active' ? 'VERIFICADO' : u.accountStatus === 'pending' ? 'PENDIENTE' : u.accountStatus === 'suspended' ? 'SUSPENDIDO' : u.accountStatus === 'deactivated' ? 'DESACTIVADO' : u.accountStatus === 'vip' ? 'VIP' : 'VERIFICADO'}
+                                </Badge>
+                                {u.isAdmin && <Badge className="text-[9px] bg-purple-100 text-purple-700">ADMIN</Badge>}
+                              </div>
+                              <p className="text-xs text-muted-foreground">{u.email}</p>
+                              <p className="text-[10px] text-muted-foreground">
+                                {u.phone && <span className="mr-2">{u.phone}</span>}
+                                {u.businessActivity && <span className="mr-2">• {u.businessActivity}</span>}
+                                {u.city && <span>• {u.city}</span>}
+                              </p>
                             </div>
                             <div className="flex flex-wrap gap-1">
-                              <Button size="sm" variant="outline" className="h-7 text-[10px] rounded-full" onClick={() => setEditingUser(u)} data-testid={`button-edit-user-${u.id}`}>
-                                <Edit className="w-3 h-3 mr-1" /> Editar
+                              <Button size="icon" variant="outline" className="h-8 w-8 md:h-7 md:w-auto md:px-2 rounded-full" onClick={() => setEditingUser(u)} data-testid={`button-edit-user-${u.id}`}>
+                                <Edit className="w-3 h-3" /><span className="hidden md:inline ml-1 text-[10px]">Editar</span>
                               </Button>
-                              <Button size="sm" variant="outline" className="h-7 text-[10px] rounded-full" onClick={() => setEmailDialog({ open: true, user: u })} data-testid={`button-email-user-${u.id}`}>
-                                <Mail className="w-3 h-3 mr-1" /> Email
+                              <Button size="icon" variant="outline" className="h-8 w-8 md:h-7 md:w-auto md:px-2 rounded-full" onClick={() => setEmailDialog({ open: true, user: u })} data-testid={`button-email-user-${u.id}`}>
+                                <Mail className="w-3 h-3" /><span className="hidden md:inline ml-1 text-[10px]">Email</span>
                               </Button>
-                              <Button size="sm" variant="outline" className="h-7 text-[10px] rounded-full" onClick={() => setNoteDialog({ open: true, user: u })} data-testid={`button-note-user-${u.id}`}>
-                                <MessageSquare className="w-3 h-3 mr-1" /> Nota
+                              <Button size="icon" variant="outline" className="h-8 w-8 md:h-7 md:w-auto md:px-2 rounded-full" onClick={() => setNoteDialog({ open: true, user: u })} data-testid={`button-note-user-${u.id}`}>
+                                <MessageSquare className="w-3 h-3" /><span className="hidden md:inline ml-1 text-[10px]">Nota</span>
                               </Button>
-                              <Button size="sm" variant="outline" className="h-7 text-[10px] rounded-full" onClick={() => setDocDialog({ open: true, user: u })} data-testid={`button-doc-user-${u.id}`}>
-                                <FileUp className="w-3 h-3 mr-1" /> Docs
+                              <Button size="icon" variant="outline" className="h-8 w-8 md:h-7 md:w-auto md:px-2 rounded-full" onClick={() => setDocDialog({ open: true, user: u })} data-testid={`button-doc-user-${u.id}`}>
+                                <FileUp className="w-3 h-3" /><span className="hidden md:inline ml-1 text-[10px]">Docs</span>
                               </Button>
                               <Button size="sm" variant="outline" className="h-7 text-[10px] rounded-full text-red-600 hover:bg-red-50" onClick={() => setDeleteConfirm({ open: true, user: u })} data-testid={`button-delete-user-${u.id}`}>
                                 <Trash2 className="w-3 h-3 mr-1" /> Eliminar
