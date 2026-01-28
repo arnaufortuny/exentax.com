@@ -7,13 +7,21 @@ import compression from "compression";
 const app = express();
 const httpServer = createServer(app);
 
-// ABSOLUTELY FIRST: Respond to health checks immediately at the Node.js layer.
-// This is the most aggressive solution for Replit PROMOTE failures.
+// Improved health check logic: 
+// Only respond with "OK" if it's explicitly a health check or a Replit bot.
+// This prevents blocking the actual website for real users.
 httpServer.on('request', (req, res) => {
   try {
     const url = req.url || '/';
-    // Catch ANY health check request (/, /health, /healthz)
-    if (url === '/' || url === '/health' || url === '/healthz') {
+    const accept = req.headers['accept'] || '';
+    const userAgent = req.headers['user-agent'] || '';
+    const isReplit = !!(req.headers['x-replit-deployment-id'] || userAgent.includes('Replit'));
+    
+    // Respond OK only for:
+    // 1. Explicit health check paths
+    // 2. The root path IF it's a Replit bot or NOT seeking HTML
+    if (url === '/health' || url === '/healthz' || 
+       (url === '/' && (isReplit || !accept.includes('text/html')))) {
       res.writeHead(200, {
         'Content-Type': 'text/plain',
         'Cache-Control': 'no-cache, no-store, must-revalidate',
