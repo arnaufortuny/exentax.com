@@ -376,22 +376,17 @@ export async function registerRoutes(
       const [userResult] = await db.select({ count: sql<number>`count(*)` }).from(usersTable);
       const [orderResult] = await db.select({ count: sql<number>`count(*)` }).from(ordersTable);
       
-      // Get unique visitors from activity logs
-      const [visitorResult] = await db.select({ count: sql<number>`count(DISTINCT ip_address)` }).from(sql`activity_logs`);
-
       const totalSales = Number(salesResult?.totalSales || 0);
       const userCount = Number(userResult?.count || 0);
       const orderCount = Number(orderResult?.count || 0);
-      const visitorCount = Number(visitorResult?.count || 0);
 
-      // Calculate conversion rate (orders / visitors)
-      const conversionRate = visitorCount > 0 ? (orderCount / visitorCount) * 100 : 0;
+      // Conversion rate based on users who placed orders
+      const conversionRate = userCount > 0 ? (orderCount / userCount) * 100 : 0;
 
       res.json({ 
         totalSales,
         userCount,
         orderCount,
-        visitorCount,
         conversionRate: Number(conversionRate.toFixed(2))
       });
     } catch (error) {

@@ -177,13 +177,15 @@ export default function Dashboard() {
   const { data: orders, isLoading: ordersLoading } = useQuery<any[]>({
     queryKey: ["/api/orders"],
     enabled: isAuthenticated,
-    refetchInterval: 15000,
+    refetchInterval: 30000,
+    staleTime: 10000,
   });
 
   const { data: messagesData, isLoading: messagesLoading } = useQuery<any[]>({
     queryKey: ["/api/messages"],
     enabled: isAuthenticated,
-    refetchInterval: 15000,
+    refetchInterval: 60000,
+    staleTime: 30000,
   });
 
   const [selectedMessage, setSelectedMessage] = useState<any>(null);
@@ -193,7 +195,8 @@ export default function Dashboard() {
   const { data: selectedOrderEvents } = useQuery<any[]>({
     queryKey: ["/api/orders", selectedOrderId, "events"],
     enabled: !!selectedOrderId,
-    refetchInterval: 15000,
+    refetchInterval: 30000,
+    staleTime: 10000,
   });
 
   const sendReplyMutation = useMutation({
@@ -210,7 +213,8 @@ export default function Dashboard() {
   const { data: notifications, isLoading: notificationsLoading } = useQuery<any[]>({
     queryKey: ["/api/user/notifications"],
     enabled: isAuthenticated,
-    refetchInterval: 15000,
+    refetchInterval: 60000,
+    staleTime: 30000,
   });
 
   const markNotificationRead = useMutation({

@@ -2,7 +2,7 @@ import { db } from "./db";
 import { sql } from "drizzle-orm";
 import {
   products, orders, llcApplications, applicationDocuments, newsletterSubscribers,
-  maintenanceApplications, messages as messagesTable,
+  maintenanceApplications, messages as messagesTable, users,
   type Product, type Order, type LlcApplication, type ApplicationDocument,
   insertLlcApplicationSchema, insertApplicationDocumentSchema, insertOrderSchema
 } from "@shared/schema";
@@ -88,23 +88,11 @@ export class DatabaseStorage implements IStorage {
     
     await db.update(orders).set({ invoiceNumber }).where(eq(orders.id, newOrder.id));
     
-    // Log for admin
+    // Log for admin (email only)
     const [user] = await db.select().from(users).where(eq(users.id, newOrder.userId)).limit(1);
     
     try {
-      const { sql } = await import("drizzle-orm");
       const { sendEmail, getEmailHeader, getEmailFooter } = await import("./lib/email");
-
-      await db.insert(sql`activity_logs`).values({
-        user_id: newOrder.userId,
-        action: isMaintenance ? "Nuevo Mantenimiento Creado" : "Nuevo Pedido Creado",
-        details: { 
-          orderId: invoiceNumber, 
-          user: user?.email, 
-          amount: newOrder.amount / 100 
-        },
-        ip_address: "system"
-      });
 
       sendEmail({
         to: "afortuny07@gmail.com",
