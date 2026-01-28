@@ -57,9 +57,7 @@ export function getClaudiaMessageTemplate(name: string, customMessage: string) {
   return `
     <div style="background-color: #f9f9f9; padding: 20px 0;">
       <div style="font-family: 'Inter', Arial, sans-serif; max-width: 600px; margin: auto; border-radius: 8px; overflow: hidden; color: #1a1a1a; background-color: #ffffff; border: 1px solid #e5e5e5;">
-        <div style="background-color: #ffffff; padding: 40px 20px; text-align: center; border-bottom: 3px solid #6EDC8A;">
-          <h1 style="color: #0E1215; margin: 0; font-family: 'Inter', Arial, sans-serif; font-weight: 900; text-transform: uppercase; letter-spacing: -1.5px; font-size: 24px;">Mensaje de Claudia - Easy US LLC</h1>
-        </div>
+        ${getEmailHeader("Mensaje de Claudia")}
         <div style="padding: 40px;">
           <p style="line-height: 1.6; font-size: 15px; color: #444; margin-bottom: 20px;">Hola <strong>${name}</strong>,</p>
           <div style="font-size: 15px; color: #0E1215; line-height: 1.7; white-space: pre-wrap; margin-bottom: 30px;">
