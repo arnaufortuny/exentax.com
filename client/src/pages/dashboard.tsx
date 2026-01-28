@@ -119,9 +119,11 @@ export default function Dashboard() {
   const [uploadDocType, setUploadDocType] = useState("passport");
   const [uploadNotes, setUploadNotes] = useState("");
   const [showPasswordForm, setShowPasswordForm] = useState(false);
+  const [passwordStep, setPasswordStep] = useState<'form' | 'otp'>('form');
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [passwordOtp, setPasswordOtp] = useState("");
 
   useEffect(() => {
     if (user) {
@@ -319,16 +321,31 @@ export default function Dashboard() {
     }
   });
 
+  const requestPasswordOtpMutation = useMutation({
+    mutationFn: async () => {
+      await apiRequest("POST", "/api/user/request-password-otp");
+    },
+    onSuccess: () => {
+      toast({ title: "Código enviado", description: "Revisa tu email para obtener el código de verificación." });
+      setPasswordStep('otp');
+    },
+    onError: (error: any) => {
+      toast({ title: "Error", description: error.message || "No se pudo enviar el código", variant: "destructive" });
+    }
+  });
+
   const changePasswordMutation = useMutation({
-    mutationFn: async (data: { currentPassword: string; newPassword: string }) => {
+    mutationFn: async (data: { currentPassword: string; newPassword: string; otp: string }) => {
       await apiRequest("POST", "/api/user/change-password", data);
     },
     onSuccess: () => {
       toast({ title: "Contraseña actualizada", description: "Tu contraseña ha sido cambiada correctamente." });
       setShowPasswordForm(false);
+      setPasswordStep('form');
       setCurrentPassword("");
       setNewPassword("");
       setConfirmPassword("");
+      setPasswordOtp("");
     },
     onError: (error: any) => {
       toast({ title: "Error", description: error.message || "No se pudo cambiar la contraseña", variant: "destructive" });
@@ -926,32 +943,66 @@ export default function Dashboard() {
                       </div>
                       {showPasswordForm && (
                         <div className="space-y-3 p-4 bg-gray-50 rounded-xl">
-                          <div className="space-y-1">
-                            <Label className="text-xs">Contraseña actual</Label>
-                            <Input type="password" value={currentPassword} onChange={e => setCurrentPassword(e.target.value)} placeholder="••••••••" data-testid="input-current-password" />
-                          </div>
-                          <div className="space-y-1">
-                            <Label className="text-xs">Nueva contraseña</Label>
-                            <Input type="password" value={newPassword} onChange={e => setNewPassword(e.target.value)} placeholder="Mínimo 8 caracteres" data-testid="input-new-password" />
-                          </div>
-                          <div className="space-y-1">
-                            <Label className="text-xs">Confirmar nueva contraseña</Label>
-                            <Input type="password" value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} placeholder="Repite la contraseña" data-testid="input-confirm-password" />
-                          </div>
-                          {newPassword && confirmPassword && newPassword !== confirmPassword && (
-                            <p className="text-xs text-red-500">Las contraseñas no coinciden</p>
+                          {passwordStep === 'form' && (
+                            <>
+                              <div className="space-y-1">
+                                <Label className="text-xs">Contraseña actual</Label>
+                                <Input type="password" value={currentPassword} onChange={e => setCurrentPassword(e.target.value)} placeholder="••••••••" data-testid="input-current-password" />
+                              </div>
+                              <div className="space-y-1">
+                                <Label className="text-xs">Nueva contraseña</Label>
+                                <Input type="password" value={newPassword} onChange={e => setNewPassword(e.target.value)} placeholder="Mínimo 8 caracteres" data-testid="input-new-password" />
+                              </div>
+                              <div className="space-y-1">
+                                <Label className="text-xs">Confirmar nueva contraseña</Label>
+                                <Input type="password" value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} placeholder="Repite la contraseña" data-testid="input-confirm-password" />
+                              </div>
+                              {newPassword && confirmPassword && newPassword !== confirmPassword && (
+                                <p className="text-xs text-red-500">Las contraseñas no coinciden</p>
+                              )}
+                              <div className="flex gap-2 pt-2">
+                                <Button variant="outline" className="rounded-full flex-1" onClick={() => { setShowPasswordForm(false); setCurrentPassword(""); setNewPassword(""); setConfirmPassword(""); }}>Cancelar</Button>
+                                <Button 
+                                  className="bg-accent text-primary font-black rounded-full flex-1"
+                                  onClick={() => requestPasswordOtpMutation.mutate()}
+                                  disabled={!currentPassword || !newPassword || newPassword !== confirmPassword || newPassword.length < 8 || requestPasswordOtpMutation.isPending}
+                                  data-testid="button-request-otp"
+                                >
+                                  {requestPasswordOtpMutation.isPending ? 'Enviando...' : 'Enviar código'}
+                                </Button>
+                              </div>
+                            </>
                           )}
-                          <div className="flex gap-2 pt-2">
-                            <Button variant="outline" className="rounded-full flex-1" onClick={() => { setShowPasswordForm(false); setCurrentPassword(""); setNewPassword(""); setConfirmPassword(""); }}>Cancelar</Button>
-                            <Button 
-                              className="bg-accent text-primary font-black rounded-full flex-1"
-                              onClick={() => changePasswordMutation.mutate({ currentPassword, newPassword })}
-                              disabled={!currentPassword || !newPassword || newPassword !== confirmPassword || newPassword.length < 8 || changePasswordMutation.isPending}
-                              data-testid="button-save-password"
-                            >
-                              {changePasswordMutation.isPending ? 'Guardando...' : 'Guardar'}
-                            </Button>
-                          </div>
+                          {passwordStep === 'otp' && (
+                            <>
+                              <div className="text-center pb-2">
+                                <Mail className="w-8 h-8 mx-auto text-accent mb-2" />
+                                <p className="text-sm text-muted-foreground">Ingresa el código de 6 dígitos enviado a tu email</p>
+                              </div>
+                              <div className="space-y-1">
+                                <Label className="text-xs">Código de verificación</Label>
+                                <Input 
+                                  type="text" 
+                                  value={passwordOtp} 
+                                  onChange={e => setPasswordOtp(e.target.value.replace(/\D/g, '').slice(0, 6))} 
+                                  placeholder="000000" 
+                                  className="text-center text-2xl tracking-[0.5em] font-mono"
+                                  data-testid="input-password-otp" 
+                                />
+                              </div>
+                              <div className="flex gap-2 pt-2">
+                                <Button variant="outline" className="rounded-full flex-1" onClick={() => { setPasswordStep('form'); setPasswordOtp(""); }}>Volver</Button>
+                                <Button 
+                                  className="bg-accent text-primary font-black rounded-full flex-1"
+                                  onClick={() => changePasswordMutation.mutate({ currentPassword, newPassword, otp: passwordOtp })}
+                                  disabled={passwordOtp.length !== 6 || changePasswordMutation.isPending}
+                                  data-testid="button-save-password"
+                                >
+                                  {changePasswordMutation.isPending ? 'Guardando...' : 'Confirmar'}
+                                </Button>
+                              </div>
+                            </>
+                          )}
                         </div>
                       )}
                     </div>

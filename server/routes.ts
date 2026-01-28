@@ -700,13 +700,61 @@ export async function registerRoutes(
     }
   });
 
-  // Change password
+  // Request OTP for password change
+  const passwordChangeOtps = new Map<string, { otp: string; expires: Date }>();
+  
+  app.post("/api/user/request-password-otp", isAuthenticated, async (req: any, res) => {
+    try {
+      const [user] = await db.select().from(usersTable).where(eq(usersTable.id, req.session.userId));
+      if (!user?.email) {
+        return res.status(400).json({ message: "Usuario no encontrado" });
+      }
+      
+      const otp = Math.floor(100000 + Math.random() * 900000).toString();
+      passwordChangeOtps.set(req.session.userId, { otp, expires: new Date(Date.now() + 10 * 60 * 1000) }); // 10 min
+      
+      await sendEmail({
+        to: user.email,
+        subject: "Código de verificación - Cambio de contraseña",
+        html: `
+          <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+            ${getEmailHeader()}
+            <div style="padding: 30px;">
+              <h2 style="margin-bottom: 20px;">Código de Verificación</h2>
+              <p>Has solicitado cambiar tu contraseña. Usa este código para verificar tu identidad:</p>
+              <div style="background: #F0FDF4; padding: 20px; border-radius: 12px; text-align: center; margin: 20px 0;">
+                <span style="font-size: 32px; font-weight: 900; letter-spacing: 8px; color: #0E1215;">${otp}</span>
+              </div>
+              <p style="color: #6B7280; font-size: 14px;">Este código expira en 10 minutos.</p>
+              <p style="color: #6B7280; font-size: 14px;">Si no solicitaste este cambio, ignora este mensaje.</p>
+            </div>
+            ${getEmailFooter()}
+          </div>
+        `
+      });
+      
+      res.json({ success: true });
+    } catch (error) {
+      console.error("Request password OTP error:", error);
+      res.status(500).json({ message: "Error al enviar código" });
+    }
+  });
+
+  // Change password with OTP verification
   app.post("/api/user/change-password", isAuthenticated, async (req: any, res) => {
     try {
-      const { currentPassword, newPassword } = z.object({
+      const { currentPassword, newPassword, otp } = z.object({
         currentPassword: z.string().min(1),
-        newPassword: z.string().min(8)
+        newPassword: z.string().min(8),
+        otp: z.string().length(6)
       }).parse(req.body);
+      
+      // Verify OTP
+      const storedOtp = passwordChangeOtps.get(req.session.userId);
+      if (!storedOtp || storedOtp.otp !== otp || storedOtp.expires < new Date()) {
+        return res.status(400).json({ message: "Código de verificación inválido o expirado" });
+      }
+      passwordChangeOtps.delete(req.session.userId);
       
       const [user] = await db.select().from(usersTable).where(eq(usersTable.id, req.session.userId));
       if (!user?.passwordHash) {
