@@ -1032,7 +1032,7 @@ export default function Dashboard() {
                       </div>
                     )}
                     <div className="space-y-4">
-                      <div className="grid grid-cols-2 gap-4">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                         <div className="p-4 bg-accent/5 rounded-xl border border-accent/10">
                           <p className="text-[10px] font-black uppercase text-muted-foreground mb-1">ID Cliente</p>
                           <p className="text-lg font-black font-mono">{user?.clientId || user?.id?.slice(0, 8).toUpperCase()}</p>
@@ -1128,7 +1128,7 @@ export default function Dashboard() {
                             {isEditing && canEdit ? <Input value={profileData.address} onChange={e => setProfileData({...profileData, address: e.target.value})} placeholder="Nombre de la calle y número" /> : <div className="p-3 bg-gray-50 rounded-lg text-sm">{user?.address || '-'}</div>}
                           </div>
                         </div>
-                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-4">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 mt-4">
                           <div className="space-y-1">
                             <Label>Ciudad</Label>
                             {isEditing && canEdit ? <Input value={profileData.city} onChange={e => setProfileData({...profileData, city: e.target.value})} /> : <div className="p-3 bg-gray-50 rounded-lg text-sm">{user?.city || '-'}</div>}
