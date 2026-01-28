@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useLocation } from "wouter";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -19,6 +19,10 @@ import { apiRequest } from "@/lib/queryClient";
 import { insertLlcApplicationSchema } from "@shared/schema";
 import { useAuth } from "@/hooks/use-auth";
 import { Link } from "wouter";
+import { StepProgress } from "@/components/ui/step-progress";
+import { useFormDraft } from "@/hooks/use-form-draft";
+
+const TOTAL_STEPS = 12;
 
 const BUSINESS_CATEGORIES = [
   "Tecnología y Software (SaaS, desarrollo web/apps, IT services)",
@@ -92,6 +96,39 @@ export default function ApplicationWizard() {
       dataProcessingConsent: false,
       termsConsent: false
     },
+  });
+
+  const prevStepRef = useRef(step);
+  const direction = step > prevStepRef.current ? "forward" : "backward";
+  
+  useEffect(() => {
+    prevStepRef.current = step;
+  }, [step]);
+
+  const formDefaults = {
+    ownerFullName: "",
+    ownerPhone: "",
+    ownerEmail: "",
+    ownerBirthDate: "",
+    ownerIdType: "DNI",
+    ownerIdNumber: "",
+    ownerCountryResidency: "",
+    ownerAddress: "",
+    companyName: "",
+    businessActivity: "",
+    businessCategory: "",
+    needsBankAccount: "",
+    notes: "",
+    otp: "",
+    dataProcessingConsent: false,
+    termsConsent: false
+  };
+
+  const { clearDraft } = useFormDraft({
+    form,
+    storageKey: "application-wizard-draft",
+    debounceMs: 1000,
+    defaultValues: formDefaults,
   });
 
   useEffect(() => {
@@ -221,12 +258,14 @@ export default function ApplicationWizard() {
         )}
         
         <div>
+          <StepProgress currentStep={step} totalSteps={TOTAL_STEPS} className="mb-6" />
           <div className="space-y-6">
             <Form {...form}>
               <form className="space-y-6 md:space-y-8" onSubmit={form.handleSubmit(onSubmit)}>
+                <AnimatePresence mode="wait">
                 {/* STEP 0: Nombre Completo */}
                 {step === 0 && (
-                  <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
+                  <motion.div key="step-0" initial={{ opacity: 0, x: direction === "forward" ? 20 : -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: direction === "forward" ? -20 : 20 }} transition={{ duration: 0.2 }} className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
                       <User className="w-6 h-6 text-accent" /> 1️⃣ ¿Cómo te llamas?
                     </h2>
@@ -246,7 +285,7 @@ export default function ApplicationWizard() {
 
                 {/* STEP 1: Teléfono */}
                 {step === 1 && (
-                  <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
+                  <motion.div key={"step-" + step} initial={{ opacity: 0, x: direction === "forward" ? 20 : -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: direction === "forward" ? -20 : 20 }} transition={{ duration: 0.2 }} className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
                       <Phone className="w-6 h-6 text-accent" /> 2️⃣ Teléfono de contacto
                     </h2>
@@ -269,7 +308,7 @@ export default function ApplicationWizard() {
 
                 {/* STEP 2: Email */}
                 {step === 2 && (
-                  <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
+                  <motion.div key={"step-" + step} initial={{ opacity: 0, x: direction === "forward" ? 20 : -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: direction === "forward" ? -20 : 20 }} transition={{ duration: 0.2 }} className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
                       <Mail className="w-6 h-6 text-accent" /> 3️⃣ Email
                     </h2>
@@ -292,7 +331,7 @@ export default function ApplicationWizard() {
 
                 {/* STEP 3: Fecha de Nacimiento */}
                 {step === 3 && (
-                  <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
+                  <motion.div key={"step-" + step} initial={{ opacity: 0, x: direction === "forward" ? 20 : -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: direction === "forward" ? -20 : 20 }} transition={{ duration: 0.2 }} className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
                       <Calendar className="w-6 h-6 text-accent" /> 4️⃣ Fecha de nacimiento
                     </h2>
@@ -314,7 +353,7 @@ export default function ApplicationWizard() {
 
                 {/* STEP 4: Documento de Identidad */}
                 {step === 4 && (
-                  <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
+                  <motion.div key={"step-" + step} initial={{ opacity: 0, x: direction === "forward" ? 20 : -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: direction === "forward" ? -20 : 20 }} transition={{ duration: 0.2 }} className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
                       <ShieldCheck className="w-6 h-6 text-accent" /> 5️⃣ Documento de identidad
                     </h2>
@@ -354,7 +393,7 @@ export default function ApplicationWizard() {
 
                 {/* STEP 5: País de Residencia */}
                 {step === 5 && (
-                  <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
+                  <motion.div key={"step-" + step} initial={{ opacity: 0, x: direction === "forward" ? 20 : -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: direction === "forward" ? -20 : 20 }} transition={{ duration: 0.2 }} className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
                       <Globe className="w-6 h-6 text-accent" /> 6️⃣ País de residencia
                     </h2>
@@ -376,7 +415,7 @@ export default function ApplicationWizard() {
 
                 {/* STEP 6: Dirección Completa */}
                 {step === 6 && (
-                  <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
+                  <motion.div key={"step-" + step} initial={{ opacity: 0, x: direction === "forward" ? 20 : -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: direction === "forward" ? -20 : 20 }} transition={{ duration: 0.2 }} className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
                       <MapPin className="w-6 h-6 text-accent" /> 7️⃣ Dirección completa
                     </h2>
@@ -399,7 +438,7 @@ export default function ApplicationWizard() {
 
                 {/* STEP 7: Nombre LLC */}
                 {step === 7 && (
-                  <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
+                  <motion.div key={"step-" + step} initial={{ opacity: 0, x: direction === "forward" ? 20 : -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: direction === "forward" ? -20 : 20 }} transition={{ duration: 0.2 }} className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
                       <Building2 className="w-6 h-6 text-accent" /> 8️⃣ Nombre deseado para la LLC
                     </h2>
@@ -422,7 +461,7 @@ export default function ApplicationWizard() {
 
                 {/* STEP 8: Actividad del Negocio */}
                 {step === 8 && (
-                  <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
+                  <motion.div key={"step-" + step} initial={{ opacity: 0, x: direction === "forward" ? 20 : -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: direction === "forward" ? -20 : 20 }} transition={{ duration: 0.2 }} className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
                       <Briefcase className="w-6 h-6 text-accent" /> 9️⃣ Actividad del negocio
                     </h2>
@@ -442,7 +481,7 @@ export default function ApplicationWizard() {
 
                 {/* STEP 9: Categoría */}
                 {step === 9 && (
-                  <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
+                  <motion.div key={"step-" + step} initial={{ opacity: 0, x: direction === "forward" ? 20 : -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: direction === "forward" ? -20 : 20 }} transition={{ duration: 0.2 }} className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
                       <Briefcase className="w-6 h-6 text-accent" /> 🔟 Categoría de negocio
                     </h2>
@@ -466,7 +505,7 @@ export default function ApplicationWizard() {
 
                 {/* STEP 10: Cuenta Bancaria */}
                 {step === 10 && (
-                  <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
+                  <motion.div key={"step-" + step} initial={{ opacity: 0, x: direction === "forward" ? 20 : -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: direction === "forward" ? -20 : 20 }} transition={{ duration: 0.2 }} className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
                       <CreditCard className="w-6 h-6 text-accent" /> 1️⃣1️⃣ ¿Necesitas cuenta bancaria?
                     </h2>
@@ -495,7 +534,7 @@ export default function ApplicationWizard() {
 
                 {/* STEP 11: Notas */}
                 {step === 11 && (
-                  <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
+                  <motion.div key={"step-" + step} initial={{ opacity: 0, x: direction === "forward" ? 20 : -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: direction === "forward" ? -20 : 20 }} transition={{ duration: 0.2 }} className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
                       <MessageCircle className="w-6 h-6 text-accent" /> 1️⃣2️⃣ ¿Algo más que debamos saber?
                     </h2>
@@ -514,7 +553,7 @@ export default function ApplicationWizard() {
 
                 {/* STEP 12: OTP */}
                 {step === 12 && (
-                  <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
+                  <motion.div key={"step-" + step} initial={{ opacity: 0, x: direction === "forward" ? 20 : -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: direction === "forward" ? -20 : 20 }} transition={{ duration: 0.2 }} className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
                       <Mail className="w-6 h-6 text-accent" /> Verificación de Email
                     </h2>
@@ -542,7 +581,7 @@ export default function ApplicationWizard() {
 
                 {/* STEP 13: Consentimientos Finales */}
                 {(step === 13 || step === 14) && (
-                  <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
+                  <motion.div key={"step-" + step} initial={{ opacity: 0, x: direction === "forward" ? 20 : -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: direction === "forward" ? -20 : 20 }} transition={{ duration: 0.2 }} className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
                       <ShieldCheck className="w-6 h-6 text-accent" /> Último paso: Confirmación
                     </h2>
@@ -572,6 +611,7 @@ export default function ApplicationWizard() {
                     </div>
                   </motion.div>
                 )}
+                </AnimatePresence>
               </form>
             </Form>
           </div>

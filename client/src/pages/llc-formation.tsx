@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useLocation, Link } from "wouter";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -17,6 +17,10 @@ import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
 import { insertLlcApplicationSchema } from "@shared/schema";
 import { useAuth } from "@/hooks/use-auth";
+import { StepProgress } from "@/components/ui/step-progress";
+import { useFormDraft } from "@/hooks/use-form-draft";
+
+const TOTAL_STEPS = 19;
 
 const formSchema = z.object({
   ownerFullName: z.string().min(1, "Requerido"),
@@ -81,6 +85,43 @@ export default function LlcFormation() {
       idDocumentUrl: "",
       otp: ""
     },
+  });
+
+  const prevStepRef = useRef(step);
+  const direction = step > prevStepRef.current ? "forward" : "backward";
+  
+  useEffect(() => {
+    prevStepRef.current = step;
+  }, [step]);
+
+  const formDefaults = {
+    ownerFullName: "",
+    ownerEmail: "",
+    ownerPhone: "",
+    companyName: "",
+    companyNameOption2: "",
+    ownerNamesAlternates: "",
+    state: "New Mexico",
+    ownerCount: 1,
+    ownerCountryResidency: "",
+    ownerAddress: "",
+    ownerBirthDate: "",
+    businessActivity: "",
+    isSellingOnline: "",
+    needsBankAccount: "",
+    willUseStripe: "",
+    wantsBoiReport: "",
+    wantsMaintenancePack: "",
+    notes: "",
+    idDocumentUrl: "",
+    otp: ""
+  };
+
+  const { clearDraft } = useFormDraft({
+    form,
+    storageKey: "llc-formation-draft",
+    debounceMs: 1000,
+    defaultValues: formDefaults,
   });
 
   useEffect(() => {
@@ -226,12 +267,15 @@ export default function LlcFormation() {
     <div className="min-h-screen bg-background font-sans w-full">
       <Navbar />
       <main className="pt-24 pb-16 max-w-4xl mx-auto px-4 md:px-6">
-        <h1 className="text-3xl md:text-4xl font-black  mb-8 md:mb-12 text-primary leading-tight">Constituir mi <span className="text-accent">LLC</span></h1>
+        <h1 className="text-3xl md:text-4xl font-black  mb-4 text-primary leading-tight">Constituir mi <span className="text-accent">LLC</span></h1>
+        
+        <StepProgress currentStep={step} totalSteps={TOTAL_STEPS} className="mb-8" />
         
         <Form {...form}>
           <form className="space-y-6 md:space-y-8" onSubmit={form.handleSubmit(onSubmit)}>
+            <AnimatePresence mode="wait">
             {step === 0 && (
-              <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
+              <motion.div key="step-0" initial={{ opacity: 0, x: direction === "forward" ? 20 : -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: direction === "forward" ? -20 : 20 }} transition={{ duration: 0.2 }} className="space-y-6 text-left">
                 <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight">1️⃣ ¿Cómo te llamas?</h2>
                 <FormDescription>El nombre real, el que pondremos en los documentos oficiales</FormDescription>
                 <FormField control={form.control} name="ownerFullName" render={({ field }) => (
@@ -246,7 +290,7 @@ export default function LlcFormation() {
             )}
 
             {step === 1 && (
-              <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
+              <motion.div key={"step-" + step} initial={{ opacity: 0, x: direction === "forward" ? 20 : -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: direction === "forward" ? -20 : 20 }} transition={{ duration: 0.2 }} className="space-y-6 text-left">
                 <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight">2️⃣ Email de contacto</h2>
                 <FormDescription>Aquí te enviaremos los avances y documentos de tu LLC</FormDescription>
                 <FormField control={form.control} name="ownerEmail" render={({ field }) => (
@@ -264,7 +308,7 @@ export default function LlcFormation() {
             )}
 
             {step === 2 && (
-              <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
+              <motion.div key={"step-" + step} initial={{ opacity: 0, x: direction === "forward" ? 20 : -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: direction === "forward" ? -20 : 20 }} transition={{ duration: 0.2 }} className="space-y-6 text-left">
                 <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight">3️⃣ WhatsApp (muy recomendado)</h2>
                 <FormDescription>Para dudas rápidas y avisos importantes</FormDescription>
                 <FormField control={form.control} name="ownerPhone" render={({ field }) => (
@@ -282,7 +326,7 @@ export default function LlcFormation() {
             )}
 
             {step === 3 && (
-              <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
+              <motion.div key={"step-" + step} initial={{ opacity: 0, x: direction === "forward" ? 20 : -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: direction === "forward" ? -20 : 20 }} transition={{ duration: 0.2 }} className="space-y-6 text-left">
                 <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight">4️⃣ ¿Cómo quieres que se llame tu LLC?</h2>
                 <FormDescription>Si no estás 100% seguro, no pasa nada. Lo revisamos contigo</FormDescription>
                 <FormField control={form.control} name="companyName" render={({ field }) => (
@@ -300,7 +344,7 @@ export default function LlcFormation() {
             )}
 
             {step === 4 && (
-              <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
+              <motion.div key={"step-" + step} initial={{ opacity: 0, x: direction === "forward" ? 20 : -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: direction === "forward" ? -20 : 20 }} transition={{ duration: 0.2 }} className="space-y-6 text-left">
                 <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight">5️⃣ ¿Tienes nombres alternativos? (opcional)</h2>
                 <FormDescription>Plan B, C o D por si el primero no está disponible</FormDescription>
                 <div className="space-y-4">
@@ -327,7 +371,7 @@ export default function LlcFormation() {
             )}
 
             {step === 5 && (
-              <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
+              <motion.div key={"step-" + step} initial={{ opacity: 0, x: direction === "forward" ? 20 : -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: direction === "forward" ? -20 : 20 }} transition={{ duration: 0.2 }} className="space-y-6 text-left">
                 <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight">6️⃣ Estado donde quieres crear la LLC</h2>
                 <FormDescription>Si dudas, te asesoramos antes de continuar</FormDescription>
                 <FormField control={form.control} name="state" render={({ field }) => (
@@ -352,7 +396,7 @@ export default function LlcFormation() {
             )}
 
             {step === 6 && (
-              <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
+              <motion.div key={"step-" + step} initial={{ opacity: 0, x: direction === "forward" ? 20 : -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: direction === "forward" ? -20 : 20 }} transition={{ duration: 0.2 }} className="space-y-6 text-left">
                 <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight">7️⃣ ¿Quién será el propietario?</h2>
                 <FormDescription>Esto es importante a nivel fiscal</FormDescription>
                 <FormField control={form.control} name="ownerCount" render={({ field }) => (
@@ -388,7 +432,7 @@ export default function LlcFormation() {
             )}
 
             {step === 7 && (
-              <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
+              <motion.div key={"step-" + step} initial={{ opacity: 0, x: direction === "forward" ? 20 : -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: direction === "forward" ? -20 : 20 }} transition={{ duration: 0.2 }} className="space-y-6 text-left">
                 <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight">9️⃣ País de residencia</h2>
                 <FormField control={form.control} name="ownerCountryResidency" render={({ field }) => (
                   <FormItem>
@@ -405,7 +449,7 @@ export default function LlcFormation() {
             )}
 
             {step === 8 && (
-              <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
+              <motion.div key={"step-" + step} initial={{ opacity: 0, x: direction === "forward" ? 20 : -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: direction === "forward" ? -20 : 20 }} transition={{ duration: 0.2 }} className="space-y-6 text-left">
                 <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight">🔟 Dirección completa</h2>
                 <FormDescription>Calle, número, ciudad, código postal y país de tu residencia habitual</FormDescription>
                 <FormField control={form.control} name="ownerAddress" render={({ field }) => (
@@ -423,7 +467,7 @@ export default function LlcFormation() {
             )}
 
             {step === 9 && (
-              <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
+              <motion.div key={"step-" + step} initial={{ opacity: 0, x: direction === "forward" ? 20 : -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: direction === "forward" ? -20 : 20 }} transition={{ duration: 0.2 }} className="space-y-6 text-left">
                 <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight">1️⃣1️⃣ Fecha de nacimiento</h2>
                 <FormField control={form.control} name="ownerBirthDate" render={({ field }) => (
                   <FormItem>
@@ -440,7 +484,7 @@ export default function LlcFormation() {
             )}
 
             {step === 10 && (
-              <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
+              <motion.div key={"step-" + step} initial={{ opacity: 0, x: direction === "forward" ? 20 : -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: direction === "forward" ? -20 : 20 }} transition={{ duration: 0.2 }} className="space-y-6 text-left">
                 <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight">1️⃣2️⃣ Documento de identidad</h2>
                 <FormDescription>DNI o pasaporte en vigor (puedes proporcionarlo más tarde)</FormDescription>
                 <div className="space-y-4">
@@ -478,7 +522,7 @@ export default function LlcFormation() {
             )}
 
             {step === 11 && (
-              <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
+              <motion.div key={"step-" + step} initial={{ opacity: 0, x: direction === "forward" ? 20 : -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: direction === "forward" ? -20 : 20 }} transition={{ duration: 0.2 }} className="space-y-6 text-left">
                 <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight">1️⃣3️⃣ ¿A qué se dedicará tu LLC?</h2>
                 <FormDescription>Explícalo con tus palabras, sin tecnicismos</FormDescription>
                 <FormField control={form.control} name="businessActivity" render={({ field }) => (
@@ -495,7 +539,7 @@ export default function LlcFormation() {
             )}
 
             {step >= 12 && step <= 17 && (
-              <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
+              <motion.div key={"step-" + step} initial={{ opacity: 0, x: direction === "forward" ? 20 : -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: direction === "forward" ? -20 : 20 }} transition={{ duration: 0.2 }} className="space-y-6 text-left">
                 {step === 12 && (
                   <>
                     <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight">1️⃣4️⃣ ¿Vas a vender online?</h2>
@@ -599,7 +643,7 @@ export default function LlcFormation() {
             )}
 
             {step === 18 && (
-              <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-8 text-left">
+              <motion.div key={"step-" + step} initial={{ opacity: 0, x: direction === "forward" ? 20 : -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: direction === "forward" ? -20 : 20 }} transition={{ duration: 0.2 }} className="space-y-8 text-left">
                 <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight">Revisión Final</h2>
                 <div className="bg-accent/5 p-6 md:p-8 rounded-[2rem] border border-accent/20 space-y-4">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs md:text-sm">
@@ -640,7 +684,7 @@ export default function LlcFormation() {
             )}
 
             {step === 20 && (
-              <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-8 text-center">
+              <motion.div key={"step-" + step} initial={{ opacity: 0, x: direction === "forward" ? 20 : -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: direction === "forward" ? -20 : 20 }} transition={{ duration: 0.2 }} className="space-y-8 text-center">
                 <div className="w-16 h-16 md:w-20 md:h-20 bg-accent/20 rounded-full flex items-center justify-center mx-auto mb-6">
                   <CreditCard className="w-8 h-8 md:w-10 md:h-10 text-accent" />
                 </div>
@@ -654,10 +698,11 @@ export default function LlcFormation() {
                 </div>
 
                 <Button onClick={handlePayment} className="w-full max-w-xs bg-accent text-primary font-black py-7 rounded-full text-lg  tracking-widest hover:scale-[1.02] active:scale-95 transition-all shadow-lg shadow-accent/20">
-                  💳 Pagar con Stripe
+                  Pagar con Stripe
                 </Button>
               </motion.div>
             )}
+            </AnimatePresence>
           </form>
         </Form>
       </main>

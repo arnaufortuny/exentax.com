@@ -33,3 +33,10 @@ The architecture includes:
 - **Mercury / Relay:** For banking assistance integrations.
 - **Stripe:** For payment processing portal integration.
 - **Google Fonts:** Inter and DM Sans for typography.
+
+## UX Enhancements (January 2026)
+- **Route Prefetching:** Custom hook in navbar that prefetches routes on hover/focus for faster navigation.
+- **PWA Support:** Service Worker and manifest for offline capability and app-like experience.
+- **Step Progress Indicator:** Visual component showing "Paso X de Y" with animated progress bar in all form wizards.
+- **Form Draft Auto-save:** Hook that automatically saves form progress to localStorage with 1-second debounce, restores drafts when form is pristine.
+- **Direction-aware Transitions:** AnimatePresence-based step transitions that animate based on navigation direction (forward/backward).

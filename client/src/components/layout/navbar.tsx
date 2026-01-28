@@ -4,11 +4,13 @@ import { useState } from "react";
 import { Menu, X, User as UserIcon, LogOut } from "lucide-react";
 import logoIcon from "@/assets/logo-icon.png";
 import { useAuth } from "@/hooks/use-auth";
+import { usePrefetch } from "@/hooks/use-prefetch";
 
 export function Navbar() {
   const [location, setLocation] = useLocation();
   const [isOpen, setIsOpen] = useState(false);
   const { user, isAuthenticated, logout } = useAuth();
+  const { prefetchOnHover, cancelPrefetch } = usePrefetch();
 
   const scrollToSection = (id: string) => {
     setIsOpen(false);
@@ -43,11 +45,11 @@ export function Navbar() {
           </Link>
           
           <nav className="hidden md:flex items-center gap-6 lg:gap-8">
-            <button onClick={() => handleNavClick("/")} className="text-base font-black text-foreground hover:text-accent transition-colors">Inicio</button>
-            <button onClick={() => handleNavClick("/servicios")} className="text-base font-black text-foreground hover:text-accent transition-colors">Nuestros Servicios</button>
-            <button onClick={() => scrollToSection("pricing")} className="text-base font-black text-foreground hover:text-accent transition-colors">Precios</button>
-            <button onClick={() => handleNavClick("/faq")} className="text-base font-black text-foreground hover:text-accent transition-colors">FAQ</button>
-            <button onClick={() => handleNavClick("/contacto")} className="text-base font-black text-foreground hover:text-accent transition-colors">Contáctanos</button>
+            <button onClick={() => handleNavClick("/")} onMouseEnter={() => prefetchOnHover("/")} onMouseLeave={cancelPrefetch} className="text-base font-black text-foreground hover:text-accent transition-colors">Inicio</button>
+            <button onClick={() => handleNavClick("/servicios")} onMouseEnter={() => prefetchOnHover("/servicios")} onMouseLeave={cancelPrefetch} className="text-base font-black text-foreground hover:text-accent transition-colors">Nuestros Servicios</button>
+            <button onClick={() => scrollToSection("pricing")} onMouseEnter={() => prefetchOnHover("/servicios")} onMouseLeave={cancelPrefetch} className="text-base font-black text-foreground hover:text-accent transition-colors">Precios</button>
+            <button onClick={() => handleNavClick("/faq")} onMouseEnter={() => prefetchOnHover("/faq")} onMouseLeave={cancelPrefetch} className="text-base font-black text-foreground hover:text-accent transition-colors">FAQ</button>
+            <button onClick={() => handleNavClick("/contacto")} onMouseEnter={() => prefetchOnHover("/contacto")} onMouseLeave={cancelPrefetch} className="text-base font-black text-foreground hover:text-accent transition-colors">Contáctanos</button>
             {isAuthenticated ? (
               <div className="flex items-center gap-4 border-l pl-6 border-border">
                 <Link href="/dashboard" className="text-base font-black text-foreground hover:text-accent transition-colors flex items-center gap-2">

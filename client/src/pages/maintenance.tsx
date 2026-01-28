@@ -1,9 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useLocation } from "wouter";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { User, Phone, Mail, Building2, ShieldCheck, Briefcase, CheckSquare, Trash2, Check, CreditCard, Info, Globe } from "lucide-react";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
@@ -19,6 +19,10 @@ import { apiRequest } from "@/lib/queryClient";
 import { insertMaintenanceApplicationSchema } from "@shared/schema";
 import { useAuth } from "@/hooks/use-auth";
 import { Link } from "wouter";
+import { StepProgress } from "@/components/ui/step-progress";
+import { useFormDraft } from "@/hooks/use-form-draft";
+
+const TOTAL_STEPS = 10;
 
 const formSchema = z.object({
   creationSource: z.string().min(1, "Requerido"),
@@ -69,6 +73,37 @@ export default function MaintenanceApplication() {
       termsConsent: false,
       dataProcessingConsent: false
     },
+  });
+
+  const prevStepRef = useRef(step);
+  const direction = step > prevStepRef.current ? "forward" : "backward";
+  
+  useEffect(() => {
+    prevStepRef.current = step;
+  }, [step]);
+
+  const formDefaults = {
+    creationSource: "",
+    ownerFullName: "",
+    ownerPhone: "",
+    ownerEmail: "",
+    companyName: "",
+    ein: "",
+    state: stateFromUrl,
+    businessActivity: "",
+    expectedServices: "",
+    wantsDissolve: "No",
+    otp: "",
+    authorizedManagement: false,
+    termsConsent: false,
+    dataProcessingConsent: false
+  };
+
+  const { clearDraft } = useFormDraft({
+    form,
+    storageKey: "maintenance-application-draft",
+    debounceMs: 1000,
+    defaultValues: formDefaults,
   });
 
   useEffect(() => {
@@ -199,13 +234,15 @@ export default function MaintenanceApplication() {
         </h1>
         
         <div>
+          <StepProgress currentStep={step} totalSteps={TOTAL_STEPS} className="mb-6" />
           <div className="space-y-6">
             <h2 className="text-2xl md:text-3xl font-black text-primary  mb-2 leading-tight">Solicitud de Mantenimiento</h2>
             <Form {...form}>
               <form className="space-y-6 md:space-y-8" onSubmit={form.handleSubmit(onSubmit)}>
+                <AnimatePresence mode="wait">
                 {/* STEP 0: Ya tienes LLC? */}
                 {step === 0 && (
-                  <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
+                  <motion.div key="step-0" initial={{ opacity: 0, x: direction === "forward" ? 20 : -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: direction === "forward" ? -20 : 20 }} transition={{ duration: 0.2 }} className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-[#6EDC8A]/20 pb-2 leading-tight flex items-center gap-2">
                       <Building2 className="w-6 h-6 text-[#6EDC8A]" /> 1️⃣ ¿Ya tienes una LLC creada?
                     </h2>
@@ -231,7 +268,7 @@ export default function MaintenanceApplication() {
 
                 {/* STEP 1: Nombre Completo */}
                 {step === 1 && (
-                  <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
+                  <motion.div key={"step-" + step} initial={{ opacity: 0, x: direction === "forward" ? 20 : -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: direction === "forward" ? -20 : 20 }} transition={{ duration: 0.2 }} className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-[#6EDC8A]/20 pb-2 leading-tight flex items-center gap-2">
                       <User className="w-6 h-6 text-[#6EDC8A]" /> 2️⃣ Nombre completo
                     </h2>
@@ -254,7 +291,7 @@ export default function MaintenanceApplication() {
 
                 {/* STEP 2: Teléfono */}
                 {step === 2 && (
-                  <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
+                  <motion.div key={"step-" + step} initial={{ opacity: 0, x: direction === "forward" ? 20 : -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: direction === "forward" ? -20 : 20 }} transition={{ duration: 0.2 }} className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-[#6EDC8A]/20 pb-2 leading-tight flex items-center gap-2">
                       <Phone className="w-6 h-6 text-[#6EDC8A]" /> 3️⃣ Teléfono de contacto
                     </h2>
@@ -277,7 +314,7 @@ export default function MaintenanceApplication() {
 
                 {/* STEP 3: Email */}
                 {step === 3 && (
-                  <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
+                  <motion.div key={"step-" + step} initial={{ opacity: 0, x: direction === "forward" ? 20 : -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: direction === "forward" ? -20 : 20 }} transition={{ duration: 0.2 }} className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-[#6EDC8A]/20 pb-2 leading-tight flex items-center gap-2">
                       <Mail className="w-6 h-6 text-[#6EDC8A]" /> 4️⃣ Email
                     </h2>
@@ -300,7 +337,7 @@ export default function MaintenanceApplication() {
 
                 {/* STEP 4: Nombre Legal LLC */}
                 {step === 4 && (
-                  <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
+                  <motion.div key={"step-" + step} initial={{ opacity: 0, x: direction === "forward" ? 20 : -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: direction === "forward" ? -20 : 20 }} transition={{ duration: 0.2 }} className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-[#6EDC8A]/20 pb-2 leading-tight flex items-center gap-2">
                       <Building2 className="w-6 h-6 text-[#6EDC8A]" /> 5️⃣ Nombre legal de la LLC
                     </h2>
@@ -323,7 +360,7 @@ export default function MaintenanceApplication() {
 
                 {/* STEP 5: EIN */}
                 {step === 5 && (
-                  <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
+                  <motion.div key={"step-" + step} initial={{ opacity: 0, x: direction === "forward" ? 20 : -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: direction === "forward" ? -20 : 20 }} transition={{ duration: 0.2 }} className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-[#6EDC8A]/20 pb-2 leading-tight flex items-center gap-2">
                       <ShieldCheck className="w-6 h-6 text-[#6EDC8A]" /> 6️⃣ EIN
                     </h2>
@@ -346,7 +383,7 @@ export default function MaintenanceApplication() {
 
                 {/* STEP 6: Estado de constitución */}
                 {step === 6 && (
-                  <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
+                  <motion.div key={"step-" + step} initial={{ opacity: 0, x: direction === "forward" ? 20 : -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: direction === "forward" ? -20 : 20 }} transition={{ duration: 0.2 }} className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
                       <Globe className="w-6 h-6 text-accent" /> 7️⃣ Estado de constitución
                     </h2>
@@ -371,7 +408,7 @@ export default function MaintenanceApplication() {
 
                 {/* STEP 7: Actividad */}
                 {step === 7 && (
-                  <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
+                  <motion.div key={"step-" + step} initial={{ opacity: 0, x: direction === "forward" ? 20 : -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: direction === "forward" ? -20 : 20 }} transition={{ duration: 0.2 }} className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-[#6EDC8A]/20 pb-2 leading-tight flex items-center gap-2">
                       <Briefcase className="w-6 h-6 text-[#6EDC8A]" /> 8️⃣ Actividad
                     </h2>
@@ -391,7 +428,7 @@ export default function MaintenanceApplication() {
 
                 {/* STEP 8: Servicios */}
                 {step === 8 && (
-                  <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
+                  <motion.div key={"step-" + step} initial={{ opacity: 0, x: direction === "forward" ? 20 : -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: direction === "forward" ? -20 : 20 }} transition={{ duration: 0.2 }} className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-[#6EDC8A]/20 pb-2 leading-tight flex items-center gap-2">
                       <CheckSquare className="w-6 h-6 text-[#6EDC8A]" /> 9️⃣ ¿Qué necesitas gestionar?
                     </h2>
@@ -427,7 +464,7 @@ export default function MaintenanceApplication() {
 
                 {/* STEP 9: Disolver? */}
                 {step === 9 && (
-                  <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
+                  <motion.div key={"step-" + step} initial={{ opacity: 0, x: direction === "forward" ? 20 : -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: direction === "forward" ? -20 : 20 }} transition={{ duration: 0.2 }} className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-[#6EDC8A]/20 pb-2 leading-tight flex items-center gap-2">
                       <Trash2 className="w-6 h-6 text-[#6EDC8A]" /> 1️⃣0️⃣ ¿Deseas disolver tu LLC?
                     </h2>
@@ -456,7 +493,7 @@ export default function MaintenanceApplication() {
 
                 {/* STEP 10: OTP */}
                 {step === 10 && (
-                  <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
+                  <motion.div key={"step-" + step} initial={{ opacity: 0, x: direction === "forward" ? 20 : -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: direction === "forward" ? -20 : 20 }} transition={{ duration: 0.2 }} className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-[#6EDC8A]/20 pb-2 leading-tight flex items-center gap-2">
                       <Mail className="w-6 h-6 text-[#6EDC8A]" /> Verificación de Email
                     </h2>
@@ -484,7 +521,7 @@ export default function MaintenanceApplication() {
 
                 {/* STEP 11: Autorización y Consentimiento */}
                 {(step === 11 || step === 12) && (
-                  <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
+                  <motion.div key={"step-" + step} initial={{ opacity: 0, x: direction === "forward" ? 20 : -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: direction === "forward" ? -20 : 20 }} transition={{ duration: 0.2 }} className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
                       <ShieldCheck className="w-6 h-6 text-accent" /> Último paso: Confirmación
                     </h2>
@@ -523,6 +560,7 @@ export default function MaintenanceApplication() {
                     </div>
                   </motion.div>
                 )}
+                </AnimatePresence>
               </form>
             </Form>
           </div>
