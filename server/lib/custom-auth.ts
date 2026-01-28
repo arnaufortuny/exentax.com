@@ -11,8 +11,9 @@ import {
   createUser,
   loginUser,
   verifyEmailToken,
-  createPasswordResetToken,
-  resetPassword,
+  createPasswordResetOtp,
+  verifyPasswordResetOtp,
+  resetPasswordWithOtp,
   resendVerificationEmail,
 } from "./auth-service";
 
@@ -244,7 +245,7 @@ export function setupCustomAuth(app: Express) {
     }
   });
 
-  // Request password reset
+  // Request password reset OTP
   app.post("/api/auth/forgot-password", async (req, res) => {
     try {
       const { email } = req.body;
@@ -253,41 +254,60 @@ export function setupCustomAuth(app: Express) {
         return res.status(400).json({ message: "Email es obligatorio" });
       }
 
-      await createPasswordResetToken(email);
+      await createPasswordResetOtp(email);
 
       // Always return success to prevent email enumeration
       res.json({
         success: true,
-        message: "Si el email existe en nuestro sistema, recibirás instrucciones para restablecer tu contraseña",
+        message: "Si el email existe en nuestro sistema, recibirás un código de verificación",
       });
     } catch (error) {
-      console.error("Forgot password error:", error);
       res.status(500).json({ message: "Error al procesar la solicitud" });
     }
   });
 
-  // Reset password with token
+  // Verify password reset OTP
+  app.post("/api/auth/verify-reset-otp", async (req, res) => {
+    try {
+      const { email, otp } = req.body;
+
+      if (!email || !otp) {
+        return res.status(400).json({ message: "Email y código son obligatorios" });
+      }
+
+      const isValid = await verifyPasswordResetOtp(email, otp);
+
+      if (!isValid) {
+        return res.status(400).json({ message: "Código inválido o expirado" });
+      }
+
+      res.json({ success: true });
+    } catch (error) {
+      res.status(500).json({ message: "Error al verificar el código" });
+    }
+  });
+
+  // Reset password with OTP
   app.post("/api/auth/reset-password", async (req, res) => {
     try {
-      const { token, password } = req.body;
+      const { email, otp, password } = req.body;
 
-      if (!token || !password) {
-        return res.status(400).json({ message: "Token y contraseña son obligatorios" });
+      if (!email || !otp || !password) {
+        return res.status(400).json({ message: "Email, código y contraseña son obligatorios" });
       }
 
       if (password.length < 8) {
         return res.status(400).json({ message: "La contraseña debe tener al menos 8 caracteres" });
       }
 
-      const success = await resetPassword(token, password);
+      const success = await resetPasswordWithOtp(email, otp, password);
 
       if (!success) {
-        return res.status(400).json({ message: "Token inválido o expirado" });
+        return res.status(400).json({ message: "Código inválido o expirado" });
       }
 
       res.json({ success: true, message: "Contraseña actualizada correctamente" });
     } catch (error) {
-      console.error("Reset password error:", error);
       res.status(500).json({ message: "Error al actualizar la contraseña" });
     }
   });

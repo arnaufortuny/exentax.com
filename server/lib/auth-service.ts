@@ -260,58 +260,69 @@ export async function loginUser(email: string, password: string): Promise<typeof
   return user;
 }
 
-export async function createPasswordResetToken(email: string): Promise<string | null> {
+export async function createPasswordResetOtp(email: string): Promise<{ success: boolean; userId?: string }> {
   const [user] = await db.select().from(users).where(eq(users.email, email)).limit(1);
   
   if (!user) {
-    return null;
+    return { success: false };
   }
 
-  const token = generateToken();
-  const expiresAt = new Date(Date.now() + PASSWORD_RESET_EXPIRY_HOURS * 60 * 60 * 1000);
+  // Generate 6-digit OTP
+  const otp = Math.floor(100000 + Math.random() * 900000).toString();
+  const expiresAt = new Date(Date.now() + OTP_EXPIRY_MINUTES * 60 * 1000);
 
   await db.insert(passwordResetTokens).values({
     userId: user.id,
-    token,
+    token: otp,
     expiresAt,
   });
 
-  const resetLink = `${process.env.BASE_URL || 'https://easyusllc.com'}/reset-password?token=${token}`;
-
   try {
+    const { getEmailHeader, getEmailFooter, getOtpEmailTemplate } = await import("./email");
     await sendEmail({
       to: email,
-      subject: "Easy US LLC - Recuperar contraseña",
-      html: `
-        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-          <h1 style="color: #0E1215;">Recuperar contraseña</h1>
-          <p>Hola ${user.firstName || ''},</p>
-          <p>Has solicitado restablecer tu contraseña. Haz clic en el siguiente botón:</p>
-          <div style="text-align: center; margin: 30px 0;">
-            <a href="${resetLink}" style="background: #6EDC8A; color: #0E1215; padding: 15px 30px; text-decoration: none; border-radius: 30px; font-weight: bold;">
-              Restablecer contraseña
-            </a>
-          </div>
-          <p>Este enlace expira en ${PASSWORD_RESET_EXPIRY_HOURS} horas.</p>
-          <p>Si no solicitaste este cambio, ignora este email.</p>
-          <p>Saludos,<br>El equipo de Easy US LLC</p>
-        </div>
-      `,
+      subject: "Código de verificación - Easy US LLC",
+      html: getOtpEmailTemplate(otp),
     });
   } catch (emailError) {
     // Email error silenced
   }
 
-  return token;
+  return { success: true, userId: user.id };
 }
 
-export async function resetPassword(token: string, newPassword: string): Promise<boolean> {
+export async function verifyPasswordResetOtp(email: string, otp: string): Promise<boolean> {
+  const [user] = await db.select().from(users).where(eq(users.email, email)).limit(1);
+  if (!user) return false;
+
   const [tokenRecord] = await db
     .select()
     .from(passwordResetTokens)
     .where(
       and(
-        eq(passwordResetTokens.token, token),
+        eq(passwordResetTokens.userId, user.id),
+        eq(passwordResetTokens.token, otp),
+        eq(passwordResetTokens.used, false),
+        gt(passwordResetTokens.expiresAt, new Date())
+      )
+    )
+    .orderBy(sql`${passwordResetTokens.createdAt} DESC`)
+    .limit(1);
+
+  return !!tokenRecord;
+}
+
+export async function resetPasswordWithOtp(email: string, otp: string, newPassword: string): Promise<boolean> {
+  const [user] = await db.select().from(users).where(eq(users.email, email)).limit(1);
+  if (!user) return false;
+
+  const [tokenRecord] = await db
+    .select()
+    .from(passwordResetTokens)
+    .where(
+      and(
+        eq(passwordResetTokens.userId, user.id),
+        eq(passwordResetTokens.token, otp),
         eq(passwordResetTokens.used, false),
         gt(passwordResetTokens.expiresAt, new Date())
       )
@@ -328,7 +339,7 @@ export async function resetPassword(token: string, newPassword: string): Promise
     .set({ used: true })
     .where(eq(passwordResetTokens.id, tokenRecord.id));
 
-  // Also unlock account if it was suspended due to too many attempts
+  // Also unlock account if it was locked due to too many attempts
   await db.update(users)
     .set({ 
       passwordHash, 
