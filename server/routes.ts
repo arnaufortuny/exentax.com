@@ -162,7 +162,7 @@ export async function registerRoutes(
     res.json(updatedOrder);
   }));
 
-  // Update LLC important dates
+  // Update LLC important dates with automatic calculation
   app.patch("/api/admin/llc/:appId/dates", isAdmin, asyncHandler(async (req: Request, res: Response) => {
     const appId = Number(req.params.appId);
     const { field, value } = z.object({ 
@@ -173,6 +173,46 @@ export async function registerRoutes(
     const dateValue = value ? new Date(value) : null;
     const updateData: Record<string, Date | null> = {};
     updateData[field] = dateValue;
+    
+    // Auto-calculate other fiscal dates when llcCreatedDate is set
+    if (field === 'llcCreatedDate' && dateValue) {
+      const creationDate = new Date(dateValue);
+      const creationYear = creationDate.getFullYear();
+      const nextYear = creationYear + 1;
+      
+      // Agent renewal: 1 year after creation
+      const agentRenewal = new Date(creationDate);
+      agentRenewal.setFullYear(agentRenewal.getFullYear() + 1);
+      updateData.agentRenewalDate = agentRenewal;
+      
+      // IRS 1120: March 15 of next year
+      updateData.irs1120DueDate = new Date(nextYear, 2, 15);
+      
+      // IRS 5472: April 15 of next year
+      updateData.irs5472DueDate = new Date(nextYear, 3, 15);
+      
+      // Annual Report: Get the LLC state to determine date
+      const [app] = await db.select({ state: llcApplicationsTable.state })
+        .from(llcApplicationsTable)
+        .where(eq(llcApplicationsTable.id, appId))
+        .limit(1);
+      
+      if (app?.state) {
+        // Annual report dates by state
+        // New Mexico: No annual report required
+        // Wyoming: First day of anniversary month
+        // Delaware: March 1
+        if (app.state === 'Wyoming') {
+          const wyomingDate = new Date(creationDate);
+          wyomingDate.setFullYear(wyomingDate.getFullYear() + 1);
+          wyomingDate.setDate(1);
+          updateData.annualReportDueDate = wyomingDate;
+        } else if (app.state === 'Delaware') {
+          updateData.annualReportDueDate = new Date(nextYear, 2, 1); // March 1
+        }
+        // New Mexico: no annual report, leave as null
+      }
+    }
     
     await db.update(llcApplicationsTable)
       .set(updateData)

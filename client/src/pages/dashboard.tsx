@@ -1464,24 +1464,24 @@ export default function Dashboard() {
                                 </Select>
                               </div>
                             </div>
-                            <div className="flex flex-wrap gap-1 justify-center md:justify-start">
-                              <Button size="icon" variant="outline" className="h-8 w-8 md:h-7 md:w-auto md:px-2 rounded-full" onClick={() => setEditingUser(u)} data-testid={`button-edit-user-${u.id}`}>
-                                <Edit className="w-3 h-3" /><span className="hidden md:inline ml-1 text-[10px]">Editar</span>
+                            <div className="flex flex-wrap gap-2 justify-center md:justify-start">
+                              <Button size="icon" variant="outline" className="h-10 w-10 md:h-7 md:w-auto md:px-2 rounded-full" onClick={() => setEditingUser(u)} data-testid={`button-edit-user-${u.id}`}>
+                                <Edit className="w-4 h-4 md:w-3 md:h-3" /><span className="hidden md:inline ml-1 text-[10px]">Editar</span>
                               </Button>
-                              <Button size="icon" variant="outline" className="h-8 w-8 md:h-7 md:w-auto md:px-2 rounded-full" onClick={() => setEmailDialog({ open: true, user: u })} data-testid={`button-email-user-${u.id}`}>
-                                <Mail className="w-3 h-3" /><span className="hidden md:inline ml-1 text-[10px]">Email</span>
+                              <Button size="icon" variant="outline" className="h-10 w-10 md:h-7 md:w-auto md:px-2 rounded-full" onClick={() => setEmailDialog({ open: true, user: u })} data-testid={`button-email-user-${u.id}`}>
+                                <Mail className="w-4 h-4 md:w-3 md:h-3" /><span className="hidden md:inline ml-1 text-[10px]">Email</span>
                               </Button>
-                              <Button size="icon" variant="outline" className="h-8 w-8 md:h-7 md:w-auto md:px-2 rounded-full" onClick={() => setNoteDialog({ open: true, user: u })} data-testid={`button-note-user-${u.id}`}>
-                                <MessageSquare className="w-3 h-3" /><span className="hidden md:inline ml-1 text-[10px]">Nota</span>
+                              <Button size="icon" variant="outline" className="h-10 w-10 md:h-7 md:w-auto md:px-2 rounded-full" onClick={() => setNoteDialog({ open: true, user: u })} data-testid={`button-note-user-${u.id}`}>
+                                <MessageSquare className="w-4 h-4 md:w-3 md:h-3" /><span className="hidden md:inline ml-1 text-[10px]">Nota</span>
                               </Button>
-                              <Button size="icon" variant="outline" className="h-8 w-8 md:h-7 md:w-auto md:px-2 rounded-full" onClick={() => setDocDialog({ open: true, user: u })} data-testid={`button-doc-user-${u.id}`}>
-                                <FileUp className="w-3 h-3" /><span className="hidden md:inline ml-1 text-[10px]">Docs</span>
+                              <Button size="icon" variant="outline" className="h-10 w-10 md:h-7 md:w-auto md:px-2 rounded-full" onClick={() => setDocDialog({ open: true, user: u })} data-testid={`button-doc-user-${u.id}`}>
+                                <FileUp className="w-4 h-4 md:w-3 md:h-3" /><span className="hidden md:inline ml-1 text-[10px]">Docs</span>
                               </Button>
-                              <Button size="icon" variant="outline" className="h-8 w-8 md:h-7 md:w-auto md:px-2 rounded-full" onClick={() => setInvoiceDialog({ open: true, user: u })} data-testid={`button-invoice-user-${u.id}`}>
-                                <FileText className="w-3 h-3" /><span className="hidden md:inline ml-1 text-[10px]">Factura</span>
+                              <Button size="icon" variant="outline" className="h-10 w-10 md:h-7 md:w-auto md:px-2 rounded-full" onClick={() => setInvoiceDialog({ open: true, user: u })} data-testid={`button-invoice-user-${u.id}`}>
+                                <FileText className="w-4 h-4 md:w-3 md:h-3" /><span className="hidden md:inline ml-1 text-[10px]">Factura</span>
                               </Button>
-                              <Button size="sm" variant="outline" className="h-7 text-[10px] rounded-full text-red-600 hover:bg-red-50" onClick={() => setDeleteConfirm({ open: true, user: u })} data-testid={`button-delete-user-${u.id}`}>
-                                <Trash2 className="w-3 h-3 mr-1" /> Eliminar
+                              <Button size="sm" variant="outline" className="h-10 md:h-7 text-[10px] rounded-full text-red-600" onClick={() => setDeleteConfirm({ open: true, user: u })} data-testid={`button-delete-user-${u.id}`}>
+                                <Trash2 className="w-4 h-4 md:w-3 md:h-3 mr-1" /> Eliminar
                               </Button>
                             </div>
                           </div>
@@ -2007,10 +2007,10 @@ export default function Dashboard() {
       </Dialog>
 
       <Dialog open={createUserDialog} onOpenChange={setCreateUserDialog}>
-        <DialogContent className="max-w-md w-[95vw] bg-white rounded-2xl">
+        <DialogContent className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 max-w-md w-[95vw] bg-white rounded-2xl shadow-2xl z-[100]">
           <DialogHeader><DialogTitle className="text-lg font-bold">Crear Nuevo Cliente</DialogTitle></DialogHeader>
           <div className="space-y-3 pt-2">
-            <div className="grid grid-cols-2 gap-2">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
               <div>
                 <Label className="text-xs font-medium">Nombre</Label>
                 <Input value={newUserData.firstName} onChange={e => setNewUserData(p => ({ ...p, firstName: e.target.value }))} placeholder="Nombre" className="mt-1" data-testid="input-create-user-firstname" />
@@ -2043,7 +2043,7 @@ export default function Dashboard() {
       </Dialog>
 
       <Dialog open={createOrderDialog} onOpenChange={setCreateOrderDialog}>
-        <DialogContent className="max-w-md w-[95vw] bg-white rounded-2xl">
+        <DialogContent className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 max-w-md w-[95vw] bg-white rounded-2xl shadow-2xl z-[100]">
           <DialogHeader><DialogTitle className="text-lg font-bold">Crear Nuevo Pedido</DialogTitle></DialogHeader>
           <div className="space-y-3 pt-2">
             <div>
@@ -2066,9 +2066,9 @@ export default function Dashboard() {
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent className="bg-white z-[9999]">
-                  <SelectItem value="New Mexico">New Mexico - $639</SelectItem>
-                  <SelectItem value="Wyoming">Wyoming - $799</SelectItem>
-                  <SelectItem value="Delaware">Delaware - $999</SelectItem>
+                  <SelectItem value="New Mexico">New Mexico - 639€</SelectItem>
+                  <SelectItem value="Wyoming">Wyoming - 799€</SelectItem>
+                  <SelectItem value="Delaware">Delaware - 999€</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -2077,9 +2077,9 @@ export default function Dashboard() {
               <Input type="number" value={newOrderData.amount} onChange={e => setNewOrderData(p => ({ ...p, amount: e.target.value }))} placeholder="639" className="mt-1" data-testid="input-order-amount" />
             </div>
           </div>
-          <DialogFooter className="mt-4 gap-2">
-            <Button variant="outline" onClick={() => setCreateOrderDialog(false)} data-testid="button-cancel-create-order">Cancelar</Button>
-            <Button onClick={() => createOrderMutation.mutate(newOrderData)} disabled={createOrderMutation.isPending || !newOrderData.userId || !newOrderData.amount} data-testid="button-confirm-create-order">
+          <DialogFooter className="mt-4 flex-col sm:flex-row gap-2">
+            <Button variant="outline" onClick={() => setCreateOrderDialog(false)} className="w-full sm:w-auto" data-testid="button-cancel-create-order">Cancelar</Button>
+            <Button onClick={() => createOrderMutation.mutate(newOrderData)} disabled={createOrderMutation.isPending || !newOrderData.userId || !newOrderData.amount} className="w-full sm:w-auto" data-testid="button-confirm-create-order">
               {createOrderMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Crear Pedido'}
             </Button>
           </DialogFooter>
