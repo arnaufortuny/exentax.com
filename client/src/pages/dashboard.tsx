@@ -20,6 +20,20 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 
 type Tab = 'services' | 'profile' | 'payments' | 'documents' | 'messages' | 'notifications' | 'admin' | 'calendar';
 
+function getOrderStatusLabel(status: string): { label: string; className: string } {
+  const statusMap: Record<string, { label: string; className: string }> = {
+    pending: { label: 'Pendiente', className: 'bg-yellow-100 text-yellow-800' },
+    paid: { label: 'Pagado', className: 'bg-blue-100 text-blue-800' },
+    processing: { label: 'En Proceso', className: 'bg-purple-100 text-purple-800' },
+    documents_ready: { label: 'Docs. Listos', className: 'bg-cyan-100 text-cyan-800' },
+    completed: { label: 'Completado', className: 'bg-green-100 text-green-800' },
+    cancelled: { label: 'Cancelado', className: 'bg-red-100 text-red-700 font-black' },
+    filed: { label: 'Presentado', className: 'bg-indigo-100 text-indigo-800' },
+    draft: { label: 'Borrador', className: 'bg-gray-100 text-gray-600' },
+  };
+  return statusMap[status] || { label: status, className: 'bg-gray-100 text-gray-600' };
+}
+
 interface AdminUserData {
   id?: string;
   email?: string | null;
@@ -658,8 +672,8 @@ export default function Dashboard() {
                                 <p className="text-[9px] md:text-[10px] font-black text-accent uppercase tracking-widest mb-1">Pedido: {order.application?.requestCode || order.invoiceNumber || order.id}</p>
                                 <CardTitle className="text-base md:text-lg font-black text-primary truncate">{order.product?.name}</CardTitle>
                               </div>
-                              <Badge className="bg-accent text-primary font-black uppercase text-[9px] md:text-[10px] shrink-0">
-                                {order.status}
+                              <Badge className={`${getOrderStatusLabel(order.status).className} font-black uppercase text-[9px] md:text-[10px] shrink-0`} data-testid={`badge-order-status-${order.id}`}>
+                                {getOrderStatusLabel(order.status).label}
                               </Badge>
                             </div>
                           </CardHeader>

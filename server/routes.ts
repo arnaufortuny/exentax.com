@@ -1584,6 +1584,14 @@ export async function registerRoutes(
       const { name, email, subject, content, requestCode } = req.body;
       const userId = req.session?.userId || null;
       
+      // Restrict suspended accounts from sending messages
+      if (userId) {
+        const [currentUser] = await db.select().from(usersTable).where(eq(usersTable.id, userId)).limit(1);
+        if (currentUser?.accountStatus === 'deactivated') {
+          return res.status(403).json({ message: "Tu cuenta está suspendida. No puedes enviar mensajes." });
+        }
+      }
+      
       const message = await storage.createMessage({
         userId,
         name,
@@ -2361,6 +2369,7 @@ export async function registerRoutes(
           
           <div class="header">
             <div class="logo-section">
+              <img src="https://easyusllc.com/logo-icon.png" alt="Easy US LLC" style="width: 60px; height: 60px; margin-bottom: 10px; border-radius: 12px;">
               <h1>Easy US LLC</h1>
               <p class="subtitle">Servicios de Constitución Empresarial</p>
             </div>
@@ -2500,11 +2509,7 @@ export async function registerRoutes(
           
           <div class="receipt-card">
             <div class="receipt-header">
-              <div class="success-icon">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                </svg>
-              </div>
+              <img src="https://easyusllc.com/logo-icon.png" alt="Easy US LLC" style="width: 70px; height: 70px; margin: 0 auto 20px; display: block; border-radius: 12px;">
               <div class="receipt-badge">Recibo de Solicitud</div>
               <h1 class="receipt-title">Pedido Confirmado</h1>
               <div class="receipt-number">${receiptNumber}</div>

@@ -27,9 +27,7 @@ export function getEmailHeader(title: string = "Easy US LLC", metadata?: EmailMe
     <div style="background: linear-gradient(180deg, #ffffff 0%, #F7F7F5 100%); padding: 35px 20px 25px; text-align: center; border-bottom: 4px solid #6EDC8A;">
       <div style="margin-bottom: 20px; display: block; width: 100%; text-align: center;">
         <a href="https://${domain}" target="_blank" style="text-decoration: none; display: inline-block;">
-          <div style="display: inline-block; width: 80px; height: 80px; background: linear-gradient(135deg, #6EDC8A 0%, #4CAF50 100%); border-radius: 16px; box-shadow: 0 4px 12px rgba(110,220,138,0.3); text-align: center; line-height: 80px;">
-            <span style="font-family: 'Inter', -apple-system, sans-serif; font-size: 32px; font-weight: 900; color: #ffffff;">US</span>
-          </div>
+          <img src="https://${domain}/logo-email.png" alt="Easy US LLC" width="80" height="80" style="display: block; margin: 0 auto; border-radius: 16px; box-shadow: 0 4px 12px rgba(110,220,138,0.3);" />
         </a>
       </div>
       <h1 style="color: #0E1215; margin: 0; font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; font-weight: 900; text-transform: uppercase; letter-spacing: -1px; font-size: 24px; line-height: 1.2;">

@@ -43,6 +43,7 @@ function Router() {
       <Switch>
         <Route path="/" component={Home} />
         <Route path="/servicios" component={Servicios} />
+        <Route path="/precios" component={Servicios} />
         <Route path="/faq" component={FAQ} />
         <Route path="/contacto" component={Contacto} />
         <Route path="/application" component={ApplicationWizard} />
