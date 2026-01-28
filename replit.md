@@ -26,6 +26,15 @@ Easy US LLC is a business formation service for Spanish-speaking entrepreneurs l
 - `server/`: Express backend with Drizzle storage.
 
 ## Recent Changes
+- **Deployment & Stability Optimization (Jan 2026):**
+  - Fixed Replit deployment health check failures with Node.js-level httpServer interception
+  - Activity logging switched to email-only (removed non-existent activity_logs table references)
+  - Added proper TypeScript types for Request/Response in admin route handlers
+  - Fixed Date null handling in invoice generators with Date.now() fallbacks
+  - Removed invalid passwordResetTokens.updatedAt field reference
+  - Added missing insertApplicationDocumentSchema import
+  - Database connection optimized with 10s timeout and max 10 connections
+  - All LSP errors resolved across server codebase
 - **Form & Auth UX Improvements (Jan 2026):**
   - FormInput component now supports autoComplete prop with smart defaults (email, password)
   - Login page: Error handling improved with status code detection, proper Button components for toggle/links
