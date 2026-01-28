@@ -8,27 +8,19 @@ const app = express();
 const httpServer = createServer(app);
 
 // ABSOLUTELY FIRST: Respond to health checks immediately at the Node.js layer.
-// This is the "God Mode" solution for Replit PROMOTE failures.
+// This is the most aggressive solution for Replit PROMOTE failures.
 httpServer.on('request', (req, res) => {
   try {
     const url = req.url || '/';
-    // Catch ANY health check request
+    // Catch ANY health check request (/, /health, /healthz)
     if (url === '/' || url === '/health' || url === '/healthz') {
-      const accept = req.headers['accept'] || '';
-      const isReplit = !!(req.headers['x-replit-deployment-id'] || 
-                        (req.headers['user-agent'] && req.headers['user-agent'].includes('Replit')));
-      
-      // If it's a bot/deployment system (no HTML seeking or Replit identity)
-      // Respond IMMEDIATELY and close connection.
-      if (isReplit || !accept.includes('text/html')) {
-        res.writeHead(200, {
-          'Content-Type': 'text/plain',
-          'Cache-Control': 'no-cache, no-store, must-revalidate',
-          'Connection': 'close'
-        });
-        res.end('OK');
-        return;
-      }
+      res.writeHead(200, {
+        'Content-Type': 'text/plain',
+        'Cache-Control': 'no-cache, no-store, must-revalidate',
+        'Connection': 'close'
+      });
+      res.end('OK');
+      return;
     }
   } catch (e) {}
 });
