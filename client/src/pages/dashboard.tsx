@@ -669,8 +669,16 @@ export default function Dashboard() {
                           <CardHeader className="bg-primary/5 pb-3 md:pb-4 p-3 md:p-6">
                             <div className="flex justify-between items-start gap-2">
                               <div className="min-w-0 flex-1">
-                                <p className="text-[9px] md:text-[10px] font-black text-accent uppercase tracking-widest mb-1">Pedido: {order.application?.requestCode || order.invoiceNumber || order.id}</p>
-                                <CardTitle className="text-base md:text-lg font-black text-primary truncate">{order.product?.name}</CardTitle>
+                                <p className="text-[9px] md:text-[10px] font-black text-accent uppercase tracking-widest mb-1">Pedido: {order.application?.requestCode || order.maintenanceApplication?.requestCode || order.invoiceNumber || order.id}</p>
+                                <CardTitle className="text-base md:text-lg font-black text-primary truncate">
+                                  {order.maintenanceApplication 
+                                    ? `Mantenimiento ${order.maintenanceApplication.state || order.product?.name?.replace(' LLC', '') || ''}`
+                                    : order.application?.companyName 
+                                      ? `${order.application.companyName} LLC`
+                                      : order.product?.name || 'LLC pendiente'
+                                  }
+                                </CardTitle>
+                                <p className="text-[10px] md:text-xs text-muted-foreground mt-0.5">{order.application?.state || order.maintenanceApplication?.state || ''}</p>
                               </div>
                               <Badge className={`${getOrderStatusLabel(order.status).className} font-black uppercase text-[9px] md:text-[10px] shrink-0`} data-testid={`badge-order-status-${order.id}`}>
                                 {getOrderStatusLabel(order.status).label}
@@ -693,7 +701,16 @@ export default function Dashboard() {
                                 <div className="relative">
                                   <div className="absolute -left-[1.35rem] top-1.5 w-3 h-3 rounded-full border-2 border-white bg-accent animate-pulse" />
                                   <p className="text-xs font-black text-primary">Pedido Recibido</p>
-                                  <p className="text-[10px] text-muted-foreground">Estamos revisando tu solicitud.</p>
+                                  <p className="text-[10px] text-muted-foreground">
+                                    {(order.application?.status === 'submitted' || order.maintenanceApplication?.status === 'submitted')
+                                      ? 'Formulario completado.'
+                                      : (order.application?.status === 'pending' || order.maintenanceApplication?.status === 'pending')
+                                        ? 'Falta información del formulario.'
+                                        : (order.status === 'completed' || order.status === 'filed')
+                                          ? 'Proceso completado.'
+                                          : 'Estamos procesando tu solicitud.'
+                                    }
+                                  </p>
                                 </div>
                               )}
                             </div>

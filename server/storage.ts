@@ -98,6 +98,7 @@ export class DatabaseStorage implements IStorage {
         with: {
           product: true,
           application: true,
+          maintenanceApplication: true,
         },
         orderBy: desc(orders.createdAt),
       });
@@ -106,6 +107,7 @@ export class DatabaseStorage implements IStorage {
       with: {
         product: true,
         application: true,
+        maintenanceApplication: true,
         user: true,
       },
       orderBy: desc(orders.createdAt),
