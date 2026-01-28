@@ -4,7 +4,7 @@ import { Footer } from "@/components/layout/footer";
 import { useAuth } from "@/hooks/use-auth";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { queryClient, apiRequest } from "@/lib/queryClient";
-import { Building2, FileText, Clock, ChevronRight, User as UserIcon, Settings, Package, CreditCard, PlusCircle, Download, ExternalLink, Mail, BellRing, CheckCircle2, AlertCircle, MessageSquare, Send, Shield, Users, Power, Edit, Trash2, FileUp, Newspaper, Loader2, CheckCircle, Receipt, Plus, Calendar, DollarSign, TrendingUp, BarChart3, UserCheck, UserX, Star, Eye, FileCheck, Upload } from "lucide-react";
+import { Building2, FileText, Clock, ChevronRight, User as UserIcon, Settings, Package, CreditCard, PlusCircle, Download, ExternalLink, Mail, BellRing, CheckCircle2, AlertCircle, MessageSquare, Send, Shield, Users, Power, Edit, Trash2, FileUp, Newspaper, Loader2, CheckCircle, Receipt, Plus, Calendar, DollarSign, TrendingUp, BarChart3, UserCheck, UserX, Star, Eye, FileCheck, Upload, XCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { useEffect, useState } from "react";
@@ -985,6 +985,9 @@ export default function Dashboard() {
                       {orders.map((order: any) => {
                         const app = order.application;
                         if (!app) return null;
+                        const isCancelled = order.status === 'cancelled';
+                        const isInReview = ['pending', 'paid', 'processing'].includes(order.status);
+                        const isActive = ['documents_ready', 'completed', 'filed'].includes(order.status);
                         const dates = [
                           { label: 'Creación de LLC', date: app.llcCreatedDate, icon: Building2, color: 'bg-green-100 text-green-700' },
                           { label: 'Renovación Agente Registrado', date: app.agentRenewalDate, icon: Users, color: 'bg-blue-100 text-blue-700' },
@@ -994,16 +997,29 @@ export default function Dashboard() {
                         ];
                         const hasDates = dates.some(d => d.date);
                         return (
-                          <Card key={order.id} className="rounded-2xl border-0 shadow-sm bg-white overflow-hidden">
+                          <Card key={order.id} className={`rounded-2xl border-0 shadow-sm bg-white overflow-hidden ${isCancelled ? 'opacity-60' : ''}`}>
                             <CardHeader className="pb-2 border-b bg-gray-50">
                               <CardTitle className="text-base font-black flex items-center gap-2">
                                 <Building2 className="w-4 h-4 text-accent" />
                                 {app.companyName || 'LLC en proceso'} 
                                 <Badge variant="outline" className="ml-2 text-[10px]">{app.state}</Badge>
+                                {isCancelled && <Badge variant="destructive" className="ml-1 text-[10px]">Cancelada</Badge>}
+                                {isInReview && <Badge className="ml-1 text-[10px] bg-yellow-100 text-yellow-800">En revisión</Badge>}
                               </CardTitle>
                             </CardHeader>
                             <CardContent className="p-4">
-                              {hasDates ? (
+                              {isCancelled ? (
+                                <div className="text-center py-8">
+                                  <XCircle className="w-12 h-12 mx-auto text-red-300 mb-3" />
+                                  <p className="text-sm text-muted-foreground">Esta LLC fue cancelada y no tiene fechas activas</p>
+                                </div>
+                              ) : isInReview ? (
+                                <div className="text-center py-8">
+                                  <Clock className="w-12 h-12 mx-auto text-yellow-400 mb-3" />
+                                  <p className="text-sm text-muted-foreground">Tu LLC está en proceso de revisión</p>
+                                  <p className="text-xs text-muted-foreground mt-1">Las fechas fiscales aparecerán cuando esté activa</p>
+                                </div>
+                              ) : hasDates ? (
                                 <div className="grid gap-3">
                                   {dates.map((item, idx) => {
                                     if (!item.date) return null;
@@ -1033,7 +1049,7 @@ export default function Dashboard() {
                               ) : (
                                 <div className="text-center py-8">
                                   <Calendar className="w-12 h-12 mx-auto text-gray-300 mb-3" />
-                                  <p className="text-sm text-muted-foreground">Las fechas importantes aparecerán aquí cuando tu LLC esté activa</p>
+                                  <p className="text-sm text-muted-foreground">Las fechas importantes aparecerán aquí cuando el administrador las configure</p>
                                 </div>
                               )}
                             </CardContent>
