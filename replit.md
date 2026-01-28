@@ -26,6 +26,14 @@ Easy US LLC is a business formation service for Spanish-speaking entrepreneurs l
 - `server/`: Express backend with Drizzle storage.
 
 ## Recent Changes
+- **System Optimization & Hardening (Jan 2026):**
+  - Fixed activity_logs references (table no longer exists) - now uses email-only logging
+  - Optimized query polling intervals: orders 30s, messages/notifications 60s with staleTime
+  - Removed unused visitorCount from system stats (no frontend dependency)
+  - Database indexes verified: orders (userId, status), llcApplications (orderId, requestCode, status)
+  - Security headers in place: CSP, HSTS, X-XSS-Protection, X-Frame-Options, X-Content-Type-Options
+  - Compression enabled (gzip), cache headers for assets (1 year immutable)
+  - Connection pool optimized: 10 connections, 10s timeout
 - **Document & Account Management (Jan 2026):**
   - Client document deletion: DELETE /api/user/documents/:id endpoint with ownership verification
   - Document deletion UI: trash button visible only for active/vip accounts (canEdit permission)
