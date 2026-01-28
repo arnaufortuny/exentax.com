@@ -22,7 +22,10 @@ const formSchema = z.object({
   ownerFullName: z.string().min(1, "Requerido"),
   ownerEmail: z.string().email("Email inválido"),
   ownerPhone: z.string().min(1, "Requerido"),
-  companyName: z.string().min(1, "Requerido"),
+  companyName: z.string().min(1, "Requerido").refine(
+    (val) => val.toUpperCase().trim().endsWith("LLC") || val.toUpperCase().trim().endsWith("L.L.C.") || val.toUpperCase().trim().endsWith("L.L.C"),
+    { message: "El nombre debe terminar en LLC (ej: MI EMPRESA LLC)" }
+  ),
   companyNameOption2: z.string().optional(),
   ownerNamesAlternates: z.string().optional(),
   state: z.string().min(1, "Requerido"),
@@ -179,6 +182,28 @@ export default function LlcFormation() {
   const onSubmit = async (data: FormValues) => {
     try {
       await apiRequest("PUT", `/api/llc/${appId}`, { ...data, status: "submitted" });
+      
+      // Update user profile with form data if authenticated
+      if (isAuthenticated && user) {
+        try {
+          const nameParts = data.ownerFullName.split(' ');
+          const firstName = nameParts[0] || '';
+          const lastName = nameParts.slice(1).join(' ') || '';
+          
+          await apiRequest("PATCH", "/api/user/profile", {
+            firstName,
+            lastName,
+            phone: data.ownerPhone,
+            address: data.ownerAddress,
+            country: data.ownerCountryResidency,
+            birthDate: data.ownerBirthDate,
+            businessActivity: data.businessActivity,
+          });
+        } catch {
+          // Profile update failed silently - not critical
+        }
+      }
+      
       toast({ title: "Información guardada", description: "Procediendo al pago..." });
       setStep(20); // Payment Step
     } catch {
@@ -380,11 +405,11 @@ export default function LlcFormation() {
             {step === 8 && (
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
                 <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight">🔟 Dirección completa</h2>
-                <FormDescription>La de tu residencia habitual</FormDescription>
+                <FormDescription>Calle, número, ciudad, código postal y país de tu residencia habitual</FormDescription>
                 <FormField control={form.control} name="ownerAddress" render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="font-black  text-[10px] md:text-xs tracking-widest opacity-60">Dirección:</FormLabel>
-                    <FormControl><Textarea {...field} className="rounded-[2rem] min-h-[120px] p-6 border-gray-100 focus:border-accent" placeholder="Calle, número, ciudad, código postal..." /></FormControl>
+                    <FormLabel className="font-black  text-[10px] md:text-xs tracking-widest opacity-60">Dirección completa:</FormLabel>
+                    <FormControl><Textarea {...field} className="rounded-[2rem] min-h-[120px] p-6 border-gray-100 focus:border-accent" placeholder="Ej: Calle Mayor 15, 2ºB&#10;28001 Madrid&#10;España" /></FormControl>
                     <FormMessage />
                   </FormItem>
                 )} />
