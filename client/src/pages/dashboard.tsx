@@ -817,7 +817,7 @@ export default function Dashboard() {
                           <Label>Tipo de Documento</Label>
                           {isEditing && canEdit ? (
                             <Select value={profileData.idType} onValueChange={val => setProfileData({...profileData, idType: val})}>
-                              <SelectTrigger data-testid="select-idtype"><SelectValue placeholder="Seleccionar" /></SelectTrigger>
+                              <SelectTrigger className="bg-white" data-testid="select-idtype"><SelectValue placeholder="Seleccionar" /></SelectTrigger>
                               <SelectContent>
                                 <SelectItem value="dni">DNI</SelectItem>
                                 <SelectItem value="nie">NIE</SelectItem>
@@ -839,7 +839,7 @@ export default function Dashboard() {
                         <Label>Actividad de Negocio</Label>
                         {isEditing && canEdit ? (
                           <Select value={profileData.businessActivity} onValueChange={val => setProfileData({...profileData, businessActivity: val})}>
-                            <SelectTrigger data-testid="select-activity"><SelectValue placeholder="Seleccionar actividad" /></SelectTrigger>
+                            <SelectTrigger className="bg-white" data-testid="select-activity"><SelectValue placeholder="Seleccionar actividad" /></SelectTrigger>
                             <SelectContent>
                               <SelectItem value="ecommerce">E-commerce</SelectItem>
                               <SelectItem value="dropshipping">Dropshipping</SelectItem>
@@ -860,7 +860,7 @@ export default function Dashboard() {
                             <Label>Tipo de Vía</Label>
                             {isEditing && canEdit ? (
                               <Select value={profileData.streetType} onValueChange={val => setProfileData({...profileData, streetType: val})}>
-                                <SelectTrigger><SelectValue placeholder="Seleccionar" /></SelectTrigger>
+                                <SelectTrigger className="bg-white"><SelectValue placeholder="Seleccionar" /></SelectTrigger>
                                 <SelectContent>
                                   <SelectItem value="calle">Calle</SelectItem>
                                   <SelectItem value="avenida">Avenida</SelectItem>
@@ -939,7 +939,7 @@ export default function Dashboard() {
                                 <p className="text-xs text-muted-foreground">{order.product?.name} • {(order.amount / 100).toFixed(2)}€</p>
                               </div>
                               <Select value={order.status} onValueChange={val => updateStatusMutation.mutate({ id: order.id, status: val })}>
-                                <SelectTrigger className="w-32 h-8 rounded-full text-xs"><SelectValue /></SelectTrigger>
+                                <SelectTrigger className="w-32 h-8 rounded-full text-xs bg-white"><SelectValue /></SelectTrigger>
                                 <SelectContent>
                                   <SelectItem value="pending">Pendiente</SelectItem>
                                   <SelectItem value="paid">Pagado</SelectItem>
@@ -1136,7 +1136,7 @@ export default function Dashboard() {
                     <div>
                       <Label className="text-xs">Tipo ID</Label>
                       <Select value={editingUser.idType || ''} onValueChange={val => setEditingUser({...editingUser, idType: val})}>
-                        <SelectTrigger><SelectValue placeholder="Seleccionar" /></SelectTrigger>
+                        <SelectTrigger className="bg-white"><SelectValue placeholder="Seleccionar" /></SelectTrigger>
                         <SelectContent>
                           <SelectItem value="dni">DNI</SelectItem>
                           <SelectItem value="nie">NIE</SelectItem>
@@ -1156,7 +1156,7 @@ export default function Dashboard() {
                   <div>
                     <Label className="text-xs">Actividad de Negocio</Label>
                     <Select value={editingUser.businessActivity || ''} onValueChange={val => setEditingUser({...editingUser, businessActivity: val})}>
-                      <SelectTrigger data-testid="select-edit-activity"><SelectValue placeholder="Seleccionar actividad" /></SelectTrigger>
+                      <SelectTrigger className="bg-white" data-testid="select-edit-activity"><SelectValue placeholder="Seleccionar actividad" /></SelectTrigger>
                       <SelectContent>
                         <SelectItem value="ecommerce">E-commerce</SelectItem>
                         <SelectItem value="dropshipping">Dropshipping</SelectItem>
@@ -1229,7 +1229,7 @@ export default function Dashboard() {
               <DialogHeader><DialogTitle className="text-lg font-bold">Solicitar Documentos</DialogTitle></DialogHeader>
               <div className="space-y-4 pt-2">
                 <Select value={docType} onValueChange={setDocType}>
-                  <SelectTrigger><SelectValue placeholder="Tipo de documento" /></SelectTrigger>
+                  <SelectTrigger className="bg-white"><SelectValue placeholder="Tipo de documento" /></SelectTrigger>
                   <SelectContent>
                     <SelectItem value="passport">Pasaporte / ID</SelectItem>
                     <SelectItem value="address_proof">Comprobante de Domicilio</SelectItem>
