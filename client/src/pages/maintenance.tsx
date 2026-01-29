@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 
-import { User, Phone, Mail, Building2, ShieldCheck, Briefcase, CheckSquare, Trash2, Check, CreditCard, Info, Globe, Loader2 } from "lucide-react";
+import { User, Phone, Mail, Building2, ShieldCheck, Briefcase, CheckSquare, Trash2, Check, CreditCard, Info, Globe, Loader2, Lock, Eye, EyeOff } from "lucide-react";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { Button } from "@/components/ui/button";
@@ -49,7 +49,7 @@ const formSchema = z.object({
 type FormValues = z.infer<typeof formSchema>;
 
 export default function MaintenanceApplication() {
-  const { user, isAuthenticated } = useAuth();
+  const { user, isAuthenticated, refetch: refetchAuth } = useAuth();
   const [, setLocation] = useLocation();
   const [step, setStep] = useState(0);
   const [appId, setAppId] = useState<number | null>(null);
@@ -154,20 +154,26 @@ export default function MaintenanceApplication() {
     }
   }, [isAuthenticated, user, form]);
 
-  useEffect(() => {
-    async function init() {
-      try {
-        const productId = stateFromUrl.includes("Wyoming") ? 2 : stateFromUrl.includes("Delaware") ? 3 : 1;
-        const res = await apiRequest("POST", "/api/maintenance/orders", { productId, state: stateFromUrl });
-        const data = await res.json();
-        setAppId(data.application.id);
-        setRequestCode(data.application.requestCode || "");
-      } catch (err) {
-        toast({ title: "Error al iniciar", description: "No se pudo crear la solicitud", variant: "destructive" });
-      }
+  const [emailExists, setEmailExists] = useState(false);
+  const [existingUserName, setExistingUserName] = useState<string>("");
+  const [isCheckingEmail, setIsCheckingEmail] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+
+  const checkEmailExists = async (email: string) => {
+    setIsCheckingEmail(true);
+    try {
+      const res = await apiRequest("POST", "/api/auth/check-email", { email });
+      const data = await res.json();
+      setEmailExists(data.exists);
+      setExistingUserName(data.firstName || "");
+      return data.exists;
+    } catch {
+      return false;
+    } finally {
+      setIsCheckingEmail(false);
     }
-    init();
-  }, [stateFromUrl]);
+  };
 
   // Reset OTP state when email changes
   const watchedEmail = form.watch("ownerEmail");
@@ -227,6 +233,31 @@ export default function MaintenanceApplication() {
     }
   };
 
+  const handleLogin = async () => {
+    const email = form.getValues("ownerEmail");
+    const password = form.getValues("password");
+    
+    if (!password || password.length < 1) {
+      toast({ title: "Introduce tu contraseña", variant: "destructive" });
+      return;
+    }
+
+    try {
+      const res = await apiRequest("POST", "/api/login", { email, password });
+      if (!res.ok) {
+        const data = await res.json();
+        toast({ title: data.message || "Contraseña incorrecta", variant: "destructive" });
+        return;
+      }
+      await refetchAuth();
+      setIsOtpVerified(true);
+      toast({ title: "Sesión iniciada correctamente" });
+      setStep(4);
+    } catch {
+      toast({ title: "Error al iniciar sesión", variant: "destructive" });
+    }
+  };
+
   const nextStep = async () => {
     const stepsValidation: Record<number, (keyof FormValues)[]> = {
       0: ["creationSource"],
@@ -247,21 +278,24 @@ export default function MaintenanceApplication() {
       if (!isValid) return;
     }
     
-    // Validate password step (step 10) for non-authenticated users
-    if (step === 10 && !isAuthenticated) {
-      const password = form.getValues("password");
-      const confirmPassword = form.getValues("confirmPassword");
-      if (!password || password.length < 8) {
-        toast({ title: "La contraseña debe tener al menos 8 caracteres", variant: "destructive" });
-        return;
-      }
-      if (password !== confirmPassword) {
-        toast({ title: "Las contraseñas no coinciden", variant: "destructive" });
+    if (step === 3 && !isAuthenticated) {
+      const email = form.getValues("ownerEmail");
+      const exists = await checkEmailExists(email);
+      if (exists) {
+        setStep(20);
         return;
       }
     }
+    
+    if (step === 9) {
+      if (isAuthenticated || isOtpVerified) {
+        setStep(11);
+      } else {
+        setStep(10);
+      }
+      return;
+    }
 
-    // All steps advance normally
     setStep(s => s + 1);
   };
 
@@ -270,34 +304,67 @@ export default function MaintenanceApplication() {
   };
 
   const onSubmit = async (data: FormValues) => {
+    if (isSubmitting) return;
+    setIsSubmitting(true);
+    
     try {
-      // If not authenticated and password provided, create account first
-      if (!isAuthenticated && data.password) {
-        try {
-          const res = await apiRequest("POST", "/api/maintenance/claim-order", {
-            applicationId: appId,
-            email: data.ownerEmail,
-            password: data.password,
-            ownerFullName: data.ownerFullName,
-            paymentMethod: data.paymentMethod
-          });
-          if (!res.ok) {
-            const errorData = await res.json();
-            toast({ title: "Error", description: errorData.message, variant: "destructive" });
-            return;
-          }
-          toast({ title: "Cuenta creada", description: "Tu cuenta ha sido creada exitosamente." });
-        } catch (err) {
-          toast({ title: "Error al crear cuenta", variant: "destructive" });
+      const productId = stateFromUrl.includes("Wyoming") ? 2 : stateFromUrl.includes("Delaware") ? 3 : 1;
+      const state = data.state || stateFromUrl;
+      
+      if (isAuthenticated) {
+        const res = await apiRequest("POST", "/api/maintenance/orders", { productId, state });
+        if (!res.ok) {
+          const error = await res.json();
+          throw new Error(error.message || "Error al crear pedido");
+        }
+        const orderData = await res.json();
+        
+        await apiRequest("PUT", `/api/maintenance/${orderData.application.id}`, {
+          ...data,
+          status: "submitted"
+        });
+        
+        setRequestCode(orderData.application.requestCode || "");
+        toast({ title: "Solicitud enviada correctamente" });
+        clearDraft();
+        setLocation(`/contacto?success=true&type=maintenance&orderId=${encodeURIComponent(orderData.application.requestCode || "")}`);
+      } else {
+        if (!data.password || data.password.length < 8) {
+          toast({ title: "La contraseña debe tener al menos 8 caracteres", variant: "destructive" });
+          setIsSubmitting(false);
           return;
         }
+        
+        const res = await apiRequest("POST", "/api/maintenance/orders", {
+          productId,
+          state,
+          email: data.ownerEmail,
+          password: data.password,
+          ownerFullName: data.ownerFullName,
+          paymentMethod: data.paymentMethod || "transfer"
+        });
+        
+        if (!res.ok) {
+          const error = await res.json();
+          throw new Error(error.message || "Error al crear pedido");
+        }
+        
+        const orderData = await res.json();
+        
+        await apiRequest("PUT", `/api/maintenance/${orderData.application.id}`, {
+          ...data,
+          status: "submitted"
+        });
+        
+        setRequestCode(orderData.application.requestCode || "");
+        toast({ title: "Solicitud enviada y cuenta creada" });
+        clearDraft();
+        setLocation(`/contacto?success=true&type=maintenance&orderId=${encodeURIComponent(orderData.application.requestCode || "")}`);
       }
-      
-      await apiRequest("PUT", `/api/maintenance/${appId}`, { ...data, status: "submitted" });
-      toast({ title: "Solicitud enviada", variant: "success" });
-      setLocation(`/contacto?success=true&type=maintenance&orderId=${encodeURIComponent(requestCode)}`);
-    } catch {
-      toast({ title: "Error al enviar", variant: "destructive" });
+    } catch (err: any) {
+      toast({ title: err.message || "Error al enviar", variant: "destructive" });
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -785,7 +852,89 @@ export default function MaintenanceApplication() {
                     </div>
                     <div className="flex gap-3 max-w-md mx-auto">
                       <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 md:h-14 font-black border-black/20 active:scale-95 transition-all text-sm md:text-base">Atrás</Button>
-                      <Button type="submit" className="flex-1 bg-[#6EDC8A] text-primary font-black rounded-full h-12 md:h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all text-sm md:text-base">Enviar Solicitud</Button>
+                      <Button 
+                        type="submit" 
+                        disabled={isSubmitting}
+                        className="flex-1 bg-[#6EDC8A] text-primary font-black rounded-full h-12 md:h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all text-sm md:text-base disabled:opacity-50"
+                      >
+                        {isSubmitting ? <Loader2 className="w-5 h-5 animate-spin mr-2" /> : null}
+                        {isSubmitting ? "Enviando..." : "Enviar Solicitud"}
+                      </Button>
+                    </div>
+                  </div>
+                )}
+
+                {/* STEP 20: Login para usuarios existentes */}
+                {step === 20 && (
+                  <div key={"step-" + step} className="space-y-6 text-left">
+                    <h2 className="text-xl md:text-2xl font-black text-primary border-b border-[#6EDC8A]/20 pb-2 leading-tight flex items-center gap-2">
+                      <Lock className="w-6 h-6 text-[#6EDC8A]" /> Inicia sesión
+                    </h2>
+                    
+                    <div className="bg-[#6EDC8A]/10 border border-[#6EDC8A]/30 rounded-2xl p-5 text-center">
+                      <User className="w-8 h-8 text-[#6EDC8A] mx-auto mb-3" />
+                      <p className="text-sm font-black text-primary mb-1">
+                        ¡Hola{existingUserName ? `, ${existingUserName}` : ""}!
+                      </p>
+                      <p className="text-xs text-muted-foreground">
+                        Ya tienes una cuenta con este email. Inicia sesión para continuar.
+                      </p>
+                    </div>
+
+                    <div className="bg-gray-50 rounded-2xl p-5">
+                      <p className="text-xs font-black text-primary tracking-widest mb-2">TU EMAIL</p>
+                      <p className="text-lg font-bold text-primary">{form.getValues("ownerEmail")}</p>
+                    </div>
+
+                    <div className="space-y-2">
+                      <label className="text-xs font-black text-primary tracking-widest block">Contraseña</label>
+                      <div className="relative">
+                        <Input
+                          type={showPassword ? "text" : "password"}
+                          value={form.getValues("password") || ""}
+                          onChange={(e) => form.setValue("password", e.target.value)}
+                          className="rounded-full p-6 pr-12 border-black/20 focus:border-[#6EDC8A]"
+                          data-testid="input-login-password"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => setShowPassword(!showPassword)}
+                          className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-primary transition-colors"
+                        >
+                          {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                        </button>
+                      </div>
+                    </div>
+
+                    <div className="flex gap-3 max-w-md mx-auto">
+                      <Button 
+                        type="button" 
+                        variant="outline" 
+                        onClick={() => {
+                          setEmailExists(false);
+                          setStep(3);
+                          form.setValue("ownerEmail", "");
+                        }}
+                        className="flex-1 rounded-full h-12 md:h-14 font-black border-black/20"
+                      >
+                        Usar otro email
+                      </Button>
+                      <Button
+                        type="button"
+                        onClick={handleLogin}
+                        disabled={isCheckingEmail}
+                        className="flex-1 bg-[#6EDC8A] text-primary font-black rounded-full h-12 md:h-14 shadow-lg shadow-[#6EDC8A]/20"
+                        data-testid="button-login-submit"
+                      >
+                        {isCheckingEmail ? <Loader2 className="w-5 h-5 animate-spin mr-2" /> : null}
+                        Iniciar sesión
+                      </Button>
+                    </div>
+
+                    <div className="text-center">
+                      <a href="/recuperar" className="text-xs text-[#6EDC8A] hover:underline">
+                        ¿Olvidaste tu contraseña?
+                      </a>
                     </div>
                   </div>
                 )}

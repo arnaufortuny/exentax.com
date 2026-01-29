@@ -48,8 +48,11 @@ The architecture includes:
 - **Payment Methods:** Two options available:
   - Bank transfer to Fortuny Consulting LLC (Account: 141432778929495, Routing: 121145433, Column N.A.)
   - Payment link delivered via email
-- **Claim Order Endpoints:** `/api/llc/claim-order` and `/api/maintenance/claim-order` associate guest orders with newly created accounts.
-- **Form Steps:** LLC form has 21 steps, maintenance form has 12 steps (includes password and payment method selection).
+- **Deferred Order Creation:** Orders are only created at final form submission, not on page load. Form data is collected locally until the user completes and submits.
+- **Existing User Detection:** When entering email (step 3 for LLC, step 3 for maintenance), system checks via `/api/auth/check-email` if account exists:
+  - If exists: User is prompted to log in (step 21 for LLC, step 20 for maintenance) instead of creating new account
+  - After successful login: User continues with authenticated session, skipping OTP verification
+- **Form Steps:** LLC form has 21 steps + login step (21), maintenance form has 12 steps + login step (20).
 - **Contact Form:** Does NOT require account creation.
 
 ## OTP Verification System (January 2026)
