@@ -8,9 +8,10 @@ Albuquerque, NM 87110`;
 
 function getSimpleHeader() {
   return `
-    <div style="background: linear-gradient(180deg, #ffffff 0%, #F0FDF4 100%); padding: 40px 20px 30px; text-align: center; border-bottom: 4px solid #6EDC8A;">
+    <div style="background: linear-gradient(180deg, #0E1215 0%, #1a1f25 100%); padding: 35px 20px; text-align: center;">
       <a href="https://${domain}" target="_blank" style="text-decoration: none; display: inline-block;">
-        <img src="https://${domain}/logo-email.png" alt="Easy US LLC" width="70" height="70" style="display: block; margin: 0 auto; border-radius: 14px; box-shadow: 0 4px 12px rgba(110,220,138,0.3);" />
+        <img src="https://${domain}/logo-email.png" alt="Easy US LLC" width="60" height="60" style="display: block; margin: 0 auto 12px; border-radius: 50%;" />
+        <span style="font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; font-size: 18px; font-weight: 800; color: #F7F7F5; letter-spacing: -0.5px;">Easy US LLC</span>
       </a>
     </div>
   `;
@@ -18,26 +19,36 @@ function getSimpleHeader() {
 
 function getSimpleFooter() {
   return `
-    <div style="background-color: #0E1215; padding: 30px 20px; text-align: center; color: #F7F7F5;">
-      <p style="margin: 0 0 5px 0; font-weight: 700; color: #6EDC8A; font-size: 13px;">Easy US LLC</p>
-      <p style="margin: 0; font-size: 11px; color: #9CA3AF; line-height: 1.6;">1209 Mountain Road Place Northeast<br>STE R<br>Albuquerque, NM 87110</p>
-      <p style="margin-top: 15px; font-size: 10px; color: #6B7280;">© ${new Date().getFullYear()} Easy US LLC. Todos los derechos reservados.</p>
+    <div style="background-color: #0E1215; padding: 35px 25px; text-align: center; color: #F7F7F5;">
+      <div style="width: 40px; height: 3px; background: #6EDC8A; margin: 0 auto 20px; border-radius: 2px;"></div>
+      <p style="margin: 0 0 15px 0; font-size: 12px; color: #9CA3AF; line-height: 1.7;">1209 Mountain Road Place Northeast, STE R<br>Albuquerque, NM 87110</p>
+      <p style="margin: 0; font-size: 11px; color: #6B7280;">© ${new Date().getFullYear()} Easy US LLC</p>
     </div>
   `;
 }
 
 function getEmailWrapper(content: string) {
   return `
-    <div style="background-color: #F7F7F5; padding: 30px 15px;">
-      <div style="font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; max-width: 600px; margin: auto; border-radius: 16px; overflow: hidden; color: #0E1215; background-color: #ffffff; box-shadow: 0 8px 30px rgba(0,0,0,0.08);">
-        ${getSimpleHeader()}
-        <div style="padding: 40px 35px;">
-          ${content}
-          <p style="line-height: 1.6; font-size: 14px; color: #444; margin-top: 30px;">Si tienes cualquier duda, responde directamente a este correo.</p>
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    </head>
+    <body style="margin: 0; padding: 0; background-color: #F7F7F5;">
+      <div style="background-color: #F7F7F5; padding: 40px 15px;">
+        <div style="font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 560px; margin: auto; border-radius: 24px; overflow: hidden; color: #0E1215; background-color: #ffffff; box-shadow: 0 4px 24px rgba(0,0,0,0.06);">
+          ${getSimpleHeader()}
+          <div style="padding: 40px 35px;">
+            ${content}
+            <p style="line-height: 1.6; font-size: 14px; color: #6B7280; margin-top: 35px; padding-top: 25px; border-top: 1px solid #E6E9EC;">Si tienes cualquier duda, responde directamente a este correo.</p>
+          </div>
+          ${getSimpleFooter()}
         </div>
-        ${getSimpleFooter()}
       </div>
-    </div>
+    </body>
+    </html>
   `;
 }
 
@@ -54,7 +65,7 @@ export function getOtpEmailTemplate(otp: string, name: string = "Cliente") {
       <p style="margin: 0; font-size: 42px; font-weight: 900; color: #0E1215; letter-spacing: 12px; font-family: 'SF Mono', 'Consolas', monospace;">${otp}</p>
     </div>
 
-    <div style="background: #F9FAFB; padding: 20px 25px; border-radius: 12px; margin: 25px 0; border-left: 4px solid #6EDC8A;">
+    <div style="background: #F9FAFB; padding: 20px 25px; border-radius: 16px; margin: 25px 0; border-left: 4px solid #6EDC8A;">
       <p style="margin: 0 0 12px 0; font-size: 13px; font-weight: 800; color: #0E1215; text-transform: uppercase;">Importante:</p>
       <ul style="margin: 0; padding-left: 18px; color: #444; font-size: 14px; line-height: 1.8;">
         <li style="margin-bottom: 6px;">Este código es personal y confidencial</li>
@@ -78,7 +89,7 @@ export function getWelcomeEmailTemplate(name: string = "Cliente") {
     <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 25px;">Tu cuenta ha sido creada correctamente. Desde tu panel podrás gestionar solicitudes, documentación y el estado de tus servicios en todo momento.</p>
     
     <div style="text-align: center; margin: 30px 0;">
-      <a href="https://${domain}/dashboard" style="display: inline-block; background: #6EDC8A; color: #0E1215; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 8px; letter-spacing: 0.5px;">Acceder a Mi Panel</a>
+      <a href="https://${domain}/dashboard" style="display: inline-block; background: #6EDC8A; color: #0E1215; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">Acceder a Mi Panel</a>
     </div>
   `;
   return getEmailWrapper(content);
@@ -91,7 +102,7 @@ export function getAccountUnderReviewTemplate(name: string = "Cliente") {
     
     <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">Te informamos de que tu cuenta se encuentra actualmente en revisión.</p>
     
-    <div style="background: #FEF3C7; padding: 20px 25px; border-radius: 12px; margin: 25px 0; border-left: 4px solid #F59E0B;">
+    <div style="background: #FEF3C7; padding: 20px 25px; border-radius: 16px; margin: 25px 0; border-left: 4px solid #F59E0B;">
       <p style="margin: 0; font-size: 14px; color: #92400E; line-height: 1.7;">Durante este proceso de validación, no será posible realizar nuevos pedidos ni modificar información existente en tu panel. Esta medida es temporal y forma parte de nuestros procedimientos de verificación.</p>
     </div>
     
@@ -107,7 +118,7 @@ export function getAccountVipTemplate(name: string = "Cliente") {
     
     <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">Tu cuenta ha sido actualizada al estado VIP.</p>
     
-    <div style="background: linear-gradient(135deg, #F0FDF4 0%, #ECFDF5 100%); padding: 25px; border-radius: 12px; margin: 25px 0; border: 2px solid #6EDC8A;">
+    <div style="background: linear-gradient(135deg, #F0FDF4 0%, #ECFDF5 100%); padding: 25px; border-radius: 16px; margin: 25px 0; border: 2px solid #6EDC8A;">
       <p style="margin: 0 0 15px 0; font-size: 15px; color: #0E1215; font-weight: 600;">Beneficios VIP:</p>
       <ul style="margin: 0; padding-left: 20px; font-size: 14px; color: #444; line-height: 1.8;">
         <li>Atención prioritaria y gestión acelerada</li>
@@ -117,7 +128,7 @@ export function getAccountVipTemplate(name: string = "Cliente") {
     </div>
     
     <div style="text-align: center; margin: 30px 0;">
-      <a href="https://${domain}/dashboard" style="display: inline-block; background: #6EDC8A; color: #0E1215; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 8px; letter-spacing: 0.5px;">Acceder a Mi Panel</a>
+      <a href="https://${domain}/dashboard" style="display: inline-block; background: #6EDC8A; color: #0E1215; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">Acceder a Mi Panel</a>
     </div>
   `;
   return getEmailWrapper(content);
@@ -133,7 +144,7 @@ export function getAccountReactivatedTemplate(name: string = "Cliente") {
     <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 25px;">Ya puedes acceder a tu panel y utilizar todos nuestros servicios con normalidad.</p>
     
     <div style="text-align: center; margin: 30px 0;">
-      <a href="https://${domain}/dashboard" style="display: inline-block; background: #6EDC8A; color: #0E1215; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 8px; letter-spacing: 0.5px;">Acceder a Mi Panel</a>
+      <a href="https://${domain}/dashboard" style="display: inline-block; background: #6EDC8A; color: #0E1215; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">Acceder a Mi Panel</a>
     </div>
   `;
   return getEmailWrapper(content);
@@ -144,7 +155,7 @@ export function getConfirmationEmailTemplate(name: string, requestCode: string, 
   const content = `
     <p style="line-height: 1.7; font-size: 15px; color: #444; margin: 0 0 25px 0;">Hemos recibido correctamente tu solicitud.</p>
     
-    <div style="background: linear-gradient(135deg, #F0FDF4 0%, #ECFDF5 100%); padding: 25px; border-radius: 12px; margin: 25px 0; border: 2px solid #6EDC8A;">
+    <div style="background: linear-gradient(135deg, #F0FDF4 0%, #ECFDF5 100%); padding: 25px; border-radius: 16px; margin: 25px 0; border: 2px solid #6EDC8A;">
       <table style="width: 100%; font-size: 14px; border-collapse: collapse;">
         <tr>
           <td style="padding: 8px 0; color: #6B7280;">Referencia:</td>
@@ -170,7 +181,7 @@ export function getAutoReplyTemplate(ticketId: string, name: string = "Cliente")
   const content = `
     <p style="line-height: 1.7; font-size: 15px; color: #444; margin: 0 0 25px 0;">Tu mensaje ha sido recibido correctamente.</p>
     
-    <div style="background: linear-gradient(135deg, #F0FDF4 0%, #ECFDF5 100%); padding: 25px; border-radius: 12px; margin: 25px 0; border: 2px solid #6EDC8A; text-align: center;">
+    <div style="background: linear-gradient(135deg, #F0FDF4 0%, #ECFDF5 100%); padding: 25px; border-radius: 16px; margin: 25px 0; border: 2px solid #6EDC8A; text-align: center;">
       <p style="margin: 0 0 8px 0; font-size: 12px; color: #6B7280; text-transform: uppercase; letter-spacing: 1px;">Número de ticket</p>
       <p style="margin: 0; font-size: 24px; font-weight: 900; color: #0E1215;">#${ticketId}</p>
     </div>
@@ -198,7 +209,7 @@ export function getOrderUpdateTemplate(name: string, orderNumber: string, newSta
   const content = `
     <p style="line-height: 1.7; font-size: 15px; color: #444; margin: 0 0 25px 0;">El estado de tu pedido ha sido actualizado.</p>
     
-    <div style="background: #F9FAFB; padding: 25px; border-radius: 12px; margin: 25px 0; border-left: 4px solid #6EDC8A;">
+    <div style="background: #F9FAFB; padding: 25px; border-radius: 16px; margin: 25px 0; border-left: 4px solid #6EDC8A;">
       <table style="width: 100%; font-size: 14px; border-collapse: collapse;">
         <tr>
           <td style="padding: 8px 0; color: #6B7280;">Pedido:</td>
@@ -223,12 +234,12 @@ export function getOrderCompletedTemplate(name: string, orderNumber: string) {
   const content = `
     <p style="line-height: 1.7; font-size: 15px; color: #444; margin: 0 0 25px 0;">Tu pedido ha sido completado correctamente.</p>
     
-    <div style="background: linear-gradient(135deg, #F0FDF4 0%, #ECFDF5 100%); padding: 25px; border-radius: 12px; margin: 25px 0; border: 2px solid #6EDC8A;">
+    <div style="background: linear-gradient(135deg, #F0FDF4 0%, #ECFDF5 100%); padding: 25px; border-radius: 16px; margin: 25px 0; border: 2px solid #6EDC8A;">
       <p style="margin: 0; font-size: 15px; color: #0E1215; line-height: 1.6;">Ya puedes acceder a toda la documentación desde tu panel de cliente.</p>
     </div>
     
     <div style="text-align: center; margin: 30px 0;">
-      <a href="https://${domain}/dashboard" style="display: inline-block; background: #6EDC8A; color: #0E1215; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 8px; letter-spacing: 0.5px;">Acceder a documentos</a>
+      <a href="https://${domain}/dashboard" style="display: inline-block; background: #6EDC8A; color: #0E1215; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">Acceder a documentos</a>
     </div>
     
     <p style="line-height: 1.6; font-size: 14px; color: #6B7280;">Tu experiencia es importante para nosotros. Si lo deseas, puedes valorar nuestro servicio cuando recibas la invitación correspondiente.</p>
@@ -241,7 +252,7 @@ export function getNoteReceivedTemplate(name: string, noteContent: string, order
   const content = `
     <p style="line-height: 1.7; font-size: 15px; color: #444; margin: 0 0 25px 0;">Tienes un nuevo mensaje de nuestro equipo${orderNumber ? ` relacionado con tu pedido #${orderNumber}` : ''}.</p>
     
-    <div style="background: #F9FAFB; padding: 25px; border-radius: 12px; margin: 25px 0; border-left: 4px solid #6EDC8A;">
+    <div style="background: #F9FAFB; padding: 25px; border-radius: 16px; margin: 25px 0; border-left: 4px solid #6EDC8A;">
       <p style="margin: 0; font-size: 15px; color: #0E1215; line-height: 1.7; white-space: pre-wrap;">${noteContent}</p>
     </div>
     
@@ -255,7 +266,7 @@ export function getAccountDeactivatedTemplate(name: string = "Cliente") {
   const content = `
     <p style="line-height: 1.7; font-size: 15px; color: #444; margin: 0 0 25px 0;">Te informamos de que tu cuenta ha sido desactivada temporalmente.</p>
     
-    <div style="background: #FEE2E2; padding: 20px 25px; border-radius: 12px; margin: 25px 0; border-left: 4px solid #EF4444;">
+    <div style="background: #FEE2E2; padding: 20px 25px; border-radius: 16px; margin: 25px 0; border-left: 4px solid #EF4444;">
       <p style="margin: 0; font-size: 14px; color: #B91C1C; line-height: 1.7;">Mientras la cuenta permanezca desactivada no será posible realizar solicitudes ni acceder a formularios.</p>
     </div>
     
