@@ -46,10 +46,10 @@ export function Navbar() {
           
           <nav className="hidden md:flex items-center gap-6 lg:gap-8">
             <button onClick={() => handleNavClick("/")} onMouseEnter={() => prefetchOnHover("/")} onMouseLeave={cancelPrefetch} className="text-base font-black text-foreground hover:text-accent transition-colors">Inicio</button>
-            <button onClick={() => handleNavClick("/servicios")} onMouseEnter={() => prefetchOnHover("/servicios")} onMouseLeave={cancelPrefetch} className="text-base font-black text-foreground hover:text-accent transition-colors">Nuestros Servicios</button>
-            <button onClick={() => scrollToSection("pricing")} onMouseEnter={() => prefetchOnHover("/servicios")} onMouseLeave={cancelPrefetch} className="text-base font-black text-foreground hover:text-accent transition-colors">Precios</button>
-            <button onClick={() => handleNavClick("/faq")} onMouseEnter={() => prefetchOnHover("/faq")} onMouseLeave={cancelPrefetch} className="text-base font-black text-foreground hover:text-accent transition-colors">FAQ</button>
-            <button onClick={() => handleNavClick("/contacto")} onMouseEnter={() => prefetchOnHover("/contacto")} onMouseLeave={cancelPrefetch} className="text-base font-black text-foreground hover:text-accent transition-colors">Contáctanos</button>
+            <button onClick={() => handleNavClick("/servicios")} onMouseEnter={() => prefetchOnHover("/servicios")} onMouseLeave={cancelPrefetch} className="text-base font-black text-foreground hover:text-accent transition-colors">Qué hacemos</button>
+            <button onClick={() => scrollToSection("pricing")} onMouseEnter={() => prefetchOnHover("/servicios")} onMouseLeave={cancelPrefetch} className="text-base font-black text-foreground hover:text-accent transition-colors">Planes y precios</button>
+            <button onClick={() => handleNavClick("/faq")} onMouseEnter={() => prefetchOnHover("/faq")} onMouseLeave={cancelPrefetch} className="text-base font-black text-foreground hover:text-accent transition-colors">Preguntas frecuentes</button>
+            <button onClick={() => handleNavClick("/contacto")} onMouseEnter={() => prefetchOnHover("/contacto")} onMouseLeave={cancelPrefetch} className="text-base font-black text-foreground hover:text-accent transition-colors">Habla con nosotros</button>
             {isAuthenticated ? (
               <div className="flex items-center gap-4 border-l pl-6 border-border">
                 <Link href="/dashboard" className="text-base font-black text-foreground hover:text-accent transition-colors flex items-center gap-2">
@@ -148,25 +148,25 @@ export function Navbar() {
                 onClick={() => handleNavClick("/servicios")}
                 className="text-left px-3 py-3 rounded-xl text-foreground hover:bg-secondary transition-colors font-black text-xl  tracking-tighter border border-transparent hover:border-accent/20"
               >
-                Nuestros Servicios
+                Qué hacemos
               </button>
               <button
                 onClick={() => scrollToSection("pricing")}
                 className="text-left px-3 py-3 rounded-xl text-foreground hover:bg-secondary transition-colors font-black text-xl  tracking-tighter border border-transparent hover:border-accent/20"
               >
-                Precios
+                Planes y precios
               </button>
               <button
                 onClick={() => handleNavClick("/faq")}
                 className="text-left px-3 py-3 rounded-xl text-foreground hover:bg-secondary transition-colors font-black text-xl  tracking-tighter border border-transparent hover:border-accent/20"
               >
-                FAQ
+                Preguntas frecuentes
               </button>
               <button
                 onClick={() => handleNavClick("/contacto")}
                 className="text-left px-3 py-3 rounded-xl text-foreground hover:bg-secondary transition-colors font-black text-xl  tracking-tighter border border-transparent hover:border-accent/20 mb-4"
               >
-                Contactanos
+                Habla con nosotros
               </button>
               {!isAuthenticated && (
                 <div className="px-3 py-4 mb-4 bg-accent/5 rounded-2xl border border-accent/20">
@@ -176,9 +176,9 @@ export function Navbar() {
                     className="w-full text-left py-2 text-foreground font-black text-xl tracking-tighter flex items-center gap-2"
                     data-testid="button-mobile-login-menu"
                   >
-                    <UserIcon className="w-5 h-5" /> Mi Cuenta
+                    <UserIcon className="w-5 h-5" /> Mi cuenta
                   </button>
-                  <p className="text-sm text-muted-foreground mt-1">Inicia sesión o crea tu cuenta</p>
+                  <p className="text-sm text-muted-foreground mt-1">Accede a tu panel o crea tu cuenta en segundos</p>
                 </div>
               )}
               <div className="mt-8 px-3 flex flex-col gap-3">
