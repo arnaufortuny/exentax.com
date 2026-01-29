@@ -7,11 +7,26 @@ async function throwIfResNotOk(res: Response) {
   }
 }
 
+const requestCache = new Map<string, { data: any; timestamp: number }>();
+const CACHE_TTL = 5000;
+
 export async function apiRequest(
   method: string,
   url: string,
   data?: unknown | undefined,
 ): Promise<Response> {
+  const cacheKey = `${method}:${url}`;
+  
+  if (method === 'GET') {
+    const cached = requestCache.get(cacheKey);
+    if (cached && Date.now() - cached.timestamp < CACHE_TTL) {
+      return new Response(JSON.stringify(cached.data), {
+        status: 200,
+        headers: { 'Content-Type': 'application/json' }
+      });
+    }
+  }
+
   const res = await fetch(url, {
     method,
     headers: data ? { "Content-Type": "application/json" } : {},
@@ -20,6 +35,11 @@ export async function apiRequest(
   });
 
   await throwIfResNotOk(res);
+  
+  if (method !== 'GET') {
+    requestCache.clear();
+  }
+  
   return res;
 }
 
@@ -47,11 +67,25 @@ export const queryClient = new QueryClient({
       queryFn: getQueryFn({ on401: "throw" }),
       refetchInterval: false,
       refetchOnWindowFocus: false,
-      staleTime: Infinity,
-      retry: false,
+      staleTime: 1000 * 60 * 2,
+      gcTime: 1000 * 60 * 10,
+      retry: 1,
+      retryDelay: 1000,
+      networkMode: 'offlineFirst',
     },
     mutations: {
-      retry: false,
+      retry: 1,
+      retryDelay: 500,
+      networkMode: 'offlineFirst',
     },
   },
 });
+
+export function prefetchQueries(keys: string[]) {
+  keys.forEach(key => {
+    queryClient.prefetchQuery({
+      queryKey: [key],
+      staleTime: 1000 * 60 * 2,
+    });
+  });
+}
