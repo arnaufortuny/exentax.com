@@ -104,43 +104,43 @@
 /* Dark Mode - Optimized for comfort and readability */
 .dark {
   --background: 220 15% 10%; /* Soft dark gray-blue, easier on eyes */
-  --foreground: 210 15% 92%; /* Slightly warm light text, not pure white */
+  --foreground: 210 15% 95%; /* Brighter text for better readability */
 
-  --primary: 210 15% 92%;
+  --primary: 210 15% 95%;
   --primary-foreground: 220 15% 10%;
 
-  --secondary: 220 12% 16%;
-  --secondary-foreground: 210 15% 92%;
+  --secondary: 220 12% 18%;
+  --secondary-foreground: 210 15% 95%;
 
-  --accent: 136 55% 52%; /* Slightly softer green for dark mode */
-  --accent-foreground: 220 15% 10%;
+  --accent: 136 60% 55%; /* Brighter green for dark mode */
+  --accent-foreground: 220 20% 8%;
 
-  --muted: 220 12% 18%;
-  --muted-foreground: 215 12% 60%; /* Better contrast for muted text */
+  --muted: 220 12% 15%;
+  --muted-foreground: 215 12% 65%; /* Better contrast for muted text */
 
-  --destructive: 0 65% 55%;
-  --destructive-foreground: 210 15% 92%;
+  --destructive: 0 70% 55%;
+  --destructive-foreground: 210 15% 95%;
 
-  --border: 220 12% 20%;
-  --input: 220 12% 18%;
-  --ring: 136 55% 52%;
+  --border: 220 12% 25%; /* More visible borders */
+  --input: 220 12% 14%; /* Slightly darker input bg for contrast */
+  --ring: 136 60% 55%;
 
-  --card: 220 14% 12%;
-  --card-foreground: 210 15% 92%;
-  --card-border: 220 12% 20%;
+  --card: 220 14% 13%;
+  --card-foreground: 210 15% 95%;
+  --card-border: 220 12% 25%;
 
-  --popover: 220 14% 12%;
-  --popover-foreground: 210 15% 92%;
-  --popover-border: 220 12% 22%;
+  --popover: 220 14% 13%;
+  --popover-foreground: 210 15% 95%;
+  --popover-border: 220 12% 28%;
 
-  --sidebar: 220 15% 9%;
-  --sidebar-foreground: 210 15% 92%;
-  --sidebar-border: 220 12% 18%;
-  --sidebar-ring: 136 55% 52%;
-  --sidebar-primary: 210 15% 92%;
+  --sidebar: 220 15% 8%;
+  --sidebar-foreground: 210 15% 95%;
+  --sidebar-border: 220 12% 22%;
+  --sidebar-ring: 136 60% 55%;
+  --sidebar-primary: 210 15% 95%;
   --sidebar-primary-foreground: 220 15% 10%;
-  --sidebar-accent: 136 55% 52%;
-  --sidebar-accent-foreground: 220 15% 10%;
+  --sidebar-accent: 136 60% 55%;
+  --sidebar-accent-foreground: 220 20% 8%;
 }
 
 @layer base {

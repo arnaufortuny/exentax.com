@@ -78,7 +78,7 @@ export function NewsletterSection() {
               <Button 
                 type="submit"
                 disabled={loading}
-                className="absolute right-1.5 top-1.5 h-7 w-7 md:h-11 md:w-11 rounded-full bg-accent text-primary p-0 hover:scale-110 active:scale-90 transition-all shadow-lg flex items-center justify-center border-0"
+                className="absolute right-1.5 top-1.5 h-7 w-7 md:h-11 md:w-11 rounded-full bg-accent text-primary-foreground p-0 hover:scale-110 active:scale-90 transition-all shadow-lg flex items-center justify-center border-0"
               >
                 {loading ? (
                   <Loader2 className="w-3 h-3 md:w-5 md:h-5 animate-spin" />
