@@ -89,3 +89,14 @@ The architecture includes:
   - Long forms: max-h-[90vh] overflow-y-auto for scrollable content
 - **Mobile Responsiveness:** All dialogs optimized for mobile with proper button stacking and spacing
 - **Typography Consistency:** font-black for all labels and titles, consistent text sizing throughout
+
+## Unified ID System (January 2026)
+- **Clients:** 8-digit numeric ID (e.g., 12345678) - guaranteed unique
+- **LLC Orders:** STATE-8digits format (e.g., NM-12345678, WY-12345678, DE-12345678)
+- **Maintenance Orders:** STATE-8digits format (same as LLC orders)
+- **Tickets/Messages:** 8-digit unique numeric ID (e.g., 87654321)
+- **Documents:** 8-digit unique ID
+- **Invoices:** Use the order's requestCode (e.g., NM-12345678)
+- **Payments:** Use the order's requestCode
+- **ID Generator Module:** Centralized at `server/lib/id-generator.ts` with uniqueness verification
+- **Removed Formats:** ORD-XXXXX, NM-XXXX-ABC-X, MN-XXXX-XXX-X, MSG-X, DOC-X, TK-X
