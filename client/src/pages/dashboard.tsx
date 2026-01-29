@@ -1388,7 +1388,6 @@ export default function Dashboard() {
                       <SocialLogin 
                         mode="connect" 
                         googleConnected={!!(user as any)?.googleId}
-                        appleConnected={!!(user as any)?.appleId}
                         onSuccess={() => queryClient.refetchQueries({ queryKey: ["/api/auth/user"] })}
                       />
                     </div>

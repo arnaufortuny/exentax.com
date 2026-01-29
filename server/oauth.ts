@@ -1,4 +1,3 @@
-import { Strategy as GoogleStrategy } from "passport-google-oauth20";
 import { OAuth2Client } from "google-auth-library";
 import { db } from "./db";
 import { users } from "@shared/schema";
@@ -8,7 +7,6 @@ import crypto from "crypto";
 
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
 const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
-const JWT_SECRET = process.env.JWT_SECRET || "fallback-secret-for-dev";
 
 const googleClient = GOOGLE_CLIENT_ID ? new OAuth2Client(GOOGLE_CLIENT_ID) : null;
 
@@ -52,45 +50,6 @@ async function findOrCreateUserByGoogle(profile: {
     lastName: profile.lastName,
     profileImageUrl: profile.profileImageUrl,
     googleId: profile.googleId,
-    emailVerified: true,
-    clientId: generateClientId(),
-    isActive: true,
-    accountStatus: "active",
-  }).returning();
-
-  return newUser[0];
-}
-
-async function findOrCreateUserByApple(profile: {
-  appleId: string;
-  email?: string;
-  firstName?: string;
-  lastName?: string;
-}) {
-  const existingByApple = await db.select().from(users).where(eq(users.appleId, profile.appleId)).limit(1);
-  if (existingByApple.length > 0) {
-    return existingByApple[0];
-  }
-
-  if (profile.email) {
-    const existingByEmail = await db.select().from(users).where(eq(users.email, profile.email)).limit(1);
-    if (existingByEmail.length > 0) {
-      await db.update(users).set({ 
-        appleId: profile.appleId,
-        emailVerified: true,
-        firstName: profile.firstName || existingByEmail[0].firstName,
-        lastName: profile.lastName || existingByEmail[0].lastName,
-        updatedAt: new Date()
-      }).where(eq(users.id, existingByEmail[0].id));
-      return { ...existingByEmail[0], appleId: profile.appleId, emailVerified: true };
-    }
-  }
-
-  const newUser = await db.insert(users).values({
-    email: profile.email,
-    firstName: profile.firstName,
-    lastName: profile.lastName,
-    appleId: profile.appleId,
     emailVerified: true,
     clientId: generateClientId(),
     isActive: true,
@@ -149,15 +108,14 @@ export function setupOAuth(app: Express) {
       delete req.session.oauthState;
       delete req.session.oauthAction;
       
-      if (!expectedState || state !== expectedState) {
-        console.error("OAuth state mismatch - potential CSRF attack");
-        return res.redirect("/login?error=invalid_state");
-      }
-      
-      const isConnect = action === "connect";
-
       if (error) {
-        return res.redirect(`/login?error=${error}`);
+        console.error("Google OAuth error:", error);
+        return res.redirect("/login?error=oauth_denied");
+      }
+
+      if (!state || state !== expectedState) {
+        console.error("OAuth state mismatch:", { state, expectedState });
+        return res.redirect("/login?error=invalid_state");
       }
 
       if (!code || typeof code !== "string") {
@@ -176,22 +134,29 @@ export function setupOAuth(app: Express) {
         method: "POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
         body: new URLSearchParams({
-          code,
           client_id: GOOGLE_CLIENT_ID,
           client_secret: GOOGLE_CLIENT_SECRET,
-          redirect_uri: redirectUri,
+          code,
           grant_type: "authorization_code",
+          redirect_uri: redirectUri,
         }),
       });
 
+      if (!tokenResponse.ok) {
+        const errorData = await tokenResponse.text();
+        console.error("Token exchange failed:", errorData);
+        return res.redirect("/login?error=token_exchange_failed");
+      }
+
       const tokens = await tokenResponse.json();
-      if (!tokens.id_token) {
-        console.error("No id_token in Google response:", tokens);
-        return res.redirect("/login?error=token_error");
+      const idToken = tokens.id_token;
+
+      if (!idToken) {
+        return res.redirect("/login?error=no_id_token");
       }
 
       const ticket = await googleClient!.verifyIdToken({
-        idToken: tokens.id_token,
+        idToken,
         audience: GOOGLE_CLIENT_ID,
       });
 
@@ -199,6 +164,8 @@ export function setupOAuth(app: Express) {
       if (!payload || !payload.email) {
         return res.redirect("/login?error=invalid_token");
       }
+
+      const isConnect = action === "connect";
 
       if (isConnect && req.session.userId) {
         const [existingUser] = await db.select().from(users).where(eq(users.id, req.session.userId)).limit(1);
@@ -247,7 +214,7 @@ export function setupOAuth(app: Express) {
       }
 
       if (!googleClient || !GOOGLE_CLIENT_ID) {
-        return res.status(503).json({ message: "Google OAuth no está configurado" });
+        return res.status(503).json({ message: "Google OAuth no esta configurado" });
       }
 
       const ticket = await googleClient.verifyIdToken({
@@ -257,7 +224,7 @@ export function setupOAuth(app: Express) {
 
       const payload = ticket.getPayload();
       if (!payload || !payload.email) {
-        return res.status(400).json({ message: "Token de Google inválido" });
+        return res.status(400).json({ message: "Token de Google invalido" });
       }
 
       const user = await findOrCreateUserByGoogle({
@@ -275,10 +242,10 @@ export function setupOAuth(app: Express) {
       req.login(user, (err) => {
         if (err) {
           console.error("Error en login de Google:", err);
-          return res.status(500).json({ message: "Error al iniciar sesión" });
+          return res.status(500).json({ message: "Error al iniciar sesion" });
         }
         return res.json({
-          message: "Inicio de sesión exitoso",
+          message: "Inicio de sesion exitoso",
           user: {
             id: user.id,
             email: user.email,
@@ -289,72 +256,12 @@ export function setupOAuth(app: Express) {
             isAdmin: user.isAdmin,
             emailVerified: user.emailVerified,
             googleId: user.googleId ? true : false,
-            appleId: user.appleId ? true : false,
           }
         });
       });
     } catch (error) {
-      console.error("Error en autenticación de Google:", error);
+      console.error("Error en autenticacion de Google:", error);
       return res.status(401).json({ message: "Error al verificar credencial de Google" });
-    }
-  });
-
-  app.post("/api/auth/apple", async (req: Request, res: Response) => {
-    try {
-      const { idToken, user: appleUser } = req.body;
-
-      if (!idToken) {
-        return res.status(400).json({ message: "Token de Apple requerido" });
-      }
-
-      const parts = idToken.split(".");
-      if (parts.length !== 3) {
-        return res.status(400).json({ message: "Token de Apple inválido" });
-      }
-
-      const payload = JSON.parse(Buffer.from(parts[1], "base64").toString());
-      const appleId = payload.sub;
-      const email = payload.email || appleUser?.email;
-
-      if (!appleId) {
-        return res.status(400).json({ message: "Token de Apple inválido" });
-      }
-
-      const user = await findOrCreateUserByApple({
-        appleId,
-        email,
-        firstName: appleUser?.name?.firstName,
-        lastName: appleUser?.name?.lastName,
-      });
-
-      if (!user.isActive || user.accountStatus === "deactivated") {
-        return res.status(403).json({ message: "Cuenta desactivada" });
-      }
-
-      req.login(user, (err) => {
-        if (err) {
-          console.error("Error en login de Apple:", err);
-          return res.status(500).json({ message: "Error al iniciar sesión" });
-        }
-        return res.json({
-          message: "Inicio de sesión exitoso",
-          user: {
-            id: user.id,
-            email: user.email,
-            firstName: user.firstName,
-            lastName: user.lastName,
-            profileImageUrl: user.profileImageUrl,
-            clientId: user.clientId,
-            isAdmin: user.isAdmin,
-            emailVerified: user.emailVerified,
-            googleId: user.googleId ? true : false,
-            appleId: user.appleId ? true : false,
-          }
-        });
-      });
-    } catch (error) {
-      console.error("Error en autenticación de Apple:", error);
-      return res.status(401).json({ message: "Error al verificar credencial de Apple" });
     }
   });
 
@@ -376,12 +283,12 @@ export function setupOAuth(app: Express) {
 
       const payload = ticket.getPayload();
       if (!payload) {
-        return res.status(400).json({ message: "Token inválido" });
+        return res.status(400).json({ message: "Token invalido" });
       }
 
       const existingUser = await db.select().from(users).where(eq(users.googleId, payload.sub)).limit(1);
       if (existingUser.length > 0 && existingUser[0].id !== (req.user as any).id) {
-        return res.status(409).json({ message: "Esta cuenta de Google ya está vinculada a otro usuario" });
+        return res.status(409).json({ message: "Esta cuenta de Google ya esta vinculada a otro usuario" });
       }
 
       await db.update(users).set({ 
@@ -393,46 +300,6 @@ export function setupOAuth(app: Express) {
     } catch (error) {
       console.error("Error conectando Google:", error);
       return res.status(500).json({ message: "Error al vincular cuenta de Google" });
-    }
-  });
-
-  app.post("/api/auth/connect/apple", async (req: Request, res: Response) => {
-    try {
-      if (!req.isAuthenticated() || !req.user) {
-        return res.status(401).json({ message: "No autenticado" });
-      }
-
-      const { idToken } = req.body;
-      if (!idToken) {
-        return res.status(400).json({ message: "Token de Apple requerido" });
-      }
-
-      const parts = idToken.split(".");
-      if (parts.length !== 3) {
-        return res.status(400).json({ message: "Token inválido" });
-      }
-
-      const payload = JSON.parse(Buffer.from(parts[1], "base64").toString());
-      const appleId = payload.sub;
-
-      if (!appleId) {
-        return res.status(400).json({ message: "Token inválido" });
-      }
-
-      const existingUser = await db.select().from(users).where(eq(users.appleId, appleId)).limit(1);
-      if (existingUser.length > 0 && existingUser[0].id !== (req.user as any).id) {
-        return res.status(409).json({ message: "Esta cuenta de Apple ya está vinculada a otro usuario" });
-      }
-
-      await db.update(users).set({ 
-        appleId,
-        updatedAt: new Date()
-      }).where(eq(users.id, (req.user as any).id));
-
-      return res.json({ message: "Cuenta de Apple vinculada exitosamente" });
-    } catch (error) {
-      console.error("Error conectando Apple:", error);
-      return res.status(500).json({ message: "Error al vincular cuenta de Apple" });
     }
   });
 
@@ -449,9 +316,9 @@ export function setupOAuth(app: Express) {
         return res.status(404).json({ message: "Usuario no encontrado" });
       }
 
-      if (!user[0].passwordHash && !user[0].appleId) {
+      if (!user[0].passwordHash) {
         return res.status(400).json({ 
-          message: "Debes tener al menos un método de inicio de sesión activo (contraseña o Apple)" 
+          message: "Debes tener una contrasena configurada antes de desvincular Google" 
         });
       }
 
@@ -464,37 +331,6 @@ export function setupOAuth(app: Express) {
     } catch (error) {
       console.error("Error desconectando Google:", error);
       return res.status(500).json({ message: "Error al desvincular cuenta de Google" });
-    }
-  });
-
-  app.post("/api/auth/disconnect/apple", async (req: Request, res: Response) => {
-    try {
-      if (!req.isAuthenticated() || !req.user) {
-        return res.status(401).json({ message: "No autenticado" });
-      }
-
-      const userId = (req.user as any).id;
-      const user = await db.select().from(users).where(eq(users.id, userId)).limit(1);
-
-      if (user.length === 0) {
-        return res.status(404).json({ message: "Usuario no encontrado" });
-      }
-
-      if (!user[0].passwordHash && !user[0].googleId) {
-        return res.status(400).json({ 
-          message: "Debes tener al menos un método de inicio de sesión activo (contraseña o Google)" 
-        });
-      }
-
-      await db.update(users).set({ 
-        appleId: null,
-        updatedAt: new Date()
-      }).where(eq(users.id, userId));
-
-      return res.json({ message: "Cuenta de Apple desvinculada exitosamente" });
-    } catch (error) {
-      console.error("Error desconectando Apple:", error);
-      return res.status(500).json({ message: "Error al desvincular cuenta de Apple" });
     }
   });
 }

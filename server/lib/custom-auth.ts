@@ -362,7 +362,6 @@ export function setupCustomAuth(app: Express) {
         accountStatus: user.accountStatus,
         profileImageUrl: user.profileImageUrl,
         googleId: user.googleId ? true : false,
-        appleId: user.appleId ? true : false,
         createdAt: user.createdAt,
       });
     } catch (error) {

@@ -71,7 +71,7 @@ export async function registerRoutes(
   // Set up Custom Auth
   setupCustomAuth(app);
 
-  // Set up OAuth (Google & Apple)
+  // Set up Google OAuth
   setupOAuth(app);
 
   // Schedule compliance reminder checks every hour

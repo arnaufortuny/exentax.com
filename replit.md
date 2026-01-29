@@ -14,7 +14,7 @@ The application is built with a modern UI/UX, featuring a consistent design syst
 - **Server-side:** Powered by an Express.js backend.
 - **Database:** Drizzle ORM defines the schema with Zod for type validation, incorporating key indexes for performance.
 - **Email System:** Professional email templates are managed through three IONOS accounts for system notifications, support, and Trustpilot review requests. All emails are designed for consistency and branding.
-- **Authentication:** Features robust OTP verification, session management, and secure password handling. Account creation is mandatory for orders, with automatic verification and a welcome email. Includes Google OAuth with CSRF-protected redirect flow (users can log in or connect/disconnect from profile). Apple Sign-In UI ready (requires Apple Developer configuration).
+- **Authentication:** Features robust OTP verification, session management, and secure password handling. Account creation is mandatory for orders, with automatic verification and a welcome email. Includes Google OAuth with CSRF-protected redirect flow (users can log in or connect/disconnect from profile). Automatic account creation for OAuth users.
 - **Form Management:** Multi-step wizard patterns for LLC, maintenance, and contact forms, including auto-fill for authenticated users and auto-saving drafts to local storage.
 - **Admin Panel:** Integrated into the client dashboard for privileged users, offering full control over orders, users, and messages.
 - **Performance Optimizations:** Includes Gzip compression, advanced cache headers, lazy loading, `content-visibility: auto` for images, non-blocking font loading, and route prefetching. PWA support is also implemented for an app-like experience.
