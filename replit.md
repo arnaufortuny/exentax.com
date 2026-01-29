@@ -128,8 +128,14 @@ The architecture includes:
 - **Dashboard Integration:** Users see their message history in the Messages tab
 
 ## Email Templates & Subjects (January 2026)
-- **Professional Format:** All emails use simplified design without emojis
-- **12 Active Templates:** OTP, Welcome, Account Under Review, Account VIP, Account Reactivated, Confirmation, Auto-reply, Order Update, Order Completed, New Message Reply, Account Deactivated, Newsletter
+- **Professional Format:** All emails use modern design with Inter font, rounded buttons (pill shape), dark header with logo, consistent branding
+- **16 Active Templates:** OTP, Welcome, Account Under Review, Account VIP, Account Reactivated, Confirmation, Auto-reply, Order Update, Order Completed, New Message, Account Deactivated, Newsletter, Admin Note, Payment Request, Document Request, Message Reply, Password Change OTP, Order Event
+- **Design System:**
+  - Header: Dark gradient (#0E1215) with circular logo and company name
+  - Buttons: Pill-shaped (border-radius: 50px) with green background (#6EDC8A) and shadow
+  - Typography: Inter font from Google Fonts
+  - Content boxes: Rounded corners (16px) with subtle borders
+  - Footer: Dark background with accent line and address
 - **Subject Line Format:** Clear and professional without emojis:
   - OTP: "Tu código de verificación | Easy US LLC"
   - Welcome: "Bienvenido a Easy US LLC - Acceso a tu panel"
@@ -138,5 +144,9 @@ The architecture includes:
   - Confirmation: "Solicitud recibida - Referencia [CODE]"
   - Auto-reply: "Hemos recibido tu mensaje - Ticket #[ID]"
   - Newsletter: "Confirmación de suscripción a Easy US LLC"
+  - Admin Note: "[Título] - Ticket #[ID]"
+  - Payment Request: "Pago pendiente - Easy US LLC"
+  - Document Request: "Acción Requerida: Solicitud de Documentación"
+  - Message Reply: "Nueva respuesta a tu consulta - Ticket #[ID]"
 - **Automatic Status Emails:** Emails sent automatically when admin changes account status (VIP, active, deactivated)
-- **Removed:** getClaudiaMessageTemplate (deprecated)
+- **All emails use centralized templates** - No more inline HTML in routes.ts

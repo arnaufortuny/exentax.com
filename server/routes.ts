@@ -7,7 +7,7 @@ import { z } from "zod";
 import { insertLlcApplicationSchema, insertApplicationDocumentSchema } from "@shared/schema";
 import type { Request, Response } from "express";
 import { db } from "./db";
-import { sendEmail, sendTrustpilotEmail, getOtpEmailTemplate, getConfirmationEmailTemplate, getWelcomeEmailTemplate, getNewsletterWelcomeTemplate, getAutoReplyTemplate, getEmailFooter, getEmailHeader, getOrderUpdateTemplate, getNoteReceivedTemplate, getAccountDeactivatedTemplate, getAccountUnderReviewTemplate, getOrderCompletedTemplate, getAccountVipTemplate, getAccountReactivatedTemplate } from "./lib/email";
+import { sendEmail, sendTrustpilotEmail, getOtpEmailTemplate, getConfirmationEmailTemplate, getWelcomeEmailTemplate, getNewsletterWelcomeTemplate, getAutoReplyTemplate, getEmailFooter, getEmailHeader, getOrderUpdateTemplate, getNoteReceivedTemplate, getAccountDeactivatedTemplate, getAccountUnderReviewTemplate, getOrderCompletedTemplate, getAccountVipTemplate, getAccountReactivatedTemplate, getAdminNoteTemplate, getPaymentRequestTemplate, getDocumentRequestTemplate, getMessageReplyTemplate, getPasswordChangeOtpTemplate, getOrderEventTemplate } from "./lib/email";
 import { contactOtps, products as productsTable, users as usersTable, maintenanceApplications, newsletterSubscribers, messages as messagesTable, orderEvents, messageReplies, userNotifications, orders as ordersTable, llcApplications as llcApplicationsTable, applicationDocuments as applicationDocumentsTable, discountCodes } from "@shared/schema";
 import { and, eq, gt, desc, sql } from "drizzle-orm";
 import puppeteer from "puppeteer";
@@ -1007,29 +1007,8 @@ export async function registerRoutes(
       if (user.email) {
         await sendEmail({
           to: user.email,
-          subject: `Easy US LLC: ${title} [${ticketId}]`,
-          html: `
-            <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-              ${getEmailHeader()}
-              <div style="padding: 30px;">
-                <div style="text-align: right; margin-bottom: 10px;">
-                  <span style="font-size: 12px; color: #888; background: #f4f4f4; padding: 4px 10px; border-radius: 4px;">Ticket: ${ticketId}</span>
-                </div>
-                <h2 style="color: #0E1215; margin-bottom: 20px;">${title}</h2>
-                <p style="font-size: 15px; color: #444;">Hola ${user.firstName || 'Cliente'},</p>
-                <div style="background: #f4f4f4; border-left: 4px solid #6EDC8A; padding: 20px; margin: 25px 0; border-radius: 0 8px 8px 0;">
-                  <p style="margin: 0; font-size: 15px; line-height: 1.6; color: #333;">${message.replace(/\n/g, '<br>')}</p>
-                </div>
-                <p style="font-size: 14px; color: #666;">Puedes ver más detalles accediendo a tu panel de cliente.</p>
-                <div style="text-align: center; margin: 30px 0;">
-                  <a href="${process.env.BASE_URL || 'https://easyusllc.com'}/dashboard" style="background: #6EDC8A; color: #0E1215; padding: 15px 30px; text-decoration: none; border-radius: 30px; font-weight: bold; display: inline-block;">
-                    Ver en mi Panel
-                  </a>
-                </div>
-              </div>
-              ${getEmailFooter()}
-            </div>
-          `
+          subject: `${title} - Ticket #${ticketId}`,
+          html: getAdminNoteTemplate(user.firstName || 'Cliente', title, message, ticketId)
         });
       }
 
@@ -1055,27 +1034,8 @@ export async function registerRoutes(
 
       await sendEmail({
         to: user.email,
-        subject: "Easy US LLC - Acción Requerida: Pago Pendiente",
-        html: `
-          <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-            ${getEmailHeader()}
-            <div style="padding: 20px;">
-              <h2 style="color: #0E1215;">Pago Pendiente de Trámite</h2>
-              <p>Hola ${user.firstName || 'Cliente'},</p>
-              <p>Se ha generado una solicitud de pago para continuar con su trámite${amount ? ` por un valor de <strong>${amount}</strong>` : ''}.</p>
-              <div style="background: #f4f4f4; border-left: 4px solid #6EDC8A; padding: 15px; margin: 20px 0;">
-                <p><strong>Mensaje del administrador:</strong> ${message}</p>
-              </div>
-              <div style="text-align: center; margin: 30px 0;">
-                <a href="${paymentLink}" style="background: #6EDC8A; color: #0E1215; padding: 15px 30px; text-decoration: none; border-radius: 30px; font-weight: bold; font-size: 1.1rem;">
-                  REALIZAR PAGO AHORA
-                </a>
-              </div>
-              <p style="font-size: 0.8rem; color: #6B7280; text-align: center;">Si el botón no funciona, copie y pegue este enlace: <br>${paymentLink}</p>
-            </div>
-            ${getEmailFooter()}
-          </div>
-        `
+        subject: "Pago pendiente - Easy US LLC",
+        html: getPaymentRequestTemplate(user.firstName || 'Cliente', message, paymentLink, amount)
       });
 
       // Create internal notification
@@ -1178,21 +1138,7 @@ export async function registerRoutes(
       await sendEmail({
         to: user.email,
         subject: "Código de verificación - Cambio de contraseña",
-        html: `
-          <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-            ${getEmailHeader()}
-            <div style="padding: 30px;">
-              <h2 style="margin-bottom: 20px;">Código de Verificación</h2>
-              <p>Has solicitado cambiar tu contraseña. Usa este código para verificar tu identidad:</p>
-              <div style="background: #F0FDF4; padding: 20px; border-radius: 12px; text-align: center; margin: 20px 0;">
-                <span style="font-size: 32px; font-weight: 900; letter-spacing: 8px; color: #0E1215;">${otp}</span>
-              </div>
-              <p style="color: #6B7280; font-size: 14px;">Este código expira en 10 minutos.</p>
-              <p style="color: #6B7280; font-size: 14px;">Si no solicitaste este cambio, ignora este mensaje.</p>
-            </div>
-            ${getEmailFooter()}
-          </div>
-        `
+        html: getPasswordChangeOtpTemplate(user.firstName || 'Cliente', otp)
       });
       
       res.json({ success: true });
@@ -1274,28 +1220,8 @@ export async function registerRoutes(
       
       await sendEmail({
         to: email,
-        subject: `Acción Requerida: Solicitud de Documentación (${docTypeLabel})`,
-        html: `
-          <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-            ${getEmailHeader()}
-            <div style="padding: 20px;">
-              <h2>Solicitud de Documentación</h2>
-              <p>Hola,</p>
-              <p>Nuestro equipo requiere que subas el siguiente documento: <strong>${docTypeLabel}</strong></p>
-              <div style="background: #f4f4f4; border-left: 4px solid #6EDC8A; padding: 15px; margin: 20px 0;">
-                <p><strong>Mensaje del agente:</strong> ${message}</p>
-              </div>
-              <p>Puedes subirlo directamente accediendo a tu panel de cliente en la sección de "Documentos".</p>
-              <p>Ticket ID: <strong>${msgId}</strong></p>
-              <div style="text-align: center; margin: 30px 0;">
-                <a href="${process.env.BASE_URL || 'https://easyusllc.com'}/dashboard" style="background: #6EDC8A; color: #0E1215; padding: 15px 30px; text-decoration: none; border-radius: 30px; font-weight: bold;">
-                  Acceder a mi Panel
-                </a>
-              </div>
-            </div>
-            ${getEmailFooter()}
-          </div>
-        `
+        subject: `Acción Requerida: Solicitud de Documentación`,
+        html: getDocumentRequestTemplate('Cliente', docTypeLabel, message, msgId)
       });
 
       if (userId) {
@@ -2720,21 +2646,8 @@ export async function registerRoutes(
         if (user?.email) {
           sendEmail({
             to: user.email,
-            subject: "Actualización de tu pedido - Easy US LLC",
-            html: `
-              <div style="font-family: 'Inter', sans-serif; max-width: 600px; margin: auto; padding: 40px; background: #fff;">
-                ${getEmailHeader()}
-                <div style="padding: 30px;">
-                  <h2 style="color: #000; font-weight: 900;">Actualización de Pedido #${orderId}</h2>
-                  <div style="background: #f4f4f4; border-left: 4px solid #6EDC8A; padding: 20px; margin: 20px 0;">
-                    <p style="margin: 0; font-weight: 700;">${eventType}</p>
-                    <p style="margin: 10px 0 0; color: #666;">${description}</p>
-                  </div>
-                  <p style="color: #666; font-size: 14px;">Fecha: ${new Date().toLocaleString('es-ES')}</p>
-                </div>
-                ${getEmailFooter()}
-              </div>
-            `,
+            subject: "Actualización de tu pedido",
+            html: getOrderEventTemplate(user.firstName || 'Cliente', orderId, eventType, description)
           }).catch(() => {});
         }
       }
@@ -2782,23 +2695,11 @@ export async function registerRoutes(
       const [message] = await db.select().from(messagesTable).where(eq(messagesTable.id, messageId)).limit(1);
       if (message?.email && req.session.isAdmin) {
         // Admin reply - notify client by email
+        const ticketId = message.messageId || String(messageId);
         sendEmail({
           to: message.email,
-          subject: "Nueva respuesta a tu consulta",
-          html: `
-            <div style="font-family: 'Inter', sans-serif; max-width: 600px; margin: auto; background: #fff;">
-              ${getEmailHeader("Nueva Respuesta")}
-              <div style="padding: 30px;">
-                <h2 style="color: #0E1215; font-weight: 900; margin-bottom: 15px;">Hola ${message.name?.split(' ')[0] || 'Cliente'},</h2>
-                <p style="color: #666; margin-bottom: 20px;">Hemos respondido a tu consulta (Ticket: ${message.messageId || messageId}):</p>
-                <div style="background: #F0FDF4; border-left: 4px solid #6EDC8A; padding: 20px; margin: 20px 0; border-radius: 8px;">
-                  <p style="margin: 0; color: #0E1215; line-height: 1.6;">${content}</p>
-                </div>
-                <p style="color: #666; font-size: 14px;">Puedes responder accediendo a tu panel de cliente o contactándonos por WhatsApp.</p>
-              </div>
-              ${getEmailFooter()}
-            </div>
-          `,
+          subject: `Nueva respuesta a tu consulta - Ticket #${ticketId}`,
+          html: getMessageReplyTemplate(message.name?.split(' ')[0] || 'Cliente', content, ticketId)
         }).catch(() => {});
         
         // Create notification for client if they have a user account
@@ -2806,7 +2707,7 @@ export async function registerRoutes(
           await db.insert(userNotifications).values({
             userId: message.userId,
             title: "Nueva respuesta a tu consulta",
-            message: `Hemos respondido a tu mensaje (Ticket: ${message.messageId || messageId}). Revisa tu email o tu área de mensajes.`,
+            message: `Hemos respondido a tu mensaje (Ticket: #${ticketId}). Revisa tu email o tu área de mensajes.`,
             type: 'info',
             isRead: false
           });
