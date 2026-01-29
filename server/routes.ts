@@ -8,7 +8,7 @@ import { insertLlcApplicationSchema, insertApplicationDocumentSchema } from "@sh
 import type { Request, Response } from "express";
 import { db } from "./db";
 import { sendEmail, getOtpEmailTemplate, getConfirmationEmailTemplate, getWelcomeEmailTemplate, getNewsletterWelcomeTemplate, getAutoReplyTemplate, getEmailFooter, getEmailHeader, getOrderUpdateTemplate, getNoteReceivedTemplate, getAccountDeactivatedTemplate, getClaudiaMessageTemplate } from "./lib/email";
-import { contactOtps, products as productsTable, users as usersTable, maintenanceApplications, newsletterSubscribers, messages as messagesTable, orderEvents, messageReplies, userNotifications, orders as ordersTable, llcApplications as llcApplicationsTable, applicationDocuments as applicationDocumentsTable } from "@shared/schema";
+import { contactOtps, products as productsTable, users as usersTable, maintenanceApplications, newsletterSubscribers, messages as messagesTable, orderEvents, messageReplies, userNotifications, orders as ordersTable, llcApplications as llcApplicationsTable, applicationDocuments as applicationDocumentsTable, discountCodes } from "@shared/schema";
 import { and, eq, gt, desc, sql } from "drizzle-orm";
 import puppeteer from "puppeteer";
 
@@ -566,6 +566,143 @@ export async function registerRoutes(
       res.json({ totalSales: Number(result[0]?.total || 0) });
     } catch (error) {
       res.status(500).json({ message: "Error fetching stats" });
+    }
+  });
+
+  // ============== DISCOUNT CODES ==============
+  
+  // Get all discount codes (admin)
+  app.get("/api/admin/discount-codes", isAdmin, async (req, res) => {
+    try {
+      const codes = await db.select().from(discountCodes).orderBy(desc(discountCodes.createdAt));
+      res.json(codes);
+    } catch (error) {
+      res.status(500).json({ message: "Error fetching discount codes" });
+    }
+  });
+
+  // Create discount code (admin)
+  app.post("/api/admin/discount-codes", isAdmin, async (req, res) => {
+    try {
+      const { code, description, discountType, discountValue, minOrderAmount, maxUses, validFrom, validUntil, isActive } = req.body;
+      
+      if (!code || !discountValue) {
+        return res.status(400).json({ message: "Código y valor de descuento son requeridos" });
+      }
+
+      const [existing] = await db.select().from(discountCodes).where(eq(discountCodes.code, code.toUpperCase())).limit(1);
+      if (existing) {
+        return res.status(400).json({ message: "Este código ya existe" });
+      }
+
+      const [newCode] = await db.insert(discountCodes).values({
+        code: code.toUpperCase(),
+        description,
+        discountType: discountType || 'percentage',
+        discountValue: parseInt(discountValue),
+        minOrderAmount: minOrderAmount ? parseInt(minOrderAmount) : 0,
+        maxUses: maxUses ? parseInt(maxUses) : null,
+        validFrom: validFrom ? new Date(validFrom) : new Date(),
+        validUntil: validUntil ? new Date(validUntil) : null,
+        isActive: isActive !== false,
+      }).returning();
+
+      res.status(201).json(newCode);
+    } catch (error) {
+      res.status(500).json({ message: "Error creating discount code" });
+    }
+  });
+
+  // Update discount code (admin)
+  app.patch("/api/admin/discount-codes/:id", isAdmin, async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      const { code, description, discountType, discountValue, minOrderAmount, maxUses, validFrom, validUntil, isActive } = req.body;
+
+      const updateData: any = {};
+      if (code) updateData.code = code.toUpperCase();
+      if (description !== undefined) updateData.description = description;
+      if (discountType) updateData.discountType = discountType;
+      if (discountValue !== undefined) updateData.discountValue = parseInt(discountValue);
+      if (minOrderAmount !== undefined) updateData.minOrderAmount = parseInt(minOrderAmount);
+      if (maxUses !== undefined) updateData.maxUses = maxUses ? parseInt(maxUses) : null;
+      if (validFrom) updateData.validFrom = new Date(validFrom);
+      if (validUntil !== undefined) updateData.validUntil = validUntil ? new Date(validUntil) : null;
+      if (isActive !== undefined) updateData.isActive = isActive;
+
+      const [updated] = await db.update(discountCodes).set(updateData).where(eq(discountCodes.id, id)).returning();
+      res.json(updated);
+    } catch (error) {
+      res.status(500).json({ message: "Error updating discount code" });
+    }
+  });
+
+  // Delete discount code (admin)
+  app.delete("/api/admin/discount-codes/:id", isAdmin, async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      await db.delete(discountCodes).where(eq(discountCodes.id, id));
+      res.json({ success: true });
+    } catch (error) {
+      res.status(500).json({ message: "Error deleting discount code" });
+    }
+  });
+
+  // Validate discount code (public - for checkout)
+  app.post("/api/discount-codes/validate", async (req, res) => {
+    try {
+      const { code, orderAmount } = req.body;
+      
+      if (!code) {
+        return res.status(400).json({ valid: false, message: "Código requerido" });
+      }
+
+      const [discountCode] = await db.select().from(discountCodes).where(eq(discountCodes.code, code.toUpperCase())).limit(1);
+      
+      if (!discountCode) {
+        return res.status(404).json({ valid: false, message: "Código no encontrado" });
+      }
+
+      if (!discountCode.isActive) {
+        return res.status(400).json({ valid: false, message: "Código inactivo" });
+      }
+
+      const now = new Date();
+      if (discountCode.validFrom && new Date(discountCode.validFrom) > now) {
+        return res.status(400).json({ valid: false, message: "Código aún no válido" });
+      }
+      if (discountCode.validUntil && new Date(discountCode.validUntil) < now) {
+        return res.status(400).json({ valid: false, message: "Código expirado" });
+      }
+
+      if (discountCode.maxUses && discountCode.usedCount >= discountCode.maxUses) {
+        return res.status(400).json({ valid: false, message: "Código agotado" });
+      }
+
+      if (discountCode.minOrderAmount && orderAmount && orderAmount < discountCode.minOrderAmount) {
+        return res.status(400).json({ valid: false, message: `Pedido mínimo: ${(discountCode.minOrderAmount / 100).toFixed(2)}€` });
+      }
+
+      // Calculate discount
+      let discountAmount = 0;
+      if (orderAmount) {
+        if (discountCode.discountType === 'percentage') {
+          discountAmount = Math.round((orderAmount * discountCode.discountValue) / 100);
+        } else {
+          discountAmount = discountCode.discountValue;
+        }
+      }
+
+      res.json({
+        valid: true,
+        code: discountCode.code,
+        discountType: discountCode.discountType,
+        discountValue: discountCode.discountValue,
+        discountAmount,
+        description: discountCode.description,
+      });
+    } catch (error) {
+      res.status(500).json({ valid: false, message: "Error validating code" });
     }
   });
 

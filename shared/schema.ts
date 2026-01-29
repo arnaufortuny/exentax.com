@@ -20,6 +20,9 @@ export const orders = pgTable("orders", {
   status: text("status").notNull().default("pending"), // pending, paid, processing, documents_ready, completed, cancelled
   stripeSessionId: text("stripe_session_id"),
   amount: integer("amount").notNull(),
+  originalAmount: integer("original_amount"), // original amount before discount
+  discountCode: varchar("discount_code", { length: 50 }),
+  discountAmount: integer("discount_amount").default(0), // discount in cents
   currency: varchar("currency", { length: 3 }).notNull().default("EUR"), // USD or EUR
   isInvoiceGenerated: boolean("is_invoice_generated").notNull().default(false),
   invoiceNumber: text("invoice_number"),
@@ -229,6 +232,26 @@ export const insertMaintenanceApplicationSchema = createInsertSchema(maintenance
 export const insertContactOtpSchema = createInsertSchema(contactOtps).omit({ id: true });
 export const insertOrderEventSchema = createInsertSchema(orderEvents).omit({ id: true, createdAt: true });
 export const insertMessageReplySchema = createInsertSchema(messageReplies).omit({ id: true, createdAt: true });
+
+// Discount codes table
+export const discountCodes = pgTable("discount_codes", {
+  id: serial("id").primaryKey(),
+  code: varchar("code", { length: 50 }).notNull().unique(),
+  description: text("description"),
+  discountType: varchar("discount_type", { length: 20 }).notNull().default("percentage"), // percentage or fixed
+  discountValue: integer("discount_value").notNull(), // percentage (0-100) or fixed amount in cents
+  minOrderAmount: integer("min_order_amount").default(0), // minimum order amount in cents
+  maxUses: integer("max_uses"), // null = unlimited
+  usedCount: integer("used_count").notNull().default(0),
+  validFrom: timestamp("valid_from").defaultNow(),
+  validUntil: timestamp("valid_until"),
+  isActive: boolean("is_active").notNull().default(true),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+export const insertDiscountCodeSchema = createInsertSchema(discountCodes).omit({ id: true, createdAt: true, usedCount: true });
+export type DiscountCode = typeof discountCodes.$inferSelect;
+export type InsertDiscountCode = z.infer<typeof insertDiscountCodeSchema>;
 
 export type MaintenanceApplication = typeof maintenanceApplications.$inferSelect;
 export type Product = typeof products.$inferSelect;
