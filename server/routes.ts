@@ -2022,7 +2022,7 @@ export async function registerRoutes(
             companyNameOption2: updatedApp.companyNameOption2 || undefined,
             designator: updatedApp.designator || undefined,
             state: updatedApp.state || undefined,
-            businessCategory: updatedApp.businessCategory === "Otra (especificar)" ? updatedApp.businessCategoryOther : updatedApp.businessCategory || undefined,
+            businessCategory: updatedApp.businessCategory === "Otra (especificar)" ? (updatedApp.businessCategoryOther || undefined) : (updatedApp.businessCategory || undefined),
             businessActivity: updatedApp.businessActivity || undefined,
             companyDescription: updatedApp.companyDescription || undefined,
             isSellingOnline: updatedApp.isSellingOnline || undefined,
@@ -2585,7 +2585,7 @@ export async function registerRoutes(
           sendEmail({
             to: user.email,
             subject: "Actualización de tu pedido",
-            html: getOrderEventTemplate(user.firstName || 'Cliente', orderId, eventType, description)
+            html: getOrderEventTemplate(user.firstName || 'Cliente', String(orderId), eventType, description)
           }).catch(() => {});
         }
       }
