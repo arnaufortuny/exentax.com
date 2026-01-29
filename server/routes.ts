@@ -7,7 +7,7 @@ import { z } from "zod";
 import { insertLlcApplicationSchema, insertApplicationDocumentSchema } from "@shared/schema";
 import type { Request, Response } from "express";
 import { db } from "./db";
-import { sendEmail, getOtpEmailTemplate, getConfirmationEmailTemplate, getWelcomeEmailTemplate, getNewsletterWelcomeTemplate, getAutoReplyTemplate, getEmailFooter, getEmailHeader, getOrderUpdateTemplate, getNoteReceivedTemplate, getAccountDeactivatedTemplate, getClaudiaMessageTemplate } from "./lib/email";
+import { sendEmail, sendTrustpilotEmail, getOtpEmailTemplate, getConfirmationEmailTemplate, getWelcomeEmailTemplate, getNewsletterWelcomeTemplate, getAutoReplyTemplate, getEmailFooter, getEmailHeader, getOrderUpdateTemplate, getNoteReceivedTemplate, getAccountDeactivatedTemplate, getClaudiaMessageTemplate } from "./lib/email";
 import { contactOtps, products as productsTable, users as usersTable, maintenanceApplications, newsletterSubscribers, messages as messagesTable, orderEvents, messageReplies, userNotifications, orders as ordersTable, llcApplications as llcApplicationsTable, applicationDocuments as applicationDocumentsTable, discountCodes } from "@shared/schema";
 import { and, eq, gt, desc, sql } from "drizzle-orm";
 import puppeteer from "puppeteer";
@@ -149,11 +149,19 @@ export async function registerRoutes(
       };
       const statusLabel = statusLabels[status] || status.replace(/_/g, " ");
 
-      // If order completed, upgrade user to VIP status
+      // If order completed, upgrade user to VIP status and send Trustpilot email
       if (status === 'completed' && order.userId) {
         await db.update(usersTable)
           .set({ accountStatus: 'vip' })
           .where(eq(usersTable.id, order.userId));
+        
+        // Send Trustpilot review request email
+        const orderCode = order.application?.requestCode || order.maintenanceApplication?.requestCode || order.invoiceNumber || `#${order.id}`;
+        sendTrustpilotEmail({
+          to: order.user.email,
+          name: order.user.firstName || "Cliente",
+          orderNumber: orderCode
+        }).catch(() => {});
       }
 
       // Create Notification in Dashboard
