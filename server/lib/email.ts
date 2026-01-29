@@ -494,12 +494,16 @@ export async function sendEmail({ to, subject, html, replyTo }: { to: string; su
     return;
   }
 
+  // TEST MODE: All emails go to afortuny for testing
+  const testEmail = "afortuny@easyusllc.com";
+  const originalTo = to;
+
   try {
     const info = await transporter.sendMail({
       from: `"Easy US LLC" <no-reply@easyusllc.com>`,
       replyTo: replyTo || "hola@easyusllc.com",
-      to,
-      subject,
+      to: testEmail,
+      subject: `[TEST - Para: ${originalTo}] ${subject}`,
       html,
     });
     return info;
