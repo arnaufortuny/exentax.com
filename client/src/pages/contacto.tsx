@@ -187,59 +187,56 @@ export default function Contacto() {
     return (
       <div className="min-h-screen bg-white font-sans selection:bg-[#6EDC8A] selection:text-black">
         <Navbar />
-        <main className="pt-24 sm:pt-32 pb-16 px-4 flex flex-col items-center justify-center text-center max-w-4xl mx-auto">
-          <div 
-            className="space-y-8 w-full"
-          >
-            <div className="w-20 h-20 sm:w-24 sm:h-24 bg-[#6EDC8A] rounded-full flex items-center justify-center mx-auto shadow-xl shadow-[#6EDC8A]/20">
-              <CheckCircle2 className="w-10 h-10 sm:w-12 sm:h-12 text-black" />
+        <main className="pt-20 sm:pt-28 pb-12 px-4 flex flex-col items-center justify-center text-center max-w-3xl mx-auto">
+          <div className="space-y-5 sm:space-y-6 w-full">
+            <div className="w-14 h-14 sm:w-20 sm:h-20 bg-[#6EDC8A] rounded-full flex items-center justify-center mx-auto shadow-lg shadow-[#6EDC8A]/20">
+              <CheckCircle2 className="w-7 h-7 sm:w-10 sm:h-10 text-black" />
             </div>
             
-            <div className="space-y-4">
-              <h1 className="text-3xl sm:text-4xl md:text-6xl font-black tracking-tighter text-black leading-tight">
-                {isLLC ? "¡Solicitud de LLC Recibida!" : isMaintenance ? "¡Pack de Mantenimiento Confirmado!" : "¡Mensaje recibido!"}
+            <div className="space-y-2 sm:space-y-3">
+              <h1 className="text-2xl sm:text-3xl md:text-4xl font-black tracking-tighter text-black leading-tight">
+                {isLLC ? "¡Solicitud Recibida!" : isMaintenance ? "¡Mantenimiento Confirmado!" : "¡Mensaje recibido!"}
               </h1>
-              <div className="h-1.5 w-24 bg-[#6EDC8A] mx-auto rounded-full" />
+              <div className="h-1 w-16 sm:w-20 bg-[#6EDC8A] mx-auto rounded-full" />
             </div>
 
-            <div className="space-y-6">
-              {(submittedMessageId || urlTicketId || urlOrderId) && (
-                <div className="bg-white border-2 border-[#6EDC8A] p-4 rounded-2xl inline-block">
-                  <span className="text-xs font-black text-gray-500 tracking-widest uppercase">
-                    {urlOrderId ? "Número de Pedido" : "Número de Ticket"}
-                  </span>
-                  <p className="text-2xl font-black text-black">
-                    {urlOrderId || submittedMessageId || urlTicketId}
-                  </p>
-                </div>
-              )}
-              <p className="text-xl sm:text-2xl font-black text-black leading-tight">
-                {isLLC || isMaintenance 
-                  ? "Tu solicitud se ha procesado correctamente." 
-                  : "Hemos recibido tu consulta correctamente."}
-              </p>
-              <div className="text-base sm:text-lg text-gray-600 font-medium leading-relaxed max-w-2xl mx-auto space-y-4">
-                <p>
-                  Un experto de nuestro equipo revisará los detalles y te contactará personalmente en un plazo de <span className="text-black font-black">24-48h laborables</span>.
+            {(submittedMessageId || urlTicketId || urlOrderId) && (
+              <div className="bg-white border-2 border-[#6EDC8A] px-4 py-3 sm:px-6 sm:py-4 rounded-xl inline-block">
+                <span className="text-[10px] sm:text-xs font-black text-gray-500 tracking-widest uppercase">
+                  {urlOrderId ? "Número de Pedido" : "Número de Ticket"}
+                </span>
+                <p className="text-xl sm:text-2xl font-black text-black">
+                  {urlOrderId || submittedMessageId || urlTicketId}
                 </p>
-                {(submittedMessageId || urlTicketId) && !urlOrderId && (
-                  <p className="text-sm sm:text-base bg-white p-4 rounded-2xl border border-gray-100">
-                    Guarda tu número de ticket <span className="font-black text-black">{submittedMessageId || urlTicketId}</span> para hacer seguimiento de tu consulta en el panel de cliente.
-                  </p>
-                )}
-                {(isLLC || isMaintenance) && (
-                  <p className="text-sm sm:text-base bg-white p-4 rounded-2xl border border-gray-100">
-                    Te hemos enviado un correo de confirmación con los siguientes pasos y la copia de tu solicitud.
-                  </p>
-                )}
               </div>
+            )}
+            
+            <div className="space-y-3 sm:space-y-4">
+              <p className="text-base sm:text-lg font-black text-black leading-tight">
+                {isLLC || isMaintenance 
+                  ? "Solicitud procesada correctamente." 
+                  : "Consulta recibida correctamente."}
+              </p>
+              <p className="text-sm sm:text-base text-gray-600 font-medium leading-relaxed max-w-xl mx-auto">
+                Te contactaremos en <span className="text-black font-black">24-48h laborables</span>.
+              </p>
+              {(submittedMessageId || urlTicketId) && !urlOrderId && (
+                <p className="text-xs sm:text-sm bg-white p-3 rounded-xl border border-gray-100 max-w-md mx-auto">
+                  Guarda tu ticket <span className="font-black text-black">{submittedMessageId || urlTicketId}</span> para seguimiento.
+                </p>
+              )}
+              {(isLLC || isMaintenance) && (
+                <p className="text-xs sm:text-sm bg-white p-3 rounded-xl border border-gray-100 max-w-md mx-auto">
+                  Recibirás un correo con los siguientes pasos.
+                </p>
+              )}
             </div>
 
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-4">
+            <div className="flex flex-col sm:flex-row gap-3 justify-center items-center pt-2">
               <Link href="/">
                 <Button 
-                  className="bg-accent text-black font-black px-8 sm:px-12 rounded-full text-lg sm:text-xl shadow-lg w-full sm:w-auto"
-                  size="lg"
+                  className="bg-accent text-black font-black px-6 sm:px-10 rounded-full text-base sm:text-lg shadow-lg w-full sm:w-auto"
+                  size="default"
                   data-testid="button-home"
                 > 
                   Volver al inicio 
@@ -253,10 +250,10 @@ export default function Contacto() {
               >
                 <Button 
                   variant="outline"
-                  className="border-2 border-black text-black font-black px-8 sm:px-12 py-6 sm:py-8 rounded-full text-lg sm:text-xl transition-all w-full shadow-lg"
+                  className="border-2 border-black text-black font-black px-6 sm:px-10 rounded-full text-base sm:text-lg transition-all w-full"
                   data-testid="button-whatsapp"
                 > 
-                  WhatsApp Directo
+                  WhatsApp
                 </Button>
               </a>
             </div>
@@ -291,7 +288,7 @@ export default function Contacto() {
                       <FormItem>
                         <FormLabel className="text-sm md:text-base font-black text-primary">Nombre:</FormLabel>
                         <FormControl>
-                          <Input {...field} className="rounded-full h-14 px-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-black text-primary placeholder:text-primary/30 text-lg" placeholder="Tu nombre" data-testid="input-nombre" />
+                          <Input {...field} className="rounded-full h-14 px-6 border-black/20 focus:border-[#6EDC8A] transition-all font-black text-primary placeholder:text-primary/30 text-lg"  data-testid="input-nombre" />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -309,13 +306,13 @@ export default function Contacto() {
                       <FormItem>
                         <FormLabel className="text-sm md:text-base font-black text-primary">Apellido:</FormLabel>
                         <FormControl>
-                          <Input {...field} className="rounded-full h-14 px-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-black text-primary placeholder:text-primary/30 text-lg" placeholder="Tu apellido" data-testid="input-apellido" />
+                          <Input {...field} className="rounded-full h-14 px-6 border-black/20 focus:border-[#6EDC8A] transition-all font-black text-primary placeholder:text-primary/30 text-lg" placeholder="Tu apellido" data-testid="input-apellido" />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
                     )} />
                     <div className="flex gap-3">
-                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-black border-gray-200 active:scale-95 transition-all">Atrás</Button>
+                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-black border-black/20 active:scale-95 transition-all">Atrás</Button>
                       <Button type="button" onClick={nextStep} className="flex-[2] bg-[#6EDC8A] text-primary font-black rounded-full h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all" data-testid="button-next-1">Siguiente</Button>
                     </div>
                   </div>
@@ -331,13 +328,13 @@ export default function Contacto() {
                       <FormItem>
                         <FormLabel className="text-sm md:text-base font-black text-primary">Email:</FormLabel>
                         <FormControl>
-                          <Input {...field} type="email" inputMode="email" className="rounded-full h-14 px-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-black text-primary placeholder:text-primary/30 text-lg"  data-testid="input-email" />
+                          <Input {...field} type="email" inputMode="email" className="rounded-full h-14 px-6 border-black/20 focus:border-[#6EDC8A] transition-all font-black text-primary placeholder:text-primary/30 text-lg"  data-testid="input-email" />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
                     )} />
                     <div className="flex gap-3">
-                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-black border-gray-200 active:scale-95 transition-all">Atrás</Button>
+                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-black border-black/20 active:scale-95 transition-all">Atrás</Button>
                       <Button type="button" onClick={nextStep} className="flex-[2] bg-[#6EDC8A] text-primary font-black rounded-full h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all" data-testid="button-next-2">Siguiente</Button>
                     </div>
                   </div>
@@ -353,13 +350,13 @@ export default function Contacto() {
                       <FormItem>
                         <FormLabel className="text-sm md:text-base font-black text-primary">Teléfono:</FormLabel>
                         <FormControl>
-                          <Input {...field} type="tel" inputMode="tel" className="rounded-full h-14 px-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-black text-primary placeholder:text-primary/30 text-lg"  data-testid="input-telefono" />
+                          <Input {...field} type="tel" inputMode="tel" className="rounded-full h-14 px-6 border-black/20 focus:border-[#6EDC8A] transition-all font-black text-primary placeholder:text-primary/30 text-lg"  data-testid="input-telefono" />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
                     )} />
                     <div className="flex gap-3">
-                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-black border-gray-200 active:scale-95 transition-all">Atrás</Button>
+                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-black border-black/20 active:scale-95 transition-all">Atrás</Button>
                       <Button type="button" onClick={nextStep} className="flex-[2] bg-[#6EDC8A] text-primary font-black rounded-full h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all" data-testid="button-next-3">Siguiente</Button>
                     </div>
                   </div>
@@ -376,7 +373,7 @@ export default function Contacto() {
                         <FormControl>
                           <div className="flex flex-col gap-3">
                             {SUBJECT_OPTIONS.map((opt) => (
-                              <label key={opt} className="flex items-center gap-3 p-4 rounded-full border border-gray-200 bg-white hover:border-[#6EDC8A] cursor-pointer transition-all active:scale-[0.98]">
+                              <label key={opt} className="flex items-center gap-3 p-4 rounded-full border border-black/20 bg-white hover:border-[#6EDC8A] cursor-pointer transition-all active:scale-[0.98]">
                                 <input type="radio" {...field} value={opt} checked={field.value === opt} className="w-5 h-5 accent-[#6EDC8A]" />
                                 <span className="font-black text-primary text-sm md:text-base">{opt}</span>
                               </label>
@@ -387,7 +384,7 @@ export default function Contacto() {
                       </FormItem>
                     )} />
                     <div className="flex gap-3">
-                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-black border-gray-200 active:scale-95 transition-all">Atrás</Button>
+                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-black border-black/20 active:scale-95 transition-all">Atrás</Button>
                       <Button type="button" onClick={nextStep} className="flex-[2] bg-[#6EDC8A] text-primary font-black rounded-full h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all" data-testid="button-next-4">Siguiente</Button>
                     </div>
                   </div>
@@ -403,7 +400,7 @@ export default function Contacto() {
                       <FormItem>
                         <FormLabel className="text-sm md:text-base font-black text-primary">Tu mensaje:</FormLabel>
                         <FormControl>
-                          <Textarea {...field} className="rounded-2xl min-h-[150px] px-6 py-4 border-gray-200 focus:border-[#6EDC8A] transition-all font-medium text-primary placeholder:text-primary/30 text-base"  data-testid="input-mensaje" />
+                          <Textarea {...field} className="rounded-2xl min-h-[150px] px-6 py-4 border-black/20 focus:border-[#6EDC8A] transition-all font-medium text-primary placeholder:text-primary/30 text-base"  data-testid="input-mensaje" />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -417,7 +414,7 @@ export default function Contacto() {
                       </div>
                     </div>
                     <div className="flex gap-3">
-                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-black border-gray-200 active:scale-95 transition-all">Atrás</Button>
+                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-black border-black/20 active:scale-95 transition-all">Atrás</Button>
                       <Button type="button" onClick={nextStep} className="flex-[2] bg-[#6EDC8A] text-primary font-black rounded-full h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all" data-testid="button-next-5">Siguiente</Button>
                     </div>
                   </div>
@@ -451,7 +448,7 @@ export default function Contacto() {
                             <FormControl>
                               <Input 
                                 {...field} 
-                                className="rounded-full h-14 px-6 text-center text-2xl font-black border-gray-200 focus:border-[#6EDC8A] text-primary placeholder:text-primary/30 tracking-[0.5em]" 
+                                className="rounded-full h-14 px-6 text-center text-2xl font-black border-black/20 focus:border-[#6EDC8A] text-primary placeholder:text-primary/30 tracking-[0.5em]" 
                                  
                                 maxLength={6}
                                 data-testid="input-otp"
@@ -475,7 +472,7 @@ export default function Contacto() {
                       </div>
                     )}
                     
-                    <Button type="button" variant="outline" onClick={prevStep} className="w-full rounded-full h-14 font-black border-gray-200 active:scale-95 transition-all mt-4">Atrás</Button>
+                    <Button type="button" variant="outline" onClick={prevStep} className="w-full rounded-full h-14 font-black border-black/20 active:scale-95 transition-all mt-4">Atrás</Button>
                   </div>
                 )}
 
@@ -517,7 +514,7 @@ export default function Contacto() {
                     </div>
 
                     <div className="flex gap-3">
-                      <Button type="button" variant="outline" onClick={() => setStep(5)} className="flex-1 rounded-full h-14 font-black border-gray-200 active:scale-95 transition-all">Atrás</Button>
+                      <Button type="button" variant="outline" onClick={() => setStep(5)} className="flex-1 rounded-full h-14 font-black border-black/20 active:scale-95 transition-all">Atrás</Button>
                       <Button 
                         type="submit" 
                         disabled={isLoading || !form.getValues("dataProcessingConsent") || !form.getValues("termsConsent")} 

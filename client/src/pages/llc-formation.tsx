@@ -495,7 +495,7 @@ export default function LlcFormation() {
                 <FormField control={form.control} name="ownerFullName" render={({ field }) => (
                   <FormItem>
                     <FormLabel className="font-black  text-[10px] md:text-xs tracking-widest opacity-60">Nombre completo:</FormLabel>
-                    <FormControl><Input {...field} className="rounded-full h-14 px-6 border-gray-100 focus:border-accent"  /></FormControl>
+                    <FormControl><Input {...field} className="rounded-full h-14 px-6 border-black/20 focus:border-accent"  /></FormControl>
                     <FormMessage />
                   </FormItem>
                 )} />
@@ -510,12 +510,12 @@ export default function LlcFormation() {
                 <FormField control={form.control} name="ownerEmail" render={({ field }) => (
                   <FormItem>
                     <FormLabel className="font-black  text-[10px] md:text-xs tracking-widest opacity-60">Email:</FormLabel>
-                    <FormControl><Input {...field} type="email" className="rounded-full h-14 px-6 border-gray-100 focus:border-accent"  /></FormControl>
+                    <FormControl><Input {...field} type="email" className="rounded-full h-14 px-6 border-black/20 focus:border-accent"  /></FormControl>
                     <FormMessage />
                   </FormItem>
                 )} />
                 <div className="flex gap-3">
-                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-black border-gray-100 active:scale-95 transition-all">ATRÁS</Button>
+                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-black border-black/20 active:scale-95 transition-all">ATRÁS</Button>
                   <Button type="button" onClick={nextStep} className="flex-2 bg-accent text-primary font-black rounded-full h-14 shadow-lg shadow-accent/20 active:scale-95 transition-all">SIGUIENTE</Button>
                 </div>
               </div>
@@ -528,12 +528,12 @@ export default function LlcFormation() {
                 <FormField control={form.control} name="ownerPhone" render={({ field }) => (
                   <FormItem>
                     <FormLabel className="font-black  text-[10px] md:text-xs tracking-widest opacity-60">Teléfono:</FormLabel>
-                    <FormControl><Input {...field} className="rounded-full h-14 px-6 border-gray-100 focus:border-accent"  /></FormControl>
+                    <FormControl><Input {...field} className="rounded-full h-14 px-6 border-black/20 focus:border-accent"  /></FormControl>
                     <FormMessage />
                   </FormItem>
                 )} />
                 <div className="flex gap-3">
-                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-black border-gray-100 active:scale-95 transition-all">ATRÁS</Button>
+                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-black border-black/20 active:scale-95 transition-all">ATRÁS</Button>
                   <Button type="button" onClick={nextStep} className="flex-2 bg-accent text-primary font-black rounded-full h-14 shadow-lg shadow-accent/20 active:scale-95 transition-all">SIGUIENTE</Button>
                 </div>
               </div>
@@ -546,12 +546,12 @@ export default function LlcFormation() {
                 <FormField control={form.control} name="companyName" render={({ field }) => (
                   <FormItem>
                     <FormLabel className="font-black  text-[10px] md:text-xs tracking-widest opacity-60">Nombre deseado:</FormLabel>
-                    <FormControl><Input {...field} className="rounded-full h-14 px-6 border-gray-100 focus:border-accent"  /></FormControl>
+                    <FormControl><Input {...field} className="rounded-full h-14 px-6 border-black/20 focus:border-accent"  /></FormControl>
                     <FormMessage />
                   </FormItem>
                 )} />
                 <div className="flex gap-3">
-                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-black border-gray-100 active:scale-95 transition-all">ATRÁS</Button>
+                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-black border-black/20 active:scale-95 transition-all">ATRÁS</Button>
                   <Button type="button" onClick={nextStep} className="flex-2 bg-accent text-primary font-black rounded-full h-14 shadow-lg shadow-accent/20 active:scale-95 transition-all">SIGUIENTE</Button>
                 </div>
               </div>
@@ -565,20 +565,20 @@ export default function LlcFormation() {
                   <FormField control={form.control} name="companyNameOption2" render={({ field }) => (
                     <FormItem>
                       <FormLabel className="font-black  text-[10px] md:text-xs tracking-widest opacity-60">Nombre alternativo 1:</FormLabel>
-                      <FormControl><Input {...field} className="rounded-full h-14 px-6 border-gray-100 focus:border-accent"  /></FormControl>
+                      <FormControl><Input {...field} className="rounded-full h-14 px-6 border-black/20 focus:border-accent"  /></FormControl>
                       <FormMessage />
                     </FormItem>
                   )} />
                   <FormField control={form.control} name="ownerNamesAlternates" render={({ field }) => (
                     <FormItem>
                       <FormLabel className="font-black  text-[10px] md:text-xs tracking-widest opacity-60">Nombre alternativo 2:</FormLabel>
-                      <FormControl><Input {...field} className="rounded-full h-14 px-6 border-gray-100 focus:border-accent"  /></FormControl>
+                      <FormControl><Input {...field} className="rounded-full h-14 px-6 border-black/20 focus:border-accent"  /></FormControl>
                       <FormMessage />
                     </FormItem>
                   )} />
                 </div>
                 <div className="flex gap-3">
-                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-black border-gray-100 active:scale-95 transition-all">ATRÁS</Button>
+                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-black border-black/20 active:scale-95 transition-all">ATRÁS</Button>
                   <Button type="button" onClick={nextStep} className="flex-2 bg-accent text-primary font-black rounded-full h-14 shadow-lg shadow-accent/20 active:scale-95 transition-all">SIGUIENTE</Button>
                 </div>
               </div>
@@ -593,7 +593,7 @@ export default function LlcFormation() {
                     <FormControl>
                       <div className="flex flex-col gap-3">
                         {["New Mexico", "Wyoming", "Delaware"].map(opt => (
-                          <label key={opt} className="flex items-center gap-3 p-4 rounded-full border border-gray-100 bg-white hover:border-accent cursor-pointer transition-all active:scale-[0.98]">
+                          <label key={opt} className="flex items-center gap-3 p-4 rounded-full border border-black/20 bg-white hover:border-accent cursor-pointer transition-all active:scale-[0.98]">
                             <input type="radio" {...field} value={opt} checked={field.value === opt} className="w-5 h-5 accent-accent" />
                             <span className="font-black text-primary text-sm md:text-base">{opt}</span>
                           </label>
@@ -603,7 +603,7 @@ export default function LlcFormation() {
                   </FormItem>
                 )} />
                 <div className="flex gap-3">
-                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-black border-gray-100 active:scale-95 transition-all">ATRÁS</Button>
+                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-black border-black/20 active:scale-95 transition-all">ATRÁS</Button>
                   <Button type="button" onClick={nextStep} className="flex-2 bg-accent text-primary font-black rounded-full h-14 shadow-lg shadow-accent/20 active:scale-95 transition-all">SIGUIENTE</Button>
                 </div>
               </div>
@@ -617,11 +617,11 @@ export default function LlcFormation() {
                   <FormItem>
                     <FormControl>
                       <div className="flex flex-col gap-3">
-                        <label className="flex items-center gap-3 p-4 rounded-full border border-gray-100 bg-white hover:border-accent cursor-pointer transition-all active:scale-[0.98]">
+                        <label className="flex items-center gap-3 p-4 rounded-full border border-black/20 bg-white hover:border-accent cursor-pointer transition-all active:scale-[0.98]">
                           <input type="radio" onChange={() => field.onChange(1)} checked={field.value === 1} className="w-5 h-5 accent-accent" />
                           <span className="font-black text-primary text-sm md:text-base">Solo yo</span>
                         </label>
-                        <label className="flex items-center gap-3 p-4 rounded-full border border-gray-100 bg-white hover:border-accent cursor-pointer transition-all active:scale-[0.98]">
+                        <label className="flex items-center gap-3 p-4 rounded-full border border-black/20 bg-white hover:border-accent cursor-pointer transition-all active:scale-[0.98]">
                           <input type="radio" onChange={() => field.onChange(2)} checked={field.value > 1} className="w-5 h-5 accent-accent" />
                           <span className="font-black text-primary text-sm md:text-base">Varios socios</span>
                         </label>
@@ -633,13 +633,13 @@ export default function LlcFormation() {
                   <FormField control={form.control} name="ownerCount" render={({ field }) => (
                     <FormItem>
                       <FormLabel className="font-black  text-[10px] md:text-xs tracking-widest opacity-60">8️⃣ Número de miembros:</FormLabel>
-                      <FormControl><Input type="number" {...field} onChange={e => field.onChange(parseInt(e.target.value))} className="rounded-full h-14 px-6 border-gray-100 focus:border-accent" min={2} /></FormControl>
+                      <FormControl><Input type="number" {...field} onChange={e => field.onChange(parseInt(e.target.value))} className="rounded-full h-14 px-6 border-black/20 focus:border-accent" min={2} /></FormControl>
                       <FormMessage />
                     </FormItem>
                   )} />
                 )}
                 <div className="flex gap-3">
-                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-black border-gray-100 active:scale-95 transition-all">ATRÁS</Button>
+                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-black border-black/20 active:scale-95 transition-all">ATRÁS</Button>
                   <Button type="button" onClick={nextStep} className="flex-2 bg-accent text-primary font-black rounded-full h-14 shadow-lg shadow-accent/20 active:scale-95 transition-all">SIGUIENTE</Button>
                 </div>
               </div>
@@ -651,12 +651,12 @@ export default function LlcFormation() {
                 <FormField control={form.control} name="ownerCountryResidency" render={({ field }) => (
                   <FormItem>
                     <FormLabel className="font-black  text-[10px] md:text-xs tracking-widest opacity-60">País:</FormLabel>
-                    <FormControl><Input {...field} className="rounded-full h-14 px-6 border-gray-100 focus:border-accent"  /></FormControl>
+                    <FormControl><Input {...field} className="rounded-full h-14 px-6 border-black/20 focus:border-accent"  /></FormControl>
                     <FormMessage />
                   </FormItem>
                 )} />
                 <div className="flex gap-3">
-                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-black border-gray-100 active:scale-95 transition-all">ATRÁS</Button>
+                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-black border-black/20 active:scale-95 transition-all">ATRÁS</Button>
                   <Button type="button" onClick={nextStep} className="flex-2 bg-accent text-primary font-black rounded-full h-14 shadow-lg shadow-accent/20 active:scale-95 transition-all">SIGUIENTE</Button>
                 </div>
               </div>
@@ -669,12 +669,12 @@ export default function LlcFormation() {
                 <FormField control={form.control} name="ownerAddress" render={({ field }) => (
                   <FormItem>
                     <FormLabel className="font-black  text-[10px] md:text-xs tracking-widest opacity-60">Dirección completa:</FormLabel>
-                    <FormControl><Textarea {...field} className="rounded-[2rem] min-h-[120px] p-6 border-gray-100 focus:border-accent"  /></FormControl>
+                    <FormControl><Textarea {...field} className="rounded-[2rem] min-h-[120px] p-6 border-black/20 focus:border-accent"  /></FormControl>
                     <FormMessage />
                   </FormItem>
                 )} />
                 <div className="flex gap-3">
-                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-black border-gray-100 active:scale-95 transition-all">ATRÁS</Button>
+                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-black border-black/20 active:scale-95 transition-all">ATRÁS</Button>
                   <Button type="button" onClick={nextStep} className="flex-2 bg-accent text-primary font-black rounded-full h-14 shadow-lg shadow-accent/20 active:scale-95 transition-all">SIGUIENTE</Button>
                 </div>
               </div>
@@ -686,12 +686,12 @@ export default function LlcFormation() {
                 <FormField control={form.control} name="ownerBirthDate" render={({ field }) => (
                   <FormItem>
                     <FormLabel className="font-black  text-[10px] md:text-xs tracking-widest opacity-60">Fecha:</FormLabel>
-                    <FormControl><Input {...field} type="date" className="rounded-full h-14 px-6 border-gray-100 focus:border-accent" /></FormControl>
+                    <FormControl><Input {...field} type="date" className="rounded-full h-14 px-6 border-black/20 focus:border-accent" /></FormControl>
                     <FormMessage />
                   </FormItem>
                 )} />
                 <div className="flex gap-3">
-                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-black border-gray-100 active:scale-95 transition-all">ATRÁS</Button>
+                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-black border-black/20 active:scale-95 transition-all">ATRÁS</Button>
                   <Button type="button" onClick={nextStep} className="flex-2 bg-accent text-primary font-black rounded-full h-14 shadow-lg shadow-accent/20 active:scale-95 transition-all">SIGUIENTE</Button>
                 </div>
               </div>
@@ -702,7 +702,7 @@ export default function LlcFormation() {
                 <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight">1️⃣2️⃣ Documento de identidad</h2>
                 <FormDescription>DNI o pasaporte en vigor (puedes proporcionarlo más tarde)</FormDescription>
                 <div className="space-y-4">
-                  <div className="border-2 border-dashed border-gray-100 rounded-[2rem] p-8 md:p-12 text-center hover:border-accent transition-colors cursor-pointer bg-white">
+                  <div className="border-2 border-dashed border-black/20 rounded-[2rem] p-8 md:p-12 text-center hover:border-accent transition-colors cursor-pointer bg-white">
                     <Upload className="w-10 h-10 md:w-12 md:h-12 text-gray-300 mx-auto mb-4" />
                     <p className="font-black text-primary text-sm">Subir archivo o arrastrar</p>
                     <p className="text-[10px] text-gray-400 mt-2">JPG, PNG, PDF (Máx 10MB)</p>
@@ -710,11 +710,11 @@ export default function LlcFormation() {
                   <FormField control={form.control} name="idDocumentUrl" render={({ field }) => (
                     <FormItem>
                       <FormLabel className="font-black  text-[10px] md:text-xs tracking-widest opacity-60">ID del documento (opcional):</FormLabel>
-                      <FormControl><Input {...field} className="rounded-full h-14 px-6 border-gray-100 focus:border-accent"  /></FormControl>
+                      <FormControl><Input {...field} className="rounded-full h-14 px-6 border-black/20 focus:border-accent"  /></FormControl>
                       <FormMessage />
                     </FormItem>
                   )} />
-                  <label className="flex items-center gap-3 p-4 rounded-[2rem] border border-gray-100 bg-white hover:border-accent cursor-pointer transition-all">
+                  <label className="flex items-center gap-3 p-4 rounded-[2rem] border border-black/20 bg-white hover:border-accent cursor-pointer transition-all">
                     <Checkbox 
                       checked={form.getValues("idDocumentUrl") === "PENDIENTE"}
                       onCheckedChange={(checked) => {
@@ -729,7 +729,7 @@ export default function LlcFormation() {
                   </label>
                 </div>
                 <div className="flex gap-3">
-                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-black border-gray-100 active:scale-95 transition-all">ATRÁS</Button>
+                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-black border-black/20 active:scale-95 transition-all">ATRÁS</Button>
                   <Button type="button" onClick={nextStep} className="flex-2 bg-accent text-primary font-black rounded-full h-14 shadow-lg shadow-accent/20 active:scale-95 transition-all">SIGUIENTE</Button>
                 </div>
               </div>
@@ -741,12 +741,12 @@ export default function LlcFormation() {
                 <FormDescription>Explícalo con tus palabras, sin tecnicismos</FormDescription>
                 <FormField control={form.control} name="businessActivity" render={({ field }) => (
                   <FormItem>
-                    <FormControl><Textarea {...field} className="rounded-[2rem] min-h-[120px] p-6 border-gray-100 focus:border-accent"  /></FormControl>
+                    <FormControl><Textarea {...field} className="rounded-[2rem] min-h-[120px] p-6 border-black/20 focus:border-accent"  /></FormControl>
                     <FormMessage />
                   </FormItem>
                 )} />
                 <div className="flex gap-3">
-                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-black border-gray-100 active:scale-95 transition-all">ATRÁS</Button>
+                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-black border-black/20 active:scale-95 transition-all">ATRÁS</Button>
                   <Button type="button" onClick={nextStep} className="flex-2 bg-accent text-primary font-black rounded-full h-14 shadow-lg shadow-accent/20 active:scale-95 transition-all">SIGUIENTE</Button>
                 </div>
               </div>
@@ -761,7 +761,7 @@ export default function LlcFormation() {
                       <FormControl>
                         <div className="flex flex-col gap-3">
                           {["Sí", "No", "Aún no lo sé"].map(opt => (
-                            <label key={opt} className="flex items-center gap-3 p-4 rounded-full border border-gray-100 bg-white hover:border-accent cursor-pointer transition-all active:scale-[0.98]">
+                            <label key={opt} className="flex items-center gap-3 p-4 rounded-full border border-black/20 bg-white hover:border-accent cursor-pointer transition-all active:scale-[0.98]">
                               <input type="radio" {...field} value={opt} checked={field.value === opt} className="w-5 h-5 accent-accent" />
                               <span className="font-black text-primary text-sm md:text-base">{opt}</span>
                             </label>
@@ -778,7 +778,7 @@ export default function LlcFormation() {
                       <FormControl>
                         <div className="flex flex-col gap-3">
                           {["Sí, Mercury", "Sí, Relay", "Aún no", "Ya tengo cuenta"].map(opt => (
-                            <label key={opt} className="flex items-center gap-3 p-4 rounded-full border border-gray-100 bg-white hover:border-accent cursor-pointer transition-all active:scale-[0.98]">
+                            <label key={opt} className="flex items-center gap-3 p-4 rounded-full border border-black/20 bg-white hover:border-accent cursor-pointer transition-all active:scale-[0.98]">
                               <input type="radio" {...field} value={opt} checked={field.value === opt} className="w-5 h-5 accent-accent" />
                               <span className="font-black text-primary text-sm md:text-base">{opt}</span>
                             </label>
@@ -795,7 +795,7 @@ export default function LlcFormation() {
                       <FormControl>
                         <div className="flex flex-col gap-3">
                           {["Stripe", "PayPal", "Ambas", "Otra", "No todavía"].map(opt => (
-                            <label key={opt} className="flex items-center gap-3 p-4 rounded-full border border-gray-100 bg-white hover:border-accent cursor-pointer transition-all active:scale-[0.98]">
+                            <label key={opt} className="flex items-center gap-3 p-4 rounded-full border border-black/20 bg-white hover:border-accent cursor-pointer transition-all active:scale-[0.98]">
                               <input type="radio" {...field} value={opt} checked={field.value === opt} className="w-5 h-5 accent-accent" />
                               <span className="font-black text-primary text-sm md:text-base">{opt}</span>
                             </label>
@@ -812,7 +812,7 @@ export default function LlcFormation() {
                       <FormControl>
                         <div className="flex flex-col gap-3">
                           {["Sí", "No", "Quiero que me expliquéis esto"].map(opt => (
-                            <label key={opt} className="flex items-center gap-3 p-4 rounded-full border border-gray-100 bg-white hover:border-accent cursor-pointer transition-all active:scale-[0.98]">
+                            <label key={opt} className="flex items-center gap-3 p-4 rounded-full border border-black/20 bg-white hover:border-accent cursor-pointer transition-all active:scale-[0.98]">
                               <input type="radio" {...field} value={opt} checked={field.value === opt} className="w-5 h-5 accent-accent" />
                               <span className="font-black text-primary text-sm md:text-base">{opt}</span>
                             </label>
@@ -829,7 +829,7 @@ export default function LlcFormation() {
                       <FormControl>
                         <div className="flex flex-col gap-3">
                           {["Sí", "No", "Quiero info"].map(opt => (
-                            <label key={opt} className="flex items-center gap-3 p-4 rounded-full border border-gray-100 bg-white hover:border-accent cursor-pointer transition-all active:scale-[0.98]">
+                            <label key={opt} className="flex items-center gap-3 p-4 rounded-full border border-black/20 bg-white hover:border-accent cursor-pointer transition-all active:scale-[0.98]">
                               <input type="radio" {...field} value={opt} checked={field.value === opt} className="w-5 h-5 accent-accent" />
                               <span className="font-black text-primary text-sm md:text-base">{opt}</span>
                             </label>
@@ -844,13 +844,13 @@ export default function LlcFormation() {
                     <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight">1️⃣9️⃣ ¿Algo más que debamos saber?</h2>
                     <FormField control={form.control} name="notes" render={({ field }) => (
                       <FormItem>
-                        <FormControl><Textarea {...field} className="rounded-[2rem] min-h-[120px] p-6 border-gray-100 focus:border-accent"  /></FormControl>
+                        <FormControl><Textarea {...field} className="rounded-[2rem] min-h-[120px] p-6 border-black/20 focus:border-accent"  /></FormControl>
                       </FormItem>
                     )} />
                   </>
                 )}
                 <div className="flex gap-3">
-                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-black border-gray-100 active:scale-95 transition-all">ATRÁS</Button>
+                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-black border-black/20 active:scale-95 transition-all">ATRÁS</Button>
                   <Button type="button" onClick={nextStep} className="flex-2 bg-accent text-primary font-black rounded-full h-14 shadow-lg shadow-accent/20 active:scale-95 transition-all">SIGUIENTE</Button>
                 </div>
               </div>
@@ -896,7 +896,7 @@ export default function LlcFormation() {
                                 type="text" 
                                 value={otpCode}
                                 onChange={(e) => setOtpCode(e.target.value.replace(/\D/g, '').slice(0, 6))}
-                                                                className="rounded-full p-6 border-gray-100 focus:border-accent text-center text-xl tracking-[0.5em] font-mono"
+                                                                className="rounded-full p-6 border-black/20 focus:border-accent text-center text-xl tracking-[0.5em] font-mono"
                                 maxLength={6}
                                 data-testid="input-otp-code"
                               />
@@ -937,7 +937,7 @@ export default function LlcFormation() {
                           <FormItem>
                             <FormLabel className="text-xs font-black text-primary tracking-widest">Contraseña</FormLabel>
                             <FormControl>
-                              <Input {...field} type="password"  className="rounded-full p-6 border-gray-100 focus:border-accent" data-testid="input-password" />
+                              <Input {...field} type="password"  className="rounded-full p-6 border-black/20 focus:border-accent" data-testid="input-password" />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
@@ -946,7 +946,7 @@ export default function LlcFormation() {
                           <FormItem>
                             <FormLabel className="text-xs font-black text-primary tracking-widest">Confirmar Contraseña</FormLabel>
                             <FormControl>
-                              <Input {...field} type="password"  className="rounded-full p-6 border-gray-100 focus:border-accent" data-testid="input-confirm-password" />
+                              <Input {...field} type="password"  className="rounded-full p-6 border-black/20 focus:border-accent" data-testid="input-confirm-password" />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
@@ -965,7 +965,7 @@ export default function LlcFormation() {
                 )}
                 
                 <div className="flex gap-3 pt-4">
-                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-black border-gray-100">ATRÁS</Button>
+                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-black border-black/20">ATRÁS</Button>
                   <Button 
                     type="button" 
                     onClick={nextStep} 
@@ -993,7 +993,7 @@ export default function LlcFormation() {
                 <FormField control={form.control} name="paymentMethod" render={({ field }) => (
                   <FormControl>
                     <div className="flex flex-col gap-4">
-                      <label className={`flex items-start gap-4 p-5 rounded-2xl border-2 cursor-pointer transition-all ${field.value === 'transfer' ? 'border-accent bg-accent/5' : 'border-gray-100 bg-white hover:border-accent/50'}`}>
+                      <label className={`flex items-start gap-4 p-5 rounded-2xl border-2 cursor-pointer transition-all ${field.value === 'transfer' ? 'border-accent bg-accent/5' : 'border-black/20 bg-white hover:border-accent/50'}`}>
                         <input type="radio" {...field} value="transfer" checked={field.value === 'transfer'} className="w-5 h-5 accent-accent mt-1" />
                         <div className="flex-1">
                           <span className="font-black text-primary text-sm block mb-2">Transferencia Bancaria</span>
@@ -1007,7 +1007,7 @@ export default function LlcFormation() {
                           </div>
                         </div>
                       </label>
-                      <label className={`flex items-start gap-4 p-5 rounded-2xl border-2 cursor-pointer transition-all ${field.value === 'link' ? 'border-accent bg-accent/5' : 'border-gray-100 bg-white hover:border-accent/50'}`}>
+                      <label className={`flex items-start gap-4 p-5 rounded-2xl border-2 cursor-pointer transition-all ${field.value === 'link' ? 'border-accent bg-accent/5' : 'border-black/20 bg-white hover:border-accent/50'}`}>
                         <input type="radio" {...field} value="link" checked={field.value === 'link'} className="w-5 h-5 accent-accent mt-1" />
                         <div className="flex-1">
                           <span className="font-black text-primary text-sm block mb-1">Link de Pago</span>
@@ -1019,7 +1019,7 @@ export default function LlcFormation() {
                 )} />
                 
                 <div className="flex gap-3 pt-4">
-                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-black border-gray-100">ATRÁS</Button>
+                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-black border-black/20">ATRÁS</Button>
                   <Button type="button" onClick={nextStep} className="flex-2 bg-accent text-primary font-black rounded-full h-14 shadow-lg shadow-accent/20">SIGUIENTE</Button>
                 </div>
               </div>
@@ -1041,11 +1041,11 @@ export default function LlcFormation() {
                 <div className="space-y-4">
                   <h3 className="text-[10px] font-black text-primary tracking-widest opacity-60">Consentimientos</h3>
                   <div className="space-y-3">
-                    <label className="flex items-start gap-4 p-4 rounded-[2rem] border border-gray-100 bg-white hover:border-accent cursor-pointer transition-all active:scale-[0.98]">
+                    <label className="flex items-start gap-4 p-4 rounded-[2rem] border border-black/20 bg-white hover:border-accent cursor-pointer transition-all active:scale-[0.98]">
                       <Checkbox checked={acceptedInfo} onCheckedChange={(checked) => setAcceptedInfo(!!checked)} className="mt-1" />
                       <span className="text-xs md:text-sm font-black text-primary leading-tight">Confirmo que la información es correcta y autorizo a Easy US LLC a procesar mi solicitud.</span>
                     </label>
-                    <label className="flex items-start gap-4 p-4 rounded-[2rem] border border-gray-100 bg-white hover:border-accent cursor-pointer transition-all active:scale-[0.98]">
+                    <label className="flex items-start gap-4 p-4 rounded-[2rem] border border-black/20 bg-white hover:border-accent cursor-pointer transition-all active:scale-[0.98]">
                       <Checkbox checked={acceptedTerms} onCheckedChange={(checked) => setAcceptedTerms(!!checked)} className="mt-1" />
                       <span className="text-xs md:text-sm font-black text-primary leading-tight">
                         Acepto los <Link href="/legal/terminos" className="text-accent underline" target="_blank">Términos y Condiciones</Link> de Easy US LLC y el tratamiento de mis datos.
