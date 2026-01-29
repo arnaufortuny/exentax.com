@@ -7,7 +7,7 @@ import { z } from "zod";
 import { insertLlcApplicationSchema, insertApplicationDocumentSchema } from "@shared/schema";
 import type { Request, Response } from "express";
 import { db } from "./db";
-import { sendEmail, sendTrustpilotEmail, getOtpEmailTemplate, getConfirmationEmailTemplate, getWelcomeEmailTemplate, getNewsletterWelcomeTemplate, getAutoReplyTemplate, getEmailFooter, getEmailHeader, getOrderUpdateTemplate, getNoteReceivedTemplate, getAccountDeactivatedTemplate, getAccountUnderReviewTemplate, getOrderCompletedTemplate } from "./lib/email";
+import { sendEmail, sendTrustpilotEmail, getOtpEmailTemplate, getConfirmationEmailTemplate, getWelcomeEmailTemplate, getNewsletterWelcomeTemplate, getAutoReplyTemplate, getEmailFooter, getEmailHeader, getOrderUpdateTemplate, getNoteReceivedTemplate, getAccountDeactivatedTemplate, getAccountUnderReviewTemplate, getOrderCompletedTemplate, getAccountVipTemplate, getAccountReactivatedTemplate } from "./lib/email";
 import { contactOtps, products as productsTable, users as usersTable, maintenanceApplications, newsletterSubscribers, messages as messagesTable, orderEvents, messageReplies, userNotifications, orders as ordersTable, llcApplications as llcApplicationsTable, applicationDocuments as applicationDocumentsTable, discountCodes } from "@shared/schema";
 import { and, eq, gt, desc, sql } from "drizzle-orm";
 import puppeteer from "puppeteer";
@@ -336,25 +336,50 @@ export async function registerRoutes(
       updatedAt: new Date()
     }).where(eq(usersTable.id, userId)).returning();
 
-    // Trigger emails if account is deactivated
-    if (data.accountStatus === 'deactivated') {
+    // Trigger emails based on account status change
+    if (data.accountStatus) {
       const [user] = await db.select().from(usersTable).where(eq(usersTable.id, userId)).limit(1);
       if (user && user.email) {
-        // Send deactivation email
-        await sendEmail({
-          to: user.email,
-          subject: "Notificación de estado de cuenta",
-          html: getAccountDeactivatedTemplate(user.firstName || "Cliente")
-        }).catch(() => {});
-
-        // Create notification for client
-        await db.insert(userNotifications).values({
-          userId,
-          title: "Cuenta desactivada",
-          message: "Tu cuenta ha sido desactivada. Contacta con soporte si tienes dudas.",
-          type: 'action_required',
-          isRead: false
-        });
+        if (data.accountStatus === 'deactivated') {
+          await sendEmail({
+            to: user.email,
+            subject: "Notificación de estado de cuenta",
+            html: getAccountDeactivatedTemplate(user.firstName || "Cliente")
+          }).catch(() => {});
+          await db.insert(userNotifications).values({
+            userId,
+            title: "Cuenta desactivada",
+            message: "Tu cuenta ha sido desactivada. Contacta con soporte si tienes dudas.",
+            type: 'action_required',
+            isRead: false
+          });
+        } else if (data.accountStatus === 'vip') {
+          await sendEmail({
+            to: user.email,
+            subject: "Tu cuenta ha sido actualizada a estado VIP",
+            html: getAccountVipTemplate(user.firstName || "Cliente")
+          }).catch(() => {});
+          await db.insert(userNotifications).values({
+            userId,
+            title: "Estado VIP activado",
+            message: "Tu cuenta ha sido actualizada al estado VIP con beneficios prioritarios.",
+            type: 'update',
+            isRead: false
+          });
+        } else if (data.accountStatus === 'active') {
+          await sendEmail({
+            to: user.email,
+            subject: "Tu cuenta ha sido reactivada",
+            html: getAccountReactivatedTemplate(user.firstName || "Cliente")
+          }).catch(() => {});
+          await db.insert(userNotifications).values({
+            userId,
+            title: "Cuenta reactivada",
+            message: "Tu cuenta ha sido reactivada y ya puedes acceder a todos los servicios.",
+            type: 'update',
+            isRead: false
+          });
+        }
       }
     }
 

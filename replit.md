@@ -129,11 +129,14 @@ The architecture includes:
 
 ## Email Templates & Subjects (January 2026)
 - **Professional Format:** All emails use simplified design without emojis
-- **10 Active Templates:** OTP, Welcome, Account Under Review, Confirmation, Auto-reply, Order Update, Order Completed, New Message Reply, Account Deactivated, Newsletter
+- **12 Active Templates:** OTP, Welcome, Account Under Review, Account VIP, Account Reactivated, Confirmation, Auto-reply, Order Update, Order Completed, New Message Reply, Account Deactivated, Newsletter
 - **Subject Line Format:** Clear and professional without emojis:
   - OTP: "Tu código de verificación | Easy US LLC"
   - Welcome: "Bienvenido a Easy US LLC - Acceso a tu panel"
+  - VIP: "Tu cuenta ha sido actualizada a estado VIP"
+  - Reactivated: "Tu cuenta ha sido reactivada"
   - Confirmation: "Solicitud recibida - Referencia [CODE]"
   - Auto-reply: "Hemos recibido tu mensaje - Ticket #[ID]"
   - Newsletter: "Confirmación de suscripción a Easy US LLC"
+- **Automatic Status Emails:** Emails sent automatically when admin changes account status (VIP, active, deactivated)
 - **Removed:** getClaudiaMessageTemplate (deprecated)
