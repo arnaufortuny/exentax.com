@@ -488,18 +488,6 @@ const transporter = nodemailer.createTransport({
   maxMessages: 100,
 });
 
-const trustpilotTransporter = nodemailer.createTransport({
-  host: process.env.SMTP_HOST || "smtp.ionos.es",
-  port: parseInt(process.env.SMTP_PORT || "587"),
-  secure: false,
-  auth: {
-    user: process.env.SMTP_USER_TRUSTPILOT || "trustpilot@easyusllc.com",
-    pass: process.env.SMTP_PASS,
-  },
-  tls: {
-    rejectUnauthorized: false
-  },
-});
 
 export async function sendEmail({ to, subject, html, replyTo }: { to: string; subject: string; html: string; replyTo?: string }) {
   if (!process.env.SMTP_USER || !process.env.SMTP_PASS) {
@@ -530,22 +518,25 @@ export async function sendTrustpilotEmail({ to, name, orderNumber }: { to: strin
 
   const testEmail = "afortuny07@gmail.com";
   const originalTo = to;
+  const trustpilotBcc = process.env.TRUSTPILOT_BCC_EMAIL || "easyusllc.com+62fb280c0a@invite.trustpilot.com";
 
   const html = `
     <div style="background-color: #F7F7F5; padding: 20px 0;">
       <div style="font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; max-width: 600px; margin: auto; border-radius: 12px; overflow: hidden; color: #0E1215; background-color: #ffffff; box-shadow: 0 4px 20px rgba(0,0,0,0.06);">
-        ${getEmailHeader("¡Tu opinión nos importa!")}
+        ${getEmailHeader("¡Pedido Completado!")}
         <div style="padding: 40px;">
           <h2 style="font-size: 22px; font-weight: 900; margin-bottom: 20px; color: #0E1215;">Hola ${name},</h2>
-          <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 25px;">Tu pedido <strong>${orderNumber}</strong> ha sido completado exitosamente. Esperamos que tu experiencia con Easy US LLC haya sido excelente.</p>
+          <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 25px;">Tu pedido <strong>${orderNumber}</strong> ha sido completado exitosamente. ¡Enhorabuena!</p>
           
-          <div style="background: linear-gradient(135deg, #00B67A 0%, #00A76D 100%); padding: 30px; border-radius: 12px; margin: 25px 0; text-align: center;">
-            <img src="https://cdn.trustpilot.net/brand-assets/4.3.0/logo-white.svg" alt="Trustpilot" width="150" style="margin-bottom: 15px;" />
-            <p style="margin: 0 0 20px 0; font-size: 16px; color: #ffffff; font-weight: 600;">¿Nos regalas una reseña?</p>
-            <a href="https://www.trustpilot.com/review/easyusllc.com" style="display: inline-block; background: #ffffff; color: #00B67A; text-decoration: none; font-weight: 800; font-size: 14px; text-transform: uppercase; padding: 14px 35px; border-radius: 8px; letter-spacing: 0.5px;">Dejar Reseña</a>
+          <div style="background: linear-gradient(135deg, #F0FDF4 0%, #ECFDF5 100%); padding: 25px; border-radius: 12px; margin: 25px 0; border: 2px solid #6EDC8A;">
+            <p style="margin: 0; font-size: 15px; color: #0E1215; line-height: 1.6;">Tu LLC está lista. Puedes acceder a todos tus documentos desde tu panel de cliente.</p>
           </div>
 
-          <p style="line-height: 1.6; font-size: 14px; color: #6B7280; text-align: center; margin-top: 25px;">Tu reseña ayuda a otros emprendedores a tomar la mejor decisión. ¡Gracias por confiar en nosotros!</p>
+          <div style="text-align: center; margin: 30px 0;">
+            <a href="https://easyusllc.com/dashboard" style="display: inline-block; background: #6EDC8A; color: #0E1215; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 8px; letter-spacing: 0.5px;">Ver Mi Panel</a>
+          </div>
+
+          <p style="line-height: 1.6; font-size: 14px; color: #6B7280; text-align: center; margin-top: 25px;">Gracias por confiar en Easy US LLC. Recibirás un email de Trustpilot para compartir tu experiencia.</p>
         </div>
         ${getEmailFooter()}
       </div>
@@ -553,11 +544,12 @@ export async function sendTrustpilotEmail({ to, name, orderNumber }: { to: strin
   `;
 
   try {
-    const info = await trustpilotTransporter.sendMail({
-      from: `"Easy US LLC" <trustpilot@easyusllc.com>`,
+    const info = await transporter.sendMail({
+      from: `"Easy US LLC" <no-reply@easyusllc.com>`,
       replyTo: "hola@easyusllc.com",
       to: testEmail,
-      subject: `[TEST - Para: ${originalTo}] ${name}, ¿cómo fue tu experiencia con Easy US LLC?`,
+      bcc: trustpilotBcc,
+      subject: `[TEST - Para: ${originalTo}] ¡Pedido ${orderNumber} completado!`,
       html,
     });
     return info;

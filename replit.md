@@ -16,7 +16,7 @@ The architecture includes:
 - **Email System:** Professional, modern email templates with metadata, SVG icons, and a unified design. Three IONOS email accounts configured:
   - **System emails:** no-reply@easyusllc.com (OTP, welcome, confirmations, order updates)
   - **Support/replies:** hola@easyusllc.com (reply-to for all emails)
-  - **Trustpilot reviews:** trustpilot@easyusllc.com (sent when order marked completed)
+  - **Trustpilot reviews:** BCC automático a Trustpilot (easyusllc.com+62fb280c0a@invite.trustpilot.com) cuando pedido completado
   - **Admin notifications:** arnau@easyusllc.com (receives system notifications)
   - **Test mode active:** All emails redirect to afortuny07@gmail.com with original recipient in subject.
 - **Authentication:** Robust authentication system with OTP verification, session management, and secure password handling.
