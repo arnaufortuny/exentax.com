@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { Link, useLocation } from "wouter";
-import { Loader2, Eye, EyeOff, CheckCircle2, User, Mail, Phone, Briefcase, Lock, ArrowLeft, ArrowRight } from "lucide-react";
+import { Loader2, Eye, EyeOff, ArrowLeft, ArrowRight } from "lucide-react";
 
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
@@ -14,10 +14,10 @@ import { useToast } from "@/hooks/use-toast";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 
 const registerSchema = z.object({
-  firstName: z.string().min(1, "Nombre requerido"),
-  lastName: z.string().min(1, "Apellido requerido"),
-  email: z.string().email("Email inválido"),
-  phone: z.string().min(6, "Teléfono requerido"),
+  firstName: z.string().min(1, "Este campo es obligatorio"),
+  lastName: z.string().min(1, "Este campo es obligatorio"),
+  email: z.string().email("Introduce un email válido"),
+  phone: z.string().min(6, "Este campo es obligatorio"),
   businessActivity: z.string().optional(),
   password: z.string().min(8, "La contraseña debe tener al menos 8 caracteres"),
   confirmPassword: z.string(),
@@ -167,13 +167,10 @@ export default function Register() {
         <main className="pt-24 pb-16 px-5 sm:px-6 flex flex-col items-center justify-center min-h-[80vh]">
           <div className="w-full max-w-md">
             <div className="text-center mb-8">
-              <div className="w-16 h-16 bg-[#6EDC8A] rounded-full flex items-center justify-center mx-auto mb-4">
-                <CheckCircle2 className="w-8 h-8 text-primary" />
-              </div>
               <h1 className="text-2xl sm:text-3xl font-black text-primary tracking-tight">
-                Verifica tu <span className="text-accent">Email</span>
+                Verifica tu <span className="text-accent">correo electrónico</span>
               </h1>
-              <p className="text-muted-foreground mt-2">Te hemos enviado un código de verificación</p>
+              <p className="text-muted-foreground mt-2">Te hemos enviado un código de verificación para confirmar tu email</p>
             </div>
 
             <div className="space-y-6">
@@ -197,15 +194,16 @@ export default function Register() {
                 className="w-full bg-accent text-primary font-black rounded-full"
                 data-testid="button-verify"
               >
-                {isVerifying ? <Loader2 className="animate-spin" /> : "Verificar Email"}
+                {isVerifying ? <Loader2 className="animate-spin" /> : "Verificar mi email"}
               </Button>
 
               <div className="text-center">
+                <p className="text-sm text-muted-foreground mb-2">¿No has recibido el código?</p>
                 <Button
                   variant="link"
                   onClick={resendCode}
                   disabled={isResending}
-                  className="text-accent"
+                  className="text-accent p-0 h-auto"
                   data-testid="button-resend-code"
                 >
                   {isResending ? "Enviando..." : "Reenviar código"}
@@ -213,13 +211,14 @@ export default function Register() {
               </div>
 
               <div className="text-center pt-4 border-t border-gray-100">
+                <p className="text-sm text-muted-foreground mb-2">Puedes verificarlo más tarde desde tu área de cliente</p>
                 <Link href="/dashboard">
                   <Button
                     variant="link"
-                    className="text-muted-foreground"
+                    className="text-accent p-0 h-auto"
                     data-testid="button-verify-later"
                   >
-                    Verificar más tarde
+                    Ir a mi panel
                   </Button>
                 </Link>
               </div>
@@ -238,9 +237,9 @@ export default function Register() {
         <div className="w-full max-w-md">
           <div className="text-center mb-8">
             <h1 className="text-3xl sm:text-4xl font-black text-primary tracking-tight">
-              Crear <span className="text-accent">Cuenta</span>
+              Crear <span className="text-accent">cuenta</span>
             </h1>
-            <p className="text-muted-foreground mt-2">Regístrate para gestionar tu LLC</p>
+            <p className="text-muted-foreground mt-2">Empecemos. En menos de un minuto tendrás tu cuenta lista</p>
           </div>
 
           <div className="flex justify-center gap-2 mb-8">
@@ -260,17 +259,11 @@ export default function Register() {
                 {step === 0 && (
                   <div
                     key="step-0"
-                   
                     className="space-y-6"
                   >
-                    <div className="flex items-center gap-3 mb-4">
-                      <div className="w-10 h-10 bg-[#6EDC8A]/20 rounded-full flex items-center justify-center">
-                        <User className="w-5 h-5 text-[#6EDC8A]" />
-                      </div>
-                      <div>
-                        <h2 className="text-xl font-black text-primary">¿Cómo te llamas?</h2>
-                        <p className="text-sm text-muted-foreground">Tu nombre completo</p>
-                      </div>
+                    <div className="mb-4">
+                      <h2 className="text-xl font-black text-primary">¿Cómo te llamas?</h2>
+                      <p className="text-sm text-muted-foreground">Queremos llamarte por tu nombre</p>
                     </div>
 
                     <FormField
@@ -314,17 +307,11 @@ export default function Register() {
                 {step === 1 && (
                   <div
                     key="step-1"
-                   
                     className="space-y-6"
                   >
-                    <div className="flex items-center gap-3 mb-4">
-                      <div className="w-10 h-10 bg-[#6EDC8A]/20 rounded-full flex items-center justify-center">
-                        <Mail className="w-5 h-5 text-[#6EDC8A]" />
-                      </div>
-                      <div>
-                        <h2 className="text-xl font-black text-primary">Tu email</h2>
-                        <p className="text-sm text-muted-foreground">Para acceder a tu cuenta</p>
-                      </div>
+                    <div className="mb-4">
+                      <h2 className="text-xl font-black text-primary">Tu correo electrónico</h2>
+                      <p className="text-sm text-muted-foreground">Lo usaremos para que puedas acceder a tu cuenta y recibir actualizaciones</p>
                     </div>
 
                     <FormField
@@ -332,14 +319,14 @@ export default function Register() {
                       name="email"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="font-black text-primary">Email</FormLabel>
+                          <FormLabel className="font-black text-primary">Correo electrónico</FormLabel>
                           <FormControl>
                             <Input
                               {...field}
                               type="email"
                               inputMode="email"
                               className="rounded-full border-gray-200 focus:border-accent"
-                                                            data-testid="input-email"
+                              data-testid="input-email"
                             />
                           </FormControl>
                           <FormMessage />
@@ -352,17 +339,11 @@ export default function Register() {
                 {step === 2 && (
                   <div
                     key="step-2"
-                   
                     className="space-y-6"
                   >
-                    <div className="flex items-center gap-3 mb-4">
-                      <div className="w-10 h-10 bg-[#6EDC8A]/20 rounded-full flex items-center justify-center">
-                        <Phone className="w-5 h-5 text-[#6EDC8A]" />
-                      </div>
-                      <div>
-                        <h2 className="text-xl font-black text-primary">Tu teléfono</h2>
-                        <p className="text-sm text-muted-foreground">Para contactarte si es necesario</p>
-                      </div>
+                    <div className="mb-4">
+                      <h2 className="text-xl font-black text-primary">Tu teléfono</h2>
+                      <p className="text-sm text-muted-foreground">Solo lo usaremos para contactarte si es necesario</p>
                     </div>
 
                     <FormField
@@ -370,14 +351,14 @@ export default function Register() {
                       name="phone"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="font-black text-primary">Teléfono</FormLabel>
+                          <FormLabel className="font-black text-primary">Número de teléfono con prefijo</FormLabel>
                           <FormControl>
                             <Input
                               {...field}
                               type="tel"
                               inputMode="tel"
                               className="rounded-full border-gray-200 focus:border-accent"
-                                                            data-testid="input-phone"
+                              data-testid="input-phone"
                             />
                           </FormControl>
                           <FormMessage />
@@ -390,17 +371,11 @@ export default function Register() {
                 {step === 3 && (
                   <div
                     key="step-3"
-                   
                     className="space-y-6"
                   >
-                    <div className="flex items-center gap-3 mb-4">
-                      <div className="w-10 h-10 bg-[#6EDC8A]/20 rounded-full flex items-center justify-center">
-                        <Briefcase className="w-5 h-5 text-[#6EDC8A]" />
-                      </div>
-                      <div>
-                        <h2 className="text-xl font-black text-primary">Tu actividad</h2>
-                        <p className="text-sm text-muted-foreground">Opcional - Ayuda a personalizar tu experiencia</p>
-                      </div>
+                    <div className="mb-4">
+                      <h2 className="text-xl font-black text-primary">Tu actividad</h2>
+                      <p className="text-sm text-muted-foreground">Opcional, pero nos ayuda a adaptar mejor el servicio a ti</p>
                     </div>
 
                     <FormField
@@ -410,7 +385,7 @@ export default function Register() {
                         <FormItem>
                           <FormLabel className="font-black text-primary">¿A qué te dedicas?</FormLabel>
                           <FormDescription className="text-sm text-muted-foreground mb-3">
-                            Selecciona la opción que mejor describa tu negocio
+                            Elige la opción que mejor describe tu negocio
                           </FormDescription>
                           <div className="grid gap-2 max-h-[300px] overflow-y-auto pr-2">
                             {BUSINESS_ACTIVITIES.map((activity) => (
@@ -438,17 +413,11 @@ export default function Register() {
                 {step === 4 && (
                   <div
                     key="step-4"
-                   
                     className="space-y-6"
                   >
-                    <div className="flex items-center gap-3 mb-4">
-                      <div className="w-10 h-10 bg-[#6EDC8A]/20 rounded-full flex items-center justify-center">
-                        <Lock className="w-5 h-5 text-[#6EDC8A]" />
-                      </div>
-                      <div>
-                        <h2 className="text-xl font-black text-primary">Tu contraseña</h2>
-                        <p className="text-sm text-muted-foreground">Mínimo 8 caracteres</p>
-                      </div>
+                    <div className="mb-4">
+                      <h2 className="text-xl font-black text-primary">Tu contraseña</h2>
+                      <p className="text-sm text-muted-foreground">Elige una contraseña segura para proteger tu cuenta</p>
                     </div>
 
                     <FormField
@@ -464,7 +433,7 @@ export default function Register() {
                                 type={showPassword ? "text" : "password"}
                                 autoComplete="new-password"
                                 className="rounded-full pr-12 border-gray-200 focus:border-accent"
-                                                                data-testid="input-password"
+                                data-testid="input-password"
                               />
                               <Button
                                 type="button"
@@ -479,6 +448,7 @@ export default function Register() {
                               </Button>
                             </div>
                           </FormControl>
+                          <p className="text-xs text-muted-foreground mt-1">Mínimo 8 caracteres</p>
                           <FormMessage />
                         </FormItem>
                       )}
@@ -489,14 +459,14 @@ export default function Register() {
                       name="confirmPassword"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="font-black text-primary">Confirmar Contraseña</FormLabel>
+                          <FormLabel className="font-black text-primary">Confirmar contraseña</FormLabel>
                           <FormControl>
                             <Input
                               {...field}
                               type={showPassword ? "text" : "password"}
                               autoComplete="new-password"
                               className="rounded-full border-gray-200 focus:border-accent"
-                                                            data-testid="input-confirmPassword"
+                              data-testid="input-confirmPassword"
                             />
                           </FormControl>
                           <FormMessage />
@@ -509,17 +479,11 @@ export default function Register() {
                 {step === 5 && (
                   <div
                     key="step-5"
-                   
                     className="space-y-6"
                   >
-                    <div className="flex items-center gap-3 mb-4">
-                      <div className="w-10 h-10 bg-[#6EDC8A]/20 rounded-full flex items-center justify-center">
-                        <CheckCircle2 className="w-5 h-5 text-[#6EDC8A]" />
-                      </div>
-                      <div>
-                        <h2 className="text-xl font-black text-primary">Confirmar registro</h2>
-                        <p className="text-sm text-muted-foreground">Revisa tus datos</p>
-                      </div>
+                    <div className="mb-4">
+                      <h2 className="text-xl font-black text-primary">Confirmar registro</h2>
+                      <p className="text-sm text-muted-foreground">Revisa tus datos antes de continuar</p>
                     </div>
 
                     <div className="space-y-4 p-4 bg-gray-50 rounded-2xl">
@@ -580,8 +544,7 @@ export default function Register() {
                     className="flex-1 bg-accent text-primary font-black rounded-full"
                     data-testid="button-next"
                   >
-                    Siguiente
-                    <ArrowRight className="w-4 h-4 ml-2" />
+                    Continuar
                   </Button>
                 ) : (
                   <Button
@@ -603,7 +566,7 @@ export default function Register() {
               ¿Ya tienes cuenta?{" "}
               <Link href="/login" data-testid="link-login">
                 <span className="font-black text-primary underline cursor-pointer">
-                  Inicia Sesión
+                  Inicia sesión aquí
                 </span>
               </Link>
             </p>

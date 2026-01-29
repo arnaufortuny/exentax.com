@@ -157,6 +157,10 @@ export default function Dashboard() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [passwordOtp, setPasswordOtp] = useState("");
   const [discountCodeDialog, setDiscountCodeDialog] = useState<{ open: boolean; code: DiscountCode | null }>({ open: false, code: null });
+  const [showEmailVerification, setShowEmailVerification] = useState(false);
+  const [emailVerificationCode, setEmailVerificationCode] = useState("");
+  const [isVerifyingEmail, setIsVerifyingEmail] = useState(false);
+  const [isResendingCode, setIsResendingCode] = useState(false);
   const [newDiscountCode, setNewDiscountCode] = useState({
     code: '',
     discountType: 'percentage' as 'percentage' | 'fixed',
@@ -1135,8 +1139,23 @@ export default function Dashboard() {
                         <Label>Email</Label>
                         <div className="p-3 bg-gray-50 rounded-lg flex justify-between items-center text-sm">
                           <span>{user?.email}</span>
-                          {user?.emailVerified && <CheckCircle2 className="w-4 h-4 text-green-500" />}
+                          {user?.emailVerified ? (
+                            <CheckCircle2 className="w-4 h-4 text-green-500" />
+                          ) : (
+                            <Button
+                              variant="link"
+                              size="sm"
+                              className="text-accent p-0 h-auto text-xs font-black"
+                              onClick={() => setShowEmailVerification(true)}
+                              data-testid="button-verify-email"
+                            >
+                              Verificar email
+                            </Button>
+                          )}
                         </div>
+                        {!user?.emailVerified && (
+                          <p className="text-xs text-orange-600 mt-1">Tu cuenta está en revisión hasta que verifiques tu email.</p>
+                        )}
                       </div>
                       <div className="space-y-1">
                         <Label>Teléfono</Label>
@@ -2601,6 +2620,89 @@ export default function Dashboard() {
               {discountCodeDialog.code ? 'Guardar Cambios' : 'Crear Código'}
             </Button>
           </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={showEmailVerification} onOpenChange={(open) => {
+        setShowEmailVerification(open);
+        if (!open) {
+          setEmailVerificationCode("");
+        }
+      }}>
+        <DialogContent className="rounded-2xl mx-4 sm:mx-auto max-w-md">
+          <DialogHeader>
+            <DialogTitle className="text-xl font-black">Verifica tu correo electrónico</DialogTitle>
+            <DialogDescription>Te hemos enviado un código de verificación para confirmar tu email</DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4 py-4">
+            <div>
+              <Label className="text-sm font-black text-primary block mb-2">Código de verificación</Label>
+              <Input
+                value={emailVerificationCode}
+                onChange={(e) => setEmailVerificationCode(e.target.value.replace(/\D/g, ""))}
+                className="rounded-full text-center text-2xl font-black border-gray-200 focus:border-accent tracking-[0.5em]"
+                maxLength={6}
+                inputMode="numeric"
+                autoComplete="one-time-code"
+                data-testid="input-email-verification-code"
+              />
+            </div>
+            <Button
+              onClick={async () => {
+                if (!emailVerificationCode || emailVerificationCode.length < 6) {
+                  toast({ title: "Introduce el código de 6 dígitos", variant: "destructive" });
+                  return;
+                }
+                setIsVerifyingEmail(true);
+                try {
+                  const res = await apiRequest("POST", "/api/auth/verify-email", { code: emailVerificationCode });
+                  const result = await res.json();
+                  if (result.success) {
+                    await queryClient.refetchQueries({ queryKey: ["/api/auth/user"] });
+                    toast({ title: "Email verificado correctamente" });
+                    setShowEmailVerification(false);
+                    setEmailVerificationCode("");
+                  }
+                } catch (err: any) {
+                  toast({ 
+                    title: "Código incorrecto", 
+                    description: err.message || "Inténtalo de nuevo o solicita un nuevo código", 
+                    variant: "destructive" 
+                  });
+                } finally {
+                  setIsVerifyingEmail(false);
+                }
+              }}
+              disabled={isVerifyingEmail || emailVerificationCode.length < 6}
+              size="lg"
+              className="w-full bg-accent text-primary font-black rounded-full"
+              data-testid="button-verify-email-code"
+            >
+              {isVerifyingEmail ? <Loader2 className="animate-spin" /> : "Verificar mi email"}
+            </Button>
+            <div className="text-center">
+              <p className="text-sm text-muted-foreground mb-2">¿No has recibido el código?</p>
+              <Button
+                variant="link"
+                onClick={async () => {
+                  setIsResendingCode(true);
+                  try {
+                    await apiRequest("POST", "/api/auth/resend-verification");
+                    toast({ title: "Código enviado", description: "Revisa tu email" });
+                  } catch (err) {
+                    toast({ title: "Error", description: "No se pudo enviar el código", variant: "destructive" });
+                  } finally {
+                    setIsResendingCode(false);
+                  }
+                }}
+                disabled={isResendingCode}
+                className="text-accent p-0 h-auto"
+                data-testid="button-resend-verification-code"
+              >
+                {isResendingCode ? "Enviando..." : "Reenviar código"}
+              </Button>
+            </div>
+          </div>
         </DialogContent>
       </Dialog>
 
