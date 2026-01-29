@@ -13,7 +13,7 @@ The architecture includes:
 - **Client-side:** Built with React, utilizing pages for main application sections (Home, Servicios, FAQ, Contacto) and shared layout components (Navbar, Footer, HeroSection, Newsletter).
 - **Server-side:** An Express backend with Drizzle ORM for database interactions.
 - **Database:** Drizzle schema and Zod types define the data structure. Key database indexes are applied for performance.
-- **Email System:** Professional, modern email templates with metadata, SVG icons, and a unified design.
+- **Email System:** Professional, modern email templates with metadata, SVG icons, and a unified design. Emails sent from no-reply@easyusllc.com, replies to hola@easyusllc.com.
 - **Authentication:** Robust authentication system with OTP verification, session management, and secure password handling.
 - **Form Management:** Multi-step wizard patterns for LLC, maintenance, and contact forms with auto-fill capabilities for authenticated users.
 - **Admin Panel:** Integrated directly into the client dashboard for users with admin privileges, providing full control over orders, users, and messages.

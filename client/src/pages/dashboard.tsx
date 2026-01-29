@@ -1484,6 +1484,11 @@ export default function Dashboard() {
                                 </p>
                                 <p className="text-xs text-muted-foreground">
                                   <strong>Producto:</strong> {order.product?.name} • <strong>Monto:</strong> {(order.amount / 100).toFixed(2)}€
+                                  {order.discountCode && (
+                                    <span className="text-green-600 ml-2">
+                                      (Descuento: {order.discountCode} -{(order.discountAmount / 100).toFixed(2)}€)
+                                    </span>
+                                  )}
                                 </p>
                                 {app?.businessCategory && <p className="text-xs text-muted-foreground"><strong>Categoría:</strong> {app.businessCategory}</p>}
                                 {isMaintenance && app?.ein && <p className="text-xs text-muted-foreground"><strong>EIN:</strong> {app.ein}</p>}

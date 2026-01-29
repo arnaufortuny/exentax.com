@@ -496,7 +496,7 @@ export async function sendEmail({ to, subject, html, replyTo }: { to: string; su
 
   try {
     const info = await transporter.sendMail({
-      from: `"Easy US LLC" <no-reply@usllcnow.com>`,
+      from: `"Easy US LLC" <no-reply@easyusllc.com>`,
       replyTo: replyTo || "hola@easyusllc.com",
       to,
       subject,

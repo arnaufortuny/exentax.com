@@ -2914,7 +2914,7 @@ export async function registerRoutes(
             <tbody>
               <tr>
                 <td><strong>${productName}</strong><br><span style="color: #6B7280; font-size: 13px;">Servicio completo de constitución empresarial en USA</span></td>
-                <td>${(order.amount / 100).toFixed(2)} €</td>
+                <td>${((order.originalAmount || order.amount) / 100).toFixed(2)} €</td>
               </tr>
             </tbody>
           </table>
@@ -2923,8 +2923,14 @@ export async function registerRoutes(
             <div class="totals-box">
               <div class="totals-row">
                 <span>Subtotal</span>
-                <span>${(order.amount / 100).toFixed(2)} €</span>
+                <span>${((order.originalAmount || order.amount) / 100).toFixed(2)} €</span>
               </div>
+              ${order.discountCode ? `
+              <div class="totals-row" style="color: #16a34a;">
+                <span>Descuento (${order.discountCode})</span>
+                <span>-${(order.discountAmount / 100).toFixed(2)} €</span>
+              </div>
+              ` : ''}
               <div class="totals-row">
                 <span>IVA (0%)</span>
                 <span>0.00 €</span>
@@ -3038,6 +3044,16 @@ export async function registerRoutes(
                 <span class="detail-label">Estado</span>
                 <span class="status-badge ${order.status === 'pending' ? 'pending' : ''}">${statusLabels[order.status] || order.status}</span>
               </div>
+              ${order.discountCode ? `
+              <div class="detail-row">
+                <span class="detail-label">Subtotal</span>
+                <span class="detail-value">${((order.originalAmount || order.amount) / 100).toFixed(2)} €</span>
+              </div>
+              <div class="detail-row" style="color: #16a34a;">
+                <span class="detail-label">Descuento (${order.discountCode})</span>
+                <span class="detail-value" style="color: #16a34a;">-${(order.discountAmount / 100).toFixed(2)} €</span>
+              </div>
+              ` : ''}
               <div class="detail-row">
                 <span class="detail-label">Total</span>
                 <span class="detail-value highlight">${(order.amount / 100).toFixed(2)} €</span>
