@@ -489,14 +489,15 @@ const transporter = nodemailer.createTransport({
   maxMessages: 100,
 });
 
-export async function sendEmail({ to, subject, html }: { to: string; subject: string; html: string }) {
+export async function sendEmail({ to, subject, html, replyTo }: { to: string; subject: string; html: string; replyTo?: string }) {
   if (!process.env.SMTP_USER || !process.env.SMTP_PASS) {
     return;
   }
 
   try {
     const info = await transporter.sendMail({
-      from: `"Easy US LLC" <${process.env.SMTP_USER}>`,
+      from: `"Easy US LLC" <no-reply@usllcnow.com>`,
+      replyTo: replyTo || "hola@easyusllc.com",
       to,
       subject,
       html,
