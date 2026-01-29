@@ -7,7 +7,7 @@ import { z } from "zod";
 import { insertLlcApplicationSchema, insertApplicationDocumentSchema } from "@shared/schema";
 import type { Request, Response } from "express";
 import { db } from "./db";
-import { sendEmail, sendTrustpilotEmail, getOtpEmailTemplate, getConfirmationEmailTemplate, getWelcomeEmailTemplate, getNewsletterWelcomeTemplate, getAutoReplyTemplate, getEmailFooter, getEmailHeader, getOrderUpdateTemplate, getNoteReceivedTemplate, getAccountDeactivatedTemplate, getClaudiaMessageTemplate } from "./lib/email";
+import { sendEmail, sendTrustpilotEmail, getOtpEmailTemplate, getConfirmationEmailTemplate, getWelcomeEmailTemplate, getNewsletterWelcomeTemplate, getAutoReplyTemplate, getEmailFooter, getEmailHeader, getOrderUpdateTemplate, getNoteReceivedTemplate, getAccountDeactivatedTemplate, getAccountUnderReviewTemplate, getOrderCompletedTemplate } from "./lib/email";
 import { contactOtps, products as productsTable, users as usersTable, maintenanceApplications, newsletterSubscribers, messages as messagesTable, orderEvents, messageReplies, userNotifications, orders as ordersTable, llcApplications as llcApplicationsTable, applicationDocuments as applicationDocumentsTable, discountCodes } from "@shared/schema";
 import { and, eq, gt, desc, sql } from "drizzle-orm";
 import puppeteer from "puppeteer";
@@ -186,13 +186,12 @@ export async function registerRoutes(
 
       sendEmail({
         to: order.user.email,
-        subject: `Actualización de tu pedido ${order.invoiceNumber || `#${order.id}`}`,
+        subject: `Actualización de estado - Pedido ${order.invoiceNumber || `#${order.id}`}`,
         html: getOrderUpdateTemplate(
           order.user.firstName || "Cliente",
           order.invoiceNumber || `#${order.id}`,
           status,
-          `Tu pedido ha pasado a estado: <strong>${statusLabels[status] || status}</strong>. Puedes ver los detalles y descargar tu factura y recibo actualizado en tu panel de control.`,
-          order.amount
+          `Tu pedido ha pasado a estado: ${statusLabels[status] || status}. Puedes ver los detalles en tu panel de control.`
         )
       }).catch(() => {});
     }
@@ -341,22 +340,14 @@ export async function registerRoutes(
     if (data.accountStatus === 'deactivated') {
       const [user] = await db.select().from(usersTable).where(eq(usersTable.id, userId)).limit(1);
       if (user && user.email) {
-        // 1. Send deactivation email
+        // Send deactivation email
         await sendEmail({
           to: user.email,
-          subject: "Tu cuenta ha sido desactivada - Easy US LLC",
+          subject: "Notificación de estado de cuenta",
           html: getAccountDeactivatedTemplate(user.firstName || "Cliente")
         }).catch(() => {});
 
-        // 2. Send Claudia's personal email
-        const claudiaMsg = data.internalNotes || "Tu cuenta ha sido desactivada. Si consideras que esto es un error, por favor contacta con nosotros.";
-        await sendEmail({
-          to: user.email,
-          subject: "Información importante sobre tu cuenta - Claudia (Easy US LLC)",
-          html: getClaudiaMessageTemplate(user.firstName || "Cliente", claudiaMsg)
-        }).catch(() => {});
-
-        // 3. Create notification for client
+        // Create notification for client
         await db.insert(userNotifications).values({
           userId,
           title: "Cuenta desactivada",
@@ -1681,8 +1672,8 @@ export async function registerRoutes(
         // Send welcome email
         sendEmail({
           to: email,
-          subject: "Bienvenido a Easy US LLC - Tu cuenta está verificada",
-          html: getWelcomeEmailTemplate(nameParts[0] || 'Cliente', clientId)
+          subject: "Bienvenido a Easy US LLC - Acceso a tu panel",
+          html: getWelcomeEmailTemplate(nameParts[0] || 'Cliente')
         }).catch(console.error);
       }
 
@@ -1910,8 +1901,8 @@ export async function registerRoutes(
       // Send welcome email
       sendEmail({
         to: email,
-        subject: "Bienvenido a Easy US LLC - Tu cuenta está verificada",
-        html: getWelcomeEmailTemplate(nameParts[0] || 'Cliente', clientId)
+        subject: "Bienvenido a Easy US LLC - Acceso a tu panel",
+        html: getWelcomeEmailTemplate(nameParts[0] || 'Cliente')
       }).catch(console.error);
       
       res.json({ success: true, userId: newUser.id });
@@ -1998,8 +1989,8 @@ export async function registerRoutes(
       // Send welcome email
       sendEmail({
         to: email,
-        subject: "Bienvenido a Easy US LLC - Tu cuenta está verificada",
-        html: getWelcomeEmailTemplate(nameParts[0] || 'Cliente', clientId)
+        subject: "Bienvenido a Easy US LLC - Acceso a tu panel",
+        html: getWelcomeEmailTemplate(nameParts[0] || 'Cliente')
       }).catch(console.error);
       
       res.json({ success: true, userId: newUser.id });
@@ -2126,8 +2117,8 @@ export async function registerRoutes(
         // Confirmation to client with full info
         sendEmail({
           to: updatedApp.ownerEmail,
-          subject: `Confirmación de Solicitud ${orderIdentifier} - Easy US LLC`,
-          html: getConfirmationEmailTemplate(updatedApp.ownerFullName || "Cliente", orderIdentifier, { companyName: updatedApp.companyName }),
+          subject: `Solicitud recibida - Referencia ${orderIdentifier}`,
+          html: getConfirmationEmailTemplate(updatedApp.ownerFullName || "Cliente", orderIdentifier, { companyName: updatedApp.companyName || undefined }),
         }).catch(() => {});
     }
 
@@ -2393,8 +2384,8 @@ export async function registerRoutes(
         
         sendEmail({
           to: email,
-          subject: "Bienvenido a Easy US LLC - Tu cuenta está verificada",
-          html: getWelcomeEmailTemplate(nameParts[0] || 'Cliente', clientId)
+          subject: "Bienvenido a Easy US LLC - Acceso a tu panel",
+          html: getWelcomeEmailTemplate(nameParts[0] || 'Cliente')
         }).catch(console.error);
       }
 
@@ -2554,8 +2545,8 @@ export async function registerRoutes(
         if (updatedApp.ownerEmail) {
           sendEmail({
             to: updatedApp.ownerEmail,
-            subject: `Confirmación de Mantenimiento ${orderIdentifier} - Easy US LLC`,
-            html: getConfirmationEmailTemplate(updatedApp.ownerFullName || "Cliente", orderIdentifier, { companyName: updatedApp.companyName }),
+            subject: `Solicitud recibida - Referencia ${orderIdentifier}`,
+            html: getConfirmationEmailTemplate(updatedApp.ownerFullName || "Cliente", orderIdentifier, { companyName: updatedApp.companyName || undefined, serviceType: "Mantenimiento Anual" }),
           }).catch(() => {});
         }
       }
@@ -2611,7 +2602,7 @@ export async function registerRoutes(
       
       await sendEmail({
         to: targetEmail,
-        subject: "¡Bienvenido a la Newsletter de Easy US LLC!",
+        subject: "Confirmación de suscripción a Easy US LLC",
         html: getNewsletterWelcomeTemplate(),
       }).catch(() => {});
       
@@ -2768,7 +2759,7 @@ export async function registerRoutes(
         // Admin reply - notify client by email
         sendEmail({
           to: message.email,
-          subject: "Nueva respuesta a tu consulta - Easy US LLC",
+          subject: "Nueva respuesta a tu consulta",
           html: `
             <div style="font-family: 'Inter', sans-serif; max-width: 600px; margin: auto; background: #fff;">
               ${getEmailHeader("Nueva Respuesta")}
@@ -3095,7 +3086,7 @@ export async function registerRoutes(
 
       await sendEmail({
         to: email,
-        subject: "Tu código de verificación 🔐 | Easy US LLC",
+        subject: "Tu código de verificación | Easy US LLC",
         html: getOtpEmailTemplate(otp, "Cliente"),
       });
 
@@ -3180,7 +3171,7 @@ export async function registerRoutes(
 
       await sendEmail({
         to: contactData.email,
-        subject: `Confirmación de mensaje - Easy US LLC #${ticketId}`,
+        subject: `Hemos recibido tu mensaje - Ticket #${ticketId}`,
         html: getAutoReplyTemplate(ticketId, contactData.nombre),
       });
 
@@ -3234,7 +3225,7 @@ export async function registerRoutes(
 
       await sendEmail({
         to: email,
-        subject: "Tu código de verificación 🔐 | Easy US LLC",
+        subject: "Tu código de verificación | Easy US LLC",
         html: getOtpEmailTemplate(otp, "Cliente"),
       });
 
@@ -3302,7 +3293,7 @@ export async function registerRoutes(
 
       await sendEmail({
         to: email,
-        subject: "Tu código de verificación 🔐 | Easy US LLC",
+        subject: "Tu código de verificación | Easy US LLC",
         html: getOtpEmailTemplate(otp, existingUser?.firstName || "Cliente"),
       });
 
@@ -3437,7 +3428,7 @@ const orderHtml = `
 
       // Send improved admin templates
       await Promise.all([
-        sendEmail({ to: email, subject: "TEST: Tu código de verificación 🔐", html: getOtpEmailTemplate(otp, name) }),
+        sendEmail({ to: email, subject: "TEST: Tu código de verificación", html: getOtpEmailTemplate(otp, name) }),
         sendEmail({ to: email, subject: "TEST: Log de Actividad (Admin)", html: activityHtml }),
         sendEmail({ to: email, subject: "TEST: Nueva Solicitud LLC (Admin)", html: orderHtml }),
         sendEmail({ to: email, subject: "TEST: Confirmación de Pedido (Cliente)", html: getConfirmationEmailTemplate(name, requestCode, { companyName: "Mi Nueva Empresa LLC" }) }),

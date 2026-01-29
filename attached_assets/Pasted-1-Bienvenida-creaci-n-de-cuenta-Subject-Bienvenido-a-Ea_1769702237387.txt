@@ -1,0 +1,192 @@
+1. Bienvenida (creación de cuenta)
+
+Subject: Bienvenido a Easy US LLC – Acceso a tu panel
+
+Email:
+
+Gracias por registrarte en Easy US LLC.
+
+Tu cuenta ha sido creada correctamente. Desde tu panel podrás gestionar solicitudes, documentación y el estado de tus servicios en todo momento.
+
+Accede a tu panel desde el siguiente enlace:
+[Acceder a Mi Panel]
+
+Si tienes cualquier duda o necesitas asistencia, responde directamente a este correo y nuestro equipo te atenderá.
+
+Enviado desde
+Easy US LLC
+1209 Mountain Road Place Northeast
+STE R
+Albuquerque, NM 87110
+
+⸻
+
+2. Confirmación de Solicitud (LLC / Mantenimiento)
+
+Subject: Solicitud recibida – Referencia #[ID]
+
+Email:
+
+Hemos recibido correctamente tu solicitud.
+
+Referencia: #[ID]
+Servicio: [Tipo de servicio]
+Estado actual: En revisión
+
+Nuestro equipo está validando la información y te notificaremos cualquier actualización directamente por email.
+
+Para cualquier duda relacionada con esta solicitud, responde a este correo indicando tu número de referencia.
+
+Enviado desde
+Easy US LLC
+1209 Mountain Road Place Northeast
+STE R
+Albuquerque, NM 87110
+
+⸻
+
+3. Auto-respuesta de Contacto
+
+Subject: Hemos recibido tu mensaje – Ticket #[ID]
+
+Email:
+
+Tu mensaje ha sido recibido correctamente.
+
+Número de ticket: #[ID]
+Tiempo estimado de respuesta: 24–48 horas laborables
+
+Nuestro equipo revisará tu consulta y te responderá lo antes posible.
+Si necesitas añadir información adicional, responde directamente a este correo.
+
+Enviado desde
+Easy US LLC
+1209 Mountain Road Place Northeast
+STE R
+Albuquerque, NM 87110
+
+⸻
+
+4. Actualización de Pedido (cambio de estado)
+
+Subject: Actualización de estado – Pedido #[ID]
+
+Email:
+
+El estado de tu pedido ha sido actualizado.
+
+Pedido: #[ID]
+Nuevo estado: [Estado actual]
+
+[Descripción clara del cambio y siguientes pasos, si aplica]
+
+Para cualquier aclaración sobre esta actualización, responde directamente a este correo.
+
+Enviado desde
+Easy US LLC
+1209 Mountain Road Place Northeast
+STE R
+Albuquerque, NM 87110
+
+⸻
+
+5. Pedido Completado + Trustpilot
+
+Subject: Pedido completado – Documentación disponible
+
+Email:
+
+Tu pedido ha sido completado correctamente.
+
+Ya puedes acceder a toda la documentación desde tu panel de cliente:
+[Acceder a documentos]
+
+Tu experiencia es importante para nosotros. Si lo deseas, puedes valorar nuestro servicio cuando recibas la invitación correspondiente.
+
+Ante cualquier duda o necesidad adicional, responde a este correo.
+
+Enviado desde
+Easy US LLC
+1209 Mountain Road Place Northeast
+STE R
+Albuquerque, NM 87110
+
+⸻
+
+6. Nuevo Mensaje (admin a cliente)
+
+Subject: Nuevo mensaje sobre tu pedido #[ID]
+
+Email:
+
+Tienes un nuevo mensaje de nuestro equipo relacionado con tu pedido #[ID].
+
+[Mensaje del equipo]
+
+Puedes responder directamente a este correo para continuar la conversación.
+
+Enviado desde
+Easy US LLC
+1209 Mountain Road Place Northeast
+STE R
+Albuquerque, NM 87110
+
+⸻
+
+7. Cuenta Desactivada
+
+Subject: Notificación de estado de cuenta
+
+Email:
+
+Te informamos de que tu cuenta ha sido desactivada temporalmente.
+
+Mientras la cuenta permanezca desactivada no será posible realizar solicitudes ni acceder a formularios.
+Si consideras que se trata de un error o necesitas más información, responde directamente a este correo.
+
+Enviado desde
+Easy US LLC
+1209 Mountain Road Place Northeast
+STE R
+Albuquerque, NM 87110
+
+⸻
+
+8. Mensaje de Claudia (Atención al Cliente)
+
+Subject: Información sobre tu solicitud
+
+Email:
+
+[Mensaje personalizado]
+
+Quedo pendiente de tu respuesta para continuar con el proceso.
+
+Claudia
+Atención al Cliente
+Easy US LLC
+
+1209 Mountain Road Place Northeast
+STE R
+Albuquerque, NM 87110
+
+⸻
+
+9. Newsletter de Bienvenida
+
+Subject: Confirmación de suscripción a Easy US LLC
+
+Email:
+
+Tu suscripción ha sido confirmada correctamente.
+
+Recibirás información relevante sobre servicios, actualizaciones y novedades relacionadas con Easy US LLC.
+Puedes darte de baja en cualquier momento desde el enlace incluido en nuestros correos.
+
+Si tienes cualquier consulta, responde directamente a este email.
+
+Enviado desde
+Easy US LLC
+1209 Mountain Road Place Northeast
+STE R
+Albuquerque, NM 87110
