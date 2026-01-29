@@ -1,4 +1,4 @@
-import { Globe } from "lucide-react";
+import { Globe, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -9,8 +9,8 @@ import {
 import { useTranslation } from "react-i18next";
 
 const languages = [
-  { code: "es", label: "Español", flag: "🇪🇸" },
-  { code: "en", label: "English", flag: "🇺🇸" }
+  { code: "es", label: "Español", abbr: "ES" },
+  { code: "en", label: "English", abbr: "EN" }
 ];
 
 export function LanguageToggle() {
@@ -22,10 +22,10 @@ export function LanguageToggle() {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button 
-          variant="ghost" 
+          variant="outline" 
           size="icon" 
           data-testid="button-language-toggle"
-          className="relative"
+          className="relative bg-white dark:bg-zinc-900 border-border"
         >
           <Globe className="h-4 w-4" />
           <span className="sr-only">Change language</span>
@@ -37,10 +37,11 @@ export function LanguageToggle() {
             key={lang.code}
             onClick={() => i18n.changeLanguage(lang.code)}
             data-testid={`menu-lang-${lang.code}`}
-            className={i18n.language === lang.code ? "bg-accent" : ""}
+            className={i18n.language === lang.code ? "bg-accent/20" : ""}
           >
-            <span className="mr-2">{lang.flag}</span>
+            <span className="mr-2 w-5 h-5 rounded-full bg-muted flex items-center justify-center text-xs font-bold">{lang.abbr}</span>
             {lang.label}
+            {i18n.language === lang.code && <Check className="ml-auto h-4 w-4 text-accent" />}
           </DropdownMenuItem>
         ))}
       </DropdownMenuContent>

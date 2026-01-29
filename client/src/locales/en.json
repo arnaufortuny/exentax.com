@@ -193,9 +193,19 @@
     "copyright": "© {{year}} Easy US LLC. All rights reserved."
   },
   "theme": {
+    "title": "Preferences",
     "light": "Light mode",
     "dark": "Dark mode",
     "system": "System"
+  },
+  "mobile": {
+    "personalArea": "Personal Area",
+    "myPanel": "My Dashboard",
+    "logout": "Sign Out",
+    "clientArea": "Client Area",
+    "myAccount": "My account",
+    "accountDescription": "Access your dashboard or create an account in seconds",
+    "whatsapp": "Send us a WhatsApp"
   },
   "errors": {
     "generic": "An error occurred. Please try again.",

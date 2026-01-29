@@ -101,46 +101,46 @@
   --font-sans: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 
-/* Dark Mode */
+/* Dark Mode - Optimized for comfort and readability */
 .dark {
-  --background: 200 20% 7%; /* Carbon Black */
-  --foreground: 60 10% 96%; /* Light text */
+  --background: 220 15% 10%; /* Soft dark gray-blue, easier on eyes */
+  --foreground: 210 15% 92%; /* Slightly warm light text, not pure white */
 
-  --primary: 60 10% 96%;
-  --primary-foreground: 200 20% 7%;
+  --primary: 210 15% 92%;
+  --primary-foreground: 220 15% 10%;
 
-  --secondary: 200 15% 15%;
-  --secondary-foreground: 60 10% 96%;
+  --secondary: 220 12% 16%;
+  --secondary-foreground: 210 15% 92%;
 
-  --accent: 136 60% 55%;
-  --accent-foreground: 200 20% 7%;
+  --accent: 136 55% 52%; /* Slightly softer green for dark mode */
+  --accent-foreground: 220 15% 10%;
 
-  --muted: 200 15% 18%;
-  --muted-foreground: 220 10% 65%;
+  --muted: 220 12% 18%;
+  --muted-foreground: 215 12% 60%; /* Better contrast for muted text */
 
-  --destructive: 0 70% 50%;
-  --destructive-foreground: 60 10% 96%;
+  --destructive: 0 65% 55%;
+  --destructive-foreground: 210 15% 92%;
 
-  --border: 200 15% 18%;
-  --input: 200 15% 18%;
-  --ring: 136 60% 55%;
+  --border: 220 12% 20%;
+  --input: 220 12% 18%;
+  --ring: 136 55% 52%;
 
-  --card: 200 15% 10%;
-  --card-foreground: 60 10% 96%;
-  --card-border: 200 15% 18%;
+  --card: 220 14% 12%;
+  --card-foreground: 210 15% 92%;
+  --card-border: 220 12% 20%;
 
-  --popover: 200 15% 10%;
-  --popover-foreground: 60 10% 96%;
-  --popover-border: 200 15% 18%;
+  --popover: 220 14% 12%;
+  --popover-foreground: 210 15% 92%;
+  --popover-border: 220 12% 22%;
 
-  --sidebar: 200 15% 8%;
-  --sidebar-foreground: 60 10% 96%;
-  --sidebar-border: 200 15% 18%;
-  --sidebar-ring: 136 60% 55%;
-  --sidebar-primary: 60 10% 96%;
-  --sidebar-primary-foreground: 200 20% 7%;
-  --sidebar-accent: 136 60% 55%;
-  --sidebar-accent-foreground: 200 20% 7%;
+  --sidebar: 220 15% 9%;
+  --sidebar-foreground: 210 15% 92%;
+  --sidebar-border: 220 12% 18%;
+  --sidebar-ring: 136 55% 52%;
+  --sidebar-primary: 210 15% 92%;
+  --sidebar-primary-foreground: 220 15% 10%;
+  --sidebar-accent: 136 55% 52%;
+  --sidebar-accent-foreground: 220 15% 10%;
 }
 
 @layer base {

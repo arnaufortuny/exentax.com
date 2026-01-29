@@ -193,9 +193,19 @@
     "copyright": "© {{year}} Easy US LLC. Todos los derechos reservados."
   },
   "theme": {
+    "title": "Preferencias",
     "light": "Modo claro",
     "dark": "Modo oscuro",
     "system": "Sistema"
+  },
+  "mobile": {
+    "personalArea": "Área Personal",
+    "myPanel": "Mi Panel",
+    "logout": "Cerrar Sesión",
+    "clientArea": "Área de Clientes",
+    "myAccount": "Mi cuenta",
+    "accountDescription": "Accede a tu panel o crea tu cuenta en segundos",
+    "whatsapp": "Envíanos un WhatsApp"
   },
   "errors": {
     "generic": "Ha ocurrido un error. Por favor, inténtalo de nuevo.",
