@@ -126,7 +126,11 @@ export const messages = pgTable("messages", {
   requestCode: text("request_code"),
   messageId: text("message_id").unique(),
   createdAt: timestamp("created_at").defaultNow(),
-});
+}, (table) => ({
+  userIdIdx: index("messages_user_id_idx").on(table.userId),
+  statusIdx: index("messages_status_idx").on(table.status),
+  emailIdx: index("messages_email_idx").on(table.email),
+}));
 
 export const contactOtps = pgTable("contact_otps", {
   id: serial("id").primaryKey(),
@@ -189,7 +193,11 @@ export const maintenanceApplications = pgTable("maintenance_applications", {
   authorizedManagement: boolean("authorized_management").notNull().default(false),
   termsConsent: boolean("terms_consent").notNull().default(false),
   dataProcessingConsent: boolean("data_processing_consent").notNull().default(false),
-});
+}, (table) => ({
+  orderIdIdx: index("maint_apps_order_id_idx").on(table.orderId),
+  requestCodeIdx: index("maint_apps_req_code_idx").on(table.requestCode),
+  statusIdx: index("maint_apps_status_idx").on(table.status),
+}));
 
 export const ordersRelations = relations(orders, ({ one, many }) => ({
   user: one(users, { fields: [orders.userId], references: [users.id] }),
