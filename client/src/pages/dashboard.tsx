@@ -4,7 +4,7 @@ import { Footer } from "@/components/layout/footer";
 import { useAuth } from "@/hooks/use-auth";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { queryClient, apiRequest } from "@/lib/queryClient";
-import { Building2, FileText, Clock, ChevronRight, User as UserIcon, Settings, Package, CreditCard, PlusCircle, Download, ExternalLink, Mail, BellRing, CheckCircle2, AlertCircle, MessageSquare, Send, Shield, Users, Power, Edit, Trash2, FileUp, Newspaper, Loader2, CheckCircle, Receipt, Plus, Calendar, DollarSign, TrendingUp, BarChart3, UserCheck, UserX, Star, Eye, FileCheck, Upload, XCircle } from "lucide-react";
+import { Building2, FileText, Clock, ChevronRight, User as UserIcon, Settings, Package, CreditCard, PlusCircle, Download, ExternalLink, Mail, BellRing, CheckCircle2, AlertCircle, MessageSquare, Send, Shield, Users, Power, Edit, Trash2, FileUp, Newspaper, Loader2, CheckCircle, Receipt, Plus, Calendar, DollarSign, TrendingUp, BarChart3, UserCheck, UserX, Star, Eye, FileCheck, Upload, XCircle, Tag, Percent } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { useEffect, useState } from "react";
@@ -55,6 +55,20 @@ interface AdminUserData {
   accountStatus?: string;
   internalNotes?: string | null;
   createdAt?: string | null;
+}
+
+interface DiscountCode {
+  id: number;
+  code: string;
+  discountType: 'percentage' | 'fixed';
+  discountValue: number;
+  minOrderAmount?: number | null;
+  maxUses?: number | null;
+  usedCount: number;
+  validFrom?: string | null;
+  validUntil?: string | null;
+  isActive: boolean;
+  createdAt: string;
 }
 
 function NewsletterToggle() {
@@ -142,6 +156,17 @@ export default function Dashboard() {
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [passwordOtp, setPasswordOtp] = useState("");
+  const [discountCodeDialog, setDiscountCodeDialog] = useState<{ open: boolean; code: DiscountCode | null }>({ open: false, code: null });
+  const [newDiscountCode, setNewDiscountCode] = useState({
+    code: '',
+    discountType: 'percentage' as 'percentage' | 'fixed',
+    discountValue: '',
+    minOrderAmount: '',
+    maxUses: '',
+    validFrom: '',
+    validUntil: '',
+    isActive: true
+  });
 
   useEffect(() => {
     if (user) {
@@ -284,6 +309,11 @@ export default function Dashboard() {
 
   const { data: adminMessages } = useQuery<any[]>({
     queryKey: ["/api/admin/messages"],
+    enabled: !!user?.isAdmin,
+  });
+
+  const { data: discountCodes, refetch: refetchDiscountCodes } = useQuery<DiscountCode[]>({
+    queryKey: ["/api/admin/discount-codes"],
     enabled: !!user?.isAdmin,
   });
 
@@ -1303,10 +1333,10 @@ export default function Dashboard() {
               {activeTab === 'admin' && user?.isAdmin && (
                 <div key="admin" className="space-y-6">
                   <div className="flex flex-wrap gap-1.5 md:gap-2 mb-4 md:mb-6">
-                    {['dashboard', 'orders', 'users', 'calendar', 'newsletter', 'inbox'].map(tab => (
+                    {['dashboard', 'orders', 'users', 'calendar', 'newsletter', 'inbox', 'descuentos'].map(tab => (
                       <Button key={tab} variant={adminSubTab === tab ? "default" : "outline"} onClick={() => setAdminSubTab(tab)} className="rounded-full text-[10px] md:text-xs font-black capitalize px-2 md:px-3" data-testid={`button-admin-tab-${tab}`}>
-                        <span className="hidden sm:inline">{tab === 'dashboard' ? 'Métricas' : tab === 'calendar' ? 'Fechas' : tab === 'orders' ? 'Pedidos' : tab === 'users' ? 'Clientes' : tab}</span>
-                        <span className="sm:hidden flex items-center justify-center">{tab === 'dashboard' ? <BarChart3 className="w-5 h-5" /> : tab === 'calendar' ? <Calendar className="w-5 h-5" /> : tab === 'orders' ? <Package className="w-5 h-5" /> : tab === 'users' ? <Users className="w-5 h-5" /> : tab === 'newsletter' ? <Mail className="w-5 h-5" /> : <MessageSquare className="w-5 h-5" />}</span>
+                        <span className="hidden sm:inline">{tab === 'dashboard' ? 'Métricas' : tab === 'calendar' ? 'Fechas' : tab === 'orders' ? 'Pedidos' : tab === 'users' ? 'Clientes' : tab === 'descuentos' ? 'Descuentos' : tab}</span>
+                        <span className="sm:hidden flex items-center justify-center">{tab === 'dashboard' ? <BarChart3 className="w-5 h-5" /> : tab === 'calendar' ? <Calendar className="w-5 h-5" /> : tab === 'orders' ? <Package className="w-5 h-5" /> : tab === 'users' ? <Users className="w-5 h-5" /> : tab === 'newsletter' ? <Mail className="w-5 h-5" /> : tab === 'descuentos' ? <Tag className="w-5 h-5" /> : <MessageSquare className="w-5 h-5" />}</span>
                       </Button>
                     ))}
                   </div>
@@ -1750,6 +1780,107 @@ export default function Dashboard() {
                         )}
                       </div>
                     </Card>
+                  )}
+                  {adminSubTab === 'descuentos' && (
+                    <div className="space-y-4">
+                      <div className="flex justify-between items-center">
+                        <h3 className="text-sm font-bold">Códigos de Descuento</h3>
+                        <Button 
+                          variant="outline" 
+                          size="sm" 
+                          className="rounded-full text-xs font-semibold"
+                          onClick={() => {
+                            setNewDiscountCode({
+                              code: '',
+                              discountType: 'percentage',
+                              discountValue: '',
+                              minOrderAmount: '',
+                              maxUses: '',
+                              validFrom: '',
+                              validUntil: '',
+                              isActive: true
+                            });
+                            setDiscountCodeDialog({ open: true, code: null });
+                          }}
+                          data-testid="button-create-discount-code"
+                        >
+                          <Plus className="w-3 h-3 mr-1" /> Nuevo Código
+                        </Button>
+                      </div>
+                      <Card className="rounded-2xl border-0 shadow-sm overflow-hidden">
+                        <div className="divide-y">
+                          {discountCodes?.map((dc) => (
+                            <div key={dc.id} className="p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3" data-testid={`discount-code-${dc.code}`}>
+                              <div className="space-y-1">
+                                <div className="flex items-center gap-2 flex-wrap">
+                                  <span className="font-black text-sm">{dc.code}</span>
+                                  <Badge variant={dc.isActive ? "default" : "secondary"} className="text-[10px]">
+                                    {dc.isActive ? 'Activo' : 'Inactivo'}
+                                  </Badge>
+                                  <Badge variant="outline" className="text-[10px]">
+                                    {dc.discountType === 'percentage' ? `${dc.discountValue}%` : `${(dc.discountValue / 100).toFixed(2)}€`}
+                                  </Badge>
+                                </div>
+                                <p className="text-xs text-muted-foreground">
+                                  Usado: {dc.usedCount}{dc.maxUses ? `/${dc.maxUses}` : ''} veces
+                                  {dc.minOrderAmount && ` | Min: ${(dc.minOrderAmount / 100).toFixed(2)}€`}
+                                </p>
+                                {(dc.validFrom || dc.validUntil) && (
+                                  <p className="text-[10px] text-muted-foreground">
+                                    {dc.validFrom && `Desde: ${new Date(dc.validFrom).toLocaleDateString('es-ES')}`}
+                                    {dc.validFrom && dc.validUntil && ' - '}
+                                    {dc.validUntil && `Hasta: ${new Date(dc.validUntil).toLocaleDateString('es-ES')}`}
+                                  </p>
+                                )}
+                              </div>
+                              <div className="flex gap-2">
+                                <Button 
+                                  variant="outline" 
+                                  size="sm" 
+                                  className="rounded-full text-xs"
+                                  onClick={() => {
+                                    setNewDiscountCode({
+                                      code: dc.code,
+                                      discountType: dc.discountType,
+                                      discountValue: dc.discountValue.toString(),
+                                      minOrderAmount: dc.minOrderAmount ? (dc.minOrderAmount / 100).toString() : '',
+                                      maxUses: dc.maxUses?.toString() || '',
+                                      validFrom: dc.validFrom ? dc.validFrom.split('T')[0] : '',
+                                      validUntil: dc.validUntil ? dc.validUntil.split('T')[0] : '',
+                                      isActive: dc.isActive
+                                    });
+                                    setDiscountCodeDialog({ open: true, code: dc });
+                                  }}
+                                  data-testid={`button-edit-discount-${dc.code}`}
+                                >
+                                  <Edit className="w-3 h-3" />
+                                </Button>
+                                <Button 
+                                  variant="outline" 
+                                  size="sm" 
+                                  className={`rounded-full text-xs ${dc.isActive ? 'text-red-600' : 'text-green-600'}`}
+                                  onClick={async () => {
+                                    try {
+                                      await apiRequest("PATCH", `/api/admin/discount-codes/${dc.id}`, { isActive: !dc.isActive });
+                                      refetchDiscountCodes();
+                                      toast({ title: dc.isActive ? "Código desactivado" : "Código activado" });
+                                    } catch (e) {
+                                      toast({ title: "Error", variant: "destructive" });
+                                    }
+                                  }}
+                                  data-testid={`button-toggle-discount-${dc.code}`}
+                                >
+                                  {dc.isActive ? <XCircle className="w-3 h-3" /> : <CheckCircle className="w-3 h-3" />}
+                                </Button>
+                              </div>
+                            </div>
+                          ))}
+                          {(!discountCodes || discountCodes.length === 0) && (
+                            <div className="text-center py-8 text-muted-foreground text-sm">No hay códigos de descuento</div>
+                          )}
+                        </div>
+                      </Card>
+                    </div>
                   )}
                 </div>
               )}
@@ -2322,6 +2453,147 @@ export default function Dashboard() {
             <Button variant="outline" onClick={() => setCreateOrderDialog(false)} className="w-full sm:w-auto rounded-full font-black" data-testid="button-cancel-create-order">Cancelar</Button>
             <Button onClick={() => createOrderMutation.mutate(newOrderData)} disabled={createOrderMutation.isPending || !newOrderData.userId || !newOrderData.amount} className="w-full sm:w-auto bg-accent text-primary font-black rounded-full" data-testid="button-confirm-create-order">
               {createOrderMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Crear Pedido'}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={discountCodeDialog.open} onOpenChange={(open) => setDiscountCodeDialog({ open, code: open ? discountCodeDialog.code : null })}>
+        <DialogContent className="max-w-md bg-white rounded-2xl mx-4 sm:mx-auto max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle className="text-xl font-black text-primary">
+              {discountCodeDialog.code ? 'Editar Código de Descuento' : 'Nuevo Código de Descuento'}
+            </DialogTitle>
+            <DialogDescription className="text-sm text-muted-foreground">
+              {discountCodeDialog.code ? 'Modifica los datos del código' : 'Configura un nuevo código de descuento'}
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4 pt-2">
+            <div>
+              <Label className="text-sm font-black text-primary mb-2 block">Código</Label>
+              <Input 
+                value={newDiscountCode.code} 
+                onChange={e => setNewDiscountCode(p => ({ ...p, code: e.target.value.toUpperCase() }))} 
+                className="rounded-full border-gray-200 focus:border-accent h-11 uppercase" 
+                disabled={!!discountCodeDialog.code}
+                data-testid="input-discount-code" 
+              />
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <Label className="text-sm font-black text-primary mb-2 block">Tipo</Label>
+                <Select 
+                  value={newDiscountCode.discountType} 
+                  onValueChange={(val: 'percentage' | 'fixed') => setNewDiscountCode(p => ({ ...p, discountType: val }))}
+                >
+                  <SelectTrigger className="w-full bg-white rounded-full h-11 border-gray-200" data-testid="select-discount-type">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent className="bg-white z-[9999] rounded-xl">
+                    <SelectItem value="percentage">Porcentaje (%)</SelectItem>
+                    <SelectItem value="fixed">Fijo (centimos)</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div>
+                <Label className="text-sm font-black text-primary mb-2 block">
+                  Valor {newDiscountCode.discountType === 'percentage' ? '(%)' : '(centimos)'}
+                </Label>
+                <Input 
+                  type="number" 
+                  value={newDiscountCode.discountValue} 
+                  onChange={e => setNewDiscountCode(p => ({ ...p, discountValue: e.target.value }))} 
+                  className="rounded-full border-gray-200 focus:border-accent h-11" 
+                  data-testid="input-discount-value" 
+                />
+              </div>
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <Label className="text-sm font-black text-primary mb-2 block">Pedido min. (EUR)</Label>
+                <Input 
+                  type="number" 
+                  value={newDiscountCode.minOrderAmount} 
+                  onChange={e => setNewDiscountCode(p => ({ ...p, minOrderAmount: e.target.value }))} 
+                  className="rounded-full border-gray-200 focus:border-accent h-11" 
+                  data-testid="input-discount-min-amount" 
+                />
+              </div>
+              <div>
+                <Label className="text-sm font-black text-primary mb-2 block">Usos max.</Label>
+                <Input 
+                  type="number" 
+                  value={newDiscountCode.maxUses} 
+                  onChange={e => setNewDiscountCode(p => ({ ...p, maxUses: e.target.value }))} 
+                  className="rounded-full border-gray-200 focus:border-accent h-11" 
+                  data-testid="input-discount-max-uses" 
+                />
+              </div>
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <Label className="text-sm font-black text-primary mb-2 block">Válido desde</Label>
+                <Input 
+                  type="date" 
+                  value={newDiscountCode.validFrom} 
+                  onChange={e => setNewDiscountCode(p => ({ ...p, validFrom: e.target.value }))} 
+                  className="rounded-full border-gray-200 focus:border-accent h-11" 
+                  data-testid="input-discount-valid-from" 
+                />
+              </div>
+              <div>
+                <Label className="text-sm font-black text-primary mb-2 block">Válido hasta</Label>
+                <Input 
+                  type="date" 
+                  value={newDiscountCode.validUntil} 
+                  onChange={e => setNewDiscountCode(p => ({ ...p, validUntil: e.target.value }))} 
+                  className="rounded-full border-gray-200 focus:border-accent h-11" 
+                  data-testid="input-discount-valid-until" 
+                />
+              </div>
+            </div>
+            <div className="flex items-center gap-3">
+              <Switch 
+                checked={newDiscountCode.isActive} 
+                onCheckedChange={(checked) => setNewDiscountCode(p => ({ ...p, isActive: checked }))}
+                data-testid="switch-discount-active"
+              />
+              <Label className="text-sm font-semibold">Código activo</Label>
+            </div>
+          </div>
+          <DialogFooter className="mt-6 flex-col sm:flex-row gap-3">
+            <Button variant="outline" onClick={() => setDiscountCodeDialog({ open: false, code: null })} className="w-full sm:w-auto rounded-full font-black" data-testid="button-cancel-discount">Cancelar</Button>
+            <Button 
+              onClick={async () => {
+                try {
+                  const payload = {
+                    code: newDiscountCode.code,
+                    discountType: newDiscountCode.discountType,
+                    discountValue: parseInt(newDiscountCode.discountValue),
+                    minOrderAmount: newDiscountCode.minOrderAmount ? parseInt(newDiscountCode.minOrderAmount) * 100 : null,
+                    maxUses: newDiscountCode.maxUses ? parseInt(newDiscountCode.maxUses) : null,
+                    validFrom: newDiscountCode.validFrom || null,
+                    validUntil: newDiscountCode.validUntil || null,
+                    isActive: newDiscountCode.isActive
+                  };
+                  if (discountCodeDialog.code) {
+                    await apiRequest("PATCH", `/api/admin/discount-codes/${discountCodeDialog.code.id}`, payload);
+                    toast({ title: "Código actualizado" });
+                  } else {
+                    await apiRequest("POST", "/api/admin/discount-codes", payload);
+                    toast({ title: "Código creado" });
+                  }
+                  refetchDiscountCodes();
+                  setDiscountCodeDialog({ open: false, code: null });
+                } catch (e: any) {
+                  toast({ title: "Error", description: e.message || "No se pudo guardar el código", variant: "destructive" });
+                }
+              }} 
+              disabled={!newDiscountCode.code || !newDiscountCode.discountValue} 
+              className="w-full sm:w-auto bg-accent text-primary font-black rounded-full" 
+              data-testid="button-save-discount"
+            >
+              {discountCodeDialog.code ? 'Guardar Cambios' : 'Crear Código'}
             </Button>
           </DialogFooter>
         </DialogContent>
