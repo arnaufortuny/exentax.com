@@ -75,3 +75,17 @@ The architecture includes:
 - **Public Routes:** Health check, products, newsletter subscribe, contact, OTP verification
 - **Order Routes:** `/api/orders/*`, `/api/llc/*`, `/api/maintenance/*`
 - **Document Routes:** `/api/documents/*`, `/api/user/documents/*`
+
+## UI/UX Unification (January 2026)
+- **Dashboard Dialogs:** All admin dialogs (create user, create order, send message, edit user, request documents, create invoice, upload document) now use unified styling:
+  - DialogContent: rounded-2xl containers with mx-4 sm:mx-auto for mobile optimization
+  - DialogHeader: text-xl font-black titles with DialogDescription for context
+  - Labels: text-sm font-black text-primary mb-2 block
+  - Inputs: rounded-full border-gray-200 focus:border-accent h-11
+  - Textareas: rounded-xl border-gray-200 focus:border-accent
+  - Select triggers: rounded-full h-11 with rounded-xl dropdown content
+  - Buttons: rounded-full font-black, primary uses bg-accent text-primary
+  - DialogFooter: flex-col sm:flex-row gap-3 mt-6 for mobile stacking
+  - Long forms: max-h-[90vh] overflow-y-auto for scrollable content
+- **Mobile Responsiveness:** All dialogs optimized for mobile with proper button stacking and spacing
+- **Typography Consistency:** font-black for all labels and titles, consistent text sizing throughout
