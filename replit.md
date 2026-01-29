@@ -14,7 +14,7 @@ The application is built with a modern UI/UX, featuring a consistent design syst
 - **Server-side:** Powered by an Express.js backend.
 - **Database:** Drizzle ORM defines the schema with Zod for type validation, incorporating key indexes for performance.
 - **Email System:** Professional email templates are managed through three IONOS accounts for system notifications, support, and Trustpilot review requests. All emails are designed for consistency and branding.
-- **Authentication:** Features robust OTP verification, session management, and secure password handling. Account creation is mandatory for orders, with automatic verification and a welcome email.
+- **Authentication:** Features robust OTP verification, session management, and secure password handling. Account creation is mandatory for orders, with automatic verification and a welcome email. Includes Google OAuth with CSRF-protected redirect flow (users can log in or connect/disconnect from profile). Apple Sign-In UI ready (requires Apple Developer configuration).
 - **Form Management:** Multi-step wizard patterns for LLC, maintenance, and contact forms, including auto-fill for authenticated users and auto-saving drafts to local storage.
 - **Admin Panel:** Integrated into the client dashboard for privileged users, offering full control over orders, users, and messages.
 - **Performance Optimizations:** Includes Gzip compression, advanced cache headers, lazy loading, `content-visibility: auto` for images, non-blocking font loading, and route prefetching. PWA support is also implemented for an app-like experience.
@@ -32,6 +32,7 @@ The application is built with a modern UI/UX, featuring a consistent design syst
 - **OTP Verification System:** Email OTP verification is required for account creation and password resets, with 6-digit codes valid for 10 minutes, and state reset on email changes.
 - **Messaging System:** Automatically links messages from authenticated users, sends email notifications to users and admins, supports threaded replies, and integrates message history into the user dashboard.
 - **Admin Features:** Includes payment link generation, full CRUD operations for users and orders, document request management, and invoice generation.
+- **Compliance Calendar System:** Automatic calculation of IRS deadlines (1120/5472 on April 15 following year), Annual Reports for Delaware and Wyoming (12 months from formation), and Registered Agent renewals (12 months). Hourly reminder service sends notifications 60 days before deadlines. Responsive calendar UI with mobile-optimized grid layout.
 
 ## External Dependencies
 - **Drizzle ORM:** For database interaction.

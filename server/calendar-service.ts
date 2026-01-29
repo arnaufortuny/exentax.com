@@ -36,13 +36,13 @@ export function calculateComplianceDeadlines(formationDate: Date, state: string)
     description: "Presentación del formulario IRS 5472 (Declaración de transacciones con propietarios extranjeros)",
   });
 
-  if (state === "wyoming" || state === "new_mexico" || state === "WY" || state === "NM") {
+  if (state === "wyoming" || state === "delaware" || state === "WY" || state === "DE") {
     const annualReportDueDate = new Date(formationDate);
     annualReportDueDate.setFullYear(annualReportDueDate.getFullYear() + 1);
     const annualReportReminderDate = new Date(annualReportDueDate);
     annualReportReminderDate.setDate(annualReportReminderDate.getDate() - 60);
 
-    const stateLabel = (state === "wyoming" || state === "WY") ? "Wyoming" : "Nuevo México";
+    const stateLabel = (state === "wyoming" || state === "WY") ? "Wyoming" : "Delaware";
     deadlines.push({
       type: "annual_report",
       dueDate: annualReportDueDate,
