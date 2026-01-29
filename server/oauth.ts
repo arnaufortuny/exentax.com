@@ -4,12 +4,20 @@ import { db } from "./db";
 import { users } from "@shared/schema";
 import { eq } from "drizzle-orm";
 import type { Express, Request, Response } from "express";
+import crypto from "crypto";
 
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
 const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
 const JWT_SECRET = process.env.JWT_SECRET || "fallback-secret-for-dev";
 
 const googleClient = GOOGLE_CLIENT_ID ? new OAuth2Client(GOOGLE_CLIENT_ID) : null;
+
+declare module "express-session" {
+  interface SessionData {
+    oauthState?: string;
+    oauthAction?: "login" | "connect";
+  }
+}
 
 function generateClientId(): string {
   return Math.floor(10000000 + Math.random() * 90000000).toString();
@@ -93,6 +101,143 @@ async function findOrCreateUserByApple(profile: {
 }
 
 export function setupOAuth(app: Express) {
+  app.get("/api/auth/google", async (req: Request, res: Response) => {
+    const isConnect = req.query.connect === "true";
+    
+    if (isConnect && !req.session.userId) {
+      return res.redirect("/login?error=login_required");
+    }
+    
+    if (!GOOGLE_CLIENT_ID || !GOOGLE_CLIENT_SECRET) {
+      return res.redirect("/login?error=google_not_configured");
+    }
+
+    const protocol = req.headers["x-forwarded-proto"] || req.protocol;
+    const host = req.headers.host || "localhost:5000";
+    const redirectUri = `${protocol}://${host}/api/auth/google/callback`;
+
+    const oauthState = crypto.randomBytes(32).toString("hex");
+    req.session.oauthState = oauthState;
+    req.session.oauthAction = isConnect ? "connect" : "login";
+    
+    await new Promise<void>((resolve, reject) => {
+      req.session.save((err) => {
+        if (err) reject(err);
+        else resolve();
+      });
+    });
+    
+    const authUrl = new URL("https://accounts.google.com/o/oauth2/v2/auth");
+    authUrl.searchParams.set("client_id", GOOGLE_CLIENT_ID);
+    authUrl.searchParams.set("redirect_uri", redirectUri);
+    authUrl.searchParams.set("response_type", "code");
+    authUrl.searchParams.set("scope", "openid email profile");
+    authUrl.searchParams.set("state", oauthState);
+    authUrl.searchParams.set("access_type", "offline");
+    authUrl.searchParams.set("prompt", "select_account");
+
+    return res.redirect(authUrl.toString());
+  });
+
+  app.get("/api/auth/google/callback", async (req: Request, res: Response) => {
+    try {
+      const { code, state, error } = req.query;
+      
+      const expectedState = req.session.oauthState;
+      const action = req.session.oauthAction;
+      
+      delete req.session.oauthState;
+      delete req.session.oauthAction;
+      
+      if (!expectedState || state !== expectedState) {
+        console.error("OAuth state mismatch - potential CSRF attack");
+        return res.redirect("/login?error=invalid_state");
+      }
+      
+      const isConnect = action === "connect";
+
+      if (error) {
+        return res.redirect(`/login?error=${error}`);
+      }
+
+      if (!code || typeof code !== "string") {
+        return res.redirect("/login?error=no_code");
+      }
+
+      if (!GOOGLE_CLIENT_ID || !GOOGLE_CLIENT_SECRET) {
+        return res.redirect("/login?error=google_not_configured");
+      }
+
+      const protocol = req.headers["x-forwarded-proto"] || req.protocol;
+      const host = req.headers.host || "localhost:5000";
+      const redirectUri = `${protocol}://${host}/api/auth/google/callback`;
+
+      const tokenResponse = await fetch("https://oauth2.googleapis.com/token", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams({
+          code,
+          client_id: GOOGLE_CLIENT_ID,
+          client_secret: GOOGLE_CLIENT_SECRET,
+          redirect_uri: redirectUri,
+          grant_type: "authorization_code",
+        }),
+      });
+
+      const tokens = await tokenResponse.json();
+      if (!tokens.id_token) {
+        console.error("No id_token in Google response:", tokens);
+        return res.redirect("/login?error=token_error");
+      }
+
+      const ticket = await googleClient!.verifyIdToken({
+        idToken: tokens.id_token,
+        audience: GOOGLE_CLIENT_ID,
+      });
+
+      const payload = ticket.getPayload();
+      if (!payload || !payload.email) {
+        return res.redirect("/login?error=invalid_token");
+      }
+
+      if (isConnect && req.session.userId) {
+        const [existingUser] = await db.select().from(users).where(eq(users.id, req.session.userId)).limit(1);
+        if (existingUser) {
+          await db.update(users).set({ 
+            googleId: payload.sub, 
+            updatedAt: new Date() 
+          }).where(eq(users.id, existingUser.id));
+          return res.redirect("/dashboard?connected=google");
+        }
+      }
+
+      const user = await findOrCreateUserByGoogle({
+        googleId: payload.sub,
+        email: payload.email,
+        firstName: payload.given_name,
+        lastName: payload.family_name,
+        profileImageUrl: payload.picture,
+      });
+
+      if (!user.isActive || user.accountStatus === "deactivated") {
+        return res.redirect("/login?error=account_deactivated");
+      }
+
+      req.session.userId = user.id;
+      await new Promise<void>((resolve, reject) => {
+        req.session.save((err) => {
+          if (err) reject(err);
+          else resolve();
+        });
+      });
+
+      return res.redirect("/dashboard");
+    } catch (error) {
+      console.error("Google OAuth callback error:", error);
+      return res.redirect("/login?error=auth_failed");
+    }
+  });
+
   app.post("/api/auth/google", async (req: Request, res: Response) => {
     try {
       const { credential } = req.body;

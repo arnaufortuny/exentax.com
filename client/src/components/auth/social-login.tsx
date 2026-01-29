@@ -1,11 +1,9 @@
 import { useState } from "react";
-import { GoogleLogin } from "@react-oauth/google";
 import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
 import { SiGoogle, SiApple } from "react-icons/si";
-import { apiRequest, queryClient } from "@/lib/queryClient";
+import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
-import { useLocation } from "wouter";
 
 interface SocialLoginProps {
   mode?: "login" | "connect";
@@ -18,55 +16,20 @@ export function SocialLogin({ mode = "login", onSuccess, googleConnected, appleC
   const [isLoadingGoogle, setIsLoadingGoogle] = useState(false);
   const [isLoadingApple, setIsLoadingApple] = useState(false);
   const { toast } = useToast();
-  const [, setLocation] = useLocation();
 
-  const handleGoogleSuccess = async (credentialResponse: any) => {
-    if (!credentialResponse.credential) return;
-
+  const handleGoogleLogin = () => {
     setIsLoadingGoogle(true);
-    try {
-      const endpoint = mode === "connect" ? "/api/auth/connect/google" : "/api/auth/google";
-      const res = await apiRequest("POST", endpoint, {
-        credential: credentialResponse.credential,
-      });
-      const result = await res.json();
-
-      if (mode === "login") {
-        await queryClient.refetchQueries({ queryKey: ["/api/auth/user"] });
-        toast({ title: "Bienvenido", description: "Sesion iniciada con Google" });
-        setLocation("/dashboard");
-      } else {
-        toast({ title: "Exito", description: "Cuenta de Google vinculada correctamente" });
-        onSuccess?.();
-      }
-    } catch (err: any) {
-      toast({
-        title: "Error",
-        description: err.message || "Error al autenticar con Google",
-        variant: "destructive",
-      });
-    } finally {
-      setIsLoadingGoogle(false);
-    }
+    const endpoint = mode === "connect" ? "/api/auth/google?connect=true" : "/api/auth/google";
+    window.location.href = endpoint;
   };
 
-  const handleAppleLogin = async () => {
+  const handleAppleLogin = () => {
     setIsLoadingApple(true);
-    try {
-      const endpoint = mode === "connect" ? "/api/auth/connect/apple" : "/api/auth/apple";
-      toast({
-        title: "Apple Sign-In",
-        description: "El inicio de sesion con Apple requiere configuracion adicional del servidor",
-      });
-    } catch (err: any) {
-      toast({
-        title: "Error",
-        description: err.message || "Error al autenticar con Apple",
-        variant: "destructive",
-      });
-    } finally {
-      setIsLoadingApple(false);
-    }
+    toast({
+      title: "Apple Sign-In",
+      description: "El inicio de sesion con Apple requiere configuracion adicional del servidor",
+    });
+    setIsLoadingApple(false);
   };
 
   const handleDisconnect = async (provider: "google" | "apple") => {
@@ -107,16 +70,15 @@ export function SocialLogin({ mode = "login", onSuccess, googleConnected, appleC
               {isLoadingGoogle ? <Loader2 className="w-4 h-4 animate-spin" /> : "Desvincular"}
             </Button>
           ) : (
-            <div className="overflow-hidden rounded-md">
-              <GoogleLogin
-                onSuccess={handleGoogleSuccess}
-                onError={() => toast({ title: "Error", description: "Error al iniciar Google", variant: "destructive" })}
-                size="medium"
-                text="signin"
-                shape="rectangular"
-                theme="outline"
-              />
-            </div>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={handleGoogleLogin}
+              disabled={isLoadingGoogle}
+              data-testid="button-connect-google"
+            >
+              {isLoadingGoogle ? <Loader2 className="w-4 h-4 animate-spin" /> : "Vincular"}
+            </Button>
           )}
         </div>
 
@@ -164,17 +126,23 @@ export function SocialLogin({ mode = "login", onSuccess, googleConnected, appleC
       </div>
 
       <div className="flex flex-col gap-2">
-        <div className="w-full flex justify-center overflow-hidden rounded-full">
-          <GoogleLogin
-            onSuccess={handleGoogleSuccess}
-            onError={() => toast({ title: "Error", description: "Error al iniciar Google", variant: "destructive" })}
-            size="large"
-            text="continue_with"
-            shape="pill"
-            theme="outline"
-            width="320"
-          />
-        </div>
+        <Button
+          type="button"
+          variant="outline"
+          onClick={handleGoogleLogin}
+          disabled={isLoadingGoogle}
+          className="w-full rounded-full h-11 font-medium flex items-center justify-center gap-2"
+          data-testid="button-google-login"
+        >
+          {isLoadingGoogle ? (
+            <Loader2 className="w-4 h-4 animate-spin" />
+          ) : (
+            <>
+              <SiGoogle className="w-5 h-5 text-red-500" />
+              Continuar con Google
+            </>
+          )}
+        </Button>
 
         <Button
           type="button"
