@@ -121,8 +121,8 @@ export function Navbar() {
 
       {isOpen && (
         <div className="md:hidden fixed inset-0 bg-background z-[60] flex flex-col pt-20 overflow-hidden">
-          <div className="flex flex-col flex-grow bg-background p-6 justify-start overflow-y-auto">
-              <div className="flex flex-col gap-0.5">
+          <div className="flex flex-col flex-grow bg-background p-6 justify-start items-stretch overflow-y-auto">
+              <div className="flex flex-col gap-0.5 items-stretch text-left">
                 {isAuthenticated && (
                   <div className="px-3 py-4 mb-4 bg-accent/5 rounded-2xl border border-accent/20">
                     <p className="text-sm font-black text-accent tracking-tighter mb-2" style={{ fontFamily: 'var(--font-display)' }}>Área Personal</p>
@@ -171,16 +171,16 @@ export function Navbar() {
                 Habla con nosotros
               </button>
               {!isAuthenticated && (
-                <div className="px-3 py-4 mb-4 bg-accent/5 rounded-2xl border border-accent/20">
-                  <p className="text-sm font-black text-accent tracking-tighter mb-2" style={{ fontFamily: 'var(--font-display)' }}>Área de Clientes</p>
+                <div className="px-3 py-4 mb-4 bg-accent/5 rounded-2xl border border-accent/20 text-left">
+                  <p className="text-sm font-black text-accent tracking-tighter mb-2 text-left" style={{ fontFamily: 'var(--font-display)' }}>Área de Clientes</p>
                   <button
                     onClick={() => handleNavClick("/login")}
-                    className="w-full text-left py-2 text-foreground font-black text-xl tracking-tighter flex items-center gap-2"
+                    className="w-full text-left py-2 text-foreground font-black text-xl tracking-tighter flex items-center justify-start gap-2"
                     data-testid="button-mobile-login-menu"
                   >
                     <UserIcon className="w-5 h-5" /> Mi cuenta
                   </button>
-                  <p className="text-sm text-muted-foreground mt-1">Accede a tu panel o crea tu cuenta en segundos</p>
+                  <p className="text-sm text-muted-foreground mt-1 text-left">Accede a tu panel o crea tu cuenta en segundos</p>
                 </div>
               )}
               <div className="mt-8 px-3 flex flex-col gap-3">
