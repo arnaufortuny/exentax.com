@@ -78,37 +78,41 @@ export function Navbar() {
           </Button>
 
           <div className="md:hidden flex items-center gap-2 relative z-[110]">
-            {!isAuthenticated && (
+            <div className="w-9 h-9 flex items-center justify-center">
+              {!isAuthenticated && (
+                <button 
+                  onClick={() => setLocation("/login")}
+                  className="p-2 text-accent"
+                  aria-label="Iniciar sesión"
+                  data-testid="button-mobile-login"
+                >
+                  <UserIcon className="w-5 h-5" />
+                </button>
+              )}
+              {isAuthenticated && (
+                <Link href="/dashboard" className="p-2 text-accent" aria-label="Mi área" data-testid="link-mobile-dashboard">
+                  <UserIcon className="w-5 h-5" />
+                </Link>
+              )}
+            </div>
+            <div className="w-9 h-9 flex items-center justify-center">
               <button 
-                onClick={() => setLocation("/login")}
-                className="p-2 text-accent"
-                aria-label="Iniciar sesión"
-                data-testid="button-mobile-login"
+                className="p-2 text-foreground"
+                onClick={() => {
+                  const newIsOpen = !isOpen;
+                  setIsOpen(newIsOpen);
+                  if (newIsOpen) {
+                    document.body.style.overflow = 'hidden';
+                  } else {
+                    document.body.style.overflow = '';
+                  }
+                }}
+                aria-label={isOpen ? "Cerrar menú" : "Abrir menú"}
+                data-testid="button-mobile-menu"
               >
-                <UserIcon className="w-5 h-5" />
+                <span className="text-2xl font-black">{isOpen ? "✕" : "☰"}</span>
               </button>
-            )}
-            {isAuthenticated && (
-              <Link href="/dashboard" className="p-2 text-accent" aria-label="Mi área" data-testid="link-mobile-dashboard">
-                <UserIcon className="w-5 h-5" />
-              </Link>
-            )}
-            <button 
-              className="p-2 text-foreground"
-              onClick={() => {
-                const newIsOpen = !isOpen;
-                setIsOpen(newIsOpen);
-                if (newIsOpen) {
-                  document.body.style.overflow = 'hidden';
-                } else {
-                  document.body.style.overflow = '';
-                }
-              }}
-              aria-label={isOpen ? "Cerrar menú" : "Abrir menú"}
-              data-testid="button-mobile-menu"
-            >
-              <span className="text-2xl font-black">{isOpen ? "✕" : "☰"}</span>
-            </button>
+            </div>
           </div>
         </div>
       </div>
