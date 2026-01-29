@@ -26,8 +26,23 @@ export function generateToken(): string {
 }
 
 export function generateClientId(): string {
-  // Generate 8 random digits
   return Math.floor(10000000 + Math.random() * 90000000).toString();
+}
+
+export async function generateUniqueClientId(): Promise<string> {
+  let attempts = 0;
+  const maxAttempts = 10;
+  
+  while (attempts < maxAttempts) {
+    const clientId = generateClientId();
+    const existing = await db.select({ id: users.id }).from(users).where(eq(users.clientId, clientId)).limit(1);
+    if (existing.length === 0) {
+      return clientId;
+    }
+    attempts++;
+  }
+  
+  return Date.now().toString().slice(-8);
 }
 
 export async function createUser(data: {

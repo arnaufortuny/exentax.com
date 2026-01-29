@@ -1514,9 +1514,9 @@ export async function registerRoutes(
         }
         
         // Create new user with verified email and password
-        const { hashPassword, generateClientId } = await import("./lib/auth-service");
+        const { hashPassword, generateUniqueClientId } = await import("./lib/auth-service");
         const passwordHash = await hashPassword(password);
-        const clientId = await generateClientId();
+        const clientId = await generateUniqueClientId();
         const nameParts = ownerFullName?.split(' ') || ['Cliente'];
         
         const [newUser] = await db.insert(usersTable).values({
@@ -1591,12 +1591,10 @@ export async function registerRoutes(
         });
       }
 
-      // Generate unified request code: 8 random digits
-      const generateRandomCode = () => {
-        return Math.floor(10000000 + Math.random() * 90000000).toString();
-      };
-      
-      const requestCode = generateRandomCode();
+      // Generate unified request code: STATE-8digits (e.g., NM-12345678)
+      const { generateUniqueOrderCode } = await import("./lib/id-generator");
+      const appState = body.state || 'New Mexico';
+      const requestCode = await generateUniqueOrderCode(appState);
 
       const updatedApplication = await storage.updateLlcApplication(application.id, { requestCode });
 
@@ -1719,9 +1717,9 @@ export async function registerRoutes(
       }
       
       // Create new user with verified email
-      const { hashPassword, generateClientId } = await import("./lib/auth-service");
+      const { hashPassword, generateUniqueClientId } = await import("./lib/auth-service");
       const passwordHash = await hashPassword(password);
-      const clientId = await generateClientId();
+      const clientId = await generateUniqueClientId();
       const nameParts = ownerFullName?.split(' ') || ['Cliente'];
       
       const [newUser] = await db.insert(usersTable).values({
@@ -1805,9 +1803,9 @@ export async function registerRoutes(
       }
       
       // Create new user with verified email
-      const { hashPassword, generateClientId } = await import("./lib/auth-service");
+      const { hashPassword, generateUniqueClientId } = await import("./lib/auth-service");
       const passwordHash = await hashPassword(password);
-      const clientId = await generateClientId();
+      const clientId = await generateUniqueClientId();
       const nameParts = ownerFullName?.split(' ') || ['Cliente'];
       
       const [newUser] = await db.insert(usersTable).values({
@@ -2211,9 +2209,9 @@ export async function registerRoutes(
           return res.status(400).json({ message: "Este email ya está registrado. Por favor inicia sesión." });
         }
         
-        const { hashPassword, generateClientId } = await import("./lib/auth-service");
+        const { hashPassword, generateUniqueClientId } = await import("./lib/auth-service");
         const passwordHash = await hashPassword(password);
-        const clientId = await generateClientId();
+        const clientId = await generateUniqueClientId();
         const nameParts = ownerFullName?.split(' ') || ['Cliente'];
         
         const [newUser] = await db.insert(usersTable).values({
@@ -2260,9 +2258,10 @@ export async function registerRoutes(
         state: state || product.name.split(" ")[0],
       }).returning();
 
-      const timestamp = Date.now().toString();
-      const randomPart = Math.random().toString(36).substring(7).toUpperCase();
-      const requestCode = `MN-${timestamp.substring(timestamp.length - 4)}-${randomPart.substring(0, 3)}-${Math.floor(Math.random() * 9)}`;
+      // Generate unified request code: STATE-8digits (e.g., NM-12345678)
+      const { generateUniqueOrderCode } = await import("./lib/id-generator");
+      const appState = state || product.name.split(" ")[0] || 'New Mexico';
+      const requestCode = await generateUniqueOrderCode(appState);
 
       await db.update(maintenanceApplications)
         .set({ requestCode })
