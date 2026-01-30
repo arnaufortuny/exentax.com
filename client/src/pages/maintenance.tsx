@@ -646,7 +646,7 @@ export default function MaintenanceApplication() {
                       <FormItem>
                         <FormLabel className="text-sm md:text-base font-black text-primary">Año de creación</FormLabel>
                         <FormControl>
-                          <Input {...field} placeholder="Ej: 2023" className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" />
+                          <Input {...field} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -1022,7 +1022,7 @@ export default function MaintenanceApplication() {
                       <FormItem>
                         <FormLabel className="text-sm font-black text-primary">Notas adicionales (opcional)</FormLabel>
                         <FormControl>
-                          <Textarea {...field} placeholder="Cualquier información adicional que quieras compartir..." className="rounded-2xl min-h-[80px] p-4 border-border focus:border-accent transition-all text-foreground" />
+                          <Textarea {...field} className="rounded-2xl min-h-[80px] p-4 border-border focus:border-accent transition-all text-foreground" />
                         </FormControl>
                       </FormItem>
                     )} />
