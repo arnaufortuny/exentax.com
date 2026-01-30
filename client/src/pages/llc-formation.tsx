@@ -23,7 +23,8 @@ import { useFormDraft } from "@/hooks/use-form-draft";
 const TOTAL_STEPS = 18; // Reduced: removed BOI and maintenance steps (now mandatory)
 
 const formSchema = z.object({
-  ownerFullName: z.string().min(1, "Este campo es obligatorio"),
+  ownerFirstName: z.string().min(1, "El nombre es obligatorio"),
+  ownerLastName: z.string().min(1, "Los apellidos son obligatorios"),
   ownerEmail: z.string().email("Email inválido"),
   ownerPhone: z.string().min(1, "Este campo es obligatorio"),
   companyName: z.string().min(1, "Este campo es obligatorio").refine(
@@ -85,7 +86,8 @@ export default function LlcFormation() {
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      ownerFullName: "",
+      ownerFirstName: "",
+      ownerLastName: "",
       ownerEmail: "",
       ownerPhone: "",
       companyName: "",
@@ -122,7 +124,8 @@ export default function LlcFormation() {
   }, [step]);
 
   const formDefaults = {
-    ownerFullName: "",
+    ownerFirstName: "",
+    ownerLastName: "",
     ownerEmail: "",
     ownerPhone: "",
     companyName: "",
@@ -165,9 +168,14 @@ export default function LlcFormation() {
             setAppId(Number(editAppId));
             setIsEditMode(true);
             
-            // Populate form with existing data
+            // Populate form with existing data - split full name into first/last
+            const nameParts = (appData.ownerFullName || "").split(' ');
+            const firstName = nameParts[0] || "";
+            const lastName = nameParts.slice(1).join(' ') || "";
+            
             form.reset({
-              ownerFullName: appData.ownerFullName || "",
+              ownerFirstName: firstName,
+              ownerLastName: lastName,
               ownerEmail: appData.ownerEmail || "",
               ownerPhone: appData.ownerPhone || "",
               companyName: appData.companyName || "",
@@ -212,7 +220,8 @@ export default function LlcFormation() {
 
   useEffect(() => {
     if (isAuthenticated && user) {
-      const ownerFullName = `${user.firstName || ""} ${user.lastName || ""}`.trim();
+      const ownerFirstName = user.firstName || "";
+      const ownerLastName = user.lastName || "";
       const ownerEmail = user.email || "";
       const ownerPhone = user.phone || "";
       const ownerStreetType = user.streetType || "";
@@ -226,7 +235,8 @@ export default function LlcFormation() {
       
       form.reset({
         ...form.getValues(),
-        ownerFullName,
+        ownerFirstName,
+        ownerLastName,
         ownerEmail,
         ownerPhone,
         ownerStreetType,
@@ -245,7 +255,7 @@ export default function LlcFormation() {
       
       // Skip to first empty required field (step 1 = name, step 2 = email, etc.)
       const fieldsToCheck = [
-        { step: 1, value: ownerFullName },
+        { step: 1, value: ownerFirstName && ownerLastName ? `${ownerFirstName} ${ownerLastName}` : "" },
         { step: 2, value: ownerEmail },
         { step: 3, value: ownerPhone },
         { step: 4, value: "" }, // companyName - always needs input
@@ -323,7 +333,7 @@ export default function LlcFormation() {
   const nextStep = async () => {
     const stepsValidation: Record<number, (keyof FormValues)[]> = {
       0: ["state"],
-      1: ["ownerFullName"],
+      1: ["ownerFirstName", "ownerLastName"],
       2: ["ownerEmail"],
       3: ["ownerPhone"],
       4: ["companyName"],
@@ -385,7 +395,7 @@ export default function LlcFormation() {
             applicationId: appId,
             email: data.ownerEmail,
             password: data.password,
-            ownerFullName: data.ownerFullName,
+            ownerFullName: `${data.ownerFirstName} ${data.ownerLastName}`.trim(),
             paymentMethod: data.paymentMethod
           });
           if (!res.ok) {
@@ -400,15 +410,15 @@ export default function LlcFormation() {
         }
       }
       
-      // Normal flow: submit and proceed to payment
-      await apiRequest("PUT", `/api/llc/${appId}`, { ...data, status: "submitted" });
+      // Normal flow: submit and proceed to payment - combine names for API
+      const submitData = { ...data, ownerFullName: `${data.ownerFirstName} ${data.ownerLastName}`.trim(), status: "submitted" };
+      await apiRequest("PUT", `/api/llc/${appId}`, submitData);
       
       // Update user profile with form data if authenticated
       if (isAuthenticated && user) {
         try {
-          const nameParts = data.ownerFullName.split(' ');
-          const firstName = nameParts[0] || '';
-          const lastName = nameParts.slice(1).join(' ') || '';
+          const firstName = data.ownerFirstName || '';
+          const lastName = data.ownerLastName || '';
           
           await apiRequest("PATCH", "/api/user/profile", {
             firstName,
@@ -444,13 +454,9 @@ export default function LlcFormation() {
       // Sync user profile with form data
       if (isAuthenticated && user) {
         try {
-          const nameParts = data.ownerFullName.split(' ');
-          const firstName = nameParts[0] || '';
-          const lastName = nameParts.slice(1).join(' ') || '';
-          
           await apiRequest("PATCH", "/api/user/profile", {
-            firstName,
-            lastName,
+            firstName: data.ownerFirstName || '',
+            lastName: data.ownerLastName || '',
             phone: data.ownerPhone,
             streetType: data.ownerStreetType,
             address: data.ownerAddress,
@@ -572,13 +578,22 @@ export default function LlcFormation() {
               <div key={"step-" + step} className="space-y-6 text-left">
                 <h2 className="text-xl md:text-2xl font-black text-primary border-b border-accent/20 pb-2 leading-tight">2️⃣ ¿Cómo te llamas?</h2>
                 <FormDescription>El nombre real, el que pondremos en los documentos oficiales</FormDescription>
-                <FormField control={form.control} name="ownerFullName" render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="font-black text-[10px] md:text-xs tracking-widest opacity-60">Nombre completo:</FormLabel>
-                    <FormControl><Input {...field} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" /></FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )} />
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <FormField control={form.control} name="ownerFirstName" render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="font-black text-[10px] md:text-xs tracking-widest opacity-60">Nombre:</FormLabel>
+                      <FormControl><Input {...field} placeholder="Juan" className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" /></FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )} />
+                  <FormField control={form.control} name="ownerLastName" render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="font-black text-[10px] md:text-xs tracking-widest opacity-60">Apellidos:</FormLabel>
+                      <FormControl><Input {...field} placeholder="García López" className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" /></FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )} />
+                </div>
                 <div className="flex gap-3">
                   <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">Volver</Button>
                   <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">Continuar</Button>
@@ -1141,7 +1156,7 @@ export default function LlcFormation() {
                 <h2 className="text-xl md:text-2xl font-black text-primary border-b border-accent/20 pb-2 leading-tight">Revisión Final</h2>
                 <div className="bg-accent/5 p-6 md:p-8 rounded-[2rem] border border-accent/20 space-y-4">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs md:text-sm">
-                    <p className="flex justify-between md:block"><span className="opacity-50">Nombre:</span> <span className="font-black">{form.getValues("ownerFullName")}</span></p>
+                    <p className="flex justify-between md:block"><span className="opacity-50">Nombre:</span> <span className="font-black">{form.getValues("ownerFirstName")} {form.getValues("ownerLastName")}</span></p>
                     <p className="flex justify-between md:block"><span className="opacity-50">Email:</span> <span className="font-black">{form.getValues("ownerEmail")}</span></p>
                     <p className="flex justify-between md:block"><span className="opacity-50">LLC:</span> <span className="font-black">{form.getValues("companyName")}</span></p>
                     <p className="flex justify-between md:block"><span className="opacity-50">Estado:</span> <span className="font-black">{form.getValues("state")}</span></p>
