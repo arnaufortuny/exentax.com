@@ -1752,7 +1752,7 @@ export async function registerRoutes(
 
   app.post("/api/messages", async (req: any, res) => {
     try {
-      const { name, email, subject, content, requestCode } = req.body;
+      const { name, email, phone, contactByWhatsapp, subject, content, requestCode } = req.body;
       const userId = req.session?.userId || null;
       
       // Restrict suspended accounts from sending messages
@@ -1767,6 +1767,8 @@ export async function registerRoutes(
         userId,
         name,
         email,
+        phone: phone || null,
+        contactByWhatsapp: contactByWhatsapp || false,
         subject,
         content,
         requestCode,
@@ -1781,10 +1783,12 @@ export async function registerRoutes(
         html: getAutoReplyTemplate(ticketId, name || "Cliente"),
       }).catch(() => {});
 
-      // Notify admin
+      // Notify admin with WhatsApp preference
       logActivity("Nuevo Mensaje de Contacto", {
         "Nombre": name,
         "Email": email,
+        "Teléfono": phone || "No proporcionado",
+        "WhatsApp": contactByWhatsapp ? "Sí" : "No",
         "Asunto": subject,
         "Mensaje": content,
         "Referencia": requestCode || "N/A"

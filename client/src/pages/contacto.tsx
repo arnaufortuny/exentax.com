@@ -19,12 +19,13 @@ import { apiRequest, queryClient } from "@/lib/queryClient";
 import { useAuth } from "@/hooks/use-auth";
 
 const formSchema = z.object({
-  nombre: z.string().min(1, "Dinos tu nombre"),
-  apellido: z.string().min(1, "Dinos tu apellido"),
+  nombre: z.string().min(1, "Campo obligatorio"),
+  apellido: z.string().min(1, "Campo obligatorio"),
   email: z.string().email("Email inválido"),
+  contactByWhatsapp: z.boolean().default(false),
   telefono: z.string().optional(),
-  subject: z.string().min(1, "Selecciona un motivo"),
-  mensaje: z.string().min(1, "Cuéntanos un poco más"),
+  subject: z.string().min(1, "Campo obligatorio"),
+  mensaje: z.string().min(1, "Campo obligatorio"),
   otp: z.string().optional(),
   dataProcessingConsent: z.boolean().refine(val => val === true, "Debes aceptar"),
   termsConsent: z.boolean().refine(val => val === true, "Debes aceptar"),
@@ -36,7 +37,7 @@ const SUBJECT_OPTIONS = [
   "Quiero crear mi empresa en EE.UU.",
   "Necesito ayuda con mi LLC",
   "Quiero cerrar mi empresa",
-  "Bancos, pagos o formularios",
+  "Bancos, pagos o forms",
   "Tengo una pregunta",
   "Otro"
 ];
@@ -57,6 +58,7 @@ export default function Contacto() {
       nombre: "",
       apellido: "",
       email: "",
+      contactByWhatsapp: false,
       telefono: "",
       subject: "",
       mensaje: "",
@@ -65,6 +67,8 @@ export default function Contacto() {
       termsConsent: false,
     },
   });
+
+  const watchWhatsapp = form.watch("contactByWhatsapp");
 
   useEffect(() => {
     if (isAuthenticated && user) {
@@ -93,9 +97,16 @@ export default function Contacto() {
       1: ["apellido"],
       2: ["email"],
       3: [],
-      4: ["subject"],
-      5: ["mensaje"],
+      4: [],
+      5: ["subject"],
+      6: ["mensaje"],
     };
+    
+    // Validate phone if WhatsApp is checked
+    if (step === 4 && form.getValues("contactByWhatsapp") && !form.getValues("telefono")) {
+      form.setError("telefono", { message: "Campo obligatorio si quieres contacto por WhatsApp" });
+      return;
+    }
 
     const fieldsToValidate = stepsValidation[step];
     if (fieldsToValidate && fieldsToValidate.length > 0) {
@@ -103,9 +114,9 @@ export default function Contacto() {
       if (!isValid) return;
     }
 
-    if (step === 5) {
-      if (isOtpVerified) setStep(7);
-      else setStep(6);
+    if (step === 6) {
+      if (isOtpVerified) setStep(8);
+      else setStep(7);
     } else {
       setStep(s => s + 1);
     }
@@ -159,12 +170,13 @@ export default function Contacto() {
       const response = await apiRequest("POST", "/api/messages", {
         name: `${values.nombre} ${values.apellido}`,
         email: values.email,
-        phone: values.telefono,
+        phone: values.telefono || null,
+        contactByWhatsapp: values.contactByWhatsapp || false,
         subject: values.subject,
         content: values.mensaje
       });
       const data = await response.json();
-      setSubmittedMessageId(data.id);
+      setSubmittedMessageId(data.messageId || data.id);
       setIsSubmitted(true);
       toast({ title: "Mensaje enviado", variant: "success" });
       queryClient.invalidateQueries({ queryKey: ["/api/messages"] });
@@ -198,15 +210,18 @@ export default function Contacto() {
               <h1 className="text-2xl sm:text-3xl md:text-4xl font-black tracking-tighter text-foreground leading-tight">
                 {isLLC ? "¡Solicitud Recibida!" : isMaintenance ? "¡Mantenimiento Confirmado!" : "Gracias por escribirnos"}
               </h1>
+              <p className="text-base sm:text-lg text-muted-foreground">
+                {isLLC || isMaintenance ? "Solicitud procesada correctamente." : "Hemos recibido tu consulta correctamente"}
+              </p>
               <div className="h-1 w-16 sm:w-20 bg-accent mx-auto rounded-full" />
             </div>
 
             {(submittedMessageId || urlTicketId || urlOrderId) && (
               <div className="bg-white dark:bg-zinc-900 border-2 border-accent px-4 py-3 sm:px-6 sm:py-4 rounded-xl inline-block">
                 <span className="text-[10px] sm:text-xs font-black text-gray-500 tracking-widest uppercase">
-                  {urlOrderId ? "Número de Pedido" : "Número de Ticket"}
+                  {urlOrderId ? "Número de Pedido" : "Tu número de ticket es"}
                 </span>
-                <p className="text-xl sm:text-2xl font-black text-black">
+                <p className="text-xl sm:text-2xl font-black text-black dark:text-white">
                   {urlOrderId || submittedMessageId || urlTicketId}
                 </p>
               </div>
@@ -214,15 +229,11 @@ export default function Contacto() {
             
             <div className="space-y-3 sm:space-y-4">
               <p className="text-base sm:text-lg font-bold text-foreground leading-tight">
-                {isLLC || isMaintenance 
-                  ? "Solicitud procesada correctamente." 
-                  : "Nuestro equipo te responderá en un plazo de 24-48 horas laborables."}
+                Te responderemos lo antes posible
               </p>
-              {(submittedMessageId || urlTicketId) && !urlOrderId && (
-                <p className="text-xs sm:text-sm bg-white dark:bg-zinc-900 p-3 rounded-full border border-border max-w-md mx-auto">
-                  Guarda tu ticket <span className="font-black text-black">{submittedMessageId || urlTicketId}</span> para seguimiento.
-                </p>
-              )}
+              <p className="text-sm text-muted-foreground">
+                Estate atento a tu email
+              </p>
               {(isLLC || isMaintenance) && (
                 <p className="text-xs sm:text-sm bg-white dark:bg-zinc-900 p-3 rounded-full border border-border max-w-md mx-auto">
                   Recibirás un correo con los siguientes pasos.
@@ -267,11 +278,9 @@ export default function Contacto() {
       <Navbar />
       <main className="pt-24 pb-16 max-w-4xl mx-auto px-5 sm:px-6 md:px-8">
         <h1 className="text-3xl md:text-5xl font-black mb-4 text-foreground leading-tight text-center">
-          <span className="text-accent">Hablemos</span>
+          <span className="text-accent tracking-widest text-xs sm:text-sm font-black block mb-2">HABLEMOS / CONTACTO</span>
+          <span className="text-foreground">Cuéntanos tu caso</span>
         </h1>
-        <p className="text-muted-foreground font-medium mb-8 text-center max-w-lg mx-auto">
-          Cuéntanos en qué podemos ayudarte y te responderemos personalmente.
-        </p>
 
         <div>
           <div className="space-y-6">
@@ -281,14 +290,15 @@ export default function Contacto() {
                 {step === 0 && (
                   <div className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight">
-                      1. Nombre
+                      Tu nombre
                     </h2>
                     <FormField control={form.control} name="nombre" render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-sm md:text-base font-bold text-foreground">Tu nombre</FormLabel>
+                        <FormLabel className="text-sm md:text-base font-bold text-foreground">¿Cómo te llamas?</FormLabel>
                         <FormControl>
                           <Input {...field} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" data-testid="input-nombre" />
                         </FormControl>
+                        <FormDescription className="text-xs text-muted-foreground">Campo obligatorio</FormDescription>
                         <FormMessage />
                       </FormItem>
                     )} />
@@ -308,14 +318,15 @@ export default function Contacto() {
                 {step === 1 && (
                   <div className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight">
-                      2. Apellido
+                      Tu apellido
                     </h2>
                     <FormField control={form.control} name="apellido" render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-sm md:text-base font-bold text-foreground">Tu apellido</FormLabel>
+                        <FormLabel className="text-sm md:text-base font-bold text-foreground">Para saber con quién estamos hablando</FormLabel>
                         <FormControl>
                           <Input {...field} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" data-testid="input-apellido" />
                         </FormControl>
+                        <FormDescription className="text-xs text-muted-foreground">Campo obligatorio</FormDescription>
                         <FormMessage />
                       </FormItem>
                     )} />
@@ -329,15 +340,15 @@ export default function Contacto() {
                 {step === 2 && (
                   <div className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight">
-                      3. Correo electrónico
+                      Tu email
                     </h2>
                     <FormField control={form.control} name="email" render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-sm md:text-base font-bold text-foreground">Tu email</FormLabel>
-                        <FormDescription className="text-xs text-muted-foreground">Aquí te responderemos</FormDescription>
+                        <FormLabel className="text-sm md:text-base font-bold text-foreground">¿Dónde prefieres que te respondamos?</FormLabel>
                         <FormControl>
                           <Input {...field} type="email" inputMode="email" className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" data-testid="input-email" />
                         </FormControl>
+                        <FormDescription className="text-xs text-muted-foreground">Campo obligatorio · No enviamos publicidad ni mensajes innecesarios</FormDescription>
                         <FormMessage />
                       </FormItem>
                     )} />
@@ -351,16 +362,22 @@ export default function Contacto() {
                 {step === 3 && (
                   <div className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight">
-                      4. Teléfono
+                      Forma de contacto
                     </h2>
-                    <FormField control={form.control} name="telefono" render={({ field }) => (
+                    <FormField control={form.control} name="contactByWhatsapp" render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-sm md:text-base font-bold text-foreground">Teléfono (opcional)</FormLabel>
-                        <FormDescription className="text-xs text-muted-foreground">Solo si prefieres que te contactemos por llamada o WhatsApp</FormDescription>
+                        <FormLabel className="text-sm md:text-base font-bold text-foreground">¿Cómo prefieres que te contactemos?</FormLabel>
                         <FormControl>
-                          <Input {...field} type="tel" inputMode="tel" className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" data-testid="input-telefono" />
+                          <label className="flex items-center gap-3 p-4 rounded-full border-2 border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 hover:border-accent cursor-pointer transition-all">
+                            <Checkbox 
+                              checked={field.value} 
+                              onCheckedChange={field.onChange}
+                              className="w-5 h-5 border-2"
+                              data-testid="checkbox-whatsapp"
+                            />
+                            <span className="font-medium text-foreground text-sm">Quiero que me contactéis por WhatsApp</span>
+                          </label>
                         </FormControl>
-                        <FormMessage />
                       </FormItem>
                     )} />
                     <div className="flex gap-3">
@@ -373,22 +390,19 @@ export default function Contacto() {
                 {step === 4 && (
                   <div className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight">
-                      5. Motivo de la consulta
+                      Teléfono
                     </h2>
-                    <FormField control={form.control} name="subject" render={({ field }) => (
-                      <FormItem className="space-y-3">
-                        <FormLabel className="text-sm md:text-base font-bold text-foreground">¿En qué podemos ayudarte?</FormLabel>
-                        <FormDescription className="text-xs text-muted-foreground">Así podremos responderte mejor</FormDescription>
+                    <FormField control={form.control} name="telefono" render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-sm md:text-base font-bold text-foreground">
+                          Tu número de teléfono {watchWhatsapp ? "" : "(opcional)"}
+                        </FormLabel>
                         <FormControl>
-                          <div className="flex flex-col gap-2">
-                            {SUBJECT_OPTIONS.map((opt) => (
-                              <label key={opt} className="flex items-center gap-3 p-3 rounded-full border-2 border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 hover:border-accent cursor-pointer transition-all">
-                                <input type="radio" {...field} value={opt} checked={field.value === opt} className="w-4 h-4 accent-[#6EDC8A]" />
-                                <span className="font-medium text-foreground text-sm">{opt}</span>
-                              </label>
-                            ))}
-                          </div>
+                          <Input {...field} type="tel" inputMode="tel" className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" data-testid="input-telefono" />
                         </FormControl>
+                        <FormDescription className="text-xs text-muted-foreground">
+                          {watchWhatsapp ? "Campo obligatorio si marcas WhatsApp · " : ""}Usaremos tu número únicamente para responder a esta consulta
+                        </FormDescription>
                         <FormMessage />
                       </FormItem>
                     )} />
@@ -402,15 +416,22 @@ export default function Contacto() {
                 {step === 5 && (
                   <div className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight">
-                      6. Mensaje
+                      ¿En qué podemos ayudarte?
                     </h2>
-                    <FormField control={form.control} name="mensaje" render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="text-sm md:text-base font-bold text-foreground">Tu mensaje</FormLabel>
-                        <FormDescription className="text-xs text-muted-foreground">Explícanos brevemente tu caso</FormDescription>
+                    <FormField control={form.control} name="subject" render={({ field }) => (
+                      <FormItem className="space-y-3">
+                        <FormLabel className="text-sm md:text-base font-bold text-foreground">Así vamos directos a lo importante</FormLabel>
                         <FormControl>
-                          <Textarea {...field} className="rounded-full min-h-[120px] px-5 py-4 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" data-testid="input-mensaje" />
+                          <div className="flex flex-col gap-2">
+                            {SUBJECT_OPTIONS.map((opt) => (
+                              <label key={opt} className="flex items-center gap-3 p-3 rounded-xl border-2 border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 hover:border-accent cursor-pointer transition-all">
+                                <input type="radio" {...field} value={opt} checked={field.value === opt} className="w-4 h-4 accent-[#6EDC8A]" />
+                                <span className="font-medium text-foreground text-sm">{opt}</span>
+                              </label>
+                            ))}
+                          </div>
                         </FormControl>
+                        <FormDescription className="text-xs text-muted-foreground">Campo obligatorio</FormDescription>
                         <FormMessage />
                       </FormItem>
                     )} />
@@ -424,8 +445,31 @@ export default function Contacto() {
                 {step === 6 && (
                   <div className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight">
-                      7. Verificación de seguridad
+                      Cuéntanos un poco más
                     </h2>
+                    <FormField control={form.control} name="mensaje" render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-sm md:text-base font-bold text-foreground">Explícanos tu caso con tus propias palabras</FormLabel>
+                        <FormControl>
+                          <Textarea {...field} className="rounded-xl min-h-[120px] px-5 py-4 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" data-testid="input-mensaje" />
+                        </FormControl>
+                        <FormDescription className="text-xs text-muted-foreground">Campo obligatorio</FormDescription>
+                        <FormMessage />
+                      </FormItem>
+                    )} />
+                    <div className="flex gap-3">
+                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">Atrás</Button>
+                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all" data-testid="button-next-6">Siguiente</Button>
+                    </div>
+                  </div>
+                )}
+
+                {step === 7 && (
+                  <div className="space-y-6 text-left">
+                    <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight">
+                      Verificación de seguridad
+                    </h2>
+                    <p className="text-sm text-muted-foreground">Solo para confirmar que eres tú</p>
                     
                     {!isOtpSent ? (
                       <div className="space-y-4">
@@ -445,7 +489,7 @@ export default function Contacto() {
                         <FormField control={form.control} name="otp" render={({ field }) => (
                           <FormItem>
                             <FormLabel className="text-sm md:text-base font-bold text-foreground">Código de verificación</FormLabel>
-                            <FormDescription className="text-xs text-muted-foreground">Te hemos enviado un código a tu email</FormDescription>
+                            <FormDescription className="text-xs text-muted-foreground">Te hemos enviado un código de 6 dígitos a tu email · Campo obligatorio</FormDescription>
                             <FormControl>
                               <Input 
                                 {...field} 
@@ -476,25 +520,18 @@ export default function Contacto() {
                   </div>
                 )}
 
-                {step === 7 && (
+                {step === 8 && (
                   <div className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight">
-                      8. Confirmar y enviar
+                      Antes de enviar
                     </h2>
-                    
-                    <div className="bg-gray-50 dark:bg-zinc-800 p-6 rounded-2xl space-y-3 border border-border">
-                      <p className="text-sm text-foreground"><span className="font-bold">Nombre:</span> {form.getValues("nombre")} {form.getValues("apellido")}</p>
-                      <p className="text-sm text-foreground"><span className="font-bold">Email:</span> {form.getValues("email")}</p>
-                      {form.getValues("telefono") && <p className="text-sm text-foreground"><span className="font-bold">Teléfono:</span> {form.getValues("telefono")}</p>}
-                      <p className="text-sm text-foreground"><span className="font-bold">Motivo:</span> {form.getValues("subject")}</p>
-                      <p className="text-sm text-foreground"><span className="font-bold">Mensaje:</span> {form.getValues("mensaje")}</p>
-                    </div>
+                    <p className="text-sm text-muted-foreground">Para poder ayudarte, necesitamos tu confirmación</p>
 
                     <div className="space-y-4">
                       <FormField control={form.control} name="dataProcessingConsent" render={({ field }) => (
                         <FormItem className="flex items-start gap-3">
                           <FormControl>
-                            <Checkbox checked={field.value} onCheckedChange={field.onChange} className="mt-1 data-[state=checked]:bg-accent data-[state=checked]:border-accent" />
+                            <Checkbox checked={field.value} onCheckedChange={field.onChange} className="mt-1 data-[state=checked]:bg-accent data-[state=checked]:border-accent" data-testid="checkbox-data-consent" />
                           </FormControl>
                           <div>
                             <FormLabel className="text-sm font-medium text-foreground leading-relaxed cursor-pointer">
@@ -507,27 +544,27 @@ export default function Contacto() {
                       <FormField control={form.control} name="termsConsent" render={({ field }) => (
                         <FormItem className="flex items-start gap-3">
                           <FormControl>
-                            <Checkbox checked={field.value} onCheckedChange={field.onChange} className="mt-1 data-[state=checked]:bg-accent data-[state=checked]:border-accent" />
+                            <Checkbox checked={field.value} onCheckedChange={field.onChange} className="mt-1 data-[state=checked]:bg-accent data-[state=checked]:border-accent" data-testid="checkbox-terms-consent" />
                           </FormControl>
                           <div>
                             <FormLabel className="text-sm font-medium text-foreground leading-relaxed cursor-pointer">
                               Acepto los <a href="/legal/terminos" className="text-accent hover:underline">términos y condiciones</a>
                             </FormLabel>
-                            <p className="text-xs text-muted-foreground mt-1">Puedes consultarlos en cualquier momento</p>
+                            <p className="text-xs text-muted-foreground mt-1">Puedes revisarlos cuando quieras</p>
                           </div>
                         </FormItem>
                       )} />
                     </div>
 
                     <div className="flex gap-3">
-                      <Button type="button" variant="outline" onClick={() => setStep(5)} className="flex-1 rounded-full h-12 font-bold border-border transition-all">Atrás</Button>
+                      <Button type="button" variant="outline" onClick={() => setStep(6)} className="flex-1 rounded-full h-12 font-bold border-border transition-all">Atrás</Button>
                       <Button 
                         type="submit" 
                         disabled={isLoading || !form.getValues("dataProcessingConsent") || !form.getValues("termsConsent")} 
                         className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all disabled:opacity-50"
                         data-testid="button-submit"
                       >
-                        {isLoading ? <Loader2 className="animate-spin" /> : "Enviar consulta"}
+                        {isLoading ? <Loader2 className="animate-spin" /> : "Enviar mensaje"}
                       </Button>
                     </div>
                   </div>

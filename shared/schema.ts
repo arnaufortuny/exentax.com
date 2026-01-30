@@ -118,6 +118,8 @@ export const messages = pgTable("messages", {
   userId: varchar("user_id").references(() => users.id),
   name: text("name"),
   email: text("email").notNull(),
+  phone: text("phone"),
+  contactByWhatsapp: boolean("contact_by_whatsapp").default(false),
   subject: text("subject"),
   content: text("content").notNull(),
   encryptedContent: text("encrypted_content"),
