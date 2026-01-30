@@ -1843,7 +1843,7 @@ export async function registerRoutes(
         return res.status(404).json({ message: "Solicitud no encontrada." });
       }
       
-      // Create new user with verified email
+      // Create new user with verified email and copy address fields from application
       const { hashPassword, generateUniqueClientId } = await import("./lib/auth-service");
       const passwordHash = await hashPassword(password);
       const clientId = await generateUniqueClientId();
@@ -1855,6 +1855,15 @@ export async function registerRoutes(
         clientId,
         firstName: nameParts[0] || 'Cliente',
         lastName: nameParts.slice(1).join(' ') || '',
+        phone: application.ownerPhone || null,
+        streetType: application.ownerStreetType || null,
+        address: application.ownerAddress || null,
+        city: application.ownerCity || null,
+        province: application.ownerProvince || null,
+        postalCode: application.ownerPostalCode || null,
+        country: application.ownerCountry || null,
+        birthDate: application.ownerBirthDate || null,
+        businessActivity: application.businessActivity || null,
         emailVerified: true,
         accountStatus: 'active',
       }).returning();

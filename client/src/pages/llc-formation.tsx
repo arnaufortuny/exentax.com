@@ -20,7 +20,7 @@ import { useAuth } from "@/hooks/use-auth";
 import { StepProgress } from "@/components/ui/step-progress";
 import { useFormDraft } from "@/hooks/use-form-draft";
 
-const TOTAL_STEPS = 21;
+const TOTAL_STEPS = 20;
 
 const formSchema = z.object({
   ownerFullName: z.string().min(1, "Este campo es obligatorio"),
@@ -34,8 +34,12 @@ const formSchema = z.object({
   ownerNamesAlternates: z.string().optional(),
   state: z.string().min(1, "Este campo es obligatorio"),
   ownerCount: z.number().default(1),
-  ownerCountryResidency: z.string().min(1, "Este campo es obligatorio"),
+  ownerStreetType: z.string().min(1, "Este campo es obligatorio"),
   ownerAddress: z.string().min(1, "Este campo es obligatorio"),
+  ownerCity: z.string().min(1, "Este campo es obligatorio"),
+  ownerProvince: z.string().optional(),
+  ownerPostalCode: z.string().min(1, "Este campo es obligatorio"),
+  ownerCountry: z.string().min(1, "Este campo es obligatorio"),
   ownerBirthDate: z.string().min(1, "Este campo es obligatorio"),
   businessActivity: z.string().min(1, "Este campo es obligatorio"),
   isSellingOnline: z.string().min(1, "Este campo es obligatorio"),
@@ -87,8 +91,12 @@ export default function LlcFormation() {
       ownerNamesAlternates: "",
       state: "New Mexico",
       ownerCount: 1,
-      ownerCountryResidency: "",
+      ownerStreetType: "",
       ownerAddress: "",
+      ownerCity: "",
+      ownerProvince: "",
+      ownerPostalCode: "",
+      ownerCountry: "",
       ownerBirthDate: "",
       businessActivity: "",
       isSellingOnline: "",
@@ -120,8 +128,12 @@ export default function LlcFormation() {
     ownerNamesAlternates: "",
     state: "New Mexico",
     ownerCount: 1,
-    ownerCountryResidency: "",
+    ownerStreetType: "",
     ownerAddress: "",
+    ownerCity: "",
+    ownerProvince: "",
+    ownerPostalCode: "",
+    ownerCountry: "",
     ownerBirthDate: "",
     businessActivity: "",
     isSellingOnline: "",
@@ -161,8 +173,12 @@ export default function LlcFormation() {
               ownerNamesAlternates: appData.ownerNamesAlternates || "",
               state: appData.state || "New Mexico",
               ownerCount: appData.ownerCount || 1,
-              ownerCountryResidency: appData.ownerCountryResidency || "",
+              ownerStreetType: appData.ownerStreetType || "",
               ownerAddress: appData.ownerAddress || "",
+              ownerCity: appData.ownerCity || "",
+              ownerProvince: appData.ownerProvince || "",
+              ownerPostalCode: appData.ownerPostalCode || "",
+              ownerCountry: appData.ownerCountry || appData.ownerCountryResidency || "",
               ownerBirthDate: appData.ownerBirthDate || "",
               businessActivity: appData.businessActivity || "",
               isSellingOnline: appData.isSellingOnline || "",
@@ -187,13 +203,15 @@ export default function LlcFormation() {
 
   useEffect(() => {
     if (isAuthenticated && user) {
-      const fullAddress = [user.streetType, user.address, user.city, user.province, user.postalCode, user.country]
-        .filter(Boolean).join(', ');
       const ownerFullName = `${user.firstName || ""} ${user.lastName || ""}`.trim();
       const ownerEmail = user.email || "";
       const ownerPhone = user.phone || "";
-      const ownerAddress = fullAddress || user.address || "";
-      const ownerCountryResidency = user.country || "";
+      const ownerStreetType = user.streetType || "";
+      const ownerAddress = user.address || "";
+      const ownerCity = user.city || "";
+      const ownerProvince = user.province || "";
+      const ownerPostalCode = user.postalCode || "";
+      const ownerCountry = user.country || "";
       const ownerBirthDate = user.birthDate || "";
       const businessActivity = user.businessActivity || "";
       
@@ -202,8 +220,12 @@ export default function LlcFormation() {
         ownerFullName,
         ownerEmail,
         ownerPhone,
+        ownerStreetType,
         ownerAddress,
-        ownerCountryResidency,
+        ownerCity,
+        ownerProvince,
+        ownerPostalCode,
+        ownerCountry,
         ownerBirthDate,
         businessActivity,
       });
@@ -294,17 +316,16 @@ export default function LlcFormation() {
       4: ["companyNameOption2", "ownerNamesAlternates"],
       5: ["state"],
       6: ["ownerCount"],
-      7: ["ownerCountryResidency"],
-      8: ["ownerAddress"],
-      9: ["ownerBirthDate"],
-      10: ["idDocumentUrl"],
-      11: ["businessActivity"],
-      12: ["isSellingOnline"],
-      13: ["needsBankAccount"],
-      14: ["willUseStripe"],
-      15: ["wantsBoiReport"],
-      16: ["wantsMaintenancePack"],
-      17: ["notes"],
+      7: ["ownerStreetType", "ownerAddress", "ownerCity", "ownerProvince", "ownerPostalCode", "ownerCountry"],
+      8: ["ownerBirthDate"],
+      9: ["idDocumentUrl"],
+      10: ["businessActivity"],
+      11: ["isSellingOnline"],
+      12: ["needsBankAccount"],
+      13: ["willUseStripe"],
+      14: ["wantsBoiReport"],
+      15: ["wantsMaintenancePack"],
+      16: ["notes"],
     };
 
     const fieldsToValidate = stepsValidation[step];
@@ -313,8 +334,8 @@ export default function LlcFormation() {
       if (!isValid) return;
     }
     
-    // Validate password step (step 18) for non-authenticated users
-    if (step === 18 && !isAuthenticated) {
+    // Validate password step (step 17) for non-authenticated users
+    if (step === 17 && !isAuthenticated) {
       const password = form.getValues("password");
       const confirmPassword = form.getValues("confirmPassword");
       if (!password || password.length < 8) {
@@ -382,8 +403,12 @@ export default function LlcFormation() {
             firstName,
             lastName,
             phone: data.ownerPhone,
+            streetType: data.ownerStreetType,
             address: data.ownerAddress,
-            country: data.ownerCountryResidency,
+            city: data.ownerCity,
+            province: data.ownerProvince,
+            postalCode: data.ownerPostalCode,
+            country: data.ownerCountry,
             birthDate: data.ownerBirthDate,
             businessActivity: data.businessActivity,
           });
@@ -393,7 +418,7 @@ export default function LlcFormation() {
       }
       
       toast({ title: "Información guardada", description: "Vamos al siguiente paso" });
-      setStep(20); // Payment Step
+      setStep(19); // Payment Step
     } catch {
       toast({ title: "Algo no ha ido bien", description: "Inténtalo de nuevo", variant: "destructive" });
     }
@@ -416,8 +441,12 @@ export default function LlcFormation() {
             firstName,
             lastName,
             phone: data.ownerPhone,
+            streetType: data.ownerStreetType,
             address: data.ownerAddress,
-            country: data.ownerCountryResidency,
+            city: data.ownerCity,
+            province: data.ownerProvince,
+            postalCode: data.ownerPostalCode,
+            country: data.ownerCountry,
             birthDate: data.ownerBirthDate,
             businessActivity: data.businessActivity,
           });
@@ -673,14 +702,75 @@ export default function LlcFormation() {
 
             {step === 7 && (
               <div key={"step-" + step} className="space-y-6 text-left">
-                <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight">9️⃣ País de residencia</h2>
-                <FormField control={form.control} name="ownerCountryResidency" render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="font-black  text-[10px] md:text-xs tracking-widest opacity-60">País:</FormLabel>
-                    <FormControl><Input {...field} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base"  /></FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )} />
+                <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight">9️⃣ Dirección completa</h2>
+                <FormDescription>Tu dirección de residencia habitual</FormDescription>
+                
+                <div className="grid grid-cols-3 gap-3">
+                  <FormField control={form.control} name="ownerStreetType" render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="font-black text-[10px] md:text-xs tracking-widest opacity-60">Tipo de vía:</FormLabel>
+                      <FormControl>
+                        <Select value={field.value || ""} onValueChange={field.onChange}>
+                          <SelectTrigger className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base">
+                            <SelectValue placeholder="Tipo" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="Calle">Calle</SelectItem>
+                            <SelectItem value="Avenida">Avenida</SelectItem>
+                            <SelectItem value="Plaza">Plaza</SelectItem>
+                            <SelectItem value="Paseo">Paseo</SelectItem>
+                            <SelectItem value="Camino">Camino</SelectItem>
+                            <SelectItem value="Carrera">Carrera</SelectItem>
+                            <SelectItem value="Otro">Otro</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )} />
+                  <FormField control={form.control} name="ownerAddress" render={({ field }) => (
+                    <FormItem className="col-span-2">
+                      <FormLabel className="font-black text-[10px] md:text-xs tracking-widest opacity-60">Dirección y número:</FormLabel>
+                      <FormControl><Input {...field} placeholder="Nombre y número" className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" /></FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )} />
+                </div>
+                
+                <div className="grid grid-cols-2 gap-3">
+                  <FormField control={form.control} name="ownerCity" render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="font-black text-[10px] md:text-xs tracking-widest opacity-60">Ciudad:</FormLabel>
+                      <FormControl><Input {...field} placeholder="Ciudad" className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" /></FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )} />
+                  <FormField control={form.control} name="ownerProvince" render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="font-black text-[10px] md:text-xs tracking-widest opacity-60">Provincia:</FormLabel>
+                      <FormControl><Input {...field} placeholder="Provincia" className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" /></FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )} />
+                </div>
+                
+                <div className="grid grid-cols-2 gap-3">
+                  <FormField control={form.control} name="ownerPostalCode" render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="font-black text-[10px] md:text-xs tracking-widest opacity-60">Código postal:</FormLabel>
+                      <FormControl><Input {...field} placeholder="Código postal" className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" /></FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )} />
+                  <FormField control={form.control} name="ownerCountry" render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="font-black text-[10px] md:text-xs tracking-widest opacity-60">País:</FormLabel>
+                      <FormControl><Input {...field} placeholder="País" className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" /></FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )} />
+                </div>
+                
                 <div className="flex gap-3">
                   <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">Volver</Button>
                   <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">Continuar</Button>
@@ -690,25 +780,7 @@ export default function LlcFormation() {
 
             {step === 8 && (
               <div key={"step-" + step} className="space-y-6 text-left">
-                <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight">🔟 Dirección completa</h2>
-                <FormDescription>Calle, número, ciudad, código postal y país de tu residencia habitual</FormDescription>
-                <FormField control={form.control} name="ownerAddress" render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="font-black  text-[10px] md:text-xs tracking-widest opacity-60">Dirección completa:</FormLabel>
-                    <FormControl><Textarea {...field} className="rounded-[2rem] min-h-[120px] p-6 border-border focus:border-accent"  /></FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )} />
-                <div className="flex gap-3">
-                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">Volver</Button>
-                  <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">Continuar</Button>
-                </div>
-              </div>
-            )}
-
-            {step === 9 && (
-              <div key={"step-" + step} className="space-y-6 text-left">
-                <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight">1️⃣1️⃣ Fecha de nacimiento</h2>
+                <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight">🔟 Fecha de nacimiento</h2>
                 <FormField control={form.control} name="ownerBirthDate" render={({ field }) => (
                   <FormItem>
                     <FormLabel className="font-black  text-[10px] md:text-xs tracking-widest opacity-60">Fecha:</FormLabel>
@@ -723,9 +795,9 @@ export default function LlcFormation() {
               </div>
             )}
 
-            {step === 10 && (
+            {step === 9 && (
               <div key={"step-" + step} className="space-y-6 text-left">
-                <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight">1️⃣2️⃣ Documento de identidad</h2>
+                <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight">1️⃣1️⃣ Documento de identidad</h2>
                 <FormDescription>DNI o pasaporte en vigor (puedes proporcionarlo más tarde)</FormDescription>
                 <div className="space-y-4">
                   <div className="border-2 border-dashed border-border rounded-[2rem] p-8 md:p-12 text-center hover:border-accent transition-colors cursor-pointer bg-white dark:bg-zinc-900">
@@ -761,9 +833,9 @@ export default function LlcFormation() {
               </div>
             )}
 
-            {step === 11 && (
+            {step === 10 && (
               <div key={"step-" + step} className="space-y-6 text-left">
-                <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight">1️⃣3️⃣ ¿A qué se dedicará tu LLC?</h2>
+                <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight">1️⃣2️⃣ ¿A qué se dedicará tu LLC?</h2>
                 <FormDescription>Explícalo con tus palabras, sin tecnicismos</FormDescription>
                 <FormField control={form.control} name="businessActivity" render={({ field }) => (
                   <FormItem>
@@ -778,11 +850,11 @@ export default function LlcFormation() {
               </div>
             )}
 
-            {step >= 12 && step <= 17 && (
+            {step >= 11 && step <= 16 && (
               <div key={"step-" + step} className="space-y-6 text-left">
-                {step === 12 && (
+                {step === 11 && (
                   <>
-                    <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight">1️⃣4️⃣ ¿Vas a vender online?</h2>
+                    <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight">1️⃣3️⃣ ¿Vas a vender online?</h2>
                     <FormField control={form.control} name="isSellingOnline" render={({ field }) => (
                       <FormControl>
                         <div className="flex flex-col gap-3">
@@ -805,9 +877,9 @@ export default function LlcFormation() {
                     )} />
                   </>
                 )}
-                {step === 13 && (
+                {step === 12 && (
                   <>
-                    <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight">1️⃣5️⃣ ¿Necesitas cuenta bancaria?</h2>
+                    <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight">1️⃣4️⃣ ¿Necesitas cuenta bancaria?</h2>
                     <FormField control={form.control} name="needsBankAccount" render={({ field }) => (
                       <FormControl>
                         <div className="flex flex-col gap-3">
@@ -830,9 +902,9 @@ export default function LlcFormation() {
                     )} />
                   </>
                 )}
-                {step === 14 && (
+                {step === 13 && (
                   <>
-                    <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight">1️⃣6️⃣ ¿Usarás Stripe u otra?</h2>
+                    <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight">1️⃣5️⃣ ¿Usarás Stripe u otra?</h2>
                     <FormField control={form.control} name="willUseStripe" render={({ field }) => (
                       <FormControl>
                         <div className="flex flex-col gap-3">
@@ -855,9 +927,9 @@ export default function LlcFormation() {
                     )} />
                   </>
                 )}
-                {step === 15 && (
+                {step === 14 && (
                   <>
-                    <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight">1️⃣7️⃣ ¿Quieres el reporte BOI?</h2>
+                    <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight">1️⃣6️⃣ ¿Quieres el reporte BOI?</h2>
                     <FormField control={form.control} name="wantsBoiReport" render={({ field }) => (
                       <FormControl>
                         <div className="flex flex-col gap-3">
@@ -880,9 +952,9 @@ export default function LlcFormation() {
                     )} />
                   </>
                 )}
-                {step === 16 && (
+                {step === 15 && (
                   <>
-                    <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight">1️⃣8️⃣ ¿Quieres Mantenimiento?</h2>
+                    <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight">1️⃣7️⃣ ¿Quieres Mantenimiento?</h2>
                     <FormField control={form.control} name="wantsMaintenancePack" render={({ field }) => (
                       <FormControl>
                         <div className="flex flex-col gap-3">
@@ -905,9 +977,9 @@ export default function LlcFormation() {
                     )} />
                   </>
                 )}
-                {step === 17 && (
+                {step === 16 && (
                   <>
-                    <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight">1️⃣9️⃣ ¿Algo más que debamos saber?</h2>
+                    <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight">1️⃣8️⃣ ¿Algo más que debamos saber?</h2>
                     <FormField control={form.control} name="notes" render={({ field }) => (
                       <FormItem>
                         <FormControl><Textarea {...field} className="rounded-[2rem] min-h-[120px] p-6 border-border focus:border-accent"  /></FormControl>
@@ -922,7 +994,7 @@ export default function LlcFormation() {
               </div>
             )}
 
-            {step === 18 && (
+            {step === 17 && (
               <div key={"step-" + step} className="space-y-8 text-left">
                 <h2 className="text-xl md:text-2xl font-black text-primary border-b border-accent/20 pb-2 leading-tight">Crea tu cuenta</h2>
                 <p className="text-sm text-muted-foreground">Para gestionar tu pedido necesitas una cuenta. Primero verifica tu email.</p>
@@ -1045,7 +1117,7 @@ export default function LlcFormation() {
               </div>
             )}
 
-            {step === 19 && (
+            {step === 18 && (
               <div key={"step-" + step} className="space-y-8 text-left">
                 <h2 className="text-xl md:text-2xl font-black text-primary border-b border-accent/20 pb-2 leading-tight">Método de Pago</h2>
                 <p className="text-sm text-muted-foreground">Selecciona cómo deseas realizar el pago de tu LLC.</p>
@@ -1091,7 +1163,7 @@ export default function LlcFormation() {
               </div>
             )}
 
-            {step === 20 && (
+            {step === 19 && (
               <div key={"step-" + step} className="space-y-8 text-left">
                 <h2 className="text-xl md:text-2xl font-black text-primary border-b border-accent/20 pb-2 leading-tight">Revisión Final</h2>
                 <div className="bg-accent/5 p-6 md:p-8 rounded-[2rem] border border-accent/20 space-y-4">
