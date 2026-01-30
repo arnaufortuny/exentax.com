@@ -147,14 +147,14 @@ export default function ForgotPassword() {
       <Navbar />
       <main className="pt-20 md:pt-24 pb-12 md:pb-16 px-4 sm:px-6 flex flex-col items-center justify-center min-h-[80vh]">
         <div className="w-full max-w-sm md:max-w-md">
-          <div className="text-center mb-5 md:mb-8">
-            <h1 className="text-2xl sm:text-3xl md:text-4xl font-black text-primary tracking-tight">
-              Recuperar <span className="text-accent">Contrasena</span>
+          <div className="text-center mb-6 md:mb-8 mx-auto">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-black text-primary tracking-tight text-center">
+              Recuperar <span className="text-accent">Contraseña</span>
             </h1>
-            <p className="text-muted-foreground mt-2 text-sm md:text-base">
-              {step === 'email' && "Te enviaremos un codigo"}
-              {step === 'otp' && "Ingresa el codigo"}
-              {step === 'password' && "Nueva contrasena"}
+            <p className="text-muted-foreground mt-3 text-sm md:text-base text-center max-w-xs mx-auto">
+              {step === 'email' && "Te enviaremos un código para restablecer el acceso a tu cuenta"}
+              {step === 'otp' && "Ingresa el código de 6 dígitos que enviamos a tu email"}
+              {step === 'password' && "Crea una nueva contraseña segura para tu cuenta"}
             </p>
           </div>
 
@@ -174,7 +174,7 @@ export default function ForgotPassword() {
                   className="w-full bg-accent text-primary font-black h-11 md:h-12 rounded-full text-sm md:text-base shadow-lg shadow-accent/20 active:scale-95 transition-all"
                   data-testid="button-send-otp"
                 >
-                  {isLoading ? <Loader2 className="animate-spin w-4 h-4" /> : "Enviar Codigo"}
+                  {isLoading ? <Loader2 className="animate-spin w-4 h-4" /> : "Enviar Código"}
                 </Button>
               </form>
             </Form>
