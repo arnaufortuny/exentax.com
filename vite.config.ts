@@ -23,9 +23,20 @@ export default defineConfig({
     chunkSizeWarningLimit: 1000,
     rollupOptions: {
       output: {
-        manualChunks: {
-          vendor: ['react', 'react-dom', 'framer-motion'],
-          ui: ['lucide-react', '@radix-ui/react-dialog', '@radix-ui/react-select'],
+        manualChunks(id) {
+          if (id.includes('node_modules')) {
+            if (id.includes('react-dom') || id.includes('react/') || id.includes('/react.')) return 'react-vendor';
+            if (id.includes('framer-motion')) return 'framer-motion';
+            if (id.includes('@radix-ui')) return 'radix-ui';
+            if (id.includes('lucide-react')) return 'lucide';
+            if (id.includes('@tanstack')) return 'tanstack';
+            if (id.includes('react-hook-form') || id.includes('@hookform')) return 'forms';
+            if (id.includes('zod') || id.includes('drizzle')) return 'validation';
+            if (id.includes('i18next')) return 'i18n';
+            if (id.includes('date-fns')) return 'date-utils';
+            return 'vendor';
+          }
+          if (id.includes('/components/ui/')) return 'ui-components';
         }
       }
     }
