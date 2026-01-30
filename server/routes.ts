@@ -921,6 +921,25 @@ export async function registerRoutes(
     }
   });
 
+  app.get("/api/admin/documents", isAdmin, async (req, res) => {
+    try {
+      const docs = await db.select().from(applicationDocumentsTable)
+        .leftJoin(ordersTable, eq(applicationDocumentsTable.orderId, ordersTable.id))
+        .leftJoin(usersTable, eq(ordersTable.userId, usersTable.id))
+        .leftJoin(llcApplicationsTable, eq(applicationDocumentsTable.applicationId, llcApplicationsTable.id))
+        .orderBy(desc(applicationDocumentsTable.uploadedAt));
+      res.json(docs.map(d => ({
+        ...d.application_documents,
+        order: d.orders,
+        user: d.users ? { id: d.users.id, firstName: d.users.firstName, lastName: d.users.lastName, email: d.users.email } : null,
+        application: d.llc_applications ? { companyName: d.llc_applications.companyName, state: d.llc_applications.state } : null
+      })));
+    } catch (error) {
+      console.error("Admin documents error:", error);
+      res.status(500).json({ message: "Error fetching documents" });
+    }
+  });
+
   app.get("/api/user/documents", isAuthenticated, async (req: any, res) => {
     try {
       const docs = await db.select().from(applicationDocumentsTable)

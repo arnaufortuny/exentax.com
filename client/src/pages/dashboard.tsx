@@ -291,6 +291,12 @@ export default function Dashboard() {
     enabled: !!user?.isAdmin,
   });
 
+  const { data: adminDocuments } = useQuery<any[]>({
+    queryKey: ["/api/admin/documents"],
+    enabled: !!user?.isAdmin,
+    refetchInterval: 30000,
+  });
+
   const { data: adminStats } = useQuery<{
     totalSales: number;
     pendingSales: number;
@@ -1416,10 +1422,10 @@ export default function Dashboard() {
               {activeTab === 'admin' && user?.isAdmin && (
                 <div key="admin" className="space-y-6">
                   <div className="flex flex-wrap gap-1.5 md:gap-2 mb-4 md:mb-6">
-                    {['dashboard', 'orders', 'users', 'calendar', 'newsletter', 'inbox', 'descuentos'].map(tab => (
+                    {['dashboard', 'orders', 'users', 'calendar', 'docs', 'newsletter', 'inbox', 'descuentos'].map(tab => (
                       <Button key={tab} variant={adminSubTab === tab ? "default" : "outline"} onClick={() => setAdminSubTab(tab)} className="rounded-full text-[10px] md:text-xs font-black capitalize px-2 md:px-3" data-testid={`button-admin-tab-${tab}`}>
-                        <span className="hidden sm:inline">{tab === 'dashboard' ? 'Métricas' : tab === 'calendar' ? 'Fechas' : tab === 'orders' ? 'Pedidos' : tab === 'users' ? 'Clientes' : tab === 'descuentos' ? 'Descuentos' : tab}</span>
-                        <span className="sm:hidden flex items-center justify-center">{tab === 'dashboard' ? <BarChart3 className="w-5 h-5" /> : tab === 'calendar' ? <Calendar className="w-5 h-5" /> : tab === 'orders' ? <Package className="w-5 h-5" /> : tab === 'users' ? <Users className="w-5 h-5" /> : tab === 'newsletter' ? <Mail className="w-5 h-5" /> : tab === 'descuentos' ? <Tag className="w-5 h-5" /> : <MessageSquare className="w-5 h-5" />}</span>
+                        <span className="hidden sm:inline">{tab === 'dashboard' ? 'Métricas' : tab === 'calendar' ? 'Fechas' : tab === 'orders' ? 'Pedidos' : tab === 'users' ? 'Clientes' : tab === 'docs' ? 'Documentos' : tab === 'descuentos' ? 'Descuentos' : tab}</span>
+                        <span className="sm:hidden flex items-center justify-center">{tab === 'dashboard' ? <BarChart3 className="w-5 h-5" /> : tab === 'calendar' ? <Calendar className="w-5 h-5" /> : tab === 'orders' ? <Package className="w-5 h-5" /> : tab === 'users' ? <Users className="w-5 h-5" /> : tab === 'docs' ? <FileText className="w-5 h-5" /> : tab === 'newsletter' ? <Mail className="w-5 h-5" /> : tab === 'descuentos' ? <Tag className="w-5 h-5" /> : <MessageSquare className="w-5 h-5" />}</span>
                       </Button>
                     ))}
                   </div>
@@ -1744,6 +1750,61 @@ export default function Dashboard() {
                         {(!adminOrders || adminOrders.length === 0) && (
                           <div className="text-center py-8 text-muted-foreground text-sm">
                             No hay pedidos con LLCs para gestionar
+                          </div>
+                        )}
+                      </div>
+                    </Card>
+                  )}
+                  {adminSubTab === 'docs' && (
+                    <Card className="rounded-2xl border-0 shadow-sm p-4 md:p-6">
+                      <div className="flex items-center justify-between mb-4">
+                        <h3 className="font-black text-lg">Documentos de Clientes</h3>
+                        <Badge className="bg-accent/20 text-accent">{adminDocuments?.length || 0} docs</Badge>
+                      </div>
+                      <div className="divide-y max-h-[60vh] overflow-y-auto">
+                        {adminDocuments?.map((doc: any) => (
+                          <div key={doc.id} className="py-3 flex items-start justify-between gap-2">
+                            <div className="min-w-0 flex-1">
+                              <div className="flex items-center gap-2 flex-wrap mb-1">
+                                <p className="font-bold text-sm truncate">{doc.fileName}</p>
+                                <Badge variant="outline" className={`text-[9px] ${doc.reviewStatus === 'approved' ? 'bg-green-100 text-green-700' : doc.reviewStatus === 'rejected' ? 'bg-red-100 text-red-700' : 'bg-yellow-100 text-yellow-700'}`}>
+                                  {doc.reviewStatus === 'approved' ? 'Aprobado' : doc.reviewStatus === 'rejected' ? 'Rechazado' : 'Pendiente'}
+                                </Badge>
+                              </div>
+                              <p className="text-xs text-muted-foreground">{doc.user?.firstName} {doc.user?.lastName} • {doc.user?.email}</p>
+                              <p className="text-[10px] text-muted-foreground">
+                                {doc.application?.companyName && <><strong>LLC:</strong> {doc.application.companyName} • </>}
+                                <strong>Tipo:</strong> {doc.documentType || 'Documento'} • 
+                                <strong> Fecha:</strong> {doc.uploadedAt ? new Date(doc.uploadedAt).toLocaleDateString('es-ES') : '-'}
+                              </p>
+                            </div>
+                            <div className="flex gap-1 shrink-0">
+                              {doc.fileUrl && (
+                                <Button size="icon" variant="ghost" className="h-8 w-8" onClick={() => window.open(doc.fileUrl, '_blank')} data-testid={`btn-view-doc-${doc.id}`}>
+                                  <Eye className="w-4 h-4" />
+                                </Button>
+                              )}
+                              <Select value={doc.reviewStatus || 'pending'} onValueChange={async val => {
+                                try {
+                                  await apiRequest("PATCH", `/api/admin/documents/${doc.id}/review`, { reviewStatus: val });
+                                  queryClient.invalidateQueries({ queryKey: ["/api/admin/documents"] });
+                                  toast({ title: "Estado actualizado" });
+                                } catch { toast({ title: "Error", variant: "destructive" }); }
+                              }}>
+                                <SelectTrigger className="h-8 w-24 text-[10px] rounded-full"><SelectValue /></SelectTrigger>
+                                <SelectContent>
+                                  <SelectItem value="pending">Pendiente</SelectItem>
+                                  <SelectItem value="approved">Aprobar</SelectItem>
+                                  <SelectItem value="rejected">Rechazar</SelectItem>
+                                </SelectContent>
+                              </Select>
+                            </div>
+                          </div>
+                        ))}
+                        {(!adminDocuments || adminDocuments.length === 0) && (
+                          <div className="text-center py-8 text-muted-foreground text-sm">
+                            <FileText className="w-12 h-12 mx-auto mb-3 text-muted-foreground/30" />
+                            No hay documentos subidos por clientes
                           </div>
                         )}
                       </div>
