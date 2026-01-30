@@ -1234,8 +1234,8 @@ export default function Dashboard() {
                         <Label className="text-xs font-bold text-muted-foreground">Actividad profesional</Label>
                         {isEditing && canEdit ? (
                           <Select value={profileData.businessActivity} onValueChange={val => setProfileData({...profileData, businessActivity: val})}>
-                            <SelectTrigger className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800" data-testid="select-activity"><SelectValue placeholder="A qué te dedicas" /></SelectTrigger>
-                            <SelectContent>
+                            <SelectTrigger className="rounded-full h-11 md:h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800" style={{ fontSize: '16px' }} data-testid="select-activity"><SelectValue placeholder="A qué te dedicas" /></SelectTrigger>
+                            <SelectContent position="popper" className="max-h-[50vh]">
                               <SelectItem value="ecommerce">E-commerce</SelectItem>
                               <SelectItem value="dropshipping">Dropshipping</SelectItem>
                               <SelectItem value="consulting">Consultoría</SelectItem>
@@ -1255,8 +1255,8 @@ export default function Dashboard() {
                             <Label className="text-xs font-bold text-muted-foreground">Tipo de vía</Label>
                             {isEditing && canEdit ? (
                               <Select value={profileData.streetType} onValueChange={val => setProfileData({...profileData, streetType: val})}>
-                                <SelectTrigger className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800"><SelectValue placeholder="Calle · Avenida · Paseo · Plaza" /></SelectTrigger>
-                                <SelectContent>
+                                <SelectTrigger className="rounded-full h-11 md:h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800" style={{ fontSize: '16px' }} data-testid="select-street-type"><SelectValue placeholder="Calle · Avenida · Paseo · Plaza" /></SelectTrigger>
+                                <SelectContent position="popper" className="max-h-[50vh]">
                                   <SelectItem value="calle">Calle</SelectItem>
                                   <SelectItem value="avenida">Avenida</SelectItem>
                                   <SelectItem value="paseo">Paseo</SelectItem>
@@ -2097,8 +2097,8 @@ export default function Dashboard() {
                   <div>
                     <Label className="text-sm font-black text-primary mb-2 block">Actividad de Negocio</Label>
                     <Select value={editingUser.businessActivity || ''} onValueChange={val => setEditingUser({...editingUser, businessActivity: val})}>
-                      <SelectTrigger className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800" data-testid="select-edit-activity"><SelectValue placeholder="Seleccionar actividad" /></SelectTrigger>
-                      <SelectContent className="rounded-xl">
+                      <SelectTrigger className="rounded-full h-11 md:h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800" style={{ fontSize: '16px' }} data-testid="select-edit-activity"><SelectValue placeholder="Seleccionar actividad" /></SelectTrigger>
+                      <SelectContent position="popper" className="max-h-[50vh] rounded-xl">
                         <SelectItem value="ecommerce">E-commerce</SelectItem>
                         <SelectItem value="dropshipping">Dropshipping</SelectItem>
                         <SelectItem value="consulting">Consultoría</SelectItem>
