@@ -4,6 +4,10 @@ import { serveStatic } from "./static";
 import { createServer } from "http";
 import compression from "compression";
 import path from "path";
+import { initServerSentry } from "./lib/sentry";
+import { scheduleBackups } from "./lib/backup";
+
+initServerSentry();
 
 const app = express();
 
@@ -126,6 +130,9 @@ app.use((req, res, next) => {
     },
     () => {
       log(`serving on port ${port}`);
+      if (process.env.NODE_ENV === "production") {
+        scheduleBackups();
+      }
     },
   );
 })();
