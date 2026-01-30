@@ -17,6 +17,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { useAuth } from "@/hooks/use-auth";
+import { StepProgress } from "@/components/ui/step-progress";
 
 const formSchema = z.object({
   nombre: z.string().min(1, "Campo obligatorio"),
@@ -281,9 +282,11 @@ export default function Contacto() {
           <span className="text-accent tracking-widest text-xs sm:text-sm font-black block mb-2">HABLEMOS / CONTACTO</span>
           <span className="text-foreground">Cuéntanos tu caso</span>
         </h1>
-        <p className="text-muted-foreground font-medium mb-8 text-center max-w-lg mx-auto text-sm sm:text-base">
+        <p className="text-muted-foreground font-medium mb-6 text-center max-w-lg mx-auto text-sm sm:text-base">
           Estamos aquí para ayudarte. Cuéntanos qué necesitas y te responderemos personalmente lo antes posible.
         </p>
+        
+        <StepProgress currentStep={step} totalSteps={9} className="mb-8" />
 
         <div>
           <div className="space-y-6">
