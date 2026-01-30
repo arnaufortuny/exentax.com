@@ -18,14 +18,14 @@ export function HeroSection({
     <section 
       className={`relative overflow-hidden pt-8 pb-6 sm:pt-16 sm:pb-16 lg:pt-20 lg:pb-20 flex flex-col items-center justify-center text-center ${className}`}
       style={{
-        background: 'linear-gradient(180deg, rgba(110, 220, 138, 0.08) 0%, rgba(110, 220, 138, 0.02) 60%, transparent 100%)'
+        background: 'linear-gradient(180deg, rgba(110, 220, 138, 0.15) 0%, rgba(110, 220, 138, 0.08) 50%, rgba(110, 220, 138, 0.02) 80%, transparent 100%)'
       }}
     >
       {/* Soft radial gradient overlay for depth */}
       <div 
-        className="absolute inset-0 pointer-events-none dark:opacity-60"
+        className="absolute inset-0 pointer-events-none dark:opacity-50"
         style={{
-          background: 'radial-gradient(ellipse 80% 50% at 50% 0%, rgba(110, 220, 138, 0.12) 0%, transparent 70%)'
+          background: 'radial-gradient(ellipse 100% 70% at 50% 0%, rgba(110, 220, 138, 0.2) 0%, rgba(110, 220, 138, 0.08) 40%, transparent 80%)'
         }}
       />
       <div className="container max-w-7xl mx-auto px-4 sm:px-8 relative z-10 flex flex-col items-center justify-center text-center">
