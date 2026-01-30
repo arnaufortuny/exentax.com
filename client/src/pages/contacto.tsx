@@ -299,13 +299,13 @@ export default function Contacto() {
                       <FormItem>
                         <FormLabel className="text-sm md:text-base font-bold text-foreground">¿Cómo te llamas?</FormLabel>
                         <FormControl>
-                          <Input {...field} className="rounded-full h-11 sm:h-12 px-4 sm:px-5 border-2 border-border focus:border-accent bg-card transition-all font-medium text-foreground text-sm sm:text-base" data-testid="input-nombre" />
+                          <Input {...field} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" data-testid="input-nombre" />
                         </FormControl>
                         <FormDescription className="text-xs text-muted-foreground">Campo obligatorio</FormDescription>
                         <FormMessage />
                       </FormItem>
                     )} />
-                    <Button type="button" onClick={nextStep} className="w-full bg-accent hover:bg-accent/90 text-black font-bold h-10 sm:h-12 rounded-full text-sm sm:text-base transition-all" data-testid="button-next-0">Siguiente</Button>
+                    <Button type="button" onClick={nextStep} className="w-full bg-accent hover:bg-accent/90 text-black font-bold h-12 rounded-full text-base transition-all" data-testid="button-next-0">Siguiente</Button>
                     
                     {!isAuthenticated && (
                       <div className="pt-4">
@@ -327,15 +327,15 @@ export default function Contacto() {
                       <FormItem>
                         <FormLabel className="text-sm md:text-base font-bold text-foreground">Para saber con quién estamos hablando</FormLabel>
                         <FormControl>
-                          <Input {...field} className="rounded-full h-11 sm:h-12 px-4 sm:px-5 border-2 border-border focus:border-accent bg-card transition-all font-medium text-foreground text-sm sm:text-base" data-testid="input-apellido" />
+                          <Input {...field} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" data-testid="input-apellido" />
                         </FormControl>
                         <FormDescription className="text-xs text-muted-foreground">Campo obligatorio</FormDescription>
                         <FormMessage />
                       </FormItem>
                     )} />
                     <div className="flex gap-3">
-                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-10 sm:h-12 font-bold border-border transition-all text-sm sm:text-base">Atrás</Button>
-                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-10 sm:h-12 transition-all text-sm sm:text-base" data-testid="button-next-1">Siguiente</Button>
+                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">Atrás</Button>
+                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all" data-testid="button-next-1">Siguiente</Button>
                     </div>
                   </div>
                 )}
@@ -349,15 +349,15 @@ export default function Contacto() {
                       <FormItem>
                         <FormLabel className="text-sm md:text-base font-bold text-foreground">¿Dónde prefieres que te respondamos?</FormLabel>
                         <FormControl>
-                          <Input {...field} type="email" inputMode="email" className="rounded-full h-11 sm:h-12 px-4 sm:px-5 border-2 border-border focus:border-accent bg-card transition-all font-medium text-foreground text-sm sm:text-base" data-testid="input-email" />
+                          <Input {...field} type="email" inputMode="email" className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" data-testid="input-email" />
                         </FormControl>
                         <FormDescription className="text-xs text-muted-foreground">Campo obligatorio · No enviamos publicidad ni mensajes innecesarios</FormDescription>
                         <FormMessage />
                       </FormItem>
                     )} />
                     <div className="flex gap-3">
-                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-10 sm:h-12 font-bold border-border transition-all text-sm sm:text-base">Atrás</Button>
-                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-10 sm:h-12 transition-all text-sm sm:text-base" data-testid="button-next-2">Siguiente</Button>
+                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">Atrás</Button>
+                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all" data-testid="button-next-2">Siguiente</Button>
                     </div>
                   </div>
                 )}
@@ -369,23 +369,23 @@ export default function Contacto() {
                     </h2>
                     <FormField control={form.control} name="contactByWhatsapp" render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-xs sm:text-sm md:text-base font-bold text-foreground">¿Cómo prefieres que te contactemos?</FormLabel>
+                        <FormLabel className="text-sm md:text-base font-bold text-foreground">¿Cómo prefieres que te contactemos?</FormLabel>
                         <FormControl>
-                          <label className="flex items-center gap-2 sm:gap-3 p-3 sm:p-4 rounded-xl border-2 border-border bg-card hover:border-accent cursor-pointer transition-all">
+                          <label className="flex items-center gap-3 p-4 rounded-full border-2 border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 hover:border-accent cursor-pointer transition-all">
                             <Checkbox 
                               checked={field.value} 
                               onCheckedChange={field.onChange}
-                              className="w-4 h-4 sm:w-5 sm:h-5 border-2 border-muted-foreground data-[state=checked]:bg-accent data-[state=checked]:border-accent"
+                              className="w-5 h-5 border-2"
                               data-testid="checkbox-whatsapp"
                             />
-                            <span className="font-medium text-foreground text-xs sm:text-sm">Quiero que me contactéis por WhatsApp</span>
+                            <span className="font-medium text-foreground text-sm">Quiero que me contactéis por WhatsApp</span>
                           </label>
                         </FormControl>
                       </FormItem>
                     )} />
                     <div className="flex gap-3">
-                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-10 sm:h-12 font-bold border-border transition-all text-sm sm:text-base">Atrás</Button>
-                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-10 sm:h-12 transition-all text-sm sm:text-base" data-testid="button-next-3">Siguiente</Button>
+                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">Atrás</Button>
+                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all" data-testid="button-next-3">Siguiente</Button>
                     </div>
                   </div>
                 )}
@@ -401,7 +401,7 @@ export default function Contacto() {
                           Tu número de teléfono {watchWhatsapp ? "" : "(opcional)"}
                         </FormLabel>
                         <FormControl>
-                          <Input {...field} type="tel" inputMode="tel" className="rounded-full h-11 sm:h-12 px-4 sm:px-5 border-2 border-border focus:border-accent bg-card transition-all font-medium text-foreground text-sm sm:text-base" data-testid="input-telefono" />
+                          <Input {...field} type="tel" inputMode="tel" className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" data-testid="input-telefono" />
                         </FormControl>
                         <FormDescription className="text-xs text-muted-foreground">
                           {watchWhatsapp ? "Campo obligatorio si marcas WhatsApp · " : ""}Usaremos tu número únicamente para responder a esta consulta
@@ -410,8 +410,8 @@ export default function Contacto() {
                       </FormItem>
                     )} />
                     <div className="flex gap-3">
-                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-10 sm:h-12 font-bold border-border transition-all text-sm sm:text-base">Atrás</Button>
-                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-10 sm:h-12 transition-all text-sm sm:text-base" data-testid="button-next-4">Siguiente</Button>
+                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">Atrás</Button>
+                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all" data-testid="button-next-4">Siguiente</Button>
                     </div>
                   </div>
                 )}
@@ -422,28 +422,25 @@ export default function Contacto() {
                       ¿En qué podemos ayudarte?
                     </h2>
                     <FormField control={form.control} name="subject" render={({ field }) => (
-                      <FormItem className="space-y-2 sm:space-y-3">
-                        <FormLabel className="text-xs sm:text-sm md:text-base font-bold text-foreground">Así vamos directos a lo importante</FormLabel>
+                      <FormItem className="space-y-3">
+                        <FormLabel className="text-sm md:text-base font-bold text-foreground">Así vamos directos a lo importante</FormLabel>
                         <FormControl>
-                          <div className="flex flex-col gap-1.5 sm:gap-2">
+                          <div className="flex flex-col gap-2">
                             {SUBJECT_OPTIONS.map((opt) => (
-                              <label key={opt} className={`flex items-center gap-2 sm:gap-3 p-2.5 sm:p-3 rounded-xl border-2 ${field.value === opt ? 'border-accent bg-accent/5' : 'border-border bg-card'} hover:border-accent cursor-pointer transition-all`}>
-                                <div className={`w-4 h-4 sm:w-5 sm:h-5 rounded-full border-2 flex items-center justify-center ${field.value === opt ? 'border-accent bg-accent' : 'border-muted-foreground'}`}>
-                                  {field.value === opt && <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-white" />}
-                                </div>
-                                <input type="radio" {...field} value={opt} checked={field.value === opt} className="sr-only" />
-                                <span className="font-medium text-foreground text-xs sm:text-sm">{opt}</span>
+                              <label key={opt} className="flex items-center gap-3 p-3 rounded-xl border-2 border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 hover:border-accent cursor-pointer transition-all">
+                                <input type="radio" {...field} value={opt} checked={field.value === opt} className="w-4 h-4 accent-[#6EDC8A]" />
+                                <span className="font-medium text-foreground text-sm">{opt}</span>
                               </label>
                             ))}
                           </div>
                         </FormControl>
-                        <FormDescription className="text-[10px] sm:text-xs text-muted-foreground">Campo obligatorio</FormDescription>
+                        <FormDescription className="text-xs text-muted-foreground">Campo obligatorio</FormDescription>
                         <FormMessage />
                       </FormItem>
                     )} />
                     <div className="flex gap-3">
-                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-10 sm:h-12 font-bold border-border transition-all text-sm sm:text-base">Atrás</Button>
-                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-10 sm:h-12 transition-all text-sm sm:text-base" data-testid="button-next-5">Siguiente</Button>
+                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">Atrás</Button>
+                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all" data-testid="button-next-5">Siguiente</Button>
                     </div>
                   </div>
                 )}
@@ -455,17 +452,17 @@ export default function Contacto() {
                     </h2>
                     <FormField control={form.control} name="mensaje" render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-xs sm:text-sm md:text-base font-bold text-foreground">Explícanos tu caso con tus propias palabras</FormLabel>
+                        <FormLabel className="text-sm md:text-base font-bold text-foreground">Explícanos tu caso con tus propias palabras</FormLabel>
                         <FormControl>
-                          <Textarea {...field} className="rounded-xl min-h-[100px] sm:min-h-[120px] px-4 sm:px-5 py-3 sm:py-4 border-2 border-border focus:border-accent bg-card transition-all font-medium text-foreground text-sm sm:text-base" data-testid="input-mensaje" />
+                          <Textarea {...field} className="rounded-xl min-h-[120px] px-5 py-4 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" data-testid="input-mensaje" />
                         </FormControl>
-                        <FormDescription className="text-[10px] sm:text-xs text-muted-foreground">Campo obligatorio</FormDescription>
+                        <FormDescription className="text-xs text-muted-foreground">Campo obligatorio</FormDescription>
                         <FormMessage />
                       </FormItem>
                     )} />
                     <div className="flex gap-3">
-                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-10 sm:h-12 font-bold border-border transition-all text-sm sm:text-base">Atrás</Button>
-                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-10 sm:h-12 transition-all text-sm sm:text-base" data-testid="button-next-6">Siguiente</Button>
+                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">Atrás</Button>
+                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all" data-testid="button-next-6">Siguiente</Button>
                     </div>
                   </div>
                 )}
@@ -484,7 +481,7 @@ export default function Contacto() {
                           type="button" 
                           onClick={sendOtp} 
                           disabled={isLoading} 
-                          className="w-full bg-accent hover:bg-accent/90 text-black font-bold h-10 sm:h-12 rounded-full text-sm sm:text-base transition-all"
+                          className="w-full bg-accent hover:bg-accent/90 text-black font-bold h-12 rounded-full text-base transition-all"
                           data-testid="button-send-otp"
                         >
                           {isLoading ? <Loader2 className="animate-spin" /> : "Enviar código de verificación"}
@@ -499,7 +496,7 @@ export default function Contacto() {
                             <FormControl>
                               <Input 
                                 {...field} 
-                                className="rounded-full h-11 sm:h-12 px-4 sm:px-5 text-center text-lg sm:text-xl font-bold border-2 border-border focus:border-accent bg-card text-foreground tracking-[0.3em]" 
+                                className="rounded-full h-12 px-5 text-center text-xl font-bold border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 text-foreground tracking-[0.3em]" 
                                 maxLength={6}
                                 data-testid="input-otp"
                               />
@@ -511,7 +508,7 @@ export default function Contacto() {
                           type="button" 
                           onClick={verifyOtp} 
                           disabled={isLoading} 
-                          className="w-full bg-accent hover:bg-accent/90 text-black font-bold h-10 sm:h-12 rounded-full text-sm sm:text-base transition-all"
+                          className="w-full bg-accent hover:bg-accent/90 text-black font-bold h-12 rounded-full text-base transition-all"
                           data-testid="button-verify-otp"
                         >
                           {isLoading ? <Loader2 className="animate-spin" /> : "Verificar código"}
@@ -522,7 +519,7 @@ export default function Contacto() {
                       </div>
                     )}
                     
-                    <Button type="button" variant="outline" onClick={prevStep} className="w-full rounded-full h-10 sm:h-12 font-bold border-border transition-all text-sm sm:text-base mt-4">Atrás</Button>
+                    <Button type="button" variant="outline" onClick={prevStep} className="w-full rounded-full h-12 font-bold border-border transition-all mt-4">Atrás</Button>
                   </div>
                 )}
 
@@ -533,41 +530,41 @@ export default function Contacto() {
                     </h2>
                     <p className="text-sm text-muted-foreground">Para poder ayudarte, necesitamos tu confirmación</p>
 
-                    <div className="space-y-3 sm:space-y-4">
+                    <div className="space-y-4">
                       <FormField control={form.control} name="dataProcessingConsent" render={({ field }) => (
-                        <FormItem className="flex items-start gap-2 sm:gap-3 p-3 sm:p-4 rounded-xl border-2 border-border bg-card hover:border-accent/50 transition-all cursor-pointer" onClick={() => field.onChange(!field.value)}>
+                        <FormItem className="flex items-start gap-3">
                           <FormControl>
-                            <Checkbox checked={field.value} onCheckedChange={field.onChange} className="mt-0.5 w-4 h-4 sm:w-5 sm:h-5 border-2 border-muted-foreground data-[state=checked]:bg-accent data-[state=checked]:border-accent" data-testid="checkbox-data-consent" />
+                            <Checkbox checked={field.value} onCheckedChange={field.onChange} className="mt-1 data-[state=checked]:bg-accent data-[state=checked]:border-accent" data-testid="checkbox-data-consent" />
                           </FormControl>
-                          <div className="flex-1">
-                            <FormLabel className="text-xs sm:text-sm font-medium text-foreground leading-relaxed cursor-pointer">
+                          <div>
+                            <FormLabel className="text-sm font-medium text-foreground leading-relaxed cursor-pointer">
                               Acepto el tratamiento de mis datos personales
                             </FormLabel>
-                            <p className="text-[10px] sm:text-xs text-muted-foreground mt-0.5 sm:mt-1">Usaremos tu información únicamente para gestionar tu consulta</p>
+                            <p className="text-xs text-muted-foreground mt-1">Usaremos tu información únicamente para gestionar tu consulta</p>
                           </div>
                         </FormItem>
                       )} />
                       <FormField control={form.control} name="termsConsent" render={({ field }) => (
-                        <FormItem className="flex items-start gap-2 sm:gap-3 p-3 sm:p-4 rounded-xl border-2 border-border bg-card hover:border-accent/50 transition-all cursor-pointer" onClick={() => field.onChange(!field.value)}>
+                        <FormItem className="flex items-start gap-3">
                           <FormControl>
-                            <Checkbox checked={field.value} onCheckedChange={field.onChange} className="mt-0.5 w-4 h-4 sm:w-5 sm:h-5 border-2 border-muted-foreground data-[state=checked]:bg-accent data-[state=checked]:border-accent" data-testid="checkbox-terms-consent" />
+                            <Checkbox checked={field.value} onCheckedChange={field.onChange} className="mt-1 data-[state=checked]:bg-accent data-[state=checked]:border-accent" data-testid="checkbox-terms-consent" />
                           </FormControl>
-                          <div className="flex-1">
-                            <FormLabel className="text-xs sm:text-sm font-medium text-foreground leading-relaxed cursor-pointer">
+                          <div>
+                            <FormLabel className="text-sm font-medium text-foreground leading-relaxed cursor-pointer">
                               Acepto los <Link href="/legal/terminos" className="text-accent underline hover:text-accent/80 font-bold">términos y condiciones</Link>
                             </FormLabel>
-                            <p className="text-[10px] sm:text-xs text-muted-foreground mt-0.5 sm:mt-1">Puedes revisarlos cuando quieras</p>
+                            <p className="text-xs text-muted-foreground mt-1">Puedes revisarlos cuando quieras</p>
                           </div>
                         </FormItem>
                       )} />
                     </div>
 
                     <div className="flex gap-3">
-                      <Button type="button" variant="outline" onClick={() => setStep(6)} className="flex-1 rounded-full h-10 sm:h-12 font-bold border-border transition-all text-sm sm:text-base">Atrás</Button>
+                      <Button type="button" variant="outline" onClick={() => setStep(6)} className="flex-1 rounded-full h-12 font-bold border-border transition-all">Atrás</Button>
                       <Button 
                         type="submit" 
                         disabled={isLoading || !form.getValues("dataProcessingConsent") || !form.getValues("termsConsent")} 
-                        className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-10 sm:h-12 transition-all text-sm sm:text-base disabled:opacity-50"
+                        className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all disabled:opacity-50"
                         data-testid="button-submit"
                       >
                         {isLoading ? <Loader2 className="animate-spin" /> : "Enviar mensaje"}
