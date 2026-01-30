@@ -40,6 +40,14 @@ interface ReceiptData {
   amount: number;
   currency: string;
   status: string;
+  companyName?: string;
+  state?: string;
+  ein?: string;
+  creationYear?: string;
+  bankAccount?: string;
+  paymentGateway?: string;
+  notes?: string;
+  isMaintenance?: boolean;
 }
 
 const BRAND_GREEN = '#6EDC8A';
@@ -251,8 +259,46 @@ export function generateReceiptPdf(data: ReceiptData): Promise<Buffer> {
       doc.font('Helvetica').fontSize(12).fillColor(BRAND_DARK)
         .text(data.customerName, 300, detailsY + 15);
 
+      // Maintenance/LLC specific details
+      let extraDetailsY = 280;
+      if (data.companyName || data.state || data.ein) {
+        doc.font('Helvetica-Bold').fontSize(10).fillColor(BRAND_GRAY)
+          .text('DATOS DE LA LLC', 50, extraDetailsY);
+        let detailLineY = extraDetailsY + 15;
+        
+        if (data.companyName) {
+          doc.font('Helvetica').fontSize(11).fillColor(BRAND_DARK)
+            .text(`Empresa: ${data.companyName}`, 50, detailLineY);
+          detailLineY += 14;
+        }
+        if (data.state) {
+          doc.font('Helvetica').fontSize(11).fillColor(BRAND_DARK)
+            .text(`Estado: ${data.state}`, 50, detailLineY);
+          detailLineY += 14;
+        }
+        if (data.ein) {
+          doc.font('Helvetica').fontSize(11).fillColor(BRAND_DARK)
+            .text(`EIN: ${data.ein}`, 50, detailLineY);
+          detailLineY += 14;
+        }
+        if (data.creationYear) {
+          doc.font('Helvetica').fontSize(11).fillColor(BRAND_DARK)
+            .text(`Año creación: ${data.creationYear}`, 50, detailLineY);
+          detailLineY += 14;
+        }
+        if (data.bankAccount) {
+          doc.font('Helvetica').fontSize(11).fillColor(BRAND_DARK)
+            .text(`Cuenta bancaria: ${data.bankAccount}`, 300, extraDetailsY + 15);
+        }
+        if (data.paymentGateway) {
+          doc.font('Helvetica').fontSize(11).fillColor(BRAND_DARK)
+            .text(`Pasarela de pago: ${data.paymentGateway}`, 300, extraDetailsY + 29);
+        }
+        extraDetailsY = detailLineY + 20;
+      }
+
       // Service details
-      const serviceY = 300;
+      const serviceY = data.companyName ? 380 : 300;
       doc.rect(50, serviceY, 495, 100).stroke(BRAND_GRAY);
       
       doc.font('Helvetica-Bold').fontSize(11).fillColor(BRAND_DARK)

@@ -32,9 +32,13 @@ const formSchema = z.object({
   companyName: z.string().min(1, "Este campo es obligatorio"),
   ein: z.string().min(1, "Este campo es obligatorio"),
   state: z.string().min(1, "Este campo es obligatorio"),
+  creationYear: z.string().optional(),
+  bankAccount: z.string().optional(),
+  paymentGateway: z.string().optional(),
   businessActivity: z.string().min(1, "Este campo es obligatorio"),
   expectedServices: z.string().min(1, "Este campo es obligatorio"),
   wantsDissolve: z.string().min(1, "Este campo es obligatorio"),
+  notes: z.string().optional(),
   password: z.string().min(8, "Mínimo 8 caracteres").optional(),
   confirmPassword: z.string().optional(),
   paymentMethod: z.string().optional(),
@@ -79,9 +83,13 @@ export default function MaintenanceApplication() {
       companyName: "",
       ein: "",
       state: stateFromUrl,
+      creationYear: "",
+      bankAccount: "",
+      paymentGateway: "",
       businessActivity: "",
       expectedServices: "",
       wantsDissolve: "No",
+      notes: "",
       password: "",
       confirmPassword: "",
       paymentMethod: "transfer",
@@ -107,9 +115,13 @@ export default function MaintenanceApplication() {
     companyName: "",
     ein: "",
     state: stateFromUrl,
+    creationYear: "",
+    bankAccount: "",
+    paymentGateway: "",
     businessActivity: "",
     expectedServices: "",
     wantsDissolve: "No",
+    notes: "",
     authorizedManagement: false,
     termsConsent: false,
     dataProcessingConsent: false
@@ -603,24 +615,65 @@ export default function MaintenanceApplication() {
                   </div>
                 )}
 
-                {/* STEP 6: Estado de constitución */}
+                {/* STEP 6: Estado de constitución y detalles de la LLC */}
                 {step === 6 && (
                   <div key={"step-" + step} className="space-y-6 text-left">
-                    <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight">
-                      7️⃣ Estado de constitución
+                    <h2 className="text-xl md:text-2xl font-black text-primary border-b border-accent/20 pb-2 leading-tight">
+                      7️⃣ Detalles de tu LLC
                     </h2>
-                    <FormDescription>Cada estado tiene sus propios plazos</FormDescription>
+                    <FormDescription>Información sobre la constitución y situación actual</FormDescription>
+                    
                     <FormField control={form.control} name="state" render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-sm md:text-base font-black text-primary flex items-center gap-2">
-                          Estado:
-                        </FormLabel>
+                        <FormLabel className="text-sm md:text-base font-black text-primary">Estado de constitución</FormLabel>
                         <Select onValueChange={field.onChange} value={field.value || ""}>
                           <FormControl><SelectTrigger className="rounded-full h-11 md:h-14 px-4 md:px-6 border-border bg-white dark:bg-zinc-900 focus:ring-[#6EDC8A] font-black text-primary text-lg"><SelectValue placeholder="Seleccionar estado" /></SelectTrigger></FormControl>
                           <SelectContent><SelectItem value="New Mexico">New Mexico</SelectItem><SelectItem value="Wyoming">Wyoming</SelectItem><SelectItem value="Delaware">Delaware</SelectItem></SelectContent>
                         </Select>
                       </FormItem>
                     )} />
+                    
+                    <FormField control={form.control} name="creationYear" render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-sm md:text-base font-black text-primary">Año de creación</FormLabel>
+                        <FormControl>
+                          <Input {...field} placeholder="Ej: 2023" className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )} />
+                    
+                    <FormField control={form.control} name="bankAccount" render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-sm md:text-base font-black text-primary">Cuenta bancaria USA (opcional)</FormLabel>
+                        <Select onValueChange={field.onChange} value={field.value || ""}>
+                          <FormControl><SelectTrigger className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800"><SelectValue placeholder="Selecciona si tienes cuenta" /></SelectTrigger></FormControl>
+                          <SelectContent>
+                            <SelectItem value="Mercury">Mercury</SelectItem>
+                            <SelectItem value="Relay">Relay</SelectItem>
+                            <SelectItem value="Otro banco">Otro banco</SelectItem>
+                            <SelectItem value="No tengo cuenta">No tengo cuenta</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </FormItem>
+                    )} />
+                    
+                    <FormField control={form.control} name="paymentGateway" render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-sm md:text-base font-black text-primary">Pasarela de pagos (opcional)</FormLabel>
+                        <Select onValueChange={field.onChange} value={field.value || ""}>
+                          <FormControl><SelectTrigger className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800"><SelectValue placeholder="Selecciona pasarela" /></SelectTrigger></FormControl>
+                          <SelectContent>
+                            <SelectItem value="Stripe">Stripe</SelectItem>
+                            <SelectItem value="PayPal">PayPal</SelectItem>
+                            <SelectItem value="Stripe y PayPal">Stripe y PayPal</SelectItem>
+                            <SelectItem value="Otra">Otra</SelectItem>
+                            <SelectItem value="Ninguna">Ninguna</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </FormItem>
+                    )} />
+                    
                     <div className="flex gap-3 max-w-md mx-auto">
                       <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">Volver</Button>
                       <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">Continuar</Button>
@@ -951,8 +1004,20 @@ export default function MaintenanceApplication() {
                       <p><span className="opacity-50">Nombre:</span> <span className="font-black">{form.getValues("ownerFullName")}</span></p>
                       <p><span className="opacity-50">Email:</span> <span className="font-black">{form.getValues("ownerEmail")}</span></p>
                       <p><span className="opacity-50">LLC:</span> <span className="font-black">{form.getValues("companyName")}</span></p>
+                      <p><span className="opacity-50">Estado:</span> <span className="font-black">{form.getValues("state")}</span></p>
+                      <p><span className="opacity-50">EIN:</span> <span className="font-black">{form.getValues("ein")}</span></p>
                       <p><span className="opacity-50">Pago:</span> <span className="font-black">{form.getValues("paymentMethod") === 'transfer' ? 'Transferencia Bancaria' : 'Link de Pago'}</span></p>
                     </div>
+                    
+                    <FormField control={form.control} name="notes" render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-sm font-black text-primary">Notas adicionales (opcional)</FormLabel>
+                        <FormControl>
+                          <Textarea {...field} placeholder="Cualquier información adicional que quieras compartir..." className="rounded-2xl min-h-[80px] p-4 border-border focus:border-accent transition-all text-foreground" />
+                        </FormControl>
+                      </FormItem>
+                    )} />
+                    
                     <div className="space-y-4">
                       <FormField control={form.control} name="authorizedManagement" render={({ field }) => (
                         <FormItem className="flex flex-row items-start space-x-3 space-y-0 p-4 rounded-2xl bg-gray-50 dark:bg-zinc-800">

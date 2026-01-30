@@ -2562,15 +2562,23 @@ export async function registerRoutes(
       const [maintApp] = await db.select().from(maintenanceApplications).where(eq(maintenanceApplications.orderId, orderId)).limit(1);
       const requestCode = llcApp?.requestCode || maintApp?.requestCode || order.invoiceNumber || '';
       
-      // Generate PDF using lightweight PDFKit
+      // Generate PDF using lightweight PDFKit with maintenance/LLC details
       const pdfBuffer = await generateReceiptPdf({
         requestCode: requestCode || `REC-${orderId}`,
         date: new Date(order.createdAt || Date.now()).toLocaleDateString('es-ES'),
-        customerName: `${order.user?.firstName || ''} ${order.user?.lastName || ''}`.trim() || 'Cliente',
-        productName: order.product?.name || 'Servicio LLC',
+        customerName: llcApp?.ownerFullName || maintApp?.ownerFullName || `${order.user?.firstName || ''} ${order.user?.lastName || ''}`.trim() || 'Cliente',
+        productName: order.product?.name || (maintApp ? 'Mantenimiento LLC' : 'Formación LLC'),
         amount: order.amount,
         currency: order.currency || 'EUR',
-        status: order.status
+        status: order.status,
+        companyName: llcApp?.companyName || maintApp?.companyName,
+        state: llcApp?.state || maintApp?.state,
+        ein: maintApp?.ein,
+        creationYear: maintApp?.creationYear || undefined,
+        bankAccount: maintApp?.bankAccount || undefined,
+        paymentGateway: maintApp?.paymentGateway || undefined,
+        notes: maintApp?.notes || undefined,
+        isMaintenance: !!maintApp
       });
       
       res.setHeader('Content-Type', 'application/pdf');
