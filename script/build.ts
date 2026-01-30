@@ -28,16 +28,25 @@ const build = async () => {
       bundle: true,
       platform: "node",
       target: "node20",
-      outfile: "dist/index.cjs",
-      // Externalize all dependencies to avoid bundling issues
+      outfile: "dist/index.js",
       external: [...dependencies, ...devDependencies, "pg-native"],
-      format: "cjs",
+      format: "esm",
       sourcemap: true,
+      banner: {
+        js: `
+import { createRequire } from 'module';
+import { fileURLToPath as __fileURLToPath } from 'url';
+import { dirname as __dirname_fn } from 'path';
+const require = createRequire(import.meta.url);
+const __filename = __fileURLToPath(import.meta.url);
+const __dirname = __dirname_fn(__filename);
+        `.trim(),
+      },
     });
 
     // Check if output file exists
-    if (!fs.existsSync("dist/index.cjs")) {
-      throw new Error("Build output dist/index.cjs was not generated");
+    if (!fs.existsSync("dist/index.js")) {
+      throw new Error("Build output dist/index.js was not generated");
     }
 
     console.log("Build completed successfully!");

@@ -2,91 +2,115 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xmlns:xhtml="http://www.w3.org/1999/xhtml"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
+        xmlns:video="http://www.google.com/schemas/sitemap-video/1.1"
         xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
         http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
   
   <url>
     <loc>https://easyusllc.com/</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://easyusllc.com/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://easyusllc.com/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://easyusllc.com/"/>
     <lastmod>2026-01-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://easyusllc.com/logo-icon.png</image:loc>
+      <image:title>Easy US LLC - Tu LLC en USA</image:title>
+      <image:caption>Constitución de LLC en Estados Unidos para emprendedores</image:caption>
+    </image:image>
   </url>
   
   <url>
     <loc>https://easyusllc.com/servicios</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://easyusllc.com/servicios"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://easyusllc.com/servicios"/>
     <lastmod>2026-01-30</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.95</priority>
+    <image:image>
+      <image:loc>https://easyusllc.com/logo-icon.png</image:loc>
+      <image:title>Servicios LLC - New Mexico, Wyoming, Delaware</image:title>
+    </image:image>
   </url>
   
   <url>
-    <loc>https://easyusllc.com/application</loc>
+    <loc>https://easyusllc.com/llc/formation</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://easyusllc.com/llc/formation"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://easyusllc.com/llc/formation"/>
     <lastmod>2026-01-30</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
   </url>
   
   <url>
-    <loc>https://easyusllc.com/maintenance</loc>
+    <loc>https://easyusllc.com/llc/maintenance</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://easyusllc.com/llc/maintenance"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://easyusllc.com/llc/maintenance"/>
     <lastmod>2026-01-30</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
   </url>
   
   <url>
     <loc>https://easyusllc.com/faq</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://easyusllc.com/faq"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://easyusllc.com/faq"/>
     <lastmod>2026-01-30</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
   </url>
   
   <url>
     <loc>https://easyusllc.com/contacto</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://easyusllc.com/contacto"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://easyusllc.com/contacto"/>
     <lastmod>2026-01-30</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.75</priority>
   </url>
   
   <url>
-    <loc>https://easyusllc.com/login</loc>
+    <loc>https://easyusllc.com/auth/login</loc>
     <lastmod>2026-01-30</lastmod>
     <changefreq>yearly</changefreq>
-    <priority>0.5</priority>
+    <priority>0.4</priority>
   </url>
   
   <url>
-    <loc>https://easyusllc.com/register</loc>
+    <loc>https://easyusllc.com/auth/register</loc>
     <lastmod>2026-01-30</lastmod>
     <changefreq>yearly</changefreq>
-    <priority>0.5</priority>
+    <priority>0.4</priority>
   </url>
 
   <url>
     <loc>https://easyusllc.com/legal/terminos</loc>
     <lastmod>2026-01-30</lastmod>
     <changefreq>yearly</changefreq>
-    <priority>0.4</priority>
+    <priority>0.3</priority>
   </url>
 
   <url>
     <loc>https://easyusllc.com/legal/privacidad</loc>
     <lastmod>2026-01-30</lastmod>
     <changefreq>yearly</changefreq>
-    <priority>0.4</priority>
+    <priority>0.3</priority>
   </url>
 
   <url>
     <loc>https://easyusllc.com/legal/cookies</loc>
     <lastmod>2026-01-30</lastmod>
     <changefreq>yearly</changefreq>
-    <priority>0.4</priority>
+    <priority>0.3</priority>
   </url>
 
   <url>
     <loc>https://easyusllc.com/legal/reembolsos</loc>
     <lastmod>2026-01-30</lastmod>
     <changefreq>yearly</changefreq>
-    <priority>0.4</priority>
+    <priority>0.3</priority>
   </url>
 
 </urlset>
