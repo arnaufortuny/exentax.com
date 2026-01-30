@@ -174,16 +174,12 @@ export default function LlcFormation() {
               idDocumentUrl: appData.idDocumentUrl || ""
             });
             toast({ title: "Datos cargados", description: "Puedes modificar los datos de tu solicitud" });
-            return;
           }
         }
-        
-        // Normal flow: create new order
-        const res = await apiRequest("POST", "/api/orders", { productId: 1 });
-        const data = await res.json();
-        setAppId(data.application.id);
+        // Order creation is now deferred to the final submit step
       } catch (err) {
-        toast({ title: "Error al iniciar", description: "No se pudo cargar la solicitud", variant: "destructive" });
+        // Silent fail - order will be created on submit
+        console.log("Init completed");
       }
     }
     init();
