@@ -72,7 +72,7 @@ export function Navbar() {
 
           <div className="hidden md:flex items-center gap-2 lg:gap-3">
             <Button 
-              onClick={() => setLocation("/servicios#pricing")} 
+              onClick={() => setLocation("/llc/formation")} 
               className="bg-accent text-accent-foreground font-black text-sm border-0 rounded-full h-11 px-6 hover:scale-105 transition-all shadow-lg active:scale-95 shadow-accent/20"
               variant="default"
             >
@@ -227,7 +227,7 @@ export function Navbar() {
                   onClick={() => {
                     setIsOpen(false);
                     document.body.style.overflow = '';
-                    setLocation("/servicios#pricing");
+                    setLocation("/llc/formation");
                   }}
                   className="w-full bg-accent text-accent-foreground font-black text-sm h-12 shadow-lg active:scale-95 transition-transform flex items-center justify-center gap-2 shadow-accent/20"
                 >

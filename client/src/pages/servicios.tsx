@@ -34,7 +34,7 @@ export default function Servicios() {
   });
 
   const handleSelectProduct = (stateName: string) => {
-    setLocation(`/application?state=${encodeURIComponent(stateName)}`);
+    setLocation(`/llc/formation?state=${encodeURIComponent(stateName)}`);
   };
 
   const handleSelectMaintenance = (stateName: string) => {
