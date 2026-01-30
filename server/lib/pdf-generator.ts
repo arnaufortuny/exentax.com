@@ -74,6 +74,7 @@ export interface InvoiceData {
   status: 'pending' | 'paid' | 'cancelled' | 'refunded';
   paymentMethod?: 'transfer' | 'card' | 'stripe' | 'paypal' | 'link' | 'other';
   paymentDate?: string;
+  paymentLink?: string;
   bankDetails?: {
     bankName?: string;
     accountHolder?: string;
@@ -425,6 +426,17 @@ export function generateInvoicePdf(data: InvoiceData): Promise<Buffer> {
         y += 5;
       }
       
+      if (data.status === 'pending' && data.paymentLink) {
+        doc.rect(50, y, 495, 50).fillAndStroke('#FEF3C7', '#F59E0B');
+        doc.font('Helvetica-Bold').fontSize(10).fillColor('#92400E')
+          .text('ENLACE DE PAGO:', 60, y + 10);
+        doc.font('Helvetica').fontSize(9).fillColor('#78350F')
+          .text(data.paymentLink, 60, y + 24, { width: 475, link: data.paymentLink });
+        doc.font('Helvetica').fontSize(8).fillColor('#92400E')
+          .text('Haz clic en el enlace o copialo en tu navegador para completar el pago.', 60, y + 38);
+        y += 60;
+      }
+      
       if (data.notes) {
         doc.font('Helvetica-Bold').fontSize(8).fillColor(BRAND_GRAY).text('Notas:', 50, y);
         doc.font('Helvetica').fontSize(8).text(data.notes, 50, y + 10, { width: 495 });
@@ -732,6 +744,8 @@ export function generateOrderInvoice(orderData: {
     state?: string | null;
     paymentMethod?: string | null;
   } | null;
+  paymentLink?: string | null;
+  notes?: string | null;
 }): Promise<Buffer> {
   const app = orderData.application || orderData.maintenanceApplication;
   const isMaintenance = !!orderData.maintenanceApplication;
@@ -775,6 +789,8 @@ export function generateOrderInvoice(orderData: {
     currency: orderData.order.currency,
     status: orderData.order.status === 'paid' || orderData.order.status === 'completed' ? 'paid' : 'pending',
     paymentMethod: (app?.paymentMethod as 'transfer' | 'link') || undefined,
+    paymentLink: orderData.paymentLink || undefined,
+    notes: orderData.notes || undefined,
     isMaintenance
   };
   
