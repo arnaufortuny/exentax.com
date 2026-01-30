@@ -2023,7 +2023,7 @@ export default function Dashboard() {
       {user?.isAdmin && (
         <>
           <Dialog open={noteDialog.open} onOpenChange={(open) => setNoteDialog({ open, user: open ? noteDialog.user : null })}>
-            <DialogContent className="max-w-md bg-white dark:bg-zinc-900 rounded-2xl mx-4 sm:mx-auto">
+            <DialogContent className="sm:max-w-md bg-white dark:bg-zinc-900 rounded-2xl">
               <DialogHeader>
                 <DialogTitle className="text-xl font-black text-primary">Enviar Mensaje al Cliente</DialogTitle>
                 <DialogDescription className="text-sm text-muted-foreground">El cliente recibirá notificación en su panel y email</DialogDescription>
@@ -2048,7 +2048,7 @@ export default function Dashboard() {
           </Dialog>
 
           <Dialog open={!!editingUser} onOpenChange={(open) => !open && setEditingUser(null)}>
-            <DialogContent className="max-w-lg bg-white dark:bg-zinc-900 rounded-2xl mx-4 sm:mx-auto max-h-[90vh] overflow-y-auto">
+            <DialogContent className="sm:max-w-lg bg-white dark:bg-zinc-900 rounded-2xl">
               <DialogHeader>
                 <DialogTitle className="text-xl font-black text-primary">Editar Usuario</DialogTitle>
                 <DialogDescription className="text-sm text-muted-foreground">Modifica los datos del cliente</DialogDescription>
@@ -2150,7 +2150,7 @@ export default function Dashboard() {
           </Dialog>
 
           <Dialog open={deleteConfirm.open} onOpenChange={(open) => setDeleteConfirm({ open, user: open ? deleteConfirm.user : null })}>
-            <DialogContent className="max-w-sm bg-white dark:bg-zinc-900 rounded-2xl mx-4 sm:mx-auto">
+            <DialogContent className="sm:max-w-sm bg-white dark:bg-zinc-900 rounded-2xl">
               <DialogHeader><DialogTitle className="text-xl font-black text-red-600">Eliminar Usuario</DialogTitle></DialogHeader>
               <div className="py-4">
                 <p className="text-sm text-muted-foreground">¿Estás seguro de que deseas eliminar a <strong>{deleteConfirm.user?.firstName} {deleteConfirm.user?.lastName}</strong>?</p>
@@ -2166,7 +2166,7 @@ export default function Dashboard() {
           </Dialog>
           
           <Dialog open={deleteOrderConfirm.open} onOpenChange={(open) => setDeleteOrderConfirm({ open, order: open ? deleteOrderConfirm.order : null })}>
-            <DialogContent className="max-w-sm bg-white dark:bg-zinc-900 rounded-2xl mx-4 sm:mx-auto">
+            <DialogContent className="sm:max-w-sm bg-white dark:bg-zinc-900 rounded-2xl">
               <DialogHeader><DialogTitle className="text-xl font-black text-red-600">Eliminar Pedido</DialogTitle></DialogHeader>
               <div className="py-4">
                 <p className="text-sm text-muted-foreground">¿Estás seguro de que deseas eliminar el pedido <strong>{deleteOrderConfirm.order?.application?.requestCode || deleteOrderConfirm.order?.maintenanceApplication?.requestCode || deleteOrderConfirm.order?.invoiceNumber}</strong>?</p>
@@ -2183,7 +2183,7 @@ export default function Dashboard() {
           </Dialog>
           
           <Dialog open={generateInvoiceDialog.open} onOpenChange={(open) => setGenerateInvoiceDialog({ open, order: open ? generateInvoiceDialog.order : null })}>
-            <DialogContent className="max-w-sm bg-white dark:bg-zinc-900 rounded-2xl mx-4 sm:mx-auto">
+            <DialogContent className="sm:max-w-sm bg-white dark:bg-zinc-900 rounded-2xl">
               <DialogHeader>
                 <DialogTitle className="text-xl font-black text-primary">Generar Factura</DialogTitle>
               </DialogHeader>
@@ -2244,7 +2244,7 @@ export default function Dashboard() {
           </Dialog>
 
           <Dialog open={docDialog.open} onOpenChange={(open) => setDocDialog({ open, user: open ? docDialog.user : null })}>
-            <DialogContent className="max-w-md bg-white dark:bg-zinc-900 rounded-2xl mx-4 sm:mx-auto">
+            <DialogContent className="sm:max-w-md bg-white dark:bg-zinc-900 rounded-2xl">
               <DialogHeader>
                 <DialogTitle className="text-xl font-black text-primary">Solicitar Documentos</DialogTitle>
                 <DialogDescription className="text-sm text-muted-foreground">Solicita documentos al cliente</DialogDescription>
@@ -2296,7 +2296,7 @@ export default function Dashboard() {
           </Dialog>
 
           <Dialog open={invoiceDialog.open} onOpenChange={(open) => setInvoiceDialog({ open, user: open ? invoiceDialog.user : null })}>
-            <DialogContent className="max-w-md bg-white dark:bg-zinc-900 rounded-2xl mx-4 sm:mx-auto">
+            <DialogContent className="sm:max-w-md bg-white dark:bg-zinc-900 rounded-2xl">
               <DialogHeader>
                 <DialogTitle className="text-xl font-black text-primary">Crear Factura</DialogTitle>
                 <DialogDescription className="text-sm text-muted-foreground">Genera una factura para el cliente</DialogDescription>
@@ -2361,7 +2361,7 @@ export default function Dashboard() {
       )}
 
       <Dialog open={deleteOwnAccountDialog} onOpenChange={setDeleteOwnAccountDialog}>
-        <DialogContent className="max-w-sm bg-white dark:bg-zinc-900 rounded-2xl mx-4 sm:mx-auto">
+        <DialogContent className="sm:max-w-sm bg-white dark:bg-zinc-900 rounded-2xl">
           <DialogHeader><DialogTitle className="text-xl font-black text-red-600">Eliminar Mi Cuenta</DialogTitle></DialogHeader>
           <div className="py-4">
             <p className="text-sm text-muted-foreground">¿Estás seguro de que deseas eliminar tu cuenta permanentemente?</p>
@@ -2377,7 +2377,7 @@ export default function Dashboard() {
       </Dialog>
 
       <Dialog open={uploadDialog.open} onOpenChange={(open) => { if (!open) setUploadDialog({ open: false, file: null }); }}>
-        <DialogContent className="max-w-md bg-white dark:bg-zinc-900 rounded-2xl mx-4 sm:mx-auto">
+        <DialogContent className="sm:max-w-md bg-white dark:bg-zinc-900 rounded-2xl">
           <DialogHeader>
             <DialogTitle className="text-xl font-black text-primary">Subir Documento</DialogTitle>
           </DialogHeader>
@@ -2458,7 +2458,7 @@ export default function Dashboard() {
       </Dialog>
 
       <Dialog open={createUserDialog} onOpenChange={setCreateUserDialog}>
-        <DialogContent className="max-w-md bg-white dark:bg-zinc-900 rounded-2xl mx-4 sm:mx-auto">
+        <DialogContent className="sm:max-w-md bg-white dark:bg-zinc-900 rounded-2xl">
           <DialogHeader>
             <DialogTitle className="text-xl font-black text-primary">Crear Nuevo Cliente</DialogTitle>
             <DialogDescription className="text-sm text-muted-foreground">Completa los datos del nuevo cliente</DialogDescription>
@@ -2497,7 +2497,7 @@ export default function Dashboard() {
       </Dialog>
 
       <Dialog open={createOrderDialog} onOpenChange={setCreateOrderDialog}>
-        <DialogContent className="max-w-md bg-white dark:bg-zinc-900 rounded-2xl mx-4 sm:mx-auto">
+        <DialogContent className="sm:max-w-md bg-white dark:bg-zinc-900 rounded-2xl">
           <DialogHeader>
             <DialogTitle className="text-xl font-black text-primary">Crear Nuevo Pedido</DialogTitle>
             <DialogDescription className="text-sm text-muted-foreground">Configura el pedido para el cliente</DialogDescription>
@@ -2544,7 +2544,7 @@ export default function Dashboard() {
       </Dialog>
 
       <Dialog open={discountCodeDialog.open} onOpenChange={(open) => setDiscountCodeDialog({ open, code: open ? discountCodeDialog.code : null })}>
-        <DialogContent className="max-w-md bg-white dark:bg-zinc-900 rounded-2xl mx-4 sm:mx-auto max-h-[90vh] overflow-y-auto">
+        <DialogContent className="sm:max-w-md bg-white dark:bg-zinc-900 rounded-2xl">
           <DialogHeader>
             <DialogTitle className="text-xl font-black text-primary">
               {discountCodeDialog.code ? 'Editar Código de Descuento' : 'Nuevo Código de Descuento'}
@@ -2690,7 +2690,7 @@ export default function Dashboard() {
           setEmailVerificationCode("");
         }
       }}>
-        <DialogContent className="rounded-2xl mx-4 sm:mx-auto max-w-md">
+        <DialogContent className="rounded-2xl sm:max-w-md">
           <DialogHeader>
             <DialogTitle className="text-xl font-black">Verifica tu correo electrónico</DialogTitle>
             <DialogDescription>Te hemos enviado un código de verificación para confirmar tu email</DialogDescription>
@@ -2775,7 +2775,7 @@ export default function Dashboard() {
           setPaymentLinkMessage("");
         }
       }}>
-        <DialogContent className="rounded-2xl mx-4 sm:mx-auto max-w-md">
+        <DialogContent className="rounded-2xl sm:max-w-md">
           <DialogHeader>
             <DialogTitle className="text-xl font-black">Enviar Link de Pago</DialogTitle>
             <DialogDescription>
