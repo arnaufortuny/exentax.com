@@ -366,7 +366,8 @@ export default function LlcFormation() {
   };
 
   const prevStep = () => {
-    if (step > 0) {
+    const minStep = hasUrlState ? 1 : 0;
+    if (step > minStep) {
       setStep(s => s - 1);
       window.scrollTo({ top: 0, behavior: 'instant' });
     }
@@ -593,8 +594,10 @@ export default function LlcFormation() {
                   )} />
                 </div>
                 <div className="flex gap-3">
-                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">Volver</Button>
-                  <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">Continuar</Button>
+                  {!hasUrlState && (
+                    <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">Volver</Button>
+                  )}
+                  <Button type="button" onClick={nextStep} className={`${hasUrlState ? 'flex-1' : 'flex-[2]'} bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all`}>Continuar</Button>
                 </div>
                 
                 {!isAuthenticated && (
