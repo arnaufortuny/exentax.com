@@ -119,7 +119,7 @@ export function SocialLogin({ mode = "login", onSuccess, googleConnected }: Soci
         ) : (
           <>
             <GoogleIcon className="w-5 h-5" />
-            <span className="text-gray-700 dark:text-gray-200">Continuar con Google</span>
+            <span className="text-gray-700 dark:text-gray-200">Acceder con Google</span>
           </>
         )}
       </Button>

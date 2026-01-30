@@ -194,9 +194,9 @@ export default function MaintenanceApplication() {
       const data = await res.json();
       setDiscountInfo(data);
       if (data.valid) {
-        toast({ title: "Código aplicado", description: `Descuento de ${(data.discountAmount / 100).toFixed(2)}€` });
+        toast({ title: "Descuento aplicado", description: `Se ha aplicado correctamente a tu pedido (${(data.discountAmount / 100).toFixed(2)}€)` });
       } else {
-        toast({ title: "Código inválido", description: data.message, variant: "destructive" });
+        toast({ title: "Código no válido", description: "El descuento introducido no es correcto", variant: "destructive" });
       }
     } catch {
       setDiscountInfo({ valid: false, discountAmount: 0, message: "Error al validar" });
@@ -217,7 +217,7 @@ export default function MaintenanceApplication() {
   const sendOtp = async () => {
     const email = form.getValues("ownerEmail");
     if (!email) {
-      toast({ title: "Ingresa tu email primero", variant: "destructive" });
+      toast({ title: "Falta tu email", description: "Necesitamos tu email para continuar", variant: "destructive" });
       return;
     }
     
@@ -226,13 +226,13 @@ export default function MaintenanceApplication() {
       const res = await apiRequest("POST", "/api/register/send-otp", { email });
       if (res.ok) {
         setIsOtpSent(true);
-        toast({ title: "Código enviado", description: "Revisa tu bandeja de entrada" });
+        toast({ title: "Código enviado", description: "Revisa tu correo, te esperamos aquí" });
       } else {
         const data = await res.json();
         toast({ title: "Error", description: data.message, variant: "destructive" });
       }
     } catch (error) {
-      toast({ title: "Error al enviar el código", variant: "destructive" });
+      toast({ title: "Error al enviar", description: "Inténtalo de nuevo en unos segundos", variant: "destructive" });
     } finally {
       setIsSendingOtp(false);
     }
@@ -242,7 +242,7 @@ export default function MaintenanceApplication() {
   const verifyOtp = async () => {
     const email = form.getValues("ownerEmail");
     if (!otpCode || otpCode.length !== 6) {
-      toast({ title: "Ingresa el código de 6 dígitos", variant: "destructive" });
+      toast({ title: "Falta el código", description: "Introduce el código de 6 dígitos", variant: "destructive" });
       return;
     }
     
@@ -251,13 +251,13 @@ export default function MaintenanceApplication() {
       const res = await apiRequest("POST", "/api/register/verify-otp", { email, otp: otpCode });
       if (res.ok) {
         setIsOtpVerified(true);
-        toast({ title: "Email verificado", description: "Ahora crea tu contraseña" });
+        toast({ title: "Email verificado", description: "Perfecto. Ya puedes continuar" });
       } else {
         const data = await res.json();
         toast({ title: "Error", description: data.message, variant: "destructive" });
       }
     } catch (error) {
-      toast({ title: "Código inválido o expirado", variant: "destructive" });
+      toast({ title: "Código incorrecto", description: "El código no es válido o ha caducado", variant: "destructive" });
     } finally {
       setIsVerifyingOtp(false);
     }
@@ -268,7 +268,7 @@ export default function MaintenanceApplication() {
     const password = form.getValues("password");
     
     if (!password || password.length < 1) {
-      toast({ title: "Introduce tu contraseña", variant: "destructive" });
+      toast({ title: "Falta tu contraseña", description: "Introduce tu contraseña para continuar", variant: "destructive" });
       return;
     }
 
@@ -276,15 +276,15 @@ export default function MaintenanceApplication() {
       const res = await apiRequest("POST", "/api/login", { email, password });
       if (!res.ok) {
         const data = await res.json();
-        toast({ title: data.message || "Contraseña incorrecta", variant: "destructive" });
+        toast({ title: "Contraseña incorrecta", description: "Revísala y vuelve a intentarlo", variant: "destructive" });
         return;
       }
       await refetchAuth();
       setIsOtpVerified(true);
-      toast({ title: "Sesión iniciada correctamente" });
+      toast({ title: "Nos alegra verte otra vez", description: "Ya puedes continuar" });
       setStep(4);
     } catch {
-      toast({ title: "Error al iniciar sesión", variant: "destructive" });
+      toast({ title: "Error de conexión", description: "Inténtalo de nuevo", variant: "destructive" });
     }
   };
 
@@ -360,12 +360,12 @@ export default function MaintenanceApplication() {
         });
         
         setRequestCode(orderData.application.requestCode || "");
-        toast({ title: "Solicitud enviada correctamente" });
+        toast({ title: "Solicitud recibida", description: "Ya estamos trabajando en ello" });
         clearDraft();
         setLocation(`/contacto?success=true&type=maintenance&orderId=${encodeURIComponent(orderData.application.requestCode || "")}`);
       } else {
         if (!data.password || data.password.length < 8) {
-          toast({ title: "La contraseña debe tener al menos 8 caracteres", variant: "destructive" });
+          toast({ title: "Contraseña demasiado corta", description: "Debe tener al menos 8 caracteres", variant: "destructive" });
           setIsSubmitting(false);
           return;
         }
@@ -397,12 +397,12 @@ export default function MaintenanceApplication() {
         });
         
         setRequestCode(orderData.application.requestCode || "");
-        toast({ title: "Solicitud enviada y cuenta creada" });
+        toast({ title: "Cuenta creada y solicitud enviada", description: "Todo listo. Nos ponemos en marcha" });
         clearDraft();
         setLocation(`/contacto?success=true&type=maintenance&orderId=${encodeURIComponent(orderData.application.requestCode || "")}`);
       }
     } catch (err: any) {
-      toast({ title: err.message || "Error al enviar", variant: "destructive" });
+      toast({ title: "Algo no ha ido bien", description: "Inténtalo de nuevo en unos segundos", variant: "destructive" });
     } finally {
       setIsSubmitting(false);
     }
@@ -455,7 +455,7 @@ export default function MaintenanceApplication() {
                         <FormMessage />
                       </FormItem>
                     )} />
-                    <Button type="button" onClick={nextStep} className="w-full bg-accent hover:bg-accent/90 text-black font-bold h-12 rounded-full text-base transition-all">Siguiente</Button>
+                    <Button type="button" onClick={nextStep} className="w-full bg-accent hover:bg-accent/90 text-black font-bold h-12 rounded-full text-base transition-all">Continuar</Button>
                     
                     {!isAuthenticated && (
                       <div className="space-y-4 pt-4">
@@ -477,7 +477,7 @@ export default function MaintenanceApplication() {
                             <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
                             <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
                           </svg>
-                          Continuar con Google
+                          Acceder con Google
                         </Button>
                         
                         <p className="text-center text-xs text-muted-foreground">
@@ -505,8 +505,8 @@ export default function MaintenanceApplication() {
                       </FormItem>
                     )} />
                     <div className="flex gap-3 max-w-md mx-auto">
-                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">Atrás</Button>
-                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">Siguiente</Button>
+                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">Volver</Button>
+                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">Continuar</Button>
                     </div>
                   </div>
                 )}
@@ -528,8 +528,8 @@ export default function MaintenanceApplication() {
                       </FormItem>
                     )} />
                     <div className="flex gap-3 max-w-md mx-auto">
-                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">Atrás</Button>
-                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">Siguiente</Button>
+                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">Volver</Button>
+                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">Continuar</Button>
                     </div>
                   </div>
                 )}
@@ -551,8 +551,8 @@ export default function MaintenanceApplication() {
                       </FormItem>
                     )} />
                     <div className="flex gap-3 max-w-md mx-auto">
-                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">Atrás</Button>
-                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">Siguiente</Button>
+                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">Volver</Button>
+                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">Continuar</Button>
                     </div>
                   </div>
                 )}
@@ -574,8 +574,8 @@ export default function MaintenanceApplication() {
                       </FormItem>
                     )} />
                     <div className="flex gap-3 max-w-md mx-auto">
-                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">Atrás</Button>
-                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">Siguiente</Button>
+                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">Volver</Button>
+                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">Continuar</Button>
                     </div>
                   </div>
                 )}
@@ -597,8 +597,8 @@ export default function MaintenanceApplication() {
                       </FormItem>
                     )} />
                     <div className="flex gap-3 max-w-md mx-auto">
-                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">Atrás</Button>
-                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">Siguiente</Button>
+                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">Volver</Button>
+                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">Continuar</Button>
                     </div>
                   </div>
                 )}
@@ -606,8 +606,8 @@ export default function MaintenanceApplication() {
                 {/* STEP 6: Estado de constitución */}
                 {step === 6 && (
                   <div key={"step-" + step} className="space-y-6 text-left">
-                    <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
-                      <Globe className="w-6 h-6 text-accent" /> 7️⃣ Estado de constitución
+                    <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight">
+                      7️⃣ Estado de constitución
                     </h2>
                     <FormDescription>Cada estado tiene sus propios plazos</FormDescription>
                     <FormField control={form.control} name="state" render={({ field }) => (
@@ -622,8 +622,8 @@ export default function MaintenanceApplication() {
                       </FormItem>
                     )} />
                     <div className="flex gap-3 max-w-md mx-auto">
-                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">Atrás</Button>
-                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">Siguiente</Button>
+                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">Volver</Button>
+                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">Continuar</Button>
                     </div>
                   </div>
                 )}
@@ -631,8 +631,8 @@ export default function MaintenanceApplication() {
                 {/* STEP 7: Actividad */}
                 {step === 7 && (
                   <div key={"step-" + step} className="space-y-6 text-left">
-                    <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-[#6EDC8A]/20 pb-2 leading-tight flex items-center gap-2">
-                      <Briefcase className="w-6 h-6 text-[#6EDC8A]" /> 8️⃣ Actividad
+                    <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-[#6EDC8A]/20 pb-2 leading-tight">
+                      8️⃣ Actividad
                     </h2>
                     <FormDescription>Tipo de negocio o producto</FormDescription>
                     <FormField control={form.control} name="businessActivity" render={({ field }) => (
@@ -642,8 +642,8 @@ export default function MaintenanceApplication() {
                       </FormItem>
                     )} />
                     <div className="flex gap-3 max-w-md mx-auto">
-                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">Atrás</Button>
-                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">Siguiente</Button>
+                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">Volver</Button>
+                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">Continuar</Button>
                     </div>
                   </div>
                 )}
@@ -678,8 +678,8 @@ export default function MaintenanceApplication() {
                       </FormItem>
                     )} />
                     <div className="flex gap-3 max-w-md mx-auto">
-                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">Atrás</Button>
-                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">Siguiente</Button>
+                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">Volver</Button>
+                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">Continuar</Button>
                     </div>
                   </div>
                 )}
@@ -687,8 +687,8 @@ export default function MaintenanceApplication() {
                 {/* STEP 9: Disolver? */}
                 {step === 9 && (
                   <div key={"step-" + step} className="space-y-6 text-left">
-                    <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-[#6EDC8A]/20 pb-2 leading-tight flex items-center gap-2">
-                      <Trash2 className="w-6 h-6 text-[#6EDC8A]" /> 1️⃣0️⃣ ¿Deseas disolver tu LLC?
+                    <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-[#6EDC8A]/20 pb-2 leading-tight">
+                      1️⃣0️⃣ ¿Deseas disolver tu LLC?
                     </h2>
                     <FormDescription>Si necesitas cerrar la empresa de forma correcta y ordenada</FormDescription>
                     <FormField control={form.control} name="wantsDissolve" render={({ field }) => (
@@ -715,8 +715,8 @@ export default function MaintenanceApplication() {
                       </FormItem>
                     )} />
                     <div className="flex gap-3 max-w-md mx-auto">
-                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">Atrás</Button>
-                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">Siguiente</Button>
+                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">Volver</Button>
+                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">Continuar</Button>
                     </div>
                   </div>
                 )}
@@ -833,7 +833,7 @@ export default function MaintenanceApplication() {
                     )}
                     
                     <div className="flex gap-3 max-w-md mx-auto">
-                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">Atrás</Button>
+                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">Volver</Button>
                       <Button 
                         type="button" 
                         onClick={nextStep} 
@@ -850,8 +850,8 @@ export default function MaintenanceApplication() {
                 {/* STEP 11: Método de Pago */}
                 {step === 11 && (
                   <div key={"step-" + step} className="space-y-6 text-left">
-                    <h2 className="text-xl md:text-2xl font-black text-primary border-b border-[#6EDC8A]/20 pb-2 leading-tight flex items-center gap-2">
-                      <CreditCard className="w-6 h-6 text-[#6EDC8A]" /> Método de Pago
+                    <h2 className="text-xl md:text-2xl font-black text-primary border-b border-[#6EDC8A]/20 pb-2 leading-tight">
+                      1️⃣1️⃣ Método de Pago
                     </h2>
                     <p className="text-sm text-muted-foreground">Selecciona cómo deseas realizar el pago del servicio de mantenimiento.</p>
                     
@@ -935,8 +935,8 @@ export default function MaintenanceApplication() {
                     )} />
                     
                     <div className="flex gap-3 max-w-md mx-auto">
-                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">Atrás</Button>
-                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">Siguiente</Button>
+                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">Volver</Button>
+                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">Continuar</Button>
                     </div>
                   </div>
                 )}
@@ -983,7 +983,7 @@ export default function MaintenanceApplication() {
                       )} />
                     </div>
                     <div className="flex gap-3 max-w-md mx-auto">
-                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">Atrás</Button>
+                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">Volver</Button>
                       <Button 
                         type="submit" 
                         disabled={isSubmitting}

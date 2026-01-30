@@ -109,7 +109,7 @@ export default function Register() {
       if (result.success) {
         await queryClient.refetchQueries({ queryKey: ["/api/auth/user"] });
         setIsRegistered(true);
-        toast({ title: "Cuenta creada", description: "Revisa tu email para el código de verificación" });
+        toast({ title: "Cuenta creada", description: "Te hemos enviado un código para confirmar tu email" });
       }
     } catch (err: any) {
       toast({ 
@@ -124,7 +124,7 @@ export default function Register() {
 
   const verifyEmail = async () => {
     if (!verificationCode || verificationCode.length < 6) {
-      toast({ title: "Introduce el código de 6 dígitos", variant: "destructive" });
+      toast({ title: "Falta el código", description: "Introduce el código de 6 dígitos", variant: "destructive" });
       return;
     }
     
@@ -135,13 +135,13 @@ export default function Register() {
       
       if (result.success) {
         await queryClient.refetchQueries({ queryKey: ["/api/auth/user"] });
-        toast({ title: "Email verificado correctamente" });
+        toast({ title: "Email verificado", description: "Perfecto. Ya puedes continuar" });
         setLocation("/dashboard");
       }
     } catch (err: any) {
       toast({ 
         title: "Código incorrecto", 
-        description: err.message || "Inténtalo de nuevo o solicita un nuevo código", 
+        description: "El código no es válido o ha caducado", 
         variant: "destructive" 
       });
     } finally {
@@ -153,7 +153,7 @@ export default function Register() {
     setIsResending(true);
     try {
       await apiRequest("POST", "/api/auth/resend-verification");
-      toast({ title: "Código enviado", description: "Revisa tu email" });
+      toast({ title: "Código enviado", description: "Revisa tu correo, te esperamos aquí" });
     } catch (err) {
       toast({ title: "Error", description: "No se pudo enviar el código", variant: "destructive" });
     } finally {

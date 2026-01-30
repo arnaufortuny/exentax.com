@@ -129,16 +129,16 @@ export default function Contacto() {
   const sendOtp = async () => {
     const email = form.getValues("email");
     if (!email || !email.includes("@")) {
-      toast({ title: "Email inválido", variant: "destructive" });
+      toast({ title: "Email no válido", description: "Revisa que esté bien escrito", variant: "destructive" });
       return;
     }
     setIsLoading(true);
     try {
       await apiRequest("POST", "/api/contact/send-otp", { email });
       setIsOtpSent(true);
-      toast({ title: "Código enviado", description: "Revisa tu email" });
+      toast({ title: "Código enviado", description: "Revisa tu correo, te esperamos aquí" });
     } catch (err) {
-      toast({ title: "Error", description: "No se pudo enviar el código", variant: "destructive" });
+      toast({ title: "Error al enviar", description: "Inténtalo de nuevo en unos segundos", variant: "destructive" });
     } finally {
       setIsLoading(false);
     }
@@ -151,10 +151,10 @@ export default function Contacto() {
     try {
       await apiRequest("POST", "/api/contact/verify-otp", { email, otp });
       setIsOtpVerified(true);
-      toast({ title: "Email verificado", variant: "success" });
+      toast({ title: "Email verificado", description: "Ya puedes continuar" });
       setStep(7);
     } catch (err) {
-      toast({ title: "Código incorrecto", variant: "destructive" });
+      toast({ title: "Código incorrecto", description: "El código no es válido o ha caducado", variant: "destructive" });
     } finally {
       setIsLoading(false);
     }
@@ -162,7 +162,7 @@ export default function Contacto() {
 
   const onSubmit = async (values: FormValues) => {
     if (!isOtpVerified) {
-      toast({ title: "Verificación requerida", description: "Verifica tu email primero" });
+      toast({ title: "Verifica tu email", description: "Necesitamos verificar tu email para continuar", variant: "destructive" });
       return;
     }
     setIsLoading(true);
@@ -178,10 +178,10 @@ export default function Contacto() {
       const data = await response.json();
       setSubmittedMessageId(data.messageId || data.id);
       setIsSubmitted(true);
-      toast({ title: "Mensaje enviado", variant: "success" });
+      toast({ title: "Mensaje enviado", description: "Te responderemos pronto" });
       queryClient.invalidateQueries({ queryKey: ["/api/messages"] });
     } catch (err) {
-      toast({ title: "Error", description: "No se pudo enviar el mensaje", variant: "destructive" });
+      toast({ title: "Algo no ha ido bien", description: "Inténtalo de nuevo en unos segundos", variant: "destructive" });
     } finally {
       setIsLoading(false);
     }
@@ -208,10 +208,10 @@ export default function Contacto() {
             
             <div className="space-y-2 sm:space-y-3">
               <h1 className="text-2xl sm:text-3xl md:text-4xl font-black tracking-tighter text-foreground leading-tight">
-                {isLLC ? "¡Solicitud Recibida!" : isMaintenance ? "¡Mantenimiento Confirmado!" : "Gracias por escribirnos"}
+                {isLLC || isMaintenance ? "Solicitud recibida" : "Gracias por escribirnos"}
               </h1>
               <p className="text-base sm:text-lg text-muted-foreground">
-                {isLLC || isMaintenance ? "Solicitud procesada correctamente." : "Hemos recibido tu consulta correctamente"}
+                {isLLC || isMaintenance ? "Gracias por confiar en nosotros" : "Hemos recibido tu mensaje correctamente"}
               </p>
               <div className="h-1 w-16 sm:w-20 bg-accent mx-auto rounded-full" />
             </div>
@@ -219,7 +219,7 @@ export default function Contacto() {
             {(submittedMessageId || urlTicketId || urlOrderId) && (
               <div className="bg-white dark:bg-zinc-900 border-2 border-accent px-4 py-3 sm:px-6 sm:py-4 rounded-xl inline-block">
                 <span className="text-[10px] sm:text-xs font-black text-gray-500 tracking-widest uppercase">
-                  {urlOrderId ? "Número de Pedido" : "Tu número de ticket es"}
+                  {urlOrderId ? "Pedido" : "Ticket"}
                 </span>
                 <p className="text-xl sm:text-2xl font-black text-black dark:text-white">
                   {urlOrderId || submittedMessageId || urlTicketId}
@@ -236,7 +236,7 @@ export default function Contacto() {
               </p>
               {(isLLC || isMaintenance) && (
                 <p className="text-xs sm:text-sm bg-white dark:bg-zinc-900 p-3 rounded-full border border-border max-w-md mx-auto">
-                  Recibirás un correo con los siguientes pasos.
+                  Te enviaremos un correo con los siguientes pasos
                 </p>
               )}
             </div>
@@ -262,7 +262,7 @@ export default function Contacto() {
                   className="border-2 border-black text-black font-black px-6 sm:px-10 rounded-full text-base sm:text-lg transition-all w-full"
                   data-testid="button-whatsapp"
                 > 
-                  WhatsApp
+                  Hablar por WhatsApp
                 </Button>
               </a>
             </div>
@@ -305,7 +305,7 @@ export default function Contacto() {
                         <FormMessage />
                       </FormItem>
                     )} />
-                    <Button type="button" onClick={nextStep} className="w-full bg-accent hover:bg-accent/90 text-black font-bold h-12 rounded-full text-base transition-all" data-testid="button-next-0">Siguiente</Button>
+                    <Button type="button" onClick={nextStep} className="w-full bg-accent hover:bg-accent/90 text-black font-bold h-12 rounded-full text-base transition-all" data-testid="button-next-0">Continuar</Button>
                     
                     {!isAuthenticated && (
                       <div className="pt-4">
@@ -334,8 +334,8 @@ export default function Contacto() {
                       </FormItem>
                     )} />
                     <div className="flex gap-3">
-                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">Atrás</Button>
-                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all" data-testid="button-next-1">Siguiente</Button>
+                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">Volver</Button>
+                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all" data-testid="button-next-1">Continuar</Button>
                     </div>
                   </div>
                 )}
@@ -356,8 +356,8 @@ export default function Contacto() {
                       </FormItem>
                     )} />
                     <div className="flex gap-3">
-                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">Atrás</Button>
-                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all" data-testid="button-next-2">Siguiente</Button>
+                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">Volver</Button>
+                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all" data-testid="button-next-2">Continuar</Button>
                     </div>
                   </div>
                 )}
@@ -384,8 +384,8 @@ export default function Contacto() {
                       </FormItem>
                     )} />
                     <div className="flex gap-3">
-                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">Atrás</Button>
-                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all" data-testid="button-next-3">Siguiente</Button>
+                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">Volver</Button>
+                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all" data-testid="button-next-3">Continuar</Button>
                     </div>
                   </div>
                 )}
@@ -410,8 +410,8 @@ export default function Contacto() {
                       </FormItem>
                     )} />
                     <div className="flex gap-3">
-                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">Atrás</Button>
-                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all" data-testid="button-next-4">Siguiente</Button>
+                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">Volver</Button>
+                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all" data-testid="button-next-4">Continuar</Button>
                     </div>
                   </div>
                 )}
@@ -439,8 +439,8 @@ export default function Contacto() {
                       </FormItem>
                     )} />
                     <div className="flex gap-3">
-                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">Atrás</Button>
-                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all" data-testid="button-next-5">Siguiente</Button>
+                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">Volver</Button>
+                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all" data-testid="button-next-5">Continuar</Button>
                     </div>
                   </div>
                 )}
@@ -461,8 +461,8 @@ export default function Contacto() {
                       </FormItem>
                     )} />
                     <div className="flex gap-3">
-                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">Atrás</Button>
-                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all" data-testid="button-next-6">Siguiente</Button>
+                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">Volver</Button>
+                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all" data-testid="button-next-6">Continuar</Button>
                     </div>
                   </div>
                 )}
@@ -519,7 +519,7 @@ export default function Contacto() {
                       </div>
                     )}
                     
-                    <Button type="button" variant="outline" onClick={prevStep} className="w-full rounded-full h-12 font-bold border-border transition-all mt-4">Atrás</Button>
+                    <Button type="button" variant="outline" onClick={prevStep} className="w-full rounded-full h-12 font-bold border-border transition-all mt-4">Volver</Button>
                   </div>
                 )}
 
@@ -560,7 +560,7 @@ export default function Contacto() {
                     </div>
 
                     <div className="flex gap-3">
-                      <Button type="button" variant="outline" onClick={() => setStep(6)} className="flex-1 rounded-full h-12 font-bold border-border transition-all">Atrás</Button>
+                      <Button type="button" variant="outline" onClick={() => setStep(6)} className="flex-1 rounded-full h-12 font-bold border-border transition-all">Volver</Button>
                       <Button 
                         type="submit" 
                         disabled={isLoading || !form.getValues("dataProcessingConsent") || !form.getValues("termsConsent")} 

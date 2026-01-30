@@ -49,7 +49,7 @@ export default function Login() {
       
       if (result.success) {
         await queryClient.refetchQueries({ queryKey: ["/api/auth/user"] });
-        toast({ title: "Bienvenido de nuevo", description: "Sesión iniciada correctamente" });
+        toast({ title: "Bienvenido de nuevo", description: "Nos alegra verte otra vez" });
         setLocation("/dashboard");
       }
     } catch (err: any) {
@@ -63,8 +63,8 @@ export default function Login() {
       }
       setLoginError(errorMsg);
       toast({ 
-        title: "Error de autenticación", 
-        description: errorMsg, 
+        title: "No hemos podido iniciar sesión", 
+        description: "Revisa tu email o contraseña", 
         variant: "destructive" 
       });
     } finally {

@@ -1,0 +1,238 @@
+BOTONES PRINCIPALES
+
+(Formularios · Cuenta · Contacto)
+	•	Continuar
+	•	Volver
+	•	Enviar solicitud
+	•	Acceder con Google
+
+⸻
+
+ÁREA DE CLIENTE
+	•	Guardar cambios
+	•	Eliminar mi cuenta
+	•	Cerrar sesión
+	•	Cambiar contraseña
+	•	Descargar documento
+	•	Ver documento
+	•	Subir documento
+	•	Enviar mensaje
+
+⸻
+
+PANEL ADMIN (INTERNO)
+	•	Nuevo cliente
+	•	Nuevo pedido
+	•	Crear factura
+	•	Enviar enlace de pago
+	•	Solicitar documentación
+	•	Guardar nota interna
+	•	Cancelar
+
+⸻
+
+ACCESO Y REGISTRO
+	•	Iniciar sesión
+	•	Crear cuenta
+	•	Recibir código
+	•	Verificar código
+
+⸻
+
+MENSAJES DEL SISTEMA · ÉXITO ✓
+
+Acceso
+
+Bienvenido de nuevo
+Nos alegra verte otra vez
+
+Cuenta creada
+Te hemos enviado un código para confirmar tu email
+
+Código enviado
+Revisa tu correo, te esperamos aquí
+
+Email verificado
+Perfecto. Ya puedes continuar
+
+⸻
+
+Perfil
+
+Cambios guardados
+Tu información se ha actualizado correctamente
+
+⸻
+
+Solicitudes
+
+Solicitud recibida
+Ya estamos trabajando en ello
+
+Cuenta creada y solicitud enviada
+Todo listo. Nos ponemos en marcha
+
+⸻
+
+Descuentos
+
+Descuento aplicado
+Se ha aplicado correctamente a tu pedido
+
+⸻
+
+Newsletter
+
+Preferencias actualizadas
+Gracias por quedarte con nosotros
+
+⸻
+
+Mensajes
+
+Mensaje enviado
+Te responderemos personalmente lo antes posible
+
+Respuesta enviada
+El cliente recibirá un email con la información
+
+⸻
+
+MENSAJES DEL SISTEMA · ERROR ✗
+
+No hemos podido iniciar sesión
+Revisa tu email o contraseña
+
+Falta tu email
+Necesitamos tu email para continuar
+
+Falta el código
+Introduce el código de 6 dígitos
+
+Código incorrecto
+El código no es válido o ha caducado
+
+Contraseña demasiado corta
+Debe tener al menos 8 caracteres
+
+Las contraseñas no coinciden
+Revísalas y vuelve a intentarlo
+
+Código no válido
+El descuento introducido no es correcto
+
+Algo no ha ido bien
+Inténtalo de nuevo en unos segundos
+
+No se pudo subir el documento
+Prueba otra vez o contacta con nosotros
+
+Sin conexión
+Comprueba tu conexión a internet
+
+⸻
+
+PÁGINAS DE CONFIRMACIÓN
+
+LLC · Mantenimiento
+
+Título
+Solicitud recibida
+
+Subtítulo
+Gracias por confiar en nosotros
+
+Referencia
+Pedido [NM-12345678]
+
+Mensaje principal
+Te responderemos lo antes posible
+
+Submensaje
+Estate atento a tu email
+
+Nota
+Te enviaremos un correo con los siguientes pasos
+
+Botones
+[Volver al inicio] · [Hablar por WhatsApp]
+
+⸻
+
+Contacto
+
+Título
+Gracias por escribirnos
+
+Subtítulo
+Hemos recibido tu mensaje correctamente
+
+Referencia
+Ticket [MSG-12345678]
+
+Mensaje principal
+Te responderemos lo antes posible
+
+Submensaje
+Estate atento a tu email
+
+Botones
+[Volver al inicio] · [WhatsApp]
+
+⸻
+
+DIÁLOGOS MODALES
+
+Verificación de email
+
+Título
+Confirma tu email
+
+Descripción
+Hemos enviado un código de 6 dígitos a [email]
+
+Campo
+Código de verificación
+
+Botón
+Confirmar
+
+⸻
+
+Eliminar cuenta
+
+Título
+¿Seguro que quieres eliminar tu cuenta?
+
+Descripción
+Esta acción es definitiva y no se puede deshacer.
+Perderás el acceso a tus pedidos y documentos.
+
+Botones
+[Cancelar] · [Eliminar cuenta]
+
+⸻
+
+Enlace de pago (Admin)
+
+Título
+Enviar enlace de pago
+
+Campos
+Email · Importe · Moneda · Mensaje opcional
+
+Botones
+[Cancelar] · [Enviar enlace]
+
+⸻
+
+Generar factura (Admin)
+
+Título
+Crear factura
+
+Campos
+Concepto · Importe · Moneda
+
+Botones
+[Cancelar] · [Crear y enviar]

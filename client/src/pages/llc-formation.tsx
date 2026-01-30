@@ -173,7 +173,7 @@ export default function LlcFormation() {
               notes: appData.notes || "",
               idDocumentUrl: appData.idDocumentUrl || ""
             });
-            toast({ title: "Datos cargados", description: "Puedes modificar los datos de tu solicitud" });
+            toast({ title: "Datos cargados", description: "Puedes editar tu solicitud" });
           }
         }
         // Order creation is now deferred to the final submit step
@@ -239,7 +239,7 @@ export default function LlcFormation() {
   const sendOtp = async () => {
     const email = form.getValues("ownerEmail");
     if (!email) {
-      toast({ title: "Ingresa tu email primero", variant: "destructive" });
+      toast({ title: "Falta tu email", description: "Necesitamos tu email para continuar", variant: "destructive" });
       return;
     }
     
@@ -248,13 +248,13 @@ export default function LlcFormation() {
       const res = await apiRequest("POST", "/api/register/send-otp", { email });
       if (res.ok) {
         setIsOtpSent(true);
-        toast({ title: "Código enviado", description: "Revisa tu bandeja de entrada" });
+        toast({ title: "Código enviado", description: "Revisa tu correo, te esperamos aquí" });
       } else {
         const data = await res.json();
         toast({ title: "Error", description: data.message, variant: "destructive" });
       }
     } catch (error) {
-      toast({ title: "Error al enviar el código", variant: "destructive" });
+      toast({ title: "Error al enviar", description: "Inténtalo de nuevo en unos segundos", variant: "destructive" });
     } finally {
       setIsSendingOtp(false);
     }
@@ -264,7 +264,7 @@ export default function LlcFormation() {
   const verifyOtp = async () => {
     const email = form.getValues("ownerEmail");
     if (!otpCode || otpCode.length !== 6) {
-      toast({ title: "Ingresa el código de 6 dígitos", variant: "destructive" });
+      toast({ title: "Falta el código", description: "Introduce el código de 6 dígitos", variant: "destructive" });
       return;
     }
     
@@ -273,13 +273,13 @@ export default function LlcFormation() {
       const res = await apiRequest("POST", "/api/register/verify-otp", { email, otp: otpCode });
       if (res.ok) {
         setIsOtpVerified(true);
-        toast({ title: "Email verificado", description: "Ahora crea tu contraseña" });
+        toast({ title: "Email verificado", description: "Perfecto. Ya puedes continuar" });
       } else {
         const data = await res.json();
         toast({ title: "Error", description: data.message, variant: "destructive" });
       }
     } catch (error) {
-      toast({ title: "Código inválido o expirado", variant: "destructive" });
+      toast({ title: "Código incorrecto", description: "El código no es válido o ha caducado", variant: "destructive" });
     } finally {
       setIsVerifyingOtp(false);
     }
@@ -318,11 +318,11 @@ export default function LlcFormation() {
       const password = form.getValues("password");
       const confirmPassword = form.getValues("confirmPassword");
       if (!password || password.length < 8) {
-        toast({ title: "La contraseña debe tener al menos 8 caracteres", variant: "destructive" });
+        toast({ title: "Contraseña demasiado corta", description: "Debe tener al menos 8 caracteres", variant: "destructive" });
         return;
       }
       if (password !== confirmPassword) {
-        toast({ title: "Las contraseñas no coinciden", variant: "destructive" });
+        toast({ title: "Las contraseñas no coinciden", description: "Revísalas y vuelve a intentarlo", variant: "destructive" });
         return;
       }
     }
@@ -340,7 +340,7 @@ export default function LlcFormation() {
       // In edit mode, save changes and redirect to dashboard
       if (isEditMode) {
         await apiRequest("PUT", `/api/llc/${appId}`, data);
-        toast({ title: "Datos actualizados", description: "Los cambios han sido guardados correctamente." });
+        toast({ title: "Cambios guardados", description: "Tu información se ha actualizado" });
         clearDraft();
         setLocation("/dashboard");
         return;
@@ -358,12 +358,12 @@ export default function LlcFormation() {
           });
           if (!res.ok) {
             const errorData = await res.json();
-            toast({ title: "Error", description: errorData.message, variant: "destructive" });
+            toast({ title: "Ha habido un problema", description: errorData.message, variant: "destructive" });
             return;
           }
-          toast({ title: "Cuenta creada", description: "Tu cuenta ha sido creada exitosamente." });
+          toast({ title: "Cuenta creada", description: "Ya casi terminamos" });
         } catch (err) {
-          toast({ title: "Error al crear cuenta", variant: "destructive" });
+          toast({ title: "No se pudo crear la cuenta", description: "Inténtalo de nuevo", variant: "destructive" });
           return;
         }
       }
@@ -392,10 +392,10 @@ export default function LlcFormation() {
         }
       }
       
-      toast({ title: "Información guardada", description: "Procediendo al pago..." });
+      toast({ title: "Información guardada", description: "Vamos al siguiente paso" });
       setStep(20); // Payment Step
     } catch {
-      toast({ title: "Error al guardar", variant: "destructive" });
+      toast({ title: "Algo no ha ido bien", description: "Inténtalo de nuevo", variant: "destructive" });
     }
   };
   
@@ -426,19 +426,19 @@ export default function LlcFormation() {
         }
       }
       
-      toast({ title: "Datos actualizados", description: "Los cambios han sido guardados correctamente." });
+      toast({ title: "Cambios guardados", description: "Tu información se ha actualizado" });
       clearDraft();
       setLocation("/dashboard");
     } catch {
-      toast({ title: "Error al guardar", variant: "destructive" });
+      toast({ title: "Algo no ha ido bien", description: "Inténtalo de nuevo", variant: "destructive" });
     }
   };
 
   const handlePayment = async () => {
-    toast({ title: "Redirigiendo a Stripe...", description: "Simulación de pago en curso." });
+    toast({ title: "Procesando pago", description: "Un momento..." });
     setTimeout(async () => {
       await apiRequest("POST", `/api/llc/${appId}/pay`, {});
-      toast({ title: "Pago completado", variant: "success" });
+      toast({ title: "Pago completado", description: "Todo listo. Ya estamos trabajando en tu solicitud" });
       setLocation("/contacto?success=true");
     }, 2000);
   };
@@ -498,7 +498,7 @@ export default function LlcFormation() {
                     <FormMessage />
                   </FormItem>
                 )} />
-                <Button type="button" onClick={nextStep} className="w-full bg-accent hover:bg-accent/90 text-black font-bold h-12 rounded-full text-base transition-all">SIGUIENTE</Button>
+                <Button type="button" onClick={nextStep} className="w-full bg-accent hover:bg-accent/90 text-black font-bold h-12 rounded-full text-base transition-all">CONTINUAR</Button>
                 
                 {!isAuthenticated && (
                   <div className="space-y-4 pt-4">
@@ -520,7 +520,7 @@ export default function LlcFormation() {
                         <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
                         <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
                       </svg>
-                      Continuar con Google
+                      Acceder con Google
                     </Button>
                     
                     <p className="text-center text-xs text-muted-foreground">
@@ -544,7 +544,7 @@ export default function LlcFormation() {
                 )} />
                 <div className="flex gap-3">
                   <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">ATRÁS</Button>
-                  <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">SIGUIENTE</Button>
+                  <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">CONTINUAR</Button>
                 </div>
               </div>
             )}
@@ -562,7 +562,7 @@ export default function LlcFormation() {
                 )} />
                 <div className="flex gap-3">
                   <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">ATRÁS</Button>
-                  <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">SIGUIENTE</Button>
+                  <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">CONTINUAR</Button>
                 </div>
               </div>
             )}
@@ -580,7 +580,7 @@ export default function LlcFormation() {
                 )} />
                 <div className="flex gap-3">
                   <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">ATRÁS</Button>
-                  <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">SIGUIENTE</Button>
+                  <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">CONTINUAR</Button>
                 </div>
               </div>
             )}
@@ -607,7 +607,7 @@ export default function LlcFormation() {
                 </div>
                 <div className="flex gap-3">
                   <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">ATRÁS</Button>
-                  <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">SIGUIENTE</Button>
+                  <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">CONTINUAR</Button>
                 </div>
               </div>
             )}
@@ -640,7 +640,7 @@ export default function LlcFormation() {
                 )} />
                 <div className="flex gap-3">
                   <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">ATRÁS</Button>
-                  <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">SIGUIENTE</Button>
+                  <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">CONTINUAR</Button>
                 </div>
               </div>
             )}
@@ -690,7 +690,7 @@ export default function LlcFormation() {
                 )}
                 <div className="flex gap-3">
                   <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">ATRÁS</Button>
-                  <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">SIGUIENTE</Button>
+                  <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">CONTINUAR</Button>
                 </div>
               </div>
             )}
@@ -707,7 +707,7 @@ export default function LlcFormation() {
                 )} />
                 <div className="flex gap-3">
                   <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">ATRÁS</Button>
-                  <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">SIGUIENTE</Button>
+                  <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">CONTINUAR</Button>
                 </div>
               </div>
             )}
@@ -725,7 +725,7 @@ export default function LlcFormation() {
                 )} />
                 <div className="flex gap-3">
                   <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">ATRÁS</Button>
-                  <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">SIGUIENTE</Button>
+                  <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">CONTINUAR</Button>
                 </div>
               </div>
             )}
@@ -742,7 +742,7 @@ export default function LlcFormation() {
                 )} />
                 <div className="flex gap-3">
                   <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">ATRÁS</Button>
-                  <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">SIGUIENTE</Button>
+                  <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">CONTINUAR</Button>
                 </div>
               </div>
             )}
@@ -753,7 +753,7 @@ export default function LlcFormation() {
                 <FormDescription>DNI o pasaporte en vigor (puedes proporcionarlo más tarde)</FormDescription>
                 <div className="space-y-4">
                   <div className="border-2 border-dashed border-border rounded-[2rem] p-8 md:p-12 text-center hover:border-accent transition-colors cursor-pointer bg-white dark:bg-zinc-900">
-                    <Upload className="w-10 h-10 md:w-12 md:h-12 text-gray-300 mx-auto mb-4" />
+                    <span className="text-3xl md:text-4xl text-gray-300 mx-auto mb-4 block">📄</span>
                     <p className="font-black text-primary text-sm">Subir archivo o arrastrar</p>
                     <p className="text-[10px] text-gray-400 mt-2">JPG, PNG, PDF (Máx 10MB)</p>
                   </div>
@@ -780,7 +780,7 @@ export default function LlcFormation() {
                 </div>
                 <div className="flex gap-3">
                   <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">ATRÁS</Button>
-                  <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">SIGUIENTE</Button>
+                  <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">CONTINUAR</Button>
                 </div>
               </div>
             )}
@@ -797,7 +797,7 @@ export default function LlcFormation() {
                 )} />
                 <div className="flex gap-3">
                   <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">ATRÁS</Button>
-                  <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">SIGUIENTE</Button>
+                  <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">CONTINUAR</Button>
                 </div>
               </div>
             )}
@@ -941,7 +941,7 @@ export default function LlcFormation() {
                 )}
                 <div className="flex gap-3">
                   <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">ATRÁS</Button>
-                  <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">SIGUIENTE</Button>
+                  <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">CONTINUAR</Button>
                 </div>
               </div>
             )}
@@ -1110,7 +1110,7 @@ export default function LlcFormation() {
                 
                 <div className="flex gap-3 pt-4">
                   <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-black border-border">ATRÁS</Button>
-                  <Button type="button" onClick={nextStep} className="flex-2 bg-accent text-primary font-black rounded-full h-14 shadow-lg shadow-accent/20">SIGUIENTE</Button>
+                  <Button type="button" onClick={nextStep} className="flex-2 bg-accent text-primary font-black rounded-full h-14 shadow-lg shadow-accent/20">CONTINUAR</Button>
                 </div>
               </div>
             )}

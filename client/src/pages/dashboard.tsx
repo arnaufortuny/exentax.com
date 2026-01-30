@@ -84,7 +84,7 @@ function NewsletterToggle() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/newsletter/status"] });
-      toast({ title: "Preferencia actualizada", description: "Tu suscripción ha sido actualizada correctamente." });
+      toast({ title: "Preferencias actualizadas", description: "Gracias por quedarte con nosotros" });
     }
   });
 
@@ -207,7 +207,7 @@ export default function Dashboard() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/auth/user"] });
       setIsEditing(false);
-      toast({ title: "Perfil actualizado" });
+      toast({ title: "Cambios guardados", description: "Tu información se ha actualizado correctamente" });
     },
     onError: (error: any) => {
       toast({ title: "Error", description: error.message, variant: "destructive" });
@@ -254,7 +254,7 @@ export default function Dashboard() {
       setSelectedMessage(null);
       queryClient.invalidateQueries({ queryKey: ["/api/messages"] });
       queryClient.invalidateQueries({ queryKey: ["/api/admin/messages"] });
-      toast({ title: "Respuesta enviada", description: user?.isAdmin ? "El cliente recibirá una notificación por email." : "Tu mensaje ha sido registrado." });
+      toast({ title: user?.isAdmin ? "Respuesta enviada" : "Mensaje enviado", description: user?.isAdmin ? "El cliente recibirá un email con la información" : "Te responderemos personalmente lo antes posible" });
     }
   });
 
