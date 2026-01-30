@@ -40,7 +40,7 @@ export default function Home() {
           <div className="flex flex-col items-center w-full">
             <div className="mb-4 sm:hidden flex justify-center mt-6">
               <a href="https://es.trustpilot.com/review/easyusllc.com" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-white dark:bg-white px-4 py-2.5 rounded-full shadow-md border-2 border-accent">
-                <img src={trustpilotLogo} alt="Trustpilot" className="h-5 w-auto" />
+                <img src={trustpilotLogo} alt="Trustpilot" className="h-5 w-auto" loading="lazy" />
                 <div className="flex gap-1">
                   {[1,2,3,4,5].map((star) => (
                     <svg key={star} className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="#00b67a">
@@ -70,7 +70,7 @@ export default function Home() {
             
             <div className="hidden sm:flex mb-8 justify-center">
               <a href="https://es.trustpilot.com/review/easyusllc.com" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-4 bg-white dark:bg-white px-6 py-3 rounded-full shadow-md border-2 border-accent">
-                <img src={trustpilotLogo} alt="Trustpilot" className="h-7 w-auto" />
+                <img src={trustpilotLogo} alt="Trustpilot" className="h-7 w-auto" loading="lazy" />
                 <div className="flex gap-1">
                   {[1,2,3,4,5].map((star) => (
                     <svg key={star} className="w-5 h-5" viewBox="0 0 24 24" fill="#00b67a">
