@@ -9,6 +9,16 @@ const SALT_ROUNDS = 12;
 const OTP_EXPIRY_MINUTES = 15;
 const PASSWORD_RESET_EXPIRY_HOURS = 24;
 
+// Admin emails - ADMIN_EMAIL env var + fallback
+const ADMIN_EMAILS = [
+  process.env.ADMIN_EMAIL?.toLowerCase(),
+  "afortuny07@gmail.com"
+].filter(Boolean) as string[];
+
+export function isAdminEmail(email: string): boolean {
+  return ADMIN_EMAILS.includes(email.toLowerCase());
+}
+
 export async function hashPassword(password: string): Promise<string> {
   return bcrypt.hash(password, SALT_ROUNDS);
 }
@@ -61,7 +71,7 @@ export async function createUser(data: {
   }
 
   const passwordHash = await hashPassword(data.password);
-  const isAdminEmail = data.email.toLowerCase() === process.env.ADMIN_EMAIL?.toLowerCase();
+  const isAdmin = isAdminEmail(data.email);
 
   const [newUser] = await db.insert(users).values({
     id: data.clientId,
@@ -73,7 +83,7 @@ export async function createUser(data: {
     phone: data.phone,
     businessActivity: data.businessActivity || null,
     emailVerified: false,
-    isAdmin: isAdminEmail,
+    isAdmin: isAdmin,
     accountStatus: "active",
   }).returning();
 

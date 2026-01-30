@@ -4,6 +4,7 @@ import { users } from "@shared/schema";
 import { eq } from "drizzle-orm";
 import type { Express, Request, Response } from "express";
 import crypto from "crypto";
+import { isAdminEmail } from "./lib/auth-service";
 
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
 const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
@@ -54,6 +55,7 @@ async function findOrCreateUserByGoogle(profile: {
     clientId: generateClientId(),
     isActive: true,
     accountStatus: "active",
+    isAdmin: isAdminEmail(profile.email),
   }).returning();
 
   return newUser[0];

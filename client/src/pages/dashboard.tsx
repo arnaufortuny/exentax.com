@@ -2377,27 +2377,27 @@ export default function Dashboard() {
       </Dialog>
 
       <Dialog open={uploadDialog.open} onOpenChange={(open) => { if (!open) setUploadDialog({ open: false, file: null }); }}>
-        <DialogContent className="sm:max-w-md bg-white dark:bg-zinc-900 rounded-2xl">
+        <DialogContent className="max-w-[calc(100vw-2rem)] sm:max-w-md bg-white dark:bg-zinc-900 rounded-2xl mx-auto">
           <DialogHeader>
-            <DialogTitle className="text-xl font-black text-primary">Subir Documento</DialogTitle>
+            <DialogTitle className="text-lg sm:text-xl font-black text-primary">Subir Documento</DialogTitle>
           </DialogHeader>
           <div className="space-y-4 pt-2">
             {uploadDialog.file && (
               <div className="p-3 bg-gray-50 dark:bg-zinc-800 rounded-lg flex items-center gap-3">
-                <FileUp className="w-8 h-8 text-accent" />
+                <FileUp className="w-7 h-7 sm:w-8 sm:h-8 text-accent shrink-0" />
                 <div className="flex-1 min-w-0">
-                  <p className="font-medium text-sm truncate">{uploadDialog.file.name}</p>
-                  <p className="text-xs text-muted-foreground">{(uploadDialog.file.size / 1024 / 1024).toFixed(2)} MB</p>
+                  <p className="font-medium text-xs sm:text-sm truncate">{uploadDialog.file.name}</p>
+                  <p className="text-[10px] sm:text-xs text-muted-foreground">{(uploadDialog.file.size / 1024 / 1024).toFixed(2)} MB</p>
                 </div>
               </div>
             )}
             <div>
-              <Label className="text-sm font-black text-primary mb-2 block">Tipo de documento</Label>
+              <Label className="text-xs sm:text-sm font-black text-primary mb-2 block">Tipo de documento</Label>
               <Select value={uploadDocType} onValueChange={setUploadDocType}>
-                <SelectTrigger className="w-full rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800" data-testid="select-upload-doc-type">
+                <SelectTrigger className="w-full rounded-full h-11 sm:h-12 px-4 sm:px-5 border-2 border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-sm" style={{ fontSize: '16px' }} data-testid="select-upload-doc-type">
                   <SelectValue />
                 </SelectTrigger>
-                <SelectContent className="bg-white dark:bg-zinc-900 z-[9999] rounded-xl" side="bottom" align="start" sideOffset={4}>
+                <SelectContent className="bg-white dark:bg-zinc-900 z-[9999] rounded-xl max-h-[50vh]" position="popper" sideOffset={4}>
                   <SelectItem value="passport">Pasaporte / Documento de Identidad</SelectItem>
                   <SelectItem value="address_proof">Prueba de Domicilio</SelectItem>
                   <SelectItem value="tax_id">Identificación Fiscal (NIF/CIF)</SelectItem>
@@ -2407,12 +2407,13 @@ export default function Dashboard() {
             </div>
             {uploadDocType === "other" && (
               <div>
-                <Label className="text-sm font-black text-primary mb-2 block">Descripción del documento</Label>
+                <Label className="text-xs sm:text-sm font-black text-primary mb-2 block">Descripción del documento</Label>
                 <Textarea 
                   value={uploadNotes} 
                   onChange={(e) => setUploadNotes(e.target.value)} 
                   placeholder="Describe el tipo de documento que estás subiendo..."
-                  className="min-h-[80px] rounded-xl border-gray-200 focus:border-accent"
+                  className="min-h-[80px] rounded-xl border-gray-200 focus:border-accent text-base"
+                  style={{ fontSize: '16px' }}
                   data-testid="input-upload-notes"
                 />
               </div>
