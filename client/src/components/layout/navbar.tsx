@@ -66,15 +66,14 @@ export function Navbar() {
             <button onClick={() => handleNavClick("/servicios")} onMouseEnter={() => prefetchOnHover("/servicios")} onMouseLeave={cancelPrefetch} className="text-xs lg:text-sm font-black text-foreground hover:text-accent transition-colors whitespace-nowrap px-2 py-1">{t("nav.services")}</button>
             <button onClick={() => scrollToSection("pricing")} onMouseEnter={() => prefetchOnHover("/servicios")} onMouseLeave={cancelPrefetch} className="text-xs lg:text-sm font-black text-foreground hover:text-accent transition-colors whitespace-nowrap px-2 py-1">{t("nav.pricing")}</button>
             <button onClick={() => handleNavClick("/faq")} onMouseEnter={() => prefetchOnHover("/faq")} onMouseLeave={cancelPrefetch} className="text-xs lg:text-sm font-black text-foreground hover:text-accent transition-colors whitespace-nowrap px-2 py-1">{t("nav.faq")}</button>
-            <Button 
+            <button 
               onClick={() => handleNavClick("/contacto")} 
               onMouseEnter={() => prefetchOnHover("/contacto")} 
               onMouseLeave={cancelPrefetch}
-              className="bg-accent text-accent-foreground font-black text-xs lg:text-sm border-0 rounded-full h-8 lg:h-9 px-3 lg:px-4 hover:scale-105 transition-all active:scale-95 whitespace-nowrap"
-              variant="default"
+              className="text-xs lg:text-sm font-black text-foreground hover:text-accent transition-colors whitespace-nowrap px-2 py-1"
             >
               {t("nav.contact")}
-            </Button>
+            </button>
           </nav>
 
           <div className="hidden md:flex items-center gap-2 lg:gap-3">
