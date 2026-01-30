@@ -49,7 +49,7 @@ export function NewsletterSection() {
   };
 
   return (
-    <section className="py-16 md:py-20 bg-muted relative overflow-hidden font-sans border-t border-border w-full">
+    <section className="py-16 md:py-20 bg-background dark:bg-background relative overflow-hidden font-sans border-t border-border w-full">
       <div className="absolute inset-0 opacity-[0.05] pointer-events-none bg-[url('/hero-bg.png')] bg-repeat" />
       
       <div className="w-full px-5 sm:px-8 relative z-10 flex flex-col items-center justify-center">
