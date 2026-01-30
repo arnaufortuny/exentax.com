@@ -146,7 +146,7 @@ export default function FAQ() {
                 placeholder="Busca tu duda..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full h-9 sm:h-14 pl-10 sm:pl-14 pr-6 rounded-full border-2 border-accent/30 focus:border-accent focus:outline-none text-primary font-medium shadow-sm transition-all text-[10px] sm:text-base appearance-none"
+                className="w-full h-12 sm:h-14 pl-10 sm:pl-14 pr-6 rounded-full border-2 border-accent/30 focus:border-accent focus:outline-none text-primary font-medium shadow-sm transition-all text-xs sm:text-base appearance-none"
               />
               <div className="absolute left-3.5 sm:left-5 top-1/2 -translate-y-1/2 text-[#6EDC8A]">
                 <svg className="w-4 h-4 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
