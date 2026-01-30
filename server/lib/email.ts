@@ -665,20 +665,52 @@ interface EmailJob {
 
 const emailQueue: EmailJob[] = [];
 const MAX_RETRIES = 3;
-const RETRY_DELAY = 5000; // 5 seconds
-const QUEUE_PROCESS_INTERVAL = 1000; // Process every second
+const MAX_QUEUE_SIZE = 100; // Prevent memory growth
+const EMAIL_TTL = 3600000; // 1 hour TTL for emails
+const QUEUE_PROCESS_INTERVAL = 2000; // Process every 2 seconds (with backoff)
 let isProcessingQueue = false;
+let lastProcessTime = 0;
 
 function generateEmailId(): string {
   return `email_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
 }
 
+// Clean up old emails from queue
+function cleanupStaleEmails() {
+  const now = Date.now();
+  let removed = 0;
+  while (emailQueue.length > 0 && emailQueue[0] && (now - emailQueue[0].createdAt) > EMAIL_TTL) {
+    emailQueue.shift();
+    removed++;
+  }
+  if (removed > 0) {
+    console.log(`Cleaned up ${removed} stale emails from queue`);
+  }
+}
+
 async function processEmailQueue() {
+  // Skip if SMTP not configured
+  if (!process.env.SMTP_USER || !process.env.SMTP_PASS) {
+    // Clear queue when SMTP not configured
+    if (emailQueue.length > 0) {
+      emailQueue.length = 0;
+    }
+    return;
+  }
+  
   if (isProcessingQueue || emailQueue.length === 0) return;
   
+  // Backoff: wait at least 1 second between processing attempts
+  const now = Date.now();
+  if (now - lastProcessTime < 1000) return;
+  
   isProcessingQueue = true;
+  lastProcessTime = now;
   
   try {
+    // Cleanup stale emails first
+    cleanupStaleEmails();
+    
     const job = emailQueue[0];
     if (!job) {
       isProcessingQueue = false;
@@ -705,9 +737,9 @@ async function processEmailQueue() {
       if (job.retries >= job.maxRetries) {
         // Max retries reached - remove and log
         emailQueue.shift();
-        console.error(`Email failed after ${job.maxRetries} retries:`, job.id);
+        console.error(`Email failed after ${job.maxRetries} retries:`, job.id, job.to);
       } else {
-        // Move to end of queue for retry
+        // Move to end of queue for retry (with delay via natural queue order)
         emailQueue.shift();
         emailQueue.push(job);
       }
@@ -720,8 +752,19 @@ async function processEmailQueue() {
 // Start queue processor
 setInterval(processEmailQueue, QUEUE_PROCESS_INTERVAL);
 
-// Queue an email for sending
-export function queueEmail({ to, subject, html, replyTo }: { to: string; subject: string; html: string; replyTo?: string }): string {
+// Queue an email for sending (with size limit)
+export function queueEmail({ to, subject, html, replyTo }: { to: string; subject: string; html: string; replyTo?: string }): string | null {
+  // Skip if SMTP not configured
+  if (!process.env.SMTP_USER || !process.env.SMTP_PASS) {
+    return null;
+  }
+  
+  // Prevent unbounded queue growth
+  if (emailQueue.length >= MAX_QUEUE_SIZE) {
+    console.warn(`Email queue full (${MAX_QUEUE_SIZE}), dropping email to: ${to}`);
+    return null;
+  }
+  
   const job: EmailJob = {
     id: generateEmailId(),
     to,
