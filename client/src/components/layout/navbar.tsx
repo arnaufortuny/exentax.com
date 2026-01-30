@@ -113,25 +113,35 @@ export function Navbar() {
 
           <div className="md:hidden flex items-center gap-1.5 relative z-[110]">
             {isOpen && (
-              <div className="flex items-center gap-1">
+              <div className="flex items-center gap-1.5">
                 <ThemeToggle />
                 <LanguageToggle />
               </div>
             )}
             <div className="flex items-center justify-center">
               {!isAuthenticated && (
-                <button 
+                <Button 
                   onClick={() => setLocation("/auth/login")}
-                  className="w-10 h-10 rounded-full border-2 border-accent text-accent flex items-center justify-center hover:bg-accent hover:text-accent-foreground transition-colors"
+                  variant="outline"
+                  size="icon"
+                  className="border-2 border-accent text-accent hover:bg-accent hover:text-accent-foreground bg-white dark:bg-zinc-900"
                   aria-label="Iniciar sesión"
                   data-testid="button-mobile-login"
                 >
-                  <UserIcon className="w-5 h-5" />
-                </button>
+                  <UserIcon className="w-4 h-4" />
+                </Button>
               )}
               {isAuthenticated && (
-                <Link href="/dashboard" className="w-10 h-10 rounded-full border-2 border-accent text-accent flex items-center justify-center hover:bg-accent hover:text-accent-foreground transition-colors" aria-label="Mi área" data-testid="link-mobile-dashboard">
-                  <UserIcon className="w-5 h-5" />
+                <Link href="/dashboard">
+                  <Button 
+                    variant="outline"
+                    size="icon"
+                    className="border-2 border-accent text-accent hover:bg-accent hover:text-accent-foreground bg-white dark:bg-zinc-900"
+                    aria-label="Mi área"
+                    data-testid="link-mobile-dashboard"
+                  >
+                    <UserIcon className="w-4 h-4" />
+                  </Button>
                 </Link>
               )}
             </div>
