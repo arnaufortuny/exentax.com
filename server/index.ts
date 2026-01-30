@@ -45,7 +45,7 @@ app.use((req, res, next) => {
   if (req.method === 'GET') {
     const isAsset = req.path.startsWith('/assets/') || req.path.match(/\.(jpg|jpeg|png|gif|svg|webp|ico|css|js|woff2|woff)$/);
     const isStaticFile = req.path.match(/\.(png|jpg|jpeg|gif|svg|webp|ico|woff2|woff|ttf|eot)$/);
-    const isSeoFile = req.path === '/robots.txt' || req.path === '/sitemap.xml';
+    const isSeoFile = req.path === '/robots.txt' || req.path.startsWith('/sitemap');
     
     if (isAsset) {
       res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
@@ -54,10 +54,24 @@ app.use((req, res, next) => {
       res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
     } else if (isSeoFile) {
       res.setHeader('Cache-Control', 'public, max-age=86400');
+      res.setHeader('X-Robots-Tag', 'all');
     }
     
     res.setHeader("X-DNS-Prefetch-Control", "on");
-    res.setHeader("Link", "</logo-icon.png>; rel=preload; as=image");
+    res.setHeader("Link", "</logo-icon.png>; rel=preload; as=image, </favicon.png>; rel=icon");
+  }
+  
+  // SEO Headers for main pages
+  const seoPages = ['/', '/servicios', '/faq', '/contacto', '/llc/formation', '/llc/maintenance'];
+  if (seoPages.includes(req.path)) {
+    res.setHeader('X-Robots-Tag', 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1');
+    res.setHeader('Link', '<https://easyusllc.com' + req.path + '>; rel="canonical"');
+  }
+  
+  // Noindex for private/auth pages
+  const noindexPages = ['/dashboard', '/admin', '/auth/forgot-password'];
+  if (noindexPages.some(p => req.path.startsWith(p))) {
+    res.setHeader('X-Robots-Tag', 'noindex, nofollow');
   }
   
   // Prevent caching of API responses

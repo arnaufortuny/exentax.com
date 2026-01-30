@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  
+  <url>
+    <loc>https://easyusllc.com/</loc>
+    <image:image>
+      <image:loc>https://easyusllc.com/logo-icon.png</image:loc>
+      <image:title>Easy US LLC Logo</image:title>
+      <image:caption>Easy US LLC - Tu LLC en Estados Unidos para emprendedores</image:caption>
+      <image:geo_location>Albuquerque, New Mexico, USA</image:geo_location>
+    </image:image>
+    <image:image>
+      <image:loc>https://easyusllc.com/favicon.png</image:loc>
+      <image:title>Easy US LLC Favicon</image:title>
+    </image:image>
+  </url>
+  
+  <url>
+    <loc>https://easyusllc.com/servicios</loc>
+    <image:image>
+      <image:loc>https://easyusllc.com/logo-icon.png</image:loc>
+      <image:title>Servicios LLC USA</image:title>
+      <image:caption>Paquetes de constitucion LLC New Mexico Wyoming Delaware</image:caption>
+    </image:image>
+  </url>
+
+</urlset>

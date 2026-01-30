@@ -1,18 +1,94 @@
+# Easy US LLC - Robots.txt
+# Last updated: 2026-01-30
+
+# Default rules for all bots
 User-agent: *
 Allow: /
+Allow: /servicios
+Allow: /faq
+Allow: /contacto
+Allow: /llc/formation
+Allow: /llc/maintenance
+Allow: /auth/login
+Allow: /auth/register
+Allow: /legal/
 
-User-agent: Googlebot
-Allow: /
-
-User-agent: Bingbot
-Allow: /
-
-Sitemap: https://easyusllc.com/sitemap.xml
-
-# Optimized crawl rate
-Crawl-delay: 1
-
-# Disallow admin and API routes
+# Disallow private areas
 Disallow: /api/
 Disallow: /dashboard
+Disallow: /dashboard/*
 Disallow: /admin
+Disallow: /admin/*
+Disallow: /auth/forgot-password
+Disallow: /*.json$
+Disallow: /uploads/
+
+# Google specific
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 0
+
+# Google Images
+User-agent: Googlebot-Image
+Allow: /logo-icon.png
+Allow: /favicon.png
+Allow: /og-image.png
+
+# Bing
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1
+
+# Yandex
+User-agent: Yandex
+Allow: /
+Crawl-delay: 2
+
+# DuckDuckGo
+User-agent: DuckDuckBot
+Allow: /
+Crawl-delay: 1
+
+# Baidu
+User-agent: Baiduspider
+Allow: /
+Crawl-delay: 2
+
+# Facebook
+User-agent: facebookexternalhit
+Allow: /
+
+# Twitter
+User-agent: Twitterbot
+Allow: /
+
+# LinkedIn
+User-agent: LinkedInBot
+Allow: /
+
+# WhatsApp
+User-agent: WhatsApp
+Allow: /
+
+# Block bad bots
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: SemrushBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: DotBot
+Disallow: /
+
+User-agent: BLEXBot
+Disallow: /
+
+# Sitemaps
+Sitemap: https://easyusllc.com/sitemap.xml
+Sitemap: https://easyusllc.com/sitemap-images.xml
+
+# Host directive
+Host: https://easyusllc.com
