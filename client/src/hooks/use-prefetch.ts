@@ -7,10 +7,11 @@ const routeModules: Record<string, () => Promise<unknown>> = {
   "/servicios": () => import("@/pages/servicios"),
   "/faq": () => import("@/pages/faq"),
   "/contacto": () => import("@/pages/contacto"),
-  "/application": () => import("@/pages/application"),
   "/maintenance": () => import("@/pages/maintenance"),
   "/llc/formation": () => import("@/pages/llc-formation"),
   "/dashboard": () => import("@/pages/dashboard"),
+  "/auth/login": () => import("@/pages/auth/login"),
+  "/auth/register": () => import("@/pages/auth/register"),
   "/login": () => import("@/pages/auth/login"),
   "/register": () => import("@/pages/auth/register"),
 };
