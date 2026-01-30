@@ -155,7 +155,7 @@ export default function Login() {
             </div>
 
             <div className="mt-6 pt-5 border-t border-border text-center">
-              <Link href="/register">
+              <Link href="/auth/register">
                 <div className="hover:underline cursor-pointer" data-testid="link-register">
                   <p className="text-foreground text-xs md:text-sm font-bold">¿Todavía no tienes cuenta?</p>
                   <p className="text-accent text-[10px] md:text-xs">Crea tu cuenta gratis en unos segundos</p>

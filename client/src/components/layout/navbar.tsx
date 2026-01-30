@@ -101,7 +101,7 @@ export function Navbar() {
               </div>
             ) : (
               <Button 
-                onClick={() => setLocation("/login")}
+                onClick={() => setLocation("/auth/login")}
                 variant="outline"
                 className="rounded-full border-2 border-accent text-foreground font-black text-sm h-12 px-6 flex items-center gap-2 hover:scale-105 transition-all shadow-lg active:scale-95 shadow-accent/10"
                 data-testid="button-desktop-login"
@@ -115,7 +115,7 @@ export function Navbar() {
             <div className="flex items-center justify-center">
               {!isAuthenticated && (
                 <button 
-                  onClick={() => setLocation("/login")}
+                  onClick={() => setLocation("/auth/login")}
                   className="w-10 h-10 rounded-full border-2 border-accent text-accent flex items-center justify-center hover:bg-accent hover:text-accent-foreground transition-colors"
                   aria-label="Iniciar sesión"
                   data-testid="button-mobile-login"
@@ -206,7 +206,7 @@ export function Navbar() {
                 <div className="px-3 py-4 mb-4 bg-accent/5 rounded-2xl border border-accent/20 text-left">
                   <p className="text-sm font-black text-accent tracking-tighter mb-2 text-left" style={{ fontFamily: 'var(--font-display)' }}>{t("mobile.clientArea")}</p>
                   <button
-                    onClick={() => handleNavClick("/login")}
+                    onClick={() => handleNavClick("/auth/login")}
                     className="w-full text-left py-2 text-foreground font-black text-xl tracking-tighter flex items-center justify-start gap-2"
                     data-testid="button-mobile-login-menu"
                   >

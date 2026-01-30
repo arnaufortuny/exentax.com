@@ -568,7 +568,7 @@ export default function Register() {
           <div className="mt-6 text-center">
             <p className="text-muted-foreground text-sm">
               ¿Ya tienes cuenta?{" "}
-              <Link href="/login" data-testid="link-login">
+              <Link href="/auth/login" data-testid="link-login">
                 <span className="font-black text-primary underline cursor-pointer">
                   Inicia sesión aquí
                 </span>

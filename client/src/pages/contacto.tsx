@@ -314,7 +314,7 @@ export default function Contacto() {
                       <div className="pt-4">
                         <SocialLogin mode="login" />
                         <p className="text-center text-sm text-muted-foreground mt-3">
-                          o <Link href="/login" className="text-accent font-bold hover:underline">inicia sesión con email</Link> para ir más rápido
+                          o <Link href="/auth/login" className="text-accent font-bold hover:underline">inicia sesión con email</Link> para ir más rápido
                         </p>
                       </div>
                     )}

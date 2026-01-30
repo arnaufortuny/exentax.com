@@ -130,7 +130,7 @@ export default function ForgotPassword() {
             <p className="text-muted-foreground mb-8">
               Tu contraseña ha sido restablecida correctamente.
             </p>
-            <Link href="/login">
+            <Link href="/auth/login">
               <Button className="rounded-full px-8 font-black bg-accent text-primary" data-testid="button-go-to-login">
                 Iniciar Sesión
               </Button>
@@ -266,7 +266,7 @@ export default function ForgotPassword() {
           )}
 
           <div className="mt-6 text-center">
-            <Link href="/login">
+            <Link href="/auth/login">
               <span className="text-sm text-muted-foreground hover:text-primary transition-colors cursor-pointer">
                 Volver al Login
               </span>

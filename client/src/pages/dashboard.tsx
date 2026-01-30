@@ -216,7 +216,7 @@ export default function Dashboard() {
 
   useEffect(() => {
     if (!authLoading && !isAuthenticated) {
-      setLocation("/login");
+      setLocation("/auth/login");
     }
   }, [isAuthenticated, authLoading, setLocation]);
 

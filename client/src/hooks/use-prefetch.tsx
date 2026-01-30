@@ -15,7 +15,7 @@ export function usePrefetch() {
         "/precios": () => import("../pages/servicios"),
         "/faq": () => import("../pages/faq"),
         "/contacto": () => import("../pages/contacto"),
-        "/maintenance": () => import("../pages/maintenance"),
+        "/llc/maintenance": () => import("../pages/maintenance"),
         "/llc/formation": () => import("../pages/llc-formation"),
         "/dashboard": () => import("../pages/dashboard"),
         "/auth/login": () => import("../pages/auth/login"),
