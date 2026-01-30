@@ -623,15 +623,15 @@ export default function Dashboard() {
   return (
     <div className="min-h-screen bg-muted font-sans">
       <Navbar />
-      <main className="pt-20 pb-12 px-4 md:px-8 max-w-7xl mx-auto">
-        <header className="mb-6 md:mb-8">
+      <main className="pt-16 sm:pt-20 pb-12 px-4 md:px-8 max-w-7xl mx-auto">
+        <header className="mb-4 sm:mb-6 md:mb-8">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
-              <p className="text-accent font-black tracking-widest text-[10px] md:text-xs mb-1 uppercase">Área de Clientes</p>
-              <h1 className="text-2xl md:text-4xl font-black text-primary tracking-tighter leading-tight">
+              <p className="text-accent font-black tracking-widest text-[10px] md:text-xs mb-0.5 md:mb-1 uppercase">Área de Clientes</p>
+              <h1 className="text-3xl md:text-4xl font-black text-primary tracking-tighter leading-tight">
                 Bienvenido, {user?.firstName || 'Cliente'}
               </h1>
-              <p className="text-muted-foreground text-sm mt-1">
+              <p className="text-muted-foreground text-base sm:text-sm mt-0.5 md:mt-1 font-medium">
                 Tu espacio privado de gestión
               </p>
             </div>
