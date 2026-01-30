@@ -91,21 +91,17 @@ export default function Servicios() {
         className="flex flex-col items-center justify-center text-center pt-32 sm:pt-16 min-h-[450px] sm:min-h-[auto] w-full"
         showOverlay={false}
         title={
-          <h1 className="text-4xl sm:text-5xl lg:text-7xl font-black text-primary  tracking-tight leading-[1.1] text-center">
-            Constituimos tu LLC en Estados Unidos de <span className="text-accent">forma simple, rápida y transparente.</span>
+          <h1 className="text-4xl sm:text-5xl lg:text-7xl font-black text-foreground tracking-tight leading-[1.1] text-center uppercase">
+            CONSTITUIMOS TU LLC EN ESTADOS UNIDOS DE <span className="text-accent">FORMA SIMPLE, RÁPIDA Y TRANSPARENTE.</span>
           </h1>
         }
         subtitle={
-            <div 
-              className="flex flex-col items-center"
-            >
-            <div className="text-[13px] sm:text-xl lg:text-2xl text-primary font-medium leading-relaxed max-w-2xl text-center mb-8 sm:mb-12 mx-auto px-2">
+            <div className="flex flex-col items-center justify-center w-full">
+              <div className="text-[13px] sm:text-xl lg:text-2xl text-foreground font-medium leading-relaxed max-w-2xl text-center mb-8 sm:mb-12 mx-auto px-2">
                 Todo lo que necesitas saber sobre tu LLC: estructura, impuestos, bancos y cómo trabajamos.
-            </div>
+              </div>
               
-              <div 
-                className="flex flex-wrap justify-center gap-3 sm:gap-4 max-w-4xl px-4 mb-12"
-              >
+              <div className="hidden sm:flex flex-wrap justify-center gap-3 sm:gap-4 max-w-4xl px-4 mb-12">
                 {[
                   "Tu LLC en 2 días",
                   "Pack Todo Incluido",
