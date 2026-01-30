@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 
-import { Check, ShieldCheck, Mail, Building2, Loader2, MessageCircle, Info, Upload, CreditCard } from "lucide-react";
+import { Check, Loader2, Eye, EyeOff } from "lucide-react";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { Button } from "@/components/ui/button";
@@ -969,13 +969,13 @@ export default function LlcFormation() {
                             className="w-full bg-accent text-primary font-black rounded-full h-14 shadow-lg shadow-accent/20"
                             data-testid="button-send-otp"
                           >
-                            {isSendingOtp ? <Loader2 className="w-5 h-5 animate-spin mr-2" /> : <Mail className="w-5 h-5 mr-2" />}
+                            {isSendingOtp ? <Loader2 className="w-5 h-5 animate-spin mr-2" /> : null}
                             {isSendingOtp ? "Enviando..." : "Enviar código de verificación"}
                           </Button>
                         ) : (
                           <div className="space-y-4">
                             <div className="bg-green-50 border border-green-200 rounded-xl p-4 text-center">
-                              <Mail className="w-6 h-6 text-green-600 mx-auto mb-2" />
+                              <span className="text-2xl font-black text-green-600 block mb-2">✓</span>
                               <p className="text-sm font-bold text-green-700">Código enviado a tu email</p>
                               <p className="text-xs text-green-600">Revisa tu bandeja de entrada (y spam)</p>
                             </div>
@@ -999,7 +999,7 @@ export default function LlcFormation() {
                               className="w-full bg-accent text-primary font-black rounded-full h-14 shadow-lg shadow-accent/20 disabled:opacity-50"
                               data-testid="button-verify-otp"
                             >
-                              {isVerifyingOtp ? <Loader2 className="w-5 h-5 animate-spin mr-2" /> : <ShieldCheck className="w-5 h-5 mr-2" />}
+                              {isVerifyingOtp ? <Loader2 className="w-5 h-5 animate-spin mr-2" /> : null}
                               {isVerifyingOtp ? "Verificando..." : "Verificar código"}
                             </Button>
                             
@@ -1019,7 +1019,7 @@ export default function LlcFormation() {
                     {isOtpVerified && (
                       <div className="space-y-4">
                         <div className="bg-green-50 border border-green-200 rounded-xl p-4 text-center mb-4">
-                          <Check className="w-6 h-6 text-green-600 mx-auto mb-2" />
+                          <span className="text-2xl font-black text-green-600 block mb-2">✓</span>
                           <p className="text-sm font-bold text-green-700">Email verificado</p>
                         </div>
                         
@@ -1048,7 +1048,7 @@ export default function LlcFormation() {
                 
                 {isAuthenticated && (
                   <div className="bg-green-50 border border-green-200 rounded-2xl p-6 text-center">
-                    <Check className="w-8 h-8 text-green-600 mx-auto mb-2" />
+                    <span className="text-3xl font-black text-green-600 block mb-2">✓</span>
                     <p className="text-sm font-black text-green-700">Ya tienes cuenta activa</p>
                     <p className="text-xs text-green-600">Continúa con el siguiente paso</p>
                   </div>

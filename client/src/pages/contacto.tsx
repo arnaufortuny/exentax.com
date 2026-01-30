@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 
-import { Loader2, CheckCircle2, Mail, User, Phone, MessageSquare, HelpCircle, ShieldCheck } from "lucide-react";
+import { Loader2 } from "lucide-react";
 import { SocialLogin } from "@/components/auth/social-login";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
@@ -203,7 +203,7 @@ export default function Contacto() {
         <main className="pt-20 sm:pt-28 pb-12 px-4 flex flex-col items-center justify-center text-center max-w-3xl mx-auto">
           <div className="space-y-5 sm:space-y-6 w-full">
             <div className="w-14 h-14 sm:w-20 sm:h-20 bg-accent rounded-full flex items-center justify-center mx-auto shadow-lg shadow-[#6EDC8A]/20">
-              <CheckCircle2 className="w-7 h-7 sm:w-10 sm:h-10 text-black" />
+              <span className="text-2xl sm:text-3xl font-black text-black">✓</span>
             </div>
             
             <div className="space-y-2 sm:space-y-3">
@@ -608,8 +608,8 @@ export default function Contacto() {
               className="flex items-center justify-center gap-4 p-5 rounded-full hover:bg-accent/5 transition-all group"
               data-testid="link-email"
             >
-              <div className="w-12 h-12 rounded-full bg-white dark:bg-zinc-900 flex items-center justify-center text-[#6EDC8A] group-hover:scale-105 transition-transform shadow-sm">
-                <Mail className="w-7 h-7" />
+              <div className="w-12 h-12 rounded-full bg-white dark:bg-zinc-900 flex items-center justify-center text-[#6EDC8A] group-hover:scale-105 transition-transform shadow-sm font-black text-xl">
+                @
               </div>
               <div className="text-left">
                 <p className="text-lg font-black text-primary">hola@easyusllc.com</p>

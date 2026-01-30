@@ -580,11 +580,9 @@ export default function Dashboard() {
                   Revisa tu email, deberías haber recibido una nota de nuestro equipo con más información. No puedes enviar formularios ni solicitudes mientras tu cuenta esté desactivada.
                 </p>
                 <div className="space-y-3">
-                  <a href="https://wa.me/34614916910" target="_blank" rel="noopener noreferrer" className="block">
-                    <Button className="w-full bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">
-                      Contactar Soporte
-                    </Button>
-                  </a>
+                  <p className="text-sm text-red-600 font-medium">
+                    Tu cuenta está suspendida. No puedes realizar acciones ni contactar hasta que se resuelva tu situación.
+                  </p>
                   <Button 
                     variant="ghost" 
                     className="w-full font-black text-muted-foreground"

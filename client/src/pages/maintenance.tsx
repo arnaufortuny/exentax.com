@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 
-import { User, Phone, Mail, Building2, ShieldCheck, Briefcase, CheckSquare, Trash2, Check, CreditCard, Info, Globe, Loader2, Lock, Eye, EyeOff } from "lucide-react";
+import { Check, Loader2, Eye, EyeOff } from "lucide-react";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { Button } from "@/components/ui/button";
@@ -429,7 +429,7 @@ export default function MaintenanceApplication() {
                 {step === 0 && (
                   <div key="step-0" className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-[#6EDC8A]/20 pb-2 leading-tight flex items-center gap-2">
-                      <Building2 className="w-6 h-6 text-[#6EDC8A]" /> 1️⃣ ¿Ya tienes una LLC creada?
+                      1️⃣ ¿Ya tienes una LLC creada?
                     </h2>
                     <FormDescription>Para saber desde dónde partimos</FormDescription>
                     <FormField control={form.control} name="creationSource" render={({ field }) => (
@@ -492,7 +492,7 @@ export default function MaintenanceApplication() {
                 {step === 1 && (
                   <div key={"step-" + step} className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-[#6EDC8A]/20 pb-2 leading-tight flex items-center gap-2">
-                      <User className="w-6 h-6 text-[#6EDC8A]" /> 2️⃣ Nombre completo
+                      2️⃣ Nombre completo
                     </h2>
                     <FormDescription>El de los documentos oficiales</FormDescription>
                     <FormField control={form.control} name="ownerFullName" render={({ field }) => (
@@ -515,7 +515,7 @@ export default function MaintenanceApplication() {
                 {step === 2 && (
                   <div key={"step-" + step} className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-[#6EDC8A]/20 pb-2 leading-tight flex items-center gap-2">
-                      <Phone className="w-6 h-6 text-[#6EDC8A]" /> 3️⃣ Teléfono de contacto
+                      3️⃣ Teléfono de contacto
                     </h2>
                     <FormDescription>Para avisos importantes y comunicación rápida</FormDescription>
                     <FormField control={form.control} name="ownerPhone" render={({ field }) => (
@@ -538,7 +538,7 @@ export default function MaintenanceApplication() {
                 {step === 3 && (
                   <div key={"step-" + step} className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-[#6EDC8A]/20 pb-2 leading-tight flex items-center gap-2">
-                      <Mail className="w-6 h-6 text-[#6EDC8A]" /> 4️⃣ Email
+                      4️⃣ Email
                     </h2>
                     <FormDescription>Aquí recibirás recordatorios y documentación</FormDescription>
                     <FormField control={form.control} name="ownerEmail" render={({ field }) => (
@@ -561,7 +561,7 @@ export default function MaintenanceApplication() {
                 {step === 4 && (
                   <div key={"step-" + step} className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-[#6EDC8A]/20 pb-2 leading-tight flex items-center gap-2">
-                      <Building2 className="w-6 h-6 text-[#6EDC8A]" /> 5️⃣ Nombre legal de la LLC
+                      5️⃣ Nombre legal de la LLC
                     </h2>
                     <FormDescription>Tal y como figura en los documentos oficiales</FormDescription>
                     <FormField control={form.control} name="companyName" render={({ field }) => (
@@ -584,7 +584,7 @@ export default function MaintenanceApplication() {
                 {step === 5 && (
                   <div key={"step-" + step} className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-[#6EDC8A]/20 pb-2 leading-tight flex items-center gap-2">
-                      <ShieldCheck className="w-6 h-6 text-[#6EDC8A]" /> 6️⃣ EIN
+                      6️⃣ EIN
                     </h2>
                     <FormDescription>El número fiscal de tu empresa en EE. UU.</FormDescription>
                     <FormField control={form.control} name="ein" render={({ field }) => (
@@ -652,7 +652,7 @@ export default function MaintenanceApplication() {
                 {step === 8 && (
                   <div key={"step-" + step} className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-[#6EDC8A]/20 pb-2 leading-tight flex items-center gap-2">
-                      <CheckSquare className="w-6 h-6 text-[#6EDC8A]" /> 9️⃣ ¿Qué necesitas gestionar?
+                      9️⃣ ¿Qué necesitas gestionar?
                     </h2>
                     <FormDescription>Marca lo que aplique</FormDescription>
                     <FormField control={form.control} name="expectedServices" render={({ field }) => (
@@ -725,7 +725,7 @@ export default function MaintenanceApplication() {
                 {step === 10 && (
                   <div key={"step-" + step} className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black text-primary border-b border-[#6EDC8A]/20 pb-2 leading-tight flex items-center gap-2">
-                      <User className="w-6 h-6 text-[#6EDC8A]" /> Crea tu cuenta
+                      Crea tu cuenta
                     </h2>
                     <p className="text-sm text-muted-foreground">Para gestionar tu pedido necesitas una cuenta. Primero verifica tu email.</p>
                     
@@ -747,13 +747,13 @@ export default function MaintenanceApplication() {
                                 className="w-full bg-accent text-primary font-black rounded-full h-14 shadow-lg shadow-[#6EDC8A]/20"
                                 data-testid="button-send-otp"
                               >
-                                {isSendingOtp ? <Loader2 className="w-5 h-5 animate-spin mr-2" /> : <Mail className="w-5 h-5 mr-2" />}
+                                {isSendingOtp ? <Loader2 className="w-5 h-5 animate-spin mr-2" /> : null}
                                 {isSendingOtp ? "Enviando..." : "Enviar código de verificación"}
                               </Button>
                             ) : (
                               <div className="space-y-4">
                                 <div className="bg-green-50 border border-green-200 rounded-xl p-4 text-center">
-                                  <Mail className="w-6 h-6 text-green-600 mx-auto mb-2" />
+                                  <span className="text-2xl font-black text-green-600 block mb-2">✓</span>
                                   <p className="text-sm font-bold text-green-700">Código enviado a tu email</p>
                                   <p className="text-xs text-green-600">Revisa tu bandeja de entrada (y spam)</p>
                                 </div>
@@ -777,7 +777,7 @@ export default function MaintenanceApplication() {
                                   className="w-full bg-accent text-primary font-black rounded-full h-14 shadow-lg shadow-[#6EDC8A]/20 disabled:opacity-50"
                                   data-testid="button-verify-otp"
                                 >
-                                  {isVerifyingOtp ? <Loader2 className="w-5 h-5 animate-spin mr-2" /> : <ShieldCheck className="w-5 h-5 mr-2" />}
+                                  {isVerifyingOtp ? <Loader2 className="w-5 h-5 animate-spin mr-2" /> : null}
                                   {isVerifyingOtp ? "Verificando..." : "Verificar código"}
                                 </Button>
                                 
@@ -797,7 +797,7 @@ export default function MaintenanceApplication() {
                         {isOtpVerified && (
                           <div className="space-y-4">
                             <div className="bg-green-50 border border-green-200 rounded-xl p-4 text-center mb-4">
-                              <Check className="w-6 h-6 text-green-600 mx-auto mb-2" />
+                              <span className="text-2xl font-black text-green-600 block mb-2">✓</span>
                               <p className="text-sm font-bold text-green-700">Email verificado</p>
                             </div>
                             
@@ -826,7 +826,7 @@ export default function MaintenanceApplication() {
                     
                     {isAuthenticated && (
                       <div className="bg-green-50 border border-green-200 rounded-2xl p-6 text-center">
-                        <Check className="w-8 h-8 text-green-600 mx-auto mb-2" />
+                        <span className="text-3xl font-black text-green-600 block mb-2">✓</span>
                         <p className="text-sm font-black text-green-700">Ya tienes cuenta activa</p>
                         <p className="text-xs text-green-600">Continúa con el siguiente paso</p>
                       </div>
@@ -945,7 +945,7 @@ export default function MaintenanceApplication() {
                 {step === 12 && (
                   <div key={"step-" + step} className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
-                      <ShieldCheck className="w-6 h-6 text-accent" /> Último paso: Confirmación
+                      Último paso: Confirmación
                     </h2>
                     <div className="bg-accent/5 p-5 rounded-2xl border border-accent/20 text-xs space-y-2 mb-4">
                       <p><span className="opacity-50">Nombre:</span> <span className="font-black">{form.getValues("ownerFullName")}</span></p>
@@ -1000,12 +1000,11 @@ export default function MaintenanceApplication() {
                 {step === 20 && (
                   <div key={"step-" + step} className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black text-primary border-b border-[#6EDC8A]/20 pb-2 leading-tight flex items-center gap-2">
-                      <Lock className="w-6 h-6 text-[#6EDC8A]" /> Inicia sesión
+                      Inicia sesión
                     </h2>
                     
                     <div className="bg-accent/10 border border-[#6EDC8A]/30 rounded-2xl p-5 text-center">
-                      <User className="w-8 h-8 text-[#6EDC8A] mx-auto mb-3" />
-                      <p className="text-sm font-black text-primary mb-1">
+                                            <p className="text-sm font-black text-primary mb-1">
                         ¡Hola{existingUserName ? `, ${existingUserName}` : ""}!
                       </p>
                       <p className="text-xs text-muted-foreground">
