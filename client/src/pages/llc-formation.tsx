@@ -535,7 +535,7 @@ export default function LlcFormation() {
             
             {step === 0 && (
               <div key="step-0" className="space-y-6 text-left">
-                <h2 className="text-xl md:text-2xl font-black text-primary border-b border-accent/20 pb-2 leading-tight">1️⃣ ¿En qué estado quieres crear tu LLC?</h2>
+                <h2 className="text-xl md:text-2xl font-black text-primary border-b border-accent/20 pb-2 leading-tight">1️⃣ ¿Donde constituimos tu LLC?</h2>
                 <FormDescription>Elige el estado donde se registrará tu empresa</FormDescription>
                 <FormField control={form.control} name="state" render={({ field }) => (
                   <FormItem>
