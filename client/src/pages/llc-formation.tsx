@@ -520,11 +520,11 @@ export default function LlcFormation() {
           </div>
         )}
         
-        <h1 className="text-3xl md:text-4xl font-black  mb-2 text-primary leading-tight">
+        <h1 className="text-3xl md:text-4xl font-black mb-2 text-primary leading-tight text-center">
           {isEditMode ? "Modificar datos de " : "Constituir mi "}
           <span className="text-accent">LLC</span>
         </h1>
-        <p className="text-muted-foreground text-sm md:text-base mb-6">
+        <p className="text-muted-foreground text-sm md:text-base mb-6 text-center">
           Constituye tu LLC online en unos clics. Te guiamos paso a paso y nos encargamos de todo.
         </p>
         
