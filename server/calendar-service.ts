@@ -1,6 +1,7 @@
 import { db } from "./db";
 import { llcApplications, orders, userNotifications, users, maintenanceApplications } from "@shared/schema";
 import { eq, and, lte, gte, isNotNull, sql } from "drizzle-orm";
+import { getRenewalReminderTemplate, queueEmail } from "./lib/email";
 
 export interface ComplianceDeadline {
   type: "irs_1120" | "irs_5472" | "annual_report" | "agent_renewal";
@@ -410,6 +411,7 @@ export async function sendRenewalReminders() {
     
     for (const window of reminderWindows) {
       if (client.daysUntilExpiry >= window.min && client.daysUntilExpiry <= window.max) {
+        // Create in-app notification
         await createComplianceNotification(
           client.userId,
           client.orderId,
@@ -418,6 +420,23 @@ export async function sendRenewalReminders() {
           `Renovación pendiente en ${window.label}`,
           `Tu pack de mantenimiento para ${client.companyName} vence pronto (${formatDate(new Date(client.agentRenewalDate!))}). Contrata el pack de mantenimiento para mantener tu LLC activa y en cumplimiento legal.`
         );
+        
+        // Send email notification
+        if (client.email) {
+          const emailHtml = getRenewalReminderTemplate(
+            client.firstName || "Cliente",
+            client.companyName,
+            window.label,
+            formatDate(new Date(client.agentRenewalDate!)),
+            client.state
+          );
+          queueEmail({
+            to: client.email,
+            subject: `Renovación LLC ${client.companyName} - Vence en ${window.label}`,
+            html: emailHtml
+          });
+        }
+        
         remindersSent++;
         break; // Only one reminder per window per client
       }

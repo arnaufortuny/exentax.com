@@ -438,6 +438,43 @@ export function getNewsletterWelcomeTemplate() {
   return getEmailWrapper(content);
 }
 
+// 11. Recordatorio de Renovación (plantilla única para 60/30/7 días)
+export function getRenewalReminderTemplate(
+  name: string, 
+  companyName: string, 
+  daysRemaining: string, 
+  renewalDate: string,
+  state: string
+) {
+  const urgencyColor = daysRemaining === "una semana" ? "#EF4444" : "#F59E0B";
+  const urgencyBg = daysRemaining === "una semana" ? "#FEE2E2" : "#FEF3C7";
+  
+  const content = `
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin: 0 0 25px 0;">Hola ${name},</p>
+    
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">Te recordamos que el pack de mantenimiento de tu LLC <strong>${companyName}</strong> (${state}) vence pronto.</p>
+    
+    <div style="background: ${urgencyBg}; padding: 25px; border-radius: 16px; margin: 25px 0; border-left: 4px solid ${urgencyColor};">
+      <p style="margin: 0 0 10px 0; font-size: 14px; font-weight: 700; color: ${urgencyColor}; text-transform: uppercase;">Vence en ${daysRemaining}</p>
+      <p style="margin: 0; font-size: 16px; font-weight: 600; color: #0E1215;">Fecha de vencimiento: ${renewalDate}</p>
+    </div>
+    
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">Sin el pack de mantenimiento activo, tu LLC puede perder su buen estado legal. Esto incluye:</p>
+    
+    <ul style="margin: 0 0 25px 0; padding-left: 20px; color: #444; font-size: 14px; line-height: 1.8;">
+      <li>Agente registrado activo</li>
+      <li>Presentación de informes anuales</li>
+      <li>Cumplimiento fiscal (IRS 1120/5472)</li>
+      <li>Domicilio legal en Estados Unidos</li>
+    </ul>
+    
+    <div style="text-align: center; margin: 30px 0;">
+      <a href="https://${appDomain}/llc/maintenance" style="display: inline-block; background: #6EDC8A; color: #0E1215; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">Renovar Ahora</a>
+    </div>
+  `;
+  return getEmailWrapper(content);
+}
+
 // 17. Registro con código de verificación
 export function getRegistrationOtpTemplate(name: string, otp: string, clientId: string, expiryMinutes: number = 15) {
   const content = `
