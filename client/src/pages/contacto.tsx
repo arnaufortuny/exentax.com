@@ -46,6 +46,7 @@ const SUBJECT_OPTIONS = [
 export default function Contacto() {
   const { user, isAuthenticated } = useAuth();
   const [step, setStep] = useState(0);
+  const [hasAutoSkipped, setHasAutoSkipped] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [submittedMessageId, setSubmittedMessageId] = useState<number | null>(null);
   const [isOtpSent, setIsOtpSent] = useState(false);
@@ -83,8 +84,14 @@ export default function Contacto() {
       if (user.emailVerified) {
         setIsOtpVerified(true);
       }
+      // Skip to subject selection (step 5) since user data is already filled
+      // Only skip once on initial load if at beginning and have required data
+      if (!hasAutoSkipped && step === 0 && user.firstName && user.lastName && user.email) {
+        setHasAutoSkipped(true);
+        setStep(5);
+      }
     }
-  }, [isAuthenticated, user, form]);
+  }, [isAuthenticated, user, form, step, hasAutoSkipped]);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);

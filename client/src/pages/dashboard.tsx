@@ -657,16 +657,16 @@ export default function Dashboard() {
               variant={activeTab === item.id ? "default" : "outline"}
               onClick={() => setActiveTab(item.id as Tab)}
               size="sm"
-              className={`flex items-center gap-1.5 md:gap-2 rounded-full font-bold text-[11px] md:text-xs tracking-tight whitespace-nowrap shrink-0 ${
+              className={`flex items-center gap-1 sm:gap-2 rounded-full font-bold text-[10px] sm:text-[11px] md:text-xs tracking-tight whitespace-nowrap shrink-0 ${
                 activeTab === item.id 
                 ? 'bg-accent text-primary shadow-lg shadow-accent/20' 
                 : 'bg-white dark:bg-zinc-900 text-muted-foreground border-0'
               }`}
               data-testid={`button-tab-${item.id}`}
             >
-              <item.icon className="w-3.5 h-3.5 md:w-4 md:h-4" />
-              <span className="hidden sm:inline">{item.label}</span>
-              <span className="sm:hidden">{item.mobileLabel}</span>
+              <item.icon className="w-4 h-4" />
+              <span className="hidden md:inline">{item.label}</span>
+              <span className="md:hidden">{item.mobileLabel}</span>
             </Button>
           ))}
         </div>
