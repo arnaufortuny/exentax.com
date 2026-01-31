@@ -292,7 +292,7 @@ export function generateInvoicePdf(data: InvoiceData): Promise<Buffer> {
       if (data.status === 'pending' && data.paymentLink) {
         y += 95;
         doc.roundedRect(45, y, 505, 30, 8).fill(BRAND_GREEN);
-        doc.font('Helvetica-Bold').fontSize(10).fillColor(BRAND_DARK).text('PAGAR ONLINE →', 60, y + 10);
+        doc.font('Helvetica-Bold').fontSize(10).fillColor(BRAND_DARK).text('PAGAR ONLINE ->', 60, y + 10);
         doc.font('Helvetica').fontSize(9).fillColor(BRAND_DARK).text(data.paymentLink, 180, y + 10, { link: data.paymentLink, underline: true });
       }
 
@@ -375,19 +375,19 @@ export function generateReceiptPdf(data: ReceiptData): Promise<Buffer> {
 
       // Service Details (Modern rounded feel)
       doc.font('Helvetica-Bold').fontSize(10).fillColor(BRAND_DARK).text('DETALLE DEL SERVICIO', 45, y);
-      doc.roundedRect(45, y + 15, 505, 65, 8).strokeColor('#E5E7EB').lineWidth(1).stroke();
+      doc.roundedRect(45, y + 15, 505, 80, 8).strokeColor('#E5E7EB').lineWidth(1).stroke();
       
-      doc.font('Helvetica-Bold').fontSize(14).fillColor(BRAND_DARK).text(data.service.name, 60, y + 32);
+      doc.font('Helvetica-Bold').fontSize(14).fillColor(BRAND_DARK).text(data.service.name, 60, y + 35);
       if (data.service.description) {
-        doc.font('Helvetica').fontSize(9).fillColor(BRAND_GRAY).text(data.service.description, 60, y + 52, { width: 300 });
+        doc.font('Helvetica').fontSize(9).fillColor(BRAND_GRAY).text(data.service.description, 60, y + 55, { width: 300 });
       }
       
       // Amount (Aligned)
-      doc.roundedRect(400, y + 15, 150, 65, 8).fill(BRAND_GREEN);
-      doc.font('Helvetica-Bold').fontSize(9).fillColor(BRAND_DARK).text('TOTAL PAGADO', 415, y + 30);
-      doc.fontSize(18).text(formatCurrency(data.amount, data.currency), 415, y + 48, { width: 120, align: 'center' });
+      doc.roundedRect(400, y + 15, 150, 80, 8).fill(BRAND_GREEN);
+      doc.font('Helvetica-Bold').fontSize(9).fillColor(BRAND_DARK).text('TOTAL PAGADO', 415, y + 35);
+      doc.fontSize(20).text(formatCurrency(data.amount, data.currency), 415, y + 55, { width: 120, align: 'center' });
 
-      y += 100;
+      y += 115;
 
       // Success Message (Rounded)
       doc.roundedRect(45, y, 305, 35, 8).fill(BRAND_LIGHT_GREEN);
