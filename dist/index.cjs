@@ -479,6 +479,7 @@ __export(email_exports, {
   getAutoReplyTemplate: () => getAutoReplyTemplate,
   getConfirmationEmailTemplate: () => getConfirmationEmailTemplate,
   getDocumentRequestTemplate: () => getDocumentRequestTemplate,
+  getDocumentUploadedTemplate: () => getDocumentUploadedTemplate,
   getEmailFooter: () => getEmailFooter,
   getEmailHeader: () => getEmailHeader,
   getEmailQueueStatus: () => getEmailQueueStatus,
@@ -571,10 +572,10 @@ function getWelcomeEmailTemplate(name = "Cliente") {
     
     <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">Gracias por registrarte en Easy US LLC.</p>
     
-    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 25px;">Tu cuenta ha sido creada correctamente. Desde tu panel podr\xE1s gestionar solicitudes, documentaci\xF3n y el estado de tus servicios en todo momento.</p>
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 25px;">Tu cuenta ha sido creada correctamente. Desde tu \xC1rea Cliente podr\xE1s gestionar solicitudes, documentaci\xF3n y el estado de tus servicios en todo momento.</p>
     
     <div style="text-align: center; margin: 30px 0;">
-      <a href="https://${appDomain}/dashboard" style="display: inline-block; background: #6EDC8A; color: #0E1215; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">Acceder a Mi Panel</a>
+      <a href="https://${appDomain}/dashboard" style="display: inline-block; background: #6EDC8A; color: #0E1215; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">Ver Mi \xC1rea Cliente</a>
     </div>
   `;
   return getEmailWrapper(content);
@@ -586,7 +587,7 @@ function getAccountUnderReviewTemplate(name = "Cliente") {
     <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">Te informamos de que tu cuenta se encuentra actualmente en revisi\xF3n.</p>
     
     <div style="background: #FEF3C7; padding: 20px 25px; border-radius: 16px; margin: 25px 0; border-left: 4px solid #F59E0B;">
-      <p style="margin: 0; font-size: 14px; color: #92400E; line-height: 1.7;">Durante este proceso de validaci\xF3n, no ser\xE1 posible realizar nuevos pedidos ni modificar informaci\xF3n existente en tu panel. Esta medida es temporal y forma parte de nuestros procedimientos de verificaci\xF3n.</p>
+      <p style="margin: 0; font-size: 14px; color: #92400E; line-height: 1.7;">Durante este proceso de validaci\xF3n, no ser\xE1 posible realizar nuevos pedidos ni modificar informaci\xF3n existente en tu \xC1rea Cliente. Esta medida es temporal y forma parte de nuestros procedimientos de verificaci\xF3n.</p>
     </div>
     
     <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">Nuestro equipo est\xE1 revisando la informaci\xF3n proporcionada y te notificaremos por este mismo medio en cuanto el proceso haya finalizado o si fuera necesario aportar documentaci\xF3n adicional.</p>
@@ -609,7 +610,7 @@ function getAccountVipTemplate(name = "Cliente") {
     </div>
     
     <div style="text-align: center; margin: 30px 0;">
-      <a href="https://${appDomain}/dashboard" style="display: inline-block; background: #6EDC8A; color: #0E1215; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">Acceder a Mi Panel</a>
+      <a href="https://${appDomain}/dashboard" style="display: inline-block; background: #6EDC8A; color: #0E1215; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">Ver Mi \xC1rea Cliente</a>
     </div>
   `;
   return getEmailWrapper(content);
@@ -620,10 +621,10 @@ function getAccountReactivatedTemplate(name = "Cliente") {
     
     <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">Tu cuenta ha sido reactivada correctamente.</p>
     
-    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 25px;">Ya puedes acceder a tu panel y utilizar todos nuestros servicios con normalidad.</p>
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 25px;">Ya puedes acceder a tu \xC1rea Cliente y utilizar todos nuestros servicios con normalidad.</p>
     
     <div style="text-align: center; margin: 30px 0;">
-      <a href="https://${appDomain}/dashboard" style="display: inline-block; background: #6EDC8A; color: #0E1215; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">Acceder a Mi Panel</a>
+      <a href="https://${appDomain}/dashboard" style="display: inline-block; background: #6EDC8A; color: #0E1215; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">Ver Mi \xC1rea Cliente</a>
     </div>
   `;
   return getEmailWrapper(content);
@@ -705,7 +706,7 @@ function getOrderCompletedTemplate(name, orderNumber) {
     <p style="line-height: 1.7; font-size: 15px; color: #444; margin: 0 0 25px 0;">Tu pedido ha sido completado correctamente.</p>
     
     <div style="background: linear-gradient(135deg, #F0FDF4 0%, #ECFDF5 100%); padding: 25px; border-radius: 16px; margin: 25px 0; border: 2px solid #6EDC8A;">
-      <p style="margin: 0; font-size: 15px; color: #0E1215; line-height: 1.6;">Ya puedes acceder a toda la documentaci\xF3n desde tu panel de cliente.</p>
+      <p style="margin: 0; font-size: 15px; color: #0E1215; line-height: 1.6;">Ya puedes acceder a toda la documentaci\xF3n desde tu \xC1rea Cliente.</p>
     </div>
     
     <div style="text-align: center; margin: 30px 0;">
@@ -727,7 +728,7 @@ function getNoteReceivedTemplate(name, noteContent, orderNumber) {
     </div>
     
     <div style="text-align: center; margin: 30px 0;">
-      <a href="https://${appDomain}/dashboard" style="display: inline-block; background: #6EDC8A; color: #0E1215; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">Ver en Mi Panel</a>
+      <a href="https://${appDomain}/dashboard" style="display: inline-block; background: #6EDC8A; color: #0E1215; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">Ver Mi \xC1rea Cliente</a>
     </div>
   `;
   return getEmailWrapper(content);
@@ -746,7 +747,7 @@ function getAdminNoteTemplate(name, title, message, ticketId) {
     </div>
     
     <div style="text-align: center; margin: 30px 0;">
-      <a href="https://${appDomain}/dashboard" style="display: inline-block; background: #6EDC8A; color: #0E1215; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">Ver en Mi Panel</a>
+      <a href="https://${appDomain}/dashboard" style="display: inline-block; background: #6EDC8A; color: #0E1215; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">Ver Mi \xC1rea Cliente</a>
     </div>
   `;
   return getEmailWrapper(content);
@@ -793,6 +794,25 @@ function getDocumentRequestTemplate(name, documentType, message, ticketId) {
   `;
   return getEmailWrapper(content);
 }
+function getDocumentUploadedTemplate(name, documentType, orderCode) {
+  const content = `
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin: 0 0 25px 0;">Hola ${name},</p>
+    
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">Hemos a\xF1adido un nuevo documento a tu expediente:</p>
+    
+    <div style="background: linear-gradient(135deg, #D1FAE5 0%, #ECFDF5 100%); padding: 20px 25px; border-radius: 16px; margin: 25px 0; border: 2px solid #10B981; text-align: center;">
+      <p style="margin: 0; font-size: 16px; font-weight: 700; color: #065F46;">${documentType}</p>
+      <p style="margin: 10px 0 0 0; font-size: 13px; color: #047857;">Pedido: ${orderCode}</p>
+    </div>
+    
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">Puedes acceder y descargar este documento desde tu \xC1rea Cliente.</p>
+    
+    <div style="text-align: center; margin: 30px 0;">
+      <a href="https://${appDomain}/dashboard" style="display: inline-block; background: #6EDC8A; color: #0E1215; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">Ver Mis Documentos</a>
+    </div>
+  `;
+  return getEmailWrapper(content);
+}
 function getMessageReplyTemplate(name, content, ticketId) {
   const emailContent = `
     <p style="line-height: 1.7; font-size: 15px; color: #444; margin: 0 0 25px 0;">Hola ${name},</p>
@@ -804,7 +824,7 @@ function getMessageReplyTemplate(name, content, ticketId) {
     </div>
     
     <div style="text-align: center; margin: 30px 0;">
-      <a href="https://${appDomain}/dashboard" style="display: inline-block; background: #6EDC8A; color: #0E1215; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">Ver en Mi Panel</a>
+      <a href="https://${appDomain}/dashboard" style="display: inline-block; background: #6EDC8A; color: #0E1215; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">Ver Mi \xC1rea Cliente</a>
     </div>
   `;
   return getEmailWrapper(emailContent);
@@ -2299,9 +2319,9 @@ var DatabaseStorage = class {
     return await db.select().from(applicationDocuments).where((0, import_drizzle_orm6.eq)(applicationDocuments.applicationId, applicationId));
   }
   async getDocumentsByOrderIds(orderIds) {
-    const { inArray } = await import("drizzle-orm");
+    const { inArray: inArray2 } = await import("drizzle-orm");
     if (orderIds.length === 0) return [];
-    return await db.select().from(applicationDocuments).where(inArray(applicationDocuments.orderId, orderIds));
+    return await db.select().from(applicationDocuments).where(inArray2(applicationDocuments.orderId, orderIds));
   }
   async deleteDocument(id) {
     await db.delete(applicationDocuments).where((0, import_drizzle_orm6.eq)(applicationDocuments.id, id));
@@ -3668,7 +3688,7 @@ async function registerRoutes(httpServer2, app2) {
       isActive: import_zod2.z.boolean().optional(),
       isAdmin: import_zod2.z.boolean().optional(),
       accountStatus: import_zod2.z.enum(["active", "pending", "deactivated", "vip"]).optional(),
-      internalNotes: import_zod2.z.string().optional()
+      internalNotes: import_zod2.z.string().optional().nullable()
     });
     const data = updateSchema.parse(req.body);
     const [updated] = await db.update(users).set({
@@ -3742,7 +3762,40 @@ async function registerRoutes(httpServer2, app2) {
   app2.delete("/api/admin/users/:id", isAdmin, async (req, res) => {
     try {
       const userId = req.params.id;
+      const userOrders = await db.select({ id: orders.id }).from(orders).where((0, import_drizzle_orm10.eq)(orders.userId, userId));
+      const orderIds = userOrders.map((o) => o.id);
+      const userApps = orderIds.length > 0 ? await db.select({ id: llcApplications.id }).from(llcApplications).where((0, import_drizzle_orm10.inArray)(llcApplications.orderId, orderIds)) : [];
+      const appIds = userApps.map((a) => a.id);
+      if (orderIds.length > 0) {
+        await db.delete(applicationDocuments).where((0, import_drizzle_orm10.inArray)(applicationDocuments.orderId, orderIds));
+      }
+      if (appIds.length > 0) {
+        await db.delete(applicationDocuments).where((0, import_drizzle_orm10.inArray)(applicationDocuments.applicationId, appIds));
+      }
+      if (orderIds.length > 0) {
+        await db.delete(orderEvents).where((0, import_drizzle_orm10.inArray)(orderEvents.orderId, orderIds));
+      }
+      await db.delete(userNotifications).where((0, import_drizzle_orm10.eq)(userNotifications.userId, userId));
+      const userMessages = await db.select({ id: messages.id }).from(messages).where((0, import_drizzle_orm10.eq)(messages.userId, userId));
+      const messageIds = userMessages.map((m) => m.id);
+      if (messageIds.length > 0) {
+        await db.delete(messageReplies).where((0, import_drizzle_orm10.inArray)(messageReplies.messageId, messageIds));
+      }
+      await db.delete(messages).where((0, import_drizzle_orm10.eq)(messages.userId, userId));
+      if (orderIds.length > 0) {
+        await db.delete(maintenanceApplications).where((0, import_drizzle_orm10.inArray)(maintenanceApplications.orderId, orderIds));
+      }
+      if (orderIds.length > 0) {
+        await db.delete(llcApplications).where((0, import_drizzle_orm10.inArray)(llcApplications.orderId, orderIds));
+      }
+      await db.delete(orders).where((0, import_drizzle_orm10.eq)(orders.userId, userId));
       await db.delete(users).where((0, import_drizzle_orm10.eq)(users.id, userId));
+      logAudit({
+        action: "admin_user_update",
+        userId: req.session?.userId,
+        targetId: userId,
+        details: { action: "cascade_delete", deletedOrders: orderIds.length, deletedApps: appIds.length }
+      });
       res.json({ success: true });
     } catch (error) {
       console.error("Error deleting user:", error);
@@ -3806,6 +3859,15 @@ async function registerRoutes(httpServer2, app2) {
       status: "pending",
       invoiceNumber
     }).returning();
+    await db.insert(llcApplications).values({
+      orderId: order.id,
+      requestCode: invoiceNumber,
+      ownerFullName: user.firstName && user.lastName ? `${user.firstName} ${user.lastName}` : null,
+      ownerEmail: user.email,
+      ownerPhone: user.phone,
+      state,
+      status: "draft"
+    });
     await db.insert(orderEvents).values({
       orderId: order.id,
       eventType: "order_created",
@@ -4109,6 +4171,16 @@ async function registerRoutes(httpServer2, app2) {
       res.status(500).json({ message: "Error al archivar mensaje" });
     }
   });
+  app2.delete("/api/admin/messages/:id", isAdmin, async (req, res) => {
+    try {
+      const msgId = Number(req.params.id);
+      await db.delete(messageReplies).where((0, import_drizzle_orm10.eq)(messageReplies.messageId, msgId));
+      await db.delete(messages).where((0, import_drizzle_orm10.eq)(messages.id, msgId));
+      res.json({ success: true });
+    } catch (error) {
+      res.status(500).json({ message: "Error al eliminar mensaje" });
+    }
+  });
   app2.post("/api/admin/documents", isAdmin, async (req, res) => {
     try {
       const { orderId, fileName, fileUrl, documentType, applicationId } = req.body;
@@ -4125,6 +4197,106 @@ async function registerRoutes(httpServer2, app2) {
       res.json(doc);
     } catch (error) {
       console.error("Upload doc error:", error);
+      res.status(500).json({ message: "Error uploading document" });
+    }
+  });
+  app2.post("/api/admin/documents/upload", isAdmin, async (req, res) => {
+    try {
+      const busboy = (await import("busboy")).default;
+      const bb = busboy({
+        headers: req.headers,
+        limits: { fileSize: MAX_FILE_SIZE_BYTES }
+      });
+      let fileName = "";
+      let fileBuffer = null;
+      let fileTruncated = false;
+      let documentType = "other";
+      let orderId = "";
+      bb.on("field", (name, val) => {
+        if (name === "documentType") documentType = val;
+        if (name === "orderId") orderId = val;
+      });
+      bb.on("file", (name, file, info) => {
+        fileName = info.filename || `documento_${Date.now()}`;
+        const chunks = [];
+        file.on("data", (data) => chunks.push(data));
+        file.on("limit", () => {
+          fileTruncated = true;
+        });
+        file.on("end", () => {
+          fileBuffer = Buffer.concat(chunks);
+        });
+      });
+      bb.on("finish", async () => {
+        if (fileTruncated) {
+          return res.status(413).json({ message: `El archivo excede el l\xEDmite de ${MAX_FILE_SIZE_MB}MB` });
+        }
+        if (!fileBuffer || !orderId) {
+          return res.status(400).json({ message: "Faltan datos requeridos" });
+        }
+        const fs5 = await import("fs/promises");
+        const path7 = await import("path");
+        const uploadDir = path7.join(process.cwd(), "uploads", "admin-docs");
+        await fs5.mkdir(uploadDir, { recursive: true });
+        const safeFileName = `admin_${orderId}_${Date.now()}_${fileName.replace(/[^a-zA-Z0-9.-]/g, "_")}`;
+        const filePath = path7.join(uploadDir, safeFileName);
+        await fs5.writeFile(filePath, fileBuffer);
+        const ext = fileName.toLowerCase().split(".").pop() || "";
+        const mimeTypes = {
+          "pdf": "application/pdf",
+          "jpg": "image/jpeg",
+          "jpeg": "image/jpeg",
+          "png": "image/png"
+        };
+        const fileType = mimeTypes[ext] || "application/octet-stream";
+        const docTypeLabels = {
+          "articles_of_organization": "Art\xEDculos de Organizaci\xF3n",
+          "certificate_of_formation": "Certificado de Formaci\xF3n",
+          "boir": "BOIR",
+          "ein_document": "Documento EIN",
+          "operating_agreement": "Acuerdo Operativo",
+          "invoice": "Factura",
+          "other": "Otro Documento"
+        };
+        const [llcApp] = await db.select().from(llcApplications).where((0, import_drizzle_orm10.eq)(llcApplications.orderId, Number(orderId))).limit(1);
+        const [doc] = await db.insert(applicationDocuments).values({
+          orderId: Number(orderId),
+          applicationId: llcApp?.id || null,
+          fileName: docTypeLabels[documentType] || fileName,
+          fileType,
+          fileUrl: `/uploads/admin-docs/${safeFileName}`,
+          documentType,
+          reviewStatus: "approved",
+          uploadedBy: req.session.userId
+        }).returning();
+        const [order] = await db.select().from(orders).where((0, import_drizzle_orm10.eq)(orders.id, Number(orderId))).limit(1);
+        if (order?.userId) {
+          const orderCode = llcApp?.requestCode || order.invoiceNumber || `#${order.id}`;
+          const docLabel = docTypeLabels[documentType] || "Documento";
+          await db.insert(userNotifications).values({
+            userId: order.userId,
+            orderId: Number(orderId),
+            orderCode,
+            title: "Nuevo documento disponible",
+            message: `Se ha a\xF1adido el documento "${docLabel}" a tu expediente.`,
+            type: "info",
+            isRead: false
+          });
+          const [user] = await db.select().from(users).where((0, import_drizzle_orm10.eq)(users.id, order.userId)).limit(1);
+          if (user?.email) {
+            sendEmail({
+              to: user.email,
+              subject: `Nuevo documento disponible - ${orderCode}`,
+              html: getDocumentUploadedTemplate(user.firstName || "Cliente", docLabel, orderCode)
+            }).catch(() => {
+            });
+          }
+        }
+        res.json(doc);
+      });
+      req.pipe(bb);
+    } catch (error) {
+      console.error("Admin upload doc error:", error);
       res.status(500).json({ message: "Error uploading document" });
     }
   });
@@ -4712,17 +4884,18 @@ async function registerRoutes(httpServer2, app2) {
 </body>
 </html>`;
     const [userOrder] = await db.select().from(orders).where((0, import_drizzle_orm10.eq)(orders.userId, userId)).limit(1);
-    if (userOrder) {
-      await db.insert(applicationDocuments).values({
-        orderId: userOrder.id,
-        fileName: `Factura ${invoiceNumber} - ${concept}`,
-        fileType: "text/html",
-        fileUrl: `data:text/html;base64,${Buffer.from(invoiceHtml).toString("base64")}`,
-        documentType: "invoice",
-        reviewStatus: "approved",
-        uploadedBy: req.session.userId
-      });
+    if (!userOrder) {
+      return res.status(400).json({ message: "El usuario no tiene pedidos. Primero crea un pedido para poder generar facturas." });
     }
+    await db.insert(applicationDocuments).values({
+      orderId: userOrder.id,
+      fileName: `Factura ${invoiceNumber} - ${concept}`,
+      fileType: "text/html",
+      fileUrl: `data:text/html;base64,${Buffer.from(invoiceHtml).toString("base64")}`,
+      documentType: "invoice",
+      reviewStatus: "approved",
+      uploadedBy: req.session.userId
+    });
     res.json({ success: true, invoiceNumber });
   }));
   app2.post(api.orders.create.path, async (req, res) => {
@@ -5165,9 +5338,12 @@ async function registerRoutes(httpServer2, app2) {
         return res.status(401).json({ message: "No autorizado" });
       }
       const userOrders = await storage.getOrders(userId);
-      if (!userOrders.length) {
-        return res.status(400).json({ message: "No tienes pedidos activos" });
-      }
+      const pendingRequests = await db.select().from(userNotifications).where((0, import_drizzle_orm10.and)(
+        (0, import_drizzle_orm10.eq)(userNotifications.userId, userId),
+        (0, import_drizzle_orm10.eq)(userNotifications.type, "action_required"),
+        (0, import_drizzle_orm10.eq)(userNotifications.isRead, false)
+      ));
+      const hasOrdersOrRequests = userOrders.length > 0 || pendingRequests.length > 0;
       const busboy = (await import("busboy")).default;
       const bb = busboy({
         headers: req.headers,
@@ -5216,10 +5392,24 @@ async function registerRoutes(httpServer2, app2) {
           "other": "Otro Documento"
         };
         const docTypeLabel = docTypeLabelsUpload[documentType] || documentType;
+        let targetOrderId = null;
+        if (userOrders.length > 0) {
+          targetOrderId = userOrders[0].id;
+        } else if (pendingRequests.length > 0 && pendingRequests[0].orderId) {
+          targetOrderId = pendingRequests[0].orderId;
+        }
+        const ext = fileName.toLowerCase().split(".").pop() || "";
+        const mimeTypes = {
+          "pdf": "application/pdf",
+          "jpg": "image/jpeg",
+          "jpeg": "image/jpeg",
+          "png": "image/png"
+        };
+        const detectedFileType = mimeTypes[ext] || "application/octet-stream";
         const doc = await db.insert(applicationDocuments).values({
-          orderId: userOrders[0].id,
+          orderId: targetOrderId,
           fileName,
-          fileType: fileName.endsWith(".pdf") ? "application/pdf" : "image/jpeg",
+          fileType: detectedFileType,
           fileUrl: `/uploads/client-docs/${safeFileName}`,
           documentType,
           reviewStatus: "pending",
@@ -5249,6 +5439,12 @@ Archivo disponible en: ${doc[0].fileUrl}`;
             status: "unread",
             messageId: ticketId
           });
+        }
+        if (pendingRequests.length > 0) {
+          await db.update(userNotifications).set({ isRead: true }).where((0, import_drizzle_orm10.and)(
+            (0, import_drizzle_orm10.eq)(userNotifications.userId, userId),
+            (0, import_drizzle_orm10.eq)(userNotifications.type, "action_required")
+          ));
         }
         res.json({ success: true, document: doc[0], ticketId });
       });
