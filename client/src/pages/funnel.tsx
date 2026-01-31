@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
 import logoIcon from "@assets/logo-icon.png";
+import trustpilotLogo from "@assets/trustpilot-logo.png";
 import { 
   Check, 
   Clock, 
@@ -18,7 +19,8 @@ import {
   MessageCircle,
   ChevronDown,
   Sparkles,
-  MapPin
+  MapPin,
+  Star
 } from "lucide-react";
 import { SiWhatsapp } from "react-icons/si";
 
@@ -85,7 +87,7 @@ export default function SalesPage() {
           </Badge>
           
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-black tracking-tight text-zinc-900 dark:text-white mb-6 text-center">
-            Crea tu LLC en
+            Constituimos tu LLC en
             <span className="block text-green-500 dark:text-green-400 mt-2">Estados Unidos</span>
           </h1>
           
@@ -118,7 +120,7 @@ export default function SalesPage() {
             </Button>
           </div>
 
-          <div className="flex flex-wrap items-center justify-center gap-6 text-sm text-zinc-600 dark:text-zinc-400 font-medium">
+          <div className="flex flex-wrap items-center justify-center gap-6 text-sm text-zinc-600 dark:text-zinc-400 font-medium mb-8">
             <span className="flex items-center gap-2">
               <Check className="w-5 h-5 text-green-600" />
               Sin IVA
@@ -131,6 +133,19 @@ export default function SalesPage() {
               <Check className="w-5 h-5 text-green-600" />
               100% online
             </span>
+          </div>
+
+          {/* Trustpilot */}
+          <div className="flex items-center justify-center gap-3 bg-white dark:bg-zinc-800 rounded-full px-6 py-3 shadow-lg mx-auto w-fit">
+            <img src={trustpilotLogo} alt="Trustpilot" className="h-6" />
+            <div className="flex items-center gap-1">
+              <Star className="w-5 h-5 text-green-500 fill-green-500" />
+              <Star className="w-5 h-5 text-green-500 fill-green-500" />
+              <Star className="w-5 h-5 text-green-500 fill-green-500" />
+              <Star className="w-5 h-5 text-green-500 fill-green-500" />
+              <Star className="w-5 h-5 text-green-500 fill-green-500" />
+            </div>
+            <span className="font-bold text-zinc-900 dark:text-white">5/5</span>
           </div>
         </div>
       </section>
