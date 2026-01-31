@@ -183,6 +183,9 @@ export function generateInvoicePdf(data: InvoiceData): Promise<Buffer> {
       doc.font('Helvetica-Bold').fontSize(20).fillColor(BRAND_DARK).text('Easy US LLC', 100, 50);
       doc.font('Helvetica').fontSize(9).fillColor(BRAND_GREEN).text('BEYOND BORDERS BUSINESS', 100, 72);
       
+      // Fine header line
+      doc.moveTo(45, 110).lineTo(550, 110).strokeColor('#E5E7EB').lineWidth(0.5).stroke();
+
       // Invoice Info
       doc.font('Helvetica-Bold').fontSize(24).fillColor(BRAND_DARK).text('FACTURA', 350, 50, { align: 'right', width: 200 });
       doc.font('Helvetica').fontSize(10).fillColor(BRAND_GRAY).text(`No. ${data.orderNumber}`, 350, 78, { align: 'right', width: 200 });
@@ -327,6 +330,9 @@ export function generateReceiptPdf(data: ReceiptData): Promise<Buffer> {
       doc.font('Helvetica-Bold').fontSize(18).fillColor(BRAND_DARK).text('Easy US LLC', 95, 42);
       doc.font('Helvetica').fontSize(8).fillColor(BRAND_GREEN).text('CONFIRMACIÓN DE SERVICIO', 95, 62);
       
+      // Fine header line
+      doc.moveTo(45, 95).lineTo(550, 95).strokeColor('#E5E7EB').lineWidth(0.5).stroke();
+
       // Receipt Title
       doc.font('Helvetica-Bold').fontSize(22).fillColor(BRAND_DARK).text(data.isMaintenance ? 'MANTENIMIENTO' : 'RECIBO', 350, 42, { align: 'right', width: 200 });
       doc.font('Helvetica').fontSize(10).fillColor(BRAND_GRAY).text(`REF: ${data.requestCode}`, 350, 68, { align: 'right', width: 200 });
@@ -430,6 +436,9 @@ export function generateCustomInvoicePdf(data: CustomInvoiceData): Promise<Buffe
       doc.font('Helvetica-Bold').fontSize(18).fillColor(BRAND_DARK).text('Easy US LLC', 95, 42);
       doc.font('Helvetica').fontSize(8).fillColor(BRAND_GREEN).text('FACTURA MANUAL', 95, 62);
       
+      // Fine header line
+      doc.moveTo(45, 95).lineTo(550, 95).strokeColor('#E5E7EB').lineWidth(0.5).stroke();
+
       // Invoice Title
       doc.font('Helvetica-Bold').fontSize(22).fillColor(BRAND_DARK).text('FACTURA', 350, 42, { align: 'right', width: 200 });
       doc.font('Helvetica').fontSize(10).fillColor(BRAND_GRAY).text(`No. ${data.invoiceNumber}`, 350, 68, { align: 'right', width: 200 });
