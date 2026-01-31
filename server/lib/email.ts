@@ -866,6 +866,40 @@ export async function sendEmail({ to, subject, html, replyTo }: { to: string; su
   }
 }
 
+// Template for abandoned application reminder
+export function getAbandonedApplicationReminderTemplate(
+  name: string,
+  applicationType: 'llc' | 'maintenance',
+  state: string,
+  hoursRemaining: number
+) {
+  const appDomain = process.env.REPLIT_DEV_DOMAIN || 'app.easyusllc.com';
+  const serviceLabel = applicationType === 'llc' ? 'constitución de tu LLC' : 'paquete de mantenimiento';
+  const urgencyColor = hoursRemaining <= 12 ? '#EF4444' : '#F59E0B';
+  const urgencyText = hoursRemaining <= 12 ? 'últimas horas' : `${Math.round(hoursRemaining)} horas`;
+  
+  const content = `
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin: 0 0 25px 0;">Hola ${name},</p>
+    
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 25px;">Notamos que comenzaste la solicitud de ${serviceLabel} en ${state} pero no la has completado.</p>
+    
+    <div style="background: ${urgencyColor}15; padding: 20px 25px; border-radius: 16px; margin: 25px 0; border-left: 4px solid ${urgencyColor};">
+      <p style="margin: 0; font-size: 14px; color: ${urgencyColor}; line-height: 1.7; font-weight: 600;">
+        Tu solicitud se eliminará automáticamente en ${urgencyText} si no la completas.
+      </p>
+    </div>
+    
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 25px;">No pierdas tu progreso. Retoma tu solicitud ahora y completa el proceso en pocos minutos.</p>
+    
+    <div style="text-align: center; margin: 30px 0;">
+      <a href="https://${appDomain}/dashboard" style="display: inline-block; background: #6EDC8A; color: #0E1215; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">Continuar mi solicitud</a>
+    </div>
+    
+    <p style="line-height: 1.6; font-size: 14px; color: #6B7280;">Si tienes alguna pregunta o necesitas ayuda, responde a este correo y te asistiremos.</p>
+  `;
+  return getEmailWrapper(content);
+}
+
 export async function sendTrustpilotEmail({ to, name, orderNumber }: { to: string; name: string; orderNumber: string }) {
   if (!process.env.SMTP_PASS) {
     return;

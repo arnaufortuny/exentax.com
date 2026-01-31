@@ -88,6 +88,10 @@ export const llcApplications = pgTable("llc_applications", {
   irs1120DueDate: timestamp("irs_1120_due_date"),
   irs5472DueDate: timestamp("irs_5472_due_date"),
   annualReportDueDate: timestamp("annual_report_due_date"),
+  // Abandoned application tracking
+  abandonedAt: timestamp("abandoned_at"),
+  remindersSent: integer("reminders_sent").notNull().default(0),
+  lastReminderAt: timestamp("last_reminder_at"),
 }, (table) => ({
   orderIdIdx: index("llc_apps_order_id_idx").on(table.orderId),
   requestCodeIdx: index("llc_apps_req_code_idx").on(table.requestCode),
@@ -201,6 +205,10 @@ export const maintenanceApplications = pgTable("maintenance_applications", {
   authorizedManagement: boolean("authorized_management").notNull().default(false),
   termsConsent: boolean("terms_consent").notNull().default(false),
   dataProcessingConsent: boolean("data_processing_consent").notNull().default(false),
+  // Abandoned application tracking
+  abandonedAt: timestamp("abandoned_at"),
+  remindersSent: integer("reminders_sent").notNull().default(0),
+  lastReminderAt: timestamp("last_reminder_at"),
 }, (table) => ({
   orderIdIdx: index("maint_apps_order_id_idx").on(table.orderId),
   requestCodeIdx: index("maint_apps_req_code_idx").on(table.requestCode),
