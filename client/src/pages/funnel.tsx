@@ -173,14 +173,9 @@ export default function SalesPage() {
                 Popular
               </div>
               
-              <div className="flex items-start gap-4 mb-5">
-                <div className="w-14 h-14 rounded-2xl bg-green-100 dark:bg-green-900/50 flex items-center justify-center flex-shrink-0">
-                  <MapPin className="w-7 h-7 text-green-600 dark:text-green-400" />
-                </div>
-                <div>
-                  <h3 className="text-2xl font-bold text-zinc-900 dark:text-white">New Mexico LLC</h3>
-                  <p className="text-zinc-600 dark:text-zinc-400">Ideal para negocios digitales</p>
-                </div>
+              <div className="mb-5">
+                <h3 className="text-2xl font-bold text-zinc-900 dark:text-white">New Mexico LLC</h3>
+                <p className="text-zinc-600 dark:text-zinc-400">Ideal para negocios digitales</p>
               </div>
 
               <div className="mb-6">
@@ -223,14 +218,9 @@ export default function SalesPage() {
 
             {/* Wyoming LLC */}
             <Card className="p-6 border-2 border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-900 shadow-lg">
-              <div className="flex items-start gap-4 mb-5">
-                <div className="w-14 h-14 rounded-2xl bg-blue-100 dark:bg-blue-900/50 flex items-center justify-center flex-shrink-0">
-                  <Building2 className="w-7 h-7 text-blue-600 dark:text-blue-400" />
-                </div>
-                <div>
-                  <h3 className="text-2xl font-bold text-zinc-900 dark:text-white">Wyoming LLC</h3>
-                  <p className="text-zinc-600 dark:text-zinc-400">Estructura más sólida</p>
-                </div>
+              <div className="mb-5">
+                <h3 className="text-2xl font-bold text-zinc-900 dark:text-white">Wyoming LLC</h3>
+                <p className="text-zinc-600 dark:text-zinc-400">Estructura más sólida</p>
               </div>
 
               <div className="mb-6">
