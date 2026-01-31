@@ -2412,7 +2412,7 @@ export default function Dashboard() {
                   <Label className="text-sm font-black text-primary mb-2 block">Tipo de documento</Label>
                   <Select value={docType} onValueChange={setDocType}>
                     <SelectTrigger className="w-full rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800"><SelectValue placeholder="Seleccionar tipo..." /></SelectTrigger>
-                    <SelectContent className="rounded-xl">
+                    <SelectContent className="rounded-xl" style={{ zIndex: 999999 }}>
                       <SelectItem value="passport">Pasaporte / Documento de Identidad</SelectItem>
                       <SelectItem value="address_proof">Prueba de Domicilio</SelectItem>
                       <SelectItem value="tax_id">Identificación Fiscal (NIF/CIF)</SelectItem>
