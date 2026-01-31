@@ -185,7 +185,7 @@ export function generateInvoicePdf(data: InvoiceData): Promise<Buffer> {
       
       // Invoice Info
       doc.font('Helvetica-Bold').fontSize(24).fillColor(BRAND_DARK).text('FACTURA', 350, 50, { align: 'right', width: 200 });
-      doc.font('Helvetica').fontSize(10).fillColor(BRAND_GRAY).text(`№ ${data.orderNumber}`, 350, 78, { align: 'right', width: 200 });
+      doc.font('Helvetica').fontSize(10).fillColor(BRAND_GRAY).text(`No. ${data.orderNumber}`, 350, 78, { align: 'right', width: 200 });
 
       let y = 140;
 
@@ -297,7 +297,7 @@ export function generateInvoicePdf(data: InvoiceData): Promise<Buffer> {
       }
 
       // Footer
-      doc.fontSize(8).fillColor(BRAND_GRAY).text('Easy US LLC es una marca de Fortuny Consulting LLC. 1209 Mountain Road Place NE, STE R, Albuquerque, NM 87110, USA', 45, 800, { align: 'center', width: 505 });
+      doc.fontSize(8).fillColor(BRAND_GRAY).text('Easy US LLC es una marca de Fortuny Consulting LLC. 1209 Mountain Road Place NE, STE R, Albuquerque, NM 87110, USA', 45, 780, { align: 'center', width: 505 });
 
       doc.end();
     } catch (error) {
@@ -319,7 +319,6 @@ export function generateReceiptPdf(data: ReceiptData): Promise<Buffer> {
 
       // Background with soft rounded shapes
       doc.rect(0, 0, 595, 842).fill('#FFFFFF');
-      doc.fillColor(BRAND_LIGHT_GRAY).circle(550, 40, 60).fill();
       
       // Header & Logo (More top space)
       const logoPath = getLogoPath();
@@ -366,7 +365,7 @@ export function generateReceiptPdf(data: ReceiptData): Promise<Buffer> {
       doc.font('Helvetica-Bold').fontSize(8).fillColor(BRAND_GRAY).text('FECHA', 60, y + 10);
       doc.font('Helvetica-Bold').fontSize(10).fillColor(BRAND_DARK).text(formatDate(data.date), 60, y + 22);
       
-      doc.font('Helvetica-Bold').fontSize(8).fillColor(BRAND_GRAY).text('PEDIDO №', 180, y + 10);
+      doc.font('Helvetica-Bold').fontSize(8).fillColor(BRAND_GRAY).text('PEDIDO No.', 180, y + 10);
       doc.font('Helvetica-Bold').fontSize(10).fillColor(BRAND_DARK).text(data.orderNumber, 180, y + 22);
       
       doc.font('Helvetica-Bold').fontSize(8).fillColor(BRAND_GRAY).text('MÉTODO', 320, y + 10);
@@ -391,11 +390,11 @@ export function generateReceiptPdf(data: ReceiptData): Promise<Buffer> {
       y += 100;
 
       // Success Message (Rounded)
-      doc.roundedRect(45, y, 505, 35, 8).fill(BRAND_LIGHT_GREEN);
-      doc.font('Helvetica-Bold').fontSize(10).fillColor('#059669').text('¡Gracias por confiar en Easy US LLC!', 45, y + 14, { align: 'center', width: 505 });
+      doc.roundedRect(45, y, 305, 35, 8).fill(BRAND_LIGHT_GREEN);
+      doc.font('Helvetica-Bold').fontSize(10).fillColor('#059669').text('¡Gracias por confiar en nosotros!', 45, y + 14, { align: 'center', width: 305 });
 
       // Footer
-      doc.fontSize(8).fillColor(BRAND_GRAY).text('Documento de confirmación. Easy US LLC | easyusllc.com', 45, 800, { align: 'center', width: 505 });
+      doc.fontSize(8).fillColor(BRAND_GRAY).text('Easy US LLC es una marca de Fortuny Consulting LLC. 1209 Mountain Road Place NE, STE R, Albuquerque, NM 87110, USA', 45, 780, { align: 'center', width: 505 });
 
       doc.end();
     } catch (error) {
@@ -428,7 +427,7 @@ export function generateCustomInvoicePdf(data: CustomInvoiceData): Promise<Buffe
       
       // Invoice Title
       doc.font('Helvetica-Bold').fontSize(22).fillColor(BRAND_DARK).text('FACTURA', 350, 42, { align: 'right', width: 200 });
-      doc.font('Helvetica').fontSize(10).fillColor(BRAND_GRAY).text(`№ ${data.invoiceNumber}`, 350, 68, { align: 'right', width: 200 });
+      doc.font('Helvetica').fontSize(10).fillColor(BRAND_GRAY).text(`No. ${data.invoiceNumber}`, 350, 68, { align: 'right', width: 200 });
 
       let y = 125;
 
@@ -505,7 +504,7 @@ export function generateCustomInvoicePdf(data: CustomInvoiceData): Promise<Buffe
       }
 
       // Footer
-      doc.fontSize(8).fillColor(BRAND_GRAY).text('Documento oficial emitido por Fortuny Consulting LLC.', 45, 800, { align: 'center', width: 505 });
+      doc.fontSize(8).fillColor(BRAND_GRAY).text('Documento oficial emitido por Fortuny Consulting LLC.', 45, 780, { align: 'center', width: 505 });
 
       doc.end();
     } catch (error) {
