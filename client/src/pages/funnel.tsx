@@ -4,6 +4,7 @@ import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
+import logoIcon from "@assets/logo-icon.png";
 import { 
   Check, 
   Clock, 
@@ -21,10 +22,10 @@ import {
 } from "lucide-react";
 import { SiWhatsapp } from "react-icons/si";
 
-const WHATSAPP_NUMBER = "34612345678";
+const WHATSAPP_NUMBER = "34614916910";
 const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}?text=Hola,%20quiero%20información%20sobre%20crear%20una%20LLC`;
 
-export default function FunnelPage() {
+export default function SalesPage() {
   const { toast } = useToast();
   const [formData, setFormData] = useState({
     name: "",
@@ -63,63 +64,71 @@ export default function FunnelPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-emerald-50 via-white to-emerald-50 dark:from-zinc-950 dark:via-zinc-900 dark:to-zinc-950">
+    <div className="min-h-screen bg-gradient-to-b from-green-100 via-green-50 to-white dark:from-green-950 dark:via-zinc-900 dark:to-zinc-950">
       {/* Hero Section */}
-      <section className="relative overflow-hidden px-4 pt-12 pb-16 md:pt-20 md:pb-24">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_var(--tw-gradient-stops))] from-emerald-100/50 via-transparent to-transparent dark:from-emerald-900/20" />
+      <section className="relative overflow-hidden px-4 pt-16 pb-20 md:pt-24 md:pb-28">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_var(--tw-gradient-stops))] from-green-200/60 via-transparent to-transparent dark:from-green-900/30" />
         
         <div className="relative max-w-lg mx-auto text-center">
-          <Badge className="mb-6 bg-emerald-100 text-emerald-700 dark:bg-emerald-900/50 dark:text-emerald-300 border-0 px-4 py-1.5">
-            <Sparkles className="w-3.5 h-3.5 mr-1.5" />
+          {/* Logo */}
+          <div className="flex justify-center mb-8">
+            <img 
+              src={logoIcon} 
+              alt="Easy US LLC" 
+              className="w-20 h-20 md:w-24 md:h-24"
+            />
+          </div>
+
+          <Badge className="mb-8 bg-green-200 text-green-800 dark:bg-green-900/60 dark:text-green-300 border-0 px-5 py-2 text-sm font-semibold">
+            <Sparkles className="w-4 h-4 mr-2" />
             Tu LLC en 48-72h
           </Badge>
           
-          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-zinc-900 dark:text-white mb-6">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-zinc-900 dark:text-white mb-6">
             Crea tu LLC en
-            <span className="block text-emerald-600 dark:text-emerald-400 mt-1">Estados Unidos</span>
+            <span className="block text-green-600 dark:text-green-400 mt-2">Estados Unidos</span>
           </h1>
           
-          <p className="text-lg text-zinc-600 dark:text-zinc-400 mb-8 leading-relaxed">
+          <p className="text-xl text-zinc-600 dark:text-zinc-400 mb-10 leading-relaxed">
             Simple. Clara. Sin rodeos.
-            <span className="block mt-2 font-medium text-zinc-800 dark:text-zinc-200">
+            <span className="block mt-3 font-semibold text-zinc-800 dark:text-zinc-200">
               Un precio, todo incluido, personas reales.
             </span>
           </p>
 
-          <div className="flex flex-col sm:flex-row gap-3 justify-center mb-8">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-10">
             <Button 
               size="lg" 
-              className="bg-emerald-600 text-white gap-2"
+              className="bg-green-600 text-white gap-2 shadow-lg shadow-green-600/30 text-base font-semibold px-8"
               onClick={() => document.getElementById('planes')?.scrollIntoView({ behavior: 'smooth' })}
               data-testid="button-ver-planes"
             >
               Ver planes
-              <ArrowRight className="w-4 h-4" />
+              <ArrowRight className="w-5 h-5" />
             </Button>
             <Button 
               size="lg" 
-              variant="outline" 
-              className="gap-2 border-emerald-200 dark:border-emerald-800"
+              className="bg-[#25D366] text-white gap-2 shadow-lg shadow-green-500/30 text-base font-semibold px-8"
               asChild
             >
               <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" data-testid="link-whatsapp-hero">
-                <SiWhatsapp className="w-5 h-5 text-green-600" />
+                <SiWhatsapp className="w-5 h-5" />
                 WhatsApp
               </a>
             </Button>
           </div>
 
-          <div className="flex items-center justify-center gap-6 text-sm text-zinc-500 dark:text-zinc-400">
-            <span className="flex items-center gap-1.5">
-              <Check className="w-4 h-4 text-emerald-600" />
+          <div className="flex flex-wrap items-center justify-center gap-6 text-sm text-zinc-600 dark:text-zinc-400 font-medium">
+            <span className="flex items-center gap-2">
+              <Check className="w-5 h-5 text-green-600" />
               Sin IVA
             </span>
-            <span className="flex items-center gap-1.5">
-              <Check className="w-4 h-4 text-emerald-600" />
+            <span className="flex items-center gap-2">
+              <Check className="w-5 h-5 text-green-600" />
               Sin autónomos
             </span>
-            <span className="flex items-center gap-1.5">
-              <Check className="w-4 h-4 text-emerald-600" />
+            <span className="flex items-center gap-2">
+              <Check className="w-5 h-5 text-green-600" />
               100% online
             </span>
           </div>
@@ -127,35 +136,35 @@ export default function FunnelPage() {
       </section>
 
       {/* Planes Section */}
-      <section id="planes" className="px-4 py-16 md:py-20">
+      <section id="planes" className="px-4 py-20 md:py-24">
         <div className="max-w-lg mx-auto">
-          <h2 className="text-2xl md:text-3xl font-bold text-center mb-3 text-zinc-900 dark:text-white">
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-4 text-zinc-900 dark:text-white">
             Elige tu LLC
           </h2>
-          <p className="text-center text-zinc-600 dark:text-zinc-400 mb-10">
+          <p className="text-center text-zinc-600 dark:text-zinc-400 mb-12 text-lg">
             Todo incluido. Sin sorpresas.
           </p>
 
           <div className="space-y-6">
             {/* New Mexico LLC */}
-            <Card className="p-6 border-2 border-emerald-200 dark:border-emerald-800 bg-white dark:bg-zinc-900 relative overflow-hidden">
-              <div className="absolute top-0 right-0 bg-emerald-600 text-white text-xs font-medium px-3 py-1 rounded-bl-lg">
+            <Card className="p-6 border-2 border-green-300 dark:border-green-700 bg-white dark:bg-zinc-900 relative overflow-hidden shadow-xl shadow-green-100 dark:shadow-green-900/20">
+              <div className="absolute top-0 right-0 bg-green-600 text-white text-sm font-bold px-4 py-1.5 rounded-bl-xl">
                 Popular
               </div>
               
-              <div className="flex items-start gap-4 mb-4">
-                <div className="w-12 h-12 rounded-xl bg-emerald-100 dark:bg-emerald-900/50 flex items-center justify-center flex-shrink-0">
-                  <MapPin className="w-6 h-6 text-emerald-600 dark:text-emerald-400" />
+              <div className="flex items-start gap-4 mb-5">
+                <div className="w-14 h-14 rounded-2xl bg-green-100 dark:bg-green-900/50 flex items-center justify-center flex-shrink-0">
+                  <MapPin className="w-7 h-7 text-green-600 dark:text-green-400" />
                 </div>
                 <div>
-                  <h3 className="text-xl font-bold text-zinc-900 dark:text-white">New Mexico LLC</h3>
-                  <p className="text-zinc-600 dark:text-zinc-400 text-sm">Ideal para negocios digitales</p>
+                  <h3 className="text-2xl font-bold text-zinc-900 dark:text-white">New Mexico LLC</h3>
+                  <p className="text-zinc-600 dark:text-zinc-400">Ideal para negocios digitales</p>
                 </div>
               </div>
 
-              <div className="mb-5">
-                <span className="text-4xl font-bold text-zinc-900 dark:text-white">739€</span>
-                <span className="text-zinc-500 dark:text-zinc-400 ml-2">todo incluido</span>
+              <div className="mb-6">
+                <span className="text-5xl font-bold text-zinc-900 dark:text-white">739€</span>
+                <span className="text-zinc-500 dark:text-zinc-400 ml-2 text-lg">todo incluido</span>
               </div>
 
               <ul className="space-y-3 mb-6">
@@ -167,45 +176,45 @@ export default function FunnelPage() {
                   "Acompañamiento 12 meses",
                   "Ayuda con banca y pagos"
                 ].map((item, i) => (
-                  <li key={i} className="flex items-start gap-2.5 text-sm text-zinc-700 dark:text-zinc-300">
-                    <Check className="w-4 h-4 text-emerald-600 mt-0.5 flex-shrink-0" />
+                  <li key={i} className="flex items-start gap-3 text-zinc-700 dark:text-zinc-300">
+                    <Check className="w-5 h-5 text-green-600 mt-0.5 flex-shrink-0" />
                     {item}
                   </li>
                 ))}
               </ul>
 
-              <div className="flex items-center gap-2 text-sm text-zinc-500 dark:text-zinc-400 mb-5">
-                <Clock className="w-4 h-4" />
+              <div className="flex items-center gap-2 text-zinc-500 dark:text-zinc-400 mb-6">
+                <Clock className="w-5 h-5" />
                 48-72 horas hábiles
               </div>
 
               <Button 
-                className="w-full bg-emerald-600 text-white gap-2"
+                className="w-full bg-green-600 text-white gap-2 shadow-lg shadow-green-600/30 font-semibold text-base"
                 size="lg"
                 asChild
               >
                 <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" data-testid="button-empezar-nm">
                   Empezar ahora
-                  <ArrowRight className="w-4 h-4" />
+                  <ArrowRight className="w-5 h-5" />
                 </a>
               </Button>
             </Card>
 
             {/* Wyoming LLC */}
-            <Card className="p-6 border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900">
-              <div className="flex items-start gap-4 mb-4">
-                <div className="w-12 h-12 rounded-xl bg-blue-100 dark:bg-blue-900/50 flex items-center justify-center flex-shrink-0">
-                  <Building2 className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+            <Card className="p-6 border-2 border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-900 shadow-lg">
+              <div className="flex items-start gap-4 mb-5">
+                <div className="w-14 h-14 rounded-2xl bg-blue-100 dark:bg-blue-900/50 flex items-center justify-center flex-shrink-0">
+                  <Building2 className="w-7 h-7 text-blue-600 dark:text-blue-400" />
                 </div>
                 <div>
-                  <h3 className="text-xl font-bold text-zinc-900 dark:text-white">Wyoming LLC</h3>
-                  <p className="text-zinc-600 dark:text-zinc-400 text-sm">Estructura más sólida</p>
+                  <h3 className="text-2xl font-bold text-zinc-900 dark:text-white">Wyoming LLC</h3>
+                  <p className="text-zinc-600 dark:text-zinc-400">Estructura más sólida</p>
                 </div>
               </div>
 
-              <div className="mb-5">
-                <span className="text-4xl font-bold text-zinc-900 dark:text-white">899€</span>
-                <span className="text-zinc-500 dark:text-zinc-400 ml-2">todo incluido</span>
+              <div className="mb-6">
+                <span className="text-5xl font-bold text-zinc-900 dark:text-white">899€</span>
+                <span className="text-zinc-500 dark:text-zinc-400 ml-2 text-lg">todo incluido</span>
               </div>
 
               <ul className="space-y-3 mb-6">
@@ -217,27 +226,26 @@ export default function FunnelPage() {
                   "Acompañamiento 12 meses",
                   "Apoyo en banca y cumplimiento"
                 ].map((item, i) => (
-                  <li key={i} className="flex items-start gap-2.5 text-sm text-zinc-700 dark:text-zinc-300">
-                    <Check className="w-4 h-4 text-blue-600 mt-0.5 flex-shrink-0" />
+                  <li key={i} className="flex items-start gap-3 text-zinc-700 dark:text-zinc-300">
+                    <Check className="w-5 h-5 text-blue-600 mt-0.5 flex-shrink-0" />
                     {item}
                   </li>
                 ))}
               </ul>
 
-              <div className="flex items-center gap-2 text-sm text-zinc-500 dark:text-zinc-400 mb-5">
-                <Clock className="w-4 h-4" />
+              <div className="flex items-center gap-2 text-zinc-500 dark:text-zinc-400 mb-6">
+                <Clock className="w-5 h-5" />
                 48-72 horas hábiles
               </div>
 
               <Button 
-                variant="outline"
-                className="w-full gap-2"
+                className="w-full bg-blue-600 text-white gap-2 shadow-lg shadow-blue-600/30 font-semibold text-base"
                 size="lg"
                 asChild
               >
                 <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" data-testid="button-empezar-wy">
                   Empezar ahora
-                  <ArrowRight className="w-4 h-4" />
+                  <ArrowRight className="w-5 h-5" />
                 </a>
               </Button>
             </Card>
@@ -246,12 +254,12 @@ export default function FunnelPage() {
       </section>
 
       {/* Benefits Section */}
-      <section className="px-4 py-16 bg-zinc-50 dark:bg-zinc-900/50">
+      <section className="px-4 py-20 bg-green-50 dark:bg-zinc-900/50">
         <div className="max-w-lg mx-auto">
-          <h2 className="text-2xl md:text-3xl font-bold text-center mb-3 text-zinc-900 dark:text-white">
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-4 text-zinc-900 dark:text-white">
             ¿Por qué Easy US LLC?
           </h2>
-          <p className="text-center text-zinc-600 dark:text-zinc-400 mb-10">
+          <p className="text-center text-zinc-600 dark:text-zinc-400 mb-12 text-lg">
             Lo que nos diferencia
           </p>
 
@@ -262,13 +270,13 @@ export default function FunnelPage() {
               { icon: Globe, title: "Para negocios online", desc: "Freelancers, ecommerce, agencias y startups." },
               { icon: Zap, title: "Menos papeleo", desc: "Nos ocupamos de lo legal. Tú céntrate en tu negocio." }
             ].map((item, i) => (
-              <Card key={i} className="p-5 flex items-start gap-4 bg-white dark:bg-zinc-900">
-                <div className="w-10 h-10 rounded-lg bg-emerald-100 dark:bg-emerald-900/50 flex items-center justify-center flex-shrink-0">
-                  <item.icon className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
+              <Card key={i} className="p-5 flex items-start gap-4 bg-white dark:bg-zinc-900 shadow-md">
+                <div className="w-12 h-12 rounded-xl bg-green-100 dark:bg-green-900/50 flex items-center justify-center flex-shrink-0">
+                  <item.icon className="w-6 h-6 text-green-600 dark:text-green-400" />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-zinc-900 dark:text-white mb-1">{item.title}</h3>
-                  <p className="text-sm text-zinc-600 dark:text-zinc-400">{item.desc}</p>
+                  <h3 className="font-bold text-lg text-zinc-900 dark:text-white mb-1">{item.title}</h3>
+                  <p className="text-zinc-600 dark:text-zinc-400">{item.desc}</p>
                 </div>
               </Card>
             ))}
@@ -277,17 +285,17 @@ export default function FunnelPage() {
       </section>
 
       {/* Advantages Section */}
-      <section className="px-4 py-16">
+      <section className="px-4 py-20">
         <div className="max-w-lg mx-auto">
-          <h2 className="text-2xl md:text-3xl font-bold text-center mb-3 text-zinc-900 dark:text-white">
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-4 text-zinc-900 dark:text-white">
             Ventajas de una LLC
           </h2>
-          <p className="text-center text-zinc-600 dark:text-zinc-400 mb-10">
+          <p className="text-center text-zinc-600 dark:text-zinc-400 mb-12 text-lg">
             en Estados Unidos
           </p>
 
-          <Card className="p-6 bg-gradient-to-br from-emerald-600 to-emerald-700 dark:from-emerald-700 dark:to-emerald-800 border-0 text-white">
-            <div className="space-y-4">
+          <Card className="p-8 bg-gradient-to-br from-green-600 to-green-700 dark:from-green-700 dark:to-green-800 border-0 text-white shadow-2xl shadow-green-600/30">
+            <div className="space-y-5">
               {[
                 { icon: Shield, text: "Sin cuota de autónomos en España" },
                 { icon: Building2, text: "Sin IVA en servicios internacionales" },
@@ -295,11 +303,11 @@ export default function FunnelPage() {
                 { icon: Globe, text: "Marco legal sólido y reconocido" },
                 { icon: Zap, text: "Posibilidad de tarjeta física" }
               ].map((item, i) => (
-                <div key={i} className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center flex-shrink-0">
-                    <item.icon className="w-4 h-4" />
+                <div key={i} className="flex items-center gap-4">
+                  <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center flex-shrink-0">
+                    <item.icon className="w-5 h-5" />
                   </div>
-                  <span className="text-white/90">{item.text}</span>
+                  <span className="text-lg text-white/95 font-medium">{item.text}</span>
                 </div>
               ))}
             </div>
@@ -308,16 +316,16 @@ export default function FunnelPage() {
       </section>
 
       {/* How It Works */}
-      <section className="px-4 py-16 bg-zinc-50 dark:bg-zinc-900/50">
+      <section className="px-4 py-20 bg-green-50 dark:bg-zinc-900/50">
         <div className="max-w-lg mx-auto">
-          <h2 className="text-2xl md:text-3xl font-bold text-center mb-3 text-zinc-900 dark:text-white">
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-4 text-zinc-900 dark:text-white">
             ¿Cómo empezamos?
           </h2>
-          <p className="text-center text-zinc-600 dark:text-zinc-400 mb-10">
+          <p className="text-center text-zinc-600 dark:text-zinc-400 mb-12 text-lg">
             Todo 100% online y acompañado
           </p>
 
-          <div className="space-y-4">
+          <div className="space-y-5">
             {[
               { step: "1", title: "Nos escribes", desc: "Por WhatsApp o formulario" },
               { step: "2", title: "Revisamos tu caso", desc: "Analizamos tu situación contigo" },
@@ -325,13 +333,13 @@ export default function FunnelPage() {
               { step: "4", title: "Creamos tu LLC y EIN", desc: "En 48-72 horas hábiles" },
               { step: "5", title: "Te acompañamos", desc: "Durante 12 meses completos" }
             ].map((item, i) => (
-              <div key={i} className="flex items-start gap-4">
-                <div className="w-10 h-10 rounded-full bg-emerald-600 text-white flex items-center justify-center font-bold flex-shrink-0">
+              <div key={i} className="flex items-start gap-5">
+                <div className="w-12 h-12 rounded-full bg-green-600 text-white flex items-center justify-center font-bold text-xl flex-shrink-0 shadow-lg shadow-green-600/30">
                   {item.step}
                 </div>
-                <div className="pt-1.5">
-                  <h3 className="font-semibold text-zinc-900 dark:text-white">{item.title}</h3>
-                  <p className="text-sm text-zinc-600 dark:text-zinc-400">{item.desc}</p>
+                <div className="pt-2">
+                  <h3 className="font-bold text-lg text-zinc-900 dark:text-white">{item.title}</h3>
+                  <p className="text-zinc-600 dark:text-zinc-400">{item.desc}</p>
                 </div>
               </div>
             ))}
@@ -340,9 +348,9 @@ export default function FunnelPage() {
       </section>
 
       {/* FAQ Section */}
-      <section className="px-4 py-16">
+      <section className="px-4 py-20">
         <div className="max-w-lg mx-auto">
-          <h2 className="text-2xl md:text-3xl font-bold text-center mb-10 text-zinc-900 dark:text-white">
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 text-zinc-900 dark:text-white">
             Preguntas frecuentes
           </h2>
 
@@ -350,16 +358,16 @@ export default function FunnelPage() {
             {faqs.map((faq, i) => (
               <Card 
                 key={i} 
-                className="overflow-hidden bg-white dark:bg-zinc-900 cursor-pointer hover-elevate"
+                className="overflow-hidden bg-white dark:bg-zinc-900 cursor-pointer shadow-md hover-elevate"
                 onClick={() => setOpenFaq(openFaq === i ? null : i)}
                 data-testid={`faq-item-${i}`}
               >
-                <div className="p-4 flex items-center justify-between">
-                  <span className="font-medium text-zinc-900 dark:text-white">{faq.q}</span>
-                  <ChevronDown className={`w-5 h-5 text-zinc-500 transition-transform ${openFaq === i ? 'rotate-180' : ''}`} />
+                <div className="p-5 flex items-center justify-between">
+                  <span className="font-semibold text-lg text-zinc-900 dark:text-white">{faq.q}</span>
+                  <ChevronDown className={`w-6 h-6 text-zinc-500 transition-transform ${openFaq === i ? 'rotate-180' : ''}`} />
                 </div>
                 {openFaq === i && (
-                  <div className="px-4 pb-4 text-sm text-zinc-600 dark:text-zinc-400">
+                  <div className="px-5 pb-5 text-zinc-600 dark:text-zinc-400">
                     {faq.a}
                   </div>
                 )}
@@ -370,18 +378,18 @@ export default function FunnelPage() {
       </section>
 
       {/* Contact Form Section */}
-      <section id="contacto" className="px-4 py-16 bg-zinc-900 dark:bg-zinc-950">
+      <section id="contacto" className="px-4 py-20 bg-zinc-900 dark:bg-zinc-950">
         <div className="max-w-lg mx-auto">
-          <h2 className="text-2xl md:text-3xl font-bold text-center mb-3 text-white">
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-4 text-white">
             Empezamos cuando quieras
           </h2>
-          <p className="text-center text-zinc-400 mb-8">
+          <p className="text-center text-zinc-400 mb-10 text-lg">
             Escríbenos por WhatsApp o déjanos tus datos
           </p>
 
-          <Card className="p-6 bg-zinc-800 border-zinc-700">
+          <Card className="p-8 bg-zinc-800 border-zinc-700 shadow-2xl">
             {!formSubmitted ? (
-              <form onSubmit={handleSubmit} className="space-y-4">
+              <form onSubmit={handleSubmit} className="space-y-5">
                 <div>
                   <Input
                     placeholder="Tu nombre"
@@ -415,33 +423,32 @@ export default function FunnelPage() {
                 </div>
                 <Button 
                   type="submit" 
-                  className="w-full bg-emerald-600 text-white gap-2"
+                  className="w-full bg-green-600 text-white gap-2 font-semibold text-base shadow-lg shadow-green-600/30"
                   size="lg"
                   data-testid="button-submit-lead"
                 >
                   Quiero información
-                  <MessageCircle className="w-4 h-4" />
+                  <MessageCircle className="w-5 h-5" />
                 </Button>
               </form>
             ) : (
-              <div className="text-center py-6">
-                <div className="w-16 h-16 rounded-full bg-emerald-600/20 flex items-center justify-center mx-auto mb-4">
-                  <Check className="w-8 h-8 text-emerald-400" />
+              <div className="text-center py-8">
+                <div className="w-20 h-20 rounded-full bg-green-600/20 flex items-center justify-center mx-auto mb-5">
+                  <Check className="w-10 h-10 text-green-400" />
                 </div>
-                <p className="text-white font-medium mb-2">Datos guardados</p>
-                <p className="text-zinc-400 text-sm mb-4">Continúa por WhatsApp para hablar con nosotros</p>
+                <p className="text-white font-bold text-xl mb-2">Datos guardados</p>
+                <p className="text-zinc-400 mb-4">Continúa por WhatsApp para hablar con nosotros</p>
               </div>
             )}
 
-            <div className="flex items-center gap-4 my-6">
+            <div className="flex items-center gap-4 my-8">
               <div className="flex-1 h-px bg-zinc-700" />
-              <span className="text-zinc-500 text-sm">o directamente</span>
+              <span className="text-zinc-500">o directamente</span>
               <div className="flex-1 h-px bg-zinc-700" />
             </div>
 
             <Button 
-              variant="outline" 
-              className="w-full border-green-600 text-green-500 gap-2"
+              className="w-full bg-[#25D366] text-white gap-2 font-semibold text-base shadow-lg shadow-green-500/30"
               size="lg"
               asChild
             >
@@ -455,9 +462,9 @@ export default function FunnelPage() {
       </section>
 
       {/* Footer */}
-      <footer className="px-4 py-8 bg-zinc-950 text-center">
-        <p className="text-zinc-500 text-sm">
-          © 2024 Easy US LLC. Todos los derechos reservados.
+      <footer className="px-4 py-10 bg-zinc-950 text-center">
+        <p className="text-zinc-500">
+          © 2026 EASY US LLC. Todos los derechos reservados.
         </p>
       </footer>
 
@@ -466,10 +473,10 @@ export default function FunnelPage() {
         href={WHATSAPP_URL} 
         target="_blank" 
         rel="noopener noreferrer"
-        className="fixed bottom-6 right-6 w-14 h-14 bg-green-500 rounded-full flex items-center justify-center shadow-lg transition-transform z-50 hover-elevate"
+        className="fixed bottom-6 right-6 w-16 h-16 bg-[#25D366] rounded-full flex items-center justify-center shadow-2xl shadow-green-500/40 transition-transform z-50 hover-elevate"
         data-testid="button-whatsapp-float"
       >
-        <SiWhatsapp className="w-7 h-7 text-white" />
+        <SiWhatsapp className="w-8 h-8 text-white" />
       </a>
     </div>
   );
