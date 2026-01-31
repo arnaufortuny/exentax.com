@@ -16,6 +16,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogDescription, DialogTrigger } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { NativeSelect, NativeSelectItem } from "@/components/ui/native-select";
 import { SocialLogin } from "@/components/auth/social-login";
 import { LLCProgressWidget } from "@/components/llc-progress-widget";
 
@@ -1239,14 +1240,17 @@ export default function Dashboard() {
                         <div className="space-y-1">
                           <Label className="text-xs font-bold text-muted-foreground">Tipo de documento</Label>
                           {isEditing && canEdit ? (
-                            <Select value={profileData.idType} onValueChange={val => setProfileData({...profileData, idType: val})}>
-                              <SelectTrigger className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800" data-testid="select-idtype"><SelectValue placeholder="DNI · NIE · Pasaporte" /></SelectTrigger>
-                              <SelectContent>
-                                <SelectItem value="dni">DNI</SelectItem>
-                                <SelectItem value="nie">NIE</SelectItem>
-                                <SelectItem value="passport">Pasaporte</SelectItem>
-                              </SelectContent>
-                            </Select>
+                            <NativeSelect 
+                              value={profileData.idType} 
+                              onValueChange={val => setProfileData({...profileData, idType: val})}
+                              placeholder="DNI · NIE · Pasaporte"
+                              className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800"
+                              data-testid="select-idtype"
+                            >
+                              <NativeSelectItem value="dni">DNI</NativeSelectItem>
+                              <NativeSelectItem value="nie">NIE</NativeSelectItem>
+                              <NativeSelectItem value="passport">Pasaporte</NativeSelectItem>
+                            </NativeSelect>
                           ) : <div className="p-3 bg-gray-50 dark:bg-zinc-800 rounded-lg text-sm">{user?.idType === 'dni' ? 'DNI' : user?.idType === 'nie' ? 'NIE' : user?.idType === 'passport' ? 'Pasaporte' : 'No proporcionado'}</div>}
                         </div>
                         <div className="space-y-1">
@@ -1261,19 +1265,22 @@ export default function Dashboard() {
                       <div className="space-y-1">
                         <Label className="text-xs font-bold text-muted-foreground">Actividad profesional</Label>
                         {isEditing && canEdit ? (
-                          <Select value={profileData.businessActivity} onValueChange={val => setProfileData({...profileData, businessActivity: val})}>
-                            <SelectTrigger className="rounded-full h-11 md:h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800" style={{ fontSize: '16px' }} data-testid="select-activity"><SelectValue placeholder="A qué te dedicas" /></SelectTrigger>
-                            <SelectContent>
-                              <SelectItem value="ecommerce">E-commerce</SelectItem>
-                              <SelectItem value="dropshipping">Dropshipping</SelectItem>
-                              <SelectItem value="consulting">Consultoría</SelectItem>
-                              <SelectItem value="marketing">Marketing Digital</SelectItem>
-                              <SelectItem value="software">Desarrollo de Software</SelectItem>
-                              <SelectItem value="trading">Trading / Inversiones</SelectItem>
-                              <SelectItem value="freelance">Freelance</SelectItem>
-                              <SelectItem value="other">Otra</SelectItem>
-                            </SelectContent>
-                          </Select>
+                          <NativeSelect 
+                            value={profileData.businessActivity} 
+                            onValueChange={val => setProfileData({...profileData, businessActivity: val})}
+                            placeholder="A qué te dedicas"
+                            className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800"
+                            data-testid="select-activity"
+                          >
+                            <NativeSelectItem value="ecommerce">E-commerce</NativeSelectItem>
+                            <NativeSelectItem value="dropshipping">Dropshipping</NativeSelectItem>
+                            <NativeSelectItem value="consulting">Consultoría</NativeSelectItem>
+                            <NativeSelectItem value="marketing">Marketing Digital</NativeSelectItem>
+                            <NativeSelectItem value="software">Desarrollo de Software</NativeSelectItem>
+                            <NativeSelectItem value="trading">Trading / Inversiones</NativeSelectItem>
+                            <NativeSelectItem value="freelance">Freelance</NativeSelectItem>
+                            <NativeSelectItem value="other">Otra</NativeSelectItem>
+                          </NativeSelect>
                         ) : <div className="p-3 bg-gray-50 dark:bg-zinc-800 rounded-lg text-sm">{user?.businessActivity || 'No proporcionado'}</div>}
                       </div>
                       <div className="pt-4 border-t border-border">
@@ -1282,15 +1289,18 @@ export default function Dashboard() {
                           <div className="space-y-1">
                             <Label className="text-xs font-bold text-muted-foreground">Tipo de vía</Label>
                             {isEditing && canEdit ? (
-                              <Select value={profileData.streetType} onValueChange={val => setProfileData({...profileData, streetType: val})}>
-                                <SelectTrigger className="rounded-full h-11 md:h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800" style={{ fontSize: '16px' }} data-testid="select-street-type"><SelectValue placeholder="Calle · Avenida · Paseo · Plaza" /></SelectTrigger>
-                                <SelectContent>
-                                  <SelectItem value="calle">Calle</SelectItem>
-                                  <SelectItem value="avenida">Avenida</SelectItem>
-                                  <SelectItem value="paseo">Paseo</SelectItem>
-                                  <SelectItem value="plaza">Plaza</SelectItem>
-                                </SelectContent>
-                              </Select>
+                              <NativeSelect 
+                                value={profileData.streetType} 
+                                onValueChange={val => setProfileData({...profileData, streetType: val})}
+                                placeholder="Calle · Avenida · Paseo · Plaza"
+                                className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800"
+                                data-testid="select-street-type"
+                              >
+                                <NativeSelectItem value="calle">Calle</NativeSelectItem>
+                                <NativeSelectItem value="avenida">Avenida</NativeSelectItem>
+                                <NativeSelectItem value="paseo">Paseo</NativeSelectItem>
+                                <NativeSelectItem value="plaza">Plaza</NativeSelectItem>
+                              </NativeSelect>
                             ) : <div className="p-3 bg-gray-50 dark:bg-zinc-800 rounded-lg text-sm">{user?.streetType || '-'}</div>}
                           </div>
                           <div className="space-y-1">
@@ -2679,16 +2689,17 @@ export default function Dashboard() {
             </div>
             <div>
               <Label className="text-sm font-black text-primary mb-2 block">Estado (LLC)</Label>
-              <Select value={newOrderData.state} onValueChange={val => setNewOrderData(p => ({ ...p, state: val }))}>
-                <SelectTrigger className="w-full rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800" data-testid="select-order-state">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="New Mexico">New Mexico - 739€</SelectItem>
-                  <SelectItem value="Wyoming">Wyoming - 899€</SelectItem>
-                  <SelectItem value="Delaware">Delaware - 1199€</SelectItem>
-                </SelectContent>
-              </Select>
+              <NativeSelect 
+                value={newOrderData.state} 
+                onValueChange={val => setNewOrderData(p => ({ ...p, state: val }))}
+                placeholder="Seleccionar estado"
+                className="w-full rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800"
+                data-testid="select-order-state"
+              >
+                <NativeSelectItem value="New Mexico">New Mexico - 739€</NativeSelectItem>
+                <NativeSelectItem value="Wyoming">Wyoming - 899€</NativeSelectItem>
+                <NativeSelectItem value="Delaware">Delaware - 1199€</NativeSelectItem>
+              </NativeSelect>
             </div>
             <div>
               <Label className="text-sm font-black text-primary mb-2 block">Importe (€)</Label>
@@ -2728,18 +2739,15 @@ export default function Dashboard() {
             <div className="grid grid-cols-2 gap-3">
               <div>
                 <Label className="text-sm font-black text-primary mb-2 block">Tipo</Label>
-                <Select 
+                <NativeSelect 
                   value={newDiscountCode.discountType} 
-                  onValueChange={(val: 'percentage' | 'fixed') => setNewDiscountCode(p => ({ ...p, discountType: val }))}
+                  onValueChange={(val) => setNewDiscountCode(p => ({ ...p, discountType: val as 'percentage' | 'fixed' }))}
+                  className="w-full rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800"
+                  data-testid="select-discount-type"
                 >
-                  <SelectTrigger className="w-full rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800" data-testid="select-discount-type">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="percentage">Porcentaje (%)</SelectItem>
-                    <SelectItem value="fixed">Fijo (centimos)</SelectItem>
-                  </SelectContent>
-                </Select>
+                  <NativeSelectItem value="percentage">Porcentaje (%)</NativeSelectItem>
+                  <NativeSelectItem value="fixed">Fijo (centimos)</NativeSelectItem>
+                </NativeSelect>
               </div>
               <div>
                 <Label className="text-sm font-black text-primary mb-2 block">
