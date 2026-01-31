@@ -162,6 +162,12 @@ export async function registerRoutes(
 
   // === API Routes ===
 
+  // === AI Support Routes ===
+  const { handleAIChat, getQuickAnswers } = await import("./controllers/ai-support.controller");
+  
+  app.post("/api/ai-support/chat", handleAIChat);
+  app.get("/api/ai-support/quick-answers", getQuickAnswers);
+
   // Admin Orders
   app.get("/api/admin/orders", isAdmin, async (req, res) => {
     try {

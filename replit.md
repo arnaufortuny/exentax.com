@@ -35,6 +35,11 @@ The application is built with a modern UI/UX, featuring a consistent design syst
 - **Messaging System:** Automatically links messages from authenticated users, sends email notifications to users and admins, supports threaded replies, and integrates message history into the user dashboard.
 - **Admin Features:** Includes payment link management (admin sets URL per order via PATCH /api/admin/orders/:id/payment-link), full CRUD operations for users and orders, document request management, invoice generation with payment status tracking (pending/paid/overdue/cancelled), and payment due dates.
 - **Compliance Calendar System:** Automatic calculation of IRS deadlines (1120/5472 on April 15 following year), Annual Reports for Delaware and Wyoming (12 months from formation), and Registered Agent renewals (12 months). Hourly reminder service sends notifications 60 days before deadlines. Responsive calendar UI with mobile-optimized grid layout.
+- **AI Support Chatbot:** Intelligent customer support powered by OpenAI (gpt-4o-mini when API key available, fallback responses otherwise). Features LLC-specific knowledge base covering states (NM, WY, DE), pricing, taxes, banking, and timelines. Quick answers endpoint for common questions. Floating chat widget on dashboard (`client/src/components/ai-chat-widget.tsx`).
+- **LLC Progress Widget:** Visual 5-step progress tracker for LLC applications showing: Pedido Recibido → Pago Confirmado → En Tramitación → Presentado → LLC Activa. Component at `client/src/components/llc-progress-widget.tsx`.
+- **Modular Controllers:** Server-side route handlers organized into separate controller files for maintainability:
+  - `server/controllers/admin.controller.ts` - Admin operations (users, orders, stats, notifications)
+  - `server/controllers/ai-support.controller.ts` - AI chatbot with fallback responses
 
 ## External Dependencies
 - **Drizzle ORM:** For database interaction.
