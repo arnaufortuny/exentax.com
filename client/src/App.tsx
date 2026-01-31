@@ -22,6 +22,7 @@ const Dashboard = lazy(() => import("@/pages/dashboard"));
 const Login = lazy(() => import("@/pages/auth/login.tsx"));
 const Register = lazy(() => import("@/pages/auth/register.tsx"));
 const ForgotPassword = lazy(() => import("@/pages/auth/forgot-password.tsx"));
+const Funnel = lazy(() => import("@/pages/funnel"));
 
 function ScrollToTop() {
   const [location] = useLocation();
@@ -54,6 +55,7 @@ function Router() {
         <Route path="/auth/login" component={Login} />
         <Route path="/auth/register" component={Register} />
         <Route path="/auth/forgot-password" component={ForgotPassword} />
+        <Route path="/funnel" component={Funnel} />
         <Route path="/legal/terminos" component={Legal} />
         <Route path="/legal/privacidad" component={Privacidad} />
         <Route path="/legal/reembolsos" component={Reembolsos} />

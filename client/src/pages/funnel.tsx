@@ -1,0 +1,476 @@
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
+import { useToast } from "@/hooks/use-toast";
+import { 
+  Check, 
+  Clock, 
+  Shield, 
+  Users, 
+  Zap, 
+  Globe, 
+  CreditCard,
+  Building2,
+  ArrowRight,
+  MessageCircle,
+  ChevronDown,
+  Sparkles,
+  MapPin
+} from "lucide-react";
+import { SiWhatsapp } from "react-icons/si";
+
+const WHATSAPP_NUMBER = "34612345678";
+const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}?text=Hola,%20quiero%20información%20sobre%20crear%20una%20LLC`;
+
+export default function FunnelPage() {
+  const { toast } = useToast();
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    phone: ""
+  });
+  const [openFaq, setOpenFaq] = useState<number | null>(null);
+  const [formSubmitted, setFormSubmitted] = useState(false);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (formData.email && formData.name) {
+      try {
+        const leads = JSON.parse(localStorage.getItem('funnel_leads') || '[]');
+        leads.push({ ...formData, timestamp: new Date().toISOString() });
+        localStorage.setItem('funnel_leads', JSON.stringify(leads));
+      } catch {
+        // Silent fail for localStorage
+      }
+      setFormSubmitted(true);
+      toast({
+        title: "Datos guardados",
+        description: "Te redirigimos a WhatsApp..."
+      });
+      setTimeout(() => {
+        window.open(WHATSAPP_URL, '_blank');
+      }, 1000);
+    }
+  };
+
+  const faqs = [
+    { q: "¿Es legal desde España?", a: "Sí, totalmente legal. Te acompañamos para hacerlo correctamente." },
+    { q: "¿Tengo que viajar a EE.UU.?", a: "No. Todo el proceso es 100% online." },
+    { q: "¿El EIN está incluido?", a: "Sí, siempre incluido en el precio." },
+    { q: "¿Seguís después de crear la LLC?", a: "Sí. Te acompañamos durante 12 meses completos." }
+  ];
+
+  return (
+    <div className="min-h-screen bg-gradient-to-b from-emerald-50 via-white to-emerald-50 dark:from-zinc-950 dark:via-zinc-900 dark:to-zinc-950">
+      {/* Hero Section */}
+      <section className="relative overflow-hidden px-4 pt-12 pb-16 md:pt-20 md:pb-24">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_var(--tw-gradient-stops))] from-emerald-100/50 via-transparent to-transparent dark:from-emerald-900/20" />
+        
+        <div className="relative max-w-lg mx-auto text-center">
+          <Badge className="mb-6 bg-emerald-100 text-emerald-700 dark:bg-emerald-900/50 dark:text-emerald-300 border-0 px-4 py-1.5">
+            <Sparkles className="w-3.5 h-3.5 mr-1.5" />
+            Tu LLC en 48-72h
+          </Badge>
+          
+          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-zinc-900 dark:text-white mb-6">
+            Crea tu LLC en
+            <span className="block text-emerald-600 dark:text-emerald-400 mt-1">Estados Unidos</span>
+          </h1>
+          
+          <p className="text-lg text-zinc-600 dark:text-zinc-400 mb-8 leading-relaxed">
+            Simple. Clara. Sin rodeos.
+            <span className="block mt-2 font-medium text-zinc-800 dark:text-zinc-200">
+              Un precio, todo incluido, personas reales.
+            </span>
+          </p>
+
+          <div className="flex flex-col sm:flex-row gap-3 justify-center mb-8">
+            <Button 
+              size="lg" 
+              className="bg-emerald-600 text-white gap-2"
+              onClick={() => document.getElementById('planes')?.scrollIntoView({ behavior: 'smooth' })}
+              data-testid="button-ver-planes"
+            >
+              Ver planes
+              <ArrowRight className="w-4 h-4" />
+            </Button>
+            <Button 
+              size="lg" 
+              variant="outline" 
+              className="gap-2 border-emerald-200 dark:border-emerald-800"
+              asChild
+            >
+              <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" data-testid="link-whatsapp-hero">
+                <SiWhatsapp className="w-5 h-5 text-green-600" />
+                WhatsApp
+              </a>
+            </Button>
+          </div>
+
+          <div className="flex items-center justify-center gap-6 text-sm text-zinc-500 dark:text-zinc-400">
+            <span className="flex items-center gap-1.5">
+              <Check className="w-4 h-4 text-emerald-600" />
+              Sin IVA
+            </span>
+            <span className="flex items-center gap-1.5">
+              <Check className="w-4 h-4 text-emerald-600" />
+              Sin autónomos
+            </span>
+            <span className="flex items-center gap-1.5">
+              <Check className="w-4 h-4 text-emerald-600" />
+              100% online
+            </span>
+          </div>
+        </div>
+      </section>
+
+      {/* Planes Section */}
+      <section id="planes" className="px-4 py-16 md:py-20">
+        <div className="max-w-lg mx-auto">
+          <h2 className="text-2xl md:text-3xl font-bold text-center mb-3 text-zinc-900 dark:text-white">
+            Elige tu LLC
+          </h2>
+          <p className="text-center text-zinc-600 dark:text-zinc-400 mb-10">
+            Todo incluido. Sin sorpresas.
+          </p>
+
+          <div className="space-y-6">
+            {/* New Mexico LLC */}
+            <Card className="p-6 border-2 border-emerald-200 dark:border-emerald-800 bg-white dark:bg-zinc-900 relative overflow-hidden">
+              <div className="absolute top-0 right-0 bg-emerald-600 text-white text-xs font-medium px-3 py-1 rounded-bl-lg">
+                Popular
+              </div>
+              
+              <div className="flex items-start gap-4 mb-4">
+                <div className="w-12 h-12 rounded-xl bg-emerald-100 dark:bg-emerald-900/50 flex items-center justify-center flex-shrink-0">
+                  <MapPin className="w-6 h-6 text-emerald-600 dark:text-emerald-400" />
+                </div>
+                <div>
+                  <h3 className="text-xl font-bold text-zinc-900 dark:text-white">New Mexico LLC</h3>
+                  <p className="text-zinc-600 dark:text-zinc-400 text-sm">Ideal para negocios digitales</p>
+                </div>
+              </div>
+
+              <div className="mb-5">
+                <span className="text-4xl font-bold text-zinc-900 dark:text-white">739€</span>
+                <span className="text-zinc-500 dark:text-zinc-400 ml-2">todo incluido</span>
+              </div>
+
+              <ul className="space-y-3 mb-6">
+                {[
+                  "Constitución de tu LLC",
+                  "EIN incluido",
+                  "Documentación oficial completa",
+                  "Área privada de cliente",
+                  "Acompañamiento 12 meses",
+                  "Ayuda con banca y pagos"
+                ].map((item, i) => (
+                  <li key={i} className="flex items-start gap-2.5 text-sm text-zinc-700 dark:text-zinc-300">
+                    <Check className="w-4 h-4 text-emerald-600 mt-0.5 flex-shrink-0" />
+                    {item}
+                  </li>
+                ))}
+              </ul>
+
+              <div className="flex items-center gap-2 text-sm text-zinc-500 dark:text-zinc-400 mb-5">
+                <Clock className="w-4 h-4" />
+                48-72 horas hábiles
+              </div>
+
+              <Button 
+                className="w-full bg-emerald-600 text-white gap-2"
+                size="lg"
+                asChild
+              >
+                <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" data-testid="button-empezar-nm">
+                  Empezar ahora
+                  <ArrowRight className="w-4 h-4" />
+                </a>
+              </Button>
+            </Card>
+
+            {/* Wyoming LLC */}
+            <Card className="p-6 border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900">
+              <div className="flex items-start gap-4 mb-4">
+                <div className="w-12 h-12 rounded-xl bg-blue-100 dark:bg-blue-900/50 flex items-center justify-center flex-shrink-0">
+                  <Building2 className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+                </div>
+                <div>
+                  <h3 className="text-xl font-bold text-zinc-900 dark:text-white">Wyoming LLC</h3>
+                  <p className="text-zinc-600 dark:text-zinc-400 text-sm">Estructura más sólida</p>
+                </div>
+              </div>
+
+              <div className="mb-5">
+                <span className="text-4xl font-bold text-zinc-900 dark:text-white">899€</span>
+                <span className="text-zinc-500 dark:text-zinc-400 ml-2">todo incluido</span>
+              </div>
+
+              <ul className="space-y-3 mb-6">
+                {[
+                  "Constitución de tu LLC",
+                  "EIN incluido",
+                  "Documentación completa",
+                  "Área privada de cliente",
+                  "Acompañamiento 12 meses",
+                  "Apoyo en banca y cumplimiento"
+                ].map((item, i) => (
+                  <li key={i} className="flex items-start gap-2.5 text-sm text-zinc-700 dark:text-zinc-300">
+                    <Check className="w-4 h-4 text-blue-600 mt-0.5 flex-shrink-0" />
+                    {item}
+                  </li>
+                ))}
+              </ul>
+
+              <div className="flex items-center gap-2 text-sm text-zinc-500 dark:text-zinc-400 mb-5">
+                <Clock className="w-4 h-4" />
+                48-72 horas hábiles
+              </div>
+
+              <Button 
+                variant="outline"
+                className="w-full gap-2"
+                size="lg"
+                asChild
+              >
+                <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" data-testid="button-empezar-wy">
+                  Empezar ahora
+                  <ArrowRight className="w-4 h-4" />
+                </a>
+              </Button>
+            </Card>
+          </div>
+        </div>
+      </section>
+
+      {/* Benefits Section */}
+      <section className="px-4 py-16 bg-zinc-50 dark:bg-zinc-900/50">
+        <div className="max-w-lg mx-auto">
+          <h2 className="text-2xl md:text-3xl font-bold text-center mb-3 text-zinc-900 dark:text-white">
+            ¿Por qué Easy US LLC?
+          </h2>
+          <p className="text-center text-zinc-600 dark:text-zinc-400 mb-10">
+            Lo que nos diferencia
+          </p>
+
+          <div className="grid gap-4">
+            {[
+              { icon: CreditCard, title: "Precio claro", desc: "Un solo precio. Todo incluido. Sin sorpresas." },
+              { icon: Users, title: "Personas reales", desc: "Aquí no hablas con bots. Te atendemos paso a paso." },
+              { icon: Globe, title: "Para negocios online", desc: "Freelancers, ecommerce, agencias y startups." },
+              { icon: Zap, title: "Menos papeleo", desc: "Nos ocupamos de lo legal. Tú céntrate en tu negocio." }
+            ].map((item, i) => (
+              <Card key={i} className="p-5 flex items-start gap-4 bg-white dark:bg-zinc-900">
+                <div className="w-10 h-10 rounded-lg bg-emerald-100 dark:bg-emerald-900/50 flex items-center justify-center flex-shrink-0">
+                  <item.icon className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
+                </div>
+                <div>
+                  <h3 className="font-semibold text-zinc-900 dark:text-white mb-1">{item.title}</h3>
+                  <p className="text-sm text-zinc-600 dark:text-zinc-400">{item.desc}</p>
+                </div>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Advantages Section */}
+      <section className="px-4 py-16">
+        <div className="max-w-lg mx-auto">
+          <h2 className="text-2xl md:text-3xl font-bold text-center mb-3 text-zinc-900 dark:text-white">
+            Ventajas de una LLC
+          </h2>
+          <p className="text-center text-zinc-600 dark:text-zinc-400 mb-10">
+            en Estados Unidos
+          </p>
+
+          <Card className="p-6 bg-gradient-to-br from-emerald-600 to-emerald-700 dark:from-emerald-700 dark:to-emerald-800 border-0 text-white">
+            <div className="space-y-4">
+              {[
+                { icon: Shield, text: "Sin cuota de autónomos en España" },
+                { icon: Building2, text: "Sin IVA en servicios internacionales" },
+                { icon: CreditCard, text: "Acceso a banca y pagos internacionales" },
+                { icon: Globe, text: "Marco legal sólido y reconocido" },
+                { icon: Zap, text: "Posibilidad de tarjeta física" }
+              ].map((item, i) => (
+                <div key={i} className="flex items-center gap-3">
+                  <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center flex-shrink-0">
+                    <item.icon className="w-4 h-4" />
+                  </div>
+                  <span className="text-white/90">{item.text}</span>
+                </div>
+              ))}
+            </div>
+          </Card>
+        </div>
+      </section>
+
+      {/* How It Works */}
+      <section className="px-4 py-16 bg-zinc-50 dark:bg-zinc-900/50">
+        <div className="max-w-lg mx-auto">
+          <h2 className="text-2xl md:text-3xl font-bold text-center mb-3 text-zinc-900 dark:text-white">
+            ¿Cómo empezamos?
+          </h2>
+          <p className="text-center text-zinc-600 dark:text-zinc-400 mb-10">
+            Todo 100% online y acompañado
+          </p>
+
+          <div className="space-y-4">
+            {[
+              { step: "1", title: "Nos escribes", desc: "Por WhatsApp o formulario" },
+              { step: "2", title: "Revisamos tu caso", desc: "Analizamos tu situación contigo" },
+              { step: "3", title: "Inicias el trámite", desc: "Con toda la información clara" },
+              { step: "4", title: "Creamos tu LLC y EIN", desc: "En 48-72 horas hábiles" },
+              { step: "5", title: "Te acompañamos", desc: "Durante 12 meses completos" }
+            ].map((item, i) => (
+              <div key={i} className="flex items-start gap-4">
+                <div className="w-10 h-10 rounded-full bg-emerald-600 text-white flex items-center justify-center font-bold flex-shrink-0">
+                  {item.step}
+                </div>
+                <div className="pt-1.5">
+                  <h3 className="font-semibold text-zinc-900 dark:text-white">{item.title}</h3>
+                  <p className="text-sm text-zinc-600 dark:text-zinc-400">{item.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ Section */}
+      <section className="px-4 py-16">
+        <div className="max-w-lg mx-auto">
+          <h2 className="text-2xl md:text-3xl font-bold text-center mb-10 text-zinc-900 dark:text-white">
+            Preguntas frecuentes
+          </h2>
+
+          <div className="space-y-3">
+            {faqs.map((faq, i) => (
+              <Card 
+                key={i} 
+                className="overflow-hidden bg-white dark:bg-zinc-900 cursor-pointer hover-elevate"
+                onClick={() => setOpenFaq(openFaq === i ? null : i)}
+                data-testid={`faq-item-${i}`}
+              >
+                <div className="p-4 flex items-center justify-between">
+                  <span className="font-medium text-zinc-900 dark:text-white">{faq.q}</span>
+                  <ChevronDown className={`w-5 h-5 text-zinc-500 transition-transform ${openFaq === i ? 'rotate-180' : ''}`} />
+                </div>
+                {openFaq === i && (
+                  <div className="px-4 pb-4 text-sm text-zinc-600 dark:text-zinc-400">
+                    {faq.a}
+                  </div>
+                )}
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Contact Form Section */}
+      <section id="contacto" className="px-4 py-16 bg-zinc-900 dark:bg-zinc-950">
+        <div className="max-w-lg mx-auto">
+          <h2 className="text-2xl md:text-3xl font-bold text-center mb-3 text-white">
+            Empezamos cuando quieras
+          </h2>
+          <p className="text-center text-zinc-400 mb-8">
+            Escríbenos por WhatsApp o déjanos tus datos
+          </p>
+
+          <Card className="p-6 bg-zinc-800 border-zinc-700">
+            {!formSubmitted ? (
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <div>
+                  <Input
+                    placeholder="Tu nombre"
+                    value={formData.name}
+                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                    required
+                    className="bg-zinc-700 border-zinc-600 text-white placeholder:text-zinc-400"
+                    data-testid="input-name"
+                  />
+                </div>
+                <div>
+                  <Input
+                    type="email"
+                    placeholder="Tu email"
+                    value={formData.email}
+                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                    required
+                    className="bg-zinc-700 border-zinc-600 text-white placeholder:text-zinc-400"
+                    data-testid="input-email"
+                  />
+                </div>
+                <div>
+                  <Input
+                    type="tel"
+                    placeholder="Tu teléfono (opcional)"
+                    value={formData.phone}
+                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                    className="bg-zinc-700 border-zinc-600 text-white placeholder:text-zinc-400"
+                    data-testid="input-phone"
+                  />
+                </div>
+                <Button 
+                  type="submit" 
+                  className="w-full bg-emerald-600 text-white gap-2"
+                  size="lg"
+                  data-testid="button-submit-lead"
+                >
+                  Quiero información
+                  <MessageCircle className="w-4 h-4" />
+                </Button>
+              </form>
+            ) : (
+              <div className="text-center py-6">
+                <div className="w-16 h-16 rounded-full bg-emerald-600/20 flex items-center justify-center mx-auto mb-4">
+                  <Check className="w-8 h-8 text-emerald-400" />
+                </div>
+                <p className="text-white font-medium mb-2">Datos guardados</p>
+                <p className="text-zinc-400 text-sm mb-4">Continúa por WhatsApp para hablar con nosotros</p>
+              </div>
+            )}
+
+            <div className="flex items-center gap-4 my-6">
+              <div className="flex-1 h-px bg-zinc-700" />
+              <span className="text-zinc-500 text-sm">o directamente</span>
+              <div className="flex-1 h-px bg-zinc-700" />
+            </div>
+
+            <Button 
+              variant="outline" 
+              className="w-full border-green-600 text-green-500 gap-2"
+              size="lg"
+              asChild
+            >
+              <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" data-testid="link-whatsapp-form">
+                <SiWhatsapp className="w-5 h-5" />
+                Hablar por WhatsApp
+              </a>
+            </Button>
+          </Card>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="px-4 py-8 bg-zinc-950 text-center">
+        <p className="text-zinc-500 text-sm">
+          © 2024 Easy US LLC. Todos los derechos reservados.
+        </p>
+      </footer>
+
+      {/* Floating WhatsApp Button */}
+      <a 
+        href={WHATSAPP_URL} 
+        target="_blank" 
+        rel="noopener noreferrer"
+        className="fixed bottom-6 right-6 w-14 h-14 bg-green-500 rounded-full flex items-center justify-center shadow-lg transition-transform z-50 hover-elevate"
+        data-testid="button-whatsapp-float"
+      >
+        <SiWhatsapp className="w-7 h-7 text-white" />
+      </a>
+    </div>
+  );
+}
