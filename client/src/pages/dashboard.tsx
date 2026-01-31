@@ -1832,6 +1832,23 @@ export default function Dashboard() {
                                 {u.businessActivity && <span className="mr-2">• {u.businessActivity}</span>}
                                 {u.city && <span>• {u.city}</span>}
                               </p>
+                              <div className="flex flex-wrap items-center gap-2 text-[10px] text-muted-foreground">
+                                {u.lastLoginIp && (
+                                  <span className="flex items-center gap-1 bg-muted/50 px-2 py-0.5 rounded-full">
+                                    <span className="font-medium">IP:</span> {u.lastLoginIp}
+                                  </span>
+                                )}
+                                {typeof u.loginCount === 'number' && (
+                                  <span className="flex items-center gap-1 bg-muted/50 px-2 py-0.5 rounded-full">
+                                    <span className="font-medium">Logins:</span> {u.loginCount}
+                                  </span>
+                                )}
+                                {u.securityOtpRequired && (
+                                  <span className="flex items-center gap-1 bg-orange-100 text-orange-700 px-2 py-0.5 rounded-full">
+                                    OTP Requerido
+                                  </span>
+                                )}
+                              </div>
                               <div className="w-full">
                                 <Label className="text-[10px] text-muted-foreground mb-1 block">Estado de cuenta</Label>
                                 <NativeSelect 
