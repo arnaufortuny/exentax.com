@@ -2247,10 +2247,10 @@ export default function Dashboard() {
               </div>
             </section>
             <section className="bg-accent/10 p-6 md:p-8 rounded-[2rem] border-2 border-accent/20">
-              <h3 className="text-base font-black text-primary mb-3">¿Hablamos?</h3>
-              <p className="text-xs text-primary/70 mb-5 leading-relaxed">Nuestro equipo está disponible para ayudarte en cualquier momento.</p>
+              <h3 className="text-base font-black text-primary mb-3">¿Tienes alguna duda? Estamos aquí para ayudarte</h3>
+              <p className="text-xs text-primary/70 mb-5 leading-relaxed">Escríbenos y te responderemos lo antes posible.</p>
               <a href="https://wa.me/34614916910" target="_blank" rel="noopener noreferrer">
-                <Button className="w-full bg-accent text-primary font-black rounded-full py-5">Hablar con soporte</Button>
+                <Button className="w-full bg-accent text-primary font-black rounded-full py-5">Hablar con un asesor</Button>
               </a>
             </section>
           </div>
