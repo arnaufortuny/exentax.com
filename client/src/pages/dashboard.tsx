@@ -863,13 +863,32 @@ export default function Dashboard() {
                   </div>
                   <div className="space-y-4">
                     {(!messagesData || messagesData.length === 0) ? (
-                      <Card className="rounded-2xl border-0 shadow-sm p-8 bg-white dark:bg-zinc-900 text-center">
-                        <MessageSquare className="w-12 h-12 text-gray-300 dark:text-zinc-600 mx-auto mb-4" />
-                        <p className="text-muted-foreground font-medium">Aún no has contactado con soporte</p>
-                        <p className="text-sm text-muted-foreground mt-2">Escríbenos cuando quieras. Te responderá una persona, no un bot.</p>
-                        <a href="https://wa.me/34614916910" target="_blank" rel="noopener noreferrer" className="mt-4 inline-block">
-                          <Button className="bg-accent text-primary font-black rounded-full px-6 py-2">Hablar con soporte</Button>
-                        </a>
+                      <Card className="overflow-hidden" data-testid="widget-support-empty">
+                        <CardHeader className="pb-2 md:pb-3 p-3 md:p-4 bg-primary/5">
+                          <CardTitle className="text-sm md:text-base font-bold flex items-center gap-2">
+                            <MessageSquare className="h-4 w-4 md:h-5 md:w-5 text-primary" />
+                            <span>Centro de Soporte</span>
+                          </CardTitle>
+                        </CardHeader>
+                        <CardContent className="p-3 md:p-4 space-y-4">
+                          <div className="flex items-center gap-3 p-3 bg-muted/30 rounded-lg">
+                            <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-muted flex items-center justify-center shrink-0">
+                              <MessageSquare className="w-5 h-5 md:w-6 md:h-6 text-muted-foreground/50" />
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <p className="text-sm md:text-base font-medium text-foreground">Sin conversaciones activas</p>
+                              <p className="text-xs text-muted-foreground">Tu historial de mensajes aparecerá aquí</p>
+                            </div>
+                          </div>
+                          <div className="space-y-2 pt-2 border-t border-border">
+                            <p className="text-xs text-muted-foreground text-center">Te responderá una persona, no un bot</p>
+                            <a href="https://wa.me/34614916910" target="_blank" rel="noopener noreferrer" className="block">
+                              <Button className="w-full bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-10 md:h-11">
+                                <MessageSquare className="w-4 h-4 mr-2" /> Hablar con soporte
+                              </Button>
+                            </a>
+                          </div>
+                        </CardContent>
                       </Card>
                     ) : (
                       messagesData.map((msg) => (
@@ -1008,10 +1027,32 @@ export default function Dashboard() {
                   <h2 className="text-xl md:text-2xl font-black text-primary tracking-tight">Historial de Pagos</h2>
                   <div className="space-y-4">
                     {(!orders || orders.length === 0) ? (
-                      <Card className="rounded-2xl border-0 shadow-sm p-8 bg-white dark:bg-zinc-900 text-center">
-                        <CreditCard className="w-12 h-12 text-gray-300 dark:text-zinc-600 mx-auto mb-4" />
-                        <p className="text-muted-foreground font-medium">Sin pagos registrados</p>
-                        <p className="text-sm text-muted-foreground mt-2">Cuando contrates un servicio, aquí tendrás todas tus facturas y recibos.</p>
+                      <Card className="overflow-hidden" data-testid="widget-payments-empty">
+                        <CardHeader className="pb-2 md:pb-3 p-3 md:p-4 bg-primary/5">
+                          <CardTitle className="text-sm md:text-base font-bold flex items-center gap-2">
+                            <CreditCard className="h-4 w-4 md:h-5 md:w-5 text-primary" />
+                            <span>Historial de Pagos</span>
+                          </CardTitle>
+                        </CardHeader>
+                        <CardContent className="p-3 md:p-4 space-y-4">
+                          <div className="flex items-center gap-3 p-3 bg-muted/30 rounded-lg">
+                            <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-muted flex items-center justify-center shrink-0">
+                              <Receipt className="w-5 h-5 md:w-6 md:h-6 text-muted-foreground/50" />
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <p className="text-sm md:text-base font-medium text-foreground">Sin pagos registrados</p>
+                              <p className="text-xs text-muted-foreground">Tus facturas y recibos aparecerán aquí</p>
+                            </div>
+                          </div>
+                          <div className="space-y-2 pt-2 border-t border-border">
+                            <p className="text-xs text-muted-foreground text-center">Contrata un servicio para ver tu historial</p>
+                            <Link href="/servicios#pricing">
+                              <Button className="w-full bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-10 md:h-11">
+                                <PlusCircle className="w-4 h-4 mr-2" /> Ver servicios
+                              </Button>
+                            </Link>
+                          </div>
+                        </CardContent>
                       </Card>
                     ) : (
                       orders.map((order: any) => (
@@ -1156,15 +1197,32 @@ export default function Dashboard() {
                       })}
                     </div>
                   ) : (
-                    <Card className="rounded-xl md:rounded-2xl border shadow-sm p-6 md:p-8 bg-white dark:bg-zinc-900 text-center">
-                      <Calendar className="w-10 h-10 md:w-12 md:h-12 mx-auto text-muted-foreground/30 mb-3 md:mb-4" />
-                      <h3 className="text-base md:text-lg font-black text-primary mb-2">No hay fechas fiscales programadas</h3>
-                      <p className="text-xs md:text-sm text-muted-foreground mb-4">Al constituir tu LLC, verás aquí todos los vencimientos importantes.</p>
-                      <Link href="/servicios#pricing">
-                        <Button className="bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">
-                          <PlusCircle className="w-4 h-4 mr-2" /> Constituir mi LLC
-                        </Button>
-                      </Link>
+                    <Card className="overflow-hidden" data-testid="widget-calendar-empty">
+                      <CardHeader className="pb-2 md:pb-3 p-3 md:p-4 bg-primary/5">
+                        <CardTitle className="text-sm md:text-base font-bold flex items-center gap-2">
+                          <Calendar className="h-4 w-4 md:h-5 md:w-5 text-primary" />
+                          <span>Calendario Fiscal</span>
+                        </CardTitle>
+                      </CardHeader>
+                      <CardContent className="p-3 md:p-4 space-y-4">
+                        <div className="flex items-center gap-3 p-3 bg-muted/30 rounded-lg">
+                          <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-muted flex items-center justify-center shrink-0">
+                            <Clock className="w-5 h-5 md:w-6 md:h-6 text-muted-foreground/50" />
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <p className="text-sm md:text-base font-medium text-foreground">Sin fechas programadas</p>
+                            <p className="text-xs text-muted-foreground">Tus vencimientos fiscales aparecerán aquí</p>
+                          </div>
+                        </div>
+                        <div className="space-y-2 pt-2 border-t border-border">
+                          <p className="text-xs text-muted-foreground text-center">Constituye tu LLC para activar el calendario</p>
+                          <Link href="/servicios#pricing">
+                            <Button className="w-full bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-10 md:h-11">
+                              <PlusCircle className="w-4 h-4 mr-2" /> Constituir mi LLC
+                            </Button>
+                          </Link>
+                        </div>
+                      </CardContent>
                     </Card>
                   )}
                 </div>
