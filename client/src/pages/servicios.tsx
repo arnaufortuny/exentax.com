@@ -465,15 +465,12 @@ export default function Servicios() {
           </div>
 
           <div className="w-full mt-12 sm:mt-20 flex flex-col items-center">
-            <div
-              className="text-center"
-            >
-              <p className="text-primary font-black mb-6">¿No encuentras lo que buscas?</p>
+            <div className="text-center w-full max-w-md px-4">
+              <p className="text-primary font-black text-lg sm:text-xl mb-6">¿No encuentras lo que buscas?</p>
               <Button 
                 variant="outline"
-                size="lg"
                 onClick={() => setLocation("/faq")}
-                className="rounded-full border-2 border-accent text-primary font-black px-8 hover:bg-accent hover:text-primary transition-all shadow-md active:scale-95"
+                className="w-full sm:w-auto rounded-full border-2 border-accent text-primary font-black px-12 h-14 hover:bg-accent hover:text-primary transition-all shadow-md active:scale-95 shadow-accent/20"
               >
                 Visita nuestro FAQ →
               </Button>
