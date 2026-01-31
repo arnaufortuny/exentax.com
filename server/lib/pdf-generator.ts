@@ -340,8 +340,12 @@ export function generateReceiptPdf(data: ReceiptData): Promise<Buffer> {
       let cy = y + 32;
       doc.text(data.customer.email, 45, cy);
       cy += 12;
+      if (data.customer.phone) {
+        doc.text(data.customer.phone, 45, cy);
+        cy += 12;
+      }
       if (data.customer.address) {
-        const addr = [data.customer.streetType, data.customer.address, data.customer.postalCode, data.customer.city].filter(Boolean).join(', ');
+        const addr = [data.customer.streetType, data.customer.address, data.customer.postalCode, data.customer.city, data.customer.province, data.customer.country].filter(Boolean).join(', ');
         doc.fontSize(8).text(addr, 45, cy, { width: 230 });
       }
 
@@ -533,15 +537,15 @@ export function generateOrderInvoice(orderData: {
     customer: {
       name: customerName,
       email: app?.ownerEmail || orderData.user.email,
-      phone: app?.ownerPhone || undefined,
-      idType: llcApp?.ownerIdType || undefined,
-      idNumber: llcApp?.ownerIdNumber || undefined,
-      streetType: llcApp?.ownerStreetType || undefined,
-      address: llcApp?.ownerAddress || undefined,
-      city: llcApp?.ownerCity || undefined,
-      province: llcApp?.ownerProvince || undefined,
-      postalCode: llcApp?.ownerPostalCode || undefined,
-      country: llcApp?.ownerCountry || undefined,
+      phone: app?.ownerPhone || orderData.user.phone || undefined,
+      idType: llcApp?.ownerIdType || orderData.user.idType || undefined,
+      idNumber: llcApp?.ownerIdNumber || orderData.user.idNumber || undefined,
+      streetType: llcApp?.ownerStreetType || orderData.user.streetType || undefined,
+      address: llcApp?.ownerAddress || orderData.user.address || undefined,
+      city: llcApp?.ownerCity || orderData.user.city || undefined,
+      province: llcApp?.ownerProvince || orderData.user.province || undefined,
+      postalCode: llcApp?.ownerPostalCode || orderData.user.postalCode || undefined,
+      country: llcApp?.ownerCountry || orderData.user.country || undefined,
     },
     items: [
       {
@@ -588,11 +592,13 @@ export function generateOrderReceipt(orderData: {
     customer: {
       name: customerName,
       email: app?.ownerEmail || orderData.user.email,
-      phone: app?.ownerPhone || undefined,
-      streetType: llcApp?.ownerStreetType || undefined,
-      address: llcApp?.ownerAddress || undefined,
-      city: llcApp?.ownerCity || undefined,
-      postalCode: llcApp?.ownerPostalCode || undefined,
+      phone: app?.ownerPhone || orderData.user.phone || undefined,
+      streetType: llcApp?.ownerStreetType || orderData.user.streetType || undefined,
+      address: llcApp?.ownerAddress || orderData.user.address || undefined,
+      city: llcApp?.ownerCity || orderData.user.city || undefined,
+      province: llcApp?.ownerProvince || orderData.user.province || undefined,
+      postalCode: llcApp?.ownerPostalCode || orderData.user.postalCode || undefined,
+      country: llcApp?.ownerCountry || orderData.user.country || undefined,
     },
     service: {
       name: orderData.product.name,
