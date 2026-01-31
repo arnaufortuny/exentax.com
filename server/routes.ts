@@ -1397,7 +1397,7 @@ export async function registerRoutes(
       
       const [user] = await db.select().from(usersTable).where(eq(usersTable.id, userId)).limit(1);
       if (!user || user.accountStatus === 'pending') {
-        return res.status(403).json({ message: "No puedes eliminar documentos mientras tu cuenta está en revisión" });
+        return res.status(403).json({ message: "Tu cuenta está en un estado que no permite esta acción. Contacta a nuestro equipo." });
       }
       
       // Check if document belongs to user via order OR direct assignment
@@ -1467,6 +1467,14 @@ export async function registerRoutes(
       const filename = req.params.filename;
       const fileUrl = `/uploads/admin-docs/${filename}`;
       
+      // Check if user account is under review (non-admin only)
+      if (!req.session.isAdmin) {
+        const [user] = await db.select().from(usersTable).where(eq(usersTable.id, req.session.userId)).limit(1);
+        if (user && user.accountStatus === 'pending') {
+          return res.status(403).json({ message: "Tu cuenta está en un estado que no permite esta acción. Contacta a nuestro equipo." });
+        }
+      }
+      
       // Find document by URL
       const [doc] = await db.select().from(applicationDocumentsTable)
         .where(eq(applicationDocumentsTable.fileUrl, fileUrl)).limit(1);
@@ -1514,6 +1522,14 @@ export async function registerRoutes(
     try {
       const filename = req.params.filename;
       const fileUrl = `/uploads/client-docs/${filename}`;
+      
+      // Check if user account is under review (non-admin only)
+      if (!req.session.isAdmin) {
+        const [user] = await db.select().from(usersTable).where(eq(usersTable.id, req.session.userId)).limit(1);
+        if (user && user.accountStatus === 'pending') {
+          return res.status(403).json({ message: "Tu cuenta está en un estado que no permite esta acción. Contacta a nuestro equipo." });
+        }
+      }
       
       // Find document by URL
       const [doc] = await db.select().from(applicationDocumentsTable)
