@@ -11,7 +11,12 @@ The application is built with a modern UI/UX, featuring a consistent design syst
 
 **Technical Implementations:**
 - **Client-side:** Developed with React, utilizing a modular structure for pages (Home, Servicios, FAQ, Contacto) and reusable layout components (Navbar, Footer, HeroSection, Newsletter). Client-side routing is managed by Wouter.
-- **Server-side:** Powered by an Express.js backend.
+- **Server-side:** Powered by an Express.js backend. Routes are being modularized into separate files under `server/routes/` for better maintainability:
+  - `admin-routes.ts` - Admin panel operations (orders, users, documents, messages, discount codes)
+  - `user-routes.ts` - User profile, documents, notifications, password management
+  - `order-routes.ts` - Order creation, LLC applications, maintenance orders
+  - `contact-routes.ts` - Contact form, OTP verification, newsletter, messaging
+  - `helpers.ts` - Shared helper functions and constants
 - **Database:** Drizzle ORM defines the schema with Zod for type validation, incorporating key indexes for performance.
 - **Email System:** Professional email templates are managed through three IONOS accounts for system notifications, support, and Trustpilot review requests. All emails are designed for consistency and branding. Client dashboard links use app.easyusllc.com subdomain.
 - **Authentication:** Features robust OTP verification, session management, and secure password handling. Account creation is mandatory for orders, with automatic verification and a welcome email. Includes Google OAuth only (no Apple) with CSRF-protected redirect flow, modern multi-color Google icon, and automatic account creation for new OAuth users. Users can connect/disconnect Google from their profile.
