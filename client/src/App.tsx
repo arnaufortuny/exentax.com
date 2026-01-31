@@ -19,9 +19,9 @@ const MaintenancePage = lazy(() => import("@/pages/maintenance"));
 const LlcFormation = lazy(() => import("@/pages/llc-formation"));
 const Dashboard = lazy(() => import("@/pages/dashboard"));
 
-const Login = lazy(() => import("@/pages/auth/login"));
-const Register = lazy(() => import("@/pages/auth/register"));
-const ForgotPassword = lazy(() => import("@/pages/auth/forgot-password"));
+const Login = lazy(() => import("@/pages/auth/login.tsx"));
+const Register = lazy(() => import("@/pages/auth/register.tsx"));
+const ForgotPassword = lazy(() => import("@/pages/auth/forgot-password.tsx"));
 
 function ScrollToTop() {
   const [location] = useLocation();
