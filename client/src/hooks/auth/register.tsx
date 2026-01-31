@@ -276,12 +276,12 @@ export default function Register() {
                       name="firstName"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="font-bold text-foreground text-sm">Nombre</FormLabel>
+                          <FormLabel className="text-xs md:text-sm font-bold text-foreground">Nombre</FormLabel>
                           <FormControl>
                             <Input
                               {...field}
                               placeholder="Escribe tu nombre"
-                              className="rounded-xl border-border"
+                              className="rounded-full h-11 md:h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base placeholder:text-muted-foreground"
                               data-testid="input-firstName"
                             />
                           </FormControl>
@@ -295,12 +295,12 @@ export default function Register() {
                       name="lastName"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="font-bold text-foreground text-sm">Apellido</FormLabel>
+                          <FormLabel className="text-xs md:text-sm font-bold text-foreground">Apellido</FormLabel>
                           <FormControl>
                             <Input
                               {...field}
                               placeholder="Escribe tu apellido"
-                              className="rounded-xl border-border"
+                              className="rounded-full h-11 md:h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base placeholder:text-muted-foreground"
                               data-testid="input-lastName"
                             />
                           </FormControl>
@@ -332,7 +332,7 @@ export default function Register() {
                               {...field}
                               type="email"
                               inputMode="email"
-                              className="rounded-full border-gray-200 focus:border-accent"
+                              className="rounded-full h-11 md:h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base placeholder:text-muted-foreground"
                               data-testid="input-email"
                             />
                           </FormControl>
@@ -364,7 +364,7 @@ export default function Register() {
                               {...field}
                               type="tel"
                               inputMode="tel"
-                              className="rounded-full border-gray-200 focus:border-accent"
+                              className="rounded-full h-11 md:h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base placeholder:text-muted-foreground"
                               data-testid="input-phone"
                             />
                           </FormControl>
@@ -446,7 +446,7 @@ export default function Register() {
                                 {...field}
                                 type={showPassword ? "text" : "password"}
                                 autoComplete="new-password"
-                                className="rounded-full pr-12 border-gray-200 focus:border-accent"
+                                className="rounded-full h-11 md:h-12 px-5 pr-12 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base placeholder:text-muted-foreground"
                                 data-testid="input-password"
                               />
                               <Button
@@ -479,7 +479,7 @@ export default function Register() {
                               {...field}
                               type={showPassword ? "text" : "password"}
                               autoComplete="new-password"
-                              className="rounded-full border-gray-200 focus:border-accent"
+                              className="rounded-full h-11 md:h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base placeholder:text-muted-foreground"
                               data-testid="input-confirmPassword"
                             />
                           </FormControl>
