@@ -1513,11 +1513,33 @@ export default function Dashboard() {
 
               {activeTab === 'admin' && user?.isAdmin && (
                 <div key="admin" className="space-y-6">
-                  <div className="flex flex-wrap gap-1.5 md:gap-2 mb-4 md:mb-6">
-                    {['dashboard', 'orders', 'users', 'facturas', 'calendar', 'docs', 'newsletter', 'inbox', 'descuentos'].map(tab => (
-                      <Button key={tab} variant="ghost" onClick={() => setAdminSubTab(tab)} className={`rounded-full text-[10px] md:text-xs font-black capitalize px-3 md:px-4 py-2 ${adminSubTab === tab ? 'bg-accent text-primary shadow-lg shadow-accent/20' : 'bg-white dark:bg-zinc-800 text-foreground dark:text-zinc-100 border border-gray-200 dark:border-zinc-700 shadow-sm'}`} data-testid={`button-admin-tab-${tab}`}>
-                        {tab === 'dashboard' ? <BarChart3 className="w-4 h-4 mr-2" /> : tab === 'calendar' ? <Calendar className="w-4 h-4 mr-2" /> : tab === 'orders' ? <Package className="w-4 h-4 mr-2" /> : tab === 'users' ? <Users className="w-4 h-4 mr-2" /> : tab === 'docs' ? <FileText className="w-4 h-4 mr-2" /> : tab === 'newsletter' ? <Mail className="w-4 h-4 mr-2" /> : tab === 'descuentos' ? <Tag className="w-4 h-4 mr-2" /> : tab === 'facturas' ? <Receipt className="w-4 h-4 mr-2" /> : <MessageSquare className="w-4 h-4 mr-2" />}
-                        <span className="hidden sm:inline">{tab === 'dashboard' ? 'Métricas' : tab === 'calendar' ? 'Fechas' : tab === 'orders' ? 'Pedidos' : tab === 'users' ? 'Clientes' : tab === 'docs' ? 'Documentos' : tab === 'descuentos' ? 'Descuentos' : tab === 'facturas' ? 'Facturas' : tab === 'newsletter' ? 'Newsletter' : 'Inbox'}</span>
+                  <div className="flex overflow-x-auto pb-3 mb-4 gap-1.5 no-scrollbar -mx-4 px-4 md:mx-0 md:px-0 md:gap-2 md:pb-4 md:mb-6">
+                    {[
+                      { id: 'dashboard', label: 'Métricas', mobileLabel: 'Métricas', icon: BarChart3 },
+                      { id: 'orders', label: 'Pedidos', mobileLabel: 'Pedidos', icon: Package },
+                      { id: 'users', label: 'Clientes', mobileLabel: 'Clientes', icon: Users },
+                      { id: 'facturas', label: 'Facturas', mobileLabel: 'Facturas', icon: Receipt },
+                      { id: 'calendar', label: 'Fechas', mobileLabel: 'Fechas', icon: Calendar },
+                      { id: 'docs', label: 'Documentos', mobileLabel: 'Docs', icon: FileText },
+                      { id: 'newsletter', label: 'Newsletter', mobileLabel: 'News', icon: Mail },
+                      { id: 'inbox', label: 'Inbox', mobileLabel: 'Inbox', icon: MessageSquare },
+                      { id: 'descuentos', label: 'Descuentos', mobileLabel: 'Desc', icon: Tag },
+                    ].map((item) => (
+                      <Button
+                        key={item.id}
+                        variant={adminSubTab === item.id ? "default" : "outline"}
+                        onClick={() => setAdminSubTab(item.id)}
+                        size="sm"
+                        className={`flex items-center gap-1 sm:gap-2 rounded-full font-bold text-[10px] sm:text-[11px] md:text-xs tracking-tight whitespace-nowrap shrink-0 ${
+                          adminSubTab === item.id 
+                          ? 'bg-accent text-primary shadow-lg shadow-accent/20' 
+                          : 'bg-white dark:bg-zinc-900 text-muted-foreground border-0'
+                        }`}
+                        data-testid={`button-admin-tab-${item.id}`}
+                      >
+                        <item.icon className="w-4 h-4" />
+                        <span className="hidden md:inline">{item.label}</span>
+                        <span className="md:hidden">{item.mobileLabel}</span>
                       </Button>
                     ))}
                   </div>
