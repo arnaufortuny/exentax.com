@@ -697,12 +697,12 @@ export default function Dashboard() {
                           <Package className="w-8 h-8 text-accent" />
                         </div>
                         <div>
-                          <h3 className="text-lg font-black text-primary mb-2">Aún no tienes ningún servicio activo</h3>
-                          <p className="text-sm text-muted-foreground mb-6">Cuando contrates un servicio, aquí verás todo su progreso paso a paso.</p>
+                          <h3 className="text-lg font-black text-primary mb-2">Aún no tienes servicios activos</h3>
+                          <p className="text-sm text-muted-foreground mb-6">Empieza hoy y constituye tu LLC en EE. UU. en pocos pasos.</p>
                         </div>
                         <Link href="/servicios#pricing">
                           <Button className="bg-accent text-primary font-black rounded-full px-8 py-3" data-testid="button-view-packs">
-                            Constituir mi LLC
+                            Ver planes disponibles
                           </Button>
                         </Link>
                       </div>
@@ -865,8 +865,11 @@ export default function Dashboard() {
                     {(!messagesData || messagesData.length === 0) ? (
                       <Card className="rounded-2xl border-0 shadow-sm p-8 bg-white dark:bg-zinc-900 text-center">
                         <MessageSquare className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-                        <p className="text-muted-foreground font-medium">Todavía no hay mensajes</p>
-                        <p className="text-sm text-muted-foreground mt-2">Tus conversaciones con soporte aparecerán aquí</p>
+                        <p className="text-muted-foreground font-medium">Aún no has contactado con soporte</p>
+                        <p className="text-sm text-muted-foreground mt-2">Escríbenos cuando quieras. Te responderá una persona, no un bot.</p>
+                        <a href="https://wa.me/34614916910" target="_blank" rel="noopener noreferrer" className="mt-4 inline-block">
+                          <Button className="bg-accent text-primary font-black rounded-full px-6 py-2">Hablar con soporte</Button>
+                        </a>
                       </Card>
                     ) : (
                       messagesData.map((msg) => (
@@ -1007,8 +1010,8 @@ export default function Dashboard() {
                     {(!orders || orders.length === 0) ? (
                       <Card className="rounded-2xl border-0 shadow-sm p-8 bg-white dark:bg-zinc-900 text-center">
                         <CreditCard className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-                        <p className="text-muted-foreground font-medium">Todavía no has contratado ningún servicio</p>
-                        <p className="text-sm text-muted-foreground mt-2">Tus facturas y recibos aparecerán aquí</p>
+                        <p className="text-muted-foreground font-medium">Sin pagos registrados</p>
+                        <p className="text-sm text-muted-foreground mt-2">Cuando contrates un servicio, aquí tendrás todas tus facturas y recibos.</p>
                       </Card>
                     ) : (
                       orders.map((order: any) => (
@@ -1155,11 +1158,11 @@ export default function Dashboard() {
                   ) : (
                     <Card className="rounded-xl md:rounded-2xl border shadow-sm p-6 md:p-8 bg-white dark:bg-zinc-900 text-center">
                       <Calendar className="w-10 h-10 md:w-12 md:h-12 mx-auto text-muted-foreground/30 mb-3 md:mb-4" />
-                      <h3 className="text-base md:text-lg font-black text-primary mb-2">Sin fechas programadas</h3>
-                      <p className="text-xs md:text-sm text-muted-foreground mb-4">Contrata tu primera LLC para ver las fechas importantes</p>
+                      <h3 className="text-base md:text-lg font-black text-primary mb-2">No hay fechas fiscales programadas</h3>
+                      <p className="text-xs md:text-sm text-muted-foreground mb-4">Al constituir tu LLC, verás aquí todos los vencimientos importantes.</p>
                       <Link href="/servicios#pricing">
                         <Button className="bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">
-                          <PlusCircle className="w-4 h-4 mr-2" /> Comenzar
+                          <PlusCircle className="w-4 h-4 mr-2" /> Constituir mi LLC
                         </Button>
                       </Link>
                     </Card>
@@ -2178,7 +2181,7 @@ export default function Dashboard() {
                     )}
                   </>
                 ) : (
-                  <div className="text-center py-4"><AlertCircle className="w-8 h-8 text-gray-200 mx-auto mb-2" /><p className="text-xs text-muted-foreground">Sin trámites en curso</p><p className="text-[10px] text-muted-foreground/70 mt-1">En cuanto iniciemos un proceso, podrás seguirlo aquí en tiempo real.</p></div>
+                  <div className="text-center py-4"><AlertCircle className="w-8 h-8 text-gray-200 mx-auto mb-2" /><p className="text-xs text-muted-foreground">No hay trámites en curso</p><p className="text-[10px] text-muted-foreground/70 mt-1">Cuando contrates un servicio, aquí podrás seguir todo el proceso.</p></div>
                 )}
               </div>
             </section>
