@@ -15,7 +15,6 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogDescription, DialogTrigger } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { NativeSelect, NativeSelectItem } from "@/components/ui/native-select";
 import { SocialLogin } from "@/components/auth/social-login";
 import { LLCProgressWidget } from "@/components/llc-progress-widget";
@@ -1609,15 +1608,16 @@ export default function Dashboard() {
                                 {app?.businessCategory && <p className="text-xs text-muted-foreground"><strong>Categoría:</strong> {app.businessCategory}</p>}
                                 {isMaintenance && app?.ein && <p className="text-xs text-muted-foreground"><strong>EIN:</strong> {app.ein}</p>}
                               </div>
-                              <Select value={order.status} onValueChange={val => updateStatusMutation.mutate({ id: order.id, status: val })}>
-                                <SelectTrigger className="w-28 h-9 rounded-full text-xs bg-white dark:bg-zinc-900 border"><SelectValue /></SelectTrigger>
-                                <SelectContent>
-                                  <SelectItem value="pending">Pendiente</SelectItem>
-                                  <SelectItem value="paid">Pagado</SelectItem>
-                                  <SelectItem value="filed">Presentado</SelectItem>
-                                  <SelectItem value="cancelled">Cancelado</SelectItem>
-                                </SelectContent>
-                              </Select>
+                              <NativeSelect 
+                                value={order.status} 
+                                onValueChange={val => updateStatusMutation.mutate({ id: order.id, status: val })}
+                                className="w-28 h-9 rounded-full text-xs bg-white dark:bg-zinc-900 border px-3"
+                              >
+                                <NativeSelectItem value="pending">Pendiente</NativeSelectItem>
+                                <NativeSelectItem value="paid">Pagado</NativeSelectItem>
+                                <NativeSelectItem value="filed">Presentado</NativeSelectItem>
+                                <NativeSelectItem value="cancelled">Cancelado</NativeSelectItem>
+                              </NativeSelect>
                             </div>
                             <div className="flex gap-2 flex-wrap">
                               <Button size="sm" variant="outline" className="rounded-full text-xs" onClick={() => window.open(`/api/admin/invoice/${order.id}`, '_blank')} data-testid={`btn-view-invoice-${order.id}`}>
@@ -1660,15 +1660,16 @@ export default function Dashboard() {
                               </p>
                               <div className="w-full">
                                 <Label className="text-[10px] text-muted-foreground mb-1 block">Estado de cuenta</Label>
-                                <Select value={u.accountStatus || 'active'} onValueChange={val => u.id && updateUserMutation.mutate({ id: u.id, accountStatus: val as any })}>
-                                  <SelectTrigger className="w-full h-9 rounded-full text-xs bg-white dark:bg-zinc-900 border shadow-sm"><SelectValue /></SelectTrigger>
-                                  <SelectContent>
-                                    <SelectItem value="active">Verificado</SelectItem>
-                                    <SelectItem value="pending">En revisión</SelectItem>
-                                    <SelectItem value="deactivated">Desactivada</SelectItem>
-                                    <SelectItem value="vip">VIP</SelectItem>
-                                  </SelectContent>
-                                </Select>
+                                <NativeSelect 
+                                  value={u.accountStatus || 'active'} 
+                                  onValueChange={val => u.id && updateUserMutation.mutate({ id: u.id, accountStatus: val as any })}
+                                  className="w-full h-9 rounded-full text-xs bg-white dark:bg-zinc-900 border shadow-sm px-3"
+                                >
+                                  <NativeSelectItem value="active">Verificado</NativeSelectItem>
+                                  <NativeSelectItem value="pending">En revisión</NativeSelectItem>
+                                  <NativeSelectItem value="deactivated">Desactivada</NativeSelectItem>
+                                  <NativeSelectItem value="vip">VIP</NativeSelectItem>
+                                </NativeSelect>
                               </div>
                             </div>
                             <div className="flex flex-wrap gap-2">
@@ -1811,20 +1812,21 @@ export default function Dashboard() {
                                   <Eye className="w-4 h-4" />
                                 </Button>
                               )}
-                              <Select value={doc.reviewStatus || 'pending'} onValueChange={async val => {
-                                try {
-                                  await apiRequest("PATCH", `/api/admin/documents/${doc.id}/review`, { reviewStatus: val });
-                                  queryClient.invalidateQueries({ queryKey: ["/api/admin/documents"] });
-                                  toast({ title: "Estado actualizado" });
-                                } catch { toast({ title: "Error", variant: "destructive" }); }
-                              }}>
-                                <SelectTrigger className="h-8 w-24 text-[10px] rounded-full"><SelectValue /></SelectTrigger>
-                                <SelectContent>
-                                  <SelectItem value="pending">Pendiente</SelectItem>
-                                  <SelectItem value="approved">Aprobar</SelectItem>
-                                  <SelectItem value="rejected">Rechazar</SelectItem>
-                                </SelectContent>
-                              </Select>
+                              <NativeSelect 
+                                value={doc.reviewStatus || 'pending'} 
+                                onValueChange={async val => {
+                                  try {
+                                    await apiRequest("PATCH", `/api/admin/documents/${doc.id}/review`, { reviewStatus: val });
+                                    queryClient.invalidateQueries({ queryKey: ["/api/admin/documents"] });
+                                    toast({ title: "Estado actualizado" });
+                                  } catch { toast({ title: "Error", variant: "destructive" }); }
+                                }}
+                                className="h-8 w-24 text-[10px] rounded-full px-2"
+                              >
+                                <NativeSelectItem value="pending">Pendiente</NativeSelectItem>
+                                <NativeSelectItem value="approved">Aprobar</NativeSelectItem>
+                                <NativeSelectItem value="rejected">Rechazar</NativeSelectItem>
+                              </NativeSelect>
                             </div>
                           </div>
                         ))}
@@ -2244,14 +2246,16 @@ export default function Dashboard() {
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
                       <Label className="text-sm font-black text-primary mb-2 block">Tipo ID</Label>
-                      <Select value={editingUser.idType || ''} onValueChange={val => setEditingUser({...editingUser, idType: val})}>
-                        <SelectTrigger className="w-full rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800"><SelectValue placeholder="Seleccionar" /></SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="dni">DNI</SelectItem>
-                          <SelectItem value="nie">NIE</SelectItem>
-                          <SelectItem value="passport">Pasaporte</SelectItem>
-                        </SelectContent>
-                      </Select>
+                      <NativeSelect 
+                        value={editingUser.idType || ''} 
+                        onValueChange={val => setEditingUser({...editingUser, idType: val})}
+                        placeholder="Seleccionar"
+                        className="w-full rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800"
+                      >
+                        <NativeSelectItem value="dni">DNI</NativeSelectItem>
+                        <NativeSelectItem value="nie">NIE</NativeSelectItem>
+                        <NativeSelectItem value="passport">Pasaporte</NativeSelectItem>
+                      </NativeSelect>
                     </div>
                     <div>
                       <Label className="text-sm font-black text-primary mb-2 block">Número ID</Label>
@@ -2264,19 +2268,22 @@ export default function Dashboard() {
                   </div>
                   <div>
                     <Label className="text-sm font-black text-primary mb-2 block">Actividad de Negocio</Label>
-                    <Select value={editingUser.businessActivity || ''} onValueChange={val => setEditingUser({...editingUser, businessActivity: val})}>
-                      <SelectTrigger className="rounded-full h-11 md:h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800" style={{ fontSize: '16px' }} data-testid="select-edit-activity"><SelectValue placeholder="Seleccionar actividad" /></SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="ecommerce">E-commerce</SelectItem>
-                        <SelectItem value="dropshipping">Dropshipping</SelectItem>
-                        <SelectItem value="consulting">Consultoría</SelectItem>
-                        <SelectItem value="marketing">Marketing Digital</SelectItem>
-                        <SelectItem value="software">Desarrollo de Software</SelectItem>
-                        <SelectItem value="trading">Trading / Inversiones</SelectItem>
-                        <SelectItem value="freelance">Freelance</SelectItem>
-                        <SelectItem value="other">Otra</SelectItem>
-                      </SelectContent>
-                    </Select>
+                    <NativeSelect 
+                      value={editingUser.businessActivity || ''} 
+                      onValueChange={val => setEditingUser({...editingUser, businessActivity: val})}
+                      placeholder="Seleccionar actividad"
+                      className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800"
+                      data-testid="select-edit-activity"
+                    >
+                      <NativeSelectItem value="ecommerce">E-commerce</NativeSelectItem>
+                      <NativeSelectItem value="dropshipping">Dropshipping</NativeSelectItem>
+                      <NativeSelectItem value="consulting">Consultoría</NativeSelectItem>
+                      <NativeSelectItem value="marketing">Marketing Digital</NativeSelectItem>
+                      <NativeSelectItem value="software">Desarrollo de Software</NativeSelectItem>
+                      <NativeSelectItem value="trading">Trading / Inversiones</NativeSelectItem>
+                      <NativeSelectItem value="freelance">Freelance</NativeSelectItem>
+                      <NativeSelectItem value="other">Otra</NativeSelectItem>
+                    </NativeSelect>
                   </div>
                   <div>
                     <Label className="text-sm font-black text-primary mb-2 block">Dirección</Label>
@@ -2373,13 +2380,14 @@ export default function Dashboard() {
                 </div>
                 <div>
                   <Label className="text-sm font-black text-primary mb-2 block">Divisa</Label>
-                  <Select value={orderInvoiceCurrency} onValueChange={setOrderInvoiceCurrency}>
-                    <SelectTrigger className="w-full rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800"><SelectValue placeholder="Seleccionar divisa" /></SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="EUR">EUR (€)</SelectItem>
-                      <SelectItem value="USD">USD ($)</SelectItem>
-                    </SelectContent>
-                  </Select>
+                  <NativeSelect 
+                    value={orderInvoiceCurrency} 
+                    onValueChange={setOrderInvoiceCurrency}
+                    className="w-full rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800"
+                  >
+                    <NativeSelectItem value="EUR">EUR (€)</NativeSelectItem>
+                    <NativeSelectItem value="USD">USD ($)</NativeSelectItem>
+                  </NativeSelect>
                 </div>
               </div>
               <DialogFooter className="flex-col sm:flex-row gap-3 mt-6">
@@ -2422,15 +2430,17 @@ export default function Dashboard() {
               <div className="space-y-4 pt-2">
                 <div>
                   <Label className="text-sm font-black text-primary mb-2 block">Tipo de documento</Label>
-                  <Select value={docType} onValueChange={setDocType}>
-                    <SelectTrigger className="w-full rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800"><SelectValue placeholder="Seleccionar tipo..." /></SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="passport">Pasaporte / Documento de Identidad</SelectItem>
-                      <SelectItem value="address_proof">Prueba de Domicilio</SelectItem>
-                      <SelectItem value="tax_id">Identificación Fiscal (NIF/CIF)</SelectItem>
-                      <SelectItem value="other">Otro Documento</SelectItem>
-                    </SelectContent>
-                  </Select>
+                  <NativeSelect 
+                    value={docType} 
+                    onValueChange={setDocType}
+                    placeholder="Seleccionar tipo..."
+                    className="w-full rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800"
+                  >
+                    <NativeSelectItem value="passport">Pasaporte / Documento de Identidad</NativeSelectItem>
+                    <NativeSelectItem value="address_proof">Prueba de Domicilio</NativeSelectItem>
+                    <NativeSelectItem value="tax_id">Identificación Fiscal (NIF/CIF)</NativeSelectItem>
+                    <NativeSelectItem value="other">Otro Documento</NativeSelectItem>
+                  </NativeSelect>
                 </div>
                 <div>
                   <Label className="text-sm font-black text-primary mb-2 block">Mensaje</Label>
@@ -2497,15 +2507,15 @@ export default function Dashboard() {
                   </div>
                   <div>
                     <Label className="text-sm font-black text-primary mb-2 block">Moneda</Label>
-                    <Select value={invoiceCurrency} onValueChange={setInvoiceCurrency}>
-                      <SelectTrigger className="w-full rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800" data-testid="select-invoice-currency">
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="EUR">EUR</SelectItem>
-                        <SelectItem value="USD">USD</SelectItem>
-                      </SelectContent>
-                    </Select>
+                    <NativeSelect 
+                      value={invoiceCurrency} 
+                      onValueChange={setInvoiceCurrency}
+                      className="w-full rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800"
+                      data-testid="select-invoice-currency"
+                    >
+                      <NativeSelectItem value="EUR">EUR</NativeSelectItem>
+                      <NativeSelectItem value="USD">USD</NativeSelectItem>
+                    </NativeSelect>
                   </div>
                 </div>
               </div>
@@ -2563,17 +2573,17 @@ export default function Dashboard() {
             )}
             <div>
               <Label className="text-xs sm:text-sm font-black text-primary mb-2 block">Tipo de documento</Label>
-              <Select value={uploadDocType} onValueChange={setUploadDocType}>
-                <SelectTrigger className="w-full rounded-full h-11 sm:h-12 px-4 sm:px-5 border-2 border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-sm" style={{ fontSize: '16px' }} data-testid="select-upload-doc-type">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="passport">Pasaporte / Documento de Identidad</SelectItem>
-                  <SelectItem value="address_proof">Prueba de Domicilio</SelectItem>
-                  <SelectItem value="tax_id">Identificación Fiscal (NIF/CIF)</SelectItem>
-                  <SelectItem value="other">Otro Documento</SelectItem>
-                </SelectContent>
-              </Select>
+              <NativeSelect 
+                value={uploadDocType} 
+                onValueChange={setUploadDocType}
+                className="w-full rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800"
+                data-testid="select-upload-doc-type"
+              >
+                <NativeSelectItem value="passport">Pasaporte / Documento de Identidad</NativeSelectItem>
+                <NativeSelectItem value="address_proof">Prueba de Domicilio</NativeSelectItem>
+                <NativeSelectItem value="tax_id">Identificación Fiscal (NIF/CIF)</NativeSelectItem>
+                <NativeSelectItem value="other">Otro Documento</NativeSelectItem>
+              </NativeSelect>
             </div>
             {uploadDocType === "other" && (
               <div>
@@ -2676,16 +2686,17 @@ export default function Dashboard() {
           <div className="space-y-4 pt-2">
             <div>
               <Label className="text-sm font-black text-primary mb-2 block">Cliente</Label>
-              <Select value={newOrderData.userId} onValueChange={val => setNewOrderData(p => ({ ...p, userId: val }))}>
-                <SelectTrigger className="w-full rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800" data-testid="select-order-user">
-                  <SelectValue placeholder="Seleccionar cliente..." />
-                </SelectTrigger>
-                <SelectContent>
-                  {adminUsers?.map((u: any) => (
-                    <SelectItem key={u.id} value={u.id}>{u.firstName} {u.lastName} ({u.email})</SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+              <NativeSelect 
+                value={newOrderData.userId} 
+                onValueChange={val => setNewOrderData(p => ({ ...p, userId: val }))}
+                placeholder="Seleccionar cliente..."
+                className="w-full rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800"
+                data-testid="select-order-user"
+              >
+                {adminUsers?.map((u: any) => (
+                  <NativeSelectItem key={u.id} value={u.id}>{u.firstName} {u.lastName} ({u.email})</NativeSelectItem>
+                ))}
+              </NativeSelect>
             </div>
             <div>
               <Label className="text-sm font-black text-primary mb-2 block">Estado (LLC)</Label>
