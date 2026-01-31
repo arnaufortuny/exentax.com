@@ -530,7 +530,7 @@ export function generateCustomInvoicePdf(data: CustomInvoiceData): Promise<Buffe
 export function generateOrderInvoice(orderData: {
   order: { id: number; invoiceNumber?: string | null; amount: number; originalAmount?: number | null; discountCode?: string | null; discountAmount?: number | null; currency: string; status: string; createdAt?: Date | null; };
   product: { name: string; description: string; features?: string[]; };
-  user: { firstName?: string | null; lastName?: string | null; email: string; };
+  user: { firstName?: string | null; lastName?: string | null; email: string; phone?: string | null; idType?: string | null; idNumber?: string | null; streetType?: string | null; address?: string | null; city?: string | null; province?: string | null; postalCode?: string | null; country?: string | null; };
   application?: { ownerFullName?: string | null; ownerEmail?: string | null; ownerPhone?: string | null; ownerIdType?: string | null; ownerIdNumber?: string | null; ownerStreetType?: string | null; ownerAddress?: string | null; ownerCity?: string | null; ownerProvince?: string | null; ownerPostalCode?: string | null; ownerCountry?: string | null; paymentMethod?: string | null; state?: string | null; } | null;
   maintenanceApplication?: { ownerFullName?: string | null; ownerEmail?: string | null; ownerPhone?: string | null; state?: string | null; paymentMethod?: string | null; } | null;
   paymentLink?: string | null;
@@ -584,8 +584,8 @@ export function generateOrderInvoice(orderData: {
 export function generateOrderReceipt(orderData: {
   order: { id: number; invoiceNumber?: string | null; amount: number; currency: string; status: string; createdAt?: Date | null; paymentDate?: Date | null; transactionId?: string | null; };
   product: { name: string; description: string; };
-  user: { firstName?: string | null; lastName?: string | null; email: string; };
-  application?: { ownerFullName?: string | null; ownerEmail?: string | null; ownerPhone?: string | null; ownerStreetType?: string | null; ownerAddress?: string | null; ownerCity?: string | null; ownerPostalCode?: string | null; companyName?: string | null; designator?: string | null; state?: string | null; ein?: string | null; paymentMethod?: string | null; } | null;
+  user: { firstName?: string | null; lastName?: string | null; email: string; phone?: string | null; streetType?: string | null; address?: string | null; city?: string | null; province?: string | null; postalCode?: string | null; country?: string | null; };
+  application?: { ownerFullName?: string | null; ownerEmail?: string | null; ownerPhone?: string | null; ownerStreetType?: string | null; ownerAddress?: string | null; ownerCity?: string | null; ownerProvince?: string | null; ownerPostalCode?: string | null; ownerCountry?: string | null; companyName?: string | null; designator?: string | null; state?: string | null; ein?: string | null; paymentMethod?: string | null; } | null;
   maintenanceApplication?: { ownerFullName?: string | null; ownerEmail?: string | null; ownerPhone?: string | null; state?: string | null; paymentMethod?: string | null; } | null;
   notes?: string | null;
   isMaintenance?: boolean;
@@ -605,9 +605,9 @@ export function generateOrderReceipt(orderData: {
       streetType: llcApp?.ownerStreetType || orderData.user.streetType || undefined,
       address: llcApp?.ownerAddress || orderData.user.address || undefined,
       city: llcApp?.ownerCity || orderData.user.city || undefined,
-      province: llcApp?.ownerProvince || orderData.user.province || undefined,
+      province: llcApp?.ownerProvince || orderData.user.province || (app as any)?.ownerProvince || undefined,
       postalCode: llcApp?.ownerPostalCode || orderData.user.postalCode || undefined,
-      country: llcApp?.ownerCountry || orderData.user.country || undefined,
+      country: llcApp?.ownerCountry || orderData.user.country || (app as any)?.ownerCountry || undefined,
     },
     service: {
       name: orderData.product.name,
