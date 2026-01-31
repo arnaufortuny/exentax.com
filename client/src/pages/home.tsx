@@ -122,38 +122,6 @@ export default function Home() {
 
       <PorQueEasyUSLLC />
 
-      <section className="py-8 sm:py-14 bg-background relative" id="servicios">
-        <div className="w-full px-5 sm:px-8">
-          <div className="text-center mb-8 sm:mb-12 flex flex-col items-center justify-center relative">
-            <span className="inline-flex items-center justify-center px-5 py-2 rounded-full bg-accent text-accent-foreground font-black text-xs sm:text-sm tracking-widest shadow-md mb-4">
-              SERVICIOS
-            </span>
-            <h2 className="text-4xl sm:text-4xl lg:text-5xl font-black text-foreground tracking-tight text-center leading-[1.1] sm:leading-tight">
-              Constitución<br className="sm:hidden" /> de LLC
-            </h2>
-            <p className="text-accent font-black tracking-wide text-lg sm:text-lg mt-1 sm:mt-2 text-center">(Lo que hacemos por ti)</p>
-          </div>
-          
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
-            {[
-              { title: "Constitución oficial", desc: "Gestionamos el registro completo de tu LLC ante el Secretary of State, ocupándonos de todos los trámites necesarios para que tu empresa quede correctamente constituida desde el inicio." },
-              { title: "Obtención del EIN", desc: "Tramitamos tu Employer Identification Number (EIN) directamente ante el IRS, permitiendo que tu LLC quede identificada fiscalmente y preparada para operar." },
-              { title: "Cuentas bancarias", desc: "Te acompañamos en el proceso de apertura de cuentas empresariales en Mercury y Relay, con acceso a banca en USD y tarjetas físicas de débito y crédito." },
-              { title: "BOI Report", desc: "Preparamos y presentamos el Beneficial Ownership Information Report ante FinCEN, cumpliendo con la obligación federal vigente para las LLC en Estados Unidos." },
-              { title: "Registered Agent", desc: "Incluimos el servicio de Registered Agent oficial durante el primer año completo, proporcionando dirección legal en Estados Unidos y recepción de notificaciones oficiales." },
-              { title: "Soporte experto", desc: "Ofrecemos atención directa y personalizada para resolver tus dudas fiscales y operativas, acompañándote en el uso y mantenimiento de tu LLC." },
-            ].map((service, i) => (
-              <div key={i} className="p-6 bg-accent/5 rounded-2xl border border-accent/10 sm:border-accent/10 border-accent/30 hover:bg-accent/10 text-left">
-                <span className="inline-flex items-center px-4 py-2 rounded-full bg-accent text-accent-foreground font-black text-sm shadow-sm mb-4">
-                  {service.title}
-                </span>
-                <p className="text-sm sm:text-base text-muted-foreground leading-relaxed text-left">{service.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       <section className="bg-background py-8 sm:py-24 relative" id="ventajas">
         <div className="w-full px-5 sm:px-8">
           <div className="text-center mb-6 sm:mb-20 flex flex-col items-center justify-center relative">
