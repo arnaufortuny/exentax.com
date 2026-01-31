@@ -13,7 +13,7 @@ if (!process.env.DATABASE_URL) {
 // Optimized connection string processing with simplified pool
 let connectionString = process.env.DATABASE_URL!;
 if (!connectionString.includes("sslmode=")) {
-  connectionString += (connectionString.includes("?") ? "&" : "?") + "sslmode=require";
+  connectionString += (connectionString.includes("?") ? "&" : "?") + "sslmode=no-verify";
 }
 
 export const pool = new Pool({ 
