@@ -422,7 +422,7 @@ export async function registerRoutes(
       isActive: z.boolean().optional(),
       isAdmin: z.boolean().optional(),
       accountStatus: z.enum(['active', 'pending', 'deactivated', 'vip']).optional(),
-      internalNotes: z.string().optional()
+      internalNotes: z.string().optional().nullable()
     });
     const data = updateSchema.parse(req.body);
     
