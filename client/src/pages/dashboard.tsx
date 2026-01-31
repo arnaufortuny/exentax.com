@@ -298,6 +298,12 @@ export default function Dashboard() {
     refetchInterval: 30000,
   });
 
+  const { data: adminInvoices } = useQuery<any[]>({
+    queryKey: ["/api/admin/invoices"],
+    enabled: !!user?.isAdmin,
+    refetchInterval: 60000,
+  });
+
   const { data: adminStats } = useQuery<{
     totalSales: number;
     pendingSales: number;
@@ -1422,10 +1428,10 @@ export default function Dashboard() {
               {activeTab === 'admin' && user?.isAdmin && (
                 <div key="admin" className="space-y-6">
                   <div className="flex flex-wrap gap-1.5 md:gap-2 mb-4 md:mb-6">
-                    {['dashboard', 'orders', 'users', 'calendar', 'docs', 'newsletter', 'inbox', 'descuentos'].map(tab => (
+                    {['dashboard', 'orders', 'users', 'facturas', 'calendar', 'docs', 'newsletter', 'inbox', 'descuentos'].map(tab => (
                       <Button key={tab} variant={adminSubTab === tab ? "default" : "outline"} onClick={() => setAdminSubTab(tab)} className="rounded-full text-[10px] md:text-xs font-black capitalize px-2 md:px-3" data-testid={`button-admin-tab-${tab}`}>
-                        <span className="hidden sm:inline">{tab === 'dashboard' ? 'Métricas' : tab === 'calendar' ? 'Fechas' : tab === 'orders' ? 'Pedidos' : tab === 'users' ? 'Clientes' : tab === 'docs' ? 'Documentos' : tab === 'descuentos' ? 'Descuentos' : tab}</span>
-                        <span className="sm:hidden flex items-center justify-center">{tab === 'dashboard' ? <BarChart3 className="w-5 h-5" /> : tab === 'calendar' ? <Calendar className="w-5 h-5" /> : tab === 'orders' ? <Package className="w-5 h-5" /> : tab === 'users' ? <Users className="w-5 h-5" /> : tab === 'docs' ? <FileText className="w-5 h-5" /> : tab === 'newsletter' ? <Mail className="w-5 h-5" /> : tab === 'descuentos' ? <Tag className="w-5 h-5" /> : <MessageSquare className="w-5 h-5" />}</span>
+                        <span className="hidden sm:inline">{tab === 'dashboard' ? 'Métricas' : tab === 'calendar' ? 'Fechas' : tab === 'orders' ? 'Pedidos' : tab === 'users' ? 'Clientes' : tab === 'docs' ? 'Documentos' : tab === 'descuentos' ? 'Descuentos' : tab === 'facturas' ? 'Facturas' : tab}</span>
+                        <span className="sm:hidden flex items-center justify-center">{tab === 'dashboard' ? <BarChart3 className="w-5 h-5" /> : tab === 'calendar' ? <Calendar className="w-5 h-5" /> : tab === 'orders' ? <Package className="w-5 h-5" /> : tab === 'users' ? <Users className="w-5 h-5" /> : tab === 'docs' ? <FileText className="w-5 h-5" /> : tab === 'newsletter' ? <Mail className="w-5 h-5" /> : tab === 'descuentos' ? <Tag className="w-5 h-5" /> : tab === 'facturas' ? <Receipt className="w-5 h-5" /> : <MessageSquare className="w-5 h-5" />}</span>
                       </Button>
                     ))}
                   </div>
@@ -1927,6 +1933,65 @@ export default function Dashboard() {
                       </div>
                     </Card>
                   )}
+                  {adminSubTab === 'facturas' && (
+                    <div className="space-y-4" data-testid="admin-facturas-section">
+                      <div className="flex justify-between items-center">
+                        <h3 className="text-sm font-bold">Facturas para Contabilidad</h3>
+                      </div>
+                      <Card className="rounded-2xl border-0 shadow-sm overflow-hidden">
+                        <div className="divide-y max-h-[60vh] overflow-y-auto">
+                          {adminInvoices?.length === 0 && (
+                            <p className="p-4 text-sm text-muted-foreground text-center">No hay facturas generadas</p>
+                          )}
+                          {adminInvoices?.map((inv: any) => (
+                            <div key={inv.id} className="p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3" data-testid={`invoice-row-${inv.id}`}>
+                              <div className="space-y-1">
+                                <div className="flex items-center gap-2 flex-wrap">
+                                  <span className="font-black text-sm">{inv.fileName || `Factura ${inv.order?.invoiceNumber}`}</span>
+                                  <Badge variant={inv.order?.status === 'paid' || inv.order?.status === 'completed' ? "default" : "secondary"} className="text-[10px]">
+                                    {inv.order?.status === 'paid' ? 'Pagada' : inv.order?.status === 'completed' ? 'Completada' : inv.order?.status === 'pending' ? 'Pendiente' : inv.order?.status || 'N/A'}
+                                  </Badge>
+                                </div>
+                                <p className="text-xs text-muted-foreground">
+                                  {inv.user?.firstName} {inv.user?.lastName} ({inv.user?.email})
+                                </p>
+                                <p className="text-xs text-muted-foreground">
+                                  Importe: {inv.order?.amount ? ((inv.order.amount / 100).toFixed(2) + (inv.order.currency === 'USD' ? ' $' : ' €')) : 'N/A'} | 
+                                  Fecha: {inv.createdAt ? new Date(inv.createdAt).toLocaleDateString('es-ES') : 'N/A'}
+                                </p>
+                              </div>
+                              <div className="flex gap-2">
+                                <Button 
+                                  variant="outline" 
+                                  size="sm" 
+                                  className="rounded-full text-xs"
+                                  onClick={() => window.open(inv.fileUrl || `/api/orders/${inv.orderId}/invoice`, '_blank')}
+                                  data-testid={`button-view-invoice-${inv.id}`}
+                                >
+                                  <Eye className="w-3 h-3 mr-1" /> Ver
+                                </Button>
+                                <Button 
+                                  variant="outline" 
+                                  size="sm" 
+                                  className="rounded-full text-xs"
+                                  onClick={() => {
+                                    const link = document.createElement('a');
+                                    link.href = inv.fileUrl || `/api/orders/${inv.orderId}/invoice`;
+                                    link.download = `Factura-${inv.order?.invoiceNumber || inv.id}.pdf`;
+                                    link.click();
+                                  }}
+                                  data-testid={`button-download-invoice-${inv.id}`}
+                                >
+                                  <Download className="w-3 h-3 mr-1" /> Descargar
+                                </Button>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </Card>
+                    </div>
+                  )}
+
                   {adminSubTab === 'descuentos' && (
                     <div className="space-y-4">
                       <div className="flex justify-between items-center">

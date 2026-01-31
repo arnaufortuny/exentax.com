@@ -75,7 +75,7 @@ const SelectContent = React.forwardRef<
     <SelectPrimitive.Content
       ref={ref}
       className={cn(
-        "relative z-[9999] max-h-[min(320px,60vh)] min-w-[12rem] overflow-y-auto overflow-x-hidden rounded-xl border border-border bg-white dark:bg-zinc-900 text-foreground shadow-2xl data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 overscroll-contain touch-pan-y -webkit-overflow-scrolling-touch",
+        "relative z-[10000] max-h-[min(320px,60vh)] min-w-[12rem] overflow-y-auto overflow-x-hidden rounded-xl border border-border bg-white dark:bg-zinc-900 text-foreground shadow-2xl data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 overscroll-contain touch-pan-y -webkit-overflow-scrolling-touch",
         position === "popper" &&
           "data-[side=bottom]:translate-y-1 data-[side=left]:-translate-x-1 data-[side=right]:translate-x-1 data-[side=top]:-translate-y-1",
         className
@@ -83,8 +83,9 @@ const SelectContent = React.forwardRef<
       position={position}
       side={side || "bottom"}
       align="start"
-      sideOffset={8}
+      sideOffset={4}
       avoidCollisions={true}
+      collisionPadding={16}
       {...props}
     >
       <SelectScrollUpButton />

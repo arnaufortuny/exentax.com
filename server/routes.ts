@@ -844,6 +844,42 @@ export async function registerRoutes(
     }
   });
 
+  // Admin Invoices list for accounting
+  app.get("/api/admin/invoices", isAdmin, async (req, res) => {
+    try {
+      const invoices = await db.select({
+        id: applicationDocumentsTable.id,
+        orderId: applicationDocumentsTable.orderId,
+        fileName: applicationDocumentsTable.fileName,
+        fileUrl: applicationDocumentsTable.fileUrl,
+        createdAt: applicationDocumentsTable.createdAt,
+        order: {
+          id: ordersTable.id,
+          amount: ordersTable.amount,
+          currency: ordersTable.currency,
+          status: ordersTable.status,
+          invoiceNumber: ordersTable.invoiceNumber,
+          createdAt: ordersTable.createdAt,
+        },
+        user: {
+          id: usersTable.id,
+          firstName: usersTable.firstName,
+          lastName: usersTable.lastName,
+          email: usersTable.email,
+        }
+      })
+        .from(applicationDocumentsTable)
+        .leftJoin(ordersTable, eq(applicationDocumentsTable.orderId, ordersTable.id))
+        .leftJoin(usersTable, eq(ordersTable.userId, usersTable.id))
+        .where(eq(applicationDocumentsTable.documentType, "invoice"))
+        .orderBy(desc(applicationDocumentsTable.createdAt));
+      res.json(invoices);
+    } catch (error) {
+      console.error("Error fetching invoices:", error);
+      res.status(500).json({ message: "Error al obtener facturas" });
+    }
+  });
+
   // Admin Newsletter
   app.get("/api/admin/newsletter", isAdmin, async (req, res) => {
     try {
