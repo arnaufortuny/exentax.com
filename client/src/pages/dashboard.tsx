@@ -539,17 +539,25 @@ export default function Dashboard() {
 
   const createOrderMutation = useMutation({
     mutationFn: async (data: typeof newOrderData) => {
-      const res = await apiRequest("POST", "/api/admin/orders/create", data);
+      const { userId, state, amount } = data;
+      if (!userId || !state || !amount) {
+        throw new Error("Faltan datos requeridos");
+      }
+      const res = await apiRequest("POST", "/api/admin/orders/create", { userId, state, amount });
+      if (!res.ok) {
+        const errorData = await res.json().catch(() => ({}));
+        throw new Error(errorData.message || "Error al crear pedido");
+      }
       return res.json();
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["/api/admin/orders"] });
-      toast({ title: "Pedido creado", description: "El pedido ha sido registrado correctamente" });
+      toast({ title: "Pedido creado", description: `Pedido ${data?.invoiceNumber || ''} registrado correctamente` });
       setCreateOrderDialog(false);
       setNewOrderData({ userId: '', productId: '1', amount: '', state: 'New Mexico' });
     },
-    onError: () => {
-      toast({ title: "Error", description: "No se pudo crear el pedido", variant: "destructive" });
+    onError: (error: any) => {
+      toast({ title: "Error", description: error.message || "No se pudo crear el pedido", variant: "destructive" });
     }
   });
 
