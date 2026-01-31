@@ -1901,27 +1901,58 @@ export default function Dashboard() {
                       </div>
                       <div className="divide-y max-h-[60vh] overflow-y-auto">
                         {adminDocuments?.map((doc: any) => (
-                          <div key={doc.id} className="py-3 flex items-start justify-between gap-2">
+                          <div key={doc.id} className="py-3 flex items-start justify-between gap-3">
                             <div className="min-w-0 flex-1">
                               <div className="flex items-center gap-2 flex-wrap mb-1">
-                                <p className="font-bold text-sm truncate">{doc.fileName}</p>
-                                <Badge variant="outline" className={`text-[9px] ${doc.reviewStatus === 'approved' ? 'bg-green-100 text-green-700' : doc.reviewStatus === 'rejected' ? 'bg-red-100 text-red-700' : 'bg-yellow-100 text-yellow-700'}`}>
+                                <div className="w-8 h-8 rounded-full bg-accent/20 flex items-center justify-center shrink-0">
+                                  <FileText className="w-4 h-4 text-accent" />
+                                </div>
+                                <div className="flex-1 min-w-0">
+                                  <p className="font-bold text-sm truncate">{doc.fileName}</p>
+                                  <p className="text-[10px] text-muted-foreground truncate">
+                                    {doc.documentType || 'Documento'}
+                                  </p>
+                                </div>
+                                <Badge variant="outline" className={`text-[9px] shrink-0 ${doc.reviewStatus === 'approved' ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' : doc.reviewStatus === 'rejected' ? 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400' : 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400'}`}>
                                   {doc.reviewStatus === 'approved' ? 'Aprobado' : doc.reviewStatus === 'rejected' ? 'Rechazado' : 'Pendiente'}
                                 </Badge>
                               </div>
-                              <p className="text-xs text-muted-foreground">{doc.user?.firstName} {doc.user?.lastName} • {doc.user?.email}</p>
-                              <p className="text-[10px] text-muted-foreground">
-                                {doc.application?.companyName && <><strong>LLC:</strong> {doc.application.companyName} • </>}
-                                <strong>Tipo:</strong> {doc.documentType || 'Documento'} • 
-                                <strong> Fecha:</strong> {doc.uploadedAt ? new Date(doc.uploadedAt).toLocaleDateString('es-ES') : '-'}
-                              </p>
+                              <div className="ml-10 space-y-0.5">
+                                <p className="text-xs font-medium text-primary">
+                                  <span className="text-accent">Cliente:</span> {doc.user?.firstName} {doc.user?.lastName}
+                                </p>
+                                <p className="text-[10px] text-muted-foreground">{doc.user?.email}</p>
+                                <p className="text-[10px] text-muted-foreground">
+                                  {doc.application?.companyName && <><span className="font-medium">LLC:</span> {doc.application.companyName} • </>}
+                                  <span className="font-medium">Fecha:</span> {doc.uploadedAt ? new Date(doc.uploadedAt).toLocaleDateString('es-ES', { day: '2-digit', month: 'short', year: 'numeric' }) : '-'}
+                                </p>
+                              </div>
                             </div>
-                            <div className="flex gap-1 shrink-0">
-                              {doc.fileUrl && (
-                                <Button size="icon" variant="ghost" className="h-8 w-8" onClick={() => window.open(doc.fileUrl, '_blank')} data-testid={`btn-view-doc-${doc.id}`}>
-                                  <Eye className="w-4 h-4" />
+                            <div className="flex flex-col gap-1.5 shrink-0">
+                              <div className="flex gap-1">
+                                {doc.fileUrl && (
+                                  <Button size="icon" variant="outline" className="h-8 w-8 rounded-full" onClick={() => window.open(doc.fileUrl, '_blank')} data-testid={`btn-view-doc-${doc.id}`}>
+                                    <Eye className="w-3.5 h-3.5" />
+                                  </Button>
+                                )}
+                                <Button 
+                                  size="icon" 
+                                  variant="outline" 
+                                  className="h-8 w-8 rounded-full text-red-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20" 
+                                  onClick={async () => {
+                                    if (confirm('¿Eliminar este documento permanentemente?')) {
+                                      try {
+                                        await apiRequest("DELETE", `/api/admin/documents/${doc.id}`);
+                                        queryClient.invalidateQueries({ queryKey: ["/api/admin/documents"] });
+                                        toast({ title: "Documento eliminado" });
+                                      } catch { toast({ title: "Error al eliminar", variant: "destructive" }); }
+                                    }
+                                  }}
+                                  data-testid={`btn-delete-doc-${doc.id}`}
+                                >
+                                  <Trash2 className="w-3.5 h-3.5" />
                                 </Button>
-                              )}
+                              </div>
                               <NativeSelect 
                                 value={doc.reviewStatus || 'pending'} 
                                 onValueChange={async val => {
@@ -1931,7 +1962,7 @@ export default function Dashboard() {
                                     toast({ title: "Estado actualizado" });
                                   } catch { toast({ title: "Error", variant: "destructive" }); }
                                 }}
-                                className="h-8 w-24 text-[10px] rounded-full px-2"
+                                className="h-7 text-[10px] rounded-full px-2"
                               >
                                 <NativeSelectItem value="pending">Pendiente</NativeSelectItem>
                                 <NativeSelectItem value="approved">Aprobar</NativeSelectItem>
