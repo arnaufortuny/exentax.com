@@ -29,8 +29,18 @@ export function getSession() {
   });
   const isProduction = process.env.NODE_ENV === "production" || process.env.REPLIT_ENVIRONMENT === "production";
   
+  // Require SESSION_SECRET in production, use random fallback only in development
+  const envSecret = process.env.SESSION_SECRET;
+  if (!envSecret && isProduction) {
+    throw new Error("SESSION_SECRET environment variable is required in production");
+  }
+  const sessionSecret = envSecret || require("crypto").randomBytes(32).toString("hex");
+  if (!envSecret) {
+    console.warn("⚠️ Using random session secret for development. Set SESSION_SECRET in production.");
+  }
+  
   return session({
-    secret: process.env.SESSION_SECRET || "easy-us-llc-secret-key-2024",
+    secret: sessionSecret,
     store: sessionStore,
     resave: false,
     saveUninitialized: false,
