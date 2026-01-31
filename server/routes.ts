@@ -508,8 +508,10 @@ export async function registerRoutes(
       const userOrders = await db.select({ id: ordersTable.id }).from(ordersTable).where(eq(ordersTable.userId, userId));
       const orderIds = userOrders.map(o => o.id);
       
-      // 2. Get all applications for this user
-      const userApps = await db.select({ id: llcApplicationsTable.id }).from(llcApplicationsTable).where(eq(llcApplicationsTable.userId, userId));
+      // 2. Get all LLC applications from user's orders
+      const userApps = orderIds.length > 0 
+        ? await db.select({ id: llcApplicationsTable.id }).from(llcApplicationsTable).where(inArray(llcApplicationsTable.orderId, orderIds))
+        : [];
       const appIds = userApps.map(a => a.id);
       
       // 3. Delete documents associated with orders/applications
@@ -529,18 +531,22 @@ export async function registerRoutes(
       await db.delete(userNotifications).where(eq(userNotifications.userId, userId));
       
       // 6. Delete message replies and messages
-      const userMessages = await db.select({ id: messages.id }).from(messages).where(eq(messages.userId, userId));
+      const userMessages = await db.select({ id: messagesTable.id }).from(messagesTable).where(eq(messagesTable.userId, userId));
       const messageIds = userMessages.map(m => m.id);
       if (messageIds.length > 0) {
         await db.delete(messageReplies).where(inArray(messageReplies.messageId, messageIds));
       }
-      await db.delete(messages).where(eq(messages.userId, userId));
+      await db.delete(messagesTable).where(eq(messagesTable.userId, userId));
       
-      // 7. Delete maintenance applications
-      await db.delete(maintenanceApplicationsTable).where(eq(maintenanceApplicationsTable.userId, userId));
+      // 7. Delete maintenance applications from user's orders
+      if (orderIds.length > 0) {
+        await db.delete(maintenanceApplications).where(inArray(maintenanceApplications.orderId, orderIds));
+      }
       
-      // 8. Delete LLC applications
-      await db.delete(llcApplicationsTable).where(eq(llcApplicationsTable.userId, userId));
+      // 8. Delete LLC applications from user's orders
+      if (orderIds.length > 0) {
+        await db.delete(llcApplicationsTable).where(inArray(llcApplicationsTable.orderId, orderIds));
+      }
       
       // 9. Delete orders
       await db.delete(ordersTable).where(eq(ordersTable.userId, userId));
@@ -549,10 +555,10 @@ export async function registerRoutes(
       await db.delete(usersTable).where(eq(usersTable.id, userId));
       
       logAudit({ 
-        action: 'user_deleted_cascade', 
+        action: 'admin_user_update', 
         userId: req.session?.userId, 
         targetId: userId,
-        details: { deletedOrders: orderIds.length, deletedApps: appIds.length } 
+        details: { action: 'cascade_delete', deletedOrders: orderIds.length, deletedApps: appIds.length } 
       });
       
       res.json({ success: true });
@@ -1009,7 +1015,7 @@ export async function registerRoutes(
     try {
       const msgId = Number(req.params.id);
       await db.delete(messageReplies).where(eq(messageReplies.messageId, msgId));
-      await db.delete(messages).where(eq(messages.id, msgId));
+      await db.delete(messagesTable).where(eq(messagesTable.id, msgId));
       res.json({ success: true });
     } catch (error) {
       res.status(500).json({ message: "Error al eliminar mensaje" });

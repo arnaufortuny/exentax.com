@@ -871,7 +871,7 @@ export default function Dashboard() {
                                 </div>
                                 <h3 className="font-black text-sm md:text-base">{notif.title}</h3>
                                 <p className="text-sm text-muted-foreground mt-1">{notif.message}</p>
-                                {notif.type === 'action_required' && canEdit && (
+                                {notif.type === 'action_required' && user?.accountStatus !== 'deactivated' && (
                                   <Button 
                                     className="mt-3 bg-accent text-primary font-black rounded-full text-xs px-4 gap-2"
                                     onClick={() => {
@@ -968,13 +968,17 @@ export default function Dashboard() {
                     <p className="text-[11px] md:text-xs text-muted-foreground font-medium">Gestiona tus documentos y archivos</p>
                   </div>
                   
-                  {notifications?.some((n: any) => n.type === 'action_required' && !n.isRead) && (
-                    <Card className="rounded-xl border-2 border-orange-200 bg-orange-50 p-4 mb-4">
+                  {notifications?.some((n: any) => n.type === 'action_required' && !n.isRead) && user?.accountStatus !== 'deactivated' && (
+                    <Card className="rounded-xl border-2 border-orange-200 bg-orange-50 dark:bg-orange-900/20 dark:border-orange-800 p-4 mb-4">
                       <div className="flex items-start gap-3">
-                        <FileUp className="w-5 h-5 text-orange-600 mt-0.5" />
+                        <FileUp className="w-5 h-5 text-orange-600 dark:text-orange-400 mt-0.5" />
                         <div className="flex-1">
-                          <h4 className="font-bold text-orange-800 text-sm">Documentos Solicitados</h4>
-                          <p className="text-xs text-orange-700 mt-1">Tienes solicitudes de documentos pendientes. Por favor, sube los documentos requeridos.</p>
+                          <h4 className="font-bold text-orange-800 dark:text-orange-300 text-sm">Documentos Solicitados</h4>
+                          <div className="mt-2 space-y-1">
+                            {notifications?.filter((n: any) => n.type === 'action_required' && !n.isRead).map((n: any) => (
+                              <p key={n.id} className="text-xs text-orange-700 dark:text-orange-400">{n.message}</p>
+                            ))}
+                          </div>
                           <div className="mt-3">
                             <label className="cursor-pointer">
                               <input 
@@ -995,6 +999,7 @@ export default function Dashboard() {
                                     if (res.ok) {
                                       toast({ title: "Documento subido", description: "Tu documento ha sido enviado correctamente." });
                                       queryClient.invalidateQueries({ queryKey: ['/api/user/documents'] });
+                                      queryClient.invalidateQueries({ queryKey: ['/api/user/notifications'] });
                                     } else {
                                       toast({ title: "Error", description: "No se pudo subir el documento", variant: "destructive" });
                                     }
@@ -1004,7 +1009,7 @@ export default function Dashboard() {
                                 }}
                                 data-testid="input-upload-document"
                               />
-                              <Button variant="outline" className="rounded-full text-xs border-orange-300 text-orange-700" asChild>
+                              <Button variant="outline" className="rounded-full text-xs border-orange-300 dark:border-orange-700 text-orange-700 dark:text-orange-300" asChild>
                                 <span><FileUp className="w-3 h-3 mr-1" /> Subir Documento</span>
                               </Button>
                             </label>
