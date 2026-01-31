@@ -1518,15 +1518,15 @@ export default function Dashboard() {
 
               {activeTab === 'admin' && user?.isAdmin && (
                 <div key="admin" className="space-y-6">
-                  <div className="flex overflow-x-auto pb-3 mb-4 gap-1.5 no-scrollbar -mx-4 px-4 md:mx-0 md:px-0 md:gap-2 md:pb-4 md:mb-6">
+                  <div className="grid grid-cols-3 sm:grid-cols-5 gap-2 mb-4 md:mb-6">
                     {[
                       { id: 'dashboard', label: 'Métricas', mobileLabel: 'Métricas', icon: BarChart3 },
                       { id: 'orders', label: 'Pedidos', mobileLabel: 'Pedidos', icon: Package },
                       { id: 'users', label: 'Clientes', mobileLabel: 'Clientes', icon: Users },
                       { id: 'facturas', label: 'Facturas', mobileLabel: 'Facturas', icon: Receipt },
                       { id: 'calendar', label: 'Fechas', mobileLabel: 'Fechas', icon: Calendar },
-                      { id: 'docs', label: 'Documentos', mobileLabel: 'Docs', icon: FileText },
-                      { id: 'newsletter', label: 'Newsletter', mobileLabel: 'News', icon: Mail },
+                      { id: 'docs', label: 'Docs', mobileLabel: 'Docs', icon: FileText },
+                      { id: 'newsletter', label: 'News', mobileLabel: 'News', icon: Mail },
                       { id: 'inbox', label: 'Inbox', mobileLabel: 'Inbox', icon: MessageSquare },
                       { id: 'descuentos', label: 'Descuentos', mobileLabel: 'Desc', icon: Tag },
                     ].map((item) => (
@@ -1535,16 +1535,15 @@ export default function Dashboard() {
                         variant={adminSubTab === item.id ? "default" : "outline"}
                         onClick={() => setAdminSubTab(item.id)}
                         size="sm"
-                        className={`flex items-center gap-1 sm:gap-2 rounded-full font-bold text-[10px] sm:text-[11px] md:text-xs tracking-tight whitespace-nowrap shrink-0 ${
+                        className={`flex items-center justify-center gap-1.5 rounded-xl font-bold text-[10px] sm:text-xs h-10 px-2 ${
                           adminSubTab === item.id 
-                          ? 'bg-accent text-primary shadow-lg shadow-accent/20' 
-                          : 'bg-white dark:bg-zinc-900 text-muted-foreground border-0'
+                          ? 'bg-accent text-primary shadow-md' 
+                          : 'bg-white dark:bg-zinc-900 text-muted-foreground border border-border hover:border-accent/50'
                         }`}
                         data-testid={`button-admin-tab-${item.id}`}
                       >
-                        <item.icon className="w-4 h-4" />
-                        <span className="hidden md:inline">{item.label}</span>
-                        <span className="md:hidden">{item.mobileLabel}</span>
+                        <item.icon className="w-3.5 h-3.5 shrink-0" />
+                        <span className="truncate">{item.mobileLabel}</span>
                       </Button>
                     ))}
                   </div>
