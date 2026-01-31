@@ -170,9 +170,24 @@ export default function Register() {
           <div className="w-full max-w-md">
             <div className="text-center mb-8">
               <h1 className="text-2xl sm:text-3xl font-black text-primary tracking-tight">
-                Verifica tu <span className="text-accent">correo electrónico</span>
+                Comprobación rápida de <span className="text-accent">seguridad</span>
               </h1>
-              <p className="text-muted-foreground mt-2">Te hemos enviado un código de verificación para confirmar tu email</p>
+              <p className="text-muted-foreground mt-3">Vamos a verificar tu email para proteger tu cuenta.</p>
+              <p className="text-muted-foreground mt-1">Te hemos enviado un código de verificación.</p>
+            </div>
+
+            <div className="bg-white dark:bg-zinc-900 rounded-2xl p-5 border border-border shadow-sm mb-6">
+              <div className="space-y-2 text-sm text-foreground">
+                <p className="flex items-start gap-2">
+                  <span>👉</span>
+                  <span>Revisa tu bandeja de entrada.</span>
+                </p>
+                <p className="flex items-start gap-2">
+                  <span>👉</span>
+                  <span>Si no lo ves, comprueba también SPAM o Promociones.</span>
+                </p>
+              </div>
+              <p className="text-sm text-muted-foreground mt-3">Es solo un paso rápido y seguimos.</p>
             </div>
 
             <div className="space-y-6">
@@ -181,7 +196,7 @@ export default function Register() {
                 <Input
                   value={verificationCode}
                   onChange={(e) => setVerificationCode(e.target.value.replace(/\D/g, ""))}
-                  className="rounded-full text-center text-2xl font-black border-gray-200 focus:border-accent tracking-[0.5em]"
+                  className="rounded-full h-12 text-center text-2xl font-black border-2 border-gray-200 dark:border-zinc-700 focus:border-accent tracking-[0.5em] bg-white dark:bg-zinc-800"
                   maxLength={6}
                   inputMode="numeric"
                   autoComplete="one-time-code"
@@ -193,7 +208,7 @@ export default function Register() {
                 onClick={verifyEmail}
                 disabled={isVerifying || verificationCode.length < 6}
                 size="lg"
-                className="w-full bg-accent text-primary font-black rounded-full"
+                className="w-full bg-accent text-primary font-black rounded-full h-12"
                 data-testid="button-verify"
               >
                 {isVerifying ? <Loader2 className="animate-spin" /> : "Verificar mi email"}
@@ -205,22 +220,22 @@ export default function Register() {
                   variant="link"
                   onClick={resendCode}
                   disabled={isResending}
-                  className="text-accent p-0 h-auto"
+                  className="text-accent p-0 h-auto font-bold"
                   data-testid="button-resend-code"
                 >
                   {isResending ? "Enviando..." : "Reenviar código"}
                 </Button>
               </div>
 
-              <div className="text-center pt-4 border-t border-gray-100">
+              <div className="text-center pt-4 border-t border-gray-100 dark:border-zinc-700">
                 <p className="text-sm text-muted-foreground mb-2">Puedes verificarlo más tarde desde tu área de cliente</p>
                 <Link href="/dashboard">
                   <Button
-                    variant="link"
-                    className="text-accent p-0 h-auto"
+                    variant="outline"
+                    className="rounded-full font-bold"
                     data-testid="button-verify-later"
                   >
-                    Ir a mi panel
+                    Ir a mi nueva área de cliente
                   </Button>
                 </Link>
               </div>
