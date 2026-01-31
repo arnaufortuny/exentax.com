@@ -23,16 +23,16 @@ type Tab = 'services' | 'profile' | 'payments' | 'documents' | 'messages' | 'not
 
 function getOrderStatusLabel(status: string): { label: string; className: string } {
   const statusMap: Record<string, { label: string; className: string }> = {
-    pending: { label: 'Pendiente', className: 'bg-yellow-100 text-yellow-800' },
-    paid: { label: 'Pagado', className: 'bg-blue-100 text-blue-800' },
-    processing: { label: 'En Proceso', className: 'bg-purple-100 text-purple-800' },
-    documents_ready: { label: 'Docs. Listos', className: 'bg-cyan-100 text-cyan-800' },
-    completed: { label: 'Completado', className: 'bg-green-100 text-green-800' },
-    cancelled: { label: 'Cancelado', className: 'bg-red-100 text-red-700 font-black' },
-    filed: { label: 'Presentado', className: 'bg-indigo-100 text-indigo-800' },
-    draft: { label: 'Borrador', className: 'bg-gray-100 text-gray-600' },
+    pending: { label: 'Pendiente', className: 'bg-yellow-100 dark:bg-yellow-900/50 text-yellow-800 dark:text-yellow-300' },
+    paid: { label: 'Pagado', className: 'bg-blue-100 dark:bg-blue-900/50 text-blue-800 dark:text-blue-300' },
+    processing: { label: 'En Proceso', className: 'bg-purple-100 dark:bg-purple-900/50 text-purple-800 dark:text-purple-300' },
+    documents_ready: { label: 'Docs. Listos', className: 'bg-cyan-100 dark:bg-cyan-900/50 text-cyan-800 dark:text-cyan-300' },
+    completed: { label: 'Completado', className: 'bg-green-100 dark:bg-green-900/50 text-green-800 dark:text-green-300' },
+    cancelled: { label: 'Cancelado', className: 'bg-red-100 dark:bg-red-900/50 text-red-700 dark:text-red-400 font-black' },
+    filed: { label: 'Presentado', className: 'bg-indigo-100 dark:bg-indigo-900/50 text-indigo-800 dark:text-indigo-300' },
+    draft: { label: 'Borrador', className: 'bg-gray-100 dark:bg-zinc-700 text-gray-600 dark:text-gray-300' },
   };
-  return statusMap[status] || { label: status, className: 'bg-gray-100 text-gray-600' };
+  return statusMap[status] || { label: status, className: 'bg-gray-100 dark:bg-zinc-700 text-gray-600 dark:text-gray-300' };
 }
 
 interface AdminUserData {
@@ -89,7 +89,7 @@ function NewsletterToggle() {
     }
   });
 
-  if (isLoading) return <div className="w-10 h-6 bg-gray-100 animate-pulse rounded-full" />;
+  if (isLoading) return <div className="w-10 h-6 bg-gray-100 dark:bg-zinc-700 animate-pulse rounded-full" />;
 
   return (
     <Switch 
@@ -789,7 +789,7 @@ export default function Dashboard() {
                   ) : notifications?.length === 0 ? (
                     <Card className="rounded-2xl border-0 shadow-sm">
                       <CardContent className="p-8 text-center">
-                        <BellRing className="w-12 h-12 mx-auto text-gray-300 mb-4" />
+                        <BellRing className="w-12 h-12 mx-auto text-gray-300 dark:text-zinc-600 mb-4" />
                         <p className="text-muted-foreground">No tienes notificaciones</p>
                       </CardContent>
                     </Card>
@@ -814,7 +814,7 @@ export default function Dashboard() {
                                     <span className="text-[10px] bg-accent/20 text-primary px-2 py-1 rounded-full font-black">ACTUALIZACIÓN</span>
                                   )}
                                   {notif.type === 'info' && (
-                                    <span className="text-[10px] bg-gray-100 text-gray-700 px-2 py-1 rounded-full font-black">INFORMACIÓN</span>
+                                    <span className="text-[10px] bg-gray-100 dark:bg-zinc-700 text-gray-700 dark:text-gray-300 px-2 py-1 rounded-full font-black">INFORMACIÓN</span>
                                   )}
                                   <span className="text-[10px] text-muted-foreground font-medium">{new Date(notif.createdAt).toLocaleDateString()}</span>
                                 </div>
@@ -864,7 +864,7 @@ export default function Dashboard() {
                   <div className="space-y-4">
                     {(!messagesData || messagesData.length === 0) ? (
                       <Card className="rounded-2xl border-0 shadow-sm p-8 bg-white dark:bg-zinc-900 text-center">
-                        <MessageSquare className="w-12 h-12 text-gray-300 mx-auto mb-4" />
+                        <MessageSquare className="w-12 h-12 text-gray-300 dark:text-zinc-600 mx-auto mb-4" />
                         <p className="text-muted-foreground font-medium">Aún no has contactado con soporte</p>
                         <p className="text-sm text-muted-foreground mt-2">Escríbenos cuando quieras. Te responderá una persona, no un bot.</p>
                         <a href="https://wa.me/34614916910" target="_blank" rel="noopener noreferrer" className="mt-4 inline-block">
@@ -1009,7 +1009,7 @@ export default function Dashboard() {
                   <div className="space-y-4">
                     {(!orders || orders.length === 0) ? (
                       <Card className="rounded-2xl border-0 shadow-sm p-8 bg-white dark:bg-zinc-900 text-center">
-                        <CreditCard className="w-12 h-12 text-gray-300 mx-auto mb-4" />
+                        <CreditCard className="w-12 h-12 text-gray-300 dark:text-zinc-600 mx-auto mb-4" />
                         <p className="text-muted-foreground font-medium">Sin pagos registrados</p>
                         <p className="text-sm text-muted-foreground mt-2">Cuando contrates un servicio, aquí tendrás todas tus facturas y recibos.</p>
                       </Card>
@@ -2181,7 +2181,7 @@ export default function Dashboard() {
                     )}
                   </>
                 ) : (
-                  <div className="text-center py-4"><AlertCircle className="w-8 h-8 text-gray-200 mx-auto mb-2" /><p className="text-xs text-muted-foreground">No hay trámites en curso</p><p className="text-[10px] text-muted-foreground/70 mt-1">Cuando contrates un servicio, aquí podrás seguir todo el proceso.</p></div>
+                  <div className="text-center py-4"><AlertCircle className="w-8 h-8 text-gray-200 dark:text-zinc-600 mx-auto mb-2" /><p className="text-xs text-muted-foreground">No hay trámites en curso</p><p className="text-[10px] text-muted-foreground/70 mt-1">Cuando contrates un servicio, aquí podrás seguir todo el proceso.</p></div>
                 )}
               </div>
             </section>

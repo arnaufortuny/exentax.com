@@ -142,6 +142,53 @@
   "dashboard": {
     "title": "Dashboard",
     "welcome": "Welcome, {{name}}",
+    "subtitle": "Manage everything related to your LLC, simply and clearly.",
+    "clientArea": "Client Area",
+    "newLLC": "Form a new LLC",
+    "menu": {
+      "services": "My applications status",
+      "servicesMobile": "Status",
+      "tracking": "Tracking",
+      "trackingMobile": "Track",
+      "support": "Support",
+      "documents": "Documents",
+      "payments": "Payments",
+      "calendar": "Calendar",
+      "profile": "My Profile",
+      "admin": "Admin"
+    },
+    "services": {
+      "title": "My applications status",
+      "subtitle": "Manage your active applications",
+      "empty": "You don't have any active services yet",
+      "emptyDescription": "Start today and form your US LLC in just a few steps.",
+      "viewPlans": "View available plans",
+      "formLLC": "Form my LLC"
+    },
+    "tracking": {
+      "title": "Tracking",
+      "subtitle": "Your LLC progress, step by step",
+      "empty": "No applications in progress",
+      "emptyDescription": "When you hire a service, you'll be able to track the entire process here."
+    },
+    "support": {
+      "title": "Support",
+      "empty": "You haven't contacted support yet",
+      "emptyDescription": "Write to us anytime. A real person will respond, not a bot.",
+      "talkToSupport": "Talk to support",
+      "sidebarTitle": "Need help?",
+      "sidebarDescription": "Our team is available to help you at any time."
+    },
+    "payments": {
+      "title": "Payment history",
+      "empty": "No payments recorded",
+      "emptyDescription": "When you hire a service, all your invoices and receipts will appear here."
+    },
+    "calendar": {
+      "title": "Tax calendar",
+      "empty": "No tax dates scheduled",
+      "emptyDescription": "When you form your LLC, you'll see all important deadlines here."
+    },
     "orders": {
       "title": "My Orders",
       "empty": "You don't have any orders yet",

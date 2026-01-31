@@ -142,6 +142,53 @@
   "dashboard": {
     "title": "Panel de Control",
     "welcome": "Bienvenido, {{name}}",
+    "subtitle": "Aquí gestionas todo lo relacionado con tu LLC, de forma simple y clara.",
+    "clientArea": "Área de Clientes",
+    "newLLC": "Constituir una nueva LLC",
+    "menu": {
+      "services": "Estado de mis trámites",
+      "servicesMobile": "Trámites",
+      "tracking": "Seguimiento",
+      "trackingMobile": "Seguim.",
+      "support": "Soporte",
+      "documents": "Documentos",
+      "payments": "Pagos",
+      "calendar": "Agenda",
+      "profile": "Mi Perfil",
+      "admin": "Administración"
+    },
+    "services": {
+      "title": "Estado de mis trámites",
+      "subtitle": "Gestiona tus trámites activos",
+      "empty": "Aún no tienes servicios activos",
+      "emptyDescription": "Empieza hoy y constituye tu LLC en EE. UU. en pocos pasos.",
+      "viewPlans": "Ver planes disponibles",
+      "formLLC": "Constituir mi LLC"
+    },
+    "tracking": {
+      "title": "Seguimiento",
+      "subtitle": "El progreso de tu LLC, paso a paso",
+      "empty": "No hay trámites en curso",
+      "emptyDescription": "Cuando contrates un servicio, aquí podrás seguir todo el proceso."
+    },
+    "support": {
+      "title": "Soporte",
+      "empty": "Aún no has contactado con soporte",
+      "emptyDescription": "Escríbenos cuando quieras. Te responderá una persona, no un bot.",
+      "talkToSupport": "Hablar con soporte",
+      "sidebarTitle": "¿Hablamos?",
+      "sidebarDescription": "Nuestro equipo está disponible para ayudarte en cualquier momento."
+    },
+    "payments": {
+      "title": "Historial de pagos",
+      "empty": "Sin pagos registrados",
+      "emptyDescription": "Cuando contrates un servicio, aquí tendrás todas tus facturas y recibos."
+    },
+    "calendar": {
+      "title": "Calendario fiscal",
+      "empty": "No hay fechas fiscales programadas",
+      "emptyDescription": "Al constituir tu LLC, verás aquí todos los vencimientos importantes."
+    },
     "orders": {
       "title": "Mis Pedidos",
       "empty": "No tienes pedidos aún",
