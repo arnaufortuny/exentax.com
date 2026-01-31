@@ -169,135 +169,135 @@ export function generateInvoicePdf(data: InvoiceData): Promise<Buffer> {
       doc.on('end', () => resolve(Buffer.concat(chunks)));
       doc.on('error', reject);
 
-      // White background, no large dark header
+      // Background
       doc.rect(0, 0, 595, 842).fill('#FFFFFF');
       
-      // Minimal top border for brand touch
-      doc.rect(0, 0, 595, 4).fill(BRAND_DARK);
+      // Modern soft background accents (rounded shapes)
+      doc.fillColor(BRAND_LIGHT_GRAY).circle(550, 50, 100).fill();
+      doc.fillColor(BRAND_LIGHT_GREEN).circle(50, 800, 80).fill();
       
-      // Header & Logo
+      // Logo & Header (More space at the top)
       const logoPath = getLogoPath();
-      if (logoPath) { try { doc.image(logoPath, 45, 30, { width: 40, height: 40 }); } catch {} }
+      if (logoPath) { try { doc.image(logoPath, 45, 45, { width: 45, height: 45 }); } catch {} }
       
-      doc.font('Helvetica-Bold').fontSize(18).fillColor(BRAND_DARK).text('Easy US LLC', 95, 32);
-      doc.font('Helvetica').fontSize(8).fillColor(BRAND_GRAY).text('BEYOND BORDERS BUSINESS', 95, 52);
+      doc.font('Helvetica-Bold').fontSize(20).fillColor(BRAND_DARK).text('Easy US LLC', 100, 50);
+      doc.font('Helvetica').fontSize(9).fillColor(BRAND_GREEN).text('BEYOND BORDERS BUSINESS', 100, 72);
       
-      // Invoice Info Right Aligned
-      doc.font('Helvetica-Bold').fontSize(22).fillColor(BRAND_DARK).text('FACTURA', 350, 32, { align: 'right', width: 200 });
-      doc.font('Helvetica').fontSize(9).fillColor(BRAND_GRAY).text(`№ ${data.orderNumber}`, 350, 58, { align: 'right', width: 200 });
+      // Invoice Info
+      doc.font('Helvetica-Bold').fontSize(24).fillColor(BRAND_DARK).text('FACTURA', 350, 50, { align: 'right', width: 200 });
+      doc.font('Helvetica').fontSize(10).fillColor(BRAND_GRAY).text(`№ ${data.orderNumber}`, 350, 78, { align: 'right', width: 200 });
 
-      let y = 100;
+      let y = 140;
 
-      // Compact layout to avoid 2 pages
-      // EMISOR (Left) | CLIENTE (Right)
-      doc.font('Helvetica-Bold').fontSize(9).fillColor(BRAND_GRAY).text('EMISOR', 45, y);
-      doc.font('Helvetica-Bold').fontSize(10).fillColor(BRAND_DARK).text('Fortuny Consulting LLC', 45, y + 14);
-      doc.font('Helvetica').fontSize(8).fillColor(BRAND_GRAY);
-      doc.text('1209 Mountain Road Place NE, STE R', 45, y + 26);
-      doc.text('Albuquerque, NM 87110, USA', 45, y + 36);
-      doc.text('hola@easyusllc.com', 45, y + 46);
+      // EMISOR | CLIENTE
+      doc.font('Helvetica-Bold').fontSize(10).fillColor(BRAND_GRAY).text('EMISOR', 45, y);
+      doc.font('Helvetica-Bold').fontSize(11).fillColor(BRAND_DARK).text('Fortuny Consulting LLC', 45, y + 18);
+      doc.font('Helvetica').fontSize(9).fillColor(BRAND_GRAY);
+      doc.text('1209 Mountain Road Place NE, STE R', 45, y + 32);
+      doc.text('Albuquerque, NM 87110, USA', 45, y + 44);
+      doc.text('hola@easyusllc.com', 45, y + 56);
 
       const clientX = 350;
-      doc.font('Helvetica-Bold').fontSize(9).fillColor(BRAND_GRAY).text('CLIENTE', clientX, y);
-      doc.font('Helvetica-Bold').fontSize(10).fillColor(BRAND_DARK).text(data.customer.name, clientX, y + 14);
-      doc.font('Helvetica').fontSize(8).fillColor(BRAND_GRAY);
-      let cy = y + 26;
+      doc.font('Helvetica-Bold').fontSize(10).fillColor(BRAND_GRAY).text('CLIENTE', clientX, y);
+      doc.font('Helvetica-Bold').fontSize(11).fillColor(BRAND_DARK).text(data.customer.name, clientX, y + 18);
+      doc.font('Helvetica').fontSize(9).fillColor(BRAND_GRAY);
+      let cy = y + 32;
       if (data.customer.idType && data.customer.idNumber) {
         doc.text(`${data.customer.idType}: ${data.customer.idNumber}`, clientX, cy);
-        cy += 10;
+        cy += 12;
       }
       doc.text(data.customer.email, clientX, cy);
-      cy += 10;
+      cy += 12;
       if (data.customer.address) {
         const addr = [data.customer.streetType, data.customer.address, data.customer.postalCode, data.customer.city, data.customer.country].filter(Boolean).join(', ');
-        doc.fontSize(7).text(addr, clientX, cy, { width: 200 });
+        doc.fontSize(8).text(addr, clientX, cy, { width: 200 });
       }
       
-      y += 75;
+      y += 95;
 
-      // Compact Summary Bar
-      doc.rect(45, y, 505, 30).fill(BRAND_LIGHT_GRAY);
-      doc.font('Helvetica-Bold').fontSize(7).fillColor(BRAND_GRAY).text('FECHA EMISIÓN', 60, y + 8);
-      doc.font('Helvetica-Bold').fontSize(9).fillColor(BRAND_DARK).text(formatDate(data.date), 60, y + 18);
+      // Summary Bar with Rounded Corners
+      doc.roundedRect(45, y, 505, 40, 8).fill(BRAND_LIGHT_GRAY);
+      doc.font('Helvetica-Bold').fontSize(8).fillColor(BRAND_GRAY).text('FECHA EMISIÓN', 60, y + 10);
+      doc.font('Helvetica-Bold').fontSize(10).fillColor(BRAND_DARK).text(formatDate(data.date), 60, y + 22);
       
-      doc.font('Helvetica-Bold').fontSize(7).fillColor(BRAND_GRAY).text('VENCIMIENTO', 180, y + 8);
-      doc.font('Helvetica-Bold').fontSize(9).fillColor(BRAND_DARK).text(data.dueDate ? formatDate(data.dueDate) : formatDate(data.date), 180, y + 18);
+      doc.font('Helvetica-Bold').fontSize(8).fillColor(BRAND_GRAY).text('VENCIMIENTO', 180, y + 10);
+      doc.font('Helvetica-Bold').fontSize(10).fillColor(BRAND_DARK).text(data.dueDate ? formatDate(data.dueDate) : formatDate(data.date), 180, y + 22);
       
-      doc.font('Helvetica-Bold').fontSize(7).fillColor(BRAND_GRAY).text('ESTADO', 320, y + 8);
+      doc.font('Helvetica-Bold').fontSize(8).fillColor(BRAND_GRAY).text('ESTADO', 320, y + 10);
       const statusColors: Record<string, string> = { pending: '#F59E0B', paid: '#10B981', cancelled: '#EF4444', refunded: '#8B5CF6' };
       const sColor = statusColors[data.status] || '#10B981';
-      doc.font('Helvetica-Bold').fontSize(9).fillColor(sColor).text(getStatusText(data.status), 320, y + 18);
+      doc.font('Helvetica-Bold').fontSize(10).fillColor(sColor).text(getStatusText(data.status), 320, y + 22);
 
-      y += 45;
+      y += 65;
 
-      // Table Header (Dark & Compact)
-      doc.rect(45, y, 505, 20).fill(BRAND_DARK);
-      doc.font('Helvetica-Bold').fontSize(8).fillColor('#FFFFFF');
-      doc.text('DESCRIPCIÓN', 60, y + 6);
-      doc.text('CANT', 360, y + 6);
-      doc.text('PRECIO', 420, y + 6);
-      doc.text('TOTAL', 490, y + 6);
-      y += 20;
+      // Table Header (Rounded Top)
+      doc.roundedRect(45, y, 505, 25, 6).fill(BRAND_DARK);
+      doc.font('Helvetica-Bold').fontSize(9).fillColor('#FFFFFF');
+      doc.text('DESCRIPCIÓN', 60, y + 8);
+      doc.text('CANT', 360, y + 8);
+      doc.text('PRECIO', 420, y + 8);
+      doc.text('TOTAL', 490, y + 8);
+      y += 25;
 
       // Table Rows
       for (const item of data.items) {
-        doc.font('Helvetica-Bold').fontSize(9).fillColor(BRAND_DARK).text(item.description, 60, y + 8, { width: 280 });
+        doc.font('Helvetica-Bold').fontSize(10).fillColor(BRAND_DARK).text(item.description, 60, y + 10, { width: 280 });
         if (item.details) {
-          doc.font('Helvetica').fontSize(7).fillColor(BRAND_GRAY).text(item.details, 60, y + 18, { width: 280 });
+          doc.font('Helvetica').fontSize(8).fillColor(BRAND_GRAY).text(item.details, 60, y + 22, { width: 280 });
         }
-        doc.font('Helvetica').fontSize(9).fillColor(BRAND_DARK);
-        doc.text(item.quantity.toString(), 365, y + 12);
-        doc.text(formatCurrency(item.unitPrice, data.currency), 415, y + 12);
-        doc.font('Helvetica-Bold').text(formatCurrency(item.total, data.currency), 485, y + 12);
+        doc.font('Helvetica').fontSize(10).fillColor(BRAND_DARK);
+        doc.text(item.quantity.toString(), 365, y + 15);
+        doc.text(formatCurrency(item.unitPrice, data.currency), 415, y + 15);
+        doc.font('Helvetica-Bold').text(formatCurrency(item.total, data.currency), 485, y + 15);
         
-        doc.moveTo(45, y + 30).lineTo(550, y + 30).strokeColor('#EEEEEE').lineWidth(0.5).stroke();
-        y += 30;
+        doc.moveTo(45, y + 40).lineTo(550, y + 40).strokeColor('#F3F4F6').lineWidth(0.5).stroke();
+        y += 40;
       }
 
-      // Compact Totals
-      y += 10;
+      // Totals
+      y += 15;
       const totalX = 350;
-      doc.font('Helvetica').fontSize(9).fillColor(BRAND_GRAY).text('Subtotal', totalX, y);
-      doc.font('Helvetica-Bold').fontSize(9).fillColor(BRAND_DARK).text(formatCurrency(data.subtotal, data.currency), totalX + 130, y, { align: 'right', width: 70 });
-      y += 14;
+      doc.font('Helvetica').fontSize(10).fillColor(BRAND_GRAY).text('Subtotal', totalX, y);
+      doc.font('Helvetica-Bold').fontSize(10).fillColor(BRAND_DARK).text(formatCurrency(data.subtotal, data.currency), totalX + 130, y, { align: 'right', width: 70 });
+      y += 18;
 
       if (data.discount && data.discount.amount > 0) {
-        doc.font('Helvetica').fontSize(9).fillColor('#10B981').text('Descuento', totalX, y);
-        doc.font('Helvetica-Bold').fontSize(9).fillColor('#10B981').text(`-${formatCurrency(data.discount.amount, data.currency)}`, totalX + 130, y, { align: 'right', width: 70 });
-        y += 14;
+        doc.font('Helvetica').fontSize(10).fillColor('#10B981').text('Descuento', totalX, y);
+        doc.font('Helvetica-Bold').fontSize(10).fillColor('#10B981').text(`-${formatCurrency(data.discount.amount, data.currency)}`, totalX + 130, y, { align: 'right', width: 70 });
+        y += 18;
       }
 
-      doc.rect(totalX - 5, y, 210, 25).fill(BRAND_DARK);
-      doc.font('Helvetica-Bold').fontSize(10).fillColor('#FFFFFF').text('TOTAL', totalX, y + 8);
-      doc.fontSize(12).fillColor(BRAND_GREEN).text(formatCurrency(data.total, data.currency), totalX + 80, y + 7, { align: 'right', width: 120 });
-      y += 40;
+      doc.roundedRect(totalX - 10, y, 215, 35, 8).fill(BRAND_DARK);
+      doc.font('Helvetica-Bold').fontSize(11).fillColor('#FFFFFF').text('TOTAL', totalX, y + 12);
+      doc.fontSize(14).fillColor(BRAND_GREEN).text(formatCurrency(data.total, data.currency), totalX + 80, y + 10, { align: 'right', width: 120 });
+      y += 55;
 
-      // Payment Info (Compact Grid)
-      doc.font('Helvetica-Bold').fontSize(9).fillColor(BRAND_DARK).text('MÉTODO DE PAGO (TRANSFERENCIA)', 45, y);
-      doc.rect(45, y + 12, 505, 50).strokeColor('#E5E7EB').lineWidth(0.5).stroke();
+      // Payment Info
+      doc.font('Helvetica-Bold').fontSize(10).fillColor(BRAND_DARK).text('MÉTODO DE PAGO (TRANSFERENCIA)', 45, y);
+      doc.roundedRect(45, y + 15, 505, 65, 8).strokeColor('#E5E7EB').lineWidth(1).stroke();
       
       const px = 60;
-      doc.font('Helvetica-Bold').fontSize(7).fillColor(BRAND_GRAY).text('BANCO', px, y + 20);
-      doc.font('Helvetica').fontSize(8).fillColor(BRAND_DARK).text(BANK_INFO.name, px, y + 28);
+      doc.font('Helvetica-Bold').fontSize(8).fillColor(BRAND_GRAY).text('BANCO', px, y + 25);
+      doc.font('Helvetica-Bold').fontSize(9).fillColor(BRAND_DARK).text(BANK_INFO.name, px, y + 37);
       
-      doc.font('Helvetica-Bold').fontSize(7).fillColor(BRAND_GRAY).text('TITULAR', px + 120, y + 20);
-      doc.font('Helvetica').fontSize(8).fillColor(BRAND_DARK).text(BANK_INFO.holder, px + 120, y + 28);
+      doc.font('Helvetica-Bold').fontSize(8).fillColor(BRAND_GRAY).text('TITULAR', px + 120, y + 25);
+      doc.font('Helvetica-Bold').fontSize(9).fillColor(BRAND_DARK).text(BANK_INFO.holder, px + 120, y + 37);
       
-      doc.font('Helvetica-Bold').fontSize(7).fillColor(BRAND_GRAY).text('NÚMERO DE CUENTA', px + 280, y + 20);
-      doc.font('Helvetica').fontSize(8).fillColor(BRAND_DARK).text(BANK_INFO.account, px + 280, y + 28);
+      doc.font('Helvetica-Bold').fontSize(8).fillColor(BRAND_GRAY).text('NÚMERO DE CUENTA', px + 280, y + 25);
+      doc.font('Helvetica-Bold').fontSize(9).fillColor(BRAND_DARK).text(BANK_INFO.account, px + 280, y + 37);
 
-      doc.font('Helvetica-Bold').fontSize(7).fillColor(BRAND_GRAY).text('ROUTING / SWIFT', px, y + 42);
-      doc.font('Helvetica').fontSize(8).fillColor(BRAND_DARK).text(`${BANK_INFO.routing} / ${BANK_INFO.swift}`, px, y + 50);
+      doc.font('Helvetica-Bold').fontSize(8).fillColor(BRAND_GRAY).text('ROUTING / SWIFT', px, y + 55);
+      doc.font('Helvetica-Bold').fontSize(9).fillColor(BRAND_DARK).text(`${BANK_INFO.routing} / ${BANK_INFO.swift}`, px, y + 67);
 
       if (data.status === 'pending' && data.paymentLink) {
-        y += 75;
-        doc.rect(45, y, 505, 25).fill(BRAND_GREEN);
-        doc.font('Helvetica-Bold').fontSize(9).fillColor(BRAND_DARK).text('PAGAR ONLINE →', 60, y + 8);
-        doc.font('Helvetica').fontSize(8).fillColor(BRAND_DARK).text(data.paymentLink, 160, y + 8, { link: data.paymentLink, underline: true });
+        y += 95;
+        doc.roundedRect(45, y, 505, 30, 8).fill(BRAND_GREEN);
+        doc.font('Helvetica-Bold').fontSize(10).fillColor(BRAND_DARK).text('PAGAR ONLINE →', 60, y + 10);
+        doc.font('Helvetica').fontSize(9).fillColor(BRAND_DARK).text(data.paymentLink, 180, y + 10, { link: data.paymentLink, underline: true });
       }
 
       // Footer
-      doc.fontSize(7).fillColor(BRAND_GRAY).text('Easy US LLC es una marca de Fortuny Consulting LLC. 1209 Mountain Road Place NE, STE R, Albuquerque, NM 87110, USA', 45, 800, { align: 'center', width: 505 });
+      doc.fontSize(8).fillColor(BRAND_GRAY).text('Easy US LLC es una marca de Fortuny Consulting LLC. 1209 Mountain Road Place NE, STE R, Albuquerque, NM 87110, USA', 45, 800, { align: 'center', width: 505 });
 
       doc.end();
     } catch (error) {
@@ -317,85 +317,85 @@ export function generateReceiptPdf(data: ReceiptData): Promise<Buffer> {
       doc.on('end', () => resolve(Buffer.concat(chunks)));
       doc.on('error', reject);
 
-      // White background, minimal header
+      // Background with soft rounded shapes
       doc.rect(0, 0, 595, 842).fill('#FFFFFF');
-      doc.rect(0, 0, 595, 4).fill(BRAND_DARK);
+      doc.fillColor(BRAND_LIGHT_GRAY).circle(550, 40, 60).fill();
       
-      // Logo & Header
+      // Header & Logo (More top space)
       const logoPath = getLogoPath();
-      if (logoPath) { try { doc.image(logoPath, 45, 25, { width: 35, height: 35 }); } catch {} }
+      if (logoPath) { try { doc.image(logoPath, 45, 40, { width: 40, height: 40 }); } catch {} }
       
-      doc.font('Helvetica-Bold').fontSize(16).fillColor(BRAND_DARK).text('Easy US LLC', 90, 28);
-      doc.font('Helvetica').fontSize(7).fillColor(BRAND_GRAY).text('CONFIRMACIÓN DE SERVICIO', 90, 46);
+      doc.font('Helvetica-Bold').fontSize(18).fillColor(BRAND_DARK).text('Easy US LLC', 95, 42);
+      doc.font('Helvetica').fontSize(8).fillColor(BRAND_GREEN).text('CONFIRMACIÓN DE SERVICIO', 95, 62);
       
       // Receipt Title
-      doc.font('Helvetica-Bold').fontSize(20).fillColor(BRAND_DARK).text(data.isMaintenance ? 'MANTENIMIENTO' : 'RECIBO', 350, 28, { align: 'right', width: 200 });
-      doc.font('Helvetica').fontSize(9).fillColor(BRAND_GRAY).text(`REF: ${data.requestCode}`, 350, 52, { align: 'right', width: 200 });
+      doc.font('Helvetica-Bold').fontSize(22).fillColor(BRAND_DARK).text(data.isMaintenance ? 'MANTENIMIENTO' : 'RECIBO', 350, 42, { align: 'right', width: 200 });
+      doc.font('Helvetica').fontSize(10).fillColor(BRAND_GRAY).text(`REF: ${data.requestCode}`, 350, 68, { align: 'right', width: 200 });
 
-      let y = 85;
+      let y = 125;
 
-      // Customer & LLC info (Compact)
-      doc.font('Helvetica-Bold').fontSize(9).fillColor(BRAND_GRAY).text('CLIENTE', 45, y);
-      doc.font('Helvetica-Bold').fontSize(10).fillColor(BRAND_DARK).text(data.customer.name, 45, y + 14);
-      doc.font('Helvetica').fontSize(8).fillColor(BRAND_GRAY);
-      let cy = y + 26;
+      // Customer & LLC info (Rounded separators)
+      doc.font('Helvetica-Bold').fontSize(10).fillColor(BRAND_GRAY).text('CLIENTE', 45, y);
+      doc.font('Helvetica-Bold').fontSize(11).fillColor(BRAND_DARK).text(data.customer.name, 45, y + 18);
+      doc.font('Helvetica').fontSize(9).fillColor(BRAND_GRAY);
+      let cy = y + 32;
       doc.text(data.customer.email, 45, cy);
-      cy += 10;
+      cy += 12;
       if (data.customer.address) {
         const addr = [data.customer.streetType, data.customer.address, data.customer.postalCode, data.customer.city].filter(Boolean).join(', ');
-        doc.fontSize(7).text(addr, 45, cy, { width: 230 });
+        doc.fontSize(8).text(addr, 45, cy, { width: 230 });
       }
 
       const llcX = 320;
       if (data.llcDetails && (data.llcDetails.companyName || data.llcDetails.state)) {
-        doc.font('Helvetica-Bold').fontSize(9).fillColor(BRAND_GRAY).text('DATOS DE LA LLC', llcX, y);
-        let ly = y + 14;
+        doc.font('Helvetica-Bold').fontSize(10).fillColor(BRAND_GRAY).text('DATOS DE LA LLC', llcX, y);
+        let ly = y + 18;
         if (data.llcDetails.companyName) {
-          doc.font('Helvetica-Bold').fontSize(10).fillColor(BRAND_DARK).text(`${data.llcDetails.companyName} ${data.llcDetails.designator || 'LLC'}`, llcX, ly);
-          ly += 14;
+          doc.font('Helvetica-Bold').fontSize(11).fillColor(BRAND_DARK).text(`${data.llcDetails.companyName} ${data.llcDetails.designator || 'LLC'}`, llcX, ly);
+          ly += 16;
         }
-        doc.font('Helvetica').fontSize(8).fillColor(BRAND_GRAY);
-        if (data.llcDetails.state) { doc.text(`Estado: ${data.llcDetails.state}`, llcX, ly); ly += 10; }
+        doc.font('Helvetica').fontSize(9).fillColor(BRAND_GRAY);
+        if (data.llcDetails.state) { doc.text(`Estado: ${data.llcDetails.state}`, llcX, ly); ly += 14; }
         if (data.llcDetails.ein) { doc.text(`EIN: ${data.llcDetails.ein}`, llcX, ly); }
       }
 
-      y += 75;
+      y += 90;
 
-      // Summary Bar (Compact)
-      doc.rect(45, y, 505, 30).fill(BRAND_LIGHT_GRAY);
-      doc.font('Helvetica-Bold').fontSize(7).fillColor(BRAND_GRAY).text('FECHA', 60, y + 8);
-      doc.font('Helvetica-Bold').fontSize(9).fillColor(BRAND_DARK).text(formatDate(data.date), 60, y + 18);
+      // Summary Bar (Rounded)
+      doc.roundedRect(45, y, 505, 40, 8).fill(BRAND_LIGHT_GRAY);
+      doc.font('Helvetica-Bold').fontSize(8).fillColor(BRAND_GRAY).text('FECHA', 60, y + 10);
+      doc.font('Helvetica-Bold').fontSize(10).fillColor(BRAND_DARK).text(formatDate(data.date), 60, y + 22);
       
-      doc.font('Helvetica-Bold').fontSize(7).fillColor(BRAND_GRAY).text('PEDIDO №', 180, y + 8);
-      doc.font('Helvetica-Bold').fontSize(9).fillColor(BRAND_DARK).text(data.orderNumber, 180, y + 18);
+      doc.font('Helvetica-Bold').fontSize(8).fillColor(BRAND_GRAY).text('PEDIDO №', 180, y + 10);
+      doc.font('Helvetica-Bold').fontSize(10).fillColor(BRAND_DARK).text(data.orderNumber, 180, y + 22);
       
-      doc.font('Helvetica-Bold').fontSize(7).fillColor(BRAND_GRAY).text('MÉTODO', 320, y + 8);
-      doc.font('Helvetica-Bold').fontSize(9).fillColor(BRAND_DARK).text(getPaymentMethodText(data.paymentMethod), 320, y + 18);
+      doc.font('Helvetica-Bold').fontSize(8).fillColor(BRAND_GRAY).text('MÉTODO', 320, y + 10);
+      doc.font('Helvetica-Bold').fontSize(10).fillColor(BRAND_DARK).text(getPaymentMethodText(data.paymentMethod), 320, y + 22);
 
-      y += 45;
+      y += 65;
 
-      // Service Details (Modern & Compact)
-      doc.font('Helvetica-Bold').fontSize(9).fillColor(BRAND_DARK).text('DETALLE DEL SERVICIO', 45, y);
-      doc.rect(45, y + 12, 505, 60).strokeColor('#E5E7EB').lineWidth(0.5).stroke();
+      // Service Details (Modern rounded feel)
+      doc.font('Helvetica-Bold').fontSize(10).fillColor(BRAND_DARK).text('DETALLE DEL SERVICIO', 45, y);
+      doc.roundedRect(45, y + 15, 505, 65, 8).strokeColor('#E5E7EB').lineWidth(1).stroke();
       
-      doc.font('Helvetica-Bold').fontSize(12).fillColor(BRAND_DARK).text(data.service.name, 60, y + 25);
+      doc.font('Helvetica-Bold').fontSize(14).fillColor(BRAND_DARK).text(data.service.name, 60, y + 32);
       if (data.service.description) {
-        doc.font('Helvetica').fontSize(8).fillColor(BRAND_GRAY).text(data.service.description, 60, y + 42, { width: 300 });
+        doc.font('Helvetica').fontSize(9).fillColor(BRAND_GRAY).text(data.service.description, 60, y + 52, { width: 300 });
       }
       
-      // Amount (Aligned with service)
-      doc.rect(400, y + 12, 150, 60).fill(BRAND_GREEN);
-      doc.font('Helvetica-Bold').fontSize(8).fillColor(BRAND_DARK).text('TOTAL PAGADO', 415, y + 25);
-      doc.fontSize(16).text(formatCurrency(data.amount, data.currency), 415, y + 40, { width: 120, align: 'center' });
+      // Amount (Aligned)
+      doc.roundedRect(400, y + 15, 150, 65, 8).fill(BRAND_GREEN);
+      doc.font('Helvetica-Bold').fontSize(9).fillColor(BRAND_DARK).text('TOTAL PAGADO', 415, y + 30);
+      doc.fontSize(18).text(formatCurrency(data.amount, data.currency), 415, y + 48, { width: 120, align: 'center' });
 
-      y += 85;
+      y += 100;
 
-      // Success Message (Compact)
-      doc.rect(45, y, 505, 30).fill(BRAND_LIGHT_GREEN);
-      doc.font('Helvetica-Bold').fontSize(9).fillColor('#059669').text('¡Gracias por confiar en Easy US LLC!', 45, y + 10, { align: 'center', width: 505 });
+      // Success Message (Rounded)
+      doc.roundedRect(45, y, 505, 35, 8).fill(BRAND_LIGHT_GREEN);
+      doc.font('Helvetica-Bold').fontSize(10).fillColor('#059669').text('¡Gracias por confiar en Easy US LLC!', 45, y + 14, { align: 'center', width: 505 });
 
       // Footer
-      doc.fontSize(7).fillColor(BRAND_GRAY).text('Documento de confirmación. Easy US LLC | easyusllc.com', 45, 800, { align: 'center', width: 505 });
+      doc.fontSize(8).fillColor(BRAND_GRAY).text('Documento de confirmación. Easy US LLC | easyusllc.com', 45, 800, { align: 'center', width: 505 });
 
       doc.end();
     } catch (error) {
@@ -417,44 +417,42 @@ export function generateCustomInvoicePdf(data: CustomInvoiceData): Promise<Buffe
 
       // Background
       doc.rect(0, 0, 595, 842).fill('#FFFFFF');
-      doc.rect(0, 0, 595, 160).fill(BRAND_DARK);
+      doc.fillColor(BRAND_LIGHT_GRAY).circle(550, 40, 60).fill();
       
-      // Logo & Header
+      // Header & Logo
       const logoPath = getLogoPath();
-      if (logoPath) { try { doc.image(logoPath, 45, 35, { width: 45, height: 45 }); } catch {} }
+      if (logoPath) { try { doc.image(logoPath, 45, 40, { width: 40, height: 40 }); } catch {} }
       
-      doc.font('Helvetica-Bold').fontSize(20).fillColor('#FFFFFF').text('Easy US LLC', 100, 40);
-      doc.font('Helvetica').fontSize(8).fillColor(BRAND_GREEN).text('FACTURA MANUAL', 100, 62);
+      doc.font('Helvetica-Bold').fontSize(18).fillColor(BRAND_DARK).text('Easy US LLC', 95, 42);
+      doc.font('Helvetica').fontSize(8).fillColor(BRAND_GREEN).text('FACTURA MANUAL', 95, 62);
       
       // Invoice Title
-      doc.font('Helvetica-Bold').fontSize(24).fillColor('#FFFFFF').text('FACTURA', 350, 40, { align: 'right', width: 200 });
-      doc.font('Helvetica').fontSize(10).fillColor('#9CA3AF').text(`№ ${data.invoiceNumber}`, 350, 70, { align: 'right', width: 200 });
+      doc.font('Helvetica-Bold').fontSize(22).fillColor(BRAND_DARK).text('FACTURA', 350, 42, { align: 'right', width: 200 });
+      doc.font('Helvetica').fontSize(10).fillColor(BRAND_GRAY).text(`№ ${data.invoiceNumber}`, 350, 68, { align: 'right', width: 200 });
 
-      let y = 180;
+      let y = 125;
 
       // Two columns: Company | Customer
-      // EMISOR
-      doc.font('Helvetica-Bold').fontSize(10).fillColor(BRAND_DARK).text('EMISOR', 45, y);
-      doc.font('Helvetica-Bold').fontSize(11).text('Fortuny Consulting LLC', 45, y + 18);
+      doc.font('Helvetica-Bold').fontSize(10).fillColor(BRAND_GRAY).text('EMISOR', 45, y);
+      doc.font('Helvetica-Bold').fontSize(11).fillColor(BRAND_DARK).text('Fortuny Consulting LLC', 45, y + 18);
       doc.font('Helvetica').fontSize(9).fillColor(BRAND_GRAY);
-      doc.text('1209 Mountain Road Place NE, STE R', 45, y + 34);
-      doc.text('Albuquerque, NM 87110, USA', 45, y + 48);
-      doc.text('hola@easyusllc.com', 45, y + 62);
+      doc.text('1209 Mountain Road Place NE, STE R', 45, y + 32);
+      doc.text('Albuquerque, NM 87110, USA', 45, y + 44);
+      doc.text('hola@easyusllc.com', 45, y + 56);
 
-      // CLIENTE
       const clientX = 350;
-      doc.font('Helvetica-Bold').fontSize(10).fillColor(BRAND_DARK).text('CLIENTE', clientX, y);
-      doc.font('Helvetica-Bold').fontSize(11).text(data.customer.name, clientX, y + 18);
+      doc.font('Helvetica-Bold').fontSize(10).fillColor(BRAND_GRAY).text('CLIENTE', clientX, y);
+      doc.font('Helvetica-Bold').fontSize(11).fillColor(BRAND_DARK).text(data.customer.name, clientX, y + 18);
       doc.font('Helvetica').fontSize(9).fillColor(BRAND_GRAY);
-      doc.text(data.customer.email, clientX, y + 34);
+      doc.text(data.customer.email, clientX, y + 32);
       if (data.customer.phone) {
-        doc.text(data.customer.phone, clientX, y + 48);
+        doc.text(data.customer.phone, clientX, y + 44);
       }
       
-      y += 100;
+      y += 90;
 
       // Summary Bar
-      doc.rect(45, y, 505, 40).fill(BRAND_LIGHT_GRAY);
+      doc.roundedRect(45, y, 505, 40, 8).fill(BRAND_LIGHT_GRAY);
       doc.font('Helvetica-Bold').fontSize(8).fillColor(BRAND_GRAY).text('FECHA EMISIÓN', 60, y + 10);
       doc.font('Helvetica-Bold').fontSize(10).fillColor(BRAND_DARK).text(formatDate(data.date), 60, y + 22);
       
@@ -465,32 +463,31 @@ export function generateCustomInvoicePdf(data: CustomInvoiceData): Promise<Buffe
       y += 65;
 
       // Concept Table
-      doc.rect(45, y, 505, 30).fill(BRAND_DARK);
+      doc.roundedRect(45, y, 505, 25, 6).fill(BRAND_DARK);
       doc.font('Helvetica-Bold').fontSize(9).fillColor('#FFFFFF');
-      doc.text('CONCEPTO / DESCRIPCIÓN', 60, y + 10);
-      doc.text('IMPORTE', 480, y + 10);
-      y += 30;
+      doc.text('CONCEPTO / DESCRIPCIÓN', 60, y + 8);
+      doc.text('IMPORTE', 480, y + 8);
+      y += 25;
 
-      doc.rect(45, y, 505, 60).fill('#FAFAFA');
       doc.font('Helvetica-Bold').fontSize(11).fillColor(BRAND_DARK).text(data.concept, 60, y + 15, { width: 380 });
       if (data.description) {
         doc.font('Helvetica').fontSize(9).fillColor(BRAND_GRAY).text(data.description, 60, y + 32, { width: 380 });
       }
       doc.font('Helvetica-Bold').fontSize(12).fillColor(BRAND_DARK).text(formatCurrency(data.amount, data.currency), 460, y + 22, { align: 'right', width: 80 });
       
-      y += 80;
+      y += 65;
 
       // Total
       const totalX = 350;
-      doc.rect(totalX - 10, y, 215, 45).fill(BRAND_DARK);
-      doc.font('Helvetica-Bold').fontSize(12).fillColor('#FFFFFF').text('TOTAL', totalX, y + 16);
-      doc.fontSize(18).fillColor(BRAND_GREEN).text(formatCurrency(data.amount, data.currency), totalX + 80, y + 14, { align: 'right', width: 120 });
+      doc.roundedRect(totalX - 10, y, 215, 40, 8).fill(BRAND_DARK);
+      doc.font('Helvetica-Bold').fontSize(12).fillColor('#FFFFFF').text('TOTAL', totalX, y + 14);
+      doc.fontSize(16).fillColor(BRAND_GREEN).text(formatCurrency(data.amount, data.currency), totalX + 80, y + 12, { align: 'right', width: 120 });
       
-      y += 70;
+      y += 65;
 
       // Payment Info
       doc.font('Helvetica-Bold').fontSize(10).fillColor(BRAND_DARK).text('INFORMACIÓN DE PAGO', 45, y);
-      doc.rect(45, y + 15, 505, 65).strokeColor('#E5E7EB').lineWidth(1).stroke();
+      doc.roundedRect(45, y + 15, 505, 60, 8).strokeColor('#E5E7EB').lineWidth(1).stroke();
       
       doc.font('Helvetica-Bold').fontSize(8).fillColor(BRAND_GRAY).text('MÉTODO', 60, y + 25);
       doc.font('Helvetica-Bold').fontSize(9).fillColor(BRAND_DARK).text(getPaymentMethodText(data.paymentMethod), 60, y + 37);
@@ -502,14 +499,13 @@ export function generateCustomInvoicePdf(data: CustomInvoiceData): Promise<Buffe
       doc.font('Helvetica-Bold').fontSize(9).fillColor(BRAND_DARK).text(BANK_INFO.account, 320, y + 37);
 
       if (data.notes) {
-        y += 100;
+        y += 90;
         doc.font('Helvetica-Bold').fontSize(10).fillColor(BRAND_DARK).text('NOTAS', 45, y);
         doc.font('Helvetica').fontSize(9).fillColor(BRAND_GRAY).text(data.notes, 45, y + 18, { width: 505 });
       }
 
       // Footer
-      doc.fontSize(8).fillColor(BRAND_GRAY).text('Documento oficial emitido por Fortuny Consulting LLC.', 45, 780, { align: 'center', width: 505 });
-      doc.text('hola@easyusllc.com | easyusllc.com', 45, 795, { align: 'center', width: 505 });
+      doc.fontSize(8).fillColor(BRAND_GRAY).text('Documento oficial emitido por Fortuny Consulting LLC.', 45, 800, { align: 'center', width: 505 });
 
       doc.end();
     } catch (error) {
@@ -546,66 +542,77 @@ export function generateOrderInvoice(orderData: {
       province: llcApp?.ownerProvince || undefined,
       postalCode: llcApp?.ownerPostalCode || undefined,
       country: llcApp?.ownerCountry || undefined,
-      clientId: orderData.user.email.split('@')[0].substring(0, 8).toUpperCase()
     },
-    items: [{
-      description: orderData.product.name,
-      details: orderData.product.features?.slice(0, 3).join(' • ') || orderData.product.description.substring(0, 80),
-      quantity: 1,
-      unitPrice: orderData.order.originalAmount || orderData.order.amount,
-      total: orderData.order.originalAmount || orderData.order.amount
-    }],
+    items: [
+      {
+        description: orderData.product.name,
+        details: orderData.product.description,
+        quantity: 1,
+        unitPrice: orderData.order.originalAmount || orderData.order.amount,
+        total: orderData.order.originalAmount || orderData.order.amount,
+      }
+    ],
     subtotal: orderData.order.originalAmount || orderData.order.amount,
-    discount: orderData.order.discountAmount && orderData.order.discountAmount > 0 ? { code: orderData.order.discountCode || undefined, amount: orderData.order.discountAmount } : undefined,
+    discount: orderData.order.discountAmount ? {
+      code: orderData.order.discountCode || undefined,
+      amount: orderData.order.discountAmount,
+    } : undefined,
     total: orderData.order.amount,
     currency: orderData.order.currency,
-    status: orderData.order.status === 'paid' || orderData.order.status === 'completed' ? 'paid' : 'pending',
-    paymentMethod: (app?.paymentMethod as 'transfer' | 'link') || undefined,
+    status: orderData.order.status as any,
+    paymentMethod: app?.paymentMethod as any,
     paymentLink: orderData.paymentLink || undefined,
     notes: orderData.notes || undefined,
-    isMaintenance: !!orderData.maintenanceApplication
   };
+
   return generateInvoicePdf(invoiceData);
 }
 
 export function generateOrderReceipt(orderData: {
-  order: { id: number; invoiceNumber?: string | null; amount: number; currency: string; status: string; createdAt?: Date | null; };
-  product: { name: string; description: string; features?: string[]; };
+  order: { id: number; invoiceNumber?: string | null; amount: number; currency: string; status: string; createdAt?: Date | null; paymentDate?: Date | null; transactionId?: string | null; };
+  product: { name: string; description: string; };
   user: { firstName?: string | null; lastName?: string | null; email: string; };
-  application?: { requestCode?: string | null; ownerFullName?: string | null; ownerEmail?: string | null; ownerPhone?: string | null; ownerIdType?: string | null; ownerIdNumber?: string | null; ownerStreetType?: string | null; ownerAddress?: string | null; ownerCity?: string | null; ownerProvince?: string | null; ownerPostalCode?: string | null; ownerCountry?: string | null; companyName?: string | null; designator?: string | null; state?: string | null; paymentMethod?: string | null; llcCreatedDate?: Date | null; } | null;
-  maintenanceApplication?: { requestCode?: string | null; ownerFullName?: string | null; ownerEmail?: string | null; ownerPhone?: string | null; companyName?: string | null; ein?: string | null; state?: string | null; creationYear?: string | null; paymentMethod?: string | null; bankAccount?: string | null; } | null;
+  application?: { ownerFullName?: string | null; ownerEmail?: string | null; ownerPhone?: string | null; ownerStreetType?: string | null; ownerAddress?: string | null; ownerCity?: string | null; ownerPostalCode?: string | null; companyName?: string | null; designator?: string | null; state?: string | null; ein?: string | null; paymentMethod?: string | null; } | null;
+  maintenanceApplication?: { ownerFullName?: string | null; ownerEmail?: string | null; ownerPhone?: string | null; state?: string | null; paymentMethod?: string | null; } | null;
+  notes?: string | null;
+  isMaintenance?: boolean;
 }): Promise<Buffer> {
-  const app = orderData.application;
-  const maintApp = orderData.maintenanceApplication;
-  const isMaintenance = !!maintApp;
-  const currentApp = app || maintApp;
-  const customerName = currentApp?.ownerFullName || [orderData.user.firstName, orderData.user.lastName].filter(Boolean).join(' ') || orderData.user.email.split('@')[0];
+  const app = orderData.application || orderData.maintenanceApplication;
+  const llcApp = orderData.application;
+  const customerName = app?.ownerFullName || [orderData.user.firstName, orderData.user.lastName].filter(Boolean).join(' ') || orderData.user.email.split('@')[0];
 
   const receiptData: ReceiptData = {
     orderNumber: orderData.order.invoiceNumber || `ORD-${orderData.order.id.toString().padStart(8, '0')}`,
-    requestCode: currentApp?.requestCode || `REQ-${orderData.order.id.toString().padStart(8, '0')}`,
-    date: orderData.order.createdAt?.toISOString() || new Date().toISOString(),
+    requestCode: `REC-${orderData.order.id.toString().padStart(8, '0')}`,
+    date: new Date().toISOString(),
     customer: {
       name: customerName,
-      email: currentApp?.ownerEmail || orderData.user.email,
-      phone: currentApp?.ownerPhone || undefined,
-      idType: app?.ownerIdType || undefined,
-      idNumber: app?.ownerIdNumber || undefined,
-      streetType: app?.ownerStreetType || undefined,
-      address: app?.ownerAddress || undefined,
-      city: app?.ownerCity || undefined,
-      province: app?.ownerProvince || undefined,
-      postalCode: app?.ownerPostalCode || undefined,
-      country: app?.ownerCountry || undefined
+      email: app?.ownerEmail || orderData.user.email,
+      phone: app?.ownerPhone || undefined,
+      streetType: llcApp?.ownerStreetType || undefined,
+      address: llcApp?.ownerAddress || undefined,
+      city: llcApp?.ownerCity || undefined,
+      postalCode: llcApp?.ownerPostalCode || undefined,
     },
-    service: { name: orderData.product.name, description: orderData.product.features?.join(' • ') || orderData.product.description, state: app?.state || maintApp?.state || undefined },
-    llcDetails: isMaintenance ? { companyName: maintApp?.companyName || undefined, state: maintApp?.state || undefined, ein: maintApp?.ein || undefined, creationDate: maintApp?.creationYear || undefined } :
-      app ? { companyName: app.companyName || undefined, designator: app.designator || undefined, state: app.state || undefined, creationDate: app.llcCreatedDate?.toISOString() || undefined, registeredAgent: 'Easy US LLC' } : undefined,
+    service: {
+      name: orderData.product.name,
+      description: orderData.product.description,
+      state: (llcApp?.state || orderData.maintenanceApplication?.state) || undefined,
+    },
+    llcDetails: llcApp ? {
+      companyName: llcApp.companyName || undefined,
+      designator: llcApp.designator || undefined,
+      state: llcApp.state || undefined,
+      ein: llcApp.ein || undefined,
+    } : undefined,
     amount: orderData.order.amount,
     currency: orderData.order.currency,
-    paymentMethod: currentApp?.paymentMethod || undefined,
-    paymentDate: orderData.order.createdAt?.toISOString(),
-    isMaintenance
+    paymentMethod: app?.paymentMethod || undefined,
+    paymentDate: orderData.order.paymentDate?.toISOString(),
+    transactionId: orderData.order.transactionId || undefined,
+    notes: orderData.notes || undefined,
+    isMaintenance: orderData.isMaintenance,
   };
+
   return generateReceiptPdf(receiptData);
 }
