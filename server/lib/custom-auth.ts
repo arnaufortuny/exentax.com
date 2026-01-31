@@ -5,7 +5,7 @@ import express from "express";
 import { db } from "../db";
 import { users } from "@shared/models/auth";
 import { userNotifications, messages as messagesTable } from "@shared/schema";
-import { eq, sql } from "drizzle-orm";
+import { eq, sql, and, inArray, desc, gt } from "drizzle-orm";
 import { sendEmail, getWelcomeEmailTemplate } from "./email";
 import { checkRateLimit, logAudit, getClientIp } from "./security";
 import {
@@ -140,7 +140,7 @@ export function setupCustomAuth(app: Express) {
     }
   });
 
-  // Login endpoint with rate limiting
+  // Login endpoint with rate limiting and security OTP verification
   app.post("/api/auth/login", async (req, res) => {
       try {
         const ip = getClientIp(req);
@@ -151,7 +151,7 @@ export function setupCustomAuth(app: Express) {
           });
         }
 
-        const { email, password } = req.body;
+        const { email, password, securityOtp } = req.body;
 
         if (!email || !password) {
           return res.status(400).json({ message: "Email y contraseña son obligatorios" });
@@ -168,6 +168,100 @@ export function setupCustomAuth(app: Express) {
           return res.status(403).json({ message: "Tu cuenta ha sido desactivada. Contacta a nuestro servicio de atención al cliente para más información." });
         }
 
+        // Check if user has organization docs (skip security OTP if they do)
+        const { applicationDocuments: appDocsTable, orders: ordersTable } = await import("@shared/schema");
+        const userOrders = await db.select({ id: ordersTable.id }).from(ordersTable).where(eq(ordersTable.userId, user.id));
+        const orderIds = userOrders.map(o => o.id);
+        
+        let hasOrgDocs = false;
+        if (orderIds.length > 0) {
+          const orgDocs = await db.select()
+            .from(appDocsTable)
+            .where(
+              and(
+                inArray(appDocsTable.orderId, orderIds),
+                eq(appDocsTable.type, "organization_docs")
+              )
+            )
+            .limit(1);
+          hasOrgDocs = orgDocs.length > 0;
+        }
+        
+        // Determine if security OTP is required
+        const newLoginCount = (user.loginCount || 0) + 1;
+        const ipChanged = user.lastLoginIp && user.lastLoginIp !== ip;
+        const lastOtpCheck = user.lastSecurityOtpAt ? new Date(user.lastSecurityOtpAt) : null;
+        const daysSinceOtpCheck = lastOtpCheck ? (Date.now() - lastOtpCheck.getTime()) / (1000 * 60 * 60 * 24) : 999;
+        
+        // Require OTP every 3 logins, on IP change, or if marked as required - unless they have org docs
+        const requiresSecurityOtp = !hasOrgDocs && !user.isAdmin && (
+          user.securityOtpRequired ||
+          (newLoginCount % 3 === 0) ||
+          (ipChanged && daysSinceOtpCheck > 1)
+        );
+        
+        if (requiresSecurityOtp && !securityOtp) {
+          // Generate and send security OTP
+          const { contactOtps } = await import("@shared/schema");
+          const { sendEmail, getOtpEmailTemplate } = await import("./email");
+          
+          const otp = Math.floor(100000 + Math.random() * 900000).toString();
+          const expiresAt = new Date(Date.now() + 10 * 60 * 1000);
+          
+          await db.insert(contactOtps).values({
+            email: user.email!,
+            otp,
+            otpType: "security_verification",
+            expiresAt,
+          });
+          
+          await sendEmail({
+            to: user.email!,
+            subject: "Verificación de seguridad - Easy US LLC",
+            html: getOtpEmailTemplate(otp, user.firstName || "Cliente"),
+          });
+          
+          return res.status(200).json({ 
+            requiresSecurityOtp: true,
+            message: "Por seguridad, hemos enviado un código de verificación a tu email."
+          });
+        }
+        
+        // Verify security OTP if provided
+        if (securityOtp) {
+          const { contactOtps } = await import("@shared/schema");
+          const [otpRecord] = await db.select()
+            .from(contactOtps)
+            .where(
+              and(
+                eq(contactOtps.email, user.email!),
+                eq(contactOtps.otp, securityOtp),
+                eq(contactOtps.otpType, "security_verification"),
+                gt(contactOtps.expiresAt, new Date())
+              )
+            )
+            .orderBy(desc(contactOtps.expiresAt))
+            .limit(1);
+          
+          if (!otpRecord) {
+            return res.status(400).json({ message: "Código de verificación incorrecto o expirado." });
+          }
+          
+          // Mark OTP as used
+          await db.update(contactOtps).set({ verified: true }).where(eq(contactOtps.id, otpRecord.id));
+        }
+        
+        // Update login tracking
+        await db.update(users)
+          .set({
+            lastLoginIp: ip,
+            loginCount: newLoginCount,
+            securityOtpRequired: false,
+            lastSecurityOtpAt: securityOtp ? new Date() : user.lastSecurityOtpAt,
+            loginAttempts: 0,
+          })
+          .where(eq(users.id, user.id));
+
         req.session.userId = user.id;
         req.session.email = user.email!;
         req.session.isAdmin = user.isAdmin;
@@ -179,7 +273,7 @@ export function setupCustomAuth(app: Express) {
             return res.status(500).json({ message: "Error al guardar la sesión" });
           }
           
-          logAudit({ action: 'user_login', userId: user.id, ip, details: { email, success: true } });
+          logAudit({ action: 'user_login', userId: user.id, ip, details: { email, success: true, loginCount: newLoginCount } });
           res.json({
             success: true,
             user: {
@@ -190,6 +284,7 @@ export function setupCustomAuth(app: Express) {
               phone: user.phone,
               emailVerified: user.emailVerified,
               isAdmin: user.isAdmin,
+              accountStatus: user.accountStatus,
             },
           });
         });

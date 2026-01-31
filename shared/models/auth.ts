@@ -38,6 +38,11 @@ export const users = pgTable("users", {
   lockUntil: timestamp("lock_until"),
   internalNotes: text("internal_notes"),
   googleId: varchar("google_id"),
+  // Security tracking fields
+  lastLoginIp: varchar("last_login_ip"),
+  loginCount: integer("login_count").notNull().default(0),
+  securityOtpRequired: boolean("security_otp_required").notNull().default(false),
+  lastSecurityOtpAt: timestamp("last_security_otp_at"),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
 });

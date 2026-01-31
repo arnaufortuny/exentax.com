@@ -94,6 +94,51 @@ export async function registerRoutes(
     rateLimit.set(ip, validTimestamps);
     next();
   });
+  
+  // Helper function to detect suspicious order creation activity
+  async function detectSuspiciousOrderActivity(userId: string): Promise<{ suspicious: boolean; reason?: string }> {
+    // Check orders created in the last 24 hours
+    const oneDayAgo = new Date(Date.now() - 24 * 60 * 60 * 1000);
+    const recentOrders = await db.select({ id: ordersTable.id, createdAt: ordersTable.createdAt })
+      .from(ordersTable)
+      .where(
+        and(
+          eq(ordersTable.userId, userId),
+          gt(ordersTable.createdAt, oneDayAgo)
+        )
+      );
+    
+    // If user creates 3+ orders in 24 hours, flag as suspicious
+    if (recentOrders.length >= 3) {
+      return { suspicious: true, reason: `Created ${recentOrders.length} orders in 24 hours` };
+    }
+    
+    // Check for orders created in very short succession (3+ in 1 hour)
+    const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000);
+    const veryRecentOrders = recentOrders.filter(o => o.createdAt && new Date(o.createdAt) > oneHourAgo);
+    if (veryRecentOrders.length >= 2) {
+      return { suspicious: true, reason: `Created ${veryRecentOrders.length} orders in 1 hour` };
+    }
+    
+    return { suspicious: false };
+  }
+  
+  // Mark user account for security review
+  async function flagAccountForReview(userId: string, reason: string): Promise<void> {
+    await db.update(usersTable)
+      .set({ 
+        accountStatus: 'pending',
+        securityOtpRequired: true,
+        internalNotes: sql`COALESCE(${usersTable.internalNotes}, '') || E'\n[' || NOW() || '] SECURITY FLAG: ' || ${reason}`
+      })
+      .where(eq(usersTable.id, userId));
+    
+    logAudit({ 
+      action: 'account_flagged_for_review', 
+      userId, 
+      details: { reason }
+    });
+  }
 
   // Set up Custom Auth
   setupCustomAuth(app);
@@ -2982,6 +3027,17 @@ export async function registerRoutes(
         if (currentUser && (currentUser.accountStatus === 'pending' || currentUser.accountStatus === 'deactivated')) {
           return res.status(403).json({ message: "Tu cuenta está en revisión o desactivada. No puedes realizar nuevos pedidos en este momento." });
         }
+        
+        // Check for suspicious order creation activity
+        const suspiciousCheck = await detectSuspiciousOrderActivity(req.session.userId);
+        if (suspiciousCheck.suspicious) {
+          await flagAccountForReview(req.session.userId, suspiciousCheck.reason || 'Suspicious order activity');
+          return res.status(403).json({ 
+            message: "Tu cuenta ha sido puesta en revisión debido a actividad inusual. Nuestro equipo la revisará pronto.",
+            code: "ACCOUNT_UNDER_REVIEW"
+          });
+        }
+        
         userId = req.session.userId;
       } else {
         if (!email || !password) {

@@ -118,7 +118,9 @@ export type AuditAction =
   | 'document_request'
   | 'account_locked'
   | 'account_unlocked'
-  | 'account_status_change';
+  | 'account_status_change'
+  | 'account_flagged_for_review'
+  | 'security_otp_required';
 
 interface AuditLogEntry {
   action: AuditAction;
