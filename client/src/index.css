@@ -222,22 +222,28 @@
   
   /* Beautiful green gradient backgrounds - Light mode */
   .bg-green-gradient {
-    background: linear-gradient(135deg, 
-      rgba(110, 220, 138, 0.08) 0%, 
-      rgba(110, 220, 138, 0.03) 50%,
-      rgba(255, 255, 255, 0) 100%);
+    background: 
+      linear-gradient(160deg, 
+        rgba(110, 220, 138, 0.18) 0%, 
+        rgba(110, 220, 138, 0.12) 20%,
+        rgba(110, 220, 138, 0.06) 45%,
+        rgba(247, 247, 245, 0.8) 70%,
+        rgba(247, 247, 245, 1) 100%),
+      linear-gradient(45deg,
+        rgba(110, 220, 138, 0.05) 0%,
+        transparent 50%);
   }
   
   .bg-green-gradient-subtle {
     background: linear-gradient(180deg, 
-      rgba(110, 220, 138, 0.05) 0%, 
+      rgba(110, 220, 138, 0.08) 0%, 
       rgba(255, 255, 255, 0) 100%);
   }
   
   .bg-green-gradient-hero {
     background: linear-gradient(145deg, 
-      rgba(110, 220, 138, 0.12) 0%, 
-      rgba(110, 220, 138, 0.04) 40%,
+      rgba(110, 220, 138, 0.15) 0%, 
+      rgba(110, 220, 138, 0.06) 40%,
       transparent 80%);
   }
   
@@ -248,22 +254,28 @@
   
   /* Dark mode variants */
   .dark .bg-green-gradient {
-    background: linear-gradient(135deg, 
-      rgba(110, 220, 138, 0.06) 0%, 
-      rgba(110, 220, 138, 0.02) 50%,
-      rgba(0, 0, 0, 0) 100%);
+    background: 
+      linear-gradient(160deg, 
+        rgba(110, 220, 138, 0.12) 0%, 
+        rgba(110, 220, 138, 0.08) 20%,
+        rgba(110, 220, 138, 0.04) 45%,
+        rgba(14, 18, 21, 0.9) 70%,
+        rgba(14, 18, 21, 1) 100%),
+      linear-gradient(45deg,
+        rgba(110, 220, 138, 0.03) 0%,
+        transparent 50%);
   }
   
   .dark .bg-green-gradient-subtle {
     background: linear-gradient(180deg, 
-      rgba(110, 220, 138, 0.04) 0%, 
+      rgba(110, 220, 138, 0.06) 0%, 
       rgba(0, 0, 0, 0) 100%);
   }
   
   .dark .bg-green-gradient-hero {
     background: linear-gradient(145deg, 
-      rgba(110, 220, 138, 0.08) 0%, 
-      rgba(110, 220, 138, 0.02) 40%,
+      rgba(110, 220, 138, 0.10) 0%, 
+      rgba(110, 220, 138, 0.03) 40%,
       transparent 80%);
   }
   
