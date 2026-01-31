@@ -50,7 +50,7 @@ export function NewsletterSection() {
 
   return (
     <section className="py-16 md:py-20 bg-background dark:bg-background relative overflow-hidden font-sans w-full">
-      <div className="absolute inset-0 opacity-[0.05] pointer-events-none bg-[url('/hero-bg.png')] bg-repeat" />
+      <div className="absolute inset-0 opacity-[0.03] pointer-events-none bg-[radial-gradient(circle_at_1px_1px,currentColor_1px,transparent_0)] bg-[length:24px_24px]" />
       
       <div className="w-full px-5 sm:px-8 relative z-10 flex flex-col items-center justify-center">
         <div className="text-center space-y-4 md:space-y-8 w-full flex flex-col items-center">
