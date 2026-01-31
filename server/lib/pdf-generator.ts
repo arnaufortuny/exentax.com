@@ -258,12 +258,12 @@ export function generateInvoicePdf(data: InvoiceData): Promise<Buffer> {
       y += 15;
       const totalX = 350;
       doc.font('Helvetica').fontSize(10).fillColor(BRAND_GRAY).text('Subtotal', totalX, y);
-      doc.font('Helvetica-Bold').fontSize(10).fillColor(BRAND_DARK).text(formatCurrency(data.subtotal, data.currency), totalX + 130, y, { align: 'right', width: 70 });
+      doc.font('Helvetica-Bold').fontSize(10).fillColor(BRAND_DARK).text(formatCurrency(data.subtotal, data.currency), totalX + 80, y, { align: 'right', width: 120 });
       y += 18;
 
       if (data.discount && data.discount.amount > 0) {
         doc.font('Helvetica').fontSize(10).fillColor('#10B981').text('Descuento', totalX, y);
-        doc.font('Helvetica-Bold').fontSize(10).fillColor('#10B981').text(`-${formatCurrency(data.discount.amount, data.currency)}`, totalX + 130, y, { align: 'right', width: 70 });
+        doc.font('Helvetica-Bold').fontSize(10).fillColor('#10B981').text(`-${formatCurrency(data.discount.amount, data.currency)}`, totalX + 80, y, { align: 'right', width: 120 });
         y += 18;
       }
 
