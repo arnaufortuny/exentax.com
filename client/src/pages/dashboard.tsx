@@ -2124,9 +2124,12 @@ export default function Dashboard() {
 
           <div className="space-y-6 md:gap-8 order-2 lg:order-2">
             <section className="bg-white dark:bg-zinc-900 p-6 md:p-8 rounded-[2rem] shadow-sm">
-              <h3 className="text-lg md:text-xl font-black tracking-tight text-primary mb-6 flex items-center gap-2">
-                <Clock className="w-5 h-5 text-accent" /> Seguimiento
-              </h3>
+              <div className="mb-6">
+                <h3 className="text-lg md:text-xl font-black tracking-tight text-primary flex items-center gap-2">
+                  <Clock className="w-5 h-5 text-accent" /> Seguimiento
+                </h3>
+                <p className="text-xs text-muted-foreground mt-1">El progreso de tu LLC, paso a paso</p>
+              </div>
               <div className="space-y-5">
                 {orders && orders.length > 0 ? (
                   <>
