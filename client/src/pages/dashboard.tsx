@@ -424,8 +424,30 @@ export default function Dashboard() {
 
   const updateUserMutation = useMutation({
     mutationFn: async (data: Partial<AdminUserData> & { id: string }) => {
-      const { id, ...updateData } = data;
-      await apiRequest("PATCH", `/api/admin/users/${id}`, updateData);
+      const { id, createdAt, ...rest } = data;
+      const validIdTypes = ['dni', 'nie', 'passport'];
+      const validStatuses = ['active', 'pending', 'deactivated', 'vip'];
+      const updateData: Record<string, any> = {};
+      if (rest.firstName !== undefined) updateData.firstName = rest.firstName || undefined;
+      if (rest.lastName !== undefined) updateData.lastName = rest.lastName || undefined;
+      if (rest.email !== undefined) updateData.email = rest.email || undefined;
+      if (rest.phone !== undefined) updateData.phone = rest.phone || null;
+      if (rest.address !== undefined) updateData.address = rest.address || null;
+      if (rest.streetType !== undefined) updateData.streetType = rest.streetType || null;
+      if (rest.city !== undefined) updateData.city = rest.city || null;
+      if (rest.province !== undefined) updateData.province = rest.province || null;
+      if (rest.postalCode !== undefined) updateData.postalCode = rest.postalCode || null;
+      if (rest.country !== undefined) updateData.country = rest.country || null;
+      if (rest.idNumber !== undefined) updateData.idNumber = rest.idNumber || null;
+      if (rest.idType !== undefined) updateData.idType = validIdTypes.includes(rest.idType || '') ? rest.idType : null;
+      if (rest.birthDate !== undefined) updateData.birthDate = rest.birthDate || null;
+      if (rest.businessActivity !== undefined) updateData.businessActivity = rest.businessActivity || null;
+      if (rest.isActive !== undefined) updateData.isActive = rest.isActive;
+      if (rest.isAdmin !== undefined) updateData.isAdmin = rest.isAdmin;
+      if (rest.accountStatus !== undefined && validStatuses.includes(rest.accountStatus)) updateData.accountStatus = rest.accountStatus;
+      if (rest.internalNotes !== undefined) updateData.internalNotes = rest.internalNotes || null;
+      const cleanData = Object.fromEntries(Object.entries(updateData).filter(([_, v]) => v !== undefined));
+      await apiRequest("PATCH", `/api/admin/users/${id}`, cleanData);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/admin/users"] });
@@ -433,7 +455,7 @@ export default function Dashboard() {
       setEditingUser(null);
     },
     onError: (error: any) => {
-      toast({ title: "Error", description: error.message, variant: "destructive" });
+      toast({ title: "Error", description: error.message || "No se pudo actualizar", variant: "destructive" });
     }
   });
 
@@ -476,17 +498,26 @@ export default function Dashboard() {
 
   const createInvoiceMutation = useMutation({
     mutationFn: async ({ userId, concept, amount, currency }: { userId: string, concept: string, amount: number, currency: string }) => {
-      await apiRequest("POST", "/api/admin/invoices/create", { userId, concept, amount, currency });
+      if (!amount || isNaN(amount) || amount < 1) {
+        throw new Error("Importe inválido (mínimo 1 céntimo)");
+      }
+      const res = await apiRequest("POST", "/api/admin/invoices/create", { userId, concept, amount, currency });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error(data.message || "Error al crear factura");
+      }
+      return res.json();
     },
-    onSuccess: () => {
-      toast({ title: "Factura creada", description: "La factura se ha añadido al centro de documentos del cliente" });
+    onSuccess: (data) => {
+      toast({ title: "Factura creada", description: `Factura ${data?.invoiceNumber || ''} añadida al cliente` });
       setInvoiceDialog({ open: false, user: null });
       setInvoiceConcept("");
       setInvoiceAmount("");
       setInvoiceCurrency("EUR");
+      queryClient.invalidateQueries({ queryKey: ["/api/admin/documents"] });
     },
-    onError: () => {
-      toast({ title: "Error", description: "No se pudo crear la factura", variant: "destructive" });
+    onError: (error: any) => {
+      toast({ title: "Error", description: error.message || "No se pudo crear la factura", variant: "destructive" });
     }
   });
 

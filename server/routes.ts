@@ -1890,19 +1890,21 @@ export async function registerRoutes(
 </body>
 </html>`;
 
-    // Store as document for user
+    // Store as document for user - requires at least one order
     const [userOrder] = await db.select().from(ordersTable).where(eq(ordersTable.userId, userId)).limit(1);
-    if (userOrder) {
-      await db.insert(applicationDocumentsTable).values({
-        orderId: userOrder.id,
-        fileName: `Factura ${invoiceNumber} - ${concept}`,
-        fileType: "text/html",
-        fileUrl: `data:text/html;base64,${Buffer.from(invoiceHtml).toString('base64')}`,
-        documentType: "invoice",
-        reviewStatus: "approved",
-        uploadedBy: req.session.userId
-      });
+    if (!userOrder) {
+      return res.status(400).json({ message: "El usuario no tiene pedidos. Primero crea un pedido para poder generar facturas." });
     }
+    
+    await db.insert(applicationDocumentsTable).values({
+      orderId: userOrder.id,
+      fileName: `Factura ${invoiceNumber} - ${concept}`,
+      fileType: "text/html",
+      fileUrl: `data:text/html;base64,${Buffer.from(invoiceHtml).toString('base64')}`,
+      documentType: "invoice",
+      reviewStatus: "approved",
+      uploadedBy: req.session.userId
+    });
 
     res.json({ success: true, invoiceNumber });
   }));
