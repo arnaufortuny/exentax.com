@@ -14,6 +14,7 @@ import { checkRateLimit, sanitizeHtml, logAudit, getSystemHealth, getClientIp, g
 import { generateOrderInvoice, generateOrderReceipt, type InvoiceData, type ReceiptData } from "./lib/pdf-generator";
 import { setupOAuth } from "./oauth";
 import { checkAndSendReminders, updateApplicationDeadlines, getUpcomingDeadlinesForUser } from "./calendar-service";
+import { processAbandonedApplications } from "./lib/abandoned-service";
 
 export async function registerRoutes(
   httpServer: Server,
@@ -153,6 +154,11 @@ export async function registerRoutes(
     } catch (e) {
       console.error("Compliance reminder check error:", e);
     }
+    try {
+      await processAbandonedApplications();
+    } catch (e) {
+      console.error("Abandoned applications check error:", e);
+    }
   }, 3600000);
 
   // Run initial reminder check on startup (after 30 seconds to allow DB to be ready)
@@ -162,6 +168,12 @@ export async function registerRoutes(
       console.log("Initial compliance reminder check completed");
     } catch (e) {
       console.error("Initial compliance reminder check error:", e);
+    }
+    try {
+      await processAbandonedApplications();
+      console.log("Initial abandoned applications check completed");
+    } catch (e) {
+      console.error("Initial abandoned applications check error:", e);
     }
   }, 30000);
 
