@@ -4037,7 +4037,7 @@ async function registerRoutes(httpServer2, app2) {
         orderId: applicationDocuments.orderId,
         fileName: applicationDocuments.fileName,
         fileUrl: applicationDocuments.fileUrl,
-        createdAt: applicationDocuments.createdAt,
+        uploadedAt: applicationDocuments.uploadedAt,
         order: {
           id: orders.id,
           amount: orders.amount,
@@ -4052,7 +4052,7 @@ async function registerRoutes(httpServer2, app2) {
           lastName: users.lastName,
           email: users.email
         }
-      }).from(applicationDocuments).leftJoin(orders, (0, import_drizzle_orm10.eq)(applicationDocuments.orderId, orders.id)).leftJoin(users, (0, import_drizzle_orm10.eq)(orders.userId, users.id)).where((0, import_drizzle_orm10.eq)(applicationDocuments.documentType, "invoice")).orderBy((0, import_drizzle_orm10.desc)(applicationDocuments.createdAt));
+      }).from(applicationDocuments).leftJoin(orders, (0, import_drizzle_orm10.eq)(applicationDocuments.orderId, orders.id)).leftJoin(users, (0, import_drizzle_orm10.eq)(orders.userId, users.id)).where((0, import_drizzle_orm10.eq)(applicationDocuments.documentType, "invoice")).orderBy((0, import_drizzle_orm10.desc)(applicationDocuments.uploadedAt));
       res.json(invoices);
     } catch (error) {
       console.error("Error fetching invoices:", error);
@@ -5504,8 +5504,7 @@ Archivo disponible en: ${doc[0].fileUrl}`;
         },
         product: {
           name: order.product?.name || (maintApp ? "Mantenimiento LLC" : "Formaci\xF3n LLC"),
-          description: order.product?.description || "",
-          features: order.product?.features || []
+          description: order.product?.description || ""
         },
         user: {
           firstName: order.user?.firstName,
