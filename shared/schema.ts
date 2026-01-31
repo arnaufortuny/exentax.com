@@ -98,6 +98,7 @@ export const applicationDocuments = pgTable("application_documents", {
   id: serial("id").primaryKey(),
   applicationId: integer("application_id").references(() => llcApplications.id),
   orderId: integer("order_id").references(() => orders.id),
+  userId: varchar("user_id").references(() => users.id), // Direct user reference for docs without order
   fileName: text("file_name").notNull(),
   fileType: text("file_type").notNull(),
   fileUrl: text("file_url").notNull(),
@@ -108,6 +109,7 @@ export const applicationDocuments = pgTable("application_documents", {
 }, (table) => ({
   applicationIdIdx: index("app_docs_application_id_idx").on(table.applicationId),
   orderIdIdx: index("app_docs_order_id_idx").on(table.orderId),
+  userIdIdx: index("app_docs_user_id_idx").on(table.userId),
   uploadedByIdx: index("app_docs_uploaded_by_idx").on(table.uploadedBy),
 }));
 

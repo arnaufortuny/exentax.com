@@ -1044,7 +1044,7 @@ export async function registerRoutes(
     }
   });
 
-  // Admin upload document file for client
+  // Admin upload document file for client (supports orderId OR userId)
   app.post("/api/admin/documents/upload", isAdmin, async (req: any, res) => {
     try {
       const busboy = (await import('busboy')).default;
@@ -1058,10 +1058,12 @@ export async function registerRoutes(
       let fileTruncated = false;
       let documentType = 'other';
       let orderId = '';
+      let targetUserId = '';
       
       bb.on('field', (name: string, val: string) => {
         if (name === 'documentType') documentType = val;
         if (name === 'orderId') orderId = val;
+        if (name === 'userId') targetUserId = val;
       });
       
       bb.on('file', (name: string, file: any, info: any) => {
@@ -1077,8 +1079,9 @@ export async function registerRoutes(
           return res.status(413).json({ message: `El archivo excede el límite de ${MAX_FILE_SIZE_MB}MB` });
         }
         
-        if (!fileBuffer || !orderId) {
-          return res.status(400).json({ message: "Faltan datos requeridos" });
+        // Need either orderId or userId
+        if (!fileBuffer || (!orderId && !targetUserId)) {
+          return res.status(400).json({ message: "Faltan datos requeridos (orderId o userId)" });
         }
 
         const fs = await import('fs/promises');
@@ -1086,7 +1089,8 @@ export async function registerRoutes(
         const uploadDir = path.join(process.cwd(), 'uploads', 'admin-docs');
         await fs.mkdir(uploadDir, { recursive: true });
         
-        const safeFileName = `admin_${orderId}_${Date.now()}_${fileName.replace(/[^a-zA-Z0-9.-]/g, '_')}`;
+        const identifier = orderId || targetUserId;
+        const safeFileName = `admin_${identifier}_${Date.now()}_${fileName.replace(/[^a-zA-Z0-9.-]/g, '_')}`;
         const filePath = path.join(uploadDir, safeFileName);
         await fs.writeFile(filePath, fileBuffer);
         
@@ -1111,12 +1115,26 @@ export async function registerRoutes(
           'other': 'Otro Documento'
         };
         
-        // Get applicationId from order
-        const [llcApp] = await db.select().from(llcApplicationsTable).where(eq(llcApplicationsTable.orderId, Number(orderId))).limit(1);
+        let finalUserId = targetUserId;
+        let applicationId: number | null = null;
+        let orderCode = '';
+        
+        // If orderId provided, get user from order
+        if (orderId) {
+          const [llcApp] = await db.select().from(llcApplicationsTable).where(eq(llcApplicationsTable.orderId, Number(orderId))).limit(1);
+          applicationId = llcApp?.id || null;
+          
+          const [order] = await db.select().from(ordersTable).where(eq(ordersTable.id, Number(orderId))).limit(1);
+          if (order?.userId) {
+            finalUserId = order.userId;
+            orderCode = llcApp?.requestCode || order.invoiceNumber || `#${order.id}`;
+          }
+        }
         
         const [doc] = await db.insert(applicationDocumentsTable).values({
-          orderId: Number(orderId),
-          applicationId: llcApp?.id || null,
+          orderId: orderId ? Number(orderId) : null,
+          applicationId,
+          userId: finalUserId || null,
           fileName: docTypeLabels[documentType] || fileName,
           fileType,
           fileUrl: `/uploads/admin-docs/${safeFileName}`,
@@ -1126,16 +1144,14 @@ export async function registerRoutes(
         }).returning();
 
         // Notify user (dashboard notification + email)
-        const [order] = await db.select().from(ordersTable).where(eq(ordersTable.id, Number(orderId))).limit(1);
-        if (order?.userId) {
-          const orderCode = llcApp?.requestCode || order.invoiceNumber || `#${order.id}`;
+        if (finalUserId) {
           const docLabel = docTypeLabels[documentType] || 'Documento';
           
           // Dashboard notification
           await db.insert(userNotifications).values({
-            userId: order.userId,
-            orderId: Number(orderId),
-            orderCode,
+            userId: finalUserId,
+            orderId: orderId ? Number(orderId) : null,
+            orderCode: orderCode || 'General',
             title: 'Nuevo documento disponible',
             message: `Se ha añadido el documento "${docLabel}" a tu expediente.`,
             type: 'info',
@@ -1143,12 +1159,12 @@ export async function registerRoutes(
           });
           
           // Send email notification
-          const [user] = await db.select().from(usersTable).where(eq(usersTable.id, order.userId)).limit(1);
+          const [user] = await db.select().from(usersTable).where(eq(usersTable.id, finalUserId)).limit(1);
           if (user?.email) {
             sendEmail({
               to: user.email,
-              subject: `Nuevo documento disponible - ${orderCode}`,
-              html: getDocumentUploadedTemplate(user.firstName || 'Cliente', docLabel, orderCode)
+              subject: `Nuevo documento disponible${orderCode ? ` - ${orderCode}` : ''}`,
+              html: getDocumentUploadedTemplate(user.firstName || 'Cliente', docLabel, orderCode || 'tu cuenta')
             }).catch(() => {});
           }
         }
@@ -1184,11 +1200,26 @@ export async function registerRoutes(
 
   app.get("/api/user/documents", isAuthenticated, async (req: any, res) => {
     try {
-      const docs = await db.select().from(applicationDocumentsTable)
+      const userId = req.session.userId;
+      
+      // Get documents associated with user's orders
+      const orderDocs = await db.select().from(applicationDocumentsTable)
         .leftJoin(ordersTable, eq(applicationDocumentsTable.orderId, ordersTable.id))
-        .where(eq(ordersTable.userId, req.session.userId))
+        .where(eq(ordersTable.userId, userId))
         .orderBy(desc(applicationDocumentsTable.uploadedAt));
-      res.json(docs.map(d => d.application_documents));
+      
+      // Get documents directly assigned to user (without order)
+      const directDocs = await db.select().from(applicationDocumentsTable)
+        .where(eq(applicationDocumentsTable.userId, userId))
+        .orderBy(desc(applicationDocumentsTable.uploadedAt));
+      
+      // Combine and deduplicate
+      const allDocs = [...orderDocs.map(d => d.application_documents), ...directDocs];
+      const uniqueDocs = allDocs.filter((doc, index, self) => 
+        index === self.findIndex(d => d.id === doc.id)
+      );
+      
+      res.json(uniqueDocs);
     } catch (error) {
       res.status(500).json({ message: "Error fetching documents" });
     }
@@ -1204,14 +1235,21 @@ export async function registerRoutes(
         return res.status(403).json({ message: "No puedes eliminar documentos mientras tu cuenta está en revisión" });
       }
       
-      const docs = await db.select().from(applicationDocumentsTable)
+      // Check if document belongs to user via order OR direct assignment
+      const orderDocs = await db.select().from(applicationDocumentsTable)
         .leftJoin(ordersTable, eq(applicationDocumentsTable.orderId, ordersTable.id))
         .where(and(
           eq(applicationDocumentsTable.id, docId),
           eq(ordersTable.userId, userId)
         ));
       
-      if (!docs.length) {
+      const directDocs = await db.select().from(applicationDocumentsTable)
+        .where(and(
+          eq(applicationDocumentsTable.id, docId),
+          eq(applicationDocumentsTable.userId, userId)
+        ));
+      
+      if (!orderDocs.length && !directDocs.length) {
         return res.status(404).json({ message: "Documento no encontrado" });
       }
       
@@ -1255,6 +1293,102 @@ export async function registerRoutes(
       res.json(doc);
     } catch (error) {
       res.status(500).json({ message: "Error al subir documento" });
+    }
+  });
+
+  // Protected file serving - admin documents
+  app.get("/uploads/admin-docs/:filename", isAuthenticated, async (req: any, res) => {
+    try {
+      const filename = req.params.filename;
+      const fileUrl = `/uploads/admin-docs/${filename}`;
+      
+      // Find document by URL
+      const [doc] = await db.select().from(applicationDocumentsTable)
+        .where(eq(applicationDocumentsTable.fileUrl, fileUrl)).limit(1);
+      
+      if (!doc) {
+        return res.status(404).json({ message: "Documento no encontrado" });
+      }
+      
+      // Check ownership: via orderId or direct userId assignment
+      let hasAccess = req.session.isAdmin;
+      
+      if (!hasAccess && doc.orderId) {
+        const [order] = await db.select().from(ordersTable)
+          .where(eq(ordersTable.id, doc.orderId)).limit(1);
+        if (order && order.userId === req.session.userId) {
+          hasAccess = true;
+        }
+      }
+      
+      if (!hasAccess && doc.userId === req.session.userId) {
+        hasAccess = true;
+      }
+      
+      if (!hasAccess) {
+        return res.status(403).json({ message: "Acceso denegado" });
+      }
+      
+      const path = await import('path');
+      const fs = await import('fs');
+      const filePath = path.join(process.cwd(), 'uploads', 'admin-docs', filename);
+      
+      if (!fs.existsSync(filePath)) {
+        return res.status(404).json({ message: "Archivo no encontrado" });
+      }
+      
+      res.sendFile(filePath);
+    } catch (error) {
+      console.error("Error serving admin doc:", error);
+      res.status(500).json({ message: "Error al servir archivo" });
+    }
+  });
+
+  // Protected file serving - client documents
+  app.get("/uploads/client-docs/:filename", isAuthenticated, async (req: any, res) => {
+    try {
+      const filename = req.params.filename;
+      const fileUrl = `/uploads/client-docs/${filename}`;
+      
+      // Find document by URL
+      const [doc] = await db.select().from(applicationDocumentsTable)
+        .where(eq(applicationDocumentsTable.fileUrl, fileUrl)).limit(1);
+      
+      if (!doc) {
+        return res.status(404).json({ message: "Documento no encontrado" });
+      }
+      
+      // Check ownership: via orderId or direct userId assignment
+      let hasAccess = req.session.isAdmin;
+      
+      if (!hasAccess && doc.orderId) {
+        const [order] = await db.select().from(ordersTable)
+          .where(eq(ordersTable.id, doc.orderId)).limit(1);
+        if (order && order.userId === req.session.userId) {
+          hasAccess = true;
+        }
+      }
+      
+      if (!hasAccess && doc.userId === req.session.userId) {
+        hasAccess = true;
+      }
+      
+      if (!hasAccess) {
+        return res.status(403).json({ message: "Acceso denegado" });
+      }
+      
+      const path = await import('path');
+      const fs = await import('fs');
+      const filePath = path.join(process.cwd(), 'uploads', 'client-docs', filename);
+      
+      if (!fs.existsSync(filePath)) {
+        return res.status(404).json({ message: "Archivo no encontrado" });
+      }
+      
+      res.sendFile(filePath);
+    } catch (error) {
+      console.error("Error serving client doc:", error);
+      res.status(500).json({ message: "Error al servir archivo" });
     }
   });
 
@@ -3051,10 +3185,20 @@ export async function registerRoutes(
     }
   });
 
-  // Message replies
+  // Message replies - secured: only message owner or admin can view
   app.get("/api/messages/:id/replies", isAuthenticated, async (req: any, res) => {
     try {
       const messageId = Number(req.params.id);
+      
+      // Verify message belongs to user or user is admin
+      const [message] = await db.select().from(messagesTable).where(eq(messagesTable.id, messageId)).limit(1);
+      if (!message) {
+        return res.status(404).json({ message: "Mensaje no encontrado" });
+      }
+      if (message.userId !== req.session.userId && !req.session.isAdmin) {
+        return res.status(403).json({ message: "Acceso denegado" });
+      }
+      
       const replies = await db.select().from(messageReplies)
         .where(eq(messageReplies.messageId, messageId))
         .orderBy(messageReplies.createdAt);
@@ -3066,11 +3210,20 @@ export async function registerRoutes(
     }
   });
 
-  // Add reply to message
+  // Add reply to message - secured: only message owner or admin can reply
   app.post("/api/messages/:id/reply", isAuthenticated, async (req: any, res) => {
     try {
       const messageId = Number(req.params.id);
       const { content } = req.body;
+      
+      // Verify message belongs to user or user is admin
+      const [existingMessage] = await db.select().from(messagesTable).where(eq(messagesTable.id, messageId)).limit(1);
+      if (!existingMessage) {
+        return res.status(404).json({ message: "Mensaje no encontrado" });
+      }
+      if (existingMessage.userId !== req.session.userId && !req.session.isAdmin) {
+        return res.status(403).json({ message: "Acceso denegado" });
+      }
       
       if (!content || typeof content !== 'string' || !content.trim()) {
         return res.status(400).json({ message: "El contenido de la respuesta es requerido" });

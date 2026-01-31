@@ -1964,27 +1964,50 @@ export default function Dashboard() {
                           <h3 className="font-black text-lg">Documentos</h3>
                           <Badge className="bg-accent/20 text-accent">{adminDocuments?.length || 0}</Badge>
                         </div>
-                        <NativeSelect
-                          value=""
-                          onValueChange={(orderId) => {
-                            if (orderId) {
-                              const order = adminOrders?.find((o: any) => o.id === Number(orderId));
-                              if (order) {
-                                setAdminDocUploadDialog({ open: true, order });
-                                setAdminDocType("articles_of_organization");
-                                setAdminDocFile(null);
+                        <div className="flex gap-2 flex-wrap">
+                          <NativeSelect
+                            value=""
+                            onValueChange={(orderId) => {
+                              if (orderId) {
+                                const order = adminOrders?.find((o: any) => o.id === Number(orderId));
+                                if (order) {
+                                  setAdminDocUploadDialog({ open: true, order });
+                                  setAdminDocType("articles_of_organization");
+                                  setAdminDocFile(null);
+                                }
                               }
-                            }
-                          }}
-                          className="h-9 text-xs rounded-full px-3 bg-accent text-primary font-bold min-w-[140px]"
-                        >
-                          <option value="">Subir para cliente...</option>
-                          {adminOrders?.map((order: any) => (
-                            <option key={order.id} value={order.id}>
-                              {order.application?.requestCode || order.maintenanceApplication?.requestCode || order.invoiceNumber} - {order.user?.firstName} {order.user?.lastName}
-                            </option>
-                          ))}
-                        </NativeSelect>
+                            }}
+                            className="h-9 text-xs rounded-full px-3 bg-accent text-primary font-bold min-w-[120px]"
+                          >
+                            <option value="">Por pedido...</option>
+                            {adminOrders?.map((order: any) => (
+                              <option key={order.id} value={order.id}>
+                                {order.application?.requestCode || order.maintenanceApplication?.requestCode || order.invoiceNumber} - {order.user?.firstName}
+                              </option>
+                            ))}
+                          </NativeSelect>
+                          <NativeSelect
+                            value=""
+                            onValueChange={(userId) => {
+                              if (userId) {
+                                const user = adminUsers?.find((u: any) => u.id === userId);
+                                if (user) {
+                                  setAdminDocUploadDialog({ open: true, order: { userId: user.id, user } });
+                                  setAdminDocType("other");
+                                  setAdminDocFile(null);
+                                }
+                              }
+                            }}
+                            className="h-9 text-xs rounded-full px-3 bg-primary text-white font-bold min-w-[120px]"
+                          >
+                            <option value="">Por usuario...</option>
+                            {adminUsers?.map((user: any) => (
+                              <option key={user.id} value={user.id}>
+                                {user.firstName} {user.lastName}
+                              </option>
+                            ))}
+                          </NativeSelect>
+                        </div>
                       </div>
                       <div className="divide-y max-h-[60vh] overflow-y-auto">
                         {adminDocuments?.map((doc: any) => (
@@ -3301,7 +3324,10 @@ export default function Dashboard() {
           <DialogHeader>
             <DialogTitle className="text-xl font-black text-primary">Subir Documento para Cliente</DialogTitle>
             <DialogDescription>
-              Pedido: {adminDocUploadDialog.order?.application?.requestCode || adminDocUploadDialog.order?.maintenanceApplication?.requestCode || adminDocUploadDialog.order?.invoiceNumber}
+              {adminDocUploadDialog.order?.userId 
+                ? `Usuario: ${adminDocUploadDialog.order?.user?.firstName} ${adminDocUploadDialog.order?.user?.lastName}`
+                : `Pedido: ${adminDocUploadDialog.order?.application?.requestCode || adminDocUploadDialog.order?.maintenanceApplication?.requestCode || adminDocUploadDialog.order?.invoiceNumber}`
+              }
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-4 py-4">
@@ -3359,8 +3385,13 @@ export default function Dashboard() {
                 try {
                   const formData = new FormData();
                   formData.append('file', adminDocFile);
-                  formData.append('orderId', adminDocUploadDialog.order.id);
                   formData.append('documentType', adminDocType);
+                  // Send orderId or userId depending on what was selected
+                  if (adminDocUploadDialog.order.userId) {
+                    formData.append('userId', adminDocUploadDialog.order.userId);
+                  } else {
+                    formData.append('orderId', adminDocUploadDialog.order.id);
+                  }
                   const res = await fetch('/api/admin/documents/upload', {
                     method: 'POST',
                     body: formData,
