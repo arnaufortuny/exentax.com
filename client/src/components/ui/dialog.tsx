@@ -52,10 +52,10 @@ const DialogContent = React.forwardRef<
           ref={ref}
           onOpenAutoFocus={(e) => e.preventDefault()}
           className={cn(
-            "fixed inset-x-0 bottom-[10%] z-[99999] flex flex-col",
+            "fixed inset-x-0 bottom-0 z-[99999] flex flex-col",
             "bg-white dark:bg-zinc-900 border-t border-border",
-            "rounded-3xl shadow-2xl mx-3",
-            "max-h-[75dvh] overflow-hidden",
+            "rounded-t-3xl shadow-2xl",
+            "max-h-[85dvh] overflow-hidden",
             "data-[state=open]:animate-in data-[state=closed]:animate-out",
             "data-[state=closed]:slide-out-to-bottom data-[state=open]:slide-in-from-bottom",
             "duration-300 ease-out",
@@ -63,13 +63,13 @@ const DialogContent = React.forwardRef<
           )}
           {...props}
         >
-          <div className="flex justify-center pt-3 pb-1">
+          <div className="flex justify-center pt-3 pb-1 flex-shrink-0">
             <div className="w-12 h-1.5 rounded-full bg-muted-foreground/20" />
           </div>
-          <div className="flex-1 overflow-y-auto px-5 pb-8 pt-2">
+          <div className="flex-1 overflow-y-auto px-5 pb-6 pt-2 overscroll-contain">
             {children}
           </div>
-          <DialogPrimitive.Close className="absolute right-4 top-4 w-8 h-8 rounded-full bg-muted/60 hover:bg-muted flex items-center justify-center transition-colors">
+          <DialogPrimitive.Close className="absolute right-4 top-4 w-8 h-8 rounded-full bg-muted/60 hover:bg-muted flex items-center justify-center transition-colors z-10">
             <X className="h-4 w-4 text-muted-foreground" />
             <span className="sr-only">Cerrar</span>
           </DialogPrimitive.Close>
@@ -97,24 +97,22 @@ const DialogContent = React.forwardRef<
           }
         }}
         className={cn(
-          "fixed left-1/2 top-[40%] z-[99999] -translate-x-1/2 -translate-y-1/2",
-          "w-full max-w-md",
+          "fixed left-1/2 top-1/2 z-[99999] -translate-x-1/2 -translate-y-1/2",
+          "w-[calc(100%-2rem)] max-w-md",
           "bg-white dark:bg-zinc-900 border border-border",
           "rounded-2xl shadow-2xl",
-          "max-h-[85dvh] overflow-y-auto",
+          "max-h-[85dvh] overflow-y-auto overscroll-contain",
           "p-6",
           "data-[state=open]:animate-in data-[state=closed]:animate-out",
           "data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
           "data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",
-          "data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%]",
-          "data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%]",
           "duration-200",
           className
         )}
         {...props}
       >
         {children}
-        <DialogPrimitive.Close className="absolute right-4 top-4 w-8 h-8 rounded-full bg-muted/60 hover:bg-muted flex items-center justify-center transition-colors">
+        <DialogPrimitive.Close className="absolute right-4 top-4 w-8 h-8 rounded-full bg-muted/60 hover:bg-muted flex items-center justify-center transition-colors z-10">
           <X className="h-4 w-4 text-muted-foreground" />
           <span className="sr-only">Cerrar</span>
         </DialogPrimitive.Close>
