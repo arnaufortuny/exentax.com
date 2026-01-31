@@ -3,8 +3,16 @@ import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+function getDirname(): string {
+  try {
+    if (typeof import.meta?.url !== 'undefined') {
+      return path.dirname(fileURLToPath(import.meta.url));
+    }
+  } catch {}
+  return path.resolve();
+}
+
+const __dirname = getDirname();
 
 export function serveStatic(app: Express) {
   const distPath = path.resolve(__dirname, "public");

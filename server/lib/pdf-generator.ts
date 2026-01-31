@@ -3,8 +3,16 @@ import path from 'path';
 import fs from 'fs';
 import { fileURLToPath } from 'url';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+function getDirname(): string {
+  try {
+    if (typeof import.meta?.url !== 'undefined') {
+      return path.dirname(fileURLToPath(import.meta.url));
+    }
+  } catch {}
+  return path.resolve();
+}
+
+const __dirname = getDirname();
 
 const BRAND_GREEN = '#6EDC8A';
 const BRAND_DARK = '#0E1215';

@@ -1,5 +1,10 @@
+"use strict";
+var __create = Object.create;
 var __defProp = Object.defineProperty;
+var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
 var __getOwnPropNames = Object.getOwnPropertyNames;
+var __getProtoOf = Object.getPrototypeOf;
+var __hasOwnProp = Object.prototype.hasOwnProperty;
 var __esm = (fn, res) => function __init() {
   return fn && (res = (0, fn[__getOwnPropNames(fn)[0]])(fn = 0)), res;
 };
@@ -7,87 +12,104 @@ var __export = (target, all) => {
   for (var name in all)
     __defProp(target, name, { get: all[name], enumerable: true });
 };
+var __copyProps = (to, from, except, desc3) => {
+  if (from && typeof from === "object" || typeof from === "function") {
+    for (let key of __getOwnPropNames(from))
+      if (!__hasOwnProp.call(to, key) && key !== except)
+        __defProp(to, key, { get: () => from[key], enumerable: !(desc3 = __getOwnPropDesc(from, key)) || desc3.enumerable });
+  }
+  return to;
+};
+var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
+  // If the importer is in node compatibility mode or this is not an ESM
+  // file that has been converted to a CommonJS file using a Babel-
+  // compatible transform (i.e. "__esModule" has not been set), then set
+  // "default" to the CommonJS "module.exports" for node compatibility.
+  isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
+  mod
+));
+var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 
 // shared/models/auth.ts
-import { sql } from "drizzle-orm";
-import { index, jsonb, pgTable, timestamp, varchar, boolean, text, integer } from "drizzle-orm/pg-core";
-var sessions, users, userNotifications, passwordResetTokens, emailVerificationTokens;
+var import_drizzle_orm, import_pg_core, sessions, users, userNotifications, passwordResetTokens, emailVerificationTokens;
 var init_auth = __esm({
   "shared/models/auth.ts"() {
     "use strict";
-    sessions = pgTable(
+    import_drizzle_orm = require("drizzle-orm");
+    import_pg_core = require("drizzle-orm/pg-core");
+    sessions = (0, import_pg_core.pgTable)(
       "sessions",
       {
-        sid: varchar("sid").primaryKey(),
-        sess: jsonb("sess").notNull(),
-        expire: timestamp("expire").notNull()
+        sid: (0, import_pg_core.varchar)("sid").primaryKey(),
+        sess: (0, import_pg_core.jsonb)("sess").notNull(),
+        expire: (0, import_pg_core.timestamp)("expire").notNull()
       },
-      (table) => [index("IDX_session_expire").on(table.expire)]
+      (table) => [(0, import_pg_core.index)("IDX_session_expire").on(table.expire)]
     );
-    users = pgTable("users", {
-      id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
-      clientId: varchar("client_id", { length: 8 }).unique(),
+    users = (0, import_pg_core.pgTable)("users", {
+      id: (0, import_pg_core.varchar)("id").primaryKey().default(import_drizzle_orm.sql`gen_random_uuid()`),
+      clientId: (0, import_pg_core.varchar)("client_id", { length: 8 }).unique(),
       // 8-digit numeric ID
-      email: varchar("email").unique(),
-      passwordHash: varchar("password_hash"),
-      firstName: varchar("first_name"),
-      lastName: varchar("last_name"),
-      profileImageUrl: varchar("profile_image_url"),
-      phone: varchar("phone"),
-      address: text("address"),
-      streetType: text("street_type"),
-      city: text("city"),
-      province: text("province"),
-      postalCode: text("postal_code"),
-      country: text("country"),
-      businessActivity: text("business_activity"),
-      idNumber: text("id_number"),
-      idType: text("id_type"),
-      birthDate: text("birth_date"),
-      emailVerified: boolean("email_verified").notNull().default(false),
-      isAdmin: boolean("is_admin").notNull().default(false),
-      isActive: boolean("is_active").notNull().default(true),
-      accountStatus: text("account_status").notNull().default("active"),
+      email: (0, import_pg_core.varchar)("email").unique(),
+      passwordHash: (0, import_pg_core.varchar)("password_hash"),
+      firstName: (0, import_pg_core.varchar)("first_name"),
+      lastName: (0, import_pg_core.varchar)("last_name"),
+      profileImageUrl: (0, import_pg_core.varchar)("profile_image_url"),
+      phone: (0, import_pg_core.varchar)("phone"),
+      address: (0, import_pg_core.text)("address"),
+      streetType: (0, import_pg_core.text)("street_type"),
+      city: (0, import_pg_core.text)("city"),
+      province: (0, import_pg_core.text)("province"),
+      postalCode: (0, import_pg_core.text)("postal_code"),
+      country: (0, import_pg_core.text)("country"),
+      businessActivity: (0, import_pg_core.text)("business_activity"),
+      idNumber: (0, import_pg_core.text)("id_number"),
+      idType: (0, import_pg_core.text)("id_type"),
+      birthDate: (0, import_pg_core.text)("birth_date"),
+      emailVerified: (0, import_pg_core.boolean)("email_verified").notNull().default(false),
+      isAdmin: (0, import_pg_core.boolean)("is_admin").notNull().default(false),
+      isActive: (0, import_pg_core.boolean)("is_active").notNull().default(true),
+      accountStatus: (0, import_pg_core.text)("account_status").notNull().default("active"),
       // active (Verificado), pending (En revisión), deactivated (Desactivada), vip
-      loginAttempts: integer("login_attempts").notNull().default(0),
-      lockUntil: timestamp("lock_until"),
-      internalNotes: text("internal_notes"),
-      googleId: varchar("google_id"),
-      createdAt: timestamp("created_at").defaultNow(),
-      updatedAt: timestamp("updated_at").defaultNow()
+      loginAttempts: (0, import_pg_core.integer)("login_attempts").notNull().default(0),
+      lockUntil: (0, import_pg_core.timestamp)("lock_until"),
+      internalNotes: (0, import_pg_core.text)("internal_notes"),
+      googleId: (0, import_pg_core.varchar)("google_id"),
+      createdAt: (0, import_pg_core.timestamp)("created_at").defaultNow(),
+      updatedAt: (0, import_pg_core.timestamp)("updated_at").defaultNow()
     });
-    userNotifications = pgTable("user_notifications", {
-      id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
-      userId: varchar("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
-      orderId: integer("order_id"),
-      orderCode: text("order_code"),
-      ticketId: text("ticket_id").unique(),
-      type: text("type").notNull(),
-      title: text("title").notNull(),
-      message: text("message").notNull(),
-      isRead: boolean("is_read").notNull().default(false),
-      actionUrl: text("action_url"),
-      createdAt: timestamp("created_at").defaultNow()
+    userNotifications = (0, import_pg_core.pgTable)("user_notifications", {
+      id: (0, import_pg_core.varchar)("id").primaryKey().default(import_drizzle_orm.sql`gen_random_uuid()`),
+      userId: (0, import_pg_core.varchar)("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+      orderId: (0, import_pg_core.integer)("order_id"),
+      orderCode: (0, import_pg_core.text)("order_code"),
+      ticketId: (0, import_pg_core.text)("ticket_id").unique(),
+      type: (0, import_pg_core.text)("type").notNull(),
+      title: (0, import_pg_core.text)("title").notNull(),
+      message: (0, import_pg_core.text)("message").notNull(),
+      isRead: (0, import_pg_core.boolean)("is_read").notNull().default(false),
+      actionUrl: (0, import_pg_core.text)("action_url"),
+      createdAt: (0, import_pg_core.timestamp)("created_at").defaultNow()
     }, (table) => [
-      index("user_notifications_user_id_idx").on(table.userId),
-      index("user_notifications_is_read_idx").on(table.isRead),
-      index("user_notifications_ticket_id_idx").on(table.ticketId)
+      (0, import_pg_core.index)("user_notifications_user_id_idx").on(table.userId),
+      (0, import_pg_core.index)("user_notifications_is_read_idx").on(table.isRead),
+      (0, import_pg_core.index)("user_notifications_ticket_id_idx").on(table.ticketId)
     ]);
-    passwordResetTokens = pgTable("password_reset_tokens", {
-      id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
-      userId: varchar("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
-      token: varchar("token").notNull().unique(),
-      expiresAt: timestamp("expires_at").notNull(),
-      used: boolean("used").notNull().default(false),
-      createdAt: timestamp("created_at").defaultNow()
+    passwordResetTokens = (0, import_pg_core.pgTable)("password_reset_tokens", {
+      id: (0, import_pg_core.varchar)("id").primaryKey().default(import_drizzle_orm.sql`gen_random_uuid()`),
+      userId: (0, import_pg_core.varchar)("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+      token: (0, import_pg_core.varchar)("token").notNull().unique(),
+      expiresAt: (0, import_pg_core.timestamp)("expires_at").notNull(),
+      used: (0, import_pg_core.boolean)("used").notNull().default(false),
+      createdAt: (0, import_pg_core.timestamp)("created_at").defaultNow()
     });
-    emailVerificationTokens = pgTable("email_verification_tokens", {
-      id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
-      userId: varchar("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
-      token: varchar("token").notNull().unique(),
-      expiresAt: timestamp("expires_at").notNull(),
-      used: boolean("used").notNull().default(false),
-      createdAt: timestamp("created_at").defaultNow()
+    emailVerificationTokens = (0, import_pg_core.pgTable)("email_verification_tokens", {
+      id: (0, import_pg_core.varchar)("id").primaryKey().default(import_drizzle_orm.sql`gen_random_uuid()`),
+      userId: (0, import_pg_core.varchar)("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+      token: (0, import_pg_core.varchar)("token").notNull().unique(),
+      expiresAt: (0, import_pg_core.timestamp)("expires_at").notNull(),
+      used: (0, import_pg_core.boolean)("used").notNull().default(false),
+      createdAt: (0, import_pg_core.timestamp)("created_at").defaultNow()
     });
   }
 });
@@ -128,296 +150,296 @@ __export(schema_exports, {
   userNotifications: () => userNotifications,
   users: () => users
 });
-import { pgTable as pgTable2, text as text2, serial, integer as integer2, boolean as boolean2, timestamp as timestamp2, jsonb as jsonb2, varchar as varchar2, index as index2 } from "drizzle-orm/pg-core";
-import { createInsertSchema } from "drizzle-zod";
-import { relations } from "drizzle-orm";
-var products, orders, llcApplications, applicationDocuments, newsletterSubscribers, messages, contactOtps, orderEvents, messageReplies, maintenanceApplications, ordersRelations, orderEventsRelations, messagesRelations, messageRepliesRelations, llcApplicationsRelations, applicationDocumentsRelations, maintenanceApplicationsRelations, insertProductSchema, insertOrderSchema, insertLlcApplicationSchema, insertApplicationDocumentSchema, insertMaintenanceApplicationSchema, insertContactOtpSchema, insertOrderEventSchema, insertMessageReplySchema, discountCodes, insertDiscountCodeSchema;
+var import_pg_core2, import_drizzle_zod, import_drizzle_orm2, products, orders, llcApplications, applicationDocuments, newsletterSubscribers, messages, contactOtps, orderEvents, messageReplies, maintenanceApplications, ordersRelations, orderEventsRelations, messagesRelations, messageRepliesRelations, llcApplicationsRelations, applicationDocumentsRelations, maintenanceApplicationsRelations, insertProductSchema, insertOrderSchema, insertLlcApplicationSchema, insertApplicationDocumentSchema, insertMaintenanceApplicationSchema, insertContactOtpSchema, insertOrderEventSchema, insertMessageReplySchema, discountCodes, insertDiscountCodeSchema;
 var init_schema = __esm({
   "shared/schema.ts"() {
     "use strict";
     init_auth();
+    import_pg_core2 = require("drizzle-orm/pg-core");
+    import_drizzle_zod = require("drizzle-zod");
     init_auth();
-    products = pgTable2("products", {
-      id: serial("id").primaryKey(),
-      name: text2("name").notNull(),
-      description: text2("description").notNull(),
-      price: integer2("price").notNull(),
+    import_drizzle_orm2 = require("drizzle-orm");
+    products = (0, import_pg_core2.pgTable)("products", {
+      id: (0, import_pg_core2.serial)("id").primaryKey(),
+      name: (0, import_pg_core2.text)("name").notNull(),
+      description: (0, import_pg_core2.text)("description").notNull(),
+      price: (0, import_pg_core2.integer)("price").notNull(),
       // in cents
-      features: jsonb2("features").$type().notNull()
+      features: (0, import_pg_core2.jsonb)("features").$type().notNull()
     });
-    orders = pgTable2("orders", {
-      id: serial("id").primaryKey(),
-      userId: varchar2("user_id").notNull().references(() => users.id),
-      productId: integer2("product_id").notNull().references(() => products.id),
-      status: text2("status").notNull().default("pending"),
+    orders = (0, import_pg_core2.pgTable)("orders", {
+      id: (0, import_pg_core2.serial)("id").primaryKey(),
+      userId: (0, import_pg_core2.varchar)("user_id").notNull().references(() => users.id),
+      productId: (0, import_pg_core2.integer)("product_id").notNull().references(() => products.id),
+      status: (0, import_pg_core2.text)("status").notNull().default("pending"),
       // pending, paid, processing, documents_ready, completed, cancelled
-      stripeSessionId: text2("stripe_session_id"),
-      amount: integer2("amount").notNull(),
-      originalAmount: integer2("original_amount"),
+      stripeSessionId: (0, import_pg_core2.text)("stripe_session_id"),
+      amount: (0, import_pg_core2.integer)("amount").notNull(),
+      originalAmount: (0, import_pg_core2.integer)("original_amount"),
       // original amount before discount
-      discountCode: varchar2("discount_code", { length: 50 }),
-      discountAmount: integer2("discount_amount").default(0),
+      discountCode: (0, import_pg_core2.varchar)("discount_code", { length: 50 }),
+      discountAmount: (0, import_pg_core2.integer)("discount_amount").default(0),
       // discount in cents
-      currency: varchar2("currency", { length: 3 }).notNull().default("EUR"),
+      currency: (0, import_pg_core2.varchar)("currency", { length: 3 }).notNull().default("EUR"),
       // USD or EUR
-      isInvoiceGenerated: boolean2("is_invoice_generated").notNull().default(false),
-      invoiceNumber: text2("invoice_number"),
-      paymentLink: text2("payment_link"),
+      isInvoiceGenerated: (0, import_pg_core2.boolean)("is_invoice_generated").notNull().default(false),
+      invoiceNumber: (0, import_pg_core2.text)("invoice_number"),
+      paymentLink: (0, import_pg_core2.text)("payment_link"),
       // admin-set payment link URL
-      paymentStatus: text2("payment_status").default("pending"),
+      paymentStatus: (0, import_pg_core2.text)("payment_status").default("pending"),
       // pending, paid, overdue, cancelled
-      paymentDueDate: timestamp2("payment_due_date"),
-      paidAt: timestamp2("paid_at"),
-      createdAt: timestamp2("created_at").defaultNow()
+      paymentDueDate: (0, import_pg_core2.timestamp)("payment_due_date"),
+      paidAt: (0, import_pg_core2.timestamp)("paid_at"),
+      createdAt: (0, import_pg_core2.timestamp)("created_at").defaultNow()
     }, (table) => ({
-      userIdIdx: index2("orders_user_id_idx").on(table.userId),
-      statusIdx: index2("orders_status_idx").on(table.status)
+      userIdIdx: (0, import_pg_core2.index)("orders_user_id_idx").on(table.userId),
+      statusIdx: (0, import_pg_core2.index)("orders_status_idx").on(table.status)
     }));
-    llcApplications = pgTable2("llc_applications", {
-      id: serial("id").primaryKey(),
-      orderId: integer2("order_id").notNull().references(() => orders.id),
-      requestCode: text2("request_code").unique(),
-      ownerFullName: text2("owner_full_name"),
-      ownerEmail: text2("owner_email"),
-      ownerPhone: text2("owner_phone"),
-      ownerBirthDate: text2("owner_birth_date"),
-      ownerAddress: text2("owner_address"),
-      ownerStreetType: text2("owner_street_type"),
+    llcApplications = (0, import_pg_core2.pgTable)("llc_applications", {
+      id: (0, import_pg_core2.serial)("id").primaryKey(),
+      orderId: (0, import_pg_core2.integer)("order_id").notNull().references(() => orders.id),
+      requestCode: (0, import_pg_core2.text)("request_code").unique(),
+      ownerFullName: (0, import_pg_core2.text)("owner_full_name"),
+      ownerEmail: (0, import_pg_core2.text)("owner_email"),
+      ownerPhone: (0, import_pg_core2.text)("owner_phone"),
+      ownerBirthDate: (0, import_pg_core2.text)("owner_birth_date"),
+      ownerAddress: (0, import_pg_core2.text)("owner_address"),
+      ownerStreetType: (0, import_pg_core2.text)("owner_street_type"),
       // Calle, Avenida, Paseo
-      ownerCity: text2("owner_city"),
-      ownerCountry: text2("owner_country"),
-      ownerProvince: text2("owner_province"),
-      ownerPostalCode: text2("owner_postal_code"),
-      ownerIdNumber: text2("owner_id_number"),
+      ownerCity: (0, import_pg_core2.text)("owner_city"),
+      ownerCountry: (0, import_pg_core2.text)("owner_country"),
+      ownerProvince: (0, import_pg_core2.text)("owner_province"),
+      ownerPostalCode: (0, import_pg_core2.text)("owner_postal_code"),
+      ownerIdNumber: (0, import_pg_core2.text)("owner_id_number"),
       // DNI/Passport number
-      ownerIdType: text2("owner_id_type"),
+      ownerIdType: (0, import_pg_core2.text)("owner_id_type"),
       // DNI or Passport
-      idLater: boolean2("id_later").notNull().default(false),
-      dataProcessingConsent: boolean2("data_processing_consent").notNull().default(false),
-      termsConsent: boolean2("terms_consent").notNull().default(false),
-      ageConfirmation: boolean2("age_confirmation").notNull().default(false),
-      companyName: text2("company_name"),
-      companyNameOption2: text2("company_name_option_2"),
-      designator: text2("designator"),
+      idLater: (0, import_pg_core2.boolean)("id_later").notNull().default(false),
+      dataProcessingConsent: (0, import_pg_core2.boolean)("data_processing_consent").notNull().default(false),
+      termsConsent: (0, import_pg_core2.boolean)("terms_consent").notNull().default(false),
+      ageConfirmation: (0, import_pg_core2.boolean)("age_confirmation").notNull().default(false),
+      companyName: (0, import_pg_core2.text)("company_name"),
+      companyNameOption2: (0, import_pg_core2.text)("company_name_option_2"),
+      designator: (0, import_pg_core2.text)("designator"),
       // LLC, L.L.C., Ltd.
-      companyDescription: text2("company_description"),
-      businessCategory: text2("business_category"),
-      businessActivity: text2("business_activity"),
-      businessCategoryOther: text2("business_category_other"),
-      ownerNamesAlternates: text2("owner_names_alternates"),
+      companyDescription: (0, import_pg_core2.text)("company_description"),
+      businessCategory: (0, import_pg_core2.text)("business_category"),
+      businessActivity: (0, import_pg_core2.text)("business_activity"),
+      businessCategoryOther: (0, import_pg_core2.text)("business_category_other"),
+      ownerNamesAlternates: (0, import_pg_core2.text)("owner_names_alternates"),
       // Plan B, C, D names
-      ownerCount: integer2("owner_count").default(1),
-      ownerCountryResidency: text2("owner_country_residency"),
-      idDocumentUrl: text2("id_document_url"),
-      isSellingOnline: text2("is_selling_online"),
+      ownerCount: (0, import_pg_core2.integer)("owner_count").default(1),
+      ownerCountryResidency: (0, import_pg_core2.text)("owner_country_residency"),
+      idDocumentUrl: (0, import_pg_core2.text)("id_document_url"),
+      isSellingOnline: (0, import_pg_core2.text)("is_selling_online"),
       // Yes, No, Not sure
-      needsBankAccount: text2("needs_bank_account"),
+      needsBankAccount: (0, import_pg_core2.text)("needs_bank_account"),
       // Mercury, Relay, No, Yes
-      willUseStripe: text2("will_use_stripe"),
+      willUseStripe: (0, import_pg_core2.text)("will_use_stripe"),
       // Stripe, PayPal, Both, Other, Not yet
-      wantsBoiReport: text2("wants_boi_report"),
+      wantsBoiReport: (0, import_pg_core2.text)("wants_boi_report"),
       // Yes, No, Info
-      wantsMaintenancePack: text2("wants_maintenance_pack"),
+      wantsMaintenancePack: (0, import_pg_core2.text)("wants_maintenance_pack"),
       // Yes, No, Info
-      paymentMethod: text2("payment_method"),
+      paymentMethod: (0, import_pg_core2.text)("payment_method"),
       // transfer, link
-      paymentStatus: text2("payment_status").notNull().default("unpaid"),
+      paymentStatus: (0, import_pg_core2.text)("payment_status").notNull().default("unpaid"),
       // unpaid, paid
-      notes: text2("notes"),
-      state: text2("state"),
-      status: text2("status").notNull().default("draft"),
+      notes: (0, import_pg_core2.text)("notes"),
+      state: (0, import_pg_core2.text)("state"),
+      status: (0, import_pg_core2.text)("status").notNull().default("draft"),
       // draft, submitted, filed, rejected
-      submittedAt: timestamp2("submitted_at"),
-      lastUpdated: timestamp2("last_updated").defaultNow(),
-      emailOtp: text2("email_otp"),
-      emailOtpExpires: timestamp2("email_otp_expires"),
-      emailVerified: boolean2("email_verified").notNull().default(false),
+      submittedAt: (0, import_pg_core2.timestamp)("submitted_at"),
+      lastUpdated: (0, import_pg_core2.timestamp)("last_updated").defaultNow(),
+      emailOtp: (0, import_pg_core2.text)("email_otp"),
+      emailOtpExpires: (0, import_pg_core2.timestamp)("email_otp_expires"),
+      emailVerified: (0, import_pg_core2.boolean)("email_verified").notNull().default(false),
       // Important dates for calendar
-      llcCreatedDate: timestamp2("llc_created_date"),
-      agentRenewalDate: timestamp2("agent_renewal_date"),
-      irs1120DueDate: timestamp2("irs_1120_due_date"),
-      irs5472DueDate: timestamp2("irs_5472_due_date"),
-      annualReportDueDate: timestamp2("annual_report_due_date")
+      llcCreatedDate: (0, import_pg_core2.timestamp)("llc_created_date"),
+      agentRenewalDate: (0, import_pg_core2.timestamp)("agent_renewal_date"),
+      irs1120DueDate: (0, import_pg_core2.timestamp)("irs_1120_due_date"),
+      irs5472DueDate: (0, import_pg_core2.timestamp)("irs_5472_due_date"),
+      annualReportDueDate: (0, import_pg_core2.timestamp)("annual_report_due_date")
     }, (table) => ({
-      orderIdIdx: index2("llc_apps_order_id_idx").on(table.orderId),
-      requestCodeIdx: index2("llc_apps_req_code_idx").on(table.requestCode),
-      statusIdx: index2("llc_apps_status_idx").on(table.status)
+      orderIdIdx: (0, import_pg_core2.index)("llc_apps_order_id_idx").on(table.orderId),
+      requestCodeIdx: (0, import_pg_core2.index)("llc_apps_req_code_idx").on(table.requestCode),
+      statusIdx: (0, import_pg_core2.index)("llc_apps_status_idx").on(table.status)
     }));
-    applicationDocuments = pgTable2("application_documents", {
-      id: serial("id").primaryKey(),
-      applicationId: integer2("application_id").references(() => llcApplications.id),
-      orderId: integer2("order_id").references(() => orders.id),
-      fileName: text2("file_name").notNull(),
-      fileType: text2("file_type").notNull(),
-      fileUrl: text2("file_url").notNull(),
-      documentType: text2("document_type").notNull(),
+    applicationDocuments = (0, import_pg_core2.pgTable)("application_documents", {
+      id: (0, import_pg_core2.serial)("id").primaryKey(),
+      applicationId: (0, import_pg_core2.integer)("application_id").references(() => llcApplications.id),
+      orderId: (0, import_pg_core2.integer)("order_id").references(() => orders.id),
+      fileName: (0, import_pg_core2.text)("file_name").notNull(),
+      fileType: (0, import_pg_core2.text)("file_type").notNull(),
+      fileUrl: (0, import_pg_core2.text)("file_url").notNull(),
+      documentType: (0, import_pg_core2.text)("document_type").notNull(),
       // passport, id, company_docs, tax_id, official_filing, other
-      reviewStatus: text2("review_status").notNull().default("pending"),
+      reviewStatus: (0, import_pg_core2.text)("review_status").notNull().default("pending"),
       // pending, approved, rejected, action_required
-      uploadedBy: varchar2("uploaded_by").references(() => users.id),
-      uploadedAt: timestamp2("uploaded_at").defaultNow()
+      uploadedBy: (0, import_pg_core2.varchar)("uploaded_by").references(() => users.id),
+      uploadedAt: (0, import_pg_core2.timestamp)("uploaded_at").defaultNow()
     }, (table) => ({
-      applicationIdIdx: index2("app_docs_application_id_idx").on(table.applicationId),
-      orderIdIdx: index2("app_docs_order_id_idx").on(table.orderId),
-      uploadedByIdx: index2("app_docs_uploaded_by_idx").on(table.uploadedBy)
+      applicationIdIdx: (0, import_pg_core2.index)("app_docs_application_id_idx").on(table.applicationId),
+      orderIdIdx: (0, import_pg_core2.index)("app_docs_order_id_idx").on(table.orderId),
+      uploadedByIdx: (0, import_pg_core2.index)("app_docs_uploaded_by_idx").on(table.uploadedBy)
     }));
-    newsletterSubscribers = pgTable2("newsletter_subscribers", {
-      id: serial("id").primaryKey(),
-      email: text2("email").notNull().unique(),
-      subscribedAt: timestamp2("subscribed_at").defaultNow()
+    newsletterSubscribers = (0, import_pg_core2.pgTable)("newsletter_subscribers", {
+      id: (0, import_pg_core2.serial)("id").primaryKey(),
+      email: (0, import_pg_core2.text)("email").notNull().unique(),
+      subscribedAt: (0, import_pg_core2.timestamp)("subscribed_at").defaultNow()
     });
-    messages = pgTable2("messages", {
-      id: serial("id").primaryKey(),
-      userId: varchar2("user_id").references(() => users.id),
-      name: text2("name"),
-      email: text2("email").notNull(),
-      phone: text2("phone"),
-      contactByWhatsapp: boolean2("contact_by_whatsapp").default(false),
-      subject: text2("subject"),
-      content: text2("content").notNull(),
-      encryptedContent: text2("encrypted_content"),
-      status: text2("status").notNull().default("unread"),
+    messages = (0, import_pg_core2.pgTable)("messages", {
+      id: (0, import_pg_core2.serial)("id").primaryKey(),
+      userId: (0, import_pg_core2.varchar)("user_id").references(() => users.id),
+      name: (0, import_pg_core2.text)("name"),
+      email: (0, import_pg_core2.text)("email").notNull(),
+      phone: (0, import_pg_core2.text)("phone"),
+      contactByWhatsapp: (0, import_pg_core2.boolean)("contact_by_whatsapp").default(false),
+      subject: (0, import_pg_core2.text)("subject"),
+      content: (0, import_pg_core2.text)("content").notNull(),
+      encryptedContent: (0, import_pg_core2.text)("encrypted_content"),
+      status: (0, import_pg_core2.text)("status").notNull().default("unread"),
       // unread, read, archived
-      type: text2("type").notNull().default("contact"),
+      type: (0, import_pg_core2.text)("type").notNull().default("contact"),
       // contact, support, system
-      requestCode: text2("request_code"),
-      messageId: text2("message_id").unique(),
-      createdAt: timestamp2("created_at").defaultNow()
+      requestCode: (0, import_pg_core2.text)("request_code"),
+      messageId: (0, import_pg_core2.text)("message_id").unique(),
+      createdAt: (0, import_pg_core2.timestamp)("created_at").defaultNow()
     }, (table) => ({
-      userIdIdx: index2("messages_user_id_idx").on(table.userId),
-      statusIdx: index2("messages_status_idx").on(table.status),
-      emailIdx: index2("messages_email_idx").on(table.email)
+      userIdIdx: (0, import_pg_core2.index)("messages_user_id_idx").on(table.userId),
+      statusIdx: (0, import_pg_core2.index)("messages_status_idx").on(table.status),
+      emailIdx: (0, import_pg_core2.index)("messages_email_idx").on(table.email)
     }));
-    contactOtps = pgTable2("contact_otps", {
-      id: serial("id").primaryKey(),
-      email: text2("email").notNull(),
-      otp: text2("otp").notNull(),
-      otpType: text2("otp_type").notNull().default("contact"),
+    contactOtps = (0, import_pg_core2.pgTable)("contact_otps", {
+      id: (0, import_pg_core2.serial)("id").primaryKey(),
+      email: (0, import_pg_core2.text)("email").notNull(),
+      otp: (0, import_pg_core2.text)("otp").notNull(),
+      otpType: (0, import_pg_core2.text)("otp_type").notNull().default("contact"),
       // contact, password_change
-      expiresAt: timestamp2("expires_at").notNull(),
-      verified: boolean2("verified").notNull().default(false)
+      expiresAt: (0, import_pg_core2.timestamp)("expires_at").notNull(),
+      verified: (0, import_pg_core2.boolean)("verified").notNull().default(false)
     }, (table) => ({
-      emailIdx: index2("contact_otps_email_idx").on(table.email),
-      expiresAtIdx: index2("contact_otps_expires_at_idx").on(table.expiresAt)
+      emailIdx: (0, import_pg_core2.index)("contact_otps_email_idx").on(table.email),
+      expiresAtIdx: (0, import_pg_core2.index)("contact_otps_expires_at_idx").on(table.expiresAt)
     }));
-    orderEvents = pgTable2("order_events", {
-      id: serial("id").primaryKey(),
-      orderId: integer2("order_id").notNull().references(() => orders.id),
-      eventType: text2("event_type").notNull(),
-      description: text2("description").notNull(),
-      createdAt: timestamp2("created_at").defaultNow(),
-      createdBy: varchar2("created_by").references(() => users.id)
+    orderEvents = (0, import_pg_core2.pgTable)("order_events", {
+      id: (0, import_pg_core2.serial)("id").primaryKey(),
+      orderId: (0, import_pg_core2.integer)("order_id").notNull().references(() => orders.id),
+      eventType: (0, import_pg_core2.text)("event_type").notNull(),
+      description: (0, import_pg_core2.text)("description").notNull(),
+      createdAt: (0, import_pg_core2.timestamp)("created_at").defaultNow(),
+      createdBy: (0, import_pg_core2.varchar)("created_by").references(() => users.id)
     }, (table) => ({
-      orderIdIdx: index2("order_events_order_id_idx").on(table.orderId)
+      orderIdIdx: (0, import_pg_core2.index)("order_events_order_id_idx").on(table.orderId)
     }));
-    messageReplies = pgTable2("message_replies", {
-      id: serial("id").primaryKey(),
-      messageId: integer2("message_id").notNull().references(() => messages.id),
-      content: text2("content").notNull(),
-      encryptedContent: text2("encrypted_content"),
-      isAdmin: boolean2("is_admin").notNull().default(false),
-      createdAt: timestamp2("created_at").defaultNow(),
-      createdBy: varchar2("created_by").references(() => users.id)
+    messageReplies = (0, import_pg_core2.pgTable)("message_replies", {
+      id: (0, import_pg_core2.serial)("id").primaryKey(),
+      messageId: (0, import_pg_core2.integer)("message_id").notNull().references(() => messages.id),
+      content: (0, import_pg_core2.text)("content").notNull(),
+      encryptedContent: (0, import_pg_core2.text)("encrypted_content"),
+      isAdmin: (0, import_pg_core2.boolean)("is_admin").notNull().default(false),
+      createdAt: (0, import_pg_core2.timestamp)("created_at").defaultNow(),
+      createdBy: (0, import_pg_core2.varchar)("created_by").references(() => users.id)
     });
-    maintenanceApplications = pgTable2("maintenance_applications", {
-      id: serial("id").primaryKey(),
-      orderId: integer2("order_id").notNull().references(() => orders.id),
-      requestCode: text2("request_code").unique(),
-      ownerFullName: text2("owner_full_name"),
-      ownerEmail: text2("owner_email"),
-      ownerPhone: text2("owner_phone"),
-      companyName: text2("company_name"),
-      ein: text2("ein"),
-      state: text2("state"),
-      creationSource: text2("creation_source"),
-      creationYear: text2("creation_year"),
-      bankAccount: text2("bank_account"),
-      paymentGateway: text2("payment_gateway"),
-      businessActivity: text2("business_activity"),
-      expectedServices: text2("expected_services"),
-      status: text2("status").notNull().default("draft"),
-      submittedAt: timestamp2("submitted_at"),
-      lastUpdated: timestamp2("last_updated").defaultNow(),
-      emailOtp: text2("email_otp"),
-      emailOtpExpires: timestamp2("email_otp_expires"),
-      emailVerified: boolean2("email_verified").notNull().default(false),
-      notes: text2("notes"),
-      wantsDissolve: text2("wants_dissolve"),
-      paymentMethod: text2("payment_method"),
+    maintenanceApplications = (0, import_pg_core2.pgTable)("maintenance_applications", {
+      id: (0, import_pg_core2.serial)("id").primaryKey(),
+      orderId: (0, import_pg_core2.integer)("order_id").notNull().references(() => orders.id),
+      requestCode: (0, import_pg_core2.text)("request_code").unique(),
+      ownerFullName: (0, import_pg_core2.text)("owner_full_name"),
+      ownerEmail: (0, import_pg_core2.text)("owner_email"),
+      ownerPhone: (0, import_pg_core2.text)("owner_phone"),
+      companyName: (0, import_pg_core2.text)("company_name"),
+      ein: (0, import_pg_core2.text)("ein"),
+      state: (0, import_pg_core2.text)("state"),
+      creationSource: (0, import_pg_core2.text)("creation_source"),
+      creationYear: (0, import_pg_core2.text)("creation_year"),
+      bankAccount: (0, import_pg_core2.text)("bank_account"),
+      paymentGateway: (0, import_pg_core2.text)("payment_gateway"),
+      businessActivity: (0, import_pg_core2.text)("business_activity"),
+      expectedServices: (0, import_pg_core2.text)("expected_services"),
+      status: (0, import_pg_core2.text)("status").notNull().default("draft"),
+      submittedAt: (0, import_pg_core2.timestamp)("submitted_at"),
+      lastUpdated: (0, import_pg_core2.timestamp)("last_updated").defaultNow(),
+      emailOtp: (0, import_pg_core2.text)("email_otp"),
+      emailOtpExpires: (0, import_pg_core2.timestamp)("email_otp_expires"),
+      emailVerified: (0, import_pg_core2.boolean)("email_verified").notNull().default(false),
+      notes: (0, import_pg_core2.text)("notes"),
+      wantsDissolve: (0, import_pg_core2.text)("wants_dissolve"),
+      paymentMethod: (0, import_pg_core2.text)("payment_method"),
       // transfer, link
-      authorizedManagement: boolean2("authorized_management").notNull().default(false),
-      termsConsent: boolean2("terms_consent").notNull().default(false),
-      dataProcessingConsent: boolean2("data_processing_consent").notNull().default(false)
+      authorizedManagement: (0, import_pg_core2.boolean)("authorized_management").notNull().default(false),
+      termsConsent: (0, import_pg_core2.boolean)("terms_consent").notNull().default(false),
+      dataProcessingConsent: (0, import_pg_core2.boolean)("data_processing_consent").notNull().default(false)
     }, (table) => ({
-      orderIdIdx: index2("maint_apps_order_id_idx").on(table.orderId),
-      requestCodeIdx: index2("maint_apps_req_code_idx").on(table.requestCode),
-      statusIdx: index2("maint_apps_status_idx").on(table.status)
+      orderIdIdx: (0, import_pg_core2.index)("maint_apps_order_id_idx").on(table.orderId),
+      requestCodeIdx: (0, import_pg_core2.index)("maint_apps_req_code_idx").on(table.requestCode),
+      statusIdx: (0, import_pg_core2.index)("maint_apps_status_idx").on(table.status)
     }));
-    ordersRelations = relations(orders, ({ one, many }) => ({
+    ordersRelations = (0, import_drizzle_orm2.relations)(orders, ({ one, many }) => ({
       user: one(users, { fields: [orders.userId], references: [users.id] }),
       product: one(products, { fields: [orders.productId], references: [products.id] }),
       application: one(llcApplications, { fields: [orders.id], references: [llcApplications.orderId] }),
       maintenanceApplication: one(maintenanceApplications, { fields: [orders.id], references: [maintenanceApplications.orderId] }),
       events: many(orderEvents)
     }));
-    orderEventsRelations = relations(orderEvents, ({ one }) => ({
+    orderEventsRelations = (0, import_drizzle_orm2.relations)(orderEvents, ({ one }) => ({
       order: one(orders, { fields: [orderEvents.orderId], references: [orders.id] })
     }));
-    messagesRelations = relations(messages, ({ many }) => ({
+    messagesRelations = (0, import_drizzle_orm2.relations)(messages, ({ many }) => ({
       replies: many(messageReplies)
     }));
-    messageRepliesRelations = relations(messageReplies, ({ one }) => ({
+    messageRepliesRelations = (0, import_drizzle_orm2.relations)(messageReplies, ({ one }) => ({
       message: one(messages, { fields: [messageReplies.messageId], references: [messages.id] })
     }));
-    llcApplicationsRelations = relations(llcApplications, ({ one, many }) => ({
+    llcApplicationsRelations = (0, import_drizzle_orm2.relations)(llcApplications, ({ one, many }) => ({
       order: one(orders, { fields: [llcApplications.orderId], references: [orders.id] }),
       documents: many(applicationDocuments)
     }));
-    applicationDocumentsRelations = relations(applicationDocuments, ({ one }) => ({
+    applicationDocumentsRelations = (0, import_drizzle_orm2.relations)(applicationDocuments, ({ one }) => ({
       application: one(llcApplications, { fields: [applicationDocuments.applicationId], references: [llcApplications.id] })
     }));
-    maintenanceApplicationsRelations = relations(maintenanceApplications, ({ one }) => ({
+    maintenanceApplicationsRelations = (0, import_drizzle_orm2.relations)(maintenanceApplications, ({ one }) => ({
       order: one(orders, { fields: [maintenanceApplications.orderId], references: [orders.id] })
     }));
-    insertProductSchema = createInsertSchema(products).omit({ id: true });
-    insertOrderSchema = createInsertSchema(orders).omit({ id: true, createdAt: true });
-    insertLlcApplicationSchema = createInsertSchema(llcApplications).omit({ id: true, lastUpdated: true });
-    insertApplicationDocumentSchema = createInsertSchema(applicationDocuments).omit({ id: true, uploadedAt: true });
-    insertMaintenanceApplicationSchema = createInsertSchema(maintenanceApplications).omit({ id: true, lastUpdated: true });
-    insertContactOtpSchema = createInsertSchema(contactOtps).omit({ id: true });
-    insertOrderEventSchema = createInsertSchema(orderEvents).omit({ id: true, createdAt: true });
-    insertMessageReplySchema = createInsertSchema(messageReplies).omit({ id: true, createdAt: true });
-    discountCodes = pgTable2("discount_codes", {
-      id: serial("id").primaryKey(),
-      code: varchar2("code", { length: 50 }).notNull().unique(),
-      description: text2("description"),
-      discountType: varchar2("discount_type", { length: 20 }).notNull().default("percentage"),
+    insertProductSchema = (0, import_drizzle_zod.createInsertSchema)(products).omit({ id: true });
+    insertOrderSchema = (0, import_drizzle_zod.createInsertSchema)(orders).omit({ id: true, createdAt: true });
+    insertLlcApplicationSchema = (0, import_drizzle_zod.createInsertSchema)(llcApplications).omit({ id: true, lastUpdated: true });
+    insertApplicationDocumentSchema = (0, import_drizzle_zod.createInsertSchema)(applicationDocuments).omit({ id: true, uploadedAt: true });
+    insertMaintenanceApplicationSchema = (0, import_drizzle_zod.createInsertSchema)(maintenanceApplications).omit({ id: true, lastUpdated: true });
+    insertContactOtpSchema = (0, import_drizzle_zod.createInsertSchema)(contactOtps).omit({ id: true });
+    insertOrderEventSchema = (0, import_drizzle_zod.createInsertSchema)(orderEvents).omit({ id: true, createdAt: true });
+    insertMessageReplySchema = (0, import_drizzle_zod.createInsertSchema)(messageReplies).omit({ id: true, createdAt: true });
+    discountCodes = (0, import_pg_core2.pgTable)("discount_codes", {
+      id: (0, import_pg_core2.serial)("id").primaryKey(),
+      code: (0, import_pg_core2.varchar)("code", { length: 50 }).notNull().unique(),
+      description: (0, import_pg_core2.text)("description"),
+      discountType: (0, import_pg_core2.varchar)("discount_type", { length: 20 }).notNull().default("percentage"),
       // percentage or fixed
-      discountValue: integer2("discount_value").notNull(),
+      discountValue: (0, import_pg_core2.integer)("discount_value").notNull(),
       // percentage (0-100) or fixed amount in cents
-      minOrderAmount: integer2("min_order_amount").default(0),
+      minOrderAmount: (0, import_pg_core2.integer)("min_order_amount").default(0),
       // minimum order amount in cents
-      maxUses: integer2("max_uses"),
+      maxUses: (0, import_pg_core2.integer)("max_uses"),
       // null = unlimited
-      usedCount: integer2("used_count").notNull().default(0),
-      validFrom: timestamp2("valid_from").defaultNow(),
-      validUntil: timestamp2("valid_until"),
-      isActive: boolean2("is_active").notNull().default(true),
-      createdAt: timestamp2("created_at").defaultNow()
+      usedCount: (0, import_pg_core2.integer)("used_count").notNull().default(0),
+      validFrom: (0, import_pg_core2.timestamp)("valid_from").defaultNow(),
+      validUntil: (0, import_pg_core2.timestamp)("valid_until"),
+      isActive: (0, import_pg_core2.boolean)("is_active").notNull().default(true),
+      createdAt: (0, import_pg_core2.timestamp)("created_at").defaultNow()
     });
-    insertDiscountCodeSchema = createInsertSchema(discountCodes).omit({ id: true, createdAt: true, usedCount: true });
+    insertDiscountCodeSchema = (0, import_drizzle_zod.createInsertSchema)(discountCodes).omit({ id: true, createdAt: true, usedCount: true });
   }
 });
 
 // server/db.ts
-import { drizzle } from "drizzle-orm/node-postgres";
-import pg from "pg";
-var Pool, connectionString, pool, db;
+var import_node_postgres, import_pg, Pool, connectionString, pool, db;
 var init_db = __esm({
   "server/db.ts"() {
     "use strict";
+    import_node_postgres = require("drizzle-orm/node-postgres");
+    import_pg = __toESM(require("pg"), 1);
     init_schema();
-    ({ Pool } = pg);
+    ({ Pool } = import_pg.default);
     if (!process.env.DATABASE_URL) {
       throw new Error(
         "DATABASE_URL must be set. Did you forget to provision a database?"
@@ -433,12 +455,12 @@ var init_db = __esm({
         rejectUnauthorized: false
       },
       connectionTimeoutMillis: 1e4,
-      // 10s is safer for production startup
-      idleTimeoutMillis: 1e4,
-      max: 10
-      // Sufficient pool size
+      idleTimeoutMillis: 3e4,
+      // Increase idle timeout to 30s
+      max: 20
+      // Increase max connections to 20
     });
-    db = drizzle(pool, { schema: schema_exports });
+    db = (0, import_node_postgres.drizzle)(pool, { schema: schema_exports });
   }
 });
 
@@ -475,7 +497,6 @@ __export(email_exports, {
   sendEmail: () => sendEmail,
   sendTrustpilotEmail: () => sendTrustpilotEmail
 });
-import nodemailer from "nodemailer";
 function getSimpleHeader() {
   return `
     <div style="background: linear-gradient(180deg, #0E1215 0%, #1a1f25 100%); padding: 35px 20px; text-align: center;">
@@ -1031,14 +1052,12 @@ async function processEmailQueue() {
       isProcessingQueue = false;
       return;
     }
-    const testEmail = "afortuny07@gmail.com";
-    const originalTo = job.to;
     try {
       await transporter.sendMail({
         from: `"Easy US LLC" <no-reply@easyusllc.com>`,
         replyTo: job.replyTo || "hola@easyusllc.com",
-        to: testEmail,
-        subject: `[TEST - Para: ${originalTo}] ${job.subject}`,
+        to: job.to,
+        subject: job.subject,
         html: job.html
       });
       emailQueue.shift();
@@ -1087,14 +1106,12 @@ async function sendEmail({ to, subject, html, replyTo }) {
   if (!process.env.SMTP_USER || !process.env.SMTP_PASS) {
     return;
   }
-  const testEmail = "afortuny07@gmail.com";
-  const originalTo = to;
   try {
     const info = await transporter.sendMail({
       from: `"Easy US LLC" <no-reply@easyusllc.com>`,
       replyTo: replyTo || "hola@easyusllc.com",
-      to: testEmail,
-      subject: `[TEST - Para: ${originalTo}] ${subject}`,
+      to,
+      subject,
       html
     });
     return info;
@@ -1107,17 +1124,15 @@ async function sendTrustpilotEmail({ to, name, orderNumber }) {
   if (!process.env.SMTP_PASS) {
     return;
   }
-  const testEmail = "afortuny07@gmail.com";
-  const originalTo = to;
   const trustpilotBcc = process.env.TRUSTPILOT_BCC_EMAIL || "easyusllc.com+62fb280c0a@invite.trustpilot.com";
   const html = getOrderCompletedTemplate(name, orderNumber);
   try {
     const info = await transporter.sendMail({
       from: `"Easy US LLC" <no-reply@easyusllc.com>`,
       replyTo: "hola@easyusllc.com",
-      to: testEmail,
+      to,
       bcc: trustpilotBcc,
-      subject: `[TEST - Para: ${originalTo}] Pedido completado - Documentaci\xF3n disponible`,
+      subject: `Pedido completado - Documentaci\xF3n disponible`,
       html
     });
     return info;
@@ -1125,13 +1140,14 @@ async function sendTrustpilotEmail({ to, name, orderNumber }) {
     return null;
   }
 }
-var domain, appDomain, transporter, emailQueue, MAX_RETRIES, MAX_QUEUE_SIZE, EMAIL_TTL, QUEUE_PROCESS_INTERVAL, isProcessingQueue, lastProcessTime;
+var import_nodemailer, domain, appDomain, transporter, emailQueue, MAX_RETRIES, MAX_QUEUE_SIZE, EMAIL_TTL, QUEUE_PROCESS_INTERVAL, isProcessingQueue, lastProcessTime;
 var init_email = __esm({
   "server/lib/email.ts"() {
     "use strict";
+    import_nodemailer = __toESM(require("nodemailer"), 1);
     domain = "easyusllc.com";
     appDomain = "app.easyusllc.com";
-    transporter = nodemailer.createTransport({
+    transporter = import_nodemailer.default.createTransport({
       host: process.env.SMTP_HOST || "smtp.ionos.es",
       port: parseInt(process.env.SMTP_PORT || "587"),
       secure: false,
@@ -1167,6 +1183,7 @@ __export(auth_service_exports, {
   generateToken: () => generateToken,
   generateUniqueClientId: () => generateUniqueClientId,
   hashPassword: () => hashPassword,
+  isAdminEmail: () => isAdminEmail,
   loginUser: () => loginUser,
   resendVerificationEmail: () => resendVerificationEmail,
   resetPasswordWithOtp: () => resetPasswordWithOtp,
@@ -1174,20 +1191,20 @@ __export(auth_service_exports, {
   verifyPassword: () => verifyPassword,
   verifyPasswordResetOtp: () => verifyPasswordResetOtp
 });
-import bcrypt from "bcrypt";
-import crypto from "crypto";
-import { eq, and, gt, sql as sql4 } from "drizzle-orm";
+function isAdminEmail(email) {
+  return ADMIN_EMAILS.includes(email.toLowerCase());
+}
 async function hashPassword(password) {
-  return bcrypt.hash(password, SALT_ROUNDS);
+  return import_bcrypt.default.hash(password, SALT_ROUNDS);
 }
 async function verifyPassword(password, hash) {
-  return bcrypt.compare(password, hash);
+  return import_bcrypt.default.compare(password, hash);
 }
 function generateOtp() {
   return Math.floor(1e5 + Math.random() * 9e5).toString();
 }
 function generateToken() {
-  return crypto.randomBytes(32).toString("hex");
+  return import_crypto.default.randomBytes(32).toString("hex");
 }
 function generateClientId() {
   return Math.floor(1e7 + Math.random() * 9e7).toString();
@@ -1197,7 +1214,7 @@ async function generateUniqueClientId() {
   const maxAttempts = 10;
   while (attempts < maxAttempts) {
     const clientId = generateClientId();
-    const existing = await db.select({ id: users.id }).from(users).where(eq(users.clientId, clientId)).limit(1);
+    const existing = await db.select({ id: users.id }).from(users).where((0, import_drizzle_orm4.eq)(users.clientId, clientId)).limit(1);
     if (existing.length === 0) {
       return clientId;
     }
@@ -1206,12 +1223,12 @@ async function generateUniqueClientId() {
   return Date.now().toString().slice(-8);
 }
 async function createUser(data) {
-  const existingUser = await db.select().from(users).where(eq(users.email, data.email)).limit(1);
+  const existingUser = await db.select().from(users).where((0, import_drizzle_orm4.eq)(users.email, data.email)).limit(1);
   if (existingUser.length > 0) {
     throw new Error("El email ya est\xE1 registrado");
   }
   const passwordHash = await hashPassword(data.password);
-  const isAdminEmail = data.email.toLowerCase() === process.env.ADMIN_EMAIL?.toLowerCase();
+  const isAdmin2 = isAdminEmail(data.email);
   const [newUser] = await db.insert(users).values({
     id: data.clientId,
     clientId: data.clientId,
@@ -1222,7 +1239,7 @@ async function createUser(data) {
     phone: data.phone,
     businessActivity: data.businessActivity || null,
     emailVerified: false,
-    isAdmin: isAdminEmail,
+    isAdmin: isAdmin2,
     accountStatus: "active"
   }).returning();
   const verificationToken = generateOtp();
@@ -1256,26 +1273,26 @@ async function logActivity(title, data) {
 }
 async function verifyEmailToken(userId, token) {
   const [tokenRecord] = await db.select().from(emailVerificationTokens).where(
-    and(
-      eq(emailVerificationTokens.userId, userId),
-      eq(emailVerificationTokens.token, token),
-      eq(emailVerificationTokens.used, false),
-      gt(emailVerificationTokens.expiresAt, /* @__PURE__ */ new Date())
+    (0, import_drizzle_orm4.and)(
+      (0, import_drizzle_orm4.eq)(emailVerificationTokens.userId, userId),
+      (0, import_drizzle_orm4.eq)(emailVerificationTokens.token, token),
+      (0, import_drizzle_orm4.eq)(emailVerificationTokens.used, false),
+      (0, import_drizzle_orm4.gt)(emailVerificationTokens.expiresAt, /* @__PURE__ */ new Date())
     )
   ).limit(1);
   if (!tokenRecord) {
     return false;
   }
-  await db.update(emailVerificationTokens).set({ used: true }).where(eq(emailVerificationTokens.id, tokenRecord.id));
+  await db.update(emailVerificationTokens).set({ used: true }).where((0, import_drizzle_orm4.eq)(emailVerificationTokens.id, tokenRecord.id));
   await db.update(users).set({
     emailVerified: true,
     accountStatus: "active",
     updatedAt: /* @__PURE__ */ new Date()
-  }).where(eq(users.id, userId));
+  }).where((0, import_drizzle_orm4.eq)(users.id, userId));
   return true;
 }
 async function loginUser(email, password) {
-  const [user] = await db.select().from(users).where(eq(users.email, email)).limit(1);
+  const [user] = await db.select().from(users).where((0, import_drizzle_orm4.eq)(users.email, email)).limit(1);
   if (!user || !user.passwordHash) {
     return null;
   }
@@ -1318,7 +1335,7 @@ async function loginUser(email, password) {
         console.error("Error handling account lock:", e);
       }
     }
-    await db.update(users).set(updates).where(eq(users.id, user.id));
+    await db.update(users).set(updates).where((0, import_drizzle_orm4.eq)(users.id, user.id));
     return null;
   }
   if (user.loginAttempts > 0 || user.lockUntil) {
@@ -1327,12 +1344,12 @@ async function loginUser(email, password) {
       lockUntil: null,
       accountStatus: user.accountStatus,
       updatedAt: /* @__PURE__ */ new Date()
-    }).where(eq(users.id, user.id));
+    }).where((0, import_drizzle_orm4.eq)(users.id, user.id));
   }
   return user;
 }
 async function createPasswordResetOtp(email) {
-  const [user] = await db.select().from(users).where(eq(users.email, email)).limit(1);
+  const [user] = await db.select().from(users).where((0, import_drizzle_orm4.eq)(users.email, email)).limit(1);
   if (!user) {
     return { success: false };
   }
@@ -1344,7 +1361,7 @@ async function createPasswordResetOtp(email) {
     expiresAt
   });
   try {
-    const { getEmailHeader: getEmailHeader2, getEmailFooter: getEmailFooter2, getOtpEmailTemplate: getOtpEmailTemplate2 } = await Promise.resolve().then(() => (init_email(), email_exports));
+    const { getEmailHeader: getEmailHeader3, getEmailFooter: getEmailFooter3, getOtpEmailTemplate: getOtpEmailTemplate2 } = await Promise.resolve().then(() => (init_email(), email_exports));
     await sendEmail({
       to: email,
       subject: "C\xF3digo de verificaci\xF3n - Easy US LLC",
@@ -1355,45 +1372,45 @@ async function createPasswordResetOtp(email) {
   return { success: true, userId: user.id };
 }
 async function verifyPasswordResetOtp(email, otp) {
-  const [user] = await db.select().from(users).where(eq(users.email, email)).limit(1);
+  const [user] = await db.select().from(users).where((0, import_drizzle_orm4.eq)(users.email, email)).limit(1);
   if (!user) return false;
   const [tokenRecord] = await db.select().from(passwordResetTokens).where(
-    and(
-      eq(passwordResetTokens.userId, user.id),
-      eq(passwordResetTokens.token, otp),
-      eq(passwordResetTokens.used, false),
-      gt(passwordResetTokens.expiresAt, /* @__PURE__ */ new Date())
+    (0, import_drizzle_orm4.and)(
+      (0, import_drizzle_orm4.eq)(passwordResetTokens.userId, user.id),
+      (0, import_drizzle_orm4.eq)(passwordResetTokens.token, otp),
+      (0, import_drizzle_orm4.eq)(passwordResetTokens.used, false),
+      (0, import_drizzle_orm4.gt)(passwordResetTokens.expiresAt, /* @__PURE__ */ new Date())
     )
-  ).orderBy(sql4`${passwordResetTokens.createdAt} DESC`).limit(1);
+  ).orderBy(import_drizzle_orm4.sql`${passwordResetTokens.createdAt} DESC`).limit(1);
   return !!tokenRecord;
 }
 async function resetPasswordWithOtp(email, otp, newPassword) {
-  const [user] = await db.select().from(users).where(eq(users.email, email)).limit(1);
+  const [user] = await db.select().from(users).where((0, import_drizzle_orm4.eq)(users.email, email)).limit(1);
   if (!user) return false;
   const [tokenRecord] = await db.select().from(passwordResetTokens).where(
-    and(
-      eq(passwordResetTokens.userId, user.id),
-      eq(passwordResetTokens.token, otp),
-      eq(passwordResetTokens.used, false),
-      gt(passwordResetTokens.expiresAt, /* @__PURE__ */ new Date())
+    (0, import_drizzle_orm4.and)(
+      (0, import_drizzle_orm4.eq)(passwordResetTokens.userId, user.id),
+      (0, import_drizzle_orm4.eq)(passwordResetTokens.token, otp),
+      (0, import_drizzle_orm4.eq)(passwordResetTokens.used, false),
+      (0, import_drizzle_orm4.gt)(passwordResetTokens.expiresAt, /* @__PURE__ */ new Date())
     )
   ).limit(1);
   if (!tokenRecord) {
     return false;
   }
   const passwordHash = await hashPassword(newPassword);
-  await db.update(passwordResetTokens).set({ used: true }).where(eq(passwordResetTokens.id, tokenRecord.id));
+  await db.update(passwordResetTokens).set({ used: true }).where((0, import_drizzle_orm4.eq)(passwordResetTokens.id, tokenRecord.id));
   await db.update(users).set({
     passwordHash,
     updatedAt: /* @__PURE__ */ new Date(),
     loginAttempts: 0,
     lockUntil: null,
     accountStatus: "active"
-  }).where(eq(users.id, tokenRecord.userId));
+  }).where((0, import_drizzle_orm4.eq)(users.id, tokenRecord.userId));
   return true;
 }
 async function resendVerificationEmail(userId) {
-  const [user] = await db.select().from(users).where(eq(users.id, userId)).limit(1);
+  const [user] = await db.select().from(users).where((0, import_drizzle_orm4.eq)(users.id, userId)).limit(1);
   if (!user || !user.email) {
     return false;
   }
@@ -1415,15 +1432,22 @@ async function resendVerificationEmail(userId) {
   }
   return true;
 }
-var SALT_ROUNDS, OTP_EXPIRY_MINUTES;
+var import_bcrypt, import_crypto, import_drizzle_orm4, SALT_ROUNDS, OTP_EXPIRY_MINUTES, ADMIN_EMAILS;
 var init_auth_service = __esm({
   "server/lib/auth-service.ts"() {
     "use strict";
+    import_bcrypt = __toESM(require("bcrypt"), 1);
+    import_crypto = __toESM(require("crypto"), 1);
     init_db();
     init_schema();
+    import_drizzle_orm4 = require("drizzle-orm");
     init_email();
     SALT_ROUNDS = 12;
     OTP_EXPIRY_MINUTES = 15;
+    ADMIN_EMAILS = [
+      process.env.ADMIN_EMAIL?.toLowerCase(),
+      "afortuny07@gmail.com"
+    ].filter(Boolean);
   }
 });
 
@@ -1433,10 +1457,9 @@ __export(encryption_exports, {
   decrypt: () => decrypt,
   encrypt: () => encrypt
 });
-import crypto2 from "crypto";
 function encrypt(text3) {
-  const iv = crypto2.randomBytes(IV_LENGTH);
-  const cipher = crypto2.createCipheriv(ALGORITHM, Buffer.from(ENCRYPTION_KEY.slice(0, 32)), iv);
+  const iv = import_crypto2.default.randomBytes(IV_LENGTH);
+  const cipher = import_crypto2.default.createCipheriv(ALGORITHM, Buffer.from(ENCRYPTION_KEY.slice(0, 32)), iv);
   let encrypted = cipher.update(text3);
   encrypted = Buffer.concat([encrypted, cipher.final()]);
   return iv.toString("hex") + ":" + encrypted.toString("hex");
@@ -1445,15 +1468,16 @@ function decrypt(text3) {
   const textParts = text3.split(":");
   const iv = Buffer.from(textParts.shift(), "hex");
   const encryptedText = Buffer.from(textParts.join(":"), "hex");
-  const decipher = crypto2.createDecipheriv(ALGORITHM, Buffer.from(ENCRYPTION_KEY.slice(0, 32)), iv);
+  const decipher = import_crypto2.default.createDecipheriv(ALGORITHM, Buffer.from(ENCRYPTION_KEY.slice(0, 32)), iv);
   let decrypted = decipher.update(encryptedText);
   decrypted = Buffer.concat([decrypted, decipher.final()]);
   return decrypted.toString();
 }
-var ALGORITHM, ENCRYPTION_KEY, IV_LENGTH;
+var import_crypto2, ALGORITHM, ENCRYPTION_KEY, IV_LENGTH;
 var init_encryption = __esm({
   "server/utils/encryption.ts"() {
     "use strict";
+    import_crypto2 = __toESM(require("crypto"), 1);
     ALGORITHM = "aes-256-cbc";
     ENCRYPTION_KEY = process.env.ENCRYPTION_KEY || "fallback_key_at_least_32_chars_long!!";
     IV_LENGTH = 16;
@@ -1473,7 +1497,6 @@ __export(id_generator_exports, {
   generateUniqueTicketId: () => generateUniqueTicketId,
   getStatePrefix: () => getStatePrefix
 });
-import { eq as eq6 } from "drizzle-orm";
 function generate8DigitId() {
   return Math.floor(1e7 + Math.random() * 9e7).toString();
 }
@@ -1482,7 +1505,7 @@ async function generateUniqueClientId2() {
   const maxAttempts = 10;
   while (attempts < maxAttempts) {
     const clientId = generate8DigitId();
-    const existing = await db.select({ id: users.id }).from(users).where(eq6(users.clientId, clientId)).limit(1);
+    const existing = await db.select({ id: users.id }).from(users).where((0, import_drizzle_orm9.eq)(users.clientId, clientId)).limit(1);
     if (existing.length === 0) {
       return clientId;
     }
@@ -1514,8 +1537,8 @@ async function generateUniqueOrderCode(state) {
   const maxAttempts = 10;
   while (attempts < maxAttempts) {
     const code = generateOrderCode(state);
-    const existingLlc = await db.select({ id: llcApplications.id }).from(llcApplications).where(eq6(llcApplications.requestCode, code)).limit(1);
-    const existingMaint = await db.select({ id: maintenanceApplications.id }).from(maintenanceApplications).where(eq6(maintenanceApplications.requestCode, code)).limit(1);
+    const existingLlc = await db.select({ id: llcApplications.id }).from(llcApplications).where((0, import_drizzle_orm9.eq)(llcApplications.requestCode, code)).limit(1);
+    const existingMaint = await db.select({ id: maintenanceApplications.id }).from(maintenanceApplications).where((0, import_drizzle_orm9.eq)(maintenanceApplications.requestCode, code)).limit(1);
     if (existingLlc.length === 0 && existingMaint.length === 0) {
       return code;
     }
@@ -1529,7 +1552,7 @@ async function generateUniqueTicketId() {
   const maxAttempts = 10;
   while (attempts < maxAttempts) {
     const ticketId = generate8DigitId();
-    const existingNotif = await db.select({ id: userNotifications.id }).from(userNotifications).where(eq6(userNotifications.ticketId, ticketId)).limit(1);
+    const existingNotif = await db.select({ id: userNotifications.id }).from(userNotifications).where((0, import_drizzle_orm9.eq)(userNotifications.ticketId, ticketId)).limit(1);
     if (existingNotif.length === 0) {
       return ticketId;
     }
@@ -1542,7 +1565,7 @@ async function generateUniqueMessageId() {
   const maxAttempts = 10;
   while (attempts < maxAttempts) {
     const messageId = generate8DigitId();
-    const existing = await db.select({ id: messages.id }).from(messages).where(eq6(messages.messageId, messageId)).limit(1);
+    const existing = await db.select({ id: messages.id }).from(messages).where((0, import_drizzle_orm9.eq)(messages.messageId, messageId)).limit(1);
     if (existing.length === 0) {
       return messageId;
     }
@@ -1559,37 +1582,39 @@ function formatOrderDisplay(requestCode) {
   }
   return "N/A";
 }
+var import_drizzle_orm9;
 var init_id_generator = __esm({
   "server/lib/id-generator.ts"() {
     "use strict";
     init_db();
     init_schema();
+    import_drizzle_orm9 = require("drizzle-orm");
   }
 });
 
 // vite.config.ts
-import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react";
-import path4 from "path";
-var rootDir, vite_config_default;
+var import_vite, import_plugin_react, import_path4, rootDir, vite_config_default;
 var init_vite_config = __esm({
   "vite.config.ts"() {
     "use strict";
+    import_vite = require("vite");
+    import_plugin_react = __toESM(require("@vitejs/plugin-react"), 1);
+    import_path4 = __toESM(require("path"), 1);
     rootDir = process.cwd();
-    vite_config_default = defineConfig({
+    vite_config_default = (0, import_vite.defineConfig)({
       plugins: [
-        react()
+        (0, import_plugin_react.default)()
       ],
       resolve: {
         alias: {
-          "@": path4.resolve(rootDir, "client", "src"),
-          "@shared": path4.resolve(rootDir, "shared"),
-          "@assets": path4.resolve(rootDir, "client", "src", "assets")
+          "@": import_path4.default.resolve(rootDir, "client", "src"),
+          "@shared": import_path4.default.resolve(rootDir, "shared"),
+          "@assets": import_path4.default.resolve(rootDir, "client", "src", "assets")
         }
       },
-      root: path4.resolve(rootDir, "client"),
+      root: import_path4.default.resolve(rootDir, "client"),
       build: {
-        outDir: path4.resolve(rootDir, "dist/public"),
+        outDir: import_path4.default.resolve(rootDir, "dist/public"),
         emptyOutDir: true,
         reportCompressedSize: false,
         chunkSizeWarningLimit: 1e3,
@@ -1597,7 +1622,8 @@ var init_vite_config = __esm({
           output: {
             manualChunks(id) {
               if (id.includes("node_modules")) {
-                if (id.includes("react-dom") || id.includes("react/") || id.includes("/react.")) return "react-vendor";
+                if (id.includes("react-dom")) return "react-dom";
+                if (id.includes("react/") || id.includes("/react.")) return "react-core";
                 if (id.includes("framer-motion")) return "framer-motion";
                 if (id.includes("@radix-ui")) return "radix-ui";
                 if (id.includes("lucide-react")) return "lucide";
@@ -1606,7 +1632,6 @@ var init_vite_config = __esm({
                 if (id.includes("zod") || id.includes("drizzle")) return "validation";
                 if (id.includes("i18next")) return "i18n";
                 if (id.includes("date-fns")) return "date-utils";
-                return "vendor";
               }
               if (id.includes("/components/ui/")) return "ui-components";
             }
@@ -1633,19 +1658,19 @@ var init_url_alphabet = __esm({
 });
 
 // node_modules/nanoid/index.js
-import crypto4 from "crypto";
-var POOL_SIZE_MULTIPLIER, pool2, poolOffset, fillPool, nanoid;
+var import_crypto4, POOL_SIZE_MULTIPLIER, pool2, poolOffset, fillPool, nanoid;
 var init_nanoid = __esm({
   "node_modules/nanoid/index.js"() {
+    import_crypto4 = __toESM(require("crypto"), 1);
     init_url_alphabet();
     POOL_SIZE_MULTIPLIER = 128;
     fillPool = (bytes) => {
       if (!pool2 || pool2.length < bytes) {
         pool2 = Buffer.allocUnsafe(bytes * POOL_SIZE_MULTIPLIER);
-        crypto4.randomFillSync(pool2);
+        import_crypto4.default.randomFillSync(pool2);
         poolOffset = 0;
       } else if (poolOffset + bytes > pool2.length) {
-        crypto4.randomFillSync(pool2);
+        import_crypto4.default.randomFillSync(pool2);
         poolOffset = 0;
       }
       poolOffset += bytes;
@@ -1666,16 +1691,13 @@ var vite_exports = {};
 __export(vite_exports, {
   setupVite: () => setupVite
 });
-import { createServer as createViteServer, createLogger } from "vite";
-import fs4 from "fs";
-import path5 from "path";
 async function setupVite(server, app2) {
   const serverOptions = {
     middlewareMode: true,
     hmr: { server, path: "/vite-hmr" },
     allowedHosts: true
   };
-  const vite = await createViteServer({
+  const vite = await (0, import_vite2.createServer)({
     ...vite_config_default,
     configFile: false,
     customLogger: {
@@ -1692,12 +1714,12 @@ async function setupVite(server, app2) {
   app2.use("*", async (req, res, next) => {
     const url = req.originalUrl;
     try {
-      const clientTemplate = path5.resolve(
+      const clientTemplate = import_path5.default.resolve(
         rootDir2,
         "client",
         "index.html"
       );
-      let template = await fs4.promises.readFile(clientTemplate, "utf-8");
+      let template = await import_fs4.default.promises.readFile(clientTemplate, "utf-8");
       template = template.replace(
         `src="/src/main.tsx"`,
         `src="/src/main.tsx?v=${nanoid()}"`
@@ -1710,33 +1732,41 @@ async function setupVite(server, app2) {
     }
   });
 }
-var rootDir2, viteLogger;
+var import_vite2, import_fs4, import_path5, rootDir2, viteLogger;
 var init_vite = __esm({
   "server/vite.ts"() {
     "use strict";
+    import_vite2 = require("vite");
     init_vite_config();
+    import_fs4 = __toESM(require("fs"), 1);
+    import_path5 = __toESM(require("path"), 1);
     init_nanoid();
     rootDir2 = process.cwd();
-    viteLogger = createLogger();
+    viteLogger = (0, import_vite2.createLogger)();
   }
 });
 
 // server/index.ts
-import express3 from "express";
+var index_exports = {};
+__export(index_exports, {
+  log: () => log
+});
+module.exports = __toCommonJS(index_exports);
+var import_express3 = __toESM(require("express"), 1);
 
 // server/lib/custom-auth.ts
+var import_express_session = __toESM(require("express-session"), 1);
+var import_connect_pg_simple = __toESM(require("connect-pg-simple"), 1);
+var import_express = __toESM(require("express"), 1);
 init_db();
 init_auth();
 init_schema();
+var import_drizzle_orm5 = require("drizzle-orm");
 init_email();
-import session from "express-session";
-import connectPg from "connect-pg-simple";
-import express from "express";
-import { eq as eq2 } from "drizzle-orm";
 
 // server/lib/security.ts
 init_db();
-import { sql as sql3 } from "drizzle-orm";
+var import_drizzle_orm3 = require("drizzle-orm");
 var RATE_LIMITS = {
   login: { windowMs: 9e5, maxRequests: 5 },
   otp: { windowMs: 3e5, maxRequests: 3 },
@@ -1812,7 +1842,7 @@ function getRecentAuditLogs(limit = 100) {
 async function checkDatabaseHealth() {
   const start = Date.now();
   try {
-    await db.execute(sql3`SELECT 1`);
+    await db.execute(import_drizzle_orm3.sql`SELECT 1`);
     return { healthy: true, latencyMs: Date.now() - start };
   } catch (error) {
     return {
@@ -1854,7 +1884,7 @@ function getClientIp(req) {
 init_auth_service();
 function getSession() {
   const sessionTtl = 7 * 24 * 60 * 60 * 1e3;
-  const pgStore = connectPg(session);
+  const pgStore = (0, import_connect_pg_simple.default)(import_express_session.default);
   const sessionStore = new pgStore({
     conString: process.env.DATABASE_URL,
     createTableIfMissing: false,
@@ -1862,7 +1892,7 @@ function getSession() {
     tableName: "sessions"
   });
   const isProduction = process.env.NODE_ENV === "production" || process.env.REPLIT_ENVIRONMENT === "production";
-  return session({
+  return (0, import_express_session.default)({
     secret: process.env.SESSION_SECRET || "easy-us-llc-secret-key-2024",
     store: sessionStore,
     resave: false,
@@ -1877,8 +1907,8 @@ function getSession() {
 }
 function setupCustomAuth(app2) {
   app2.set("trust proxy", 1);
-  app2.use(express.json());
-  app2.use(express.urlencoded({ extended: true }));
+  app2.use(import_express.default.json());
+  app2.use(import_express.default.urlencoded({ extended: true }));
   app2.use(getSession());
   app2.post("/api/auth/register", async (req, res) => {
     try {
@@ -2092,7 +2122,7 @@ function setupCustomAuth(app2) {
       if (!userId) {
         return res.status(401).json({ message: "No autenticado" });
       }
-      const [user] = await db.select().from(users).where(eq2(users.id, userId)).limit(1);
+      const [user] = await db.select().from(users).where((0, import_drizzle_orm5.eq)(users.id, userId)).limit(1);
       if (!user) {
         req.session.destroy(() => {
         });
@@ -2140,8 +2170,8 @@ function setupCustomAuth(app2) {
         address,
         businessActivity,
         updatedAt: /* @__PURE__ */ new Date()
-      }).where(eq2(users.id, userId));
-      const [updatedUser] = await db.select().from(users).where(eq2(users.id, userId)).limit(1);
+      }).where((0, import_drizzle_orm5.eq)(users.id, userId));
+      const [updatedUser] = await db.select().from(users).where((0, import_drizzle_orm5.eq)(users.id, userId)).limit(1);
       res.json({
         success: true,
         user: {
@@ -2171,7 +2201,7 @@ var isAdmin = async (req, res, next) => {
   if (!req.session.userId) {
     return res.status(401).json({ message: "No autenticado" });
   }
-  const [user] = await db.select().from(users).where(eq2(users.id, req.session.userId)).limit(1);
+  const [user] = await db.select().from(users).where((0, import_drizzle_orm5.eq)(users.id, req.session.userId)).limit(1);
   if (!user || !user.isAdmin) {
     return res.status(403).json({ message: "No autorizado" });
   }
@@ -2181,14 +2211,14 @@ var isAdmin = async (req, res, next) => {
 // server/storage.ts
 init_db();
 init_schema();
-import { eq as eq3, desc } from "drizzle-orm";
+var import_drizzle_orm6 = require("drizzle-orm");
 var DatabaseStorage = class {
   // Products
   async getProducts() {
     return await db.select().from(products).orderBy(products.price);
   }
   async getProduct(id) {
-    const [product] = await db.select().from(products).where(eq3(products.id, id));
+    const [product] = await db.select().from(products).where((0, import_drizzle_orm6.eq)(products.id, id));
     return product;
   }
   async createProduct(product) {
@@ -2203,13 +2233,13 @@ var DatabaseStorage = class {
   async getOrders(userId) {
     if (userId) {
       return await db.query.orders.findMany({
-        where: eq3(orders.userId, userId),
+        where: (0, import_drizzle_orm6.eq)(orders.userId, userId),
         with: {
           product: true,
           application: true,
           maintenanceApplication: true
         },
-        orderBy: desc(orders.createdAt)
+        orderBy: (0, import_drizzle_orm6.desc)(orders.createdAt)
       });
     }
     return await db.query.orders.findMany({
@@ -2219,12 +2249,12 @@ var DatabaseStorage = class {
         maintenanceApplication: true,
         user: true
       },
-      orderBy: desc(orders.createdAt)
+      orderBy: (0, import_drizzle_orm6.desc)(orders.createdAt)
     });
   }
   async getOrder(id) {
     const result = await db.query.orders.findFirst({
-      where: eq3(orders.id, id),
+      where: (0, import_drizzle_orm6.eq)(orders.id, id),
       with: {
         product: true,
         application: true,
@@ -2240,16 +2270,16 @@ var DatabaseStorage = class {
     return newApp;
   }
   async getLlcApplication(id) {
-    const [app2] = await db.select().from(llcApplications).where(eq3(llcApplications.id, id));
+    const [app2] = await db.select().from(llcApplications).where((0, import_drizzle_orm6.eq)(llcApplications.id, id));
     return app2;
   }
   async getLlcApplicationByOrderId(orderId) {
-    const [app2] = await db.select().from(llcApplications).where(eq3(llcApplications.orderId, orderId));
+    const [app2] = await db.select().from(llcApplications).where((0, import_drizzle_orm6.eq)(llcApplications.orderId, orderId));
     return app2;
   }
   async getLlcApplicationByRequestCode(code) {
     const result = await db.query.llcApplications.findFirst({
-      where: eq3(llcApplications.requestCode, code),
+      where: (0, import_drizzle_orm6.eq)(llcApplications.requestCode, code),
       with: {
         documents: true
       }
@@ -2257,7 +2287,7 @@ var DatabaseStorage = class {
     return result;
   }
   async updateLlcApplication(id, updates) {
-    const [updated] = await db.update(llcApplications).set({ ...updates, lastUpdated: /* @__PURE__ */ new Date() }).where(eq3(llcApplications.id, id)).returning();
+    const [updated] = await db.update(llcApplications).set({ ...updates, lastUpdated: /* @__PURE__ */ new Date() }).where((0, import_drizzle_orm6.eq)(llcApplications.id, id)).returning();
     return updated;
   }
   // Documents
@@ -2266,7 +2296,7 @@ var DatabaseStorage = class {
     return newDoc;
   }
   async getDocumentsByApplicationId(applicationId) {
-    return await db.select().from(applicationDocuments).where(eq3(applicationDocuments.applicationId, applicationId));
+    return await db.select().from(applicationDocuments).where((0, import_drizzle_orm6.eq)(applicationDocuments.applicationId, applicationId));
   }
   async getDocumentsByOrderIds(orderIds) {
     const { inArray } = await import("drizzle-orm");
@@ -2274,7 +2304,7 @@ var DatabaseStorage = class {
     return await db.select().from(applicationDocuments).where(inArray(applicationDocuments.orderId, orderIds));
   }
   async deleteDocument(id) {
-    await db.delete(applicationDocuments).where(eq3(applicationDocuments.id, id));
+    await db.delete(applicationDocuments).where((0, import_drizzle_orm6.eq)(applicationDocuments.id, id));
   }
   // Newsletter
   async subscribeToNewsletter(email) {
@@ -2284,7 +2314,7 @@ var DatabaseStorage = class {
     }
   }
   async isSubscribedToNewsletter(email) {
-    const [subscriber] = await db.select().from(newsletterSubscribers).where(eq3(newsletterSubscribers.email, email));
+    const [subscriber] = await db.select().from(newsletterSubscribers).where((0, import_drizzle_orm6.eq)(newsletterSubscribers.email, email));
     return !!subscriber;
   }
   // Admin methods
@@ -2296,11 +2326,11 @@ var DatabaseStorage = class {
         maintenanceApplication: true,
         user: true
       },
-      orderBy: desc(orders.createdAt)
+      orderBy: (0, import_drizzle_orm6.desc)(orders.createdAt)
     });
   }
   async updateOrderStatus(orderId, status) {
-    const [updated] = await db.update(orders).set({ status }).where(eq3(orders.id, orderId)).returning();
+    const [updated] = await db.update(orders).set({ status }).where((0, import_drizzle_orm6.eq)(orders.id, orderId)).returning();
     return updated;
   }
   // Messages
@@ -2316,39 +2346,39 @@ var DatabaseStorage = class {
     return newMessage;
   }
   async getMessagesByUserId(userId) {
-    return await db.select().from(messages).where(eq3(messages.userId, userId)).orderBy(desc(messages.createdAt));
+    return await db.select().from(messages).where((0, import_drizzle_orm6.eq)(messages.userId, userId)).orderBy((0, import_drizzle_orm6.desc)(messages.createdAt));
   }
   async getAllMessages() {
     return await db.query.messages.findMany({
-      orderBy: desc(messages.createdAt),
+      orderBy: (0, import_drizzle_orm6.desc)(messages.createdAt),
       with: {
         replies: true
       }
     });
   }
   async updateMessageStatus(id, status) {
-    const [updated] = await db.update(messages).set({ status }).where(eq3(messages.id, id)).returning();
+    const [updated] = await db.update(messages).set({ status }).where((0, import_drizzle_orm6.eq)(messages.id, id)).returning();
     return updated;
   }
 };
 var storage = new DatabaseStorage();
 
 // shared/routes.ts
+var import_zod = require("zod");
 init_schema();
-import { z } from "zod";
 var errorSchemas = {
-  validation: z.object({
-    message: z.string(),
-    field: z.string().optional()
+  validation: import_zod.z.object({
+    message: import_zod.z.string(),
+    field: import_zod.z.string().optional()
   }),
-  notFound: z.object({
-    message: z.string()
+  notFound: import_zod.z.object({
+    message: import_zod.z.string()
   }),
-  internal: z.object({
-    message: z.string()
+  internal: import_zod.z.object({
+    message: import_zod.z.string()
   }),
-  unauthorized: z.object({
-    message: z.string()
+  unauthorized: import_zod.z.object({
+    message: import_zod.z.string()
   })
 };
 var api = {
@@ -2357,14 +2387,14 @@ var api = {
       method: "GET",
       path: "/api/products",
       responses: {
-        200: z.array(z.custom())
+        200: import_zod.z.array(import_zod.z.custom())
       }
     },
     get: {
       method: "GET",
       path: "/api/products/:id",
       responses: {
-        200: z.custom(),
+        200: import_zod.z.custom(),
         404: errorSchemas.notFound
       }
     }
@@ -2374,18 +2404,18 @@ var api = {
       method: "GET",
       path: "/api/orders",
       responses: {
-        200: z.array(z.custom()),
+        200: import_zod.z.array(import_zod.z.custom()),
         401: errorSchemas.unauthorized
       }
     },
     create: {
       method: "POST",
       path: "/api/orders",
-      input: z.object({
-        productId: z.number()
+      input: import_zod.z.object({
+        productId: import_zod.z.number()
       }),
       responses: {
-        201: z.custom(),
+        201: import_zod.z.custom(),
         400: errorSchemas.validation,
         401: errorSchemas.unauthorized
       }
@@ -2396,7 +2426,7 @@ var api = {
       method: "GET",
       path: "/api/llc/:id",
       responses: {
-        200: z.custom(),
+        200: import_zod.z.custom(),
         404: errorSchemas.notFound,
         401: errorSchemas.unauthorized
       }
@@ -2406,7 +2436,7 @@ var api = {
       path: "/api/llc/:id",
       input: insertLlcApplicationSchema.partial(),
       responses: {
-        200: z.custom(),
+        200: import_zod.z.custom(),
         400: errorSchemas.validation,
         401: errorSchemas.unauthorized,
         404: errorSchemas.notFound
@@ -2416,7 +2446,7 @@ var api = {
       method: "GET",
       path: "/api/llc/code/:code",
       responses: {
-        200: z.custom(),
+        200: import_zod.z.custom(),
         404: errorSchemas.notFound
       }
     }
@@ -2427,7 +2457,7 @@ var api = {
       path: "/api/documents",
       input: insertApplicationDocumentSchema,
       responses: {
-        201: z.custom(),
+        201: import_zod.z.custom(),
         400: errorSchemas.validation,
         404: errorSchemas.notFound
       }
@@ -2436,7 +2466,7 @@ var api = {
       method: "DELETE",
       path: "/api/documents/:id",
       responses: {
-        200: z.object({ success: z.boolean() }),
+        200: import_zod.z.object({ success: import_zod.z.boolean() }),
         404: errorSchemas.notFound
       }
     }
@@ -2444,19 +2474,28 @@ var api = {
 };
 
 // server/routes.ts
+var import_zod2 = require("zod");
 init_db();
 init_email();
 init_schema();
-import { z as z2 } from "zod";
-import { and as and3, eq as eq7, gt as gt2, desc as desc2, sql as sql7 } from "drizzle-orm";
+var import_drizzle_orm10 = require("drizzle-orm");
 
 // server/lib/pdf-generator.ts
-import PDFDocument from "pdfkit";
-import path from "path";
-import fs from "fs";
-import { fileURLToPath } from "url";
-var __filename = fileURLToPath(import.meta.url);
-var __dirname = path.dirname(__filename);
+var import_pdfkit = __toESM(require("pdfkit"), 1);
+var import_path = __toESM(require("path"), 1);
+var import_fs = __toESM(require("fs"), 1);
+var import_url = require("url");
+var import_meta = {};
+function getDirname() {
+  try {
+    if (typeof import_meta?.url !== "undefined") {
+      return import_path.default.dirname((0, import_url.fileURLToPath)(import_meta.url));
+    }
+  } catch {
+  }
+  return import_path.default.resolve();
+}
+var __dirname = getDirname();
 var BRAND_GREEN = "#6EDC8A";
 var BRAND_DARK = "#0E1215";
 var BRAND_GRAY = "#6B7280";
@@ -2475,12 +2514,12 @@ var logoChecked = false;
 function getLogoPath() {
   if (logoChecked) return cachedLogoPath;
   const possiblePaths = [
-    path.join(process.cwd(), "client/public/logo-icon.png"),
-    path.join(process.cwd(), "dist/public/logo-icon.png"),
-    path.join(__dirname, "../../client/public/logo-icon.png")
+    import_path.default.join(process.cwd(), "client/public/logo-icon.png"),
+    import_path.default.join(process.cwd(), "dist/public/logo-icon.png"),
+    import_path.default.join(__dirname, "../../client/public/logo-icon.png")
   ];
   for (const logoPath of possiblePaths) {
-    if (fs.existsSync(logoPath)) {
+    if (import_fs.default.existsSync(logoPath)) {
       cachedLogoPath = logoPath;
       logoChecked = true;
       return logoPath;
@@ -2515,18 +2554,14 @@ function getPaymentMethodText(method) {
   if (!method) return "No especificado";
   const map = {
     "transfer": "Transferencia bancaria",
-    "card": "Tarjeta",
-    "stripe": "Stripe",
-    "paypal": "PayPal",
-    "link": "Enlace de pago",
-    "other": "Otro"
+    "link": "Enlace de pago"
   };
-  return map[method] || method;
+  return map[method] || "Transferencia bancaria";
 }
 function generateInvoicePdf(data) {
   return new Promise((resolve, reject) => {
     try {
-      const doc = new PDFDocument({
+      const doc = new import_pdfkit.default({
         size: "A4",
         margin: 40,
         bufferPages: false,
@@ -2536,125 +2571,105 @@ function generateInvoicePdf(data) {
       doc.on("data", (chunk) => chunks.push(chunk));
       doc.on("end", () => resolve(Buffer.concat(chunks)));
       doc.on("error", reject);
-      doc.rect(0, 0, 595, 70).fill(BRAND_DARK);
+      doc.rect(0, 0, 595, 842).fill("#FFFFFF");
+      doc.fillColor(BRAND_LIGHT_GRAY).circle(550, 50, 100).fill();
+      doc.fillColor(BRAND_LIGHT_GREEN).circle(50, 800, 80).fill();
       const logoPath = getLogoPath();
       if (logoPath) {
         try {
-          doc.image(logoPath, 40, 10, { width: 45, height: 45 });
+          doc.image(logoPath, 45, 45, { width: 45, height: 45 });
         } catch {
         }
       }
-      doc.font("Helvetica-Bold").fontSize(18).fillColor("#FFFFFF").text("Easy US LLC", 95, 18);
-      doc.font("Helvetica").fontSize(8).fillColor("#9CA3AF").text("Formacion de LLC en USA", 95, 38);
-      doc.text("easyusllc.com | hola@easyusllc.com", 95, 50);
-      doc.rect(420, 12, 135, 45).fill(BRAND_GREEN);
-      doc.font("Helvetica").fontSize(8).fillColor(BRAND_DARK).text("FACTURA", 440, 18);
-      doc.font("Helvetica-Bold").fontSize(12).text(data.orderNumber, 430, 32, { width: 115, align: "center" });
-      let y = 85;
+      doc.font("Helvetica-Bold").fontSize(20).fillColor(BRAND_DARK).text("Easy US LLC", 100, 50);
+      doc.font("Helvetica").fontSize(9).fillColor(BRAND_GREEN).text("BEYOND BORDERS BUSINESS", 100, 72);
+      doc.moveTo(45, 110).lineTo(550, 110).strokeColor("#E5E7EB").lineWidth(0.5).stroke();
+      doc.font("Helvetica-Bold").fontSize(24).fillColor(BRAND_DARK).text("FACTURA", 350, 50, { align: "right", width: 200 });
+      doc.font("Helvetica").fontSize(10).fillColor(BRAND_GRAY).text(`No. ${data.orderNumber}`, 350, 78, { align: "right", width: 200 });
+      let y = 140;
+      doc.font("Helvetica-Bold").fontSize(10).fillColor(BRAND_GRAY).text("EMISOR", 45, y);
+      doc.font("Helvetica-Bold").fontSize(11).fillColor(BRAND_DARK).text("Fortuny Consulting LLC", 45, y + 18);
       doc.font("Helvetica").fontSize(9).fillColor(BRAND_GRAY);
-      doc.text(`Fecha: ${formatDate(data.date)}`, 40, y);
-      if (data.status === "paid" && data.paymentDate) {
-        doc.text(`Pagado: ${formatDate(data.paymentDate)}`, 180, y);
-      }
-      y += 20;
-      doc.rect(40, y, 250, 85).fillAndStroke(BRAND_LIGHT_GRAY, "#E5E7EB");
-      doc.font("Helvetica-Bold").fontSize(8).fillColor(BRAND_DARK).text("CLIENTE", 50, y + 8);
-      doc.font("Helvetica-Bold").fontSize(10).text(data.customer.name, 50, y + 22);
-      let cy = y + 36;
+      doc.text("1209 Mountain Road Place NE, STE R", 45, y + 32);
+      doc.text("Albuquerque, NM 87110, USA", 45, y + 44);
+      doc.text("hola@easyusllc.com", 45, y + 56);
+      const clientX = 350;
+      doc.font("Helvetica-Bold").fontSize(10).fillColor(BRAND_GRAY).text("CLIENTE", clientX, y);
+      doc.font("Helvetica-Bold").fontSize(11).fillColor(BRAND_DARK).text(data.customer.name, clientX, y + 18);
+      doc.font("Helvetica").fontSize(9).fillColor(BRAND_GRAY);
+      let cy = y + 32;
       if (data.customer.idType && data.customer.idNumber) {
-        doc.font("Helvetica").fontSize(8).fillColor(BRAND_GRAY).text(`${data.customer.idType}: ${data.customer.idNumber}`, 50, cy);
-        cy += 11;
+        doc.text(`${data.customer.idType}: ${data.customer.idNumber}`, clientX, cy);
+        cy += 12;
       }
-      doc.font("Helvetica").fontSize(8).fillColor(BRAND_GRAY).text(data.customer.email, 50, cy);
-      cy += 11;
-      if (data.customer.phone) {
-        doc.text(data.customer.phone, 50, cy);
-        cy += 11;
-      }
+      doc.text(data.customer.email, clientX, cy);
+      cy += 12;
       if (data.customer.address) {
         const addr = [data.customer.streetType, data.customer.address, data.customer.postalCode, data.customer.city, data.customer.country].filter(Boolean).join(", ");
-        doc.fontSize(7).text(addr, 50, cy, { width: 230 });
+        doc.fontSize(8).text(addr, clientX, cy, { width: 200 });
       }
-      doc.rect(305, y, 250, 85).fillAndStroke(BRAND_LIGHT_GRAY, "#E5E7EB");
-      doc.font("Helvetica-Bold").fontSize(8).fillColor(BRAND_DARK).text("EMISOR", 315, y + 8);
-      doc.font("Helvetica-Bold").fontSize(9).text("Fortuny Consulting LLC", 315, y + 22);
-      doc.font("Helvetica").fontSize(8).fillColor(BRAND_GRAY);
-      doc.text("(operando como Easy US LLC)", 315, y + 34);
-      doc.text("1209 Mountain Road Place NE, STE R", 315, y + 46);
-      doc.text("Albuquerque, NM 87110, USA", 315, y + 58);
-      doc.text("hola@easyusllc.com", 315, y + 70);
       y += 95;
-      y += 10;
-      doc.rect(40, y, 515, 22).fill("#1F2937");
-      doc.font("Helvetica-Bold").fontSize(8).fillColor("#FFFFFF");
-      doc.text("CONCEPTO", 50, y + 7);
-      doc.text("CANT", 360, y + 7);
-      doc.text("PRECIO", 410, y + 7);
-      doc.text("TOTAL", 480, y + 7);
-      y += 22;
-      for (const item of data.items) {
-        doc.rect(40, y, 515, 28).fillAndStroke("#FFFFFF", "#E5E7EB");
-        doc.font("Helvetica-Bold").fontSize(9).fillColor(BRAND_DARK).text(item.description, 50, y + 5, { width: 290 });
-        if (item.details) {
-          doc.font("Helvetica").fontSize(7).fillColor(BRAND_GRAY).text(item.details, 50, y + 16, { width: 290 });
-        }
-        doc.font("Helvetica").fontSize(9).fillColor(BRAND_DARK);
-        doc.text(item.quantity.toString(), 368, y + 10);
-        doc.text(formatCurrency(item.unitPrice, data.currency), 400, y + 10);
-        doc.font("Helvetica-Bold").text(formatCurrency(item.total, data.currency), 470, y + 10);
-        y += 28;
-      }
-      if (data.discount && data.discount.amount > 0) {
-        doc.rect(40, y, 515, 22).fillAndStroke(BRAND_LIGHT_GREEN, "#10B981");
-        doc.font("Helvetica-Bold").fontSize(8).fillColor("#059669");
-        let discText = "Descuento";
-        if (data.discount.code) discText += `: ${data.discount.code}`;
-        if (data.discount.type === "percentage" && data.discount.value) discText += ` (${data.discount.value}%)`;
-        doc.text(discText, 50, y + 7);
-        doc.text(`-${formatCurrency(data.discount.amount, data.currency)}`, 470, y + 7);
-        y += 27;
-      }
-      y += 5;
-      const totalsX = 350;
-      doc.rect(totalsX, y, 205, 50).fill(BRAND_LIGHT_GRAY);
-      doc.font("Helvetica").fontSize(9).fillColor(BRAND_GRAY);
-      doc.text("Subtotal:", totalsX + 10, y + 8);
-      doc.text(formatCurrency(data.subtotal, data.currency), totalsX + 130, y + 8);
-      if (data.discount && data.discount.amount > 0) {
-        doc.fillColor("#059669").text("Descuento:", totalsX + 10, y + 22);
-        doc.text(`-${formatCurrency(data.discount.amount, data.currency)}`, totalsX + 130, y + 22);
-      }
-      doc.rect(totalsX, y + 35, 205, 28).fill(BRAND_GREEN);
-      doc.font("Helvetica-Bold").fontSize(10).fillColor(BRAND_DARK).text("TOTAL:", totalsX + 10, y + 43);
-      doc.fontSize(14).text(formatCurrency(data.total, data.currency), totalsX + 100, y + 41);
+      doc.roundedRect(45, y, 505, 40, 8).fill(BRAND_LIGHT_GRAY);
+      doc.font("Helvetica-Bold").fontSize(8).fillColor(BRAND_GRAY).text("FECHA EMISI\xD3N", 60, y + 10);
+      doc.font("Helvetica-Bold").fontSize(10).fillColor(BRAND_DARK).text(formatDate(data.date), 60, y + 22);
+      doc.font("Helvetica-Bold").fontSize(8).fillColor(BRAND_GRAY).text("VENCIMIENTO", 180, y + 10);
+      doc.font("Helvetica-Bold").fontSize(10).fillColor(BRAND_DARK).text(data.dueDate ? formatDate(data.dueDate) : formatDate(data.date), 180, y + 22);
+      doc.font("Helvetica-Bold").fontSize(8).fillColor(BRAND_GRAY).text("ESTADO", 320, y + 10);
       const statusColors = { pending: "#F59E0B", paid: "#10B981", cancelled: "#EF4444", refunded: "#8B5CF6" };
       const sColor = statusColors[data.status] || "#10B981";
-      doc.rect(40, y + 8, 85, 25).fillAndStroke(data.status === "paid" ? BRAND_LIGHT_GREEN : "#FEF3C7", sColor);
-      doc.font("Helvetica-Bold").fontSize(10).fillColor(sColor).text(getStatusText(data.status), 45, y + 15, { width: 75, align: "center" });
-      y += 75;
-      doc.rect(40, y, 250, 85).fillAndStroke("#FFFFFF", "#E5E7EB");
-      doc.font("Helvetica-Bold").fontSize(8).fillColor(BRAND_DARK).text("DATOS DE PAGO", 50, y + 8);
-      doc.font("Helvetica").fontSize(8).fillColor(BRAND_GRAY);
-      doc.text(`Metodo: ${getPaymentMethodText(data.paymentMethod)}`, 50, y + 22);
-      doc.text(`Banco: ${BANK_INFO.name}`, 50, y + 34);
-      doc.text(`Titular: ${BANK_INFO.holder}`, 50, y + 46);
-      doc.text(`Cuenta: ${BANK_INFO.account}`, 50, y + 58);
-      doc.text(`Routing: ${BANK_INFO.routing} | SWIFT: ${BANK_INFO.swift}`, 50, y + 70);
-      if (data.status === "pending" && data.paymentLink) {
-        doc.rect(305, y, 250, 85).fillAndStroke("#FEF3C7", "#F59E0B");
-        doc.font("Helvetica-Bold").fontSize(9).fillColor("#92400E").text("ENLACE DE PAGO", 315, y + 10);
-        doc.font("Helvetica").fontSize(8).fillColor("#78350F").text(data.paymentLink, 315, y + 26, { width: 230, link: data.paymentLink });
-        doc.fontSize(7).text("Haz clic o copia el enlace para pagar.", 315, y + 50);
-        doc.text("Valido por 7 dias desde la emision.", 315, y + 62);
-      } else if (data.notes) {
-        doc.rect(305, y, 250, 85).fillAndStroke("#FFFFFF", "#E5E7EB");
-        doc.font("Helvetica-Bold").fontSize(8).fillColor(BRAND_DARK).text("NOTAS", 315, y + 8);
-        doc.font("Helvetica").fontSize(8).fillColor(BRAND_GRAY).text(data.notes, 315, y + 22, { width: 230 });
+      doc.font("Helvetica-Bold").fontSize(10).fillColor(sColor).text(getStatusText(data.status), 320, y + 22);
+      y += 65;
+      doc.roundedRect(45, y, 505, 25, 6).fill(BRAND_DARK);
+      doc.font("Helvetica-Bold").fontSize(9).fillColor("#FFFFFF");
+      doc.text("DESCRIPCI\xD3N", 60, y + 8);
+      doc.text("CANT", 360, y + 8);
+      doc.text("PRECIO", 420, y + 8);
+      doc.text("TOTAL", 490, y + 8);
+      y += 25;
+      for (const item of data.items) {
+        doc.font("Helvetica-Bold").fontSize(10).fillColor(BRAND_DARK).text(item.description, 60, y + 10, { width: 280 });
+        if (item.details) {
+          doc.font("Helvetica").fontSize(8).fillColor(BRAND_GRAY).text(item.details, 60, y + 22, { width: 280 });
+        }
+        doc.font("Helvetica").fontSize(10).fillColor(BRAND_DARK);
+        doc.text(item.quantity.toString(), 365, y + 15);
+        doc.text(formatCurrency(item.unitPrice, data.currency), 415, y + 15);
+        doc.font("Helvetica-Bold").text(formatCurrency(item.total, data.currency), 485, y + 15);
+        doc.moveTo(45, y + 40).lineTo(550, y + 40).strokeColor("#F3F4F6").lineWidth(0.5).stroke();
+        y += 40;
       }
-      doc.moveTo(40, 780).lineTo(555, 780).strokeColor("#E5E7EB").lineWidth(0.5).stroke();
-      doc.font("Helvetica").fontSize(7).fillColor(BRAND_GRAY);
-      doc.text("Documento oficial emitido por Fortuny Consulting LLC (Easy US LLC). Valido sin firma.", 40, 788, { align: "center", width: 515 });
-      doc.text("hola@easyusllc.com | +34 614 91 69 10 | easyusllc.com", 40, 798, { align: "center", width: 515 });
+      y += 15;
+      const totalX = 350;
+      doc.font("Helvetica").fontSize(10).fillColor(BRAND_GRAY).text("Subtotal", totalX, y);
+      doc.font("Helvetica-Bold").fontSize(10).fillColor(BRAND_DARK).text(formatCurrency(data.subtotal, data.currency), totalX + 80, y, { align: "right", width: 120 });
+      y += 18;
+      if (data.discount && data.discount.amount > 0) {
+        doc.font("Helvetica").fontSize(10).fillColor("#10B981").text("Descuento", totalX, y);
+        doc.font("Helvetica-Bold").fontSize(10).fillColor("#10B981").text(`-${formatCurrency(data.discount.amount, data.currency)}`, totalX + 80, y, { align: "right", width: 120 });
+        y += 18;
+      }
+      doc.roundedRect(totalX - 10, y, 215, 35, 8).fill(BRAND_DARK);
+      doc.font("Helvetica-Bold").fontSize(11).fillColor("#FFFFFF").text("TOTAL", totalX, y + 12);
+      doc.fontSize(14).fillColor(BRAND_GREEN).text(formatCurrency(data.total, data.currency), totalX + 80, y + 10, { align: "right", width: 120 });
+      y += 55;
+      doc.font("Helvetica-Bold").fontSize(10).fillColor(BRAND_DARK).text("M\xC9TODO DE PAGO (TRANSFERENCIA)", 45, y);
+      doc.roundedRect(45, y + 15, 505, 65, 8).strokeColor("#E5E7EB").lineWidth(1).stroke();
+      const px = 60;
+      doc.font("Helvetica-Bold").fontSize(8).fillColor(BRAND_GRAY).text("BANCO", px, y + 25);
+      doc.font("Helvetica-Bold").fontSize(9).fillColor(BRAND_DARK).text(BANK_INFO.name, px, y + 37);
+      doc.font("Helvetica-Bold").fontSize(8).fillColor(BRAND_GRAY).text("TITULAR", px + 120, y + 25);
+      doc.font("Helvetica-Bold").fontSize(9).fillColor(BRAND_DARK).text(BANK_INFO.holder, px + 120, y + 37);
+      doc.font("Helvetica-Bold").fontSize(8).fillColor(BRAND_GRAY).text("N\xDAMERO DE CUENTA", px + 280, y + 25);
+      doc.font("Helvetica-Bold").fontSize(9).fillColor(BRAND_DARK).text(BANK_INFO.account, px + 280, y + 37);
+      doc.font("Helvetica-Bold").fontSize(8).fillColor(BRAND_GRAY).text("ROUTING / SWIFT", px, y + 55);
+      doc.font("Helvetica-Bold").fontSize(9).fillColor(BRAND_DARK).text(`${BANK_INFO.routing} / ${BANK_INFO.swift}`, px, y + 67);
+      if (data.status === "pending" && data.paymentLink) {
+        y += 95;
+        doc.roundedRect(45, y, 505, 30, 8).fill(BRAND_GREEN);
+        doc.font("Helvetica-Bold").fontSize(10).fillColor(BRAND_DARK).text("PAGAR ONLINE", 60, y + 10);
+        doc.font("Helvetica").fontSize(9).fillColor(BRAND_DARK).text(data.paymentLink, 180, y + 10, { link: data.paymentLink, underline: true });
+      }
+      doc.fontSize(8).fillColor(BRAND_GRAY).text("Easy US LLC es una marca de Fortuny Consulting LLC. 1209 Mountain Road Place NE, STE R, Albuquerque, NM 87110, USA", 45, 780, { align: "center", width: 505 });
       doc.end();
     } catch (error) {
       reject(error);
@@ -2664,7 +2679,7 @@ function generateInvoicePdf(data) {
 function generateReceiptPdf(data) {
   return new Promise((resolve, reject) => {
     try {
-      const doc = new PDFDocument({
+      const doc = new import_pdfkit.default({
         size: "A4",
         margin: 40,
         bufferPages: false,
@@ -2674,99 +2689,74 @@ function generateReceiptPdf(data) {
       doc.on("data", (chunk) => chunks.push(chunk));
       doc.on("end", () => resolve(Buffer.concat(chunks)));
       doc.on("error", reject);
-      doc.rect(0, 0, 595, 70).fill(BRAND_DARK);
+      doc.rect(0, 0, 595, 842).fill("#FFFFFF");
       const logoPath = getLogoPath();
       if (logoPath) {
         try {
-          doc.image(logoPath, 40, 10, { width: 45, height: 45 });
+          doc.image(logoPath, 45, 40, { width: 40, height: 40 });
         } catch {
         }
       }
-      doc.font("Helvetica-Bold").fontSize(18).fillColor("#FFFFFF").text("Easy US LLC", 95, 18);
-      doc.font("Helvetica").fontSize(8).fillColor("#9CA3AF").text("Formacion de LLC en USA", 95, 38);
-      doc.text("easyusllc.com | hola@easyusllc.com", 95, 50);
-      doc.rect(400, 12, 155, 45).fill(BRAND_GREEN);
-      doc.font("Helvetica").fontSize(8).fillColor(BRAND_DARK).text(data.isMaintenance ? "MANTENIMIENTO" : "RECIBO", 430, 18);
-      doc.font("Helvetica-Bold").fontSize(11).text(data.requestCode, 410, 34, { width: 135, align: "center" });
-      let y = 85;
+      doc.font("Helvetica-Bold").fontSize(18).fillColor(BRAND_DARK).text("Easy US LLC", 95, 42);
+      doc.font("Helvetica").fontSize(8).fillColor(BRAND_GREEN).text("CONFIRMACI\xD3N DE SERVICIO", 95, 62);
+      doc.moveTo(45, 95).lineTo(550, 95).strokeColor("#E5E7EB").lineWidth(0.5).stroke();
+      doc.font("Helvetica-Bold").fontSize(22).fillColor(BRAND_DARK).text(data.isMaintenance ? "MANTENIMIENTO" : "RECIBO", 350, 42, { align: "right", width: 200 });
+      doc.font("Helvetica").fontSize(10).fillColor(BRAND_GRAY).text(`REF: ${data.requestCode}`, 350, 68, { align: "right", width: 200 });
+      let y = 125;
+      doc.font("Helvetica-Bold").fontSize(10).fillColor(BRAND_GRAY).text("CLIENTE", 45, y);
+      doc.font("Helvetica-Bold").fontSize(11).fillColor(BRAND_DARK).text(data.customer.name, 45, y + 18);
       doc.font("Helvetica").fontSize(9).fillColor(BRAND_GRAY);
-      doc.text(`Fecha: ${formatDate(data.date)}`, 40, y);
-      doc.text(`Pedido: ${data.orderNumber}`, 200, y);
-      if (data.paymentDate) doc.text(`Pagado: ${formatDate(data.paymentDate)}`, 380, y);
-      y += 25;
-      doc.rect(40, y, 250, 90).fillAndStroke(BRAND_LIGHT_GRAY, "#E5E7EB");
-      doc.font("Helvetica-Bold").fontSize(8).fillColor(BRAND_DARK).text("CLIENTE", 50, y + 8);
-      doc.font("Helvetica-Bold").fontSize(10).text(data.customer.name, 50, y + 22);
-      let cy = y + 36;
-      if (data.customer.idType && data.customer.idNumber) {
-        doc.font("Helvetica").fontSize(8).fillColor(BRAND_GRAY).text(`${data.customer.idType}: ${data.customer.idNumber}`, 50, cy);
-        cy += 11;
+      let cy = y + 32;
+      doc.text(data.customer.email, 45, cy);
+      cy += 12;
+      if (data.customer.phone) {
+        doc.text(data.customer.phone, 45, cy);
+        cy += 12;
       }
-      doc.font("Helvetica").fontSize(8).fillColor(BRAND_GRAY).text(data.customer.email, 50, cy);
-      cy += 11;
-      if (data.customer.phone) doc.text(data.customer.phone, 50, cy);
       if (data.customer.address) {
-        const addr = [data.customer.streetType, data.customer.address, data.customer.postalCode, data.customer.city].filter(Boolean).join(", ");
-        doc.fontSize(7).text(addr, 50, y + 75, { width: 230 });
+        const addr = [data.customer.streetType, data.customer.address, data.customer.postalCode, data.customer.city, data.customer.province, data.customer.country].filter(Boolean).join(", ");
+        doc.fontSize(8).text(addr, 45, cy, { width: 230 });
       }
+      const llcX = 320;
       if (data.llcDetails && (data.llcDetails.companyName || data.llcDetails.state)) {
-        doc.rect(305, y, 250, 90).fillAndStroke(BRAND_LIGHT_GREEN, "#86EFAC");
-        doc.font("Helvetica-Bold").fontSize(8).fillColor(BRAND_DARK).text("DATOS DE LA LLC", 315, y + 8);
-        let ly = y + 22;
+        doc.font("Helvetica-Bold").fontSize(10).fillColor(BRAND_GRAY).text("DATOS DE LA LLC", llcX, y);
+        let ly = y + 18;
         if (data.llcDetails.companyName) {
-          doc.font("Helvetica-Bold").fontSize(10).text(`${data.llcDetails.companyName} ${data.llcDetails.designator || "LLC"}`, 315, ly);
+          doc.font("Helvetica-Bold").fontSize(11).fillColor(BRAND_DARK).text(`${data.llcDetails.companyName} ${data.llcDetails.designator || "LLC"}`, llcX, ly);
+          ly += 16;
+        }
+        doc.font("Helvetica").fontSize(9).fillColor(BRAND_GRAY);
+        if (data.llcDetails.state) {
+          doc.text(`Estado: ${data.llcDetails.state}`, llcX, ly);
           ly += 14;
         }
-        doc.font("Helvetica").fontSize(8).fillColor(BRAND_GRAY);
-        if (data.llcDetails.state) {
-          doc.text(`Estado: ${data.llcDetails.state}`, 315, ly);
-          ly += 11;
-        }
         if (data.llcDetails.ein) {
-          doc.text(`EIN: ${data.llcDetails.ein}`, 315, ly);
-          ly += 11;
-        }
-        if (data.llcDetails.creationDate) {
-          doc.text(`Constituida: ${formatDate(data.llcDetails.creationDate)}`, 315, ly);
-          ly += 11;
-        }
-        if (data.llcDetails.registeredAgent) {
-          doc.text(`Agente: ${data.llcDetails.registeredAgent}`, 315, ly);
+          doc.text(`EIN: ${data.llcDetails.ein}`, llcX, ly);
         }
       }
-      y += 100;
-      doc.rect(40, y, 350, 75).fillAndStroke("#FFFFFF", "#E5E7EB");
-      doc.font("Helvetica-Bold").fontSize(8).fillColor(BRAND_DARK).text("SERVICIO CONTRATADO", 50, y + 8);
-      doc.font("Helvetica-Bold").fontSize(12).text(data.service.name, 50, y + 24);
+      y += 90;
+      doc.roundedRect(45, y, 505, 40, 8).fill(BRAND_LIGHT_GRAY);
+      doc.font("Helvetica-Bold").fontSize(8).fillColor(BRAND_GRAY).text("FECHA", 60, y + 10);
+      doc.font("Helvetica-Bold").fontSize(10).fillColor(BRAND_DARK).text(formatDate(data.date), 60, y + 22);
+      doc.font("Helvetica-Bold").fontSize(8).fillColor(BRAND_GRAY).text("PEDIDO No.", 180, y + 10);
+      doc.font("Helvetica-Bold").fontSize(10).fillColor(BRAND_DARK).text(data.orderNumber, 180, y + 22);
+      doc.font("Helvetica-Bold").fontSize(8).fillColor(BRAND_GRAY).text("M\xC9TODO", 320, y + 10);
+      doc.font("Helvetica-Bold").fontSize(10).fillColor(BRAND_DARK).text(getPaymentMethodText(data.paymentMethod), 320, y + 22);
+      y += 65;
+      doc.font("Helvetica-Bold").fontSize(10).fillColor(BRAND_DARK).text("DETALLE DEL SERVICIO", 45, y);
+      doc.roundedRect(45, y + 15, 505, 80, 8).strokeColor("#E5E7EB").lineWidth(1).stroke();
+      doc.font("Helvetica-Bold").fontSize(14).fillColor(BRAND_DARK).text(data.service.name, 60, y + 35);
       if (data.service.description) {
-        doc.font("Helvetica").fontSize(8).fillColor(BRAND_GRAY).text(data.service.description, 50, y + 42, { width: 330 });
+        doc.font("Helvetica").fontSize(9).fillColor(BRAND_GRAY).text(data.service.description, 60, y + 55, { width: 300 });
       }
-      if (data.service.state) {
-        doc.font("Helvetica").fontSize(8).fillColor(BRAND_GRAY).text(`Estado: ${data.service.state}`, 50, y + 60);
-      }
-      doc.rect(405, y, 150, 75).fill(BRAND_GREEN);
-      doc.font("Helvetica").fontSize(9).fillColor(BRAND_DARK).text("TOTAL PAGADO", 420, y + 15);
-      doc.font("Helvetica-Bold").fontSize(22).text(formatCurrency(data.amount, data.currency), 415, y + 35, { width: 130, align: "center" });
-      y += 85;
-      doc.rect(40, y, 250, 70).fillAndStroke("#FFFFFF", "#E5E7EB");
-      doc.font("Helvetica-Bold").fontSize(8).fillColor(BRAND_DARK).text("DETALLES DEL PAGO", 50, y + 8);
-      doc.font("Helvetica").fontSize(8).fillColor(BRAND_GRAY);
-      doc.text(`Metodo: ${getPaymentMethodText(data.paymentMethod)}`, 50, y + 22);
-      if (data.transactionId) doc.text(`ID: ${data.transactionId}`, 50, y + 34);
-      doc.text(`Banco: ${BANK_INFO.name}`, 50, y + 46);
-      doc.text(`Cuenta: ${BANK_INFO.account}`, 50, y + 58);
-      doc.rect(305, y, 250, 70).fill(BRAND_LIGHT_GREEN);
-      doc.font("Helvetica-Bold").fontSize(11).fillColor("#059669").text("\xA1Gracias por confiar en Easy US LLC!", 315, y + 18, { width: 230, align: "center" });
-      doc.font("Helvetica").fontSize(8).fillColor(BRAND_GRAY).text("Estamos procesando tu solicitud. Te mantendremos informado de cada avance.", 315, y + 38, { width: 230, align: "center" });
-      y += 80;
-      if (data.notes) {
-        doc.font("Helvetica-Bold").fontSize(8).fillColor(BRAND_GRAY).text("Notas:", 40, y);
-        doc.font("Helvetica").fontSize(8).text(data.notes, 40, y + 12, { width: 515 });
-      }
-      doc.moveTo(40, 780).lineTo(555, 780).strokeColor("#E5E7EB").lineWidth(0.5).stroke();
-      doc.font("Helvetica").fontSize(7).fillColor(BRAND_GRAY);
-      doc.text("Documento oficial emitido por Fortuny Consulting LLC (Easy US LLC).", 40, 788, { align: "center", width: 515 });
-      doc.text("hola@easyusllc.com | +34 614 91 69 10 | easyusllc.com", 40, 798, { align: "center", width: 515 });
+      doc.roundedRect(400, y + 15, 150, 80, 8).fill(BRAND_GREEN);
+      doc.font("Helvetica-Bold").fontSize(9).fillColor(BRAND_DARK).text("TOTAL", 415, y + 25, { width: 120, align: "center" });
+      doc.text("PAGADO", 415, y + 35, { width: 120, align: "center" });
+      doc.fontSize(20).text(formatCurrency(data.amount, data.currency), 415, y + 55, { width: 120, align: "center" });
+      y += 115;
+      doc.roundedRect(45, y, 305, 35, 8).fill(BRAND_LIGHT_GREEN);
+      doc.font("Helvetica-Bold").fontSize(10).fillColor("#059669").text("\xA1Gracias por confiar en nosotros!", 45, y + 14, { align: "center", width: 305 });
+      doc.fontSize(8).fillColor(BRAND_GRAY).text("Easy US LLC es una marca de Fortuny Consulting LLC. 1209 Mountain Road Place NE, STE R, Albuquerque, NM 87110, USA", 45, 780, { align: "center", width: 505 });
       doc.end();
     } catch (error) {
       reject(error);
@@ -2783,95 +2773,106 @@ function generateOrderInvoice(orderData) {
     customer: {
       name: customerName,
       email: app2?.ownerEmail || orderData.user.email,
-      phone: app2?.ownerPhone || void 0,
-      idType: llcApp?.ownerIdType || void 0,
-      idNumber: llcApp?.ownerIdNumber || void 0,
-      streetType: llcApp?.ownerStreetType || void 0,
-      address: llcApp?.ownerAddress || void 0,
-      city: llcApp?.ownerCity || void 0,
-      province: llcApp?.ownerProvince || void 0,
-      postalCode: llcApp?.ownerPostalCode || void 0,
-      country: llcApp?.ownerCountry || void 0,
-      clientId: orderData.user.email.split("@")[0].substring(0, 8).toUpperCase()
+      phone: app2?.ownerPhone || orderData.user.phone || void 0,
+      idType: llcApp?.ownerIdType || orderData.user.idType || void 0,
+      idNumber: llcApp?.ownerIdNumber || orderData.user.idNumber || void 0,
+      streetType: llcApp?.ownerStreetType || orderData.user.streetType || void 0,
+      address: llcApp?.ownerAddress || orderData.user.address || void 0,
+      city: llcApp?.ownerCity || orderData.user.city || void 0,
+      province: llcApp?.ownerProvince || orderData.user.province || void 0,
+      postalCode: llcApp?.ownerPostalCode || orderData.user.postalCode || void 0,
+      country: llcApp?.ownerCountry || orderData.user.country || void 0
     },
-    items: [{
-      description: orderData.product.name,
-      details: orderData.product.features?.slice(0, 3).join(" \u2022 ") || orderData.product.description.substring(0, 80),
-      quantity: 1,
-      unitPrice: orderData.order.originalAmount || orderData.order.amount,
-      total: orderData.order.originalAmount || orderData.order.amount
-    }],
+    items: [
+      {
+        description: orderData.product.name,
+        details: orderData.product.description,
+        quantity: 1,
+        unitPrice: orderData.order.originalAmount || orderData.order.amount,
+        total: orderData.order.originalAmount || orderData.order.amount
+      }
+    ],
     subtotal: orderData.order.originalAmount || orderData.order.amount,
-    discount: orderData.order.discountAmount && orderData.order.discountAmount > 0 ? { code: orderData.order.discountCode || void 0, amount: orderData.order.discountAmount } : void 0,
+    discount: orderData.order.discountAmount ? {
+      code: orderData.order.discountCode || void 0,
+      amount: orderData.order.discountAmount
+    } : void 0,
     total: orderData.order.amount,
     currency: orderData.order.currency,
-    status: orderData.order.status === "paid" || orderData.order.status === "completed" ? "paid" : "pending",
-    paymentMethod: app2?.paymentMethod || void 0,
+    status: orderData.order.status,
+    paymentMethod: app2?.paymentMethod,
     paymentLink: orderData.paymentLink || void 0,
-    notes: orderData.notes || void 0,
-    isMaintenance: !!orderData.maintenanceApplication
+    notes: orderData.notes || void 0
   };
   return generateInvoicePdf(invoiceData);
 }
 function generateOrderReceipt(orderData) {
-  const app2 = orderData.application;
-  const maintApp = orderData.maintenanceApplication;
-  const isMaintenance = !!maintApp;
-  const currentApp = app2 || maintApp;
-  const customerName = currentApp?.ownerFullName || [orderData.user.firstName, orderData.user.lastName].filter(Boolean).join(" ") || orderData.user.email.split("@")[0];
+  const app2 = orderData.application || orderData.maintenanceApplication;
+  const llcApp = orderData.application;
+  const customerName = app2?.ownerFullName || [orderData.user.firstName, orderData.user.lastName].filter(Boolean).join(" ") || orderData.user.email.split("@")[0];
   const receiptData = {
     orderNumber: orderData.order.invoiceNumber || `ORD-${orderData.order.id.toString().padStart(8, "0")}`,
-    requestCode: currentApp?.requestCode || `REQ-${orderData.order.id.toString().padStart(8, "0")}`,
-    date: orderData.order.createdAt?.toISOString() || (/* @__PURE__ */ new Date()).toISOString(),
+    requestCode: `REC-${orderData.order.id.toString().padStart(8, "0")}`,
+    date: (/* @__PURE__ */ new Date()).toISOString(),
     customer: {
       name: customerName,
-      email: currentApp?.ownerEmail || orderData.user.email,
-      phone: currentApp?.ownerPhone || void 0,
-      idType: app2?.ownerIdType || void 0,
-      idNumber: app2?.ownerIdNumber || void 0,
-      streetType: app2?.ownerStreetType || void 0,
-      address: app2?.ownerAddress || void 0,
-      city: app2?.ownerCity || void 0,
-      province: app2?.ownerProvince || void 0,
-      postalCode: app2?.ownerPostalCode || void 0,
-      country: app2?.ownerCountry || void 0
+      email: app2?.ownerEmail || orderData.user.email,
+      phone: app2?.ownerPhone || orderData.user.phone || void 0,
+      streetType: llcApp?.ownerStreetType || orderData.user.streetType || void 0,
+      address: llcApp?.ownerAddress || orderData.user.address || void 0,
+      city: llcApp?.ownerCity || orderData.user.city || void 0,
+      province: llcApp?.ownerProvince || orderData.user.province || app2?.ownerProvince || void 0,
+      postalCode: llcApp?.ownerPostalCode || orderData.user.postalCode || void 0,
+      country: llcApp?.ownerCountry || orderData.user.country || app2?.ownerCountry || void 0
     },
-    service: { name: orderData.product.name, description: orderData.product.features?.join(" \u2022 ") || orderData.product.description, state: app2?.state || maintApp?.state || void 0 },
-    llcDetails: isMaintenance ? { companyName: maintApp?.companyName || void 0, state: maintApp?.state || void 0, ein: maintApp?.ein || void 0, creationDate: maintApp?.creationYear || void 0 } : app2 ? { companyName: app2.companyName || void 0, designator: app2.designator || void 0, state: app2.state || void 0, creationDate: app2.llcCreatedDate?.toISOString() || void 0, registeredAgent: "Easy US LLC" } : void 0,
+    service: {
+      name: orderData.product.name,
+      description: orderData.product.description,
+      state: llcApp?.state || orderData.maintenanceApplication?.state || void 0
+    },
+    llcDetails: llcApp ? {
+      companyName: llcApp.companyName || void 0,
+      designator: llcApp.designator || void 0,
+      state: llcApp.state || void 0,
+      ein: llcApp.ein || void 0
+    } : void 0,
     amount: orderData.order.amount,
     currency: orderData.order.currency,
-    paymentMethod: currentApp?.paymentMethod || void 0,
-    paymentDate: orderData.order.createdAt?.toISOString(),
-    isMaintenance
+    paymentMethod: app2?.paymentMethod || void 0,
+    paymentDate: orderData.order.paymentDate?.toISOString(),
+    transactionId: orderData.order.transactionId || void 0,
+    notes: orderData.notes || void 0,
+    isMaintenance: orderData.isMaintenance
   };
   return generateReceiptPdf(receiptData);
 }
 
 // server/oauth.ts
+var import_google_auth_library = require("google-auth-library");
 init_db();
 init_schema();
-import { OAuth2Client } from "google-auth-library";
-import { eq as eq4 } from "drizzle-orm";
-import crypto3 from "crypto";
+var import_drizzle_orm7 = require("drizzle-orm");
+var import_crypto3 = __toESM(require("crypto"), 1);
+init_auth_service();
 var GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
 var GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
-var googleClient = GOOGLE_CLIENT_ID ? new OAuth2Client(GOOGLE_CLIENT_ID) : null;
+var googleClient = GOOGLE_CLIENT_ID ? new import_google_auth_library.OAuth2Client(GOOGLE_CLIENT_ID) : null;
 function generateClientId2() {
   return Math.floor(1e7 + Math.random() * 9e7).toString();
 }
 async function findOrCreateUserByGoogle(profile) {
-  const existingByGoogle = await db.select().from(users).where(eq4(users.googleId, profile.googleId)).limit(1);
+  const existingByGoogle = await db.select().from(users).where((0, import_drizzle_orm7.eq)(users.googleId, profile.googleId)).limit(1);
   if (existingByGoogle.length > 0) {
     return existingByGoogle[0];
   }
-  const existingByEmail = await db.select().from(users).where(eq4(users.email, profile.email)).limit(1);
+  const existingByEmail = await db.select().from(users).where((0, import_drizzle_orm7.eq)(users.email, profile.email)).limit(1);
   if (existingByEmail.length > 0) {
     await db.update(users).set({
       googleId: profile.googleId,
       emailVerified: true,
       profileImageUrl: profile.profileImageUrl || existingByEmail[0].profileImageUrl,
       updatedAt: /* @__PURE__ */ new Date()
-    }).where(eq4(users.id, existingByEmail[0].id));
+    }).where((0, import_drizzle_orm7.eq)(users.id, existingByEmail[0].id));
     return { ...existingByEmail[0], googleId: profile.googleId, emailVerified: true };
   }
   const newUser = await db.insert(users).values({
@@ -2883,7 +2884,8 @@ async function findOrCreateUserByGoogle(profile) {
     emailVerified: true,
     clientId: generateClientId2(),
     isActive: true,
-    accountStatus: "active"
+    accountStatus: "active",
+    isAdmin: isAdminEmail(profile.email)
   }).returning();
   return newUser[0];
 }
@@ -2899,7 +2901,7 @@ function setupOAuth(app2) {
     const protocol = req.headers["x-forwarded-proto"] || req.protocol;
     const host = req.headers.host || "localhost:5000";
     const redirectUri = `${protocol}://${host}/api/auth/google/callback`;
-    const oauthState = crypto3.randomBytes(32).toString("hex");
+    const oauthState = import_crypto3.default.randomBytes(32).toString("hex");
     req.session.oauthState = oauthState;
     req.session.oauthAction = isConnect ? "connect" : "login";
     await new Promise((resolve, reject) => {
@@ -2973,12 +2975,12 @@ function setupOAuth(app2) {
       }
       const isConnect = action === "connect";
       if (isConnect && req.session.userId) {
-        const [existingUser] = await db.select().from(users).where(eq4(users.id, req.session.userId)).limit(1);
+        const [existingUser] = await db.select().from(users).where((0, import_drizzle_orm7.eq)(users.id, req.session.userId)).limit(1);
         if (existingUser) {
           await db.update(users).set({
             googleId: payload.sub,
             updatedAt: /* @__PURE__ */ new Date()
-          }).where(eq4(users.id, existingUser.id));
+          }).where((0, import_drizzle_orm7.eq)(users.id, existingUser.id));
           return res.redirect("/dashboard?connected=google");
         }
       }
@@ -3074,14 +3076,14 @@ function setupOAuth(app2) {
       if (!payload) {
         return res.status(400).json({ message: "Token invalido" });
       }
-      const existingUser = await db.select().from(users).where(eq4(users.googleId, payload.sub)).limit(1);
+      const existingUser = await db.select().from(users).where((0, import_drizzle_orm7.eq)(users.googleId, payload.sub)).limit(1);
       if (existingUser.length > 0 && existingUser[0].id !== req.user.id) {
         return res.status(409).json({ message: "Esta cuenta de Google ya esta vinculada a otro usuario" });
       }
       await db.update(users).set({
         googleId: payload.sub,
         updatedAt: /* @__PURE__ */ new Date()
-      }).where(eq4(users.id, req.user.id));
+      }).where((0, import_drizzle_orm7.eq)(users.id, req.user.id));
       return res.json({ message: "Cuenta de Google vinculada exitosamente" });
     } catch (error) {
       console.error("Error conectando Google:", error);
@@ -3094,7 +3096,7 @@ function setupOAuth(app2) {
         return res.status(401).json({ message: "No autenticado" });
       }
       const userId = req.user.id;
-      const user = await db.select().from(users).where(eq4(users.id, userId)).limit(1);
+      const user = await db.select().from(users).where((0, import_drizzle_orm7.eq)(users.id, userId)).limit(1);
       if (user.length === 0) {
         return res.status(404).json({ message: "Usuario no encontrado" });
       }
@@ -3106,7 +3108,7 @@ function setupOAuth(app2) {
       await db.update(users).set({
         googleId: null,
         updatedAt: /* @__PURE__ */ new Date()
-      }).where(eq4(users.id, userId));
+      }).where((0, import_drizzle_orm7.eq)(users.id, userId));
       return res.json({ message: "Cuenta de Google desvinculada exitosamente" });
     } catch (error) {
       console.error("Error desconectando Google:", error);
@@ -3118,7 +3120,7 @@ function setupOAuth(app2) {
 // server/calendar-service.ts
 init_db();
 init_schema();
-import { eq as eq5, and as and2, lte, gte, isNotNull, sql as sql6 } from "drizzle-orm";
+var import_drizzle_orm8 = require("drizzle-orm");
 function calculateComplianceDeadlines(formationDate, state) {
   const deadlines = [];
   const formationYear = formationDate.getFullYear();
@@ -3179,7 +3181,7 @@ async function updateApplicationDeadlines(applicationId, formationDate, state) {
     annualReportDueDate: annualReportDeadline?.dueDate,
     agentRenewalDate: agentRenewalDeadline?.dueDate,
     lastUpdated: /* @__PURE__ */ new Date()
-  }).where(eq5(llcApplications.id, applicationId));
+  }).where((0, import_drizzle_orm8.eq)(llcApplications.id, applicationId));
   return deadlines;
 }
 async function checkAndSendReminders() {
@@ -3191,11 +3193,11 @@ async function checkAndSendReminders() {
   const applicationsWithIRS1120 = await db.select({
     application: llcApplications,
     order: orders
-  }).from(llcApplications).innerJoin(orders, eq5(llcApplications.orderId, orders.id)).where(
-    and2(
-      isNotNull(llcApplications.irs1120DueDate),
-      gte(llcApplications.irs1120DueDate, reminderWindowStart),
-      lte(llcApplications.irs1120DueDate, reminderWindowEnd)
+  }).from(llcApplications).innerJoin(orders, (0, import_drizzle_orm8.eq)(llcApplications.orderId, orders.id)).where(
+    (0, import_drizzle_orm8.and)(
+      (0, import_drizzle_orm8.isNotNull)(llcApplications.irs1120DueDate),
+      (0, import_drizzle_orm8.gte)(llcApplications.irs1120DueDate, reminderWindowStart),
+      (0, import_drizzle_orm8.lte)(llcApplications.irs1120DueDate, reminderWindowEnd)
     )
   );
   for (const { application, order } of applicationsWithIRS1120) {
@@ -3212,11 +3214,11 @@ async function checkAndSendReminders() {
   const applicationsWithIRS5472 = await db.select({
     application: llcApplications,
     order: orders
-  }).from(llcApplications).innerJoin(orders, eq5(llcApplications.orderId, orders.id)).where(
-    and2(
-      isNotNull(llcApplications.irs5472DueDate),
-      gte(llcApplications.irs5472DueDate, reminderWindowStart),
-      lte(llcApplications.irs5472DueDate, reminderWindowEnd)
+  }).from(llcApplications).innerJoin(orders, (0, import_drizzle_orm8.eq)(llcApplications.orderId, orders.id)).where(
+    (0, import_drizzle_orm8.and)(
+      (0, import_drizzle_orm8.isNotNull)(llcApplications.irs5472DueDate),
+      (0, import_drizzle_orm8.gte)(llcApplications.irs5472DueDate, reminderWindowStart),
+      (0, import_drizzle_orm8.lte)(llcApplications.irs5472DueDate, reminderWindowEnd)
     )
   );
   for (const { application, order } of applicationsWithIRS5472) {
@@ -3233,11 +3235,11 @@ async function checkAndSendReminders() {
   const applicationsWithAnnualReport = await db.select({
     application: llcApplications,
     order: orders
-  }).from(llcApplications).innerJoin(orders, eq5(llcApplications.orderId, orders.id)).where(
-    and2(
-      isNotNull(llcApplications.annualReportDueDate),
-      gte(llcApplications.annualReportDueDate, reminderWindowStart),
-      lte(llcApplications.annualReportDueDate, reminderWindowEnd)
+  }).from(llcApplications).innerJoin(orders, (0, import_drizzle_orm8.eq)(llcApplications.orderId, orders.id)).where(
+    (0, import_drizzle_orm8.and)(
+      (0, import_drizzle_orm8.isNotNull)(llcApplications.annualReportDueDate),
+      (0, import_drizzle_orm8.gte)(llcApplications.annualReportDueDate, reminderWindowStart),
+      (0, import_drizzle_orm8.lte)(llcApplications.annualReportDueDate, reminderWindowEnd)
     )
   );
   for (const { application, order } of applicationsWithAnnualReport) {
@@ -3255,11 +3257,11 @@ async function checkAndSendReminders() {
   const applicationsWithAgentRenewal = await db.select({
     application: llcApplications,
     order: orders
-  }).from(llcApplications).innerJoin(orders, eq5(llcApplications.orderId, orders.id)).where(
-    and2(
-      isNotNull(llcApplications.agentRenewalDate),
-      gte(llcApplications.agentRenewalDate, reminderWindowStart),
-      lte(llcApplications.agentRenewalDate, reminderWindowEnd)
+  }).from(llcApplications).innerJoin(orders, (0, import_drizzle_orm8.eq)(llcApplications.orderId, orders.id)).where(
+    (0, import_drizzle_orm8.and)(
+      (0, import_drizzle_orm8.isNotNull)(llcApplications.agentRenewalDate),
+      (0, import_drizzle_orm8.gte)(llcApplications.agentRenewalDate, reminderWindowStart),
+      (0, import_drizzle_orm8.lte)(llcApplications.agentRenewalDate, reminderWindowEnd)
     )
   );
   for (const { application, order } of applicationsWithAgentRenewal) {
@@ -3278,11 +3280,11 @@ async function checkAndSendReminders() {
 async function createComplianceNotification(userId, orderId, orderCode, type, title, message) {
   const ticketId = `COMP-${type.toUpperCase()}-${orderId}-${Date.now()}`;
   const existing = await db.select().from(userNotifications).where(
-    and2(
-      eq5(userNotifications.userId, userId),
-      eq5(userNotifications.orderId, orderId),
-      sql6`${userNotifications.type} = ${"compliance_" + type}`,
-      sql6`${userNotifications.createdAt} > NOW() - INTERVAL '30 days'`
+    (0, import_drizzle_orm8.and)(
+      (0, import_drizzle_orm8.eq)(userNotifications.userId, userId),
+      (0, import_drizzle_orm8.eq)(userNotifications.orderId, orderId),
+      import_drizzle_orm8.sql`${userNotifications.type} = ${"compliance_" + type}`,
+      import_drizzle_orm8.sql`${userNotifications.createdAt} > NOW() - INTERVAL '30 days'`
     )
   ).limit(1);
   if (existing.length > 0) {
@@ -3410,9 +3412,13 @@ async function registerRoutes(httpServer2, app2) {
   }, CLEANUP_INTERVAL);
   setInterval(async () => {
     try {
-      await db.delete(contactOtps).where(
-        sql7`${contactOtps.expiresAt} < NOW()`
+      const cleanupPromise = db.delete(contactOtps).where(
+        import_drizzle_orm10.sql`${contactOtps.expiresAt} < NOW()`
       );
+      const timeoutPromise = new Promise(
+        (_, reject) => setTimeout(() => reject(new Error("OTP cleanup query timeout")), 15e3)
+      );
+      await Promise.race([cleanupPromise, timeoutPromise]);
     } catch (e) {
       console.error("OTP cleanup error:", e);
     }
@@ -3488,8 +3494,8 @@ async function registerRoutes(httpServer2, app2) {
   });
   app2.patch("/api/admin/orders/:id/status", isAdmin, asyncHandler(async (req, res) => {
     const orderId = Number(req.params.id);
-    const { status } = z2.object({ status: z2.string() }).parse(req.body);
-    const [updatedOrder] = await db.update(orders).set({ status }).where(eq7(orders.id, orderId)).returning();
+    const { status } = import_zod2.z.object({ status: import_zod2.z.string() }).parse(req.body);
+    const [updatedOrder] = await db.update(orders).set({ status }).where((0, import_drizzle_orm10.eq)(orders.id, orderId)).returning();
     logAudit({
       action: "order_status_change",
       userId: req.session?.userId,
@@ -3509,7 +3515,7 @@ async function registerRoutes(httpServer2, app2) {
       };
       const statusLabel = statusLabels[status] || status.replace(/_/g, " ");
       if (status === "completed" && order.userId) {
-        await db.update(users).set({ accountStatus: "vip" }).where(eq7(users.id, order.userId));
+        await db.update(users).set({ accountStatus: "vip" }).where((0, import_drizzle_orm10.eq)(users.id, order.userId));
         const orderCode2 = order.application?.requestCode || order.maintenanceApplication?.requestCode || order.invoiceNumber || `#${order.id}`;
         sendTrustpilotEmail({
           to: order.user.email,
@@ -3555,17 +3561,17 @@ async function registerRoutes(httpServer2, app2) {
   }));
   app2.patch("/api/admin/orders/:id/payment-link", isAdmin, asyncHandler(async (req, res) => {
     const orderId = Number(req.params.id);
-    const { paymentLink, paymentStatus, paymentDueDate } = z2.object({
-      paymentLink: z2.string().url().optional().nullable(),
-      paymentStatus: z2.enum(["pending", "paid", "overdue", "cancelled"]).optional(),
-      paymentDueDate: z2.string().optional().nullable()
+    const { paymentLink, paymentStatus, paymentDueDate } = import_zod2.z.object({
+      paymentLink: import_zod2.z.string().url().optional().nullable(),
+      paymentStatus: import_zod2.z.enum(["pending", "paid", "overdue", "cancelled"]).optional(),
+      paymentDueDate: import_zod2.z.string().optional().nullable()
     }).parse(req.body);
     const updateData = {};
     if (paymentLink !== void 0) updateData.paymentLink = paymentLink;
     if (paymentStatus) updateData.paymentStatus = paymentStatus;
     if (paymentDueDate !== void 0) updateData.paymentDueDate = paymentDueDate ? new Date(paymentDueDate) : null;
     if (paymentStatus === "paid") updateData.paidAt = /* @__PURE__ */ new Date();
-    const [updatedOrder] = await db.update(orders).set(updateData).where(eq7(orders.id, orderId)).returning();
+    const [updatedOrder] = await db.update(orders).set(updateData).where((0, import_drizzle_orm10.eq)(orders.id, orderId)).returning();
     if (!updatedOrder) {
       return res.status(404).json({ message: "Pedido no encontrado" });
     }
@@ -3584,28 +3590,28 @@ async function registerRoutes(httpServer2, app2) {
       return res.status(404).json({ message: "Pedido no encontrado" });
     }
     await db.transaction(async (tx) => {
-      await tx.delete(orderEvents).where(eq7(orderEvents.orderId, orderId));
-      await tx.delete(applicationDocuments).where(eq7(applicationDocuments.orderId, orderId));
+      await tx.delete(orderEvents).where((0, import_drizzle_orm10.eq)(orderEvents.orderId, orderId));
+      await tx.delete(applicationDocuments).where((0, import_drizzle_orm10.eq)(applicationDocuments.orderId, orderId));
       if (order.userId) {
         await tx.delete(userNotifications).where(
-          and3(
-            eq7(userNotifications.userId, order.userId),
-            sql7`${userNotifications.message} LIKE ${"%" + (order.invoiceNumber || `#${orderId}`) + "%"}`
+          (0, import_drizzle_orm10.and)(
+            (0, import_drizzle_orm10.eq)(userNotifications.userId, order.userId),
+            import_drizzle_orm10.sql`${userNotifications.message} LIKE ${"%" + (order.invoiceNumber || `#${orderId}`) + "%"}`
           )
         );
       }
       if (order.application?.id) {
-        await tx.delete(llcApplications).where(eq7(llcApplications.id, order.application.id));
+        await tx.delete(llcApplications).where((0, import_drizzle_orm10.eq)(llcApplications.id, order.application.id));
       }
-      await tx.delete(orders).where(eq7(orders.id, orderId));
+      await tx.delete(orders).where((0, import_drizzle_orm10.eq)(orders.id, orderId));
     });
     res.json({ success: true, message: "Pedido eliminado correctamente" });
   }));
   app2.patch("/api/admin/llc/:appId/dates", isAdmin, asyncHandler(async (req, res) => {
     const appId = Number(req.params.appId);
-    const { field, value } = z2.object({
-      field: z2.enum(["llcCreatedDate", "agentRenewalDate", "irs1120DueDate", "irs5472DueDate", "annualReportDueDate"]),
-      value: z2.string()
+    const { field, value } = import_zod2.z.object({
+      field: import_zod2.z.enum(["llcCreatedDate", "agentRenewalDate", "irs1120DueDate", "irs5472DueDate", "annualReportDueDate"]),
+      value: import_zod2.z.string()
     }).parse(req.body);
     const dateValue = value ? new Date(value) : null;
     const updateData = {};
@@ -3619,7 +3625,7 @@ async function registerRoutes(httpServer2, app2) {
       updateData.agentRenewalDate = agentRenewal;
       updateData.irs1120DueDate = new Date(nextYear, 2, 15);
       updateData.irs5472DueDate = new Date(nextYear, 3, 15);
-      const [app3] = await db.select({ state: llcApplications.state }).from(llcApplications).where(eq7(llcApplications.id, appId)).limit(1);
+      const [app3] = await db.select({ state: llcApplications.state }).from(llcApplications).where((0, import_drizzle_orm10.eq)(llcApplications.id, appId)).limit(1);
       if (app3?.state) {
         if (app3.state === "Wyoming") {
           const wyomingDate = new Date(creationDate);
@@ -3631,12 +3637,12 @@ async function registerRoutes(httpServer2, app2) {
         }
       }
     }
-    await db.update(llcApplications).set(updateData).where(eq7(llcApplications.id, appId));
+    await db.update(llcApplications).set(updateData).where((0, import_drizzle_orm10.eq)(llcApplications.id, appId));
     res.json({ success: true });
   }));
   app2.get("/api/admin/users", isAdmin, async (req, res) => {
     try {
-      const users4 = await db.select().from(users).orderBy(desc2(users.createdAt));
+      const users4 = await db.select().from(users).orderBy((0, import_drizzle_orm10.desc)(users.createdAt));
       res.json(users4);
     } catch (error) {
       res.status(500).json({ message: "Error fetching users" });
@@ -3644,31 +3650,31 @@ async function registerRoutes(httpServer2, app2) {
   });
   app2.patch("/api/admin/users/:id", isAdmin, asyncHandler(async (req, res) => {
     const userId = req.params.id;
-    const updateSchema = z2.object({
-      firstName: z2.string().min(1).max(100).optional(),
-      lastName: z2.string().min(1).max(100).optional(),
-      email: z2.string().email().optional(),
-      phone: z2.string().max(30).optional().nullable(),
-      address: z2.string().optional().nullable(),
-      streetType: z2.string().optional().nullable(),
-      city: z2.string().optional().nullable(),
-      province: z2.string().optional().nullable(),
-      postalCode: z2.string().optional().nullable(),
-      country: z2.string().optional().nullable(),
-      idNumber: z2.string().optional().nullable(),
-      idType: z2.enum(["dni", "nie", "passport"]).optional().nullable(),
-      birthDate: z2.string().optional().nullable(),
-      businessActivity: z2.string().optional().nullable(),
-      isActive: z2.boolean().optional(),
-      isAdmin: z2.boolean().optional(),
-      accountStatus: z2.enum(["active", "pending", "deactivated", "vip"]).optional(),
-      internalNotes: z2.string().optional()
+    const updateSchema = import_zod2.z.object({
+      firstName: import_zod2.z.string().min(1).max(100).optional(),
+      lastName: import_zod2.z.string().min(1).max(100).optional(),
+      email: import_zod2.z.string().email().optional(),
+      phone: import_zod2.z.string().max(30).optional().nullable(),
+      address: import_zod2.z.string().optional().nullable(),
+      streetType: import_zod2.z.string().optional().nullable(),
+      city: import_zod2.z.string().optional().nullable(),
+      province: import_zod2.z.string().optional().nullable(),
+      postalCode: import_zod2.z.string().optional().nullable(),
+      country: import_zod2.z.string().optional().nullable(),
+      idNumber: import_zod2.z.string().optional().nullable(),
+      idType: import_zod2.z.enum(["dni", "nie", "passport"]).optional().nullable(),
+      birthDate: import_zod2.z.string().optional().nullable(),
+      businessActivity: import_zod2.z.string().optional().nullable(),
+      isActive: import_zod2.z.boolean().optional(),
+      isAdmin: import_zod2.z.boolean().optional(),
+      accountStatus: import_zod2.z.enum(["active", "pending", "deactivated", "vip"]).optional(),
+      internalNotes: import_zod2.z.string().optional()
     });
     const data = updateSchema.parse(req.body);
     const [updated] = await db.update(users).set({
       ...data,
       updatedAt: /* @__PURE__ */ new Date()
-    }).where(eq7(users.id, userId)).returning();
+    }).where((0, import_drizzle_orm10.eq)(users.id, userId)).returning();
     logAudit({
       action: "admin_user_update",
       userId: req.session?.userId,
@@ -3676,7 +3682,7 @@ async function registerRoutes(httpServer2, app2) {
       details: { changes: Object.keys(data) }
     });
     if (data.accountStatus) {
-      const [user] = await db.select().from(users).where(eq7(users.id, userId)).limit(1);
+      const [user] = await db.select().from(users).where((0, import_drizzle_orm10.eq)(users.id, userId)).limit(1);
       if (user && user.email) {
         if (data.accountStatus === "deactivated") {
           await sendEmail({
@@ -3736,7 +3742,7 @@ async function registerRoutes(httpServer2, app2) {
   app2.delete("/api/admin/users/:id", isAdmin, async (req, res) => {
     try {
       const userId = req.params.id;
-      await db.delete(users).where(eq7(users.id, userId));
+      await db.delete(users).where((0, import_drizzle_orm10.eq)(users.id, userId));
       res.json({ success: true });
     } catch (error) {
       console.error("Error deleting user:", error);
@@ -3744,15 +3750,15 @@ async function registerRoutes(httpServer2, app2) {
     }
   });
   app2.post("/api/admin/users/create", isAdmin, asyncHandler(async (req, res) => {
-    const schema = z2.object({
-      firstName: z2.string().optional(),
-      lastName: z2.string().optional(),
-      email: z2.string().email(),
-      phone: z2.string().optional(),
-      password: z2.string().min(6)
+    const schema = import_zod2.z.object({
+      firstName: import_zod2.z.string().optional(),
+      lastName: import_zod2.z.string().optional(),
+      email: import_zod2.z.string().email(),
+      phone: import_zod2.z.string().optional(),
+      password: import_zod2.z.string().min(6)
     });
     const { firstName, lastName, email, phone, password } = schema.parse(req.body);
-    const existing = await db.select().from(users).where(eq7(users.email, email)).limit(1);
+    const existing = await db.select().from(users).where((0, import_drizzle_orm10.eq)(users.email, email)).limit(1);
     if (existing.length > 0) {
       return res.status(400).json({ message: "El email ya est\xE1 registrado" });
     }
@@ -3771,13 +3777,13 @@ async function registerRoutes(httpServer2, app2) {
   }));
   app2.post("/api/admin/orders/create", isAdmin, asyncHandler(async (req, res) => {
     const validStates = ["New Mexico", "Wyoming", "Delaware"];
-    const schema = z2.object({
-      userId: z2.string().uuid(),
-      state: z2.enum(validStates),
-      amount: z2.string().or(z2.number()).refine((val) => Number(val) > 0, { message: "El importe debe ser mayor que 0" })
+    const schema = import_zod2.z.object({
+      userId: import_zod2.z.string().uuid(),
+      state: import_zod2.z.enum(validStates),
+      amount: import_zod2.z.string().or(import_zod2.z.number()).refine((val) => Number(val) > 0, { message: "El importe debe ser mayor que 0" })
     });
     const { userId, state, amount } = schema.parse(req.body);
-    const [user] = await db.select().from(users).where(eq7(users.id, userId)).limit(1);
+    const [user] = await db.select().from(users).where((0, import_drizzle_orm10.eq)(users.id, userId)).limit(1);
     if (!user) {
       return res.status(404).json({ message: "Usuario no encontrado" });
     }
@@ -3840,22 +3846,22 @@ async function registerRoutes(httpServer2, app2) {
         docsResult,
         pendingDocsResult
       ] = await Promise.all([
-        db.select({ total: sql7`COALESCE(sum(amount), 0)` }).from(orders).where(eq7(orders.status, "completed")),
-        db.select({ total: sql7`COALESCE(sum(amount), 0)` }).from(orders).where(eq7(orders.status, "pending")),
-        db.select({ count: sql7`count(*)` }).from(users),
-        db.select({ count: sql7`count(*)` }).from(orders),
-        db.select({ count: sql7`count(*)` }).from(orders).where(eq7(orders.status, "pending")),
-        db.select({ count: sql7`count(*)` }).from(orders).where(eq7(orders.status, "completed")),
-        db.select({ count: sql7`count(*)` }).from(orders).where(eq7(orders.status, "processing")),
-        db.select({ count: sql7`count(*)` }).from(newsletterSubscribers),
-        db.select({ count: sql7`count(*)` }).from(users).where(eq7(users.accountStatus, "pending")),
-        db.select({ count: sql7`count(*)` }).from(users).where(eq7(users.accountStatus, "active")),
-        db.select({ count: sql7`count(*)` }).from(users).where(eq7(users.accountStatus, "vip")),
-        db.select({ count: sql7`count(*)` }).from(users).where(eq7(users.accountStatus, "deactivated")),
-        db.select({ count: sql7`count(*)` }).from(messages),
-        db.select({ count: sql7`count(*)` }).from(messages).where(eq7(messages.status, "pending")),
-        db.select({ count: sql7`count(*)` }).from(applicationDocuments),
-        db.select({ count: sql7`count(*)` }).from(applicationDocuments).where(eq7(applicationDocuments.reviewStatus, "pending"))
+        db.select({ total: import_drizzle_orm10.sql`COALESCE(sum(amount), 0)` }).from(orders).where((0, import_drizzle_orm10.eq)(orders.status, "completed")),
+        db.select({ total: import_drizzle_orm10.sql`COALESCE(sum(amount), 0)` }).from(orders).where((0, import_drizzle_orm10.eq)(orders.status, "pending")),
+        db.select({ count: import_drizzle_orm10.sql`count(*)` }).from(users),
+        db.select({ count: import_drizzle_orm10.sql`count(*)` }).from(orders),
+        db.select({ count: import_drizzle_orm10.sql`count(*)` }).from(orders).where((0, import_drizzle_orm10.eq)(orders.status, "pending")),
+        db.select({ count: import_drizzle_orm10.sql`count(*)` }).from(orders).where((0, import_drizzle_orm10.eq)(orders.status, "completed")),
+        db.select({ count: import_drizzle_orm10.sql`count(*)` }).from(orders).where((0, import_drizzle_orm10.eq)(orders.status, "processing")),
+        db.select({ count: import_drizzle_orm10.sql`count(*)` }).from(newsletterSubscribers),
+        db.select({ count: import_drizzle_orm10.sql`count(*)` }).from(users).where((0, import_drizzle_orm10.eq)(users.accountStatus, "pending")),
+        db.select({ count: import_drizzle_orm10.sql`count(*)` }).from(users).where((0, import_drizzle_orm10.eq)(users.accountStatus, "active")),
+        db.select({ count: import_drizzle_orm10.sql`count(*)` }).from(users).where((0, import_drizzle_orm10.eq)(users.accountStatus, "vip")),
+        db.select({ count: import_drizzle_orm10.sql`count(*)` }).from(users).where((0, import_drizzle_orm10.eq)(users.accountStatus, "deactivated")),
+        db.select({ count: import_drizzle_orm10.sql`count(*)` }).from(messages),
+        db.select({ count: import_drizzle_orm10.sql`count(*)` }).from(messages).where((0, import_drizzle_orm10.eq)(messages.status, "pending")),
+        db.select({ count: import_drizzle_orm10.sql`count(*)` }).from(applicationDocuments),
+        db.select({ count: import_drizzle_orm10.sql`count(*)` }).from(applicationDocuments).where((0, import_drizzle_orm10.eq)(applicationDocuments.reviewStatus, "pending"))
       ]);
       const totalSales = Number(salesResult[0]?.total || 0);
       const pendingSales = Number(pendingSalesResult[0]?.total || 0);
@@ -3909,7 +3915,7 @@ async function registerRoutes(httpServer2, app2) {
   });
   app2.get("/api/admin/stats", isAdmin, async (req, res) => {
     try {
-      const result = await db.select({ total: sql7`sum(amount)` }).from(orders).where(eq7(orders.status, "completed"));
+      const result = await db.select({ total: import_drizzle_orm10.sql`sum(amount)` }).from(orders).where((0, import_drizzle_orm10.eq)(orders.status, "completed"));
       res.json({ totalSales: Number(result[0]?.total || 0) });
     } catch (error) {
       res.status(500).json({ message: "Error fetching stats" });
@@ -3917,7 +3923,7 @@ async function registerRoutes(httpServer2, app2) {
   });
   app2.get("/api/admin/discount-codes", isAdmin, async (req, res) => {
     try {
-      const codes = await db.select().from(discountCodes).orderBy(desc2(discountCodes.createdAt));
+      const codes = await db.select().from(discountCodes).orderBy((0, import_drizzle_orm10.desc)(discountCodes.createdAt));
       res.json(codes);
     } catch (error) {
       res.status(500).json({ message: "Error fetching discount codes" });
@@ -3929,7 +3935,7 @@ async function registerRoutes(httpServer2, app2) {
       if (!code || !discountValue) {
         return res.status(400).json({ message: "C\xF3digo y valor de descuento son requeridos" });
       }
-      const [existing] = await db.select().from(discountCodes).where(eq7(discountCodes.code, code.toUpperCase())).limit(1);
+      const [existing] = await db.select().from(discountCodes).where((0, import_drizzle_orm10.eq)(discountCodes.code, code.toUpperCase())).limit(1);
       if (existing) {
         return res.status(400).json({ message: "Este c\xF3digo ya existe" });
       }
@@ -3963,7 +3969,7 @@ async function registerRoutes(httpServer2, app2) {
       if (validFrom) updateData.validFrom = new Date(validFrom);
       if (validUntil !== void 0) updateData.validUntil = validUntil ? new Date(validUntil) : null;
       if (isActive !== void 0) updateData.isActive = isActive;
-      const [updated] = await db.update(discountCodes).set(updateData).where(eq7(discountCodes.id, id)).returning();
+      const [updated] = await db.update(discountCodes).set(updateData).where((0, import_drizzle_orm10.eq)(discountCodes.id, id)).returning();
       res.json(updated);
     } catch (error) {
       res.status(500).json({ message: "Error updating discount code" });
@@ -3972,7 +3978,7 @@ async function registerRoutes(httpServer2, app2) {
   app2.delete("/api/admin/discount-codes/:id", isAdmin, async (req, res) => {
     try {
       const id = parseInt(req.params.id);
-      await db.delete(discountCodes).where(eq7(discountCodes.id, id));
+      await db.delete(discountCodes).where((0, import_drizzle_orm10.eq)(discountCodes.id, id));
       res.json({ success: true });
     } catch (error) {
       res.status(500).json({ message: "Error deleting discount code" });
@@ -3984,7 +3990,7 @@ async function registerRoutes(httpServer2, app2) {
       if (!code) {
         return res.status(400).json({ valid: false, message: "C\xF3digo requerido" });
       }
-      const [discountCode] = await db.select().from(discountCodes).where(eq7(discountCodes.code, code.toUpperCase())).limit(1);
+      const [discountCode] = await db.select().from(discountCodes).where((0, import_drizzle_orm10.eq)(discountCodes.code, code.toUpperCase())).limit(1);
       if (!discountCode) {
         return res.status(404).json({ valid: false, message: "C\xF3digo no encontrado" });
       }
@@ -4026,16 +4032,16 @@ async function registerRoutes(httpServer2, app2) {
   });
   app2.get("/api/admin/newsletter", isAdmin, async (req, res) => {
     try {
-      const subscribers = await db.select().from(newsletterSubscribers).orderBy(desc2(newsletterSubscribers.subscribedAt));
+      const subscribers = await db.select().from(newsletterSubscribers).orderBy((0, import_drizzle_orm10.desc)(newsletterSubscribers.subscribedAt));
       res.json(subscribers);
     } catch (error) {
       res.status(500).json({ message: "Error" });
     }
   });
   app2.post("/api/admin/newsletter/broadcast", isAdmin, asyncHandler(async (req, res) => {
-    const { subject, message } = z2.object({
-      subject: z2.string().min(1),
-      message: z2.string().min(1)
+    const { subject, message } = import_zod2.z.object({
+      subject: import_zod2.z.string().min(1),
+      message: import_zod2.z.string().min(1)
     }).parse(req.body);
     const subscribers = await db.select().from(newsletterSubscribers);
     const html = `
@@ -4093,9 +4099,23 @@ async function registerRoutes(httpServer2, app2) {
       res.status(500).json({ message: "Error uploading document" });
     }
   });
+  app2.get("/api/admin/documents", isAdmin, async (req, res) => {
+    try {
+      const docs = await db.select().from(applicationDocuments).leftJoin(orders, (0, import_drizzle_orm10.eq)(applicationDocuments.orderId, orders.id)).leftJoin(users, (0, import_drizzle_orm10.eq)(orders.userId, users.id)).leftJoin(llcApplications, (0, import_drizzle_orm10.eq)(applicationDocuments.applicationId, llcApplications.id)).orderBy((0, import_drizzle_orm10.desc)(applicationDocuments.uploadedAt));
+      res.json(docs.map((d) => ({
+        ...d.application_documents,
+        order: d.orders,
+        user: d.users ? { id: d.users.id, firstName: d.users.firstName, lastName: d.users.lastName, email: d.users.email } : null,
+        application: d.llc_applications ? { companyName: d.llc_applications.companyName, state: d.llc_applications.state } : null
+      })));
+    } catch (error) {
+      console.error("Admin documents error:", error);
+      res.status(500).json({ message: "Error fetching documents" });
+    }
+  });
   app2.get("/api/user/documents", isAuthenticated, async (req, res) => {
     try {
-      const docs = await db.select().from(applicationDocuments).leftJoin(orders, eq7(applicationDocuments.orderId, orders.id)).where(eq7(orders.userId, req.session.userId)).orderBy(desc2(applicationDocuments.uploadedAt));
+      const docs = await db.select().from(applicationDocuments).leftJoin(orders, (0, import_drizzle_orm10.eq)(applicationDocuments.orderId, orders.id)).where((0, import_drizzle_orm10.eq)(orders.userId, req.session.userId)).orderBy((0, import_drizzle_orm10.desc)(applicationDocuments.uploadedAt));
       res.json(docs.map((d) => d.application_documents));
     } catch (error) {
       res.status(500).json({ message: "Error fetching documents" });
@@ -4105,18 +4125,18 @@ async function registerRoutes(httpServer2, app2) {
     try {
       const userId = req.session.userId;
       const docId = parseInt(req.params.id);
-      const [user] = await db.select().from(users).where(eq7(users.id, userId)).limit(1);
+      const [user] = await db.select().from(users).where((0, import_drizzle_orm10.eq)(users.id, userId)).limit(1);
       if (!user || user.accountStatus === "pending") {
         return res.status(403).json({ message: "No puedes eliminar documentos mientras tu cuenta est\xE1 en revisi\xF3n" });
       }
-      const docs = await db.select().from(applicationDocuments).leftJoin(orders, eq7(applicationDocuments.orderId, orders.id)).where(and3(
-        eq7(applicationDocuments.id, docId),
-        eq7(orders.userId, userId)
+      const docs = await db.select().from(applicationDocuments).leftJoin(orders, (0, import_drizzle_orm10.eq)(applicationDocuments.orderId, orders.id)).where((0, import_drizzle_orm10.and)(
+        (0, import_drizzle_orm10.eq)(applicationDocuments.id, docId),
+        (0, import_drizzle_orm10.eq)(orders.userId, userId)
       ));
       if (!docs.length) {
         return res.status(404).json({ message: "Documento no encontrado" });
       }
-      await db.delete(applicationDocuments).where(eq7(applicationDocuments.id, docId));
+      await db.delete(applicationDocuments).where((0, import_drizzle_orm10.eq)(applicationDocuments.id, docId));
       res.json({ success: true });
     } catch (error) {
       console.error("Error deleting document:", error);
@@ -4125,12 +4145,12 @@ async function registerRoutes(httpServer2, app2) {
   });
   app2.post("/api/documents/upload", isAuthenticated, async (req, res) => {
     try {
-      const { orderId, fileName, fileUrl, documentType, applicationId } = z2.object({
-        orderId: z2.number(),
-        applicationId: z2.number(),
-        fileName: z2.string(),
-        fileUrl: z2.string(),
-        documentType: z2.string()
+      const { orderId, fileName, fileUrl, documentType, applicationId } = import_zod2.z.object({
+        orderId: import_zod2.z.number(),
+        applicationId: import_zod2.z.number(),
+        fileName: import_zod2.z.string(),
+        fileUrl: import_zod2.z.string(),
+        documentType: import_zod2.z.string()
       }).parse(req.body);
       const [doc] = await db.insert(applicationDocuments).values({
         orderId,
@@ -4160,11 +4180,11 @@ async function registerRoutes(httpServer2, app2) {
     try {
       const { email } = req.body;
       const adminEmail = email || process.env.ADMIN_EMAIL || "afortuny07@gmail.com";
-      const [existingUser] = await db.select().from(users).where(eq7(users.email, adminEmail)).limit(1);
+      const [existingUser] = await db.select().from(users).where((0, import_drizzle_orm10.eq)(users.email, adminEmail)).limit(1);
       if (!existingUser) {
         return res.status(404).json({ message: "Usuario no encontrado." });
       }
-      await db.update(users).set({ isAdmin: true, accountStatus: "active" }).where(eq7(users.email, adminEmail));
+      await db.update(users).set({ isAdmin: true, accountStatus: "active" }).where((0, import_drizzle_orm10.eq)(users.email, adminEmail));
       res.json({ success: true, message: "Rol de administrador asignado correctamente" });
     } catch (error) {
       console.error("Seed admin error:", error);
@@ -4176,15 +4196,15 @@ async function registerRoutes(httpServer2, app2) {
       const userId = req.session.userId;
       const { mode } = req.body;
       if (mode === "hard") {
-        await db.delete(users).where(eq7(users.id, userId));
+        await db.delete(users).where((0, import_drizzle_orm10.eq)(users.id, userId));
       } else {
-        const [user] = await db.select().from(users).where(eq7(users.id, userId)).limit(1);
+        const [user] = await db.select().from(users).where((0, import_drizzle_orm10.eq)(users.id, userId)).limit(1);
         await db.update(users).set({
           accountStatus: "deactivated",
           isActive: false,
           email: `deleted_${userId}_${user.email}`,
           updatedAt: /* @__PURE__ */ new Date()
-        }).where(eq7(users.id, userId));
+        }).where((0, import_drizzle_orm10.eq)(users.id, userId));
       }
       req.session.destroy(() => {
       });
@@ -4194,30 +4214,30 @@ async function registerRoutes(httpServer2, app2) {
       res.status(500).json({ message: "Error al procesar la eliminaci\xF3n de cuenta" });
     }
   });
-  const updateProfileSchema = z2.object({
-    firstName: z2.string().optional(),
-    lastName: z2.string().optional(),
-    phone: z2.string().optional(),
-    businessActivity: z2.string().optional(),
-    address: z2.string().optional(),
-    streetType: z2.string().optional(),
-    city: z2.string().optional(),
-    province: z2.string().optional(),
-    postalCode: z2.string().optional(),
-    country: z2.string().optional(),
-    idNumber: z2.string().optional(),
-    idType: z2.string().optional(),
-    birthDate: z2.string().optional()
+  const updateProfileSchema = import_zod2.z.object({
+    firstName: import_zod2.z.string().optional(),
+    lastName: import_zod2.z.string().optional(),
+    phone: import_zod2.z.string().optional(),
+    businessActivity: import_zod2.z.string().optional(),
+    address: import_zod2.z.string().optional(),
+    streetType: import_zod2.z.string().optional(),
+    city: import_zod2.z.string().optional(),
+    province: import_zod2.z.string().optional(),
+    postalCode: import_zod2.z.string().optional(),
+    country: import_zod2.z.string().optional(),
+    idNumber: import_zod2.z.string().optional(),
+    idType: import_zod2.z.string().optional(),
+    birthDate: import_zod2.z.string().optional()
   });
   app2.patch("/api/user/profile", isAuthenticated, async (req, res) => {
     try {
       const userId = req.session.userId;
       const validatedData = updateProfileSchema.parse(req.body);
-      await db.update(users).set(validatedData).where(eq7(users.id, userId));
-      const [updatedUser] = await db.select().from(users).where(eq7(users.id, userId)).limit(1);
+      await db.update(users).set(validatedData).where((0, import_drizzle_orm10.eq)(users.id, userId));
+      const [updatedUser] = await db.select().from(users).where((0, import_drizzle_orm10.eq)(users.id, userId)).limit(1);
       res.json(updatedUser);
     } catch (error) {
-      if (error instanceof z2.ZodError) {
+      if (error instanceof import_zod2.z.ZodError) {
         return res.status(400).json({ message: error.errors[0].message });
       }
       console.error("Update profile error:", error);
@@ -4230,7 +4250,7 @@ async function registerRoutes(httpServer2, app2) {
       const userOrders = await db.select({
         order: orders,
         application: llcApplications
-      }).from(orders).leftJoin(llcApplications, eq7(orders.id, llcApplications.orderId)).where(eq7(orders.userId, userId));
+      }).from(orders).leftJoin(llcApplications, (0, import_drizzle_orm10.eq)(orders.id, llcApplications.orderId)).where((0, import_drizzle_orm10.eq)(orders.userId, userId));
       const applications = userOrders.filter((o) => o.application).map((o) => o.application);
       const deadlines = getUpcomingDeadlinesForUser(applications);
       res.json(deadlines);
@@ -4242,11 +4262,11 @@ async function registerRoutes(httpServer2, app2) {
   app2.post("/api/admin/applications/:id/set-formation-date", isAdmin, async (req, res) => {
     try {
       const applicationId = parseInt(req.params.id);
-      const { formationDate, state } = z2.object({
-        formationDate: z2.string(),
-        state: z2.string().optional()
+      const { formationDate, state } = import_zod2.z.object({
+        formationDate: import_zod2.z.string(),
+        state: import_zod2.z.string().optional()
       }).parse(req.body);
-      const [app3] = await db.select().from(llcApplications).where(eq7(llcApplications.id, applicationId)).limit(1);
+      const [app3] = await db.select().from(llcApplications).where((0, import_drizzle_orm10.eq)(llcApplications.id, applicationId)).limit(1);
       if (!app3) {
         return res.status(404).json({ message: "Aplicaci\xF3n no encontrada" });
       }
@@ -4267,13 +4287,13 @@ async function registerRoutes(httpServer2, app2) {
   });
   app2.post("/api/admin/send-note", isAdmin, async (req, res) => {
     try {
-      const { userId, title, message, type } = z2.object({
-        userId: z2.string(),
-        title: z2.string().min(1, "T\xEDtulo requerido"),
-        message: z2.string().min(1, "Mensaje requerido"),
-        type: z2.enum(["update", "info", "action_required"])
+      const { userId, title, message, type } = import_zod2.z.object({
+        userId: import_zod2.z.string(),
+        title: import_zod2.z.string().min(1, "T\xEDtulo requerido"),
+        message: import_zod2.z.string().min(1, "Mensaje requerido"),
+        type: import_zod2.z.enum(["update", "info", "action_required"])
       }).parse(req.body);
-      const [user] = await db.select().from(users).where(eq7(users.id, userId)).limit(1);
+      const [user] = await db.select().from(users).where((0, import_drizzle_orm10.eq)(users.id, userId)).limit(1);
       if (!user) return res.status(404).json({ message: "Usuario no encontrado" });
       const { generateUniqueTicketId: generateUniqueTicketId2 } = await Promise.resolve().then(() => (init_id_generator(), id_generator_exports));
       const ticketId = await generateUniqueTicketId2();
@@ -4300,13 +4320,13 @@ async function registerRoutes(httpServer2, app2) {
   });
   app2.post("/api/admin/send-payment-link", isAdmin, async (req, res) => {
     try {
-      const { userId, paymentLink, message, amount } = z2.object({
-        userId: z2.string(),
-        paymentLink: z2.string().url(),
-        message: z2.string(),
-        amount: z2.string().optional()
+      const { userId, paymentLink, message, amount } = import_zod2.z.object({
+        userId: import_zod2.z.string(),
+        paymentLink: import_zod2.z.string().url(),
+        message: import_zod2.z.string(),
+        amount: import_zod2.z.string().optional()
       }).parse(req.body);
-      const [user] = await db.select().from(users).where(eq7(users.id, userId)).limit(1);
+      const [user] = await db.select().from(users).where((0, import_drizzle_orm10.eq)(users.id, userId)).limit(1);
       if (!user || !user.email) return res.status(404).json({ message: "Usuario o email no encontrado" });
       await sendEmail({
         to: user.email,
@@ -4336,15 +4356,15 @@ async function registerRoutes(httpServer2, app2) {
       if (order.status !== "pending") {
         return res.status(400).json({ message: "El pedido ya est\xE1 en tr\xE1mite y no puede modificarse." });
       }
-      const updateSchema = z2.object({
-        companyNameOption2: z2.string().optional(),
-        designator: z2.string().optional(),
-        companyDescription: z2.string().optional(),
-        ownerNamesAlternates: z2.string().optional(),
-        notes: z2.string().optional()
+      const updateSchema = import_zod2.z.object({
+        companyNameOption2: import_zod2.z.string().optional(),
+        designator: import_zod2.z.string().optional(),
+        companyDescription: import_zod2.z.string().optional(),
+        ownerNamesAlternates: import_zod2.z.string().optional(),
+        notes: import_zod2.z.string().optional()
       });
       const validatedData = updateSchema.parse(req.body);
-      await db.update(llcApplications).set({ ...validatedData, lastUpdated: /* @__PURE__ */ new Date() }).where(eq7(llcApplications.orderId, orderId));
+      await db.update(llcApplications).set({ ...validatedData, lastUpdated: /* @__PURE__ */ new Date() }).where((0, import_drizzle_orm10.eq)(llcApplications.orderId, orderId));
       res.json({ success: true });
     } catch (error) {
       res.status(500).json({ message: "Error al actualizar pedido" });
@@ -4353,7 +4373,7 @@ async function registerRoutes(httpServer2, app2) {
   app2.get("/api/user/notifications", isAuthenticated, async (req, res) => {
     try {
       const userId = req.session.userId;
-      const notifs = await db.select().from(userNotifications).where(eq7(userNotifications.userId, userId)).orderBy(desc2(userNotifications.createdAt)).limit(50);
+      const notifs = await db.select().from(userNotifications).where((0, import_drizzle_orm10.eq)(userNotifications.userId, userId)).orderBy((0, import_drizzle_orm10.desc)(userNotifications.createdAt)).limit(50);
       res.json(notifs);
     } catch (error) {
       console.error("Get notifications error:", error);
@@ -4362,7 +4382,7 @@ async function registerRoutes(httpServer2, app2) {
   });
   app2.patch("/api/user/notifications/:id/read", isAuthenticated, async (req, res) => {
     try {
-      await db.update(userNotifications).set({ isRead: true }).where(and3(eq7(userNotifications.id, req.params.id), eq7(userNotifications.userId, req.session.userId)));
+      await db.update(userNotifications).set({ isRead: true }).where((0, import_drizzle_orm10.and)((0, import_drizzle_orm10.eq)(userNotifications.id, req.params.id), (0, import_drizzle_orm10.eq)(userNotifications.userId, req.session.userId)));
       res.json({ success: true });
     } catch (error) {
       res.status(500).json({ message: "Error" });
@@ -4370,7 +4390,7 @@ async function registerRoutes(httpServer2, app2) {
   });
   app2.post("/api/user/request-password-otp", isAuthenticated, async (req, res) => {
     try {
-      const [user] = await db.select().from(users).where(eq7(users.id, req.session.userId));
+      const [user] = await db.select().from(users).where((0, import_drizzle_orm10.eq)(users.id, req.session.userId));
       if (!user?.email) {
         return res.status(400).json({ message: "Usuario no encontrado" });
       }
@@ -4396,35 +4416,35 @@ async function registerRoutes(httpServer2, app2) {
   });
   app2.post("/api/user/change-password", isAuthenticated, async (req, res) => {
     try {
-      const { currentPassword, newPassword, otp } = z2.object({
-        currentPassword: z2.string().min(1),
-        newPassword: z2.string().min(8),
-        otp: z2.string().length(6)
+      const { currentPassword, newPassword, otp } = import_zod2.z.object({
+        currentPassword: import_zod2.z.string().min(1),
+        newPassword: import_zod2.z.string().min(8),
+        otp: import_zod2.z.string().length(6)
       }).parse(req.body);
-      const [user] = await db.select().from(users).where(eq7(users.id, req.session.userId));
+      const [user] = await db.select().from(users).where((0, import_drizzle_orm10.eq)(users.id, req.session.userId));
       if (!user?.email || !user?.passwordHash) {
         return res.status(400).json({ message: "No se puede cambiar la contrase\xF1a" });
       }
-      const [otpRecord] = await db.select().from(contactOtps).where(and3(
-        eq7(contactOtps.email, user.email),
-        eq7(contactOtps.otp, otp),
-        eq7(contactOtps.otpType, "password_change"),
-        gt2(contactOtps.expiresAt, /* @__PURE__ */ new Date())
+      const [otpRecord] = await db.select().from(contactOtps).where((0, import_drizzle_orm10.and)(
+        (0, import_drizzle_orm10.eq)(contactOtps.email, user.email),
+        (0, import_drizzle_orm10.eq)(contactOtps.otp, otp),
+        (0, import_drizzle_orm10.eq)(contactOtps.otpType, "password_change"),
+        (0, import_drizzle_orm10.gt)(contactOtps.expiresAt, /* @__PURE__ */ new Date())
       ));
       if (!otpRecord) {
         return res.status(400).json({ message: "C\xF3digo de verificaci\xF3n inv\xE1lido o expirado" });
       }
-      await db.delete(contactOtps).where(eq7(contactOtps.id, otpRecord.id));
+      await db.delete(contactOtps).where((0, import_drizzle_orm10.eq)(contactOtps.id, otpRecord.id));
       const { verifyPassword: verifyPassword2, hashPassword: hashPassword2 } = await Promise.resolve().then(() => (init_auth_service(), auth_service_exports));
       const isValid = await verifyPassword2(currentPassword, user.passwordHash);
       if (!isValid) {
         return res.status(400).json({ message: "Contrase\xF1a actual incorrecta" });
       }
       const newHash = await hashPassword2(newPassword);
-      await db.update(users).set({ passwordHash: newHash, updatedAt: /* @__PURE__ */ new Date() }).where(eq7(users.id, req.session.userId));
+      await db.update(users).set({ passwordHash: newHash, updatedAt: /* @__PURE__ */ new Date() }).where((0, import_drizzle_orm10.eq)(users.id, req.session.userId));
       res.json({ success: true });
     } catch (error) {
-      if (error instanceof z2.ZodError) {
+      if (error instanceof import_zod2.z.ZodError) {
         return res.status(400).json({ message: "Datos inv\xE1lidos" });
       }
       console.error("Change password error:", error);
@@ -4433,11 +4453,11 @@ async function registerRoutes(httpServer2, app2) {
   });
   app2.post("/api/admin/request-document", isAdmin, async (req, res) => {
     try {
-      const { email, documentType, message, userId } = z2.object({
-        email: z2.string().email(),
-        documentType: z2.string(),
-        message: z2.string(),
-        userId: z2.string().optional()
+      const { email, documentType, message, userId } = import_zod2.z.object({
+        email: import_zod2.z.string().email(),
+        documentType: import_zod2.z.string(),
+        message: import_zod2.z.string(),
+        userId: import_zod2.z.string().optional()
       }).parse(req.body);
       const msgId = Math.floor(1e7 + Math.random() * 9e7).toString();
       const docTypeLabels = {
@@ -4493,8 +4513,8 @@ async function registerRoutes(httpServer2, app2) {
       if (!order || order.userId !== req.session.userId && !req.session.isAdmin) {
         return res.status(403).json({ message: "No autorizado" });
       }
-      const [llcApp] = await db.select().from(llcApplications).where(eq7(llcApplications.orderId, orderId)).limit(1);
-      const [maintApp] = await db.select().from(maintenanceApplications).where(eq7(maintenanceApplications.orderId, orderId)).limit(1);
+      const [llcApp] = await db.select().from(llcApplications).where((0, import_drizzle_orm10.eq)(llcApplications.orderId, orderId)).limit(1);
+      const [maintApp] = await db.select().from(maintenanceApplications).where((0, import_drizzle_orm10.eq)(maintenanceApplications.orderId, orderId)).limit(1);
       const pdfBuffer = await generateOrderInvoice({
         order: {
           id: order.id,
@@ -4533,18 +4553,18 @@ async function registerRoutes(httpServer2, app2) {
   app2.post("/api/admin/orders/:id/generate-invoice", isAdmin, async (req, res) => {
     try {
       const orderId = Number(req.params.id);
-      const [order] = await db.select().from(orders).where(eq7(orders.id, orderId)).limit(1);
+      const [order] = await db.select().from(orders).where((0, import_drizzle_orm10.eq)(orders.id, orderId)).limit(1);
       if (!order) {
         return res.status(404).json({ message: "Pedido no encontrado" });
       }
       const updateData = { isInvoiceGenerated: true };
       if (req.body.amount) updateData.amount = req.body.amount;
       if (req.body.currency) updateData.currency = req.body.currency;
-      const [updatedOrder] = await db.update(orders).set(updateData).where(eq7(orders.id, orderId)).returning();
-      const [llcAppInv] = await db.select().from(llcApplications).where(eq7(llcApplications.orderId, orderId)).limit(1);
-      const [maintAppInv] = await db.select().from(maintenanceApplications).where(eq7(maintenanceApplications.orderId, orderId)).limit(1);
+      const [updatedOrder] = await db.update(orders).set(updateData).where((0, import_drizzle_orm10.eq)(orders.id, orderId)).returning();
+      const [llcAppInv] = await db.select().from(llcApplications).where((0, import_drizzle_orm10.eq)(llcApplications.orderId, orderId)).limit(1);
+      const [maintAppInv] = await db.select().from(maintenanceApplications).where((0, import_drizzle_orm10.eq)(maintenanceApplications.orderId, orderId)).limit(1);
       const displayInvoiceNumber = llcAppInv?.requestCode || maintAppInv?.requestCode || order.invoiceNumber;
-      const existingDoc = await db.select().from(applicationDocuments).where(and3(eq7(applicationDocuments.orderId, orderId), eq7(applicationDocuments.documentType, "invoice"))).limit(1);
+      const existingDoc = await db.select().from(applicationDocuments).where((0, import_drizzle_orm10.and)((0, import_drizzle_orm10.eq)(applicationDocuments.orderId, orderId), (0, import_drizzle_orm10.eq)(applicationDocuments.documentType, "invoice"))).limit(1);
       if (existingDoc.length === 0) {
         await db.insert(applicationDocuments).values({
           orderId,
@@ -4563,14 +4583,14 @@ async function registerRoutes(httpServer2, app2) {
     }
   });
   app2.post("/api/admin/invoices/create", isAdmin, asyncHandler(async (req, res) => {
-    const { userId, concept, amount, currency } = z2.object({
-      userId: z2.string(),
-      concept: z2.string().min(1),
-      amount: z2.number().min(1),
-      currency: z2.enum(["EUR", "USD"]).default("EUR")
+    const { userId, concept, amount, currency } = import_zod2.z.object({
+      userId: import_zod2.z.string(),
+      concept: import_zod2.z.string().min(1),
+      amount: import_zod2.z.number().min(1),
+      currency: import_zod2.z.enum(["EUR", "USD"]).default("EUR")
     }).parse(req.body);
     const currencySymbol = currency === "USD" ? "$" : "\u20AC";
-    const [user] = await db.select().from(users).where(eq7(users.id, userId)).limit(1);
+    const [user] = await db.select().from(users).where((0, import_drizzle_orm10.eq)(users.id, userId)).limit(1);
     if (!user) {
       return res.status(404).json({ message: "Usuario no encontrado" });
     }
@@ -4654,7 +4674,7 @@ async function registerRoutes(httpServer2, app2) {
   </div>
 </body>
 </html>`;
-    const [userOrder] = await db.select().from(orders).where(eq7(orders.userId, userId)).limit(1);
+    const [userOrder] = await db.select().from(orders).where((0, import_drizzle_orm10.eq)(orders.userId, userId)).limit(1);
     if (userOrder) {
       await db.insert(applicationDocuments).values({
         orderId: userOrder.id,
@@ -4675,7 +4695,7 @@ async function registerRoutes(httpServer2, app2) {
       let userId;
       let isNewUser = false;
       if (req.session?.userId) {
-        const [currentUser] = await db.select().from(users).where(eq7(users.id, req.session.userId)).limit(1);
+        const [currentUser] = await db.select().from(users).where((0, import_drizzle_orm10.eq)(users.id, req.session.userId)).limit(1);
         if (currentUser && (currentUser.accountStatus === "pending" || currentUser.accountStatus === "deactivated")) {
           return res.status(403).json({ message: "Tu cuenta est\xE1 en revisi\xF3n o desactivada. No puedes realizar nuevos pedidos en este momento." });
         }
@@ -4687,19 +4707,19 @@ async function registerRoutes(httpServer2, app2) {
         if (password.length < 8) {
           return res.status(400).json({ message: "La contrase\xF1a debe tener al menos 8 caracteres." });
         }
-        const [existingUser] = await db.select().from(users).where(eq7(users.email, email)).limit(1);
+        const [existingUser] = await db.select().from(users).where((0, import_drizzle_orm10.eq)(users.email, email)).limit(1);
         if (existingUser) {
           return res.status(400).json({ message: "Este email ya est\xE1 registrado. Por favor inicia sesi\xF3n." });
         }
         const [otpRecord] = await db.select().from(contactOtps).where(
-          and3(
-            eq7(contactOtps.email, email),
-            eq7(contactOtps.otpType, "account_verification"),
-            eq7(contactOtps.verified, true),
-            gt2(contactOtps.expiresAt, new Date(Date.now() - 30 * 60 * 1e3))
+          (0, import_drizzle_orm10.and)(
+            (0, import_drizzle_orm10.eq)(contactOtps.email, email),
+            (0, import_drizzle_orm10.eq)(contactOtps.otpType, "account_verification"),
+            (0, import_drizzle_orm10.eq)(contactOtps.verified, true),
+            (0, import_drizzle_orm10.gt)(contactOtps.expiresAt, new Date(Date.now() - 30 * 60 * 1e3))
             // Allow 30 min window after verification
           )
-        ).orderBy(sql7`${contactOtps.expiresAt} DESC`).limit(1);
+        ).orderBy(import_drizzle_orm10.sql`${contactOtps.expiresAt} DESC`).limit(1);
         if (!otpRecord) {
           return res.status(400).json({ message: "Por favor verifica tu email antes de continuar." });
         }
@@ -4740,7 +4760,7 @@ async function registerRoutes(httpServer2, app2) {
         appliedDiscountCode = discountCode;
         appliedDiscountAmount = discountAmount;
         finalPrice = Math.max(0, finalPrice - discountAmount);
-        await db.update(discountCodes).set({ usedCount: sql7`${discountCodes.usedCount} + 1` }).where(eq7(discountCodes.code, discountCode.toUpperCase()));
+        await db.update(discountCodes).set({ usedCount: import_drizzle_orm10.sql`${discountCodes.usedCount} + 1` }).where((0, import_drizzle_orm10.eq)(discountCodes.code, discountCode.toUpperCase()));
       }
       const order = await storage.createOrder({
         userId,
@@ -4788,7 +4808,7 @@ async function registerRoutes(httpServer2, app2) {
       });
       res.status(201).json({ ...order, application: updatedApplication });
     } catch (err) {
-      if (err instanceof z2.ZodError) {
+      if (err instanceof import_zod2.z.ZodError) {
         return res.status(400).json({ message: err.errors[0].message });
       }
       console.error("Error creating order:", err);
@@ -4808,7 +4828,7 @@ async function registerRoutes(httpServer2, app2) {
       const { name, email, phone, contactByWhatsapp, subject, content, requestCode } = req.body;
       const userId = req.session?.userId || null;
       if (userId) {
-        const [currentUser] = await db.select().from(users).where(eq7(users.id, userId)).limit(1);
+        const [currentUser] = await db.select().from(users).where((0, import_drizzle_orm10.eq)(users.id, userId)).limit(1);
         if (currentUser?.accountStatus === "deactivated") {
           return res.status(403).json({ message: "Tu cuenta est\xE1 suspendida. No puedes enviar mensajes." });
         }
@@ -4847,25 +4867,25 @@ async function registerRoutes(httpServer2, app2) {
   });
   app2.post("/api/llc/claim-order", async (req, res) => {
     try {
-      const { applicationId, email, password, ownerFullName, paymentMethod } = req.body;
+      const { applicationId, email, password, ownerFullName, paymentMethod, discountCode, discountAmount } = req.body;
       if (!applicationId || !email || !password) {
         return res.status(400).json({ message: "Se requiere email y contrase\xF1a." });
       }
       if (password.length < 8) {
         return res.status(400).json({ message: "La contrase\xF1a debe tener al menos 8 caracteres." });
       }
-      const [existingUser] = await db.select().from(users).where(eq7(users.email, email)).limit(1);
+      const [existingUser] = await db.select().from(users).where((0, import_drizzle_orm10.eq)(users.email, email)).limit(1);
       if (existingUser) {
         return res.status(400).json({ message: "Este email ya est\xE1 registrado. Por favor inicia sesi\xF3n." });
       }
       const [otpRecord] = await db.select().from(contactOtps).where(
-        and3(
-          eq7(contactOtps.email, email),
-          eq7(contactOtps.otpType, "account_verification"),
-          eq7(contactOtps.verified, true),
-          gt2(contactOtps.expiresAt, new Date(Date.now() - 30 * 60 * 1e3))
+        (0, import_drizzle_orm10.and)(
+          (0, import_drizzle_orm10.eq)(contactOtps.email, email),
+          (0, import_drizzle_orm10.eq)(contactOtps.otpType, "account_verification"),
+          (0, import_drizzle_orm10.eq)(contactOtps.verified, true),
+          (0, import_drizzle_orm10.gt)(contactOtps.expiresAt, new Date(Date.now() - 30 * 60 * 1e3))
         )
-      ).orderBy(sql7`${contactOtps.expiresAt} DESC`).limit(1);
+      ).orderBy(import_drizzle_orm10.sql`${contactOtps.expiresAt} DESC`).limit(1);
       if (!otpRecord) {
         return res.status(400).json({ message: "Por favor verifica tu email antes de continuar." });
       }
@@ -4895,7 +4915,13 @@ async function registerRoutes(httpServer2, app2) {
         emailVerified: true,
         accountStatus: "active"
       }).returning();
-      await db.update(orders).set({ userId: newUser.id }).where(eq7(orders.id, application.orderId));
+      const orderUpdate = { userId: newUser.id };
+      if (discountCode && discountAmount) {
+        orderUpdate.discountCode = discountCode;
+        orderUpdate.discountAmount = discountAmount;
+        await db.update(discountCodes).set({ usedCount: import_drizzle_orm10.sql`${discountCodes.usedCount} + 1` }).where((0, import_drizzle_orm10.eq)(discountCodes.code, discountCode));
+      }
+      await db.update(orders).set(orderUpdate).where((0, import_drizzle_orm10.eq)(orders.id, application.orderId));
       if (paymentMethod) {
         await storage.updateLlcApplication(applicationId, { paymentMethod });
       }
@@ -4913,29 +4939,29 @@ async function registerRoutes(httpServer2, app2) {
   });
   app2.post("/api/maintenance/claim-order", async (req, res) => {
     try {
-      const { applicationId, email, password, ownerFullName, paymentMethod } = req.body;
+      const { applicationId, email, password, ownerFullName, paymentMethod, discountCode, discountAmount } = req.body;
       if (!applicationId || !email || !password) {
         return res.status(400).json({ message: "Se requiere email y contrase\xF1a." });
       }
       if (password.length < 8) {
         return res.status(400).json({ message: "La contrase\xF1a debe tener al menos 8 caracteres." });
       }
-      const [existingUser] = await db.select().from(users).where(eq7(users.email, email)).limit(1);
+      const [existingUser] = await db.select().from(users).where((0, import_drizzle_orm10.eq)(users.email, email)).limit(1);
       if (existingUser) {
         return res.status(400).json({ message: "Este email ya est\xE1 registrado. Por favor inicia sesi\xF3n." });
       }
       const [otpRecord] = await db.select().from(contactOtps).where(
-        and3(
-          eq7(contactOtps.email, email),
-          eq7(contactOtps.otpType, "account_verification"),
-          eq7(contactOtps.verified, true),
-          gt2(contactOtps.expiresAt, new Date(Date.now() - 30 * 60 * 1e3))
+        (0, import_drizzle_orm10.and)(
+          (0, import_drizzle_orm10.eq)(contactOtps.email, email),
+          (0, import_drizzle_orm10.eq)(contactOtps.otpType, "account_verification"),
+          (0, import_drizzle_orm10.eq)(contactOtps.verified, true),
+          (0, import_drizzle_orm10.gt)(contactOtps.expiresAt, new Date(Date.now() - 30 * 60 * 1e3))
         )
-      ).orderBy(sql7`${contactOtps.expiresAt} DESC`).limit(1);
+      ).orderBy(import_drizzle_orm10.sql`${contactOtps.expiresAt} DESC`).limit(1);
       if (!otpRecord) {
         return res.status(400).json({ message: "Por favor verifica tu email antes de continuar." });
       }
-      const [application] = await db.select().from(maintenanceApplications).where(eq7(maintenanceApplications.id, applicationId)).limit(1);
+      const [application] = await db.select().from(maintenanceApplications).where((0, import_drizzle_orm10.eq)(maintenanceApplications.id, applicationId)).limit(1);
       if (!application) {
         return res.status(404).json({ message: "Solicitud no encontrada." });
       }
@@ -4952,9 +4978,15 @@ async function registerRoutes(httpServer2, app2) {
         emailVerified: true,
         accountStatus: "active"
       }).returning();
-      await db.update(orders).set({ userId: newUser.id }).where(eq7(orders.id, application.orderId));
+      const orderUpdate = { userId: newUser.id };
+      if (discountCode && discountAmount) {
+        orderUpdate.discountCode = discountCode;
+        orderUpdate.discountAmount = discountAmount;
+        await db.update(discountCodes).set({ usedCount: import_drizzle_orm10.sql`${discountCodes.usedCount} + 1` }).where((0, import_drizzle_orm10.eq)(discountCodes.code, discountCode));
+      }
+      await db.update(orders).set(orderUpdate).where((0, import_drizzle_orm10.eq)(orders.id, application.orderId));
       if (paymentMethod) {
-        await db.update(maintenanceApplications).set({ paymentMethod }).where(eq7(maintenanceApplications.id, applicationId));
+        await db.update(maintenanceApplications).set({ paymentMethod }).where((0, import_drizzle_orm10.eq)(maintenanceApplications.id, applicationId));
       }
       req.session.userId = newUser.id;
       sendEmail({
@@ -4972,7 +5004,7 @@ async function registerRoutes(httpServer2, app2) {
     try {
       const appId = Number(req.params.id);
       const updates = req.body;
-      const [updated] = await db.update(llcApplications).set({ ...updates, updatedAt: /* @__PURE__ */ new Date() }).where(eq7(llcApplications.id, appId)).returning();
+      const [updated] = await db.update(llcApplications).set({ ...updates, updatedAt: /* @__PURE__ */ new Date() }).where((0, import_drizzle_orm10.eq)(llcApplications.id, appId)).returning();
       res.json(updated);
     } catch (error) {
       res.status(500).json({ message: "Error updating application" });
@@ -4997,7 +5029,7 @@ async function registerRoutes(httpServer2, app2) {
       const updatedApp = await storage.updateLlcApplication(appId, updates);
       if (updates.status === "submitted" && updatedApp.ownerEmail) {
         const orderIdentifier = updatedApp.requestCode || `#${updatedApp.id}`;
-        const [order] = await db.select().from(orders).where(eq7(orders.id, updatedApp.orderId)).limit(1);
+        const [order] = await db.select().from(orders).where((0, import_drizzle_orm10.eq)(orders.id, updatedApp.orderId)).limit(1);
         const orderAmount = order ? (order.amount / 100).toFixed(2) : "N/A";
         const adminEmail = process.env.ADMIN_EMAIL || "afortuny07@gmail.com";
         const paymentMethodLabel = updatedApp.paymentMethod === "transfer" ? "Transferencia Bancaria" : updatedApp.paymentMethod === "link" ? "Link de Pago" : "No especificado";
@@ -5044,7 +5076,7 @@ async function registerRoutes(httpServer2, app2) {
       }
       res.json(updatedApp);
     } catch (err) {
-      if (err instanceof z2.ZodError) {
+      if (err instanceof import_zod2.z.ZodError) {
         return res.status(400).json({ message: err.errors[0].message });
       }
       console.error("Error updating LLC application:", err);
@@ -5071,7 +5103,7 @@ async function registerRoutes(httpServer2, app2) {
       const document = await storage.createDocument(docData);
       res.status(201).json(document);
     } catch (err) {
-      if (err instanceof z2.ZodError) {
+      if (err instanceof import_zod2.z.ZodError) {
         return res.status(400).json({ message: err.errors[0].message });
       }
       throw err;
@@ -5080,8 +5112,8 @@ async function registerRoutes(httpServer2, app2) {
   app2.patch("/api/admin/documents/:id/review", isAdmin, async (req, res) => {
     try {
       const docId = Number(req.params.id);
-      const { reviewStatus } = z2.object({ reviewStatus: z2.enum(["pending", "approved", "rejected", "action_required"]) }).parse(req.body);
-      const [updated] = await db.update(applicationDocuments).set({ reviewStatus }).where(eq7(applicationDocuments.id, docId)).returning();
+      const { reviewStatus } = import_zod2.z.object({ reviewStatus: import_zod2.z.enum(["pending", "approved", "rejected", "action_required"]) }).parse(req.body);
+      const [updated] = await db.update(applicationDocuments).set({ reviewStatus }).where((0, import_drizzle_orm10.eq)(applicationDocuments.id, docId)).returning();
       res.json(updated);
     } catch (error) {
       res.status(500).json({ message: "Error updating document review status" });
@@ -5156,7 +5188,7 @@ async function registerRoutes(httpServer2, app2) {
           reviewStatus: "pending",
           uploadedBy: userId
         }).returning();
-        const userData = await db.select().from(users).where(eq7(users.id, userId)).limit(1);
+        const userData = await db.select().from(users).where((0, import_drizzle_orm10.eq)(users.id, userId)).limit(1);
         const user = userData[0];
         if (user) {
           const { encrypt: encrypt2 } = await Promise.resolve().then(() => (init_encryption(), encryption_exports));
@@ -5192,7 +5224,7 @@ Archivo disponible en: ${doc[0].fileUrl}`;
   app2.delete("/api/admin/documents/:id", isAdmin, async (req, res) => {
     try {
       const docId = Number(req.params.id);
-      await db.delete(applicationDocuments).where(eq7(applicationDocuments.id, docId));
+      await db.delete(applicationDocuments).where((0, import_drizzle_orm10.eq)(applicationDocuments.id, docId));
       res.json({ success: true });
     } catch (error) {
       res.status(500).json({ message: "Error deleting document" });
@@ -5221,7 +5253,7 @@ Archivo disponible en: ${doc[0].fileUrl}`;
       let userId;
       let isNewUser = false;
       if (req.session?.userId) {
-        const [currentUser] = await db.select().from(users).where(eq7(users.id, req.session.userId)).limit(1);
+        const [currentUser] = await db.select().from(users).where((0, import_drizzle_orm10.eq)(users.id, req.session.userId)).limit(1);
         if (currentUser && (currentUser.accountStatus === "pending" || currentUser.accountStatus === "deactivated")) {
           return res.status(403).json({ message: "Tu cuenta est\xE1 en revisi\xF3n o desactivada. No puedes realizar nuevos pedidos en este momento." });
         }
@@ -5233,7 +5265,7 @@ Archivo disponible en: ${doc[0].fileUrl}`;
         if (password.length < 8) {
           return res.status(400).json({ message: "La contrase\xF1a debe tener al menos 8 caracteres." });
         }
-        const [existingUser] = await db.select().from(users).where(eq7(users.email, email)).limit(1);
+        const [existingUser] = await db.select().from(users).where((0, import_drizzle_orm10.eq)(users.email, email)).limit(1);
         if (existingUser) {
           return res.status(400).json({ message: "Este email ya est\xE1 registrado. Por favor inicia sesi\xF3n." });
         }
@@ -5272,7 +5304,7 @@ Archivo disponible en: ${doc[0].fileUrl}`;
         appliedDiscountCode = discountCode;
         appliedDiscountAmount = discountAmount;
         finalPrice = Math.max(0, finalPrice - discountAmount);
-        await db.update(discountCodes).set({ usedCount: sql7`${discountCodes.usedCount} + 1` }).where(eq7(discountCodes.code, discountCode.toUpperCase()));
+        await db.update(discountCodes).set({ usedCount: import_drizzle_orm10.sql`${discountCodes.usedCount} + 1` }).where((0, import_drizzle_orm10.eq)(discountCodes.code, discountCode.toUpperCase()));
       }
       const order = await storage.createOrder({
         userId,
@@ -5292,7 +5324,7 @@ Archivo disponible en: ${doc[0].fileUrl}`;
       const { generateUniqueOrderCode: generateUniqueOrderCode2 } = await Promise.resolve().then(() => (init_id_generator(), id_generator_exports));
       const appState = state || product.name.split(" ")[0] || "New Mexico";
       const requestCode = await generateUniqueOrderCode2(appState);
-      await db.update(maintenanceApplications).set({ requestCode }).where(eq7(maintenanceApplications.id, application.id));
+      await db.update(maintenanceApplications).set({ requestCode }).where((0, import_drizzle_orm10.eq)(maintenanceApplications.id, application.id));
       if (userId && !userId.startsWith("guest_")) {
         await db.insert(userNotifications).values({
           userId,
@@ -5314,13 +5346,13 @@ Archivo disponible en: ${doc[0].fileUrl}`;
     try {
       const appId = Number(req.params.id);
       const updates = req.body;
-      const [updatedApp] = await db.update(maintenanceApplications).set({ ...updates, lastUpdated: /* @__PURE__ */ new Date() }).where(eq7(maintenanceApplications.id, appId)).returning();
+      const [updatedApp] = await db.update(maintenanceApplications).set({ ...updates, lastUpdated: /* @__PURE__ */ new Date() }).where((0, import_drizzle_orm10.eq)(maintenanceApplications.id, appId)).returning();
       if (!updatedApp) {
         return res.status(404).json({ message: "Solicitud no encontrada" });
       }
       if (updates.status === "submitted") {
         const orderIdentifier = updatedApp.requestCode || `MN-${updatedApp.id}`;
-        const [order] = await db.select().from(orders).where(eq7(orders.id, updatedApp.orderId)).limit(1);
+        const [order] = await db.select().from(orders).where((0, import_drizzle_orm10.eq)(orders.id, updatedApp.orderId)).limit(1);
         const orderAmount = order ? (order.amount / 100).toFixed(2) : "N/A";
         const adminEmail = process.env.ADMIN_EMAIL || "afortuny07@gmail.com";
         const maintPaymentMethodLabel = updatedApp.paymentMethod === "transfer" ? "Transferencia Bancaria" : updatedApp.paymentMethod === "link" ? "Link de Pago" : "No especificado";
@@ -5367,12 +5399,12 @@ Archivo disponible en: ${doc[0].fileUrl}`;
     res.json({ isSubscribed });
   });
   app2.post("/api/newsletter/unsubscribe", isAuthenticated, async (req, res) => {
-    await db.delete(newsletterSubscribers).where(eq7(newsletterSubscribers.email, req.session.email));
+    await db.delete(newsletterSubscribers).where((0, import_drizzle_orm10.eq)(newsletterSubscribers.email, req.session.email));
     res.json({ success: true });
   });
   app2.post("/api/newsletter/subscribe", async (req, res) => {
     try {
-      const { email } = z2.object({ email: z2.string().email().optional() }).parse(req.body);
+      const { email } = import_zod2.z.object({ email: import_zod2.z.string().email().optional() }).parse(req.body);
       const targetEmail = email || req.session?.email || null;
       if (!targetEmail) {
         return res.status(400).json({ message: "Se requiere un email" });
@@ -5382,7 +5414,7 @@ Archivo disponible en: ${doc[0].fileUrl}`;
         return res.json({ success: true, message: "Ya est\xE1s suscrito" });
       }
       await storage.subscribeToNewsletter(targetEmail);
-      const [user] = await db.select().from(users).where(eq7(users.email, targetEmail)).limit(1);
+      const [user] = await db.select().from(users).where((0, import_drizzle_orm10.eq)(users.email, targetEmail)).limit(1);
       if (user) {
         await db.insert(userNotifications).values({
           userId: user.id,
@@ -5400,7 +5432,7 @@ Archivo disponible en: ${doc[0].fileUrl}`;
       });
       res.json({ success: true });
     } catch (err) {
-      if (err instanceof z2.ZodError) {
+      if (err instanceof import_zod2.z.ZodError) {
         return res.status(400).json({ message: "Email inv\xE1lido" });
       }
       res.status(500).json({ message: "Error al suscribirse" });
@@ -5421,8 +5453,8 @@ Archivo disponible en: ${doc[0].fileUrl}`;
       if (order.userId !== req.session.userId && !req.session.isAdmin) {
         return res.status(403).json({ message: "Acceso denegado" });
       }
-      const [llcApp] = await db.select().from(llcApplications).where(eq7(llcApplications.orderId, orderId)).limit(1);
-      const [maintApp] = await db.select().from(maintenanceApplications).where(eq7(maintenanceApplications.orderId, orderId)).limit(1);
+      const [llcApp] = await db.select().from(llcApplications).where((0, import_drizzle_orm10.eq)(llcApplications.orderId, orderId)).limit(1);
+      const [maintApp] = await db.select().from(maintenanceApplications).where((0, import_drizzle_orm10.eq)(maintenanceApplications.orderId, orderId)).limit(1);
       const requestCode = llcApp?.requestCode || maintApp?.requestCode || order.invoiceNumber || "";
       const pdfBuffer = await generateOrderReceipt({
         order: {
@@ -5462,7 +5494,7 @@ Archivo disponible en: ${doc[0].fileUrl}`;
       if (order.userId !== req.session.userId && !req.session.isAdmin) {
         return res.status(403).json({ message: "Acceso denegado" });
       }
-      const events = await db.select().from(orderEvents).where(eq7(orderEvents.orderId, orderId)).orderBy(desc2(orderEvents.createdAt));
+      const events = await db.select().from(orderEvents).where((0, import_drizzle_orm10.eq)(orderEvents.orderId, orderId)).orderBy((0, import_drizzle_orm10.desc)(orderEvents.createdAt));
       res.json(events);
     } catch (error) {
       console.error("Error fetching order events:", error);
@@ -5481,7 +5513,7 @@ Archivo disponible en: ${doc[0].fileUrl}`;
       }).returning();
       const order = await storage.getOrder(orderId);
       if (order) {
-        const [user] = await db.select().from(users).where(eq7(users.id, order.userId)).limit(1);
+        const [user] = await db.select().from(users).where((0, import_drizzle_orm10.eq)(users.id, order.userId)).limit(1);
         if (user?.email) {
           sendEmail({
             to: user.email,
@@ -5500,7 +5532,7 @@ Archivo disponible en: ${doc[0].fileUrl}`;
   app2.get("/api/messages/:id/replies", isAuthenticated, async (req, res) => {
     try {
       const messageId = Number(req.params.id);
-      const replies = await db.select().from(messageReplies).where(eq7(messageReplies.messageId, messageId)).orderBy(messageReplies.createdAt);
+      const replies = await db.select().from(messageReplies).where((0, import_drizzle_orm10.eq)(messageReplies.messageId, messageId)).orderBy(messageReplies.createdAt);
       res.json(replies);
     } catch (error) {
       console.error("Error fetching message replies:", error);
@@ -5520,7 +5552,7 @@ Archivo disponible en: ${doc[0].fileUrl}`;
         isAdmin: req.session.isAdmin || false,
         createdBy: req.session.userId
       }).returning();
-      const [message] = await db.select().from(messages).where(eq7(messages.id, messageId)).limit(1);
+      const [message] = await db.select().from(messages).where((0, import_drizzle_orm10.eq)(messages.id, messageId)).limit(1);
       if (message?.email && req.session.isAdmin) {
         const ticketId = message.messageId || String(messageId);
         sendEmail({
@@ -5826,7 +5858,7 @@ Archivo disponible en: ${doc[0].fileUrl}`;
           message: `Demasiados intentos. Espera ${rateCheck.retryAfter} segundos.`
         });
       }
-      const { email } = z2.object({ email: z2.string().email() }).parse(req.body);
+      const { email } = import_zod2.z.object({ email: import_zod2.z.string().email() }).parse(req.body);
       const otp = Math.floor(1e5 + Math.random() * 9e5).toString();
       const expiresAt = new Date(Date.now() + 10 * 60 * 1e3);
       await db.insert(contactOtps).values({
@@ -5847,18 +5879,18 @@ Archivo disponible en: ${doc[0].fileUrl}`;
   });
   app2.post("/api/contact/verify-otp", async (req, res) => {
     try {
-      const { email, otp } = z2.object({ email: z2.string().email(), otp: z2.string() }).parse(req.body);
+      const { email, otp } = import_zod2.z.object({ email: import_zod2.z.string().email(), otp: import_zod2.z.string() }).parse(req.body);
       const [record] = await db.select().from(contactOtps).where(
-        and3(
-          eq7(contactOtps.email, email),
-          eq7(contactOtps.otp, otp),
-          gt2(contactOtps.expiresAt, /* @__PURE__ */ new Date())
+        (0, import_drizzle_orm10.and)(
+          (0, import_drizzle_orm10.eq)(contactOtps.email, email),
+          (0, import_drizzle_orm10.eq)(contactOtps.otp, otp),
+          (0, import_drizzle_orm10.gt)(contactOtps.expiresAt, /* @__PURE__ */ new Date())
         )
       ).limit(1);
       if (!record) {
         return res.status(400).json({ message: "C\xF3digo inv\xE1lido o caducado" });
       }
-      await db.update(contactOtps).set({ verified: true }).where(eq7(contactOtps.id, record.id));
+      await db.update(contactOtps).set({ verified: true }).where((0, import_drizzle_orm10.eq)(contactOtps.id, record.id));
       res.json({ success: true });
     } catch (err) {
       console.error("Error verifying contact OTP:", err);
@@ -5867,14 +5899,14 @@ Archivo disponible en: ${doc[0].fileUrl}`;
   });
   app2.post("/api/contact", async (req, res) => {
     try {
-      const contactData = z2.object({
-        nombre: z2.string(),
-        apellido: z2.string(),
-        email: z2.string().email(),
-        telefono: z2.string().optional(),
-        subject: z2.string(),
-        mensaje: z2.string(),
-        otp: z2.string()
+      const contactData = import_zod2.z.object({
+        nombre: import_zod2.z.string(),
+        apellido: import_zod2.z.string(),
+        email: import_zod2.z.string().email(),
+        telefono: import_zod2.z.string().optional(),
+        subject: import_zod2.z.string(),
+        mensaje: import_zod2.z.string(),
+        otp: import_zod2.z.string()
       }).parse(req.body);
       const sanitizedData = {
         nombre: sanitizeHtml(contactData.nombre),
@@ -5884,10 +5916,10 @@ Archivo disponible en: ${doc[0].fileUrl}`;
         telefono: contactData.telefono ? sanitizeHtml(contactData.telefono) : void 0
       };
       const [otpRecord] = await db.select().from(contactOtps).where(
-        and3(
-          eq7(contactOtps.email, contactData.email),
-          eq7(contactOtps.otp, contactData.otp),
-          eq7(contactOtps.verified, true)
+        (0, import_drizzle_orm10.and)(
+          (0, import_drizzle_orm10.eq)(contactOtps.email, contactData.email),
+          (0, import_drizzle_orm10.eq)(contactOtps.otp, contactData.otp),
+          (0, import_drizzle_orm10.eq)(contactOtps.verified, true)
         )
       ).limit(1);
       if (!otpRecord) {
@@ -5919,8 +5951,8 @@ Archivo disponible en: ${doc[0].fileUrl}`;
   });
   app2.post("/api/auth/check-email", async (req, res) => {
     try {
-      const { email } = z2.object({ email: z2.string().email() }).parse(req.body);
-      const [existingUser] = await db.select().from(users).where(eq7(users.email, email)).limit(1);
+      const { email } = import_zod2.z.object({ email: import_zod2.z.string().email() }).parse(req.body);
+      const [existingUser] = await db.select().from(users).where((0, import_drizzle_orm10.eq)(users.email, email)).limit(1);
       res.json({
         exists: !!existingUser,
         firstName: existingUser?.firstName || null
@@ -5938,8 +5970,8 @@ Archivo disponible en: ${doc[0].fileUrl}`;
           message: `Demasiados intentos. Espera ${rateCheck.retryAfter} segundos.`
         });
       }
-      const { email } = z2.object({ email: z2.string().email() }).parse(req.body);
-      const [existingUser] = await db.select().from(users).where(eq7(users.email, email)).limit(1);
+      const { email } = import_zod2.z.object({ email: import_zod2.z.string().email() }).parse(req.body);
+      const [existingUser] = await db.select().from(users).where((0, import_drizzle_orm10.eq)(users.email, email)).limit(1);
       if (existingUser) {
         return res.status(400).json({ message: "Este email ya est\xE1 registrado. Por favor inicia sesi\xF3n." });
       }
@@ -5965,19 +5997,19 @@ Archivo disponible en: ${doc[0].fileUrl}`;
   });
   app2.post("/api/register/verify-otp", async (req, res) => {
     try {
-      const { email, otp } = z2.object({ email: z2.string().email(), otp: z2.string() }).parse(req.body);
+      const { email, otp } = import_zod2.z.object({ email: import_zod2.z.string().email(), otp: import_zod2.z.string() }).parse(req.body);
       const [record] = await db.select().from(contactOtps).where(
-        and3(
-          eq7(contactOtps.email, email),
-          eq7(contactOtps.otp, otp),
-          eq7(contactOtps.otpType, "account_verification"),
-          gt2(contactOtps.expiresAt, /* @__PURE__ */ new Date())
+        (0, import_drizzle_orm10.and)(
+          (0, import_drizzle_orm10.eq)(contactOtps.email, email),
+          (0, import_drizzle_orm10.eq)(contactOtps.otp, otp),
+          (0, import_drizzle_orm10.eq)(contactOtps.otpType, "account_verification"),
+          (0, import_drizzle_orm10.gt)(contactOtps.expiresAt, /* @__PURE__ */ new Date())
         )
       ).limit(1);
       if (!record) {
         return res.status(400).json({ message: "C\xF3digo inv\xE1lido o caducado" });
       }
-      await db.update(contactOtps).set({ verified: true }).where(eq7(contactOtps.id, record.id));
+      await db.update(contactOtps).set({ verified: true }).where((0, import_drizzle_orm10.eq)(contactOtps.id, record.id));
       res.json({ success: true });
     } catch (err) {
       console.error("Error verifying registration OTP:", err);
@@ -5993,8 +6025,8 @@ Archivo disponible en: ${doc[0].fileUrl}`;
           message: `Demasiados intentos. Espera ${rateCheck.retryAfter} segundos.`
         });
       }
-      const { email } = z2.object({ email: z2.string().email() }).parse(req.body);
-      const [existingUser] = await db.select().from(users).where(eq7(users.email, email)).limit(1);
+      const { email } = import_zod2.z.object({ email: import_zod2.z.string().email() }).parse(req.body);
+      const [existingUser] = await db.select().from(users).where((0, import_drizzle_orm10.eq)(users.email, email)).limit(1);
       if (!existingUser) {
         return res.json({ success: true });
       }
@@ -6020,31 +6052,31 @@ Archivo disponible en: ${doc[0].fileUrl}`;
   });
   app2.post("/api/password-reset/confirm", async (req, res) => {
     try {
-      const { email, otp, newPassword } = z2.object({
-        email: z2.string().email(),
-        otp: z2.string(),
-        newPassword: z2.string().min(8, "La contrase\xF1a debe tener al menos 8 caracteres")
+      const { email, otp, newPassword } = import_zod2.z.object({
+        email: import_zod2.z.string().email(),
+        otp: import_zod2.z.string(),
+        newPassword: import_zod2.z.string().min(8, "La contrase\xF1a debe tener al menos 8 caracteres")
       }).parse(req.body);
       const [record] = await db.select().from(contactOtps).where(
-        and3(
-          eq7(contactOtps.email, email),
-          eq7(contactOtps.otp, otp),
-          eq7(contactOtps.otpType, "password_reset"),
-          gt2(contactOtps.expiresAt, /* @__PURE__ */ new Date()),
-          eq7(contactOtps.verified, false)
+        (0, import_drizzle_orm10.and)(
+          (0, import_drizzle_orm10.eq)(contactOtps.email, email),
+          (0, import_drizzle_orm10.eq)(contactOtps.otp, otp),
+          (0, import_drizzle_orm10.eq)(contactOtps.otpType, "password_reset"),
+          (0, import_drizzle_orm10.gt)(contactOtps.expiresAt, /* @__PURE__ */ new Date()),
+          (0, import_drizzle_orm10.eq)(contactOtps.verified, false)
         )
       ).limit(1);
       if (!record) {
         return res.status(400).json({ message: "C\xF3digo inv\xE1lido o caducado" });
       }
-      const [user] = await db.select().from(users).where(eq7(users.email, email)).limit(1);
+      const [user] = await db.select().from(users).where((0, import_drizzle_orm10.eq)(users.email, email)).limit(1);
       if (!user) {
         return res.status(400).json({ message: "Usuario no encontrado" });
       }
       const { hashPassword: hashPassword2 } = await Promise.resolve().then(() => (init_auth_service(), auth_service_exports));
       const passwordHash = await hashPassword2(newPassword);
-      await db.update(users).set({ passwordHash, updatedAt: /* @__PURE__ */ new Date() }).where(eq7(users.id, user.id));
-      await db.update(contactOtps).set({ verified: true }).where(eq7(contactOtps.id, record.id));
+      await db.update(users).set({ passwordHash, updatedAt: /* @__PURE__ */ new Date() }).where((0, import_drizzle_orm10.eq)(users.id, user.id));
+      await db.update(contactOtps).set({ verified: true }).where((0, import_drizzle_orm10.eq)(contactOtps.id, record.id));
       res.json({ success: true, message: "Contrase\xF1a actualizada correctamente" });
     } catch (err) {
       console.error("Error resetting password:", err);
@@ -6055,78 +6087,6 @@ Archivo disponible en: ${doc[0].fileUrl}`;
     }
   });
   await seedDatabase();
-  app2.post("/api/admin/test-emails", isAdmin, async (req, res) => {
-    const { email } = req.body;
-    if (!email) return res.status(400).json({ message: "Email requerido" });
-    try {
-      const ticketId = "12345678";
-      const otp = "888999";
-      const name = "Cliente de Prueba";
-      const requestCode = "NM-12345678";
-      const activityHtml = `
-        <div style="background-color: #f9f9f9; padding: 20px 0;">
-          <div style="font-family: 'Inter', Arial, sans-serif; max-width: 600px; margin: auto; border-radius: 8px; overflow: hidden; color: #1a1a1a; background-color: #ffffff; border: 1px solid #e5e5e5;">
-            ${getEmailHeader()}
-            <div style="padding: 40px;">
-              <h2 style="font-size: 18px; font-weight: 800; margin-bottom: 20px; color: #000;">Log de Actividad: Selecci\xF3n de Estado</h2>
-              <div style="background: #f4f4f4; border-left: 4px solid #000; padding: 20px; margin: 20px 0;">
-                <p style="margin: 0 0 10px 0; font-size: 14px;"><strong>Acci\xF3n:</strong> Clic en bot\xF3n elegir</p>
-                <p style="margin: 0 0 10px 0; font-size: 14px;"><strong>Estado:</strong> New Mexico Pack</p>
-          <p style="margin: 0; font-size: 14px;"><strong>Precio:</strong> 739\u20AC</p>
-        </div>
-        <p style="font-size: 12px; color: #999;">IP Origen: 127.0.0.1 | Fecha: ${(/* @__PURE__ */ new Date()).toLocaleString("es-ES", { timeZone: "Europe/Madrid" })}</p>
-      </div>
-      ${getEmailFooter()}
-    </div>
-  </div>
-`;
-      const orderHtml = `
-  <div style="background-color: #f9f9f9; padding: 20px 0;">
-    <div style="font-family: 'Inter', Arial, sans-serif; max-width: 600px; margin: auto; border-radius: 8px; overflow: hidden; color: #1a1a1a; background-color: #ffffff; border: 1px solid #e5e5e5;">
-      ${getEmailHeader()}
-      <div style="padding: 40px;">
-        <h2 style="font-size: 18px; font-weight: 800; margin-bottom: 20px; color: #000;">Detalles de la Notificaci\xF3n</h2>
-        <div style="margin-bottom: 25px;">
-          <h3 style="font-size: 11px; text-transform: uppercase; color: #999; border-bottom: 1px solid #eee; padding-bottom: 5px; margin-bottom: 15px; font-weight: 800;">Estado de la Transacci\xF3n</h3>
-          <p style="margin: 0 0 8px 0; font-size: 14px;"><strong>Estado Pago:</strong> <span style="color: #0d9488; font-weight: 700;">CONFIRMADO (MOCK)</span></p>
-          <p style="margin: 0 0 8px 0; font-size: 14px;"><strong>Fecha/Hora:</strong> ${(/* @__PURE__ */ new Date()).toLocaleString("es-ES", { timeZone: "Europe/Madrid" })}</p>
-          <p style="margin: 0; font-size: 14px;"><strong>Aceptaci\xF3n T\xE9rminos:</strong> S\xCD (Marcado en formulario)</p>
-        </div>
-
-        <div style="margin-bottom: 25px;">
-          <h3 style="font-size: 11px; text-transform: uppercase; color: #999; border-bottom: 1px solid #eee; padding-bottom: 5px; margin-bottom: 15px; font-weight: 800;">Informaci\xF3n del Propietario</h3>
-          <p style="margin: 0 0 8px 0; font-size: 14px;"><strong>Nombre:</strong> ${name}</p>
-          <p style="margin: 0 0 8px 0; font-size: 14px;"><strong>DNI / Pasaporte:</strong> 12345678X (Test)</p>
-          <p style="margin: 0 0 8px 0; font-size: 14px;"><strong>Email:</strong> ${email}</p>
-          <p style="margin: 0; font-size: 14px;"><strong>Direcci\xF3n:</strong> Calle Falsa 123, 28001 Madrid, Espa\xF1a</p>
-        </div>
-
-        <div>
-          <h3 style="font-size: 11px; text-transform: uppercase; color: #999; border-bottom: 1px solid #eee; padding-bottom: 5px; margin-bottom: 15px; font-weight: 800;">Detalles de la Empresa</h3>
-          <p style="margin: 0 0 8px 0; font-size: 14px;"><strong>Nombre LLC:</strong> Mi Nueva Empresa LLC</p>
-          <p style="margin: 0 0 8px 0; font-size: 14px;"><strong>Estado:</strong> New Mexico</p>
-          <p style="margin: 0 0 8px 0; font-size: 14px;"><strong>Actividad:</strong> Consultor\xEDa de Software y Marketing Digital</p>
-          <p style="margin: 0; font-size: 14px;"><strong>Notas:</strong> Necesito el EIN urgente para abrir cuenta en Mercury.</p>
-        </div>
-      </div>
-      ${getEmailFooter()}
-    </div>
-  </div>
-`;
-      await Promise.all([
-        sendEmail({ to: email, subject: "TEST: Tu c\xF3digo de verificaci\xF3n", html: getOtpEmailTemplate(otp, name) }),
-        sendEmail({ to: email, subject: "TEST: Log de Actividad (Admin)", html: activityHtml }),
-        sendEmail({ to: email, subject: "TEST: Nueva Solicitud LLC (Admin)", html: orderHtml }),
-        sendEmail({ to: email, subject: "TEST: Confirmaci\xF3n de Pedido (Cliente)", html: getConfirmationEmailTemplate(name, requestCode, { companyName: "Mi Nueva Empresa LLC" }) }),
-        sendEmail({ to: email, subject: "TEST: Bienvenido a Easy US LLC", html: getWelcomeEmailTemplate(name) }),
-        sendEmail({ to: email, subject: "TEST: Newsletter Bienvenida", html: getNewsletterWelcomeTemplate() }),
-        sendEmail({ to: email, subject: "TEST: Confirmaci\xF3n de Mensaje (Auto-reply)", html: getAutoReplyTemplate(ticketId, name) })
-      ]);
-      res.json({ success: true, message: "Emails de prueba administrativos mejorados enviados" });
-    } catch (error) {
-      res.status(500).json({ message: "Error al enviar emails de prueba" });
-    }
-  });
   return httpServer2;
 }
 async function seedDatabase() {
@@ -6182,20 +6142,29 @@ async function seedDatabase() {
 }
 
 // server/static.ts
-import express2 from "express";
-import fs2 from "fs";
-import path2 from "path";
-import { fileURLToPath as fileURLToPath2 } from "url";
-var __filename2 = fileURLToPath2(import.meta.url);
-var __dirname2 = path2.dirname(__filename2);
+var import_express2 = __toESM(require("express"), 1);
+var import_fs2 = __toESM(require("fs"), 1);
+var import_path2 = __toESM(require("path"), 1);
+var import_url2 = require("url");
+var import_meta2 = {};
+function getDirname2() {
+  try {
+    if (typeof import_meta2?.url !== "undefined") {
+      return import_path2.default.dirname((0, import_url2.fileURLToPath)(import_meta2.url));
+    }
+  } catch {
+  }
+  return import_path2.default.resolve();
+}
+var __dirname2 = getDirname2();
 function serveStatic(app2) {
-  const distPath = path2.resolve(__dirname2, "public");
-  if (!fs2.existsSync(distPath)) {
+  const distPath = import_path2.default.resolve(__dirname2, "public");
+  if (!import_fs2.default.existsSync(distPath)) {
     throw new Error(
       `Could not find the build directory: ${distPath}, make sure to build the client first`
     );
   }
-  app2.use(express2.static(distPath, {
+  app2.use(import_express2.default.static(distPath, {
     maxAge: "1y",
     immutable: true,
     index: false,
@@ -6203,7 +6172,7 @@ function serveStatic(app2) {
     lastModified: true
   }));
   app2.use("*", (_req, res) => {
-    res.sendFile(path2.resolve(distPath, "index.html"), {
+    res.sendFile(import_path2.default.resolve(distPath, "index.html"), {
       headers: {
         "Cache-Control": "no-cache, no-store, must-revalidate"
       }
@@ -6212,12 +6181,12 @@ function serveStatic(app2) {
 }
 
 // server/index.ts
-import { createServer } from "http";
-import compression from "compression";
-import path6 from "path";
+var import_http = require("http");
+var import_compression = __toESM(require("compression"), 1);
+var import_path6 = __toESM(require("path"), 1);
 
 // server/lib/sentry.ts
-import * as Sentry from "@sentry/node";
+var Sentry = __toESM(require("@sentry/node"), 1);
 var isInitialized = false;
 function initServerSentry() {
   if (process.env.NODE_ENV === "production" && process.env.SENTRY_DSN) {
@@ -6238,28 +6207,28 @@ function initServerSentry() {
 }
 
 // server/lib/backup.ts
-import { exec } from "child_process";
-import { promisify } from "util";
-import fs3 from "fs";
-import path3 from "path";
-var execAsync = promisify(exec);
+var import_child_process = require("child_process");
+var import_util = require("util");
+var import_fs3 = __toESM(require("fs"), 1);
+var import_path3 = __toESM(require("path"), 1);
+var execAsync = (0, import_util.promisify)(import_child_process.exec);
 var BACKUP_DIR = "/tmp/db-backups";
 var MAX_BACKUPS = 7;
 async function ensureBackupDir() {
-  if (!fs3.existsSync(BACKUP_DIR)) {
-    fs3.mkdirSync(BACKUP_DIR, { recursive: true });
+  if (!import_fs3.default.existsSync(BACKUP_DIR)) {
+    import_fs3.default.mkdirSync(BACKUP_DIR, { recursive: true });
   }
 }
 async function cleanOldBackups() {
-  const files = fs3.readdirSync(BACKUP_DIR).filter((f) => f.endsWith(".sql")).map((f) => ({
+  const files = import_fs3.default.readdirSync(BACKUP_DIR).filter((f) => f.endsWith(".sql")).map((f) => ({
     name: f,
-    path: path3.join(BACKUP_DIR, f),
-    time: fs3.statSync(path3.join(BACKUP_DIR, f)).mtime.getTime()
+    path: import_path3.default.join(BACKUP_DIR, f),
+    time: import_fs3.default.statSync(import_path3.default.join(BACKUP_DIR, f)).mtime.getTime()
   })).sort((a, b) => b.time - a.time);
   while (files.length > MAX_BACKUPS) {
     const oldest = files.pop();
     if (oldest) {
-      fs3.unlinkSync(oldest.path);
+      import_fs3.default.unlinkSync(oldest.path);
       console.log(`[Backup] Deleted old backup: ${oldest.name}`);
     }
   }
@@ -6268,7 +6237,7 @@ async function createBackup() {
   try {
     await ensureBackupDir();
     const timestamp3 = (/* @__PURE__ */ new Date()).toISOString().replace(/[:.]/g, "-");
-    const backupFile = path3.join(BACKUP_DIR, `backup-${timestamp3}.sql`);
+    const backupFile = import_path3.default.join(BACKUP_DIR, `backup-${timestamp3}.sql`);
     const databaseUrl = process.env.DATABASE_URL;
     if (!databaseUrl) {
       console.error("[Backup] DATABASE_URL not configured");
@@ -6295,10 +6264,10 @@ function scheduleBackups() {
 
 // server/index.ts
 initServerSentry();
-var app = express3();
-app.use("/uploads", express3.static(path6.join(process.cwd(), "uploads")));
-var httpServer = createServer(app);
-app.use(compression());
+var app = (0, import_express3.default)();
+app.use("/uploads", import_express3.default.static(import_path6.default.join(process.cwd(), "uploads")));
+var httpServer = (0, import_http.createServer)(app);
+app.use((0, import_compression.default)());
 function log(message, source = "express") {
   const formattedTime = (/* @__PURE__ */ new Date()).toLocaleTimeString("en-US", {
     hour: "numeric",
@@ -6399,7 +6368,8 @@ app.use((req, res, next) => {
     }
   );
 })();
-export {
+// Annotate the CommonJS export names for ESM import in node:
+0 && (module.exports = {
   log
-};
-//# sourceMappingURL=index.js.map
+});
+//# sourceMappingURL=index.cjs.map
