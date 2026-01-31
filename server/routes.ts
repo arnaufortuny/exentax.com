@@ -577,6 +577,17 @@ export async function registerRoutes(
       invoiceNumber
     }).returning();
     
+    // Create LLC application so order shows in client dashboard
+    await db.insert(llcApplicationsTable).values({
+      orderId: order.id,
+      requestCode: invoiceNumber,
+      ownerFullName: user.firstName && user.lastName ? `${user.firstName} ${user.lastName}` : null,
+      ownerEmail: user.email,
+      ownerPhone: user.phone,
+      state,
+      status: 'draft'
+    });
+    
     await db.insert(orderEvents).values({
       orderId: order.id,
       eventType: 'order_created',

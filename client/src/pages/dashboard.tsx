@@ -1950,7 +1950,7 @@ export default function Dashboard() {
                               className="w-full rounded-full"
                               data-testid="button-send-broadcast"
                             >
-                              {broadcastMutation.isPending ? 'Enviando...' : `Enviar a ${adminNewsletterSubs?.length || 0} suscriptores`}
+                              {broadcastMutation.isPending ? 'Enviando...' : `Enviar (${adminNewsletterSubs?.length || 0})`}
                             </Button>
                           </div>
                         </div>
