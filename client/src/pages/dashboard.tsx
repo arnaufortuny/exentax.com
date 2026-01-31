@@ -786,6 +786,46 @@ export default function Dashboard() {
                     <p className="text-[11px] md:text-xs text-muted-foreground font-medium">Gestiona tus trámites activos</p>
                   </div>
                   
+                  {orders?.filter(o => o.status === 'draft' || o.application?.status === 'draft' || o.maintenanceApplication?.status === 'draft').map((order) => {
+                    const abandonedAt = order.application?.abandonedAt || order.maintenanceApplication?.abandonedAt;
+                    const hoursRemaining = abandonedAt ? Math.max(0, Math.round((48 - ((Date.now() - new Date(abandonedAt).getTime()) / 3600000)))) : null;
+                    return (
+                    <div key={`draft-banner-${order.id}`} className="rounded-2xl shadow-md bg-gradient-to-r from-yellow-50 to-orange-50 dark:from-yellow-900/20 dark:to-orange-900/20 overflow-hidden flex" data-testid={`banner-pending-application-${order.id}`}>
+                      <div className="w-1 bg-yellow-500 flex-shrink-0" />
+                      <div className="p-4 md:p-5 flex-1">
+                        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                          <div className="flex items-start gap-3">
+                            <div className="w-10 h-10 bg-yellow-100 dark:bg-yellow-900/50 rounded-full flex items-center justify-center flex-shrink-0">
+                              <AlertCircle className="w-5 h-5 text-yellow-600 dark:text-yellow-400" />
+                            </div>
+                            <div className="min-w-0">
+                              <p className="text-sm md:text-base font-black text-primary">Solicitud pendiente de completar</p>
+                              <p className="text-xs text-muted-foreground mt-0.5">
+                                {order.maintenanceApplication 
+                                  ? `Mantenimiento ${order.maintenanceApplication.state || ''}`
+                                  : order.application?.companyName 
+                                    ? `${order.application.companyName} LLC`
+                                    : `${order.application?.state || 'Tu LLC'}`
+                                }
+                                {hoursRemaining !== null && (
+                                  <span className="text-yellow-600 dark:text-yellow-400 font-semibold ml-2">
+                                    · Se eliminará en {hoursRemaining}h
+                                  </span>
+                                )}
+                              </p>
+                            </div>
+                          </div>
+                          <Link href={order.maintenanceApplication ? "/llc/maintenance" : "/llc/formation"} data-testid={`link-continue-application-${order.id}`}>
+                            <Button className="bg-accent text-primary font-bold rounded-full" size="sm" data-testid={`button-continue-application-${order.id}`}>
+                              Continuar solicitud
+                              <ChevronRight className="w-4 h-4 ml-1" />
+                            </Button>
+                          </Link>
+                        </div>
+                      </div>
+                    </div>
+                  );})}
+                  
                   {(!orders || orders.length === 0) ? (
                     <Card className="rounded-2xl border-0 shadow-sm bg-white dark:bg-zinc-900 p-6 md:p-8 text-center">
                       <div className="flex flex-col items-center gap-3 md:gap-4">

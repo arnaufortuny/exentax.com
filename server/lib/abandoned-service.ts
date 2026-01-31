@@ -1,6 +1,6 @@
 import { db } from "../db";
 import { llcApplications, maintenanceApplications, orders, users } from "@shared/schema";
-import { eq, and, lt, isNull, or } from "drizzle-orm";
+import { eq, and, lt, isNull, isNotNull, or } from "drizzle-orm";
 import { sendEmail, getAbandonedApplicationReminderTemplate } from "./email";
 
 const ABANDONMENT_THRESHOLD_HOURS = 48;
@@ -45,6 +45,7 @@ async function sendReminders() {
   .from(llcApplications)
   .where(and(
     eq(llcApplications.status, "draft"),
+    isNotNull(llcApplications.abandonedAt),
     lt(llcApplications.remindersSent, MAX_REMINDERS),
     or(
       isNull(llcApplications.lastReminderAt),
@@ -94,6 +95,7 @@ async function sendReminders() {
   .from(maintenanceApplications)
   .where(and(
     eq(maintenanceApplications.status, "draft"),
+    isNotNull(maintenanceApplications.abandonedAt),
     lt(maintenanceApplications.remindersSent, MAX_REMINDERS),
     or(
       isNull(maintenanceApplications.lastReminderAt),
