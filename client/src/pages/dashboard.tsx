@@ -695,17 +695,17 @@ export default function Dashboard() {
                   </div>
                   
                   {(!orders || orders.length === 0) ? (
-                    <Card className="rounded-2xl border-0 shadow-sm bg-white dark:bg-zinc-900 p-8 text-center">
-                      <div className="flex flex-col items-center gap-4">
-                        <div className="w-16 h-16 bg-accent/10 rounded-full flex items-center justify-center">
-                          <Package className="w-8 h-8 text-accent" />
+                    <Card className="rounded-2xl border-0 shadow-sm bg-white dark:bg-zinc-900 p-6 md:p-8 text-center">
+                      <div className="flex flex-col items-center gap-3 md:gap-4">
+                        <div className="w-12 h-12 md:w-16 md:h-16 bg-accent/10 rounded-full flex items-center justify-center">
+                          <Package className="w-6 h-6 md:w-8 md:h-8 text-accent" />
                         </div>
                         <div>
-                          <h3 className="text-lg font-black text-primary mb-2 text-center">Aún no tienes servicios activos</h3>
-                          <p className="text-sm text-muted-foreground mb-6 text-center">Empieza hoy y constituye tu LLC en EE. UU. en pocos pasos.</p>
+                          <h3 className="text-base md:text-lg font-black text-primary mb-1 md:mb-2 text-center">Aún no tienes servicios activos</h3>
+                          <p className="text-xs md:text-sm text-muted-foreground mb-4 md:mb-6 text-center">Empieza hoy y constituye tu LLC en EE. UU. en pocos pasos.</p>
                         </div>
                         <Link href="/servicios#pricing">
-                          <Button className="bg-accent text-primary font-black rounded-full px-8 py-3" data-testid="button-view-packs">
+                          <Button className="bg-accent text-primary font-black rounded-full px-6 md:px-8 py-2.5 md:py-3 text-sm md:text-base" data-testid="button-view-packs">
                             Ver planes disponibles
                           </Button>
                         </Link>
@@ -794,14 +794,14 @@ export default function Dashboard() {
                       {[1, 2, 3].map(i => <div key={i} className="h-24 bg-muted rounded-2xl animate-pulse" />)}
                     </div>
                   ) : notifications?.length === 0 ? (
-                    <Card className="rounded-2xl border-0 shadow-sm bg-white dark:bg-zinc-900 p-8 text-center">
-                      <div className="flex flex-col items-center gap-4">
-                        <div className="w-16 h-16 bg-accent/10 rounded-full flex items-center justify-center">
-                          <BellRing className="w-8 h-8 text-accent" />
+                    <Card className="rounded-2xl border-0 shadow-sm bg-white dark:bg-zinc-900 p-6 md:p-8 text-center">
+                      <div className="flex flex-col items-center gap-3 md:gap-4">
+                        <div className="w-12 h-12 md:w-16 md:h-16 bg-accent/10 rounded-full flex items-center justify-center">
+                          <BellRing className="w-6 h-6 md:w-8 md:h-8 text-accent" />
                         </div>
                         <div>
-                          <h3 className="text-lg font-black text-primary mb-2 text-center">Sin notificaciones</h3>
-                          <p className="text-sm text-muted-foreground text-center">Las actualizaciones de tus trámites aparecerán aquí.</p>
+                          <h3 className="text-base md:text-lg font-black text-primary mb-1 md:mb-2 text-center">Sin notificaciones</h3>
+                          <p className="text-xs md:text-sm text-muted-foreground text-center">Las actualizaciones de tus trámites aparecerán aquí.</p>
                         </div>
                       </div>
                     </Card>
@@ -880,17 +880,17 @@ export default function Dashboard() {
                   </div>
                   <div className="space-y-4">
                     {(!messagesData || messagesData.length === 0) ? (
-                      <Card className="rounded-2xl border-0 shadow-sm bg-white dark:bg-zinc-900 p-8 text-center" data-testid="widget-support-empty">
-                        <div className="flex flex-col items-center gap-4">
-                          <div className="w-16 h-16 bg-accent/10 rounded-full flex items-center justify-center">
-                            <MessageSquare className="w-8 h-8 text-accent" />
+                      <Card className="rounded-2xl border-0 shadow-sm bg-white dark:bg-zinc-900 p-6 md:p-8 text-center" data-testid="widget-support-empty">
+                        <div className="flex flex-col items-center gap-3 md:gap-4">
+                          <div className="w-12 h-12 md:w-16 md:h-16 bg-accent/10 rounded-full flex items-center justify-center">
+                            <MessageSquare className="w-6 h-6 md:w-8 md:h-8 text-accent" />
                           </div>
                           <div>
-                            <h3 className="text-lg font-black text-primary mb-2 text-center">Sin consultas activas</h3>
-                            <p className="text-sm text-muted-foreground mb-6 text-center">Te responderá una persona, no un bot.</p>
+                            <h3 className="text-base md:text-lg font-black text-primary mb-1 md:mb-2 text-center">Sin consultas activas</h3>
+                            <p className="text-xs md:text-sm text-muted-foreground mb-4 md:mb-6 text-center">Te responderá una persona, no un bot.</p>
                           </div>
                           <a href="https://wa.me/34614916910" target="_blank" rel="noopener noreferrer">
-                            <Button className="bg-accent text-primary font-black rounded-full px-8 py-3" data-testid="button-support-whatsapp">
+                            <Button className="bg-accent text-primary font-black rounded-full px-6 md:px-8 py-2.5 md:py-3 text-sm md:text-base" data-testid="button-support-whatsapp">
                               <MessageSquare className="w-4 h-4 mr-2" /> Hablar con soporte
                             </Button>
                           </a>
@@ -1039,17 +1039,17 @@ export default function Dashboard() {
                   </div>
                   <div className="space-y-4">
                     {(!orders || orders.length === 0) ? (
-                      <Card className="rounded-2xl border-0 shadow-sm bg-white dark:bg-zinc-900 p-8 text-center" data-testid="widget-payments-empty">
-                        <div className="flex flex-col items-center gap-4">
-                          <div className="w-16 h-16 bg-accent/10 rounded-full flex items-center justify-center">
-                            <CreditCard className="w-8 h-8 text-accent" />
+                      <Card className="rounded-2xl border-0 shadow-sm bg-white dark:bg-zinc-900 p-6 md:p-8 text-center" data-testid="widget-payments-empty">
+                        <div className="flex flex-col items-center gap-3 md:gap-4">
+                          <div className="w-12 h-12 md:w-16 md:h-16 bg-accent/10 rounded-full flex items-center justify-center">
+                            <CreditCard className="w-6 h-6 md:w-8 md:h-8 text-accent" />
                           </div>
                           <div>
-                            <h3 className="text-lg font-black text-primary mb-2 text-center">Sin pagos registrados</h3>
-                            <p className="text-sm text-muted-foreground mb-6 text-center">Tus facturas y recibos aparecerán aquí.</p>
+                            <h3 className="text-base md:text-lg font-black text-primary mb-1 md:mb-2 text-center">Sin pagos registrados</h3>
+                            <p className="text-xs md:text-sm text-muted-foreground mb-4 md:mb-6 text-center">Tus facturas y recibos aparecerán aquí.</p>
                           </div>
                           <Link href="/servicios#pricing">
-                            <Button className="bg-accent text-primary font-black rounded-full px-8 py-3" data-testid="button-view-services">
+                            <Button className="bg-accent text-primary font-black rounded-full px-6 md:px-8 py-2.5 md:py-3 text-sm md:text-base" data-testid="button-view-services">
                               <PlusCircle className="w-4 h-4 mr-2" /> Ver servicios
                             </Button>
                           </Link>
@@ -1198,17 +1198,17 @@ export default function Dashboard() {
                       })}
                     </div>
                   ) : (
-                    <Card className="rounded-2xl border-0 shadow-sm bg-white dark:bg-zinc-900 p-8 text-center" data-testid="widget-calendar-empty">
-                      <div className="flex flex-col items-center gap-4">
-                        <div className="w-16 h-16 bg-accent/10 rounded-full flex items-center justify-center">
-                          <Calendar className="w-8 h-8 text-accent" />
+                    <Card className="rounded-2xl border-0 shadow-sm bg-white dark:bg-zinc-900 p-6 md:p-8 text-center" data-testid="widget-calendar-empty">
+                      <div className="flex flex-col items-center gap-3 md:gap-4">
+                        <div className="w-12 h-12 md:w-16 md:h-16 bg-accent/10 rounded-full flex items-center justify-center">
+                          <Calendar className="w-6 h-6 md:w-8 md:h-8 text-accent" />
                         </div>
                         <div>
-                          <h3 className="text-lg font-black text-primary mb-2 text-center">Calendario Fiscal</h3>
-                          <p className="text-sm text-muted-foreground mb-6 text-center">Tus vencimientos fiscales aparecerán aquí una vez constituyas tu LLC.</p>
+                          <h3 className="text-base md:text-lg font-black text-primary mb-1 md:mb-2 text-center">Calendario Fiscal</h3>
+                          <p className="text-xs md:text-sm text-muted-foreground mb-4 md:mb-6 text-center">Tus vencimientos fiscales aparecerán aquí una vez constituyas tu LLC.</p>
                         </div>
                         <Link href="/servicios#pricing">
-                          <Button className="bg-accent text-primary font-black rounded-full px-8 py-3" data-testid="button-start-llc-calendar">
+                          <Button className="bg-accent text-primary font-black rounded-full px-6 md:px-8 py-2.5 md:py-3 text-sm md:text-base" data-testid="button-start-llc-calendar">
                             Constituir mi LLC
                           </Button>
                         </Link>
@@ -1890,58 +1890,29 @@ export default function Dashboard() {
                       </div>
                       <div className="divide-y max-h-[60vh] overflow-y-auto">
                         {adminDocuments?.map((doc: any) => (
-                          <div key={doc.id} className="py-3 flex items-start justify-between gap-3">
-                            <div className="min-w-0 flex-1">
-                              <div className="flex items-center gap-2 flex-wrap mb-1">
-                                <div className="w-8 h-8 rounded-full bg-accent/20 flex items-center justify-center shrink-0">
-                                  <FileText className="w-4 h-4 text-accent" />
-                                </div>
-                                <div className="flex-1 min-w-0">
-                                  <p className="font-bold text-sm truncate">{doc.fileName}</p>
-                                  <p className="text-[10px] text-muted-foreground truncate">
-                                    {doc.documentType || 'Documento'}
-                                  </p>
-                                </div>
-                                <Badge variant="outline" className={`text-[9px] shrink-0 ${doc.reviewStatus === 'approved' ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' : doc.reviewStatus === 'rejected' ? 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400' : 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400'}`}>
-                                  {doc.reviewStatus === 'approved' ? 'Aprobado' : doc.reviewStatus === 'rejected' ? 'Rechazado' : 'Pendiente'}
-                                </Badge>
+                          <div key={doc.id} className="py-3 space-y-2">
+                            <div className="flex items-start gap-2">
+                              <div className="w-8 h-8 rounded-full bg-accent/20 flex items-center justify-center shrink-0">
+                                <FileText className="w-4 h-4 text-accent" />
                               </div>
-                              <div className="ml-10 space-y-0.5">
-                                <p className="text-xs font-medium text-primary">
-                                  <span className="text-accent">Cliente:</span> {doc.user?.firstName} {doc.user?.lastName}
+                              <div className="flex-1 min-w-0">
+                                <div className="flex items-center gap-2 flex-wrap">
+                                  <p className="font-bold text-xs md:text-sm truncate">{doc.fileName}</p>
+                                  <Badge variant="outline" className={`text-[8px] md:text-[9px] shrink-0 ${doc.reviewStatus === 'approved' ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' : doc.reviewStatus === 'rejected' ? 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400' : 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400'}`}>
+                                    {doc.reviewStatus === 'approved' ? 'Aprobado' : doc.reviewStatus === 'rejected' ? 'Rechazado' : 'Pendiente'}
+                                  </Badge>
+                                </div>
+                                <p className="text-[10px] text-accent font-medium mt-0.5">
+                                  {doc.user?.firstName} {doc.user?.lastName}
                                 </p>
-                                <p className="text-[10px] text-muted-foreground">{doc.user?.email}</p>
-                                <p className="text-[10px] text-muted-foreground">
+                                <p className="text-[9px] md:text-[10px] text-muted-foreground truncate">{doc.user?.email}</p>
+                                <p className="text-[9px] md:text-[10px] text-muted-foreground">
                                   {doc.application?.companyName && <><span className="font-medium">LLC:</span> {doc.application.companyName} • </>}
-                                  <span className="font-medium">Fecha:</span> {doc.uploadedAt ? new Date(doc.uploadedAt).toLocaleDateString('es-ES', { day: '2-digit', month: 'short', year: 'numeric' }) : '-'}
+                                  {doc.uploadedAt ? new Date(doc.uploadedAt).toLocaleDateString('es-ES', { day: '2-digit', month: 'short' }) : '-'}
                                 </p>
                               </div>
                             </div>
-                            <div className="flex flex-col gap-1.5 shrink-0">
-                              <div className="flex gap-1">
-                                {doc.fileUrl && (
-                                  <Button size="icon" variant="outline" className="h-8 w-8 rounded-full" onClick={() => window.open(doc.fileUrl, '_blank')} data-testid={`btn-view-doc-${doc.id}`}>
-                                    <Eye className="w-3.5 h-3.5" />
-                                  </Button>
-                                )}
-                                <Button 
-                                  size="icon" 
-                                  variant="outline" 
-                                  className="h-8 w-8 rounded-full text-red-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20" 
-                                  onClick={async () => {
-                                    if (confirm('¿Eliminar este documento permanentemente?')) {
-                                      try {
-                                        await apiRequest("DELETE", `/api/admin/documents/${doc.id}`);
-                                        queryClient.invalidateQueries({ queryKey: ["/api/admin/documents"] });
-                                        toast({ title: "Documento eliminado" });
-                                      } catch { toast({ title: "Error al eliminar", variant: "destructive" }); }
-                                    }
-                                  }}
-                                  data-testid={`btn-delete-doc-${doc.id}`}
-                                >
-                                  <Trash2 className="w-3.5 h-3.5" />
-                                </Button>
-                              </div>
+                            <div className="flex items-center gap-2 ml-10">
                               <NativeSelect 
                                 value={doc.reviewStatus || 'pending'} 
                                 onValueChange={async val => {
@@ -1951,12 +1922,34 @@ export default function Dashboard() {
                                     toast({ title: "Estado actualizado" });
                                   } catch { toast({ title: "Error", variant: "destructive" }); }
                                 }}
-                                className="h-7 text-[10px] rounded-full px-2"
+                                className="h-7 text-[10px] rounded-full px-2 flex-1 max-w-[120px]"
                               >
                                 <NativeSelectItem value="pending">Pendiente</NativeSelectItem>
                                 <NativeSelectItem value="approved">Aprobar</NativeSelectItem>
                                 <NativeSelectItem value="rejected">Rechazar</NativeSelectItem>
                               </NativeSelect>
+                              {doc.fileUrl && (
+                                <Button size="icon" variant="outline" className="h-7 w-7 rounded-full" onClick={() => window.open(doc.fileUrl, '_blank')} data-testid={`btn-view-doc-${doc.id}`}>
+                                  <Eye className="w-3 h-3" />
+                                </Button>
+                              )}
+                              <Button 
+                                size="icon" 
+                                variant="outline" 
+                                className="h-7 w-7 rounded-full text-red-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20" 
+                                onClick={async () => {
+                                  if (confirm('¿Eliminar este documento permanentemente?')) {
+                                    try {
+                                      await apiRequest("DELETE", `/api/admin/documents/${doc.id}`);
+                                      queryClient.invalidateQueries({ queryKey: ["/api/admin/documents"] });
+                                      toast({ title: "Documento eliminado" });
+                                    } catch { toast({ title: "Error al eliminar", variant: "destructive" }); }
+                                  }
+                                }}
+                                data-testid={`btn-delete-doc-${doc.id}`}
+                              >
+                                <Trash2 className="w-3 h-3" />
+                              </Button>
                             </div>
                           </div>
                         ))}
@@ -2027,18 +2020,18 @@ export default function Dashboard() {
                             onClick={() => setSelectedMessage(selectedMessage?.id === msg.id ? null : msg)}
                             data-testid={`inbox-message-${msg.id}`}
                           >
-                            <div className="flex justify-between items-start">
-                              <div>
-                                <p className="font-black text-sm">{msg.firstName} {msg.lastName}</p>
-                                <p className="text-xs text-muted-foreground">{msg.email} {msg.phone && `• ${msg.phone}`}</p>
+                            <div className="flex justify-between items-start gap-2">
+                              <div className="min-w-0 flex-1">
+                                <p className="font-black text-xs md:text-sm">{msg.firstName} {msg.lastName}</p>
+                                <p className="text-[10px] md:text-xs text-muted-foreground truncate">{msg.email}</p>
                               </div>
-                              <div className="flex items-center gap-2">
-                                <Badge variant="outline" className="text-[10px]">{msg.messageId || msg.id}</Badge>
-                                <Badge variant="secondary" className="text-[10px]">{msg.status || 'pendiente'}</Badge>
+                              <div className="flex items-center gap-1 shrink-0">
+                                <Badge variant="outline" className="text-[8px] md:text-[10px] hidden md:inline-flex">{msg.messageId || msg.id}</Badge>
+                                <Badge variant="secondary" className="text-[8px] md:text-[10px]">{msg.status || 'pendiente'}</Badge>
                                 <Button 
                                   size="icon" 
                                   variant="ghost" 
-                                  className="h-7 w-7 text-red-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20" 
+                                  className="h-6 w-6 md:h-7 md:w-7 text-red-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20" 
                                   onClick={async (e) => {
                                     e.stopPropagation();
                                     if (confirm('¿Eliminar este mensaje y todas sus respuestas?')) {
@@ -2051,7 +2044,7 @@ export default function Dashboard() {
                                   }}
                                   data-testid={`btn-delete-msg-${msg.id}`}
                                 >
-                                  <Trash2 className="w-3.5 h-3.5" />
+                                  <Trash2 className="w-3 h-3 md:w-3.5 md:h-3.5" />
                                 </Button>
                               </div>
                             </div>
