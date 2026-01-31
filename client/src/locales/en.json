@@ -227,5 +227,56 @@
     "unauthorized": "You don't have permission to perform this action.",
     "notFound": "The requested resource doesn't exist.",
     "validation": "Please check the form fields."
+  },
+  "progress": {
+    "orderReceived": "Order Received",
+    "paymentConfirmed": "Payment Confirmed",
+    "processing": "Processing",
+    "filed": "Filed",
+    "llcActive": "LLC Active",
+    "requestReceived": "Request Received",
+    "inProcess": "In Process",
+    "completed": "Completed",
+    "orderRegistered": "Your order has been registered",
+    "paymentProcessed": "Payment processed successfully",
+    "preparingDocs": "Preparing documentation",
+    "docsSent": "Documents sent to state",
+    "llcOperational": "Your LLC is operational",
+    "requestRegistered": "Your request is registered",
+    "managingRenewal": "Managing your renewal",
+    "docsUpdated": "Documents updated",
+    "maintenanceComplete": "Maintenance complete",
+    "cancelled": "Order Cancelled",
+    "cancelledMessage": "This order has been cancelled. Contact support if you have questions.",
+    "progressLabel": "Progress",
+    "reference": "Ref",
+    "maintenance": "Maintenance",
+    "yourLLC": "Your LLC",
+    "allOrders": "All Orders"
+  },
+  "payment": {
+    "transfer": "Bank transfer",
+    "link": "Payment link",
+    "pending": "Pending",
+    "paid": "Paid",
+    "overdue": "Overdue"
+  },
+  "tabs": {
+    "services": "Services",
+    "documents": "Documents",
+    "messages": "Messages",
+    "notifications": "Notifications",
+    "payments": "Payments",
+    "calendar": "Calendar",
+    "profile": "My Profile",
+    "admin": "Admin"
+  },
+  "actions": {
+    "modify": "Modify",
+    "download": "Download",
+    "view": "View",
+    "newLLC": "New LLC",
+    "viewPacks": "View Packs",
+    "modifyData": "Modify data"
   }
 }

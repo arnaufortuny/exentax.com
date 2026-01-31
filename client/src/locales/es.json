@@ -227,5 +227,56 @@
     "unauthorized": "No tienes permiso para realizar esta acción.",
     "notFound": "El recurso solicitado no existe.",
     "validation": "Por favor, revisa los campos del formulario."
+  },
+  "progress": {
+    "orderReceived": "Pedido Recibido",
+    "paymentConfirmed": "Pago Confirmado",
+    "processing": "En Tramitación",
+    "filed": "Presentado",
+    "llcActive": "LLC Activa",
+    "requestReceived": "Solicitud Recibida",
+    "inProcess": "En Proceso",
+    "completed": "Completado",
+    "orderRegistered": "Tu pedido ha sido registrado",
+    "paymentProcessed": "Pago procesado correctamente",
+    "preparingDocs": "Preparando documentación",
+    "docsSent": "Documentos enviados al estado",
+    "llcOperational": "Tu LLC está operativa",
+    "requestRegistered": "Tu solicitud está registrada",
+    "managingRenewal": "Gestionando tu renovación",
+    "docsUpdated": "Documentos actualizados",
+    "maintenanceComplete": "Mantenimiento finalizado",
+    "cancelled": "Pedido Cancelado",
+    "cancelledMessage": "Este pedido ha sido cancelado. Contacta con soporte si tienes dudas.",
+    "progressLabel": "Progreso",
+    "reference": "Ref",
+    "maintenance": "Mantenimiento",
+    "yourLLC": "Tu LLC",
+    "allOrders": "Todos los Pedidos"
+  },
+  "payment": {
+    "transfer": "Transferencia bancaria",
+    "link": "Enlace de pago",
+    "pending": "Pendiente",
+    "paid": "Pagado",
+    "overdue": "Vencido"
+  },
+  "tabs": {
+    "services": "Servicios",
+    "documents": "Documentos",
+    "messages": "Mensajes",
+    "notifications": "Avisos",
+    "payments": "Pagos",
+    "calendar": "Calendario",
+    "profile": "Mi Perfil",
+    "admin": "Admin"
+  },
+  "actions": {
+    "modify": "Modificar",
+    "download": "Descargar",
+    "view": "Ver",
+    "newLLC": "Nueva LLC",
+    "viewPacks": "Ver Packs",
+    "modifyData": "Modificar datos"
   }
 }

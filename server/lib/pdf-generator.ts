@@ -152,10 +152,10 @@ function getStatusText(status: string): string {
 function getPaymentMethodText(method?: string): string {
   if (!method) return 'No especificado';
   const map: Record<string, string> = {
-    'transfer': 'Transferencia bancaria', 'card': 'Tarjeta', 'stripe': 'Stripe',
-    'paypal': 'PayPal', 'link': 'Enlace de pago', 'other': 'Otro'
+    'transfer': 'Transferencia bancaria',
+    'link': 'Enlace de pago'
   };
-  return map[method] || method;
+  return map[method] || 'Transferencia bancaria';
 }
 
 export function generateInvoicePdf(data: InvoiceData): Promise<Buffer> {
