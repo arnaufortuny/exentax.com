@@ -163,6 +163,10 @@ export default function Dashboard() {
   const [paymentLinkAmount, setPaymentLinkAmount] = useState("");
   const [paymentLinkMessage, setPaymentLinkMessage] = useState("");
   const [isSendingPaymentLink, setIsSendingPaymentLink] = useState(false);
+  const [adminDocUploadDialog, setAdminDocUploadDialog] = useState<{ open: boolean; order: any }>({ open: false, order: null });
+  const [adminDocType, setAdminDocType] = useState("articles_of_organization");
+  const [adminDocFile, setAdminDocFile] = useState<File | null>(null);
+  const [isUploadingAdminDoc, setIsUploadingAdminDoc] = useState(false);
   const [showEmailVerification, setShowEmailVerification] = useState(false);
   const [emailVerificationCode, setEmailVerificationCode] = useState("");
   const [isVerifyingEmail, setIsVerifyingEmail] = useState(false);
@@ -1869,9 +1873,32 @@ export default function Dashboard() {
                   )}
                   {adminSubTab === 'docs' && (
                     <Card className="rounded-2xl border-0 shadow-sm p-4 md:p-6">
-                      <div className="flex items-center justify-between mb-4">
-                        <h3 className="font-black text-lg">Documentos de Clientes</h3>
-                        <Badge className="bg-accent/20 text-accent">{adminDocuments?.length || 0} docs</Badge>
+                      <div className="flex items-center justify-between mb-4 gap-2 flex-wrap">
+                        <div className="flex items-center gap-2">
+                          <h3 className="font-black text-lg">Documentos</h3>
+                          <Badge className="bg-accent/20 text-accent">{adminDocuments?.length || 0}</Badge>
+                        </div>
+                        <NativeSelect
+                          value=""
+                          onValueChange={(orderId) => {
+                            if (orderId) {
+                              const order = adminOrders?.find((o: any) => o.id === Number(orderId));
+                              if (order) {
+                                setAdminDocUploadDialog({ open: true, order });
+                                setAdminDocType("articles_of_organization");
+                                setAdminDocFile(null);
+                              }
+                            }
+                          }}
+                          className="h-9 text-xs rounded-full px-3 bg-accent text-primary font-bold min-w-[140px]"
+                        >
+                          <option value="">Subir para cliente...</option>
+                          {adminOrders?.map((order: any) => (
+                            <option key={order.id} value={order.id}>
+                              {order.application?.requestCode || order.maintenanceApplication?.requestCode || order.invoiceNumber} - {order.user?.firstName} {order.user?.lastName}
+                            </option>
+                          ))}
+                        </NativeSelect>
                       </div>
                       <div className="divide-y max-h-[60vh] overflow-y-auto">
                         {adminDocuments?.map((doc: any) => (
@@ -2495,6 +2522,9 @@ export default function Dashboard() {
                       });
                       toast({ title: "Factura generada", description: `Factura creada por ${orderInvoiceAmount} ${orderInvoiceCurrency}` });
                       queryClient.invalidateQueries({ queryKey: ["/api/admin/orders"] });
+                      queryClient.invalidateQueries({ queryKey: ["/api/user/documents"] });
+                      // Open invoice in new tab for download
+                      window.open(`/api/orders/${generateInvoiceDialog.order?.id}/invoice`, '_blank');
                       setGenerateInvoiceDialog({ open: false, order: null });
                     } catch (err) {
                       toast({ title: "Error", description: "No se pudo generar la factura", variant: "destructive" });
@@ -3120,6 +3150,107 @@ export default function Dashboard() {
               data-testid="button-send-payment-link"
             >
               {isSendingPaymentLink ? <Loader2 className="animate-spin" /> : "Enviar Link de Pago"}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={adminDocUploadDialog.open} onOpenChange={(open) => {
+        setAdminDocUploadDialog({ open, order: open ? adminDocUploadDialog.order : null });
+        if (!open) {
+          setAdminDocFile(null);
+          setAdminDocType("articles_of_organization");
+        }
+      }}>
+        <DialogContent className="w-full sm:max-w-md bg-white dark:bg-zinc-900">
+          <DialogHeader>
+            <DialogTitle className="text-xl font-black text-primary">Subir Documento para Cliente</DialogTitle>
+            <DialogDescription>
+              Pedido: {adminDocUploadDialog.order?.application?.requestCode || adminDocUploadDialog.order?.maintenanceApplication?.requestCode || adminDocUploadDialog.order?.invoiceNumber}
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4 py-4">
+            <div>
+              <Label className="text-sm font-black text-primary block mb-2">Tipo de Documento</Label>
+              <NativeSelect
+                value={adminDocType}
+                onValueChange={setAdminDocType}
+                className="w-full rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800"
+              >
+                <NativeSelectItem value="articles_of_organization">Artículos de Organización</NativeSelectItem>
+                <NativeSelectItem value="certificate_of_formation">Certificado de Formación</NativeSelectItem>
+                <NativeSelectItem value="boir">BOIR</NativeSelectItem>
+                <NativeSelectItem value="ein_document">Documento EIN</NativeSelectItem>
+                <NativeSelectItem value="operating_agreement">Acuerdo Operativo</NativeSelectItem>
+                <NativeSelectItem value="invoice">Factura</NativeSelectItem>
+                <NativeSelectItem value="other">Otro Documento</NativeSelectItem>
+              </NativeSelect>
+            </div>
+            <div>
+              <Label className="text-sm font-black text-primary block mb-2">Archivo</Label>
+              <label className="cursor-pointer block">
+                <input 
+                  type="file" 
+                  className="hidden" 
+                  accept=".pdf,.jpg,.jpeg,.png"
+                  onChange={(e) => {
+                    const file = e.target.files?.[0];
+                    if (file) setAdminDocFile(file);
+                  }}
+                />
+                <div className={`p-4 border-2 border-dashed rounded-xl text-center ${adminDocFile ? 'border-accent bg-accent/5' : 'border-gray-200 dark:border-zinc-700'}`}>
+                  {adminDocFile ? (
+                    <div className="flex items-center justify-center gap-2">
+                      <FileUp className="w-5 h-5 text-accent" />
+                      <span className="text-sm font-medium truncate max-w-[200px]">{adminDocFile.name}</span>
+                    </div>
+                  ) : (
+                    <div className="text-muted-foreground text-sm">
+                      <Upload className="w-8 h-8 mx-auto mb-2 opacity-50" />
+                      Haz clic para seleccionar archivo
+                    </div>
+                  )}
+                </div>
+              </label>
+            </div>
+          </div>
+          <DialogFooter className="flex-col sm:flex-row gap-3">
+            <Button variant="outline" onClick={() => setAdminDocUploadDialog({ open: false, order: null })} className="w-full sm:w-auto rounded-full font-black">Cancelar</Button>
+            <Button
+              disabled={!adminDocFile || isUploadingAdminDoc}
+              onClick={async () => {
+                if (!adminDocFile || !adminDocUploadDialog.order) return;
+                setIsUploadingAdminDoc(true);
+                try {
+                  const formData = new FormData();
+                  formData.append('file', adminDocFile);
+                  formData.append('orderId', adminDocUploadDialog.order.id);
+                  formData.append('documentType', adminDocType);
+                  const res = await fetch('/api/admin/documents/upload', {
+                    method: 'POST',
+                    body: formData,
+                    credentials: 'include'
+                  });
+                  if (res.ok) {
+                    toast({ title: "Documento subido", description: "El documento ha sido añadido al expediente del cliente." });
+                    queryClient.invalidateQueries({ queryKey: ["/api/admin/documents"] });
+                    queryClient.invalidateQueries({ queryKey: ["/api/user/documents"] });
+                    setAdminDocUploadDialog({ open: false, order: null });
+                    setAdminDocFile(null);
+                  } else {
+                    const data = await res.json();
+                    toast({ title: "Error", description: data.message || "No se pudo subir el documento", variant: "destructive" });
+                  }
+                } catch {
+                  toast({ title: "Error", description: "Error de conexión", variant: "destructive" });
+                } finally {
+                  setIsUploadingAdminDoc(false);
+                }
+              }}
+              className="w-full sm:w-auto bg-accent text-primary font-black rounded-full"
+              data-testid="button-admin-upload-doc"
+            >
+              {isUploadingAdminDoc ? <Loader2 className="animate-spin" /> : "Subir Documento"}
             </Button>
           </DialogFooter>
         </DialogContent>

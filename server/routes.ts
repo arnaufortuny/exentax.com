@@ -975,6 +975,111 @@ export async function registerRoutes(
     }
   });
 
+  // Admin upload document file for client
+  app.post("/api/admin/documents/upload", isAdmin, async (req: any, res) => {
+    try {
+      const busboy = (await import('busboy')).default;
+      const bb = busboy({ 
+        headers: req.headers,
+        limits: { fileSize: MAX_FILE_SIZE_BYTES }
+      });
+      
+      let fileName = '';
+      let fileBuffer: Buffer | null = null;
+      let fileTruncated = false;
+      let documentType = 'other';
+      let orderId = '';
+      
+      bb.on('field', (name: string, val: string) => {
+        if (name === 'documentType') documentType = val;
+        if (name === 'orderId') orderId = val;
+      });
+      
+      bb.on('file', (name: string, file: any, info: any) => {
+        fileName = info.filename || `documento_${Date.now()}`;
+        const chunks: Buffer[] = [];
+        file.on('data', (data: Buffer) => chunks.push(data));
+        file.on('limit', () => { fileTruncated = true; });
+        file.on('end', () => { fileBuffer = Buffer.concat(chunks); });
+      });
+
+      bb.on('finish', async () => {
+        if (fileTruncated) {
+          return res.status(413).json({ message: `El archivo excede el límite de ${MAX_FILE_SIZE_MB}MB` });
+        }
+        
+        if (!fileBuffer || !orderId) {
+          return res.status(400).json({ message: "Faltan datos requeridos" });
+        }
+
+        const fs = await import('fs/promises');
+        const path = await import('path');
+        const uploadDir = path.join(process.cwd(), 'uploads', 'admin-docs');
+        await fs.mkdir(uploadDir, { recursive: true });
+        
+        const safeFileName = `admin_${orderId}_${Date.now()}_${fileName.replace(/[^a-zA-Z0-9.-]/g, '_')}`;
+        const filePath = path.join(uploadDir, safeFileName);
+        await fs.writeFile(filePath, fileBuffer);
+        
+        // Determine file type from extension
+        const ext = fileName.toLowerCase().split('.').pop() || '';
+        const mimeTypes: Record<string, string> = {
+          'pdf': 'application/pdf',
+          'jpg': 'image/jpeg',
+          'jpeg': 'image/jpeg',
+          'png': 'image/png'
+        };
+        const fileType = mimeTypes[ext] || 'application/octet-stream';
+        
+        // Document type labels
+        const docTypeLabels: Record<string, string> = {
+          'articles_of_organization': 'Artículos de Organización',
+          'certificate_of_formation': 'Certificado de Formación',
+          'boir': 'BOIR',
+          'ein_document': 'Documento EIN',
+          'operating_agreement': 'Acuerdo Operativo',
+          'invoice': 'Factura',
+          'other': 'Otro Documento'
+        };
+        
+        // Get applicationId from order
+        const [llcApp] = await db.select().from(llcApplicationsTable).where(eq(llcApplicationsTable.orderId, Number(orderId))).limit(1);
+        
+        const [doc] = await db.insert(applicationDocumentsTable).values({
+          orderId: Number(orderId),
+          applicationId: llcApp?.id || null,
+          fileName: docTypeLabels[documentType] || fileName,
+          fileType,
+          fileUrl: `/uploads/admin-docs/${safeFileName}`,
+          documentType: documentType,
+          reviewStatus: 'approved',
+          uploadedBy: req.session.userId
+        }).returning();
+
+        // Notify user
+        const [order] = await db.select().from(ordersTable).where(eq(ordersTable.id, Number(orderId))).limit(1);
+        if (order?.userId) {
+          await db.insert(userNotifications).values({
+            userId: order.userId,
+            orderId: Number(orderId),
+            orderCode: llcApp?.requestCode || order.invoiceNumber || '',
+            title: 'Nuevo documento disponible',
+            message: `Se ha añadido el documento "${docTypeLabels[documentType] || 'Documento'}" a tu expediente.`,
+            type: 'info',
+            isRead: false
+          });
+        }
+        
+        res.json(doc);
+      });
+
+      req.pipe(bb);
+    } catch (error) {
+      console.error("Admin upload doc error:", error);
+      res.status(500).json({ message: "Error uploading document" });
+    }
+  });
+
   app.get("/api/admin/documents", isAdmin, async (req, res) => {
     try {
       const docs = await db.select().from(applicationDocumentsTable)
