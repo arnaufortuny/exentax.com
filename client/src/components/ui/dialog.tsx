@@ -59,8 +59,8 @@ const DialogContent = React.forwardRef<
       style={{
         position: 'fixed',
         left: '50%',
-        top: '50%',
-        transform: 'translate(-50%, -50%)',
+        top: '5%',
+        transform: 'translateX(-50%)',
         zIndex: 99999,
         maxHeight: '90vh',
       }}
