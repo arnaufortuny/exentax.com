@@ -169,139 +169,138 @@ export function generateInvoicePdf(data: InvoiceData): Promise<Buffer> {
       doc.on('end', () => resolve(Buffer.concat(chunks)));
       doc.on('error', reject);
 
-      // Header bar
-      doc.rect(0, 0, 595, 70).fill(BRAND_DARK);
+      // Background decoration
+      doc.rect(0, 0, 595, 842).fill('#FFFFFF');
+      doc.rect(0, 0, 595, 180).fill(BRAND_DARK);
+      
+      // Header & Logo
       const logoPath = getLogoPath();
-      if (logoPath) { try { doc.image(logoPath, 40, 10, { width: 45, height: 45 }); } catch {} }
-      doc.font('Helvetica-Bold').fontSize(18).fillColor('#FFFFFF').text('Easy US LLC', 95, 18);
-      doc.font('Helvetica').fontSize(8).fillColor('#9CA3AF').text('Formacion de LLC en USA', 95, 38);
-      doc.text('easyusllc.com | hola@easyusllc.com', 95, 50);
+      if (logoPath) { try { doc.image(logoPath, 45, 40, { width: 50, height: 50 }); } catch {} }
+      
+      doc.font('Helvetica-Bold').fontSize(22).fillColor('#FFFFFF').text('Easy US LLC', 105, 45);
+      doc.font('Helvetica').fontSize(9).fillColor(BRAND_GREEN).text('BEYOND BORDERS BUSINESS', 105, 72);
+      
+      // Invoice Info Right Aligned
+      doc.font('Helvetica-Bold').fontSize(28).fillColor('#FFFFFF').text('FACTURA', 350, 45, { align: 'right', width: 200 });
+      doc.font('Helvetica').fontSize(10).fillColor('#9CA3AF').text(`№ ${data.orderNumber}`, 350, 78, { align: 'right', width: 200 });
 
-      // Invoice badge
-      doc.rect(420, 12, 135, 45).fill(BRAND_GREEN);
-      doc.font('Helvetica').fontSize(8).fillColor(BRAND_DARK).text('FACTURA', 440, 18);
-      doc.font('Helvetica-Bold').fontSize(12).text(data.orderNumber, 430, 32, { width: 115, align: 'center' });
+      let y = 200;
 
-      let y = 85;
-
-      // Date row
+      // Two columns: Company | Customer
+      // EMISOR
+      doc.font('Helvetica-Bold').fontSize(10).fillColor(BRAND_DARK).text('EMISOR', 45, y);
+      doc.font('Helvetica-Bold').fontSize(11).text('Fortuny Consulting LLC', 45, y + 18);
       doc.font('Helvetica').fontSize(9).fillColor(BRAND_GRAY);
-      doc.text(`Fecha: ${formatDate(data.date)}`, 40, y);
-      if (data.status === 'paid' && data.paymentDate) {
-        doc.text(`Pagado: ${formatDate(data.paymentDate)}`, 180, y);
-      }
-      y += 20;
+      doc.text('Easy US LLC (Brand)', 45, y + 34);
+      doc.text('1209 Mountain Road Place NE, STE R', 45, y + 48);
+      doc.text('Albuquerque, NM 87110, USA', 45, y + 62);
+      doc.text('hola@easyusllc.com', 45, y + 76);
 
-      // Two columns: Customer | Company
-      doc.rect(40, y, 250, 85).fillAndStroke(BRAND_LIGHT_GRAY, '#E5E7EB');
-      doc.font('Helvetica-Bold').fontSize(8).fillColor(BRAND_DARK).text('CLIENTE', 50, y + 8);
-      doc.font('Helvetica-Bold').fontSize(10).text(data.customer.name, 50, y + 22);
-      let cy = y + 36;
+      // CLIENTE
+      const clientX = 350;
+      doc.font('Helvetica-Bold').fontSize(10).fillColor(BRAND_DARK).text('CLIENTE', clientX, y);
+      doc.font('Helvetica-Bold').fontSize(11).text(data.customer.name, clientX, y + 18);
+      doc.font('Helvetica').fontSize(9).fillColor(BRAND_GRAY);
+      let cy = y + 34;
       if (data.customer.idType && data.customer.idNumber) {
-        doc.font('Helvetica').fontSize(8).fillColor(BRAND_GRAY).text(`${data.customer.idType}: ${data.customer.idNumber}`, 50, cy);
-        cy += 11;
+        doc.text(`${data.customer.idType}: ${data.customer.idNumber}`, clientX, cy);
+        cy += 14;
       }
-      doc.font('Helvetica').fontSize(8).fillColor(BRAND_GRAY).text(data.customer.email, 50, cy);
-      cy += 11;
-      if (data.customer.phone) { doc.text(data.customer.phone, 50, cy); cy += 11; }
+      doc.text(data.customer.email, clientX, cy);
+      cy += 14;
+      if (data.customer.phone) { doc.text(data.customer.phone, clientX, cy); cy += 14; }
       if (data.customer.address) {
         const addr = [data.customer.streetType, data.customer.address, data.customer.postalCode, data.customer.city, data.customer.country].filter(Boolean).join(', ');
-        doc.fontSize(7).text(addr, 50, cy, { width: 230 });
+        doc.fontSize(8).text(addr, clientX, cy, { width: 200 });
       }
+      
+      y += 110;
 
-      doc.rect(305, y, 250, 85).fillAndStroke(BRAND_LIGHT_GRAY, '#E5E7EB');
-      doc.font('Helvetica-Bold').fontSize(8).fillColor(BRAND_DARK).text('EMISOR', 315, y + 8);
-      doc.font('Helvetica-Bold').fontSize(9).text('Fortuny Consulting LLC', 315, y + 22);
-      doc.font('Helvetica').fontSize(8).fillColor(BRAND_GRAY);
-      doc.text('(operando como Easy US LLC)', 315, y + 34);
-      doc.text('1209 Mountain Road Place NE, STE R', 315, y + 46);
-      doc.text('Albuquerque, NM 87110, USA', 315, y + 58);
-      doc.text('hola@easyusllc.com', 315, y + 70);
-      y += 95;
-
-      // Items table
-      y += 10;
-      doc.rect(40, y, 515, 22).fill('#1F2937');
-      doc.font('Helvetica-Bold').fontSize(8).fillColor('#FFFFFF');
-      doc.text('CONCEPTO', 50, y + 7); doc.text('CANT', 360, y + 7); doc.text('PRECIO', 410, y + 7); doc.text('TOTAL', 480, y + 7);
-      y += 22;
-
-      for (const item of data.items) {
-        doc.rect(40, y, 515, 28).fillAndStroke('#FFFFFF', '#E5E7EB');
-        doc.font('Helvetica-Bold').fontSize(9).fillColor(BRAND_DARK).text(item.description, 50, y + 5, { width: 290 });
-        if (item.details) {
-          doc.font('Helvetica').fontSize(7).fillColor(BRAND_GRAY).text(item.details, 50, y + 16, { width: 290 });
-        }
-        doc.font('Helvetica').fontSize(9).fillColor(BRAND_DARK);
-        doc.text(item.quantity.toString(), 368, y + 10);
-        doc.text(formatCurrency(item.unitPrice, data.currency), 400, y + 10);
-        doc.font('Helvetica-Bold').text(formatCurrency(item.total, data.currency), 470, y + 10);
-        y += 28;
-      }
-
-      // Discount
-      if (data.discount && data.discount.amount > 0) {
-        doc.rect(40, y, 515, 22).fillAndStroke(BRAND_LIGHT_GREEN, '#10B981');
-        doc.font('Helvetica-Bold').fontSize(8).fillColor('#059669');
-        let discText = 'Descuento';
-        if (data.discount.code) discText += `: ${data.discount.code}`;
-        if (data.discount.type === 'percentage' && data.discount.value) discText += ` (${data.discount.value}%)`;
-        doc.text(discText, 50, y + 7);
-        doc.text(`-${formatCurrency(data.discount.amount, data.currency)}`, 470, y + 7);
-        y += 27;
-      }
-
-      // Totals section
-      y += 5;
-      const totalsX = 350;
-      doc.rect(totalsX, y, 205, 50).fill(BRAND_LIGHT_GRAY);
-      doc.font('Helvetica').fontSize(9).fillColor(BRAND_GRAY);
-      doc.text('Subtotal:', totalsX + 10, y + 8);
-      doc.text(formatCurrency(data.subtotal, data.currency), totalsX + 130, y + 8);
-      if (data.discount && data.discount.amount > 0) {
-        doc.fillColor('#059669').text('Descuento:', totalsX + 10, y + 22);
-        doc.text(`-${formatCurrency(data.discount.amount, data.currency)}`, totalsX + 130, y + 22);
-      }
-      doc.rect(totalsX, y + 35, 205, 28).fill(BRAND_GREEN);
-      doc.font('Helvetica-Bold').fontSize(10).fillColor(BRAND_DARK).text('TOTAL:', totalsX + 10, y + 43);
-      doc.fontSize(14).text(formatCurrency(data.total, data.currency), totalsX + 100, y + 41);
-
-      // Status badge
+      // Dates & Status
+      doc.rect(45, y, 505, 45).fill(BRAND_LIGHT_GRAY);
+      doc.font('Helvetica-Bold').fontSize(8).fillColor(BRAND_GRAY).text('FECHA EMISIÓN', 60, y + 12);
+      doc.font('Helvetica-Bold').fontSize(10).fillColor(BRAND_DARK).text(formatDate(data.date), 60, y + 24);
+      
+      doc.font('Helvetica-Bold').fontSize(8).fillColor(BRAND_GRAY).text('VENCIMIENTO', 180, y + 12);
+      doc.font('Helvetica-Bold').fontSize(10).fillColor(BRAND_DARK).text(data.dueDate ? formatDate(data.dueDate) : formatDate(data.date), 180, y + 24);
+      
+      doc.font('Helvetica-Bold').fontSize(8).fillColor(BRAND_GRAY).text('ESTADO', 320, y + 12);
       const statusColors: Record<string, string> = { pending: '#F59E0B', paid: '#10B981', cancelled: '#EF4444', refunded: '#8B5CF6' };
       const sColor = statusColors[data.status] || '#10B981';
-      doc.rect(40, y + 8, 85, 25).fillAndStroke(data.status === 'paid' ? BRAND_LIGHT_GREEN : '#FEF3C7', sColor);
-      doc.font('Helvetica-Bold').fontSize(10).fillColor(sColor).text(getStatusText(data.status), 45, y + 15, { width: 75, align: 'center' });
+      doc.font('Helvetica-Bold').fontSize(10).fillColor(sColor).text(getStatusText(data.status), 320, y + 24);
 
-      y += 75;
+      y += 70;
 
-      // Payment info (real bank details)
-      doc.rect(40, y, 250, 85).fillAndStroke('#FFFFFF', '#E5E7EB');
-      doc.font('Helvetica-Bold').fontSize(8).fillColor(BRAND_DARK).text('DATOS DE PAGO', 50, y + 8);
-      doc.font('Helvetica').fontSize(8).fillColor(BRAND_GRAY);
-      doc.text(`Metodo: ${getPaymentMethodText(data.paymentMethod)}`, 50, y + 22);
-      doc.text(`Banco: ${BANK_INFO.name}`, 50, y + 34);
-      doc.text(`Titular: ${BANK_INFO.holder}`, 50, y + 46);
-      doc.text(`Cuenta: ${BANK_INFO.account}`, 50, y + 58);
-      doc.text(`Routing: ${BANK_INFO.routing} | SWIFT: ${BANK_INFO.swift}`, 50, y + 70);
+      // Table Header
+      doc.rect(45, y, 505, 30).fill(BRAND_DARK);
+      doc.font('Helvetica-Bold').fontSize(9).fillColor('#FFFFFF');
+      doc.text('DESCRIPCIÓN', 60, y + 10);
+      doc.text('CANT', 360, y + 10);
+      doc.text('PRECIO', 420, y + 10);
+      doc.text('TOTAL', 490, y + 10);
+      y += 30;
 
-      // Payment link box (if pending)
+      // Table Rows
+      for (const item of data.items) {
+        doc.rect(45, y, 505, 40).fill(y % 80 === 0 ? '#FFFFFF' : '#FAFAFA');
+        doc.font('Helvetica-Bold').fontSize(10).fillColor(BRAND_DARK).text(item.description, 60, y + 10, { width: 280 });
+        if (item.details) {
+          doc.font('Helvetica').fontSize(8).fillColor(BRAND_GRAY).text(item.details, 60, y + 22, { width: 280 });
+        }
+        doc.font('Helvetica').fontSize(10).fillColor(BRAND_DARK);
+        doc.text(item.quantity.toString(), 365, y + 15);
+        doc.text(formatCurrency(item.unitPrice, data.currency), 415, y + 15);
+        doc.font('Helvetica-Bold').text(formatCurrency(item.total, data.currency), 485, y + 15);
+        
+        doc.moveTo(45, y + 40).lineTo(550, y + 40).strokeColor('#EEEEEE').lineWidth(0.5).stroke();
+        y += 40;
+      }
+
+      // Totals
+      y += 20;
+      const totalX = 350;
+      doc.font('Helvetica').fontSize(10).fillColor(BRAND_GRAY).text('Subtotal', totalX, y);
+      doc.font('Helvetica-Bold').fontSize(10).fillColor(BRAND_DARK).text(formatCurrency(data.subtotal, data.currency), totalX + 130, y, { align: 'right', width: 70 });
+      y += 20;
+
+      if (data.discount && data.discount.amount > 0) {
+        doc.font('Helvetica').fontSize(10).fillColor('#10B981').text(`Descuento (${data.discount.code || ''})`, totalX, y);
+        doc.font('Helvetica-Bold').fontSize(10).fillColor('#10B981').text(`-${formatCurrency(data.discount.amount, data.currency)}`, totalX + 130, y, { align: 'right', width: 70 });
+        y += 20;
+      }
+
+      doc.rect(totalX - 10, y, 215, 40).fill(BRAND_DARK);
+      doc.font('Helvetica-Bold').fontSize(12).fillColor('#FFFFFF').text('TOTAL', totalX, y + 14);
+      doc.fontSize(16).fillColor(BRAND_GREEN).text(formatCurrency(data.total, data.currency), totalX + 80, y + 12, { align: 'right', width: 120 });
+      y += 60;
+
+      // Payment Info
+      doc.font('Helvetica-Bold').fontSize(10).fillColor(BRAND_DARK).text('MÉTODO DE PAGO', 45, y);
+      doc.rect(45, y + 15, 505, 75).strokeColor('#E5E7EB').lineWidth(1).stroke();
+      
+      const px = 60;
+      doc.font('Helvetica-Bold').fontSize(8).fillColor(BRAND_GRAY).text('BANCO', px, y + 25);
+      doc.font('Helvetica-Bold').fontSize(9).fillColor(BRAND_DARK).text(BANK_INFO.name, px, y + 37);
+      
+      doc.font('Helvetica-Bold').fontSize(8).fillColor(BRAND_GRAY).text('TITULAR', px + 120, y + 25);
+      doc.font('Helvetica-Bold').fontSize(9).fillColor(BRAND_DARK).text(BANK_INFO.holder, px + 120, y + 37);
+      
+      doc.font('Helvetica-Bold').fontSize(8).fillColor(BRAND_GRAY).text('NÚMERO DE CUENTA', px + 280, y + 25);
+      doc.font('Helvetica-Bold').fontSize(9).fillColor(BRAND_DARK).text(BANK_INFO.account, px + 280, y + 37);
+
+      doc.font('Helvetica-Bold').fontSize(8).fillColor(BRAND_GRAY).text('ROUTING / SWIFT', px, y + 60);
+      doc.font('Helvetica-Bold').fontSize(9).fillColor(BRAND_DARK).text(`${BANK_INFO.routing} / ${BANK_INFO.swift}`, px, y + 72);
+
       if (data.status === 'pending' && data.paymentLink) {
-        doc.rect(305, y, 250, 85).fillAndStroke('#FEF3C7', '#F59E0B');
-        doc.font('Helvetica-Bold').fontSize(9).fillColor('#92400E').text('ENLACE DE PAGO', 315, y + 10);
-        doc.font('Helvetica').fontSize(8).fillColor('#78350F').text(data.paymentLink, 315, y + 26, { width: 230, link: data.paymentLink });
-        doc.fontSize(7).text('Haz clic o copia el enlace para pagar.', 315, y + 50);
-        doc.text('Valido por 7 dias desde la emision.', 315, y + 62);
-      } else if (data.notes) {
-        doc.rect(305, y, 250, 85).fillAndStroke('#FFFFFF', '#E5E7EB');
-        doc.font('Helvetica-Bold').fontSize(8).fillColor(BRAND_DARK).text('NOTAS', 315, y + 8);
-        doc.font('Helvetica').fontSize(8).fillColor(BRAND_GRAY).text(data.notes, 315, y + 22, { width: 230 });
+        y += 110;
+        doc.rect(45, y, 505, 40).fill(BRAND_GREEN);
+        doc.font('Helvetica-Bold').fontSize(10).fillColor(BRAND_DARK).text('PAGAR ONLINE AHORA →', 60, y + 14);
+        doc.font('Helvetica').fontSize(9).fillColor(BRAND_DARK).text(data.paymentLink, 250, y + 14, { link: data.paymentLink, underline: true });
       }
 
       // Footer
-      doc.moveTo(40, 780).lineTo(555, 780).strokeColor('#E5E7EB').lineWidth(0.5).stroke();
-      doc.font('Helvetica').fontSize(7).fillColor(BRAND_GRAY);
-      doc.text('Documento oficial emitido por Fortuny Consulting LLC (Easy US LLC). Valido sin firma.', 40, 788, { align: 'center', width: 515 });
-      doc.text('hola@easyusllc.com | +34 614 91 69 10 | easyusllc.com', 40, 798, { align: 'center', width: 515 });
+      doc.fontSize(8).fillColor(BRAND_GRAY).text('Easy US LLC es una marca comercial de Fortuny Consulting LLC.', 45, 780, { align: 'center', width: 505 });
+      doc.text('1209 Mountain Road Place NE, STE R, Albuquerque, NM 87110, USA', 45, 795, { align: 'center', width: 505 });
 
       doc.end();
     } catch (error) {
@@ -321,103 +320,100 @@ export function generateReceiptPdf(data: ReceiptData): Promise<Buffer> {
       doc.on('end', () => resolve(Buffer.concat(chunks)));
       doc.on('error', reject);
 
-      // Header
-      doc.rect(0, 0, 595, 70).fill(BRAND_DARK);
+      // Background
+      doc.rect(0, 0, 595, 842).fill('#FFFFFF');
+      doc.rect(0, 0, 595, 160).fill(BRAND_DARK);
+      
+      // Logo & Header
       const logoPath = getLogoPath();
-      if (logoPath) { try { doc.image(logoPath, 40, 10, { width: 45, height: 45 }); } catch {} }
-      doc.font('Helvetica-Bold').fontSize(18).fillColor('#FFFFFF').text('Easy US LLC', 95, 18);
-      doc.font('Helvetica').fontSize(8).fillColor('#9CA3AF').text('Formacion de LLC en USA', 95, 38);
-      doc.text('easyusllc.com | hola@easyusllc.com', 95, 50);
+      if (logoPath) { try { doc.image(logoPath, 45, 35, { width: 45, height: 45 }); } catch {} }
+      
+      doc.font('Helvetica-Bold').fontSize(20).fillColor('#FFFFFF').text('Easy US LLC', 100, 40);
+      doc.font('Helvetica').fontSize(8).fillColor(BRAND_GREEN).text('CONFIRMACIÓN DE SERVICIO', 100, 62);
+      
+      // Receipt Title
+      doc.font('Helvetica-Bold').fontSize(24).fillColor('#FFFFFF').text(data.isMaintenance ? 'MANTENIMIENTO' : 'RECIBO', 350, 40, { align: 'right', width: 200 });
+      doc.font('Helvetica').fontSize(10).fillColor('#9CA3AF').text(`REF: ${data.requestCode}`, 350, 70, { align: 'right', width: 200 });
 
-      // Receipt badge
-      doc.rect(400, 12, 155, 45).fill(BRAND_GREEN);
-      doc.font('Helvetica').fontSize(8).fillColor(BRAND_DARK).text(data.isMaintenance ? 'MANTENIMIENTO' : 'RECIBO', 430, 18);
-      doc.font('Helvetica-Bold').fontSize(11).text(data.requestCode, 410, 34, { width: 135, align: 'center' });
+      let y = 180;
 
-      let y = 85;
+      // Customer & LLC info columns
+      // CLIENTE
+      doc.font('Helvetica-Bold').fontSize(10).fillColor(BRAND_DARK).text('CLIENTE', 45, y);
+      doc.font('Helvetica-Bold').fontSize(11).text(data.customer.name, 45, y + 18);
       doc.font('Helvetica').fontSize(9).fillColor(BRAND_GRAY);
-      doc.text(`Fecha: ${formatDate(data.date)}`, 40, y);
-      doc.text(`Pedido: ${data.orderNumber}`, 200, y);
-      if (data.paymentDate) doc.text(`Pagado: ${formatDate(data.paymentDate)}`, 380, y);
-      y += 25;
-
-      // Customer box
-      doc.rect(40, y, 250, 90).fillAndStroke(BRAND_LIGHT_GRAY, '#E5E7EB');
-      doc.font('Helvetica-Bold').fontSize(8).fillColor(BRAND_DARK).text('CLIENTE', 50, y + 8);
-      doc.font('Helvetica-Bold').fontSize(10).text(data.customer.name, 50, y + 22);
-      let cy = y + 36;
-      if (data.customer.idType && data.customer.idNumber) {
-        doc.font('Helvetica').fontSize(8).fillColor(BRAND_GRAY).text(`${data.customer.idType}: ${data.customer.idNumber}`, 50, cy);
-        cy += 11;
-      }
-      doc.font('Helvetica').fontSize(8).fillColor(BRAND_GRAY).text(data.customer.email, 50, cy);
-      cy += 11;
-      if (data.customer.phone) doc.text(data.customer.phone, 50, cy);
+      let cy = y + 34;
+      doc.text(data.customer.email, 45, cy);
+      cy += 14;
+      if (data.customer.phone) { doc.text(data.customer.phone, 45, cy); cy += 14; }
       if (data.customer.address) {
         const addr = [data.customer.streetType, data.customer.address, data.customer.postalCode, data.customer.city].filter(Boolean).join(', ');
-        doc.fontSize(7).text(addr, 50, y + 75, { width: 230 });
+        doc.fontSize(8).text(addr, 45, cy, { width: 230 });
       }
 
-      // LLC Details box
+      // DATOS DE LA LLC
+      const llcX = 320;
       if (data.llcDetails && (data.llcDetails.companyName || data.llcDetails.state)) {
-        doc.rect(305, y, 250, 90).fillAndStroke(BRAND_LIGHT_GREEN, '#86EFAC');
-        doc.font('Helvetica-Bold').fontSize(8).fillColor(BRAND_DARK).text('DATOS DE LA LLC', 315, y + 8);
-        let ly = y + 22;
+        doc.font('Helvetica-Bold').fontSize(10).fillColor(BRAND_DARK).text('DATOS DE LA LLC', llcX, y);
+        doc.rect(llcX - 10, y + 15, 240, 85).fill(BRAND_LIGHT_GREEN);
+        
+        let ly = y + 25;
         if (data.llcDetails.companyName) {
-          doc.font('Helvetica-Bold').fontSize(10).text(`${data.llcDetails.companyName} ${data.llcDetails.designator || 'LLC'}`, 315, ly);
-          ly += 14;
+          doc.font('Helvetica-Bold').fontSize(11).fillColor(BRAND_DARK).text(`${data.llcDetails.companyName} ${data.llcDetails.designator || 'LLC'}`, llcX, ly);
+          ly += 16;
         }
-        doc.font('Helvetica').fontSize(8).fillColor(BRAND_GRAY);
-        if (data.llcDetails.state) { doc.text(`Estado: ${data.llcDetails.state}`, 315, ly); ly += 11; }
-        if (data.llcDetails.ein) { doc.text(`EIN: ${data.llcDetails.ein}`, 315, ly); ly += 11; }
-        if (data.llcDetails.creationDate) { doc.text(`Constituida: ${formatDate(data.llcDetails.creationDate)}`, 315, ly); ly += 11; }
-        if (data.llcDetails.registeredAgent) { doc.text(`Agente: ${data.llcDetails.registeredAgent}`, 315, ly); }
+        doc.font('Helvetica').fontSize(9).fillColor(BRAND_GRAY);
+        if (data.llcDetails.state) { doc.text(`Estado: ${data.llcDetails.state}`, llcX, ly); ly += 14; }
+        if (data.llcDetails.ein) { doc.text(`EIN: ${data.llcDetails.ein}`, llcX, ly); ly += 14; }
+        if (data.llcDetails.creationDate) { doc.text(`Constituida: ${formatDate(data.llcDetails.creationDate)}`, llcX, ly); }
       }
-      y += 100;
 
-      // Service box
-      doc.rect(40, y, 350, 75).fillAndStroke('#FFFFFF', '#E5E7EB');
-      doc.font('Helvetica-Bold').fontSize(8).fillColor(BRAND_DARK).text('SERVICIO CONTRATADO', 50, y + 8);
-      doc.font('Helvetica-Bold').fontSize(12).text(data.service.name, 50, y + 24);
+      y += 115;
+
+      // Summary Bar
+      doc.rect(45, y, 505, 40).fill(BRAND_LIGHT_GRAY);
+      doc.font('Helvetica-Bold').fontSize(8).fillColor(BRAND_GRAY).text('FECHA', 60, y + 10);
+      doc.font('Helvetica-Bold').fontSize(10).fillColor(BRAND_DARK).text(formatDate(data.date), 60, y + 22);
+      
+      doc.font('Helvetica-Bold').fontSize(8).fillColor(BRAND_GRAY).text('PEDIDO №', 180, y + 10);
+      doc.font('Helvetica-Bold').fontSize(10).fillColor(BRAND_DARK).text(data.orderNumber, 180, y + 22);
+      
+      doc.font('Helvetica-Bold').fontSize(8).fillColor(BRAND_GRAY).text('MÉTODO', 320, y + 10);
+      doc.font('Helvetica-Bold').fontSize(10).fillColor(BRAND_DARK).text(getPaymentMethodText(data.paymentMethod), 320, y + 22);
+
+      y += 65;
+
+      // Service Details
+      doc.font('Helvetica-Bold').fontSize(10).fillColor(BRAND_DARK).text('DETALLE DEL SERVICIO', 45, y);
+      doc.rect(45, y + 15, 505, 80).strokeColor('#E5E7EB').lineWidth(1).stroke();
+      
+      doc.font('Helvetica-Bold').fontSize(14).fillColor(BRAND_DARK).text(data.service.name, 60, y + 30);
       if (data.service.description) {
-        doc.font('Helvetica').fontSize(8).fillColor(BRAND_GRAY).text(data.service.description, 50, y + 42, { width: 330 });
+        doc.font('Helvetica').fontSize(9).fillColor(BRAND_GRAY).text(data.service.description, 60, y + 50, { width: 320 });
       }
-      if (data.service.state) {
-        doc.font('Helvetica').fontSize(8).fillColor(BRAND_GRAY).text(`Estado: ${data.service.state}`, 50, y + 60);
-      }
+      
+      // Amount Box
+      doc.rect(400, y + 15, 150, 80).fill(BRAND_GREEN);
+      doc.font('Helvetica-Bold').fontSize(9).fillColor(BRAND_DARK).text('PAGADO TOTAL', 415, y + 30);
+      doc.fontSize(20).text(formatCurrency(data.amount, data.currency), 415, y + 50, { width: 120, align: 'center' });
 
-      // Amount box
-      doc.rect(405, y, 150, 75).fill(BRAND_GREEN);
-      doc.font('Helvetica').fontSize(9).fillColor(BRAND_DARK).text('TOTAL PAGADO', 420, y + 15);
-      doc.font('Helvetica-Bold').fontSize(22).text(formatCurrency(data.amount, data.currency), 415, y + 35, { width: 130, align: 'center' });
-      y += 85;
-
-      // Payment details
-      doc.rect(40, y, 250, 70).fillAndStroke('#FFFFFF', '#E5E7EB');
-      doc.font('Helvetica-Bold').fontSize(8).fillColor(BRAND_DARK).text('DETALLES DEL PAGO', 50, y + 8);
-      doc.font('Helvetica').fontSize(8).fillColor(BRAND_GRAY);
-      doc.text(`Metodo: ${getPaymentMethodText(data.paymentMethod)}`, 50, y + 22);
-      if (data.transactionId) doc.text(`ID: ${data.transactionId}`, 50, y + 34);
-      doc.text(`Banco: ${BANK_INFO.name}`, 50, y + 46);
-      doc.text(`Cuenta: ${BANK_INFO.account}`, 50, y + 58);
-
-      // Thank you box
-      doc.rect(305, y, 250, 70).fill(BRAND_LIGHT_GREEN);
-      doc.font('Helvetica-Bold').fontSize(11).fillColor('#059669').text('¡Gracias por confiar en Easy US LLC!', 315, y + 18, { width: 230, align: 'center' });
-      doc.font('Helvetica').fontSize(8).fillColor(BRAND_GRAY).text('Estamos procesando tu solicitud. Te mantendremos informado de cada avance.', 315, y + 38, { width: 230, align: 'center' });
-      y += 80;
+      y += 115;
 
       // Notes
       if (data.notes) {
-        doc.font('Helvetica-Bold').fontSize(8).fillColor(BRAND_GRAY).text('Notas:', 40, y);
-        doc.font('Helvetica').fontSize(8).text(data.notes, 40, y + 12, { width: 515 });
+        doc.font('Helvetica-Bold').fontSize(10).fillColor(BRAND_DARK).text('NOTAS ADICIONALES', 45, y);
+        doc.font('Helvetica').fontSize(9).fillColor(BRAND_GRAY).text(data.notes, 45, y + 18, { width: 505 });
+        y += 50;
       }
 
+      // Success Message
+      doc.rect(45, y, 505, 50).fill(BRAND_LIGHT_GREEN);
+      doc.font('Helvetica-Bold').fontSize(11).fillColor('#059669').text('¡Gracias por confiar en Easy US LLC!', 45, y + 15, { align: 'center', width: 505 });
+      doc.font('Helvetica').fontSize(9).fillColor('#059669').text('Tu pedido está siendo procesado por nuestro equipo de expertos.', 45, y + 30, { align: 'center', width: 505 });
+
       // Footer
-      doc.moveTo(40, 780).lineTo(555, 780).strokeColor('#E5E7EB').lineWidth(0.5).stroke();
-      doc.font('Helvetica').fontSize(7).fillColor(BRAND_GRAY);
-      doc.text('Documento oficial emitido por Fortuny Consulting LLC (Easy US LLC).', 40, 788, { align: 'center', width: 515 });
-      doc.text('hola@easyusllc.com | +34 614 91 69 10 | easyusllc.com', 40, 798, { align: 'center', width: 515 });
+      doc.fontSize(8).fillColor(BRAND_GRAY).text('Documento oficial de confirmación de pago.', 45, 780, { align: 'center', width: 505 });
+      doc.text('Easy US LLC | hola@easyusllc.com | easyusllc.com', 45, 795, { align: 'center', width: 505 });
 
       doc.end();
     } catch (error) {
@@ -437,82 +433,101 @@ export function generateCustomInvoicePdf(data: CustomInvoiceData): Promise<Buffe
       doc.on('end', () => resolve(Buffer.concat(chunks)));
       doc.on('error', reject);
 
-      // Header
-      doc.rect(0, 0, 595, 70).fill(BRAND_DARK);
+      // Background
+      doc.rect(0, 0, 595, 842).fill('#FFFFFF');
+      doc.rect(0, 0, 595, 160).fill(BRAND_DARK);
+      
+      // Logo & Header
       const logoPath = getLogoPath();
-      if (logoPath) { try { doc.image(logoPath, 40, 10, { width: 45, height: 45 }); } catch {} }
-      doc.font('Helvetica-Bold').fontSize(18).fillColor('#FFFFFF').text('Easy US LLC', 95, 18);
-      doc.font('Helvetica').fontSize(8).fillColor('#9CA3AF').text('Formacion de LLC en USA', 95, 38);
-      doc.text('easyusllc.com | hola@easyusllc.com', 95, 50);
+      if (logoPath) { try { doc.image(logoPath, 45, 35, { width: 45, height: 45 }); } catch {} }
+      
+      doc.font('Helvetica-Bold').fontSize(20).fillColor('#FFFFFF').text('Easy US LLC', 100, 40);
+      doc.font('Helvetica').fontSize(8).fillColor(BRAND_GREEN).text('FACTURA MANUAL', 100, 62);
+      
+      // Invoice Title
+      doc.font('Helvetica-Bold').fontSize(24).fillColor('#FFFFFF').text('FACTURA', 350, 40, { align: 'right', width: 200 });
+      doc.font('Helvetica').fontSize(10).fillColor('#9CA3AF').text(`№ ${data.invoiceNumber}`, 350, 70, { align: 'right', width: 200 });
 
-      doc.rect(420, 12, 135, 45).fill(BRAND_GREEN);
-      doc.font('Helvetica').fontSize(8).fillColor(BRAND_DARK).text('FACTURA', 450, 18);
-      doc.font('Helvetica-Bold').fontSize(11).text(data.invoiceNumber, 430, 34, { width: 115, align: 'center' });
+      let y = 180;
 
-      let y = 85;
-      doc.font('Helvetica').fontSize(9).fillColor(BRAND_GRAY).text(`Fecha: ${formatDate(data.date)}`, 40, y);
-      y += 25;
+      // Two columns: Company | Customer
+      // EMISOR
+      doc.font('Helvetica-Bold').fontSize(10).fillColor(BRAND_DARK).text('EMISOR', 45, y);
+      doc.font('Helvetica-Bold').fontSize(11).text('Fortuny Consulting LLC', 45, y + 18);
+      doc.font('Helvetica').fontSize(9).fillColor(BRAND_GRAY);
+      doc.text('1209 Mountain Road Place NE, STE R', 45, y + 34);
+      doc.text('Albuquerque, NM 87110, USA', 45, y + 48);
+      doc.text('hola@easyusllc.com', 45, y + 62);
 
-      // Customer
-      doc.rect(40, y, 250, 80).fillAndStroke(BRAND_LIGHT_GRAY, '#E5E7EB');
-      doc.font('Helvetica-Bold').fontSize(8).fillColor(BRAND_DARK).text('CLIENTE', 50, y + 8);
-      doc.font('Helvetica-Bold').fontSize(10).text(data.customer.name, 50, y + 22);
-      doc.font('Helvetica').fontSize(8).fillColor(BRAND_GRAY).text(data.customer.email, 50, y + 36);
-      if (data.customer.phone) doc.text(data.customer.phone, 50, y + 48);
-
-      // Company
-      doc.rect(305, y, 250, 80).fillAndStroke(BRAND_LIGHT_GRAY, '#E5E7EB');
-      doc.font('Helvetica-Bold').fontSize(8).fillColor(BRAND_DARK).text('EMISOR', 315, y + 8);
-      doc.font('Helvetica-Bold').fontSize(9).text('Fortuny Consulting LLC', 315, y + 22);
-      doc.font('Helvetica').fontSize(8).fillColor(BRAND_GRAY);
-      doc.text('1209 Mountain Road Place NE, STE R', 315, y + 36);
-      doc.text('Albuquerque, NM 87110, USA', 315, y + 48);
-      doc.text('hola@easyusllc.com', 315, y + 60);
-      y += 90;
-
-      // Concept
-      doc.rect(40, y, 515, 22).fill('#1F2937');
-      doc.font('Helvetica-Bold').fontSize(8).fillColor('#FFFFFF').text('CONCEPTO', 50, y + 7);
-      doc.text('IMPORTE', 480, y + 7);
-      y += 22;
-
-      doc.rect(40, y, 515, 40).fillAndStroke('#FFFFFF', '#E5E7EB');
-      doc.font('Helvetica-Bold').fontSize(10).fillColor(BRAND_DARK).text(data.concept, 50, y + 8, { width: 380 });
-      if (data.description) {
-        doc.font('Helvetica').fontSize(8).fillColor(BRAND_GRAY).text(data.description, 50, y + 22, { width: 380 });
+      // CLIENTE
+      const clientX = 350;
+      doc.font('Helvetica-Bold').fontSize(10).fillColor(BRAND_DARK).text('CLIENTE', clientX, y);
+      doc.font('Helvetica-Bold').fontSize(11).text(data.customer.name, clientX, y + 18);
+      doc.font('Helvetica').fontSize(9).fillColor(BRAND_GRAY);
+      doc.text(data.customer.email, clientX, y + 34);
+      if (data.customer.phone) {
+        doc.text(data.customer.phone, clientX, y + 48);
       }
-      doc.font('Helvetica-Bold').fontSize(11).fillColor(BRAND_DARK).text(formatCurrency(data.amount, data.currency), 460, y + 14);
-      y += 50;
+      
+      y += 100;
+
+      // Summary Bar
+      doc.rect(45, y, 505, 40).fill(BRAND_LIGHT_GRAY);
+      doc.font('Helvetica-Bold').fontSize(8).fillColor(BRAND_GRAY).text('FECHA EMISIÓN', 60, y + 10);
+      doc.font('Helvetica-Bold').fontSize(10).fillColor(BRAND_DARK).text(formatDate(data.date), 60, y + 22);
+      
+      doc.font('Helvetica-Bold').fontSize(8).fillColor(BRAND_GRAY).text('ESTADO', 180, y + 10);
+      const sColor = data.status === 'paid' ? '#10B981' : '#F59E0B';
+      doc.font('Helvetica-Bold').fontSize(10).fillColor(sColor).text(getStatusText(data.status), 180, y + 22);
+
+      y += 65;
+
+      // Concept Table
+      doc.rect(45, y, 505, 30).fill(BRAND_DARK);
+      doc.font('Helvetica-Bold').fontSize(9).fillColor('#FFFFFF');
+      doc.text('CONCEPTO / DESCRIPCIÓN', 60, y + 10);
+      doc.text('IMPORTE', 480, y + 10);
+      y += 30;
+
+      doc.rect(45, y, 505, 60).fill('#FAFAFA');
+      doc.font('Helvetica-Bold').fontSize(11).fillColor(BRAND_DARK).text(data.concept, 60, y + 15, { width: 380 });
+      if (data.description) {
+        doc.font('Helvetica').fontSize(9).fillColor(BRAND_GRAY).text(data.description, 60, y + 32, { width: 380 });
+      }
+      doc.font('Helvetica-Bold').fontSize(12).fillColor(BRAND_DARK).text(formatCurrency(data.amount, data.currency), 460, y + 22, { align: 'right', width: 80 });
+      
+      y += 80;
 
       // Total
-      doc.rect(350, y, 205, 35).fill(BRAND_GREEN);
-      doc.font('Helvetica-Bold').fontSize(10).fillColor(BRAND_DARK).text('TOTAL:', 360, y + 10);
-      doc.fontSize(16).text(formatCurrency(data.amount, data.currency), 450, y + 8);
+      const totalX = 350;
+      doc.rect(totalX - 10, y, 215, 45).fill(BRAND_DARK);
+      doc.font('Helvetica-Bold').fontSize(12).fillColor('#FFFFFF').text('TOTAL', totalX, y + 16);
+      doc.fontSize(18).fillColor(BRAND_GREEN).text(formatCurrency(data.amount, data.currency), totalX + 80, y + 14, { align: 'right', width: 120 });
+      
+      y += 70;
 
-      const sColor = data.status === 'paid' ? '#10B981' : '#F59E0B';
-      doc.rect(40, y + 3, 85, 28).fillAndStroke(data.status === 'paid' ? BRAND_LIGHT_GREEN : '#FEF3C7', sColor);
-      doc.font('Helvetica-Bold').fontSize(10).fillColor(sColor).text(getStatusText(data.status), 45, y + 11, { width: 75, align: 'center' });
-      y += 50;
-
-      // Payment info
-      doc.rect(40, y, 250, 65).fillAndStroke('#FFFFFF', '#E5E7EB');
-      doc.font('Helvetica-Bold').fontSize(8).fillColor(BRAND_DARK).text('DATOS DE PAGO', 50, y + 8);
-      doc.font('Helvetica').fontSize(8).fillColor(BRAND_GRAY);
-      doc.text(`Metodo: ${getPaymentMethodText(data.paymentMethod)}`, 50, y + 22);
-      doc.text(`Banco: ${BANK_INFO.name}`, 50, y + 34);
-      doc.text(`Cuenta: ${BANK_INFO.account}`, 50, y + 46);
+      // Payment Info
+      doc.font('Helvetica-Bold').fontSize(10).fillColor(BRAND_DARK).text('INFORMACIÓN DE PAGO', 45, y);
+      doc.rect(45, y + 15, 505, 65).strokeColor('#E5E7EB').lineWidth(1).stroke();
+      
+      doc.font('Helvetica-Bold').fontSize(8).fillColor(BRAND_GRAY).text('MÉTODO', 60, y + 25);
+      doc.font('Helvetica-Bold').fontSize(9).fillColor(BRAND_DARK).text(getPaymentMethodText(data.paymentMethod), 60, y + 37);
+      
+      doc.font('Helvetica-Bold').fontSize(8).fillColor(BRAND_GRAY).text('BANCO', 180, y + 25);
+      doc.font('Helvetica-Bold').fontSize(9).fillColor(BRAND_DARK).text(BANK_INFO.name, 180, y + 37);
+      
+      doc.font('Helvetica-Bold').fontSize(8).fillColor(BRAND_GRAY).text('CUENTA', 320, y + 25);
+      doc.font('Helvetica-Bold').fontSize(9).fillColor(BRAND_DARK).text(BANK_INFO.account, 320, y + 37);
 
       if (data.notes) {
-        doc.rect(305, y, 250, 65).fillAndStroke('#FFFFFF', '#E5E7EB');
-        doc.font('Helvetica-Bold').fontSize(8).fillColor(BRAND_DARK).text('NOTAS', 315, y + 8);
-        doc.font('Helvetica').fontSize(8).fillColor(BRAND_GRAY).text(data.notes, 315, y + 22, { width: 230 });
+        y += 100;
+        doc.font('Helvetica-Bold').fontSize(10).fillColor(BRAND_DARK).text('NOTAS', 45, y);
+        doc.font('Helvetica').fontSize(9).fillColor(BRAND_GRAY).text(data.notes, 45, y + 18, { width: 505 });
       }
 
       // Footer
-      doc.moveTo(40, 780).lineTo(555, 780).strokeColor('#E5E7EB').lineWidth(0.5).stroke();
-      doc.font('Helvetica').fontSize(7).fillColor(BRAND_GRAY);
-      doc.text('Documento oficial emitido por Fortuny Consulting LLC (Easy US LLC).', 40, 788, { align: 'center', width: 515 });
-      doc.text('hola@easyusllc.com | +34 614 91 69 10 | easyusllc.com', 40, 798, { align: 'center', width: 515 });
+      doc.fontSize(8).fillColor(BRAND_GRAY).text('Documento oficial emitido por Fortuny Consulting LLC.', 45, 780, { align: 'center', width: 505 });
+      doc.text('hola@easyusllc.com | easyusllc.com', 45, 795, { align: 'center', width: 505 });
 
       doc.end();
     } catch (error) {
