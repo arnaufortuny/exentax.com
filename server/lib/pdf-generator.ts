@@ -292,7 +292,7 @@ export function generateInvoicePdf(data: InvoiceData): Promise<Buffer> {
       if (data.status === 'pending' && data.paymentLink) {
         y += 95;
         doc.roundedRect(45, y, 505, 30, 8).fill(BRAND_GREEN);
-        doc.font('Helvetica-Bold').fontSize(10).fillColor(BRAND_DARK).text('PAGAR ONLINE ->', 60, y + 10);
+        doc.font('Helvetica-Bold').fontSize(10).fillColor(BRAND_DARK).text('PAGAR ONLINE', 60, y + 10);
         doc.font('Helvetica').fontSize(9).fillColor(BRAND_DARK).text(data.paymentLink, 180, y + 10, { link: data.paymentLink, underline: true });
       }
 
@@ -384,7 +384,8 @@ export function generateReceiptPdf(data: ReceiptData): Promise<Buffer> {
       
       // Amount (Aligned)
       doc.roundedRect(400, y + 15, 150, 80, 8).fill(BRAND_GREEN);
-      doc.font('Helvetica-Bold').fontSize(9).fillColor(BRAND_DARK).text('TOTAL PAGADO', 415, y + 35);
+      doc.font('Helvetica-Bold').fontSize(9).fillColor(BRAND_DARK).text('TOTAL', 415, y + 25, { width: 120, align: 'center' });
+      doc.text('PAGADO', 415, y + 35, { width: 120, align: 'center' });
       doc.fontSize(20).text(formatCurrency(data.amount, data.currency), 415, y + 55, { width: 120, align: 'center' });
 
       y += 115;
