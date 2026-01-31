@@ -60,6 +60,12 @@ export default function MaintenanceApplication() {
   const [appId, setAppId] = useState<number | null>(null);
   const [requestCode, setRequestCode] = useState<string>("");
   const { toast } = useToast();
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+  }, []);
   
   // OTP verification states
   const [otpCode, setOtpCode] = useState("");
