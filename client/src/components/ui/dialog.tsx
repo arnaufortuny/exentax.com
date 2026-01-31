@@ -34,7 +34,15 @@ const DialogContent = React.forwardRef<
   React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content>
 >(({ className, children, ...props }, ref) => (
   <DialogPortal container={typeof document !== 'undefined' ? document.body : undefined}>
-    <DialogOverlay className="fixed inset-0 z-[9998] bg-black/80 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0" />
+    <DialogPrimitive.Overlay 
+      className="data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0"
+      style={{
+        position: 'fixed',
+        inset: 0,
+        zIndex: 99998,
+        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+      }}
+    />
     <DialogPrimitive.Content
       ref={ref}
       onOpenAutoFocus={(e) => {
@@ -48,8 +56,16 @@ const DialogContent = React.forwardRef<
           });
         }
       }}
+      style={{
+        position: 'fixed',
+        left: '50%',
+        top: '50%',
+        transform: 'translate(-50%, -50%)',
+        zIndex: 99999,
+        maxHeight: '85vh',
+      }}
       className={cn(
-        "fixed left-[50%] top-[50%] z-[9999] grid w-[calc(100vw-2rem)] max-w-[calc(100vw-2rem)] sm:max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 border bg-background p-4 sm:p-6 shadow-xl duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 rounded-2xl max-h-[85vh] overflow-y-auto overscroll-contain",
+        "grid w-[calc(100vw-2rem)] max-w-[calc(100vw-2rem)] sm:max-w-lg gap-4 border bg-background p-4 sm:p-6 shadow-xl duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 rounded-2xl overflow-y-auto overscroll-contain",
         className
       )}
       {...props}
