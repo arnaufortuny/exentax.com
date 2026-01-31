@@ -2425,6 +2425,13 @@ export async function registerRoutes(
       // Check if email already exists
       const [existingUser] = await db.select().from(usersTable).where(eq(usersTable.email, email)).limit(1);
       if (existingUser) {
+        // Check if account is deactivated
+        if (existingUser.isActive === false || existingUser.accountStatus === 'deactivated') {
+          return res.status(403).json({ 
+            message: "Tu cuenta ha sido desactivada. Contacta con nuestro equipo de soporte para más información.",
+            code: "ACCOUNT_DEACTIVATED"
+          });
+        }
         return res.status(400).json({ message: "Este email ya está registrado. Por favor inicia sesión." });
       }
       
@@ -2529,6 +2536,13 @@ export async function registerRoutes(
       // Check if email already exists
       const [existingUser] = await db.select().from(usersTable).where(eq(usersTable.email, email)).limit(1);
       if (existingUser) {
+        // Check if account is deactivated
+        if (existingUser.isActive === false || existingUser.accountStatus === 'deactivated') {
+          return res.status(403).json({ 
+            message: "Tu cuenta ha sido desactivada. Contacta con nuestro equipo de soporte para más información.",
+            code: "ACCOUNT_DEACTIVATED"
+          });
+        }
         return res.status(400).json({ message: "Este email ya está registrado. Por favor inicia sesión." });
       }
       
@@ -3832,6 +3846,13 @@ export async function registerRoutes(
       // Check if email is already registered
       const [existingUser] = await db.select().from(usersTable).where(eq(usersTable.email, email)).limit(1);
       if (existingUser) {
+        // Check if account is deactivated
+        if (existingUser.isActive === false || existingUser.accountStatus === 'deactivated') {
+          return res.status(403).json({ 
+            message: "Tu cuenta ha sido desactivada. Contacta con nuestro equipo de soporte para más información.",
+            code: "ACCOUNT_DEACTIVATED"
+          });
+        }
         return res.status(400).json({ message: "Este email ya está registrado. Por favor inicia sesión." });
       }
       

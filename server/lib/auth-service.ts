@@ -67,6 +67,13 @@ export async function createUser(data: {
 }): Promise<{ user: typeof users.$inferSelect; verificationToken: string }> {
   const existingUser = await db.select().from(users).where(eq(users.email, data.email)).limit(1);
   if (existingUser.length > 0) {
+    const existing = existingUser[0];
+    // Check if account is deactivated
+    if (existing.isActive === false || existing.accountStatus === 'deactivated') {
+      const error = new Error("Tu cuenta ha sido desactivada. Contacta con nuestro equipo de soporte para más información.");
+      (error as any).code = "ACCOUNT_DEACTIVATED";
+      throw error;
+    }
     throw new Error("El email ya está registrado");
   }
 
