@@ -112,13 +112,15 @@ export function Navbar() {
                 <UserIcon className="w-4 h-4" /> {t("nav.login")}
               </Button>
             )}
-            <Button 
-              onClick={() => setLocation("/llc/formation")} 
-              className="bg-accent text-accent-foreground font-black text-sm border-0 rounded-full h-11 px-5 hover:scale-105 transition-all shadow-lg active:scale-95 shadow-accent/20"
-              variant="default"
-            >
-              {t("nav.register")}
-            </Button>
+            {!isAuthenticated && (
+              <Button 
+                onClick={() => setLocation("/llc/formation")} 
+                className="bg-accent text-accent-foreground font-black text-sm border-0 rounded-full h-11 px-5 hover:scale-105 transition-all shadow-lg active:scale-95 shadow-accent/20"
+                variant="default"
+              >
+                {t("nav.register")}
+              </Button>
+            )}
             <div className="flex items-center gap-1">
               <ThemeToggle />
               <LanguageToggle />
@@ -224,16 +226,18 @@ export function Navbar() {
                 </div>
               )}
               <div className="mt-4 px-3 flex flex-col gap-3">
-                <Button 
-                  onClick={() => {
-                    setIsOpen(false);
-                    document.body.style.overflow = '';
-                    setLocation("/llc/formation");
-                  }}
-                  className="w-full bg-accent text-accent-foreground font-black text-sm h-12 shadow-lg active:scale-95 transition-transform flex items-center justify-center gap-2 shadow-accent/20"
-                >
-                  {t("nav.register")} →
-                </Button>
+                {!isAuthenticated && (
+                  <Button 
+                    onClick={() => {
+                      setIsOpen(false);
+                      document.body.style.overflow = '';
+                      setLocation("/llc/formation");
+                    }}
+                    className="w-full bg-accent text-accent-foreground font-black text-sm h-12 shadow-lg active:scale-95 transition-transform flex items-center justify-center gap-2 shadow-accent/20"
+                  >
+                    {t("nav.register")} →
+                  </Button>
+                )}
                 <a 
                   href="https://wa.me/34614916910" 
                   target="_blank" 

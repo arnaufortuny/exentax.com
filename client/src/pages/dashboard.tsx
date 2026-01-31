@@ -781,17 +781,25 @@ export default function Dashboard() {
 
               {activeTab === 'notifications' && (
                 <div key="notifications" className="space-y-6">
-                  <h2 className="text-xl md:text-2xl font-black text-primary tracking-tight">Notificaciones</h2>
+                  <div className="mb-4 md:mb-6">
+                    <h2 className="text-lg md:text-2xl font-black text-primary tracking-tight">Seguimiento</h2>
+                    <p className="text-[11px] md:text-xs text-muted-foreground font-medium">Notificaciones y actualizaciones de tus trámites</p>
+                  </div>
                   {notificationsLoading ? (
                     <div className="space-y-3">
                       {[1, 2, 3].map(i => <div key={i} className="h-24 bg-muted rounded-2xl animate-pulse" />)}
                     </div>
                   ) : notifications?.length === 0 ? (
-                    <Card className="rounded-2xl border-0 shadow-sm">
-                      <CardContent className="p-8 text-center">
-                        <BellRing className="w-12 h-12 mx-auto text-gray-300 dark:text-zinc-600 mb-4" />
-                        <p className="text-muted-foreground">No tienes notificaciones</p>
-                      </CardContent>
+                    <Card className="rounded-2xl border-0 shadow-sm bg-white dark:bg-zinc-900 p-8 text-center">
+                      <div className="flex flex-col items-center gap-4">
+                        <div className="w-16 h-16 bg-accent/10 rounded-full flex items-center justify-center">
+                          <BellRing className="w-8 h-8 text-accent" />
+                        </div>
+                        <div>
+                          <h3 className="text-lg font-black text-primary mb-2">Sin notificaciones</h3>
+                          <p className="text-sm text-muted-foreground">Las actualizaciones de tus trámites aparecerán aquí.</p>
+                        </div>
+                      </div>
                     </Card>
                   ) : (
                     <div className="space-y-3">
@@ -855,40 +863,34 @@ export default function Dashboard() {
 
               {activeTab === 'messages' && (
                 <div key="messages" className="space-y-6">
-                  <div className="flex justify-between items-center mb-6">
-                    <h2 className="text-xl md:text-2xl font-black text-primary tracking-tight">Mis Consultas</h2>
-                    <Link href="/contacto">
-                      <Button className="bg-accent text-primary font-black rounded-full text-xs">Nueva Consulta</Button>
-                    </Link>
+                  <div className="mb-4 md:mb-6">
+                    <div className="flex justify-between items-center">
+                      <div>
+                        <h2 className="text-lg md:text-2xl font-black text-primary tracking-tight">Mis Consultas</h2>
+                        <p className="text-[11px] md:text-xs text-muted-foreground font-medium">Tu historial de mensajes con nuestro equipo</p>
+                      </div>
+                      <Link href="/contacto">
+                        <Button className="bg-accent text-primary font-black rounded-full text-xs">Nueva Consulta</Button>
+                      </Link>
+                    </div>
                   </div>
                   <div className="space-y-4">
                     {(!messagesData || messagesData.length === 0) ? (
-                      <Card className="overflow-hidden" data-testid="widget-support-empty">
-                        <CardHeader className="pb-2 md:pb-3 p-3 md:p-4 bg-primary/5">
-                          <CardTitle className="text-sm md:text-base font-bold flex items-center gap-2">
-                            <MessageSquare className="h-4 w-4 md:h-5 md:w-5 text-primary" />
-                            <span>Centro de Soporte</span>
-                          </CardTitle>
-                        </CardHeader>
-                        <CardContent className="p-3 md:p-4 space-y-4">
-                          <div className="flex items-center gap-3 p-3 bg-muted/30 rounded-lg">
-                            <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-muted flex items-center justify-center shrink-0">
-                              <MessageSquare className="w-5 h-5 md:w-6 md:h-6 text-muted-foreground/50" />
-                            </div>
-                            <div className="flex-1 min-w-0">
-                              <p className="text-sm md:text-base font-medium text-foreground">Sin conversaciones activas</p>
-                              <p className="text-xs text-muted-foreground">Tu historial de mensajes aparecerá aquí</p>
-                            </div>
+                      <Card className="rounded-2xl border-0 shadow-sm bg-white dark:bg-zinc-900 p-8 text-center" data-testid="widget-support-empty">
+                        <div className="flex flex-col items-center gap-4">
+                          <div className="w-16 h-16 bg-accent/10 rounded-full flex items-center justify-center">
+                            <MessageSquare className="w-8 h-8 text-accent" />
                           </div>
-                          <div className="space-y-2 pt-2 border-t border-border">
-                            <p className="text-xs text-muted-foreground text-center">Te responderá una persona, no un bot</p>
-                            <a href="https://wa.me/34614916910" target="_blank" rel="noopener noreferrer" className="block">
-                              <Button className="w-full bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-10 md:h-11">
-                                <MessageSquare className="w-4 h-4 mr-2" /> Hablar con soporte
-                              </Button>
-                            </a>
+                          <div>
+                            <h3 className="text-lg font-black text-primary mb-2">Sin consultas activas</h3>
+                            <p className="text-sm text-muted-foreground mb-6">Te responderá una persona, no un bot.</p>
                           </div>
-                        </CardContent>
+                          <a href="https://wa.me/34614916910" target="_blank" rel="noopener noreferrer">
+                            <Button className="bg-accent text-primary font-black rounded-full px-8 py-3" data-testid="button-support-whatsapp">
+                              <MessageSquare className="w-4 h-4 mr-2" /> Hablar con soporte
+                            </Button>
+                          </a>
+                        </div>
                       </Card>
                     ) : (
                       messagesData.map((msg) => (
@@ -918,7 +920,10 @@ export default function Dashboard() {
 
               {activeTab === 'documents' && (
                 <div key="documents" className="space-y-6">
-                  <h2 className="text-xl md:text-2xl font-black text-primary tracking-tight mb-6">Centro de Documentación</h2>
+                  <div className="mb-4 md:mb-6">
+                    <h2 className="text-lg md:text-2xl font-black text-primary tracking-tight">Centro de Documentación</h2>
+                    <p className="text-[11px] md:text-xs text-muted-foreground font-medium">Gestiona tus documentos y archivos</p>
+                  </div>
                   
                   {notifications?.some((n: any) => n.type === 'action_required' && !n.isRead) && (
                     <Card className="rounded-xl border-2 border-orange-200 bg-orange-50 p-4 mb-4">
@@ -993,7 +998,7 @@ export default function Dashboard() {
                         </div>
                         <Button size="lg" className="rounded-full font-black bg-accent text-primary shrink-0">
                           <FileUp className="w-5 h-5 md:mr-2" />
-                          <span className="hidden md:inline">SUBIR</span>
+                          <span className="hidden md:inline">Subir</span>
                         </Button>
                       </div>
                     </label>
@@ -1024,35 +1029,27 @@ export default function Dashboard() {
 
               {activeTab === 'payments' && (
                 <div key="payments" className="space-y-6">
-                  <h2 className="text-xl md:text-2xl font-black text-primary tracking-tight">Historial de Pagos</h2>
+                  <div className="mb-4 md:mb-6">
+                    <h2 className="text-lg md:text-2xl font-black text-primary tracking-tight">Historial de Pagos</h2>
+                    <p className="text-[11px] md:text-xs text-muted-foreground font-medium">Tus facturas y recibos</p>
+                  </div>
                   <div className="space-y-4">
                     {(!orders || orders.length === 0) ? (
-                      <Card className="overflow-hidden" data-testid="widget-payments-empty">
-                        <CardHeader className="pb-2 md:pb-3 p-3 md:p-4 bg-primary/5">
-                          <CardTitle className="text-sm md:text-base font-bold flex items-center gap-2">
-                            <CreditCard className="h-4 w-4 md:h-5 md:w-5 text-primary" />
-                            <span>Historial de Pagos</span>
-                          </CardTitle>
-                        </CardHeader>
-                        <CardContent className="p-3 md:p-4 space-y-4">
-                          <div className="flex items-center gap-3 p-3 bg-muted/30 rounded-lg">
-                            <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-muted flex items-center justify-center shrink-0">
-                              <Receipt className="w-5 h-5 md:w-6 md:h-6 text-muted-foreground/50" />
-                            </div>
-                            <div className="flex-1 min-w-0">
-                              <p className="text-sm md:text-base font-medium text-foreground">Sin pagos registrados</p>
-                              <p className="text-xs text-muted-foreground">Tus facturas y recibos aparecerán aquí</p>
-                            </div>
+                      <Card className="rounded-2xl border-0 shadow-sm bg-white dark:bg-zinc-900 p-8 text-center" data-testid="widget-payments-empty">
+                        <div className="flex flex-col items-center gap-4">
+                          <div className="w-16 h-16 bg-accent/10 rounded-full flex items-center justify-center">
+                            <CreditCard className="w-8 h-8 text-accent" />
                           </div>
-                          <div className="space-y-2 pt-2 border-t border-border">
-                            <p className="text-xs text-muted-foreground text-center">Contrata un servicio para ver tu historial</p>
-                            <Link href="/servicios#pricing">
-                              <Button className="w-full bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-10 md:h-11">
-                                <PlusCircle className="w-4 h-4 mr-2" /> Ver servicios
-                              </Button>
-                            </Link>
+                          <div>
+                            <h3 className="text-lg font-black text-primary mb-2">Sin pagos registrados</h3>
+                            <p className="text-sm text-muted-foreground mb-6">Tus facturas y recibos aparecerán aquí.</p>
                           </div>
-                        </CardContent>
+                          <Link href="/servicios#pricing">
+                            <Button className="bg-accent text-primary font-black rounded-full px-8 py-3" data-testid="button-view-services">
+                              <PlusCircle className="w-4 h-4 mr-2" /> Ver servicios
+                            </Button>
+                          </Link>
+                        </div>
                       </Card>
                     ) : (
                       orders.map((order: any) => (
@@ -1230,9 +1227,13 @@ export default function Dashboard() {
 
               {activeTab === 'profile' && (
                 <div key="profile" className="space-y-6">
+                  <div className="mb-4 md:mb-6">
+                    <h2 className="text-lg md:text-2xl font-black text-primary tracking-tight">Mi Perfil</h2>
+                    <p className="text-[11px] md:text-xs text-muted-foreground font-medium">Tus datos personales y configuración de cuenta</p>
+                  </div>
                   <Card className="rounded-[1.5rem] md:rounded-[2rem] border-0 shadow-sm p-6 md:p-8 bg-white dark:bg-zinc-900">
                     <div className="flex justify-between items-center mb-4">
-                      <h3 className="text-xl font-black">Perfil Personal</h3>
+                      <h3 className="text-lg md:text-xl font-black text-primary">Datos Personales</h3>
                       {canEdit && (
                         <Button variant="ghost" size="sm" onClick={() => setIsEditing(!isEditing)} data-testid="button-toggle-edit">{isEditing ? 'Cancelar' : 'Editar'}</Button>
                       )}
