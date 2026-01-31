@@ -224,14 +224,11 @@
   .bg-green-gradient {
     background: 
       linear-gradient(160deg, 
-        rgba(110, 220, 138, 0.18) 0%, 
-        rgba(110, 220, 138, 0.12) 20%,
-        rgba(110, 220, 138, 0.06) 45%,
-        rgba(247, 247, 245, 0.8) 70%,
-        rgba(247, 247, 245, 1) 100%),
-      linear-gradient(45deg,
-        rgba(110, 220, 138, 0.05) 0%,
-        transparent 50%);
+        rgba(110, 220, 138, 0.35) 0%, 
+        rgba(110, 220, 138, 0.25) 15%,
+        rgba(110, 220, 138, 0.15) 35%,
+        rgba(110, 220, 138, 0.08) 55%,
+        rgba(247, 247, 245, 1) 100%);
   }
   
   .bg-green-gradient-subtle {
@@ -256,14 +253,11 @@
   .dark .bg-green-gradient {
     background: 
       linear-gradient(160deg, 
-        rgba(110, 220, 138, 0.12) 0%, 
-        rgba(110, 220, 138, 0.08) 20%,
-        rgba(110, 220, 138, 0.04) 45%,
-        rgba(14, 18, 21, 0.9) 70%,
-        rgba(14, 18, 21, 1) 100%),
-      linear-gradient(45deg,
-        rgba(110, 220, 138, 0.03) 0%,
-        transparent 50%);
+        rgba(110, 220, 138, 0.20) 0%, 
+        rgba(110, 220, 138, 0.12) 15%,
+        rgba(110, 220, 138, 0.06) 35%,
+        rgba(14, 18, 21, 0.95) 60%,
+        rgba(14, 18, 21, 1) 100%);
   }
   
   .dark .bg-green-gradient-subtle {
