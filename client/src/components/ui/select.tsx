@@ -69,23 +69,26 @@ SelectScrollDownButton.displayName =
 
 const SelectContent = React.forwardRef<
   React.ElementRef<typeof SelectPrimitive.Content>,
-  React.ComponentPropsWithoutRef<typeof SelectPrimitive.Content>
->(({ className, children, position = "item-aligned", onCloseAutoFocus, ...props }, ref) => (
-  <SelectPrimitive.Portal>
+  React.ComponentPropsWithoutRef<typeof SelectPrimitive.Content> & { container?: HTMLElement | null }
+>(({ className, children, position = "popper", container, ...props }, ref) => (
+  <SelectPrimitive.Portal container={container}>
     <SelectPrimitive.Content
       ref={ref}
-      onCloseAutoFocus={(e) => {
-        e.preventDefault();
-        onCloseAutoFocus?.(e);
-      }}
       className={cn(
-        "relative z-[999999] max-h-[280px] min-w-[8rem] overflow-y-auto overflow-x-hidden rounded-xl border border-border bg-white dark:bg-zinc-900 text-foreground shadow-2xl",
+        "relative z-[999999] max-h-[200px] min-w-[8rem] overflow-y-auto overflow-x-hidden rounded-xl border border-border bg-white dark:bg-zinc-900 text-foreground shadow-2xl",
+        position === "popper" && "data-[side=bottom]:translate-y-1 data-[side=top]:-translate-y-1",
         className
       )}
       position={position}
+      side="bottom"
+      align="start"
+      sideOffset={4}
+      avoidCollisions={false}
       {...props}
     >
-      <SelectPrimitive.Viewport className="p-1.5">
+      <SelectPrimitive.Viewport 
+        className={cn("p-1.5", position === "popper" && "w-full min-w-[var(--radix-select-trigger-width)]")}
+      >
         {children}
       </SelectPrimitive.Viewport>
     </SelectPrimitive.Content>
