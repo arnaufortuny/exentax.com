@@ -2428,11 +2428,19 @@ export async function registerRoutes(
         return res.status(401).json({ message: "No autorizado" });
       }
 
-      // Get user's orders to attach document
+      // Get user's orders to attach document (if any)
       const userOrders = await storage.getOrders(userId);
-      if (!userOrders.length) {
-        return res.status(400).json({ message: "No tienes pedidos activos" });
-      }
+      
+      // Also check if user has pending document requests (action_required notifications)
+      const pendingRequests = await db.select().from(userNotifications)
+        .where(and(
+          eq(userNotifications.userId, userId),
+          eq(userNotifications.type, 'action_required'),
+          eq(userNotifications.isRead, false)
+        ));
+      
+      // Allow upload if user has orders OR pending document requests
+      const hasOrdersOrRequests = userOrders.length > 0 || pendingRequests.length > 0;
 
       // Use busboy for file handling with size limit
       const busboy = (await import('busboy')).default;
@@ -2492,11 +2500,29 @@ export async function registerRoutes(
         };
         const docTypeLabel = docTypeLabelsUpload[documentType] || documentType;
         
+        // Determine orderId - from orders or from pending request
+        let targetOrderId: number | null = null;
+        if (userOrders.length > 0) {
+          targetOrderId = userOrders[0].id;
+        } else if (pendingRequests.length > 0 && pendingRequests[0].orderId) {
+          targetOrderId = pendingRequests[0].orderId;
+        }
+        
+        // Determine file type from extension
+        const ext = fileName.toLowerCase().split('.').pop() || '';
+        const mimeTypes: Record<string, string> = {
+          'pdf': 'application/pdf',
+          'jpg': 'image/jpeg',
+          'jpeg': 'image/jpeg',
+          'png': 'image/png'
+        };
+        const detectedFileType = mimeTypes[ext] || 'application/octet-stream';
+        
         // Create document record
         const doc = await db.insert(applicationDocumentsTable).values({
-          orderId: userOrders[0].id,
+          orderId: targetOrderId,
           fileName: fileName,
-          fileType: fileName.endsWith('.pdf') ? 'application/pdf' : 'image/jpeg',
+          fileType: detectedFileType,
           fileUrl: `/uploads/client-docs/${safeFileName}`,
           documentType: documentType,
           reviewStatus: 'pending',
@@ -2524,7 +2550,16 @@ export async function registerRoutes(
             status: 'unread',
             messageId: ticketId
           });
-          
+        }
+        
+        // Mark pending document requests as read after upload
+        if (pendingRequests.length > 0) {
+          await db.update(userNotifications)
+            .set({ isRead: true })
+            .where(and(
+              eq(userNotifications.userId, userId),
+              eq(userNotifications.type, 'action_required')
+            ));
         }
 
         res.json({ success: true, document: doc[0], ticketId });
