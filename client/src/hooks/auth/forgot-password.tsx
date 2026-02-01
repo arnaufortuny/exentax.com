@@ -9,6 +9,7 @@ import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
 import { FormInput } from "@/components/forms";
@@ -145,8 +146,8 @@ export default function ForgotPassword() {
   return (
     <div className="min-h-screen bg-background bg-green-gradient-subtle font-sans">
       <Navbar />
-      <main className="pt-20 md:pt-24 pb-12 md:pb-16 px-4 sm:px-6 flex flex-col items-center justify-center min-h-[80vh]">
-        <div className="w-full max-w-sm md:max-w-md">
+      <main className="pt-12 md:pt-16 pb-12 md:pb-16 px-4 sm:px-6 flex flex-col items-center justify-center min-h-[80vh]">
+        <div className="w-full max-w-sm md:max-w-md bg-card p-6 md:p-8 rounded-3xl border border-border shadow-sm">
           <div className="text-center mb-6 md:mb-8 mx-auto">
             <h1 className="text-2xl sm:text-3xl md:text-4xl font-black text-primary tracking-tight text-center">
               Recuperar <span className="text-accent">Contraseña</span>
@@ -170,7 +171,7 @@ export default function ForgotPassword() {
                     inputMode="email"
                     placeholder="ejemplo@email.com"
                   />
-                  <p className="text-[10px] md:text-xs text-muted-foreground px-1 italic">
+                  <p className="text-[10px] md:text-xs text-muted-foreground px-1">
                     (Introduce el email con el que te registraste)
                   </p>
                 </div>
@@ -190,21 +191,16 @@ export default function ForgotPassword() {
             <div className="space-y-6">
               <div className="flex flex-col items-center gap-4">
                 <p className="text-sm text-muted-foreground">Código enviado a: <strong>{email}</strong></p>
-                <InputOTP
-                  maxLength={6}
-                  value={otp}
-                  onChange={setOtp}
-                  data-testid="input-otp"
-                >
-                  <InputOTPGroup>
-                    <InputOTPSlot index={0} />
-                    <InputOTPSlot index={1} />
-                    <InputOTPSlot index={2} />
-                    <InputOTPSlot index={3} />
-                    <InputOTPSlot index={4} />
-                    <InputOTPSlot index={5} />
-                  </InputOTPGroup>
-                </InputOTP>
+                <div className="w-full">
+                  <Input
+                    placeholder="Código de 6 dígitos"
+                    maxLength={6}
+                    value={otp}
+                    onChange={(e) => setOtp(e.target.value.replace(/\D/g, ""))}
+                    className="h-12 text-center text-xl tracking-[0.5em] font-bold rounded-full"
+                    data-testid="input-otp"
+                  />
+                </div>
               </div>
               <Button
                 onClick={handleVerifyOtp}
