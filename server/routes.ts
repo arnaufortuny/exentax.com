@@ -2882,6 +2882,19 @@ export async function registerRoutes(
       return res.status(404).json({ message: "Application not found" });
     }
 
+    // Security: Verify user owns this application or is admin
+    if (!req.session.userId && !req.session.isAdmin) {
+      return res.status(401).json({ message: "Unauthorized" });
+    }
+    
+    // Get order to check ownership
+    if (application.orderId) {
+      const [order] = await db.select().from(ordersTable).where(eq(ordersTable.id, application.orderId)).limit(1);
+      if (order && order.userId !== req.session.userId && !req.session.isAdmin) {
+        return res.status(403).json({ message: "Access denied" });
+      }
+    }
+
     res.json(application);
   });
 
@@ -2893,6 +2906,14 @@ export async function registerRoutes(
       const application = await storage.getLlcApplication(appId);
       if (!application) {
         return res.status(404).json({ message: "Application not found" });
+      }
+
+      // Security: Verify ownership for non-admin users
+      if (application.orderId && !req.session.isAdmin) {
+        const [order] = await db.select().from(ordersTable).where(eq(ordersTable.id, application.orderId)).limit(1);
+        if (order && order.userId && order.userId !== req.session.userId) {
+          return res.status(403).json({ message: "Access denied" });
+        }
       }
 
       const updatedApp = await storage.updateLlcApplication(appId, updates);
@@ -2961,7 +2982,7 @@ export async function registerRoutes(
   }
 });
 
-  // Lookup by request code
+  // Lookup by request code - requires authentication
   app.get(api.llc.getByCode.path, async (req: any, res) => {
     const code = req.params.code;
     
@@ -2970,11 +2991,19 @@ export async function registerRoutes(
       return res.status(404).json({ message: "Solicitud no encontrada. Verifica el código ingresado." });
     }
 
+    // Security: Only allow owner or admin to view
+    if (application.orderId) {
+      const [order] = await db.select().from(ordersTable).where(eq(ordersTable.id, application.orderId)).limit(1);
+      if (order && order.userId && req.session.userId !== order.userId && !req.session.isAdmin) {
+        return res.status(403).json({ message: "Access denied" });
+      }
+    }
+
     res.json(application);
   });
 
-  // Documents
-  app.post(api.documents.create.path, async (req: any, res) => {
+  // Documents - requires authentication
+  app.post(api.documents.create.path, isAuthenticated, async (req: any, res) => {
     try {
       const docData = api.documents.create.input.parse(req.body);
       
@@ -2982,6 +3011,14 @@ export async function registerRoutes(
         const application = await storage.getLlcApplication(docData.applicationId);
         if (!application) {
           return res.status(404).json({ message: "Application not found" });
+        }
+        
+        // Security: Verify ownership
+        if (application.orderId && !req.session.isAdmin) {
+          const [order] = await db.select().from(ordersTable).where(eq(ordersTable.id, application.orderId)).limit(1);
+          if (order && order.userId && order.userId !== req.session.userId) {
+            return res.status(403).json({ message: "Access denied" });
+          }
         }
       }
 

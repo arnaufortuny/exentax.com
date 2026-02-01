@@ -5,10 +5,11 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { NativeSelect } from "@/components/ui/native-select";
-import { Trash2, Plus, FileDown, Receipt, ArrowLeft } from "lucide-react";
-import { Link } from "wouter";
+import { Trash2, Plus, FileDown, Receipt, ArrowLeft, Loader2 } from "lucide-react";
+import { Link, useLocation } from "wouter";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
+import { useQuery } from "@tanstack/react-query";
 
 interface InvoiceItem {
   id: string;
@@ -22,27 +23,46 @@ function generateId() {
 }
 
 export default function InvoiceGenerator() {
+  const [, setLocation] = useLocation();
+  
+  // All hooks must be called before any conditional returns
   const [issuerName, setIssuerName] = useState("");
   const [issuerAddress, setIssuerAddress] = useState("");
   const [issuerEmail, setIssuerEmail] = useState("");
   const [issuerTaxId, setIssuerTaxId] = useState("");
-  
   const [clientName, setClientName] = useState("");
   const [clientAddress, setClientAddress] = useState("");
   const [clientEmail, setClientEmail] = useState("");
   const [clientTaxId, setClientTaxId] = useState("");
-  
   const [invoiceNumber, setInvoiceNumber] = useState("");
   const [invoiceDate, setInvoiceDate] = useState(new Date().toISOString().split('T')[0]);
   const [dueDate, setDueDate] = useState("");
   const [currency, setCurrency] = useState("EUR");
   const [notes, setNotes] = useState("");
-  
   const [items, setItems] = useState<InvoiceItem[]>([
     { id: generateId(), description: "", quantity: 1, price: 0 }
   ]);
-  
   const [isGenerating, setIsGenerating] = useState(false);
+  
+  // Check authentication
+  const { data: user, isLoading: authLoading } = useQuery<any>({
+    queryKey: ["/api/user"],
+  });
+  
+  // Redirect if not authenticated
+  if (!authLoading && !user) {
+    setLocation("/auth/login");
+    return null;
+  }
+  
+  // Show loading while checking auth
+  if (authLoading) {
+    return (
+      <div className="min-h-screen bg-muted flex items-center justify-center">
+        <Loader2 className="w-8 h-8 animate-spin text-accent" />
+      </div>
+    );
+  }
 
   const addItem = () => {
     setItems([...items, { id: generateId(), description: "", quantity: 1, price: 0 }]);
