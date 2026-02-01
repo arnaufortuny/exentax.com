@@ -50,7 +50,9 @@ const languages = [
 export function LanguageToggle() {
   const { i18n } = useTranslation();
 
-  const currentLang = languages.find(l => l.code === i18n.language) || languages[0];
+  // Handle language codes like "en-US" or "es-ES" by taking the first part
+  const langCode = i18n.language?.split('-')[0] || 'es';
+  const currentLang = languages.find(l => l.code === langCode) || languages[0];
   const CurrentFlag = currentLang.Flag;
 
   return (
@@ -72,13 +74,13 @@ export function LanguageToggle() {
             key={lang.code}
             onClick={() => i18n.changeLanguage(lang.code)}
             data-testid={`menu-lang-${lang.code}`}
-            className={i18n.language === lang.code ? "bg-accent/20" : ""}
+            className={langCode === lang.code ? "bg-accent/20" : ""}
           >
             <span className="mr-2">
               <lang.Flag />
             </span>
             {lang.label}
-            {i18n.language === lang.code && <Check className="ml-auto h-4 w-4 text-accent" />}
+            {langCode === lang.code && <Check className="ml-auto h-4 w-4 text-accent" />}
           </DropdownMenuItem>
         ))}
       </DropdownMenuContent>
