@@ -159,7 +159,7 @@ export function Navbar() {
                     variant="outline"
                     size="icon"
                     className="border-2 border-accent text-accent hover:bg-accent hover:text-accent-foreground bg-white dark:bg-zinc-900"
-                    aria-label={isAuthenticated ? "Mi área" : "Iniciar sesión"}
+                    aria-label={isAuthenticated ? t("nav.myArea") : t("nav.login")}
                     data-testid={isAuthenticated ? "link-mobile-dashboard" : "button-mobile-login"}
                   >
                     <UserIcon className="w-4 h-4" />
@@ -187,7 +187,7 @@ export function Navbar() {
                     window.scrollTo(0, parseInt(scrollY || '0') * -1);
                   }
                 }}
-                aria-label={isOpen ? "Cerrar menú" : "Abrir menú"}
+                aria-label={isOpen ? t("nav.closeMenu") : t("nav.openMenu")}
                 data-testid="button-mobile-menu"
               >
                 {isOpen ? <XIcon className="w-6 h-6" /> : <MenuIcon className="w-6 h-6" />}
@@ -231,19 +231,45 @@ export function Navbar() {
               >
                 {t("nav.contact")}
               </button>
-              {!isAuthenticated && (
-                <div className="px-3 py-4 mb-4 bg-accent/5 rounded-2xl border border-accent/20 text-left">
-                  <p className="text-sm font-black text-accent tracking-tighter mb-2 text-left" style={{ fontFamily: 'var(--font-display)' }}>{t("mobile.clientArea")}</p>
-                  <button
-                    onClick={() => handleNavClick("/auth/login")}
-                    className="w-full text-left py-2 text-foreground font-black text-xl tracking-tighter flex items-center justify-start gap-2"
-                    data-testid="button-mobile-login-menu"
-                  >
-                    <UserIcon className="w-5 h-5" /> {t("mobile.myAccount")}
-                  </button>
-                  <p className="text-sm text-muted-foreground mt-1 text-left">{t("mobile.accountDescription")}</p>
-                </div>
-              )}
+              
+              {/* Client Area - Always in same position regardless of auth state */}
+              <div className="px-3 py-4 mb-4 bg-accent/5 rounded-2xl border border-accent/20 text-left">
+                <p className="text-sm font-black text-accent tracking-tighter mb-2 text-left" style={{ fontFamily: 'var(--font-display)' }}>{t("mobile.clientArea")}</p>
+                {isAuthenticated ? (
+                  <>
+                    <button
+                      onClick={() => handleNavClick("/dashboard")}
+                      className="w-full text-left py-2 text-foreground font-black text-xl tracking-tighter flex items-center justify-start gap-2"
+                      data-testid="button-mobile-dashboard-menu"
+                    >
+                      <UserIcon className="w-5 h-5" /> {t("mobile.myPanel")}
+                    </button>
+                    <button
+                      onClick={() => {
+                        resetScrollLock();
+                        logout();
+                        setIsOpen(false);
+                      }}
+                      className="w-full text-left py-2 text-muted-foreground font-black text-lg flex items-center gap-2 mt-2"
+                      data-testid="button-mobile-logout-menu"
+                    >
+                      <LogOut className="w-4 h-4" /> {t("mobile.logout")}
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <button
+                      onClick={() => handleNavClick("/auth/login")}
+                      className="w-full text-left py-2 text-foreground font-black text-xl tracking-tighter flex items-center justify-start gap-2"
+                      data-testid="button-mobile-login-menu"
+                    >
+                      <UserIcon className="w-5 h-5" /> {t("mobile.myAccount")}
+                    </button>
+                    <p className="text-sm text-muted-foreground mt-1 text-left">{t("mobile.accountDescription")}</p>
+                  </>
+                )}
+              </div>
+
               <div className="mt-4 px-3 flex flex-col gap-3">
                 {!isAuthenticated && (
                   <Button 
@@ -272,27 +298,6 @@ export function Navbar() {
                 </a>
               </div>
             </div>
-            {isAuthenticated && (
-              <div className="mt-auto px-3 py-4 bg-accent/5 rounded-2xl border border-accent/20 shrink-0">
-                <p className="text-sm font-black text-accent tracking-tighter mb-2" style={{ fontFamily: 'var(--font-display)' }}>{t("mobile.personalArea")}</p>
-                <button
-                  onClick={() => handleNavClick("/dashboard")}
-                  className="w-full text-left py-2 text-foreground font-black text-xl tracking-tighter flex items-center gap-2"
-                >
-                  <UserIcon className="w-5 h-5" /> {t("mobile.myPanel")}
-                </button>
-                <button
-                  onClick={() => {
-                    resetScrollLock();
-                    logout();
-                    setIsOpen(false);
-                  }}
-                  className="w-full text-left py-2 text-muted-foreground font-black text-lg flex items-center gap-2 mt-2"
-                >
-                  <LogOut className="w-4 h-4" /> {t("mobile.logout")}
-                </button>
-              </div>
-            )}
           </div>
         </div>
       )}
