@@ -15,17 +15,13 @@ import { generateOrderInvoice, generateOrderReceipt, type InvoiceData, type Rece
 import { setupOAuth } from "./oauth";
 import { checkAndSendReminders, updateApplicationDeadlines, getUpcomingDeadlinesForUser } from "./calendar-service";
 import { processAbandonedApplications } from "./lib/abandoned-service";
+import { csrfMiddleware, getCsrfToken, validateCsrf } from "./lib/csrf";
+import { checkRateLimit as checkApiRateLimit } from "./lib/rate-limiter";
 
 export async function registerRoutes(
   httpServer: Server,
   app: Express
 ): Promise<Server> {
-  // Enhanced Rate limiting with automatic cleanup
-  const rateLimit = new Map<string, number[]>();
-  const WINDOW_MS = 60000;
-  const MAX_REQUESTS = 100;
-  const CLEANUP_INTERVAL = 300000; // Clean up every 5 minutes
-  
   // In-memory cache for admin stats (reduces database load)
   interface CacheEntry<T> {
     data: T;
@@ -46,21 +42,6 @@ export async function registerRoutes(
     statsCache.set(key, { data, timestamp: Date.now() });
   }
   
-  // Periodic cleanup of stale IPs to prevent memory leak
-  setInterval(() => {
-    const now = Date.now();
-    const entries = Array.from(rateLimit.entries());
-    for (let i = 0; i < entries.length; i++) {
-      const [ip, timestamps] = entries[i];
-      const valid = timestamps.filter((t: number) => now - t < WINDOW_MS);
-      if (valid.length === 0) {
-        rateLimit.delete(ip);
-      } else {
-        rateLimit.set(ip, valid);
-      }
-    }
-  }, CLEANUP_INTERVAL);
-  
   // Cleanup expired OTPs every 10 minutes
   setInterval(async () => {
     try {
@@ -79,20 +60,15 @@ export async function registerRoutes(
     }
   }, 600000);
   
-  app.use("/api/", (req, res, next) => {
-    const now = Date.now();
+  app.use("/api/", async (req, res, next) => {
     const ip = req.ip || req.headers['x-forwarded-for']?.toString().split(',')[0] || "unknown";
     
-    const timestamps = rateLimit.get(ip) || [];
-    const validTimestamps = timestamps.filter(t => now - t < WINDOW_MS);
-    
-    if (validTimestamps.length >= MAX_REQUESTS) {
-      res.setHeader('Retry-After', '60');
+    const rateCheck = await checkApiRateLimit('api', ip);
+    if (!rateCheck.allowed) {
+      res.setHeader('Retry-After', String(rateCheck.retryAfter || 60));
       return res.status(429).json({ message: "Demasiadas peticiones. Por favor, espera un minuto." });
     }
     
-    validTimestamps.push(now);
-    rateLimit.set(ip, validTimestamps);
     next();
   });
   
@@ -179,6 +155,35 @@ export async function registerRoutes(
 
   // Set up Google OAuth
   setupOAuth(app);
+
+  // CSRF Protection - initialize token first
+  app.use(csrfMiddleware);
+  
+  // CSRF Token endpoint
+  app.get("/api/csrf-token", (req, res) => {
+    getCsrfToken(req, res);
+  });
+  
+  // CSRF Validation for sensitive endpoints (must be after csrfMiddleware)
+  const csrfProtectedPaths = [
+    "/api/auth/register",
+    "/api/auth/login", 
+    "/api/auth/reset-password",
+    "/api/admin/orders",
+    "/api/admin/users",
+    "/api/orders",
+    "/api/user/profile",
+  ];
+  
+  app.use((req, res, next) => {
+    const shouldValidate = csrfProtectedPaths.some(path => req.path.startsWith(path));
+    const isMutatingMethod = !["GET", "HEAD", "OPTIONS"].includes(req.method);
+    
+    if (shouldValidate && isMutatingMethod) {
+      return validateCsrf(req, res, next);
+    }
+    next();
+  });
 
   // Schedule compliance reminder checks every hour
   setInterval(async () => {

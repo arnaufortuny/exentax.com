@@ -277,6 +277,16 @@ export const insertDiscountCodeSchema = createInsertSchema(discountCodes).omit({
 export type DiscountCode = typeof discountCodes.$inferSelect;
 export type InsertDiscountCode = z.infer<typeof insertDiscountCodeSchema>;
 
+export const rateLimitEntries = pgTable("rate_limit_entries", {
+  id: serial("id").primaryKey(),
+  identifier: text("identifier").notNull(),
+  limitType: text("limit_type").notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+}, (table) => ({
+  identifierIdx: index("rate_limit_identifier_idx").on(table.identifier),
+  createdAtIdx: index("rate_limit_created_at_idx").on(table.createdAt),
+}));
+
 export type MaintenanceApplication = typeof maintenanceApplications.$inferSelect;
 export type Product = typeof products.$inferSelect;
 export type Order = typeof orders.$inferSelect;
@@ -285,6 +295,7 @@ export type ApplicationDocument = typeof applicationDocuments.$inferSelect;
 export type OrderEvent = typeof orderEvents.$inferSelect;
 export type Message = typeof messages.$inferSelect;
 export type MessageReply = typeof messageReplies.$inferSelect;
+export type RateLimitEntry = typeof rateLimitEntries.$inferSelect;
 
 export type CreateOrderRequest = {
   productId: number;

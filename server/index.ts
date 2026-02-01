@@ -6,14 +6,14 @@ import compression from "compression";
 import path from "path";
 import { initServerSentry } from "./lib/sentry";
 import { scheduleBackups } from "./lib/backup";
+import { cleanupDbRateLimits } from "./lib/rate-limiter";
 
 initServerSentry();
 
 const app = express();
+const isProduction = process.env.NODE_ENV === "production";
 
-// Files served through protected routes in routes.ts - not statically
 const httpServer = createServer(app);
-
 
 app.use(compression());
 
@@ -28,13 +28,47 @@ export function log(message: string, source = "express") {
   console.log(`${formattedTime} [${source}] ${message}`);
 }
 
+function getCSP(): string {
+  const baseCSP = {
+    "default-src": ["'self'"],
+    "font-src": ["'self'", "https://fonts.gstatic.com", "data:"],
+    "img-src": ["'self'", "data:", "blob:", "https://*.stripe.com", "https://lh3.googleusercontent.com"],
+    "connect-src": ["'self'", "https://api.stripe.com", "https://accounts.google.com", "wss://*.replit.dev", "wss://*.replit.app"],
+    "frame-src": ["'self'", "https://js.stripe.com", "https://accounts.google.com"],
+    "frame-ancestors": ["'self'", "https://*.replit.dev", "https://*.replit.app"],
+  };
+
+  if (isProduction) {
+    return [
+      `default-src ${baseCSP["default-src"].join(" ")}`,
+      `script-src 'self' https://js.stripe.com https://accounts.google.com`,
+      `style-src 'self' 'unsafe-inline' https://fonts.googleapis.com`,
+      `font-src ${baseCSP["font-src"].join(" ")}`,
+      `img-src ${baseCSP["img-src"].join(" ")}`,
+      `connect-src ${baseCSP["connect-src"].join(" ")}`,
+      `frame-src ${baseCSP["frame-src"].join(" ")}`,
+      `frame-ancestors ${baseCSP["frame-ancestors"].join(" ")}`,
+    ].join("; ");
+  } else {
+    return [
+      `default-src ${baseCSP["default-src"].join(" ")}`,
+      `script-src 'self' 'unsafe-inline' 'unsafe-eval' https://js.stripe.com https://accounts.google.com`,
+      `style-src 'self' 'unsafe-inline' https://fonts.googleapis.com`,
+      `font-src ${baseCSP["font-src"].join(" ")}`,
+      `img-src ${baseCSP["img-src"].join(" ")}`,
+      `connect-src ${baseCSP["connect-src"].join(" ")}`,
+      `frame-src ${baseCSP["frame-src"].join(" ")}`,
+      `frame-ancestors ${baseCSP["frame-ancestors"].join(" ")}`,
+    ].join("; ");
+  }
+}
+
 app.use((req, res, next) => {
-  // Security Headers
   res.setHeader("X-Content-Type-Options", "nosniff");
   res.setHeader("X-Frame-Options", "SAMEORIGIN");
   res.setHeader("X-XSS-Protection", "1; mode=block");
   res.setHeader("Strict-Transport-Security", "max-age=31536000; includeSubDomains; preload");
-  res.setHeader("Content-Security-Policy", "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://js.stripe.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob: https://*.stripe.com; connect-src 'self' https://api.stripe.com wss://*.replit.dev; frame-src 'self' https://js.stripe.com; frame-ancestors 'self' https://*.replit.dev https://*.replit.app;");
+  res.setHeader("Content-Security-Policy", getCSP());
   res.setHeader("Referrer-Policy", "strict-origin-when-cross-origin");
   res.setHeader("Permissions-Policy", "camera=(), microphone=(), geolocation=(), payment=()");
   res.setHeader("Cross-Origin-Opener-Policy", "same-origin-allow-popups");
@@ -145,6 +179,15 @@ app.use((req, res, next) => {
       log(`serving on port ${port}`);
       if (process.env.NODE_ENV === "production") {
         scheduleBackups();
+      }
+      if (process.env.NODE_ENV === "production") {
+        setInterval(async () => {
+          try {
+            await cleanupDbRateLimits();
+          } catch (e) {
+            console.error("Rate limit cleanup error:", e);
+          }
+        }, 300000);
       }
     },
   );
