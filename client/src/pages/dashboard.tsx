@@ -754,7 +754,7 @@ export default function Dashboard() {
 
   const menuItems = useMemo(() => [
     { id: 'services', label: 'Mis trámites', icon: Package, mobileLabel: 'Trámites', tour: 'orders' },
-    { id: 'notifications', label: 'Seguimiento', icon: BellRing, mobileLabel: 'Seguim' },
+    { id: 'notifications', label: 'Notificaciones', icon: BellRing, mobileLabel: 'Notif.' },
     { id: 'messages', label: 'Soporte', icon: Mail, mobileLabel: 'Soporte', tour: 'messages' },
     { id: 'documents', label: 'Documentos', icon: FileText, mobileLabel: 'Docs' },
     { id: 'payments', label: 'Pagos', icon: CreditCard, mobileLabel: 'Pagos' },
@@ -954,8 +954,8 @@ export default function Dashboard() {
               {activeTab === 'notifications' && (
                 <div key="notifications" className="space-y-6">
                   <div className="mb-4 md:mb-6">
-                    <h2 className="text-xl md:text-2xl font-bold text-foreground tracking-tight">Seguimiento</h2>
-                    <p className="text-sm text-muted-foreground mt-1">Notificaciones y actualizaciones de tus trámites</p>
+                    <h2 className="text-xl md:text-2xl font-bold text-foreground tracking-tight">Notificaciones</h2>
+                    <p className="text-sm text-muted-foreground mt-1">Actualizaciones de tus tramites</p>
                   </div>
                   {notificationsLoading ? (
                     <div className="space-y-3">
@@ -2578,7 +2578,7 @@ export default function Dashboard() {
             <section className="bg-white dark:bg-zinc-900 p-6 md:p-8 rounded-[2rem] shadow-sm">
               <div className="mb-6">
                 <h3 className="text-lg md:text-xl font-black tracking-tight text-primary flex items-center gap-2">
-                  <Clock className="w-5 h-5 text-accent" /> Seguimiento
+                  <Clock className="w-5 h-5 text-accent" /> Notificaciones
                 </h3>
                 <p className="text-xs text-muted-foreground mt-1">El progreso de tu LLC, paso a paso</p>
               </div>

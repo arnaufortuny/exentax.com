@@ -44,15 +44,16 @@ export default function InvoiceGenerator() {
   ]);
   const [isGenerating, setIsGenerating] = useState(false);
   
-  // Check authentication
-  const { data: user, isLoading: authLoading, isError } = useQuery<any>({
+  // Check authentication - use existing cached data first
+  const { data: user, isLoading: authLoading, isFetching } = useQuery<any>({
     queryKey: ["/api/user"],
-    retry: 1,
-    staleTime: 30000,
+    retry: 2,
+    staleTime: 60000,
+    gcTime: 300000,
   });
   
-  // Show loading while checking auth
-  if (authLoading) {
+  // Only show loading on initial load, not refetches
+  if (authLoading && !user) {
     return (
       <div className="min-h-screen bg-muted flex items-center justify-center">
         <div className="text-center">
@@ -63,8 +64,8 @@ export default function InvoiceGenerator() {
     );
   }
   
-  // Redirect if not authenticated
-  if (!user || isError) {
+  // Show login prompt if not authenticated
+  if (!user) {
     return (
       <div className="min-h-screen bg-muted flex items-center justify-center px-4">
         <div className="text-center max-w-sm">
@@ -72,8 +73,8 @@ export default function InvoiceGenerator() {
             <Receipt className="w-8 h-8 text-accent" />
           </div>
           <h2 className="text-xl font-bold text-foreground mb-2">Acceso Requerido</h2>
-          <p className="text-muted-foreground text-sm mb-4">Debes iniciar sesion para usar el generador de facturas.</p>
-          <Button onClick={() => setLocation("/auth/login")} className="bg-accent text-accent-foreground rounded-full">
+          <p className="text-muted-foreground text-sm mb-4">Inicia sesion para usar el generador de facturas.</p>
+          <Button onClick={() => setLocation("/auth/login")} className="bg-accent text-accent-foreground rounded-full px-6">
             Iniciar Sesion
           </Button>
         </div>
@@ -247,10 +248,10 @@ export default function InvoiceGenerator() {
   };
 
   return (
-    <div className="min-h-screen bg-background bg-green-gradient-subtle flex flex-col">
+    <div className="min-h-screen bg-background bg-green-gradient-subtle flex flex-col overflow-x-hidden">
       <Navbar />
       
-      <main className="flex-1 w-full max-w-4xl mx-auto px-4 py-6 md:py-10">
+      <main className="flex-1 w-full max-w-4xl mx-auto px-4 py-6 md:py-10 pb-20">
         <div className="mb-6 md:mb-8">
           <Link href="/dashboard">
             <Button variant="ghost" size="sm" className="mb-4 -ml-2 text-muted-foreground" data-testid="link-back">
