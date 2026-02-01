@@ -210,7 +210,7 @@ export default function Contacto() {
     const isMaintenance = successType === "maintenance";
     
     return (
-      <div className="min-h-screen bg-background font-sans selection:bg-accent selection:text-black">
+      <div className="min-h-screen bg-background bg-green-gradient-subtle font-sans selection:bg-accent selection:text-black">
         <Navbar />
         <main className="pt-20 sm:pt-28 pb-12 px-4 flex flex-col items-center justify-center text-center max-w-3xl mx-auto">
           <div className="space-y-5 sm:space-y-6 w-full">
