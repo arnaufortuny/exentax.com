@@ -192,17 +192,17 @@ export default function Home() {
 
       <PorQueEasyUSLLC />
 
-      <section className="py-20 bg-background">
+      <section className="py-8 sm:py-12 bg-background">
         <div className="w-full px-5 sm:px-8 text-center">
           <Button 
             size="lg" 
             onClick={() => {
               setLocation("/servicios#pricing");
             }} 
-            className="bg-accent text-accent-foreground font-black text-sm px-8 sm:px-12 py-6 sm:py-8 border-0 rounded-full w-full sm:w-auto shadow-xl shadow-accent/30"
+            className="bg-accent text-accent-foreground font-black text-sm px-8 sm:px-12 py-5 sm:py-6 border-0 rounded-full w-full sm:w-auto shadow-xl shadow-accent/30"
             data-testid="button-cta-bottom"
           >
-            Comenzamos? Selecciona tu pack →
+            ¿Comenzamos? Selecciona tu pack →
           </Button>
         </div>
       </section>
