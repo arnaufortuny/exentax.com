@@ -1,6 +1,7 @@
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { useAuth } from "@/hooks/use-auth";
+import { useTranslation } from "react-i18next";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { queryClient, apiRequest } from "@/lib/queryClient";
 import { Building2, FileText, Clock, ChevronRight, User as UserIcon, Settings, Package, CreditCard, PlusCircle, Download, ExternalLink, Mail, BellRing, CheckCircle2, AlertCircle, MessageSquare, Send, Shield, Users, Power, Edit, Trash2, FileUp, Newspaper, Loader2, CheckCircle, Receipt, Plus, Calendar, DollarSign, TrendingUp, BarChart3, UserCheck, UserX, Star, Eye, FileCheck, Upload, XCircle, Tag, Percent, X } from "lucide-react";
@@ -22,16 +23,16 @@ import { DashboardTour } from "@/components/dashboard-tour";
 
 type Tab = 'services' | 'profile' | 'payments' | 'documents' | 'messages' | 'notifications' | 'admin' | 'calendar' | 'tools';
 
-function getOrderStatusLabel(status: string): { label: string; className: string } {
+function getOrderStatusLabel(status: string, t: (key: string) => string): { label: string; className: string } {
   const statusMap: Record<string, { label: string; className: string }> = {
-    pending: { label: 'Pendiente', className: 'bg-yellow-100 dark:bg-yellow-900/50 text-yellow-800 dark:text-yellow-300' },
-    paid: { label: 'Pagado', className: 'bg-blue-100 dark:bg-blue-900/50 text-blue-800 dark:text-blue-300' },
-    processing: { label: 'En Proceso', className: 'bg-purple-100 dark:bg-purple-900/50 text-purple-800 dark:text-purple-300' },
-    documents_ready: { label: 'Docs. Listos', className: 'bg-cyan-100 dark:bg-cyan-900/50 text-cyan-800 dark:text-cyan-300' },
-    completed: { label: 'Completado', className: 'bg-green-100 dark:bg-green-900/50 text-green-800 dark:text-green-300' },
-    cancelled: { label: 'Cancelada', className: 'bg-red-100 dark:bg-red-900/50 text-red-700 dark:text-red-400 font-black' },
-    filed: { label: 'Presentado', className: 'bg-indigo-100 dark:bg-indigo-900/50 text-indigo-800 dark:text-indigo-300' },
-    draft: { label: 'Borrador', className: 'bg-gray-100 dark:bg-zinc-700 text-gray-600 dark:text-gray-300' },
+    pending: { label: t('dashboard.orders.status.pending'), className: 'bg-yellow-100 dark:bg-yellow-900/50 text-yellow-800 dark:text-yellow-300' },
+    paid: { label: t('dashboard.orders.status.paid'), className: 'bg-blue-100 dark:bg-blue-900/50 text-blue-800 dark:text-blue-300' },
+    processing: { label: t('dashboard.orders.status.processing'), className: 'bg-purple-100 dark:bg-purple-900/50 text-purple-800 dark:text-purple-300' },
+    documents_ready: { label: t('dashboard.orders.status.documents_ready'), className: 'bg-cyan-100 dark:bg-cyan-900/50 text-cyan-800 dark:text-cyan-300' },
+    completed: { label: t('dashboard.orders.status.completed'), className: 'bg-green-100 dark:bg-green-900/50 text-green-800 dark:text-green-300' },
+    cancelled: { label: t('dashboard.orders.status.cancelled'), className: 'bg-red-100 dark:bg-red-900/50 text-red-700 dark:text-red-400 font-black' },
+    filed: { label: t('dashboard.orders.status.filed'), className: 'bg-indigo-100 dark:bg-indigo-900/50 text-indigo-800 dark:text-indigo-300' },
+    draft: { label: t('dashboard.orders.status.draft'), className: 'bg-gray-100 dark:bg-zinc-700 text-gray-600 dark:text-gray-300' },
   };
   return statusMap[status] || { label: status, className: 'bg-gray-100 dark:bg-zinc-700 text-gray-600 dark:text-gray-300' };
 }
@@ -104,6 +105,7 @@ function NewsletterToggle() {
 export default function Dashboard() {
   const [, setLocation] = useLocation();
   const { user, isAuthenticated, isLoading: authLoading } = useAuth();
+  const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState<Tab>('services');
   const [isEditing, setIsEditing] = useState(false);
   const [profileData, setProfileData] = useState({ 
@@ -912,8 +914,8 @@ export default function Dashboard() {
                                       <p className="text-[9px] md:text-[10px] font-bold text-accent uppercase tracking-wider">
                                         {order.application?.requestCode || order.maintenanceApplication?.requestCode || order.invoiceNumber || `#${order.id}`}
                                       </p>
-                                      <Badge className={`${getOrderStatusLabel(order.status).className} font-bold uppercase text-[8px] md:text-[9px] px-1.5 py-0`} data-testid={`badge-order-status-${order.id}`}>
-                                        {getOrderStatusLabel(order.status).label}
+                                      <Badge className={`${getOrderStatusLabel(order.status, t).className} font-bold uppercase text-[8px] md:text-[9px] px-1.5 py-0`} data-testid={`badge-order-status-${order.id}`}>
+                                        {getOrderStatusLabel(order.status, t).label}
                                       </Badge>
                                     </div>
                                     <p className="text-sm md:text-base font-bold text-primary truncate">
@@ -2598,8 +2600,8 @@ export default function Dashboard() {
                           </p>
                           <p className="text-[10px] text-muted-foreground">{orders[0]?.application?.state || orders[0]?.maintenanceApplication?.state || ''}</p>
                         </div>
-                        <Badge className={`${getOrderStatusLabel(orders[0]?.status).className} font-bold text-[9px] shrink-0`}>
-                          {getOrderStatusLabel(orders[0]?.status).label}
+                        <Badge className={`${getOrderStatusLabel(orders[0]?.status || '', t).className} font-bold text-[9px] shrink-0`}>
+                          {getOrderStatusLabel(orders[0]?.status || '', t).label}
                         </Badge>
                       </div>
                       <p className="text-[9px] text-muted-foreground mt-2">Creado: {orders[0]?.createdAt ? new Date(orders[0].createdAt).toLocaleDateString('es-ES', { day: '2-digit', month: 'short', year: 'numeric' }) : '-'}</p>

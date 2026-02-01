@@ -465,7 +465,8 @@
         "filed": "Filed",
         "documents_ready": "Documents ready",
         "completed": "Completed",
-        "cancelled": "Cancelled"
+        "cancelled": "Cancelled",
+        "draft": "Draft"
       }
     },
     "documents": {
@@ -591,8 +592,63 @@
     "loginFaster": "or log in with email to go faster"
   },
   "faq": {
-    "title": "Frequently Asked Questions",
-    "subtitle": "Find answers to the most common questions"
+    "title": "Help Center",
+    "subtitle": "(Everything you need to know)",
+    "searchPlaceholder": "Search your question...",
+    "noResults": "We couldn't find anything",
+    "noResultsHint": "Try another word or contact us directly.",
+    "categories": {
+      "aboutUs": {
+        "title": "About Easy US LLC",
+        "q1": "What do we do at Easy US LLC?",
+        "a1": "We create, structure and manage your LLC in the United States comprehensively. We're not a website that hands you some papers and disappears. We're a consulting firm that accompanies you before, during and after the process. Our goal is for you to have a well-created company from the start, with a structure that works legally, avoiding any surprises due to lack of information and allowing your business to grow without operational or legal blocks. We handle all the bureaucracy so you can focus on selling.",
+        "q2": "What's included in the formation package?",
+        "a2": "It includes absolutely everything necessary for your company to be born and fully operational from day one: Official LLC registration with the state, drafting of Articles of Organization, a personalized and professional Operating Agreement, a physical commercial address in the United States to receive official correspondence, the legally required Registered Agent, initial BOI (Beneficial Ownership Report) registration with FinCEN, express formation in 3 business days and support with unlimited consultations so you never feel alone.",
+        "q3": "What's NOT included in the base package?",
+        "a3": "It doesn't include services that depend directly on your billing or specific activity: Direct bank account opening (although we guide you step by step, the final decision is the bank's), annual tax filings, Sales Tax registration, monthly accounting services or personal immigration procedures. These additional services are activated modularly when your business really needs them to operate at large scale.",
+        "q4": "Do you provide a US address?",
+        "a4": "Yes, of course. We provide you with a real physical commercial address valid for banks, payment platforms (Stripe/PayPal), official state registrations and tax documentation before the IRS. It's not a simple cheap forwarding postal box; it's a real business management address. Without a professional address in the United States, your company won't be able to pass the security verifications of neobanks or modern payment gateways."
+      },
+      "keyConcepts": {
+        "title": "Key Concepts and Procedures",
+        "q1": "What is the EIN?",
+        "a1": "The EIN (Employer Identification Number) is your company's federal tax identification number in the United States, equivalent to the NIF or CIF in other countries. It's the most important document: you need it mandatorily to open business bank accounts, invoice clients, hire employees, file taxes with the IRS and verify your accounts on Stripe, PayPal, Wise and Amazon. Without a validated EIN, your company exists legally but is completely inoperative in the financial system.",
+        "q2": "What is the Operating Agreement?",
+        "a2": "It's the fundamental internal contract of your company. This document sets the rules of the game: who are the owners (members), what percentage of participation each one has, who has decision-making power, how profits are distributed and what happens legally if a partner wants to leave or enter the company. US banks require it as an essential requirement to open an account and it's your main defense against any legal dispute or audit.",
+        "q3": "What are the Articles of Organization?",
+        "a3": "It's the official birth certificate of your company, the document we file with the Secretary of State to create the legal entity. It includes crucial public data such as the LLC's name, the state of formation (Wyoming or New Mexico), the official physical address and the identity of the Registered Agent. Once stamped by the state, this document confirms that your limited liability has begun and that your personal assets are protected.",
+        "q4": "What is a Registered Agent?",
+        "a4": "It's a mandatory figure by law in all states. It's the entity or person in charge of receiving on your behalf all official government notifications, legal requirements, court summons and tax notices. We act as your official Registered Agent: we process all important correspondence, notify you immediately and advise you on what actions to take. Not having one is grounds for immediate dissolution of your company by the state.",
+        "q5": "What is the BOI?",
+        "a5": "It's the 'Beneficial Ownership Information' registration required by the Treasury Department (FinCEN). The US government requires knowing who the natural persons that actually own or control the company are to prevent illicit activities. It's not an optional procedure and non-compliance can carry extreme civil fines of up to $500 for each day of delay or criminal penalties of up to $10,000."
+      },
+      "taxes": {
+        "title": "Taxes and Compliance",
+        "q1": "What taxes does an LLC pay?",
+        "a1": "Taxation depends entirely on how the company is structured and the residence of its owners. Most LLCs operate as 'disregarded' (transparent) entities, which means the company itself doesn't pay corporate tax in the United States, but the profit flows to the owners. If you don't have a physical presence or employees in the US and provide digital services, it's very likely that your federal tax burden is 0%, paying taxes only in your country of residence. Each case is unique and we provide you with the necessary initial guidance.",
+        "q2": "Is there VAT in the United States?",
+        "a2": "No, in the United States there is no VAT (Value Added Tax) as known in Europe or Latin America. Instead, there is 'Sales Tax', which is a state and local tax. It's only collected if you sell physical products to end customers in states where your company has 'nexus' (legal or economic presence). For digital services and software (SaaS) sold outside the US, there are generally no indirect taxes to collect.",
+        "q3": "What is CRS and FATCA?",
+        "a3": "The United States is one of the few countries that doesn't participate in the automatic exchange of banking information system known as CRS (Common Reporting Standard). Instead, it uses its own system called FATCA. This means that bank accounts opened in the US by foreigners aren't automatically reported through the CRS system used by almost all of Europe and Latin America, offering a higher level of financial privacy, as long as the user complies with their individual legal obligations.",
+        "q4": "What are Forms 5472 and 1120?",
+        "a4": "They are mandatory annual informational filings with the IRS. Form 5472 reports transactions between the LLC and its foreign owners (loans, capital contributions, payments). Failure to file this form carries an automatic minimum penalty of $25,000. Form 1120 is the corporation's tax return that accompanies the 5472. They must be filed even if the company has had no commercial activity or billing during the year.",
+        "q5": "What is the Annual Report?",
+        "a5": "It's an annual maintenance report required by states like Wyoming to confirm that the company is still active and that its contact information is correct. It includes payment of a state maintenance fee. If you don't file this report before the deadline, the state will change your company's status to 'Delinquent' and eventually dissolve it, losing you all limited liability protection."
+      },
+      "operations": {
+        "title": "Operations and Platforms",
+        "q1": "Can I use my LLC to collect payments on Stripe, PayPal or Wise?",
+        "a1": "Yes, that's precisely one of the biggest benefits of having an LLC. With your federal EIN, professional Operating Agreement and certified commercial address, you can open business accounts on these platforms without the blocks that personal accounts from high-risk countries often suffer. We advise you on how to present the technical documentation correctly to pass the 'Know Your Customer' (KYC) processes and avoid unjustified fund holds.",
+        "q2": "What happens if a platform blocks my account?",
+        "a2": "A block is not always definitive, it's usually a routine security check. We help you analyze what specific documents they're requesting, prepare the appropriate technical response with your Articles of Organization and EIN, and tell you how to send the information so that a human support agent approves it. Most accounts are unblocked in a few days if the response is professional and well documented.",
+        "q3": "Can I change my LLC's state later?",
+        "a3": "Not easily. At Easy US LLC we don't perform 'Domestication' (state transfer) procedures because it's a costly and bureaucratic process that often generates tax errors. If your business changes radically and you need to operate in a different state, the most efficient and safe option is usually to close the current entity and create a new LLC or register the current one as a foreign entity in the new state. That's why it's vital to choose well between Wyoming and New Mexico from day one.",
+        "q4": "Can I use it living in Europe?",
+        "a4": "Yes, the LLC is the favorite optimization tool for digital nomads and entrepreneurs residing in Europe. It allows you to invoice globally with a US structure while complying with the regulations of your country of residence. It's a perfectly legal way to separate your personal assets from business ones and operate in a market with less bureaucracy than the European one.",
+        "q5": "Does it work for Amazon, SaaS, Freelancing, Crypto?",
+        "a5": "Absolutely. The LLC is an extremely versatile entity that adapts to any digital business model. Whether you're an Amazon FBA seller who needs access to the American market, a software developer with a SaaS model, a freelancer who invoices international clients or an investor in cryptoassets looking for legal protection, the US LLC is the reference structure worldwide for its flexibility and prestige."
+      }
+    }
   },
   "footer": {
     "description": "Your LLC in the United States, created and managed with professional standards, hassle-free and with continuous support.",
