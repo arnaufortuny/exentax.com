@@ -87,13 +87,14 @@ export default function LinktreePage() {
           />
         </div>
 
-        <h1 className="text-xl sm:text-2xl md:text-3xl font-black text-[#0E1215] mb-3 text-center tracking-tight leading-snug">
+        <h1 className="text-2xl sm:text-3xl md:text-4xl font-black text-[#0E1215] mb-4 text-center tracking-tight leading-snug">
           <span className="block">OPTIMIZA TUS IMPUESTOS</span>
           <span className="block">CON UNA LLC EN EEUU</span>
         </h1>
-        <p className="text-sm sm:text-base text-[#6B7280] mb-10 text-center max-w-sm leading-relaxed">
-          Te ayudamos a estructurar tu negocio con una LLC en EE. UU.<br />
-          Sin letra pequeña. Sin consultorías interminables.
+        <p className="text-base sm:text-lg text-[#0E1215] mb-10 text-center max-w-sm leading-relaxed font-medium">
+          Te ayudamos a estructurar tu negocio<br />
+          con una LLC en EE. UU.<br />
+          <span className="block mt-1">Sin letra pequeña. Sin consultorías interminables.</span>
         </p>
 
         <div className="w-full space-y-3">
