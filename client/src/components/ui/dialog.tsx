@@ -41,22 +41,35 @@ const DialogContent = React.forwardRef<
       <DialogPrimitive.Content
         ref={ref}
         onOpenAutoFocus={(e) => e.preventDefault()}
+        onPointerDownOutside={(e) => {
+          // Prevent closing on touch scroll
+          if (e.detail.originalEvent.type === 'touchend') {
+            const target = e.target as HTMLElement;
+            if (target.closest('[data-radix-dialog-content]')) {
+              e.preventDefault();
+            }
+          }
+        }}
         className={cn(
           "fixed z-[99999]",
           "left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2",
-          "w-[calc(100vw-2rem)] max-w-md",
+          "w-[calc(100vw-1.5rem)] sm:w-[calc(100vw-2rem)] max-w-md",
           "bg-white dark:bg-zinc-900 border border-border",
           "rounded-xl shadow-2xl",
-          "max-h-[85vh] overflow-y-auto overscroll-contain",
-          "p-5 sm:p-6",
+          "max-h-[85vh] sm:max-h-[80vh] overflow-y-auto overscroll-contain",
+          "p-4 sm:p-6",
+          "touch-pan-y",
           "data-[state=closed]:duration-0",
           className
         )}
-        style={{ position: 'fixed' }}
+        style={{ position: 'fixed', WebkitOverflowScrolling: 'touch' }}
         {...props}
       >
         {children}
-        <DialogPrimitive.Close className="absolute right-3 top-3 w-8 h-8 rounded-full bg-muted/80 hover:bg-muted flex items-center justify-center transition-colors z-10">
+        <DialogPrimitive.Close 
+          className="absolute right-3 top-3 w-9 h-9 sm:w-8 sm:h-8 rounded-full bg-muted/80 hover:bg-muted active:bg-muted/60 flex items-center justify-center transition-colors z-10 touch-manipulation"
+          data-testid="button-dialog-close"
+        >
           <X className="h-4 w-4 text-muted-foreground" />
           <span className="sr-only">Cerrar</span>
         </DialogPrimitive.Close>
