@@ -229,28 +229,27 @@
     border-color: #6EDC8A;
   }
   
-  /* Beautiful green gradient backgrounds - Light mode */
+  /* Beautiful green gradient backgrounds - Light mode (top to bottom, white at bottom) */
   .bg-green-gradient {
     background: 
-      linear-gradient(160deg, 
+      linear-gradient(180deg, 
         rgba(110, 220, 138, 0.35) 0%, 
-        rgba(110, 220, 138, 0.25) 15%,
-        rgba(110, 220, 138, 0.15) 35%,
-        rgba(110, 220, 138, 0.08) 55%,
-        rgba(247, 247, 245, 1) 100%);
+        rgba(110, 220, 138, 0.20) 20%,
+        rgba(110, 220, 138, 0.10) 40%,
+        rgba(255, 255, 255, 1) 100%);
   }
   
   .bg-green-gradient-subtle {
     background: linear-gradient(180deg, 
-      rgba(110, 220, 138, 0.08) 0%, 
-      rgba(255, 255, 255, 0) 100%);
+      rgba(110, 220, 138, 0.12) 0%, 
+      rgba(255, 255, 255, 1) 100%);
   }
   
   .bg-green-gradient-hero {
-    background: linear-gradient(145deg, 
-      rgba(110, 220, 138, 0.15) 0%, 
-      rgba(110, 220, 138, 0.06) 40%,
-      transparent 80%);
+    background: linear-gradient(180deg, 
+      rgba(110, 220, 138, 0.20) 0%, 
+      rgba(110, 220, 138, 0.08) 50%,
+      rgba(255, 255, 255, 1) 100%);
   }
   
   .bg-green-dots {
@@ -258,28 +257,27 @@
     background-size: 20px 20px;
   }
   
-  /* Dark mode variants */
+  /* Dark mode variants (top to bottom) */
   .dark .bg-green-gradient {
     background: 
-      linear-gradient(160deg, 
-        rgba(110, 220, 138, 0.20) 0%, 
-        rgba(110, 220, 138, 0.12) 15%,
-        rgba(110, 220, 138, 0.06) 35%,
-        rgba(14, 18, 21, 0.95) 60%,
+      linear-gradient(180deg, 
+        rgba(110, 220, 138, 0.15) 0%, 
+        rgba(110, 220, 138, 0.08) 20%,
+        rgba(14, 18, 21, 0.95) 50%,
         rgba(14, 18, 21, 1) 100%);
   }
   
   .dark .bg-green-gradient-subtle {
     background: linear-gradient(180deg, 
-      rgba(110, 220, 138, 0.06) 0%, 
-      rgba(0, 0, 0, 0) 100%);
+      rgba(110, 220, 138, 0.08) 0%, 
+      rgba(14, 18, 21, 1) 100%);
   }
   
   .dark .bg-green-gradient-hero {
-    background: linear-gradient(145deg, 
-      rgba(110, 220, 138, 0.10) 0%, 
-      rgba(110, 220, 138, 0.03) 40%,
-      transparent 80%);
+    background: linear-gradient(180deg, 
+      rgba(110, 220, 138, 0.12) 0%, 
+      rgba(110, 220, 138, 0.04) 50%,
+      rgba(14, 18, 21, 1) 100%);
   }
   
   .dark .bg-green-dots {
@@ -303,4 +301,13 @@ a, button {
 
 img {
   content-visibility: auto;
+}
+
+/* Main site gradient background - top to bottom (white at bottom) */
+.bg-gradient-main {
+  background: linear-gradient(180deg, hsl(145 72% 90% / 0.4) 0%, hsl(0 0% 100%) 100%);
+}
+
+.dark .bg-gradient-main {
+  background: linear-gradient(180deg, hsl(225 18% 8%) 0%, hsl(225 16% 12%) 100%);
 }
