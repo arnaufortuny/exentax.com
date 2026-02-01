@@ -17,7 +17,11 @@
     "error": "Error",
     "success": "Success",
     "required": "This field is required",
-    "optional": "Optional"
+    "optional": "Optional",
+    "select": "Select...",
+    "sending": "Sending...",
+    "processing": "Processing...",
+    "verifying": "Verifying..."
   },
   "nav": {
     "home": "Home",
@@ -28,12 +32,15 @@
     "login": "My Account",
     "myArea": "My Dashboard",
     "register": "Form your LLC now",
-    "dashboard": "Dashboard"
+    "dashboard": "Dashboard",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu"
   },
   "hero": {
     "title": "OPTIMIZE THE TAX STRUCTURE OF YOUR DIGITAL BUSINESS",
     "subtitle": "WITH A US LLC",
     "description": "For freelancers and digital entrepreneurs who work online and sell internationally.",
+    "highlight": "Your LLC in 2 days. No VAT. No Corporate Tax. No self-employment fees.",
     "cta": "Your LLC in 2 days",
     "features": {
       "fast": "Your LLC in 2 days",
@@ -45,8 +52,57 @@
       "card": "Physical Credit and Debit Card"
     }
   },
+  "benefits": {
+    "vat": {
+      "badge": "VAT",
+      "title": "No VAT on LLC",
+      "text": "The LLC does not apply VAT when invoicing digital services, whether to end consumers or international B2B clients. We structure your activity so that invoicing is done correctly from the US company, without VAT, in accordance with applicable regulations and the type of operation.",
+      "footer": "Your services are exempt."
+    },
+    "taxes": {
+      "badge": "Taxes",
+      "title": "0% Corporate Tax",
+      "text": "In states like New Mexico or Wyoming, the LLC is not subject to state corporate tax. The company does not pay tax as a corporation in the United States; instead, profits are attributed directly to the owner, according to the LLC's tax structure.",
+      "footer": "0% Corporate Tax."
+    },
+    "fees": {
+      "badge": "Fees",
+      "title": "No fixed fees",
+      "text": "In the United States, there is no monthly self-employment fee associated with the LLC. There are no mandatory periodic payments simply for having an active company, regardless of whether there is activity or not. The structure maintains low fixed costs and lighter management.",
+      "footer": "No self-employment fees."
+    },
+    "banking": {
+      "badge": "Banking",
+      "title": "International banking",
+      "text": "We guide you through the process of opening bank accounts at Mercury and Relay. Access a business account in USD, with the ability to receive and send international transfers and have a physical debit and credit card to operate globally.",
+      "footer": "International physical card."
+    }
+  },
+  "whyUs": {
+    "speed": {
+      "badge": "REAL SPEED",
+      "title": "Your LLC ready in 2-3 business days",
+      "text": "We work with an agile, proven and well-organized process from the start. No unnecessary waits or confusing steps. You know what's happening at each phase and when your company will be operational."
+    },
+    "transparency": {
+      "badge": "TRANSPARENCY",
+      "title": "Clear pricing from the start",
+      "text": "Everything is included from the beginning, with no hidden costs or surprises. What you see is what you pay. We believe trust starts with clarity and honesty in the numbers."
+    },
+    "specialists": {
+      "badge": "SPECIALISTS",
+      "title": "Business specialists",
+      "text": "We're not generic intermediaries. We work daily with freelancers and international businesses, understanding their real needs and anticipating problems to make it easy for you from day one."
+    },
+    "support": {
+      "badge": "HUMAN SUPPORT",
+      "title": "Personal attention, in your language",
+      "text": "We talk to you person to person, via WhatsApp and email, whenever you need. No endless tickets or automated responses. We're here to accompany you before, during and after the process."
+    }
+  },
   "services": {
     "title": "Our Services",
+    "subtitle": "Everything you need to form and maintain your LLC",
     "llc": {
       "title": "LLC Formation",
       "description": "Form your US LLC quickly and easily"
@@ -54,10 +110,62 @@
     "maintenance": {
       "title": "Annual Maintenance",
       "description": "Keep your LLC compliant with our maintenance service"
+    },
+    "formation": {
+      "title": "LLC Formation",
+      "includes": [
+        "State fees paid",
+        "Registered Agent (12 months)",
+        "Articles of Organization",
+        "Operating Agreement",
+        "EIN obtainment",
+        "Our address",
+        "Bank assistance",
+        "Full support 12 months",
+        "Express Service"
+      ]
+    },
+    "maintenancePack": {
+      "title": "Annual Maintenance",
+      "includes": [
+        "Form 1120 filing with IRS",
+        "Form 5472 filing with IRS",
+        "Registered Agent renewal (12 months)",
+        "Annual Report filing and management",
+        "Unlimited support (12 months)",
+        "BOI Report renewal (if necessary)"
+      ],
+      "details": {
+        "fiscal": {
+          "title": "Tax Management",
+          "desc": "Preparation and filing of forms 1120 and 5472 with the IRS, ensuring your LLC's annual tax compliance."
+        },
+        "agent": {
+          "title": "Registered Agent",
+          "desc": "Renewal of the Registered Agent service for one more year, maintaining your legal address and receiving official notifications."
+        },
+        "annual": {
+          "title": "Annual Report",
+          "desc": "Management and filing of the Annual Report with the corresponding Secretary of State, including payment of mandatory state fees."
+        },
+        "boi": {
+          "title": "BOI Report",
+          "desc": "Update and maintenance of the Beneficial Ownership Information Report with FinCEN to reflect any changes in the structure."
+        },
+        "support": {
+          "title": "Continuous Support",
+          "desc": "Unlimited access to our support team to resolve questions about operations, taxes and maintenance of your company."
+        },
+        "updates": {
+          "title": "Updates",
+          "desc": "Includes an annual update of your Articles of Organization in case of minor changes to the company structure."
+        }
+      }
     }
   },
   "pricing": {
     "title": "Plans & Pricing",
+    "subtitle": "Simple, transparent pricing with no surprises",
     "newMexico": {
       "title": "New Mexico",
       "price": "739",
@@ -77,7 +185,11 @@
       "agent": "Registered agent 1 year",
       "bank": "Bank account opening assistance",
       "support": "Priority support"
-    }
+    },
+    "currency": "€",
+    "startFrom": "From",
+    "selectPlan": "Select plan",
+    "mostPopular": "Most Popular"
   },
   "auth": {
     "login": {
@@ -105,7 +217,38 @@
       "title": "Reset Password",
       "description": "Enter your email and we'll send you instructions",
       "submit": "Send instructions"
+    },
+    "otp": {
+      "title": "Verify Email",
+      "description": "Enter the code we sent to your email",
+      "sendCode": "Send verification code",
+      "verifyCode": "Verify code",
+      "codeSent": "Code sent",
+      "codeExpired": "Code expired",
+      "invalidCode": "Invalid code",
+      "resend": "Resend code"
+    },
+    "google": {
+      "signIn": "Sign in with Google",
+      "connect": "Connect Google",
+      "disconnect": "Disconnect",
+      "connected": "Google account connected",
+      "disconnected": "Google account disconnected"
     }
+  },
+  "validation": {
+    "required": "This field is required",
+    "invalidEmail": "Invalid email",
+    "invalidPhone": "Invalid phone number",
+    "minLength": "Minimum {{min}} characters",
+    "maxLength": "Maximum {{max}} characters",
+    "passwordMismatch": "Passwords do not match",
+    "minPassword": "Minimum 8 characters",
+    "nameRequired": "Name is required",
+    "lastNameRequired": "Last name is required",
+    "llcNameFormat": "Name must end in LLC (e.g., MY COMPANY LLC)",
+    "acceptTerms": "You must accept the terms",
+    "whatsappRequired": "Required if you want WhatsApp contact"
   },
   "application": {
     "title": "LLC Application",
@@ -121,16 +264,43 @@
     },
     "fields": {
       "fullName": "Full name",
+      "firstName": "First name",
+      "lastName": "Last name",
       "email": "Email",
       "phone": "Phone",
       "birthDate": "Date of birth",
       "idType": "ID type",
       "idNumber": "ID number",
       "country": "Country of residence",
-      "address": "Full address",
+      "address": "Address",
+      "streetType": "Street type",
+      "city": "City",
+      "province": "Province/State",
+      "postalCode": "Postal code",
       "companyName": "Company name",
       "businessActivity": "Business activity",
-      "businessCategory": "Business category"
+      "businessCategory": "Business category",
+      "state": "State",
+      "sellingOnline": "Do you sell online?",
+      "needsBank": "Do you need a bank account?",
+      "useStripe": "Will you use Stripe?",
+      "wantsBoi": "BOI Report",
+      "wantsMaintenance": "Annual maintenance pack"
+    },
+    "streetTypes": {
+      "street": "Street",
+      "avenue": "Avenue",
+      "road": "Road",
+      "plaza": "Plaza",
+      "passage": "Passage",
+      "boulevard": "Boulevard",
+      "other": "Other"
+    },
+    "idTypes": {
+      "passport": "Passport",
+      "dni": "National ID",
+      "nie": "Foreigner ID",
+      "other": "Other"
     },
     "validation": {
       "required": "This field is required",
@@ -138,7 +308,14 @@
       "invalidPhone": "Invalid phone",
       "minLength": "Minimum {{min}} characters",
       "maxLength": "Maximum {{max}} characters"
-    }
+    },
+    "discountCode": "Discount code",
+    "applyCode": "Apply",
+    "codeApplied": "Code applied",
+    "codeInvalid": "Invalid code",
+    "total": "Total",
+    "subtotal": "Subtotal",
+    "discount": "Discount"
   },
   "dashboard": {
     "title": "Dashboard",
@@ -156,7 +333,8 @@
       "payments": "Payments",
       "calendar": "Calendar",
       "profile": "My Profile",
-      "admin": "Admin"
+      "admin": "Admin",
+      "tools": "Tools"
     },
     "services": {
       "title": "My applications status",
@@ -211,6 +389,43 @@
     "notifications": {
       "title": "Notifications",
       "empty": "No notifications"
+    },
+    "profile": {
+      "title": "My Profile",
+      "personalInfo": "Personal Information",
+      "security": "Security",
+      "preferences": "Preferences",
+      "saveChanges": "Save changes",
+      "changePassword": "Change password",
+      "currentPassword": "Current password",
+      "newPassword": "New password",
+      "confirmNewPassword": "Confirm new password"
+    }
+  },
+  "tour": {
+    "welcome": {
+      "title": "Welcome to your Client Area",
+      "description": "We'll show you the main features of your dashboard."
+    },
+    "orders": {
+      "title": "Your Orders",
+      "description": "Check the status of your orders and documents."
+    },
+    "calendar": {
+      "title": "Tax Calendar",
+      "description": "Important dates: IRS, reports and renewals."
+    },
+    "messages": {
+      "title": "Messages",
+      "description": "Contact our support team."
+    },
+    "profile": {
+      "title": "Your Profile",
+      "description": "Manage your personal data."
+    },
+    "ready": {
+      "title": "Ready to start",
+      "description": "If you have questions, use the Messages section."
     }
   },
   "contact": {
@@ -219,13 +434,37 @@
     "description": "We're here to help. Send us a message and we'll get back to you as soon as possible.",
     "form": {
       "name": "Name",
+      "lastName": "Last name",
       "email": "Email",
+      "phone": "Phone",
       "subject": "Subject",
       "message": "Message",
-      "submit": "Send message"
+      "submit": "Send message",
+      "whatsapp": "I want to be contacted via WhatsApp",
+      "whatsappNote": "We'll only use your number to respond to this inquiry",
+      "whatsappRequired": "Required if you select WhatsApp"
+    },
+    "subjects": {
+      "createCompany": "I want to create my US company",
+      "llcHelp": "I need help with my LLC",
+      "closeCompany": "I want to close my company",
+      "bankPayments": "Banks, payments or forms",
+      "question": "I have a question",
+      "other": "Other"
+    },
+    "consent": {
+      "dataProcessing": "I accept the processing of my personal data",
+      "terms": "I accept the terms and conditions"
     },
     "success": "Message sent successfully",
-    "error": "Error sending message"
+    "successTitle": "Thank you for writing to us",
+    "successDescription": "We have received your message correctly",
+    "requestReceived": "Request received",
+    "thankYou": "Thank you for trusting us",
+    "order": "Order",
+    "ticket": "Ticket",
+    "error": "Error sending message",
+    "tryAgain": "Try again in a few seconds"
   },
   "faq": {
     "title": "Frequently Asked Questions",
@@ -317,7 +556,8 @@
     "payments": "Payments",
     "calendar": "Calendar",
     "profile": "My Profile",
-    "admin": "Admin"
+    "admin": "Admin",
+    "tools": "Tools"
   },
   "actions": {
     "modify": "Modify",
@@ -325,6 +565,37 @@
     "view": "View",
     "newLLC": "New LLC",
     "viewPacks": "View Packs",
-    "modifyData": "Modify data"
+    "modifyData": "Modify data",
+    "continueApplication": "Continue application",
+    "startNew": "Start new"
+  },
+  "toast": {
+    "success": "Success",
+    "error": "Error",
+    "codeSent": "Code sent",
+    "checkEmail": "Check your inbox, we'll wait for you here",
+    "emailVerified": "Email verified",
+    "canContinue": "You can continue now",
+    "invalidCode": "Invalid code",
+    "codeExpiredOrInvalid": "The code is invalid or has expired",
+    "verifyEmail": "Verify your email",
+    "needVerification": "We need to verify your email to continue",
+    "messageSent": "Message sent",
+    "willRespondSoon": "We'll respond soon",
+    "somethingWrong": "Something went wrong",
+    "preferencesUpdated": "Preferences updated",
+    "thankYouForStaying": "Thank you for staying with us",
+    "invalidEmail": "Invalid email",
+    "checkEmailFormat": "Check that it's written correctly",
+    "errorSending": "Error sending",
+    "tryAgain": "Try again in a few seconds"
+  },
+  "newsletter": {
+    "title": "Stay informed",
+    "description": "Receive news and updates about LLCs",
+    "placeholder": "Enter your email",
+    "subscribe": "Subscribe",
+    "success": "Subscribed successfully",
+    "checkInbox": "Check your inbox."
   }
 }
