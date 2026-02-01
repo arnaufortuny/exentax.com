@@ -30,7 +30,7 @@ The application is built with a modern UI/UX, featuring a consistent design syst
 
 **Feature Specifications:**
 - **Order & Account System:** Mandatory account creation for LLC and maintenance orders, auto-verified accounts, welcome emails, and flexible payment options (bank transfer or payment link). Existing user detection prompts for login to continue orders.
-- **Pricing (January 2026):** Formation: New Mexico 739€, Wyoming 899€, Delaware 1199€. Maintenance: New Mexico 539€, Wyoming 699€, Delaware 899€. All prices include state fees and first year services.
+- **Pricing (February 2026):** Formation: New Mexico 739€, Wyoming 899€, Delaware 1399€. Maintenance: New Mexico 539€, Wyoming 699€, Delaware 999€. All prices include state fees and first year services.
 - **OTP Verification System:** Email OTP verification is required for account creation and password resets, with 6-digit codes valid for 10 minutes, and state reset on email changes.
 - **Messaging System:** Automatically links messages from authenticated users, sends email notifications to users and admins, supports threaded replies, and integrates message history into the user dashboard.
 - **Admin Features:** Includes payment link management (admin sets URL per order via PATCH /api/admin/orders/:id/payment-link), full CRUD operations for users and orders, document request management, invoice generation with payment status tracking (pending/paid/overdue/cancelled), and payment due dates.
