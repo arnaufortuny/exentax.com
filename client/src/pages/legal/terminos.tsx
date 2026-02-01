@@ -113,7 +113,7 @@ export default function Terminos() {
                       <p className="text-xs font-black tracking-widest opacity-60 mt-2 uppercase">Pack Wyoming</p>
                     </div>
                     <div className="bg-white dark:bg-zinc-900 p-8 rounded-2xl border-2 border-accent/20 text-center shadow-sm">
-                      <p className="text-3xl font-black text-brand-dark">1199 €</p>
+                      <p className="text-3xl font-black text-brand-dark">1399 €</p>
                       <p className="text-xs font-black tracking-widest opacity-60 mt-2 uppercase">Pack Delaware</p>
                     </div>
                   </div>

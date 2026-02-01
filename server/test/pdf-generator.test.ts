@@ -82,11 +82,11 @@ describe('PDF Generator', () => {
         items: [{
           description: 'LLC Delaware Formation',
           quantity: 1,
-          unitPrice: 119900,
-          total: 119900
+          unitPrice: 139900,
+          total: 139900
         }],
-        subtotal: 119900,
-        total: 119900,
+        subtotal: 139900,
+        total: 139900,
         currency: 'EUR',
         status: 'pending',
         paymentMethod: 'link',

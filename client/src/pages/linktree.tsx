@@ -70,35 +70,51 @@ export default function LinktreePage() {
   };
 
   useEffect(() => {
-    document.title = "Creamos tu LLC | Tu empresa en Estados Unidos";
+    document.title = "Creamos tu LLC | Optimiza tus impuestos con una LLC en EEUU";
     
-    const metaDescription = document.querySelector('meta[name="description"]');
-    if (metaDescription) {
-      metaDescription.setAttribute('content', 'Optimiza tus impuestos con una LLC en EE. UU. Te ayudamos a estructurar tu negocio. Sin letra pequeña. Sin consultorías interminables.');
-    } else {
-      const meta = document.createElement('meta');
-      meta.name = 'description';
-      meta.content = 'Optimiza tus impuestos con una LLC en EE. UU. Te ayudamos a estructurar tu negocio. Sin letra pequeña. Sin consultorías interminables.';
-      document.head.appendChild(meta);
-    }
-
-    const ogTags = [
-      { property: 'og:title', content: 'Creamos tu LLC | Tu empresa en Estados Unidos' },
-      { property: 'og:description', content: 'Optimiza tus impuestos con una LLC en EE. UU. Sin letra pequeña. Sin consultorías interminables.' },
-      { property: 'og:type', content: 'website' },
-      { property: 'og:url', content: 'https://creamostullc.com' },
-      { property: 'og:site_name', content: 'Creamos tu LLC' }
-    ];
-
-    ogTags.forEach(({ property, content }) => {
-      let tag = document.querySelector(`meta[property="${property}"]`);
+    const setMeta = (name: string, content: string, isProperty = false) => {
+      const selector = isProperty ? `meta[property="${name}"]` : `meta[name="${name}"]`;
+      let tag = document.querySelector(selector);
       if (!tag) {
         tag = document.createElement('meta');
-        tag.setAttribute('property', property);
+        tag.setAttribute(isProperty ? 'property' : 'name', name);
         document.head.appendChild(tag);
       }
       tag.setAttribute('content', content);
-    });
+    };
+
+    setMeta('description', 'Optimiza tus impuestos con una LLC en EE. UU. Formación desde 739€. Te ayudamos a estructurar tu negocio. Sin letra pequeña. Sin consultorías interminables.');
+    setMeta('keywords', 'LLC Estados Unidos, crear LLC, empresa USA, optimizar impuestos, LLC para autonomos, LLC emprendedores, abrir empresa EEUU');
+    setMeta('robots', 'index, follow');
+    setMeta('author', 'Creamos tu LLC');
+
+    setMeta('og:title', 'Creamos tu LLC | Optimiza tus impuestos con una LLC en EEUU', true);
+    setMeta('og:description', 'Formación LLC desde 739€. Sin letra pequeña. Sin consultorías interminables.', true);
+    setMeta('og:type', 'website', true);
+    setMeta('og:url', 'https://creamostullc.com', true);
+    setMeta('og:site_name', 'Creamos tu LLC', true);
+    setMeta('og:image', 'https://easyusllc.com/logo-icon.png', true);
+
+    setMeta('twitter:card', 'summary');
+    setMeta('twitter:title', 'Creamos tu LLC | LLC en EEUU');
+    setMeta('twitter:description', 'Optimiza tus impuestos con una LLC. Desde 739€.');
+
+    let canonical = document.querySelector('link[rel="canonical"]');
+    if (!canonical) {
+      canonical = document.createElement('link');
+      canonical.setAttribute('rel', 'canonical');
+      document.head.appendChild(canonical);
+    }
+    canonical.setAttribute('href', 'https://creamostullc.com');
+
+    let favicon = document.querySelector('link[rel="icon"]');
+    if (!favicon) {
+      favicon = document.createElement('link');
+      favicon.setAttribute('rel', 'icon');
+      document.head.appendChild(favicon);
+    }
+    favicon.setAttribute('href', 'https://easyusllc.com/logo-icon.png');
+    favicon.setAttribute('type', 'image/png');
   }, []);
 
   return (
