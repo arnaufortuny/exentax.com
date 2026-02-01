@@ -39,11 +39,13 @@ const DialogContent = React.forwardRef<
         className="fixed inset-0 z-[99998] bg-black/60 backdrop-blur-sm data-[state=closed]:duration-0"
       />
       <div 
-        className="fixed inset-0 z-[99999] flex items-center justify-center p-4"
+        className="fixed inset-0 z-[99999] overflow-y-auto"
         style={{ 
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
+          minHeight: '100%',
+          padding: '1rem',
         }}
       >
         <DialogPrimitive.Content
@@ -54,14 +56,13 @@ const DialogContent = React.forwardRef<
             "relative w-full max-w-md",
             "bg-white dark:bg-zinc-900 border border-border",
             "rounded-xl shadow-2xl",
-            "max-h-[80dvh] overflow-y-auto overscroll-contain",
+            "max-h-[85vh] overflow-y-auto overscroll-contain",
             "p-4 sm:p-6",
             "data-[state=closed]:duration-0",
             className
           )}
           style={{ 
             WebkitOverflowScrolling: 'touch',
-            margin: 'auto',
           }}
           {...props}
         >

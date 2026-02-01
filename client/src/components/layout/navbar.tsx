@@ -12,7 +12,7 @@ import { useTranslation } from "react-i18next";
 export function Navbar() {
   const [location, setLocation] = useLocation();
   const [isOpen, setIsOpen] = useState(false);
-  const { user, isAuthenticated, logout } = useAuth();
+  const { user, isAuthenticated, logout, isLoading: authLoading } = useAuth();
   const { prefetchOnHover, cancelPrefetch } = usePrefetch();
   const { t } = useTranslation();
 
@@ -81,7 +81,15 @@ export function Navbar() {
           </nav>
 
           <div className="hidden md:flex items-center gap-2 lg:gap-3">
-            {isAuthenticated ? (
+            {authLoading ? (
+              <Button 
+                variant="outline"
+                className="rounded-full border-2 border-accent text-foreground font-black text-sm h-11 px-5 flex items-center gap-2 opacity-50"
+                disabled
+              >
+                <UserIcon className="w-4 h-4" /> {t("nav.login")}
+              </Button>
+            ) : isAuthenticated ? (
               <div className="flex items-center gap-2">
                 <Link href="/dashboard">
                   <Button 
@@ -89,7 +97,7 @@ export function Navbar() {
                     className="rounded-full border-2 border-accent text-foreground font-black text-sm h-11 px-5 flex items-center gap-2 hover:scale-105 transition-all shadow-lg active:scale-95 shadow-accent/10"
                     data-testid="button-desktop-dashboard"
                   >
-                    <UserIcon className="w-4 h-4" /> {t("nav.login")}
+                    <UserIcon className="w-4 h-4" /> {t("nav.myArea")}
                   </Button>
                 </Link>
                 <Button 
@@ -112,7 +120,7 @@ export function Navbar() {
                 <UserIcon className="w-4 h-4" /> {t("nav.login")}
               </Button>
             )}
-            {!isAuthenticated && (
+            {!authLoading && !isAuthenticated && (
               <Button 
                 onClick={() => setLocation("/llc/formation")} 
                 className="bg-accent text-accent-foreground font-black text-sm border-0 rounded-full h-11 px-5 hover:scale-105 transition-all shadow-lg active:scale-95 shadow-accent/20"
@@ -136,17 +144,28 @@ export function Navbar() {
             )}
             {/* Fixed width container to prevent layout shift */}
             <div className="w-10 h-10 flex items-center justify-center shrink-0">
-              <Link href={isAuthenticated ? "/dashboard" : "/auth/login"}>
+              {authLoading ? (
                 <Button 
                   variant="outline"
                   size="icon"
-                  className="border-2 border-accent text-accent hover:bg-accent hover:text-accent-foreground bg-white dark:bg-zinc-900"
-                  aria-label={isAuthenticated ? "Mi área" : "Iniciar sesión"}
-                  data-testid={isAuthenticated ? "link-mobile-dashboard" : "button-mobile-login"}
+                  className="border-2 border-accent text-accent bg-white dark:bg-zinc-900 opacity-50"
+                  disabled
                 >
                   <UserIcon className="w-4 h-4" />
                 </Button>
-              </Link>
+              ) : (
+                <Link href={isAuthenticated ? "/dashboard" : "/auth/login"}>
+                  <Button 
+                    variant="outline"
+                    size="icon"
+                    className="border-2 border-accent text-accent hover:bg-accent hover:text-accent-foreground bg-white dark:bg-zinc-900"
+                    aria-label={isAuthenticated ? "Mi área" : "Iniciar sesión"}
+                    data-testid={isAuthenticated ? "link-mobile-dashboard" : "button-mobile-login"}
+                  >
+                    <UserIcon className="w-4 h-4" />
+                  </Button>
+                </Link>
+              )}
             </div>
             <div className="w-10 h-10 flex items-center justify-center shrink-0">
               <button 
