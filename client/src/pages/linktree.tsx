@@ -1,6 +1,8 @@
-import { Instagram, MessageCircle, Package, Briefcase, PiggyBank, HelpCircle } from "lucide-react";
+import { Instagram, Package, Briefcase, PiggyBank, HelpCircle } from "lucide-react";
+import { FaWhatsapp } from "react-icons/fa";
 import { Button } from "@/components/ui/button";
 import { useEffect } from "react";
+import logoIcon from "@/assets/logo-icon.png";
 
 const links = [
   {
@@ -12,7 +14,7 @@ const links = [
   {
     label: "WhatsApp",
     href: "https://wa.me/34612345678",
-    icon: MessageCircle,
+    icon: FaWhatsapp,
     external: true
   },
   {
@@ -47,17 +49,17 @@ export default function LinktreePage() {
     
     const metaDescription = document.querySelector('meta[name="description"]');
     if (metaDescription) {
-      metaDescription.setAttribute('content', 'Crea tu LLC en Estados Unidos de forma fácil y segura. Formación de empresas en New Mexico, Wyoming y Delaware. Asesoría completa en español.');
+      metaDescription.setAttribute('content', 'Optimiza tus impuestos con una LLC en EE. UU. Te ayudamos a estructurar tu negocio. Sin letra pequeña. Sin consultorías interminables.');
     } else {
       const meta = document.createElement('meta');
       meta.name = 'description';
-      meta.content = 'Crea tu LLC en Estados Unidos de forma fácil y segura. Formación de empresas en New Mexico, Wyoming y Delaware. Asesoría completa en español.';
+      meta.content = 'Optimiza tus impuestos con una LLC en EE. UU. Te ayudamos a estructurar tu negocio. Sin letra pequeña. Sin consultorías interminables.';
       document.head.appendChild(meta);
     }
 
     const ogTags = [
       { property: 'og:title', content: 'Creamos tu LLC | Tu empresa en Estados Unidos' },
-      { property: 'og:description', content: 'Formación de LLC en USA para emprendedores hispanohablantes. New Mexico desde 739€.' },
+      { property: 'og:description', content: 'Optimiza tus impuestos con una LLC en EE. UU. Sin letra pequeña. Sin consultorías interminables.' },
       { property: 'og:type', content: 'website' },
       { property: 'og:url', content: 'https://creamostullc.com' },
       { property: 'og:site_name', content: 'Creamos tu LLC' }
@@ -72,42 +74,25 @@ export default function LinktreePage() {
       }
       tag.setAttribute('content', content);
     });
-
-    const twitterTags = [
-      { name: 'twitter:card', content: 'summary' },
-      { name: 'twitter:title', content: 'Creamos tu LLC' },
-      { name: 'twitter:description', content: 'Tu empresa en Estados Unidos de forma fácil y segura' }
-    ];
-
-    twitterTags.forEach(({ name, content }) => {
-      let tag = document.querySelector(`meta[name="${name}"]`);
-      if (!tag) {
-        tag = document.createElement('meta');
-        tag.setAttribute('name', name);
-        document.head.appendChild(tag);
-      }
-      tag.setAttribute('content', content);
-    });
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#0a2e1a] via-[#134e2a] to-[#1a6b3a] flex flex-col items-center justify-center px-4 py-12 relative overflow-hidden">
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-[#6EDC8A]/10 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-[#4ade80]/10 rounded-full blur-3xl" />
-        <div className="absolute top-1/2 left-0 w-64 h-64 bg-[#22c55e]/5 rounded-full blur-2xl" />
-      </div>
-
-      <div className="w-full max-w-md mx-auto flex flex-col items-center relative z-10">
-        <div className="w-28 h-28 rounded-full bg-gradient-to-br from-[#6EDC8A] to-[#22c55e] flex items-center justify-center mb-6 shadow-2xl shadow-[#6EDC8A]/40 ring-4 ring-white/10">
-          <span className="text-4xl font-black text-white tracking-tight drop-shadow-lg">EU</span>
+    <div className="min-h-screen bg-white flex flex-col items-center justify-center px-4 py-12">
+      <div className="w-full max-w-md mx-auto flex flex-col items-center">
+        <div className="w-28 h-28 rounded-full bg-[#6EDC8A] flex items-center justify-center mb-8 shadow-xl shadow-[#6EDC8A]/30">
+          <img 
+            src={logoIcon} 
+            alt="Creamos tu LLC" 
+            className="w-16 h-16 object-contain"
+          />
         </div>
 
-        <h1 className="text-2xl sm:text-3xl font-black text-white mb-2 text-center tracking-tight drop-shadow-lg">
-          Creamos tu LLC
+        <h1 className="text-xl sm:text-2xl font-black text-[#0E1215] mb-3 text-center tracking-tight leading-tight">
+          Optimiza tus impuestos con una LLC en EE. UU.
         </h1>
-        <p className="text-sm sm:text-base text-white/70 mb-8 text-center max-w-xs">
-          Tu empresa en Estados Unidos de forma fácil y segura
+        <p className="text-sm sm:text-base text-[#6B7280] mb-10 text-center max-w-sm leading-relaxed">
+          Te ayudamos a estructurar tu negocio con una LLC en EE. UU.<br />
+          Sin letra pequeña. Sin consultorías interminables.
         </p>
 
         <div className="w-full space-y-3">
@@ -121,7 +106,7 @@ export default function LinktreePage() {
               data-testid={`link-${link.label.toLowerCase().replace(/\s+/g, '-').replace(/[?¿]/g, '')}`}
             >
               <Button
-                className="w-full h-14 bg-[#6EDC8A] hover:bg-[#5cd67a] text-[#0a2e1a] font-bold text-base rounded-xl shadow-lg shadow-[#6EDC8A]/20 transition-all duration-200 hover:scale-[1.02] hover:shadow-xl hover:shadow-[#6EDC8A]/30 active:scale-[0.98] flex items-center justify-center gap-3 border border-[#6EDC8A]/50"
+                className="w-full h-14 bg-[#6EDC8A] hover:bg-[#5cd67a] text-[#0E1215] font-semibold text-base rounded-full shadow-md transition-all duration-200 hover:scale-[1.02] hover:shadow-lg active:scale-[0.98] flex items-center justify-center gap-3"
                 variant="default"
               >
                 <link.icon className="w-5 h-5" />
@@ -131,8 +116,8 @@ export default function LinktreePage() {
           ))}
         </div>
 
-        <div className="mt-10 text-center">
-          <p className="text-xs text-white/40">
+        <div className="mt-12 text-center">
+          <p className="text-xs text-[#6B7280]/60">
             © {new Date().getFullYear()} Easy US LLC
           </p>
         </div>
