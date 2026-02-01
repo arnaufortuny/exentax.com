@@ -39,7 +39,16 @@ function ScrollToTop() {
 }
 
 function LoadingScreen() {
-  return <div className="min-h-screen bg-background" />;
+  return (
+    <div className="min-h-screen bg-background flex flex-col items-center justify-center">
+      <div className="w-48 h-1 bg-muted rounded-full overflow-hidden">
+        <div 
+          className="h-full rounded-full animate-loading-bar"
+          style={{ backgroundColor: '#6EDC8A' }}
+        />
+      </div>
+    </div>
+  );
 }
 
 function Router() {
