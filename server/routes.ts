@@ -3452,7 +3452,8 @@ export async function registerRoutes(
   });
 
   // Payment simulation endpoint for LLC
-  app.post("/api/llc/:id/pay", async (req, res) => {
+  // PROTECTED: Only admin can manually mark orders as paid
+  app.post("/api/llc/:id/pay", isAdmin, async (req: any, res) => {
     try {
       const appId = parseInt(req.params.id);
       const application = await storage.getLlcApplication(appId);
@@ -3463,6 +3464,12 @@ export async function registerRoutes(
       // Update order status to paid
       if (application.orderId) {
         await storage.updateOrderStatus(application.orderId, "paid");
+        logAudit({
+          action: 'payment_received',
+          userId: req.session.userId,
+          targetId: application.orderId.toString(),
+          details: { applicationId: appId, markedBy: 'admin' }
+        });
       }
       
       // Update application status to submitted
