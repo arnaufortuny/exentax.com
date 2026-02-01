@@ -147,7 +147,7 @@ export default function ForgotPassword() {
     <div className="min-h-screen bg-background bg-green-gradient-subtle font-sans">
       <Navbar />
       <main className="pt-12 md:pt-16 pb-12 md:pb-16 px-4 sm:px-6 flex flex-col items-center justify-center min-h-[80vh]">
-        <div className="w-full max-w-sm md:max-w-md bg-card p-6 md:p-8 rounded-3xl border border-border shadow-sm">
+        <div className="w-full max-w-sm md:max-w-md">
           <div className="text-center mb-6 md:mb-8 mx-auto">
             <h1 className="text-2xl sm:text-3xl md:text-4xl font-black text-primary tracking-tight text-center">
               Recuperar <span className="text-accent">Contraseña</span>
@@ -159,113 +159,115 @@ export default function ForgotPassword() {
             </p>
           </div>
 
-          {step === 'email' && (
-            <Form {...emailForm}>
-              <form onSubmit={emailForm.handleSubmit(handleSendOtp)} className="space-y-6">
-                <div className="space-y-2">
-                  <FormInput
-                    control={emailForm.control}
-                    name="email"
-                    label="Email"
-                    type="email"
-                    inputMode="email"
-                    placeholder="ejemplo@email.com"
-                  />
-                  <p className="text-[10px] md:text-xs text-muted-foreground px-1">
-                    (Introduce el email con el que te registraste)
-                  </p>
+          <div className="bg-card p-6 md:p-8 rounded-3xl border border-border shadow-sm">
+            {step === 'email' && (
+              <Form {...emailForm}>
+                <form onSubmit={emailForm.handleSubmit(handleSendOtp)} className="space-y-6">
+                  <div className="space-y-2">
+                    <FormInput
+                      control={emailForm.control}
+                      name="email"
+                      label="Email"
+                      type="email"
+                      inputMode="email"
+                      placeholder="ejemplo@email.com"
+                    />
+                    <p className="text-[10px] md:text-xs text-muted-foreground px-1">
+                      (Introduce el email con el que te registraste)
+                    </p>
+                  </div>
+                  <Button
+                    type="submit"
+                    disabled={isLoading}
+                    className="w-full bg-accent text-primary font-black h-11 md:h-12 rounded-full text-sm md:text-base shadow-lg shadow-accent/20 active:scale-95 transition-all"
+                    data-testid="button-send-otp"
+                  >
+                    {isLoading ? <Loader2 className="animate-spin w-4 h-4" /> : "Enviar código de acceso"}
+                  </Button>
+                </form>
+              </Form>
+            )}
+
+            {step === 'otp' && (
+              <div className="space-y-6">
+                <div className="flex flex-col items-center gap-4">
+                  <p className="text-sm text-muted-foreground">Código enviado a: <strong>{email}</strong></p>
+                  <div className="w-full">
+                    <Input
+                      placeholder="Código de 6 dígitos"
+                      maxLength={6}
+                      value={otp}
+                      onChange={(e) => setOtp(e.target.value.replace(/\D/g, ""))}
+                      className="h-12 text-center text-xl tracking-[0.5em] font-bold rounded-full"
+                      data-testid="input-otp"
+                    />
+                  </div>
                 </div>
                 <Button
-                  type="submit"
-                  disabled={isLoading}
+                  onClick={handleVerifyOtp}
+                  disabled={isLoading || otp.length !== 6}
                   className="w-full bg-accent text-primary font-black h-11 md:h-12 rounded-full text-sm md:text-base shadow-lg shadow-accent/20 active:scale-95 transition-all"
-                  data-testid="button-send-otp"
+                  data-testid="button-verify-otp"
                 >
-                  {isLoading ? <Loader2 className="animate-spin w-4 h-4" /> : "Enviar código de acceso"}
+                  {isLoading ? <Loader2 className="animate-spin w-4 h-4" /> : "Verificar"}
                 </Button>
-              </form>
-            </Form>
-          )}
-
-          {step === 'otp' && (
-            <div className="space-y-6">
-              <div className="flex flex-col items-center gap-4">
-                <p className="text-sm text-muted-foreground">Código enviado a: <strong>{email}</strong></p>
-                <div className="w-full">
-                  <Input
-                    placeholder="Código de 6 dígitos"
-                    maxLength={6}
-                    value={otp}
-                    onChange={(e) => setOtp(e.target.value.replace(/\D/g, ""))}
-                    className="h-12 text-center text-xl tracking-[0.5em] font-bold rounded-full"
-                    data-testid="input-otp"
-                  />
-                </div>
-              </div>
-              <Button
-                onClick={handleVerifyOtp}
-                disabled={isLoading || otp.length !== 6}
-                className="w-full bg-accent text-primary font-black h-11 md:h-12 rounded-full text-sm md:text-base shadow-lg shadow-accent/20 active:scale-95 transition-all"
-                data-testid="button-verify-otp"
-              >
-                {isLoading ? <Loader2 className="animate-spin w-4 h-4" /> : "Verificar"}
-              </Button>
-              <div className="text-center">
-                <button
-                  type="button"
-                  onClick={handleResendOtp}
-                  disabled={isLoading}
-                  className="text-sm text-muted-foreground hover:text-primary transition-colors"
-                  data-testid="button-resend-otp"
-                >
-                  ¿No recibiste el código? Reenviar
-                </button>
-              </div>
-              <button
-                type="button"
-                onClick={() => setStep('email')}
-                className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors mx-auto"
-              >
-                <ArrowLeft className="w-4 h-4" /> Cambiar email
-              </button>
-            </div>
-          )}
-
-          {step === 'password' && (
-            <Form {...resetForm}>
-              <form onSubmit={resetForm.handleSubmit(handleResetPassword)} className="space-y-6">
-                <div className="relative">
-                  <FormInput
-                    control={resetForm.control}
-                    name="password"
-                    label="Nueva Contraseña"
-                    type={showPassword ? "text" : "password"}
-                  />
+                <div className="text-center">
                   <button
                     type="button"
-                    onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-4 top-[42px] text-muted-foreground hover:text-primary transition-colors"
+                    onClick={handleResendOtp}
+                    disabled={isLoading}
+                    className="text-sm text-muted-foreground hover:text-primary transition-colors"
+                    data-testid="button-resend-otp"
                   >
-                    {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                    ¿No recibiste el código? Reenviar
                   </button>
                 </div>
-                <FormInput
-                  control={resetForm.control}
-                  name="confirmPassword"
-                  label="Confirmar Contraseña"
-                  type={showPassword ? "text" : "password"}
-                />
-                <Button
-                  type="submit"
-                  disabled={isLoading}
-                  className="w-full bg-accent text-primary font-black h-11 md:h-12 rounded-full text-sm md:text-base shadow-lg shadow-accent/20 active:scale-95 transition-all"
-                  data-testid="button-reset-password"
+                <button
+                  type="button"
+                  onClick={() => setStep('email')}
+                  className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors mx-auto"
                 >
-                  {isLoading ? <Loader2 className="animate-spin w-4 h-4" /> : "Restablecer"}
-                </Button>
-              </form>
-            </Form>
-          )}
+                  <ArrowLeft className="w-4 h-4" /> Cambiar email
+                </button>
+              </div>
+            )}
+
+            {step === 'password' && (
+              <Form {...resetForm}>
+                <form onSubmit={resetForm.handleSubmit(handleResetPassword)} className="space-y-6">
+                  <div className="relative">
+                    <FormInput
+                      control={resetForm.control}
+                      name="password"
+                      label="Nueva Contraseña"
+                      type={showPassword ? "text" : "password"}
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                      className="absolute right-4 top-[42px] text-muted-foreground hover:text-primary transition-colors"
+                    >
+                      {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                    </button>
+                  </div>
+                  <FormInput
+                    control={resetForm.control}
+                    name="confirmPassword"
+                    label="Confirmar Contraseña"
+                    type={showPassword ? "text" : "password"}
+                  />
+                  <Button
+                    type="submit"
+                    disabled={isLoading}
+                    className="w-full bg-accent text-primary font-black h-11 md:h-12 rounded-full text-sm md:text-base shadow-lg shadow-accent/20 active:scale-95 transition-all"
+                    data-testid="button-reset-password"
+                  >
+                    {isLoading ? <Loader2 className="animate-spin w-4 h-4" /> : "Restablecer"}
+                  </Button>
+                </form>
+              </Form>
+            )}
+          </div>
 
           <div className="mt-6 text-center">
             <Link href="/auth/login">
