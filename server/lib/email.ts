@@ -97,6 +97,27 @@ export function getWelcomeEmailTemplate(name: string = "Cliente") {
   return getEmailWrapper(content);
 }
 
+// 2b. Cuenta creada - Pendiente verificación email
+export function getAccountPendingVerificationTemplate(name: string = "Cliente") {
+  const content = `
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin: 0 0 25px 0;">Hola ${name},</p>
+    
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">Tu cuenta ha sido creada correctamente, pero necesitas verificar tu email para activarla completamente.</p>
+    
+    <div style="background: #FEF3C7; padding: 20px 25px; border-radius: 16px; margin: 25px 0; border-left: 4px solid #F59E0B;">
+      <p style="margin: 0 0 12px 0; font-size: 13px; font-weight: 800; color: #92400E; text-transform: uppercase;">Acción requerida:</p>
+      <p style="margin: 0; font-size: 14px; color: #92400E; line-height: 1.7;">Accede a tu Área Cliente y verifica tu email para activar tu cuenta y acceder a todas las funciones.</p>
+    </div>
+    
+    <div style="text-align: center; margin: 30px 0;">
+      <a href="https://${domain}/dashboard" style="display: inline-block; background: #6EDC8A; color: #0E1215; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">Verificar mi email</a>
+    </div>
+    
+    <p style="line-height: 1.6; font-size: 14px; color: #6B7280;">Mientras tu email no esté verificado, tu cuenta permanecerá en estado de revisión.</p>
+  `;
+  return getEmailWrapper(content);
+}
+
 // 3. Cuenta en revisión
 export function getAccountUnderReviewTemplate(name: string = "Cliente") {
   const content = `

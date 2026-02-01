@@ -7,7 +7,7 @@ import { z } from "zod";
 import { insertLlcApplicationSchema, insertApplicationDocumentSchema } from "@shared/schema";
 import type { Request, Response } from "express";
 import { db } from "./db";
-import { sendEmail, sendTrustpilotEmail, getOtpEmailTemplate, getConfirmationEmailTemplate, getWelcomeEmailTemplate, getNewsletterWelcomeTemplate, getAutoReplyTemplate, getEmailFooter, getEmailHeader, getOrderUpdateTemplate, getNoteReceivedTemplate, getAccountDeactivatedTemplate, getAccountUnderReviewTemplate, getOrderCompletedTemplate, getAccountVipTemplate, getAccountReactivatedTemplate, getAdminNoteTemplate, getPaymentRequestTemplate, getDocumentRequestTemplate, getDocumentUploadedTemplate, getMessageReplyTemplate, getPasswordChangeOtpTemplate, getOrderEventTemplate, getAdminLLCOrderTemplate, getAdminMaintenanceOrderTemplate } from "./lib/email";
+import { sendEmail, sendTrustpilotEmail, getOtpEmailTemplate, getConfirmationEmailTemplate, getWelcomeEmailTemplate, getNewsletterWelcomeTemplate, getAutoReplyTemplate, getEmailFooter, getEmailHeader, getOrderUpdateTemplate, getNoteReceivedTemplate, getAccountDeactivatedTemplate, getAccountUnderReviewTemplate, getOrderCompletedTemplate, getAccountVipTemplate, getAccountReactivatedTemplate, getAdminNoteTemplate, getPaymentRequestTemplate, getDocumentRequestTemplate, getDocumentUploadedTemplate, getMessageReplyTemplate, getPasswordChangeOtpTemplate, getOrderEventTemplate, getAdminLLCOrderTemplate, getAdminMaintenanceOrderTemplate, getAccountPendingVerificationTemplate } from "./lib/email";
 import { contactOtps, products as productsTable, users as usersTable, maintenanceApplications, newsletterSubscribers, messages as messagesTable, orderEvents, messageReplies, userNotifications, orders as ordersTable, llcApplications as llcApplicationsTable, applicationDocuments as applicationDocumentsTable, discountCodes } from "@shared/schema";
 import { and, eq, gt, desc, sql, isNotNull, inArray } from "drizzle-orm";
 import { checkRateLimit, sanitizeHtml, logAudit, getSystemHealth, getClientIp, getRecentAuditLogs } from "./lib/security";
@@ -1804,7 +1804,98 @@ export async function registerRoutes(
   app.patch("/api/user/profile", isAuthenticated, async (req: any, res) => {
     try {
       const userId = req.session.userId;
-      const validatedData = updateProfileSchema.parse(req.body);
+      const { otpCode, ...profileData } = req.body;
+      const validatedData = updateProfileSchema.parse(profileData);
+      
+      // Get current user data to detect changes
+      const [currentUser] = await db.select().from(usersTable).where(eq(usersTable.id, userId)).limit(1);
+      if (!currentUser || !currentUser.email) {
+        return res.status(404).json({ message: "Usuario no encontrado" });
+      }
+      
+      const currentUserEmail = currentUser.email;
+      
+      // Define sensitive fields that require OTP verification
+      const sensitiveFields = ['idNumber', 'idType', 'address', 'streetType', 'city', 'province', 'postalCode', 'country', 'phone', 'birthDate'];
+      const changedFields: { field: string; oldValue: any; newValue: any }[] = [];
+      
+      // Check which sensitive fields are being changed
+      for (const field of sensitiveFields) {
+        if (field in validatedData && validatedData[field as keyof typeof validatedData] !== currentUser[field as keyof typeof currentUser]) {
+          changedFields.push({
+            field,
+            oldValue: currentUser[field as keyof typeof currentUser] || '(vacío)',
+            newValue: validatedData[field as keyof typeof validatedData] || '(vacío)'
+          });
+        }
+      }
+      
+      // If sensitive fields changed, require OTP verification
+      if (changedFields.length > 0) {
+        if (!otpCode) {
+          return res.status(400).json({ 
+            message: "Se requiere verificación OTP para cambios sensibles",
+            code: "OTP_REQUIRED",
+            changedFields: changedFields.map(f => f.field)
+          });
+        }
+        
+        // Verify OTP
+        const [otpRecord] = await db.select()
+          .from(contactOtps)
+          .where(
+            and(
+              eq(contactOtps.email, currentUserEmail),
+              eq(contactOtps.otpType, "profile_change"),
+              eq(contactOtps.otp, otpCode),
+              eq(contactOtps.verified, false),
+              gt(contactOtps.expiresAt, new Date())
+            )
+          )
+          .orderBy(sql`${contactOtps.expiresAt} DESC`)
+          .limit(1);
+        
+        if (!otpRecord) {
+          return res.status(400).json({ message: "Código OTP inválido o expirado" });
+        }
+        
+        // Mark OTP as used
+        await db.update(contactOtps).set({ verified: true }).where(eq(contactOtps.id, otpRecord.id));
+        
+        // Log audit for admin visibility
+        logAudit({
+          action: 'password_change', // Using existing action type for profile changes
+          userId,
+          details: {
+            type: 'profile_update',
+            changedFields,
+            email: currentUser.email,
+            clientId: currentUser.clientId
+          }
+        });
+        
+        // Send alert to admin about profile changes
+        const adminEmail = process.env.ADMIN_EMAIL || "afortuny07@gmail.com";
+        const changesHtml = changedFields.map(f => 
+          `<li><strong>${f.field}:</strong> "${f.oldValue}" → "${f.newValue}"</li>`
+        ).join('');
+        
+        sendEmail({
+          to: adminEmail,
+          subject: `[ALERTA] Cambios de perfil - Cliente ${currentUser.clientId}`,
+          html: `
+            <div style="font-family: sans-serif; padding: 20px;">
+              <h2 style="color: #F59E0B;">⚠️ Cambios de perfil detectados</h2>
+              <p><strong>Cliente:</strong> ${currentUser.firstName} ${currentUser.lastName}</p>
+              <p><strong>Email:</strong> ${currentUser.email}</p>
+              <p><strong>ID Cliente:</strong> ${currentUser.clientId}</p>
+              <p><strong>Campos modificados:</strong></p>
+              <ul>${changesHtml}</ul>
+              <p style="color: #6B7280; font-size: 12px;">Cambio verificado con OTP</p>
+            </div>
+          `
+        }).catch(console.error);
+      }
       
       await db.update(usersTable).set(validatedData).where(eq(usersTable.id, userId));
       
@@ -1816,6 +1907,153 @@ export async function registerRoutes(
       }
       console.error("Update profile error:", error);
       res.status(500).json({ message: "Error updating profile" });
+    }
+  });
+  
+  // Send OTP for profile changes
+  app.post("/api/user/profile/send-otp", isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.session.userId;
+      const [user] = await db.select().from(usersTable).where(eq(usersTable.id, userId)).limit(1);
+      
+      if (!user || !user.email) {
+        return res.status(404).json({ message: "Usuario no encontrado" });
+      }
+      
+      const ip = getClientIp(req);
+      const rateCheck = checkRateLimit('otp', ip);
+      if (!rateCheck.allowed) {
+        return res.status(429).json({ message: `Demasiados intentos. Espera ${rateCheck.retryAfter} segundos.` });
+      }
+      
+      // Generate OTP
+      const otp = Math.floor(100000 + Math.random() * 900000).toString();
+      const expiresAt = new Date(Date.now() + 10 * 60 * 1000); // 10 minutes
+      const userEmail = user.email;
+      
+      await db.insert(contactOtps).values({
+        email: userEmail,
+        otp,
+        otpType: "profile_change",
+        expiresAt,
+        verified: false
+      });
+      
+      // Send OTP email
+      sendEmail({
+        to: userEmail,
+        subject: "Código de verificación - Cambio de perfil",
+        html: getOtpEmailTemplate(otp, user.firstName || "Cliente")
+      }).catch(console.error);
+      
+      res.json({ success: true, message: "Código OTP enviado a tu email" });
+    } catch (error) {
+      console.error("Send profile OTP error:", error);
+      res.status(500).json({ message: "Error al enviar OTP" });
+    }
+  });
+  
+  // Verify email for pending accounts (activate account)
+  app.post("/api/user/verify-email", isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.session.userId;
+      const { otpCode } = req.body;
+      
+      const [user] = await db.select().from(usersTable).where(eq(usersTable.id, userId)).limit(1);
+      if (!user || !user.email) {
+        return res.status(404).json({ message: "Usuario no encontrado" });
+      }
+      
+      if (user.emailVerified) {
+        return res.json({ success: true, message: "Email ya verificado" });
+      }
+      
+      const userEmail = user.email;
+      
+      // Verify OTP
+      const [otpRecord] = await db.select()
+        .from(contactOtps)
+        .where(
+          and(
+            eq(contactOtps.email, userEmail),
+            eq(contactOtps.otpType, "account_verification"),
+            eq(contactOtps.otp, otpCode),
+            eq(contactOtps.verified, false),
+            gt(contactOtps.expiresAt, new Date())
+          )
+        )
+        .limit(1);
+      
+      if (!otpRecord) {
+        return res.status(400).json({ message: "Código OTP inválido o expirado" });
+      }
+      
+      // Mark OTP as used and activate account
+      await db.update(contactOtps).set({ verified: true }).where(eq(contactOtps.id, otpRecord.id));
+      await db.update(usersTable).set({ 
+        emailVerified: true, 
+        accountStatus: 'active' 
+      }).where(eq(usersTable.id, userId));
+      
+      // Update session
+      req.session.isAdmin = user.isAdmin;
+      
+      // Send welcome email
+      sendEmail({
+        to: userEmail,
+        subject: "Cuenta activada - Easy US LLC",
+        html: getWelcomeEmailTemplate(user.firstName || "Cliente")
+      }).catch(console.error);
+      
+      res.json({ success: true, message: "Email verificado correctamente. Tu cuenta está activa." });
+    } catch (error) {
+      console.error("Verify email error:", error);
+      res.status(500).json({ message: "Error al verificar email" });
+    }
+  });
+  
+  // Send verification OTP for pending accounts
+  app.post("/api/user/send-verification-otp", isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.session.userId;
+      const [user] = await db.select().from(usersTable).where(eq(usersTable.id, userId)).limit(1);
+      
+      if (!user || !user.email) {
+        return res.status(404).json({ message: "Usuario no encontrado" });
+      }
+      
+      if (user.emailVerified) {
+        return res.json({ success: true, message: "Email ya verificado" });
+      }
+      
+      const ip = getClientIp(req);
+      const rateCheck = checkRateLimit('otp', ip);
+      if (!rateCheck.allowed) {
+        return res.status(429).json({ message: `Demasiados intentos. Espera ${rateCheck.retryAfter} segundos.` });
+      }
+      
+      const otp = Math.floor(100000 + Math.random() * 900000).toString();
+      const expiresAt = new Date(Date.now() + 10 * 60 * 1000);
+      const userEmail = user.email;
+      
+      await db.insert(contactOtps).values({
+        email: userEmail,
+        otp,
+        otpType: "account_verification",
+        expiresAt,
+        verified: false
+      });
+      
+      sendEmail({
+        to: userEmail,
+        subject: "Código de verificación - Easy US LLC",
+        html: getOtpEmailTemplate(otp, user.firstName || "Cliente")
+      }).catch(console.error);
+      
+      res.json({ success: true, message: "Código OTP enviado a tu email" });
+    } catch (error) {
+      console.error("Send verification OTP error:", error);
+      res.status(500).json({ message: "Error al enviar OTP" });
     }
   });
 
@@ -3286,7 +3524,7 @@ export async function registerRoutes(
           return res.status(400).json({ message: "Este email ya está registrado. Por favor inicia sesión." });
         }
         
-        // Verify that email has been verified via OTP (same as LLC formation)
+        // Check if email was verified via OTP
         const [otpRecord] = await db.select()
           .from(contactOtps)
           .where(
@@ -3294,15 +3532,15 @@ export async function registerRoutes(
               eq(contactOtps.email, email),
               eq(contactOtps.otpType, "account_verification"),
               eq(contactOtps.verified, true),
-              gt(contactOtps.expiresAt, new Date(Date.now() - 30 * 60 * 1000)) // Allow 30 min window after verification
+              gt(contactOtps.expiresAt, new Date(Date.now() - 30 * 60 * 1000))
             )
           )
           .orderBy(sql`${contactOtps.expiresAt} DESC`)
           .limit(1);
         
-        if (!otpRecord) {
-          return res.status(400).json({ message: "Por favor verifica tu email antes de continuar." });
-        }
+        // If OTP not verified, create account in "pending" status (needs email verification)
+        const isEmailVerified = !!otpRecord;
+        const accountStatus = isEmailVerified ? 'active' : 'pending';
         
         const { hashPassword, generateUniqueClientId } = await import("./lib/auth-service");
         const passwordHash = await hashPassword(password);
@@ -3315,19 +3553,29 @@ export async function registerRoutes(
           clientId,
           firstName: nameParts[0] || 'Cliente',
           lastName: nameParts.slice(1).join(' ') || '',
-          emailVerified: true,
-          accountStatus: 'active',
+          emailVerified: isEmailVerified,
+          accountStatus: accountStatus,
         }).returning();
         
         userId = newUser.id;
         isNewUser = true;
         req.session.userId = userId;
         
-        sendEmail({
-          to: email,
-          subject: "Bienvenido a Easy US LLC - Acceso a tu panel",
-          html: getWelcomeEmailTemplate(nameParts[0] || 'Cliente')
-        }).catch(console.error);
+        // Send welcome email with verification prompt if not verified
+        if (isEmailVerified) {
+          sendEmail({
+            to: email,
+            subject: "Bienvenido a Easy US LLC - Acceso a tu panel",
+            html: getWelcomeEmailTemplate(nameParts[0] || 'Cliente')
+          }).catch(console.error);
+        } else {
+          // Send email asking to verify
+          sendEmail({
+            to: email,
+            subject: "Verifica tu email - Easy US LLC",
+            html: getAccountPendingVerificationTemplate(nameParts[0] || 'Cliente')
+          }).catch(console.error);
+        }
       }
 
       const product = await storage.getProduct(productId);
