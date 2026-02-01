@@ -628,7 +628,7 @@ export default function LlcFormation() {
             {step === 1 && (
               <div key={"step-" + step} className="space-y-6 text-left">
                 <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight">2️⃣ ¿Cómo te llamas?</h2>
-                <FormDescription>El nombre real, el que pondremos en los documentos oficiales</FormDescription>
+                <FormDescription>Lo usaremos en los documentos oficiales</FormDescription>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <FormField control={form.control} name="ownerFirstName" render={({ field }) => (
                     <FormItem>
