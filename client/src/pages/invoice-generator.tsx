@@ -49,14 +49,7 @@ export default function InvoiceGenerator() {
   
   // Only show loading on initial load
   if (authLoading) {
-    return (
-      <div className="min-h-screen bg-muted flex items-center justify-center">
-        <div className="text-center">
-          <Loader2 className="w-8 h-8 animate-spin text-accent mx-auto mb-3" />
-          <p className="text-sm text-muted-foreground">Cargando...</p>
-        </div>
-      </div>
-    );
+    return <div className="min-h-screen bg-background" />;
   }
   
   // Show login prompt if not authenticated
