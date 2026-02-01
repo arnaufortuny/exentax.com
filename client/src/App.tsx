@@ -57,13 +57,11 @@ function Router() {
         <Route path="/auth/login" component={Login} />
         <Route path="/auth/register" component={Register} />
         <Route path="/auth/forgot-password" component={ForgotPassword} />
-        <Route path="/tu-llc" component={Sales} />
         <Route path="/legal/terminos" component={Legal} />
         <Route path="/legal/privacidad" component={Privacidad} />
         <Route path="/legal/reembolsos" component={Reembolsos} />
         <Route path="/legal/cookies" component={Cookies} />
         <Route path="/tools/invoice" component={InvoiceGenerator} />
-        <Route path="/links" component={LinktreePage} />
         <Route component={NotFound} />
       </Switch>
     </Suspense>
