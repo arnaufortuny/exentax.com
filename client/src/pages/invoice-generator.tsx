@@ -9,7 +9,7 @@ import { Trash2, Plus, FileDown, Receipt, ArrowLeft, Loader2 } from "lucide-reac
 import { Link, useLocation } from "wouter";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
-import { useQuery } from "@tanstack/react-query";
+import { useAuth } from "@/hooks/use-auth";
 
 interface InvoiceItem {
   id: string;
@@ -44,16 +44,11 @@ export default function InvoiceGenerator() {
   ]);
   const [isGenerating, setIsGenerating] = useState(false);
   
-  // Check authentication - use existing cached data first
-  const { data: user, isLoading: authLoading, isFetching } = useQuery<any>({
-    queryKey: ["/api/user"],
-    retry: 2,
-    staleTime: 60000,
-    gcTime: 300000,
-  });
+  // Use shared auth hook - same as dashboard
+  const { user, isAuthenticated, isLoading: authLoading } = useAuth();
   
-  // Only show loading on initial load, not refetches
-  if (authLoading && !user) {
+  // Only show loading on initial load
+  if (authLoading) {
     return (
       <div className="min-h-screen bg-muted flex items-center justify-center">
         <div className="text-center">
@@ -65,7 +60,7 @@ export default function InvoiceGenerator() {
   }
   
   // Show login prompt if not authenticated
-  if (!user) {
+  if (!isAuthenticated || !user) {
     return (
       <div className="min-h-screen bg-muted flex items-center justify-center px-4">
         <div className="text-center max-w-sm">
