@@ -1,103 +1,176 @@
-import { useEffect } from "react";
-import { Navbar } from "@/components/layout/navbar";
-import { Footer } from "@/components/layout/footer";
-import { Button } from "@/components/ui/button";
-import { HeroSection } from "@/components/layout/hero-section";
-import { Download } from "lucide-react";
+import { useTranslation } from "react-i18next";
+import { LegalPageLayout, LegalSection, LegalSubSection, LegalList, LegalHighlightBox } from "@/components/legal/legal-page-layout";
 
 export default function Cookies() {
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
-
-  const handleDownload = () => {
-    window.print();
-  };
+  const { t, i18n } = useTranslation();
+  const isEnglish = i18n.language === 'en';
 
   return (
-    <div className="min-h-screen bg-background bg-green-gradient-subtle font-sans text-left selection:bg-brand-lime selection:text-brand-dark">
-      <Navbar />
-      
-      <HeroSection 
-        className="pt-20 sm:pt-24 lg:pt-28 pb-0"
-        title={
-          <h1 className="text-4xl sm:text-5xl lg:text-7xl font-black tracking-tight text-brand-dark leading-[1.1] text-center sm:text-left">
-            Aviso de <span className="text-brand-lime">Cookies</span>
-          </h1>
-        }
-        subtitle={
-          <p className="text-lg sm:text-xl text-brand-dark font-medium max-w-2xl mb-8 text-center sm:text-left mx-auto sm:mx-0">
-            Easy US LLC - Última actualización: 25 de enero de 2026
-          </p>
-        }
-      />
-      
-      <section className="py-8 sm:py-12 bg-background">
-        <div className="container max-w-7xl mx-auto px-4 sm:px-8">
-          <div className="max-w-5xl mx-auto">
-            <div className="flex justify-center sm:justify-end mb-8">
-              <Button 
-                onClick={handleDownload}
-                variant="outline" 
-                className="rounded-full border-brand-lime text-brand-dark transition-all gap-3 px-10 sm:px-8 font-black text-sm tracking-wider w-full sm:w-auto shadow-sm"
-                data-testid="button-download-cookies"
-              >
-                <Download className="w-5 h-5 sm:w-4 sm:h-4" />
-                Descargar PDF
-              </Button>
-            </div>
+    <LegalPageLayout
+      title={isEnglish ? "Cookie" : "Aviso de"}
+      titleHighlight={isEnglish ? "Policy" : "Cookies"}
+      lastUpdated={t("legal.lastUpdated")}
+      pdfUrl="/legal/politica-cookies.pdf"
+    >
+      <LegalSection number="01" title={isEnglish ? "What Are Cookies?" : "¿Qué son las Cookies?"}>
+        <p>{isEnglish 
+          ? "Cookies are small text files that are stored on your device when you visit our website. They help us provide you with a better experience by remembering your preferences and understanding how you use our platform."
+          : "Las cookies son pequeños archivos de texto que se almacenan en tu dispositivo cuando visitas nuestro sitio web. Nos ayudan a proporcionarte una mejor experiencia al recordar tus preferencias y entender cómo utilizas nuestra plataforma."
+        }</p>
+      </LegalSection>
 
-            <div className="space-y-16 text-brand-dark leading-relaxed">
-              
-              <section>
-                <h2 className="text-2xl sm:text-3xl font-black text-brand-dark tracking-tighter mb-6">
-                  <span className="text-brand-lime mr-4">01</span> ¿Qué son las cookies?
-                </h2>
-                <div className="text-base sm:text-lg space-y-4">
-                  <p>Las cookies son pequeños archivos de texto que se almacenan en el dispositivo del usuario cuando visita un sitio web. Permiten, entre otras cosas, reconocer el dispositivo, recordar preferencias y mejorar la experiencia de navegación.</p>
-                </div>
-              </section>
+      <LegalSection number="02" title={isEnglish ? "Types of Cookies We Use" : "Tipos de Cookies que Utilizamos"}>
+        <LegalSubSection title={isEnglish ? "Essential Cookies" : "Cookies Esenciales"}>
+          <p>{isEnglish 
+            ? "These cookies are necessary for the website to function properly and cannot be disabled. They include:"
+            : "Estas cookies son necesarias para que el sitio web funcione correctamente y no pueden desactivarse. Incluyen:"
+          }</p>
+          <LegalList items={isEnglish ? [
+            "Authentication and session management",
+            "Security features (CSRF protection)",
+            "User preferences (language, theme)",
+            "Shopping cart functionality"
+          ] : [
+            "Autenticación y gestión de sesiones",
+            "Funciones de seguridad (protección CSRF)",
+            "Preferencias del usuario (idioma, tema)",
+            "Funcionalidad del carrito de compras"
+          ]} />
+        </LegalSubSection>
 
-              <section>
-                <h2 className="text-2xl sm:text-3xl font-black text-brand-dark tracking-tighter mb-6">
-                  <span className="text-brand-lime mr-4">02</span> Uso de cookies
-                </h2>
-                <div className="text-base sm:text-lg space-y-4">
-                  <p>El sitio web de Easy US LLC utiliza cookies propias y de terceros con el fin de garantizar el correcto funcionamiento del sitio, mejorar la experiencia del usuario y analizar el uso que se hace del mismo.</p>
-                </div>
-              </section>
+        <LegalSubSection title={isEnglish ? "Functional Cookies" : "Cookies Funcionales"}>
+          <p>{isEnglish 
+            ? "These cookies enable enhanced functionality and personalization:"
+            : "Estas cookies permiten funcionalidad mejorada y personalización:"
+          }</p>
+          <LegalList items={isEnglish ? [
+            "Remember form data for easier completion",
+            "Store draft applications locally",
+            "Maintain user interface preferences"
+          ] : [
+            "Recordar datos de formularios para facilitar su completado",
+            "Almacenar borradores de solicitudes localmente",
+            "Mantener preferencias de interfaz de usuario"
+          ]} />
+        </LegalSubSection>
 
-              <section>
-                <h2 className="text-2xl sm:text-3xl font-black text-brand-dark tracking-tighter mb-6">
-                  <span className="text-brand-lime mr-4">03</span> Tipos de cookies
-                </h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                  <div className="p-8 bg-brand-lime/5 border border-brand-lime/20 rounded-2xl shadow-sm">
-                    <h3 className="font-black text-brand-dark text-xs tracking-widest mb-4 opacity-70 uppercase">Necesarias</h3>
-                    <p className="text-base font-medium"><strong>Cookies técnicas:</strong> Permiten la navegación y el uso de funciones básicas. Son imprescindibles.</p>
-                  </div>
-                  <div className="p-8 bg-brand-lime/5 border border-brand-lime/20 rounded-2xl shadow-sm">
-                    <h3 className="font-black text-brand-dark text-xs tracking-widest mb-4 opacity-70 uppercase">Rendimiento</h3>
-                    <p className="text-base font-medium"><strong>Cookies de análisis:</strong> Analizan el comportamiento de los usuarios de forma anónima para mejorar el sitio.</p>
-                  </div>
-                </div>
-              </section>
+        <LegalSubSection title={isEnglish ? "Analytics Cookies" : "Cookies de Análisis"}>
+          <p>{isEnglish 
+            ? "We use analytics cookies to understand how visitors interact with our website:"
+            : "Utilizamos cookies de análisis para entender cómo los visitantes interactúan con nuestro sitio web:"
+          }</p>
+          <LegalList items={isEnglish ? [
+            "Google Analytics - to analyze website traffic and user behavior",
+            "Performance monitoring - to identify and fix issues",
+            "Usage statistics - to improve our services"
+          ] : [
+            "Google Analytics - para analizar el tráfico del sitio web y el comportamiento del usuario",
+            "Monitoreo de rendimiento - para identificar y corregir problemas",
+            "Estadísticas de uso - para mejorar nuestros servicios"
+          ]} />
+        </LegalSubSection>
+      </LegalSection>
 
-              <section>
-                <h2 className="text-2xl sm:text-3xl font-black text-brand-dark tracking-tighter mb-6">
-                  <span className="text-brand-lime mr-4">04</span> Actualización
-                </h2>
-                <div className="bg-brand-dark text-white rounded-2xl p-10 sm:p-12 shadow-xl">
-                  <p className="text-lg sm:text-xl leading-relaxed opacity-90 font-medium">Easy US LLC se reserva el derecho de modificar el presente Aviso de Cookies para adaptarlo a cambios legales o técnicos. La versión vigente será siempre la publicada aquí.</p>
-                </div>
-              </section>
+      <LegalSection number="03" title={isEnglish ? "Third-Party Cookies" : "Cookies de Terceros"}>
+        <p>{isEnglish 
+          ? "Some cookies are placed by third-party services that appear on our pages:"
+          : "Algunas cookies son colocadas por servicios de terceros que aparecen en nuestras páginas:"
+        }</p>
+        <LegalList items={isEnglish ? [
+          "Google Analytics (analytics)",
+          "Stripe (payment processing)",
+          "Google OAuth (authentication)"
+        ] : [
+          "Google Analytics (análisis)",
+          "Stripe (procesamiento de pagos)",
+          "Google OAuth (autenticación)"
+        ]} />
+        <p className="mt-4">{isEnglish 
+          ? "These third parties have their own privacy policies governing the use of their cookies."
+          : "Estos terceros tienen sus propias políticas de privacidad que rigen el uso de sus cookies."
+        }</p>
+      </LegalSection>
 
-            </div>
-          </div>
-        </div>
-      </section>
+      <LegalSection number="04" title={isEnglish ? "Cookie Duration" : "Duración de las Cookies"}>
+        <LegalSubSection title={isEnglish ? "Session Cookies" : "Cookies de Sesión"}>
+          <p>{isEnglish 
+            ? "These are temporary cookies that are deleted when you close your browser. They are used for maintaining your session while you navigate our website."
+            : "Son cookies temporales que se eliminan cuando cierras tu navegador. Se utilizan para mantener tu sesión mientras navegas por nuestro sitio web."
+          }</p>
+        </LegalSubSection>
 
-      <Footer />
-    </div>
+        <LegalSubSection title={isEnglish ? "Persistent Cookies" : "Cookies Persistentes"}>
+          <p>{isEnglish 
+            ? "These cookies remain on your device for a set period or until you delete them. They are used for:"
+            : "Estas cookies permanecen en tu dispositivo durante un período determinado o hasta que las elimines. Se utilizan para:"
+          }</p>
+          <LegalList items={isEnglish ? [
+            "Remembering login status",
+            "Storing language and theme preferences",
+            "Keeping draft application data"
+          ] : [
+            "Recordar el estado de inicio de sesión",
+            "Almacenar preferencias de idioma y tema",
+            "Mantener datos de borradores de solicitudes"
+          ]} />
+        </LegalSubSection>
+      </LegalSection>
+
+      <LegalSection number="05" title={isEnglish ? "Managing Cookies" : "Gestión de Cookies"}>
+        <p>{isEnglish 
+          ? "You can control and manage cookies in several ways:"
+          : "Puedes controlar y gestionar las cookies de varias formas:"
+        }</p>
+        <LegalList items={isEnglish ? [
+          "Browser settings - most browsers allow you to refuse or delete cookies",
+          "Device settings - you can adjust privacy settings on your device",
+          "Third-party opt-outs - you can opt out of analytics tracking"
+        ] : [
+          "Configuración del navegador - la mayoría de los navegadores te permiten rechazar o eliminar cookies",
+          "Configuración del dispositivo - puedes ajustar la configuración de privacidad en tu dispositivo",
+          "Exclusión de terceros - puedes excluirte del seguimiento analítico"
+        ]} />
+        <LegalHighlightBox>
+          <p>{isEnglish 
+            ? "Please note that disabling essential cookies may affect the functionality of our website and prevent you from using certain features."
+            : "Ten en cuenta que desactivar las cookies esenciales puede afectar la funcionalidad de nuestro sitio web e impedirte utilizar ciertas características."
+          }</p>
+        </LegalHighlightBox>
+      </LegalSection>
+
+      <LegalSection number="06" title={isEnglish ? "Local Storage" : "Almacenamiento Local"}>
+        <p>{isEnglish 
+          ? "In addition to cookies, we use local storage for:"
+          : "Además de las cookies, utilizamos almacenamiento local para:"
+        }</p>
+        <LegalList items={isEnglish ? [
+          "Saving draft LLC and maintenance applications",
+          "Storing theme preferences (light/dark mode)",
+          "Caching certain data for performance"
+        ] : [
+          "Guardar borradores de solicitudes de LLC y mantenimiento",
+          "Almacenar preferencias de tema (modo claro/oscuro)",
+          "Almacenar en caché ciertos datos para mejorar el rendimiento"
+        ]} />
+      </LegalSection>
+
+      <LegalSection number="07" title={isEnglish ? "Updates to This Policy" : "Actualizaciones de esta Política"}>
+        <p>{isEnglish 
+          ? "We may update this Cookie Policy from time to time to reflect changes in our practices or for other operational, legal, or regulatory reasons. The date of the last update is shown at the top of this page."
+          : "Podemos actualizar este Aviso de Cookies de vez en cuando para reflejar cambios en nuestras prácticas o por otras razones operativas, legales o regulatorias. La fecha de la última actualización se muestra en la parte superior de esta página."
+        }</p>
+      </LegalSection>
+
+      <LegalSection number="08" title={isEnglish ? "Contact" : "Contacto"}>
+        <LegalHighlightBox variant="dark">
+          <p>{isEnglish 
+            ? "If you have questions about our use of cookies, please contact us:"
+            : "Si tienes preguntas sobre nuestro uso de cookies, contáctanos:"
+          }</p>
+          <p className="mt-4">Email: hola@easyusllc.com</p>
+          <p>WhatsApp: +34 614 916 910</p>
+        </LegalHighlightBox>
+      </LegalSection>
+    </LegalPageLayout>
   );
 }

@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { Link, useLocation } from "wouter";
 import { Loader2, Eye, EyeOff, ArrowLeft, ArrowRight } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
@@ -15,38 +16,25 @@ import { apiRequest, queryClient } from "@/lib/queryClient";
 import { SocialLogin } from "@/components/auth/social-login";
 import { StepProgress } from "@/components/ui/step-progress";
 
-const registerSchema = z.object({
-  firstName: z.string().min(1, "Este campo es obligatorio"),
-  lastName: z.string().min(1, "Este campo es obligatorio"),
-  email: z.string().email("Introduce un email válido"),
-  phone: z.string().min(6, "Este campo es obligatorio"),
+const createRegisterSchema = (t: (key: string) => string) => z.object({
+  firstName: z.string().min(1, t("validation.required")),
+  lastName: z.string().min(1, t("validation.required")),
+  email: z.string().email(t("validation.invalidEmail")),
+  phone: z.string().min(6, t("validation.required")),
   businessActivity: z.string().optional(),
-  password: z.string().min(8, "La contraseña debe tener al menos 8 caracteres"),
+  password: z.string().min(8, t("validation.minPassword")),
   confirmPassword: z.string(),
 }).refine(data => data.password === data.confirmPassword, {
-  message: "Las contraseñas no coinciden",
+  message: t("validation.passwordMismatch"),
   path: ["confirmPassword"],
 });
 
-type RegisterFormValues = z.infer<typeof registerSchema>;
-
-const BUSINESS_ACTIVITIES = [
-  "E-commerce / Tienda online",
-  "Dropshipping",
-  "Consultoría / Servicios profesionales",
-  "Marketing digital / Agencia",
-  "Desarrollo de software / IT",
-  "Inversiones / Trading",
-  "Bienes raíces / Real estate",
-  "Importación / Exportación",
-  "Coaching / Formación online",
-  "Creador de contenido / Influencer",
-  "Otro",
-];
+type RegisterFormValues = z.infer<ReturnType<typeof createRegisterSchema>>;
 
 const TOTAL_STEPS = 6;
 
 export default function Register() {
+  const { t } = useTranslation();
   const [, setLocation] = useLocation();
   const [step, setStep] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
@@ -56,6 +44,22 @@ export default function Register() {
   const [isVerifying, setIsVerifying] = useState(false);
   const [isResending, setIsResending] = useState(false);
   const { toast } = useToast();
+
+  const registerSchema = useMemo(() => createRegisterSchema(t), [t]);
+
+  const BUSINESS_ACTIVITIES = useMemo(() => [
+    { key: "ecommerce", label: t("auth.register.businessActivities.ecommerce") },
+    { key: "dropshipping", label: t("auth.register.businessActivities.dropshipping") },
+    { key: "consulting", label: t("auth.register.businessActivities.consulting") },
+    { key: "marketing", label: t("auth.register.businessActivities.marketing") },
+    { key: "software", label: t("auth.register.businessActivities.software") },
+    { key: "investments", label: t("auth.register.businessActivities.investments") },
+    { key: "realestate", label: t("auth.register.businessActivities.realestate") },
+    { key: "import", label: t("auth.register.businessActivities.import") },
+    { key: "coaching", label: t("auth.register.businessActivities.coaching") },
+    { key: "content", label: t("auth.register.businessActivities.content") },
+    { key: "other", label: t("auth.register.businessActivities.other") },
+  ], [t]);
 
   const form = useForm<RegisterFormValues>({
     resolver: zodResolver(registerSchema),
@@ -110,12 +114,12 @@ export default function Register() {
       if (result.success) {
         await queryClient.refetchQueries({ queryKey: ["/api/auth/user"] });
         setIsRegistered(true);
-        toast({ title: "Cuenta creada", description: "Te hemos enviado un código para confirmar tu email" });
+        toast({ title: t("auth.register.accountCreated"), description: t("auth.register.accountCreatedDesc") });
       }
     } catch (err: any) {
       toast({ 
-        title: "Error", 
-        description: err.message || "Error al crear la cuenta", 
+        title: t("auth.register.errorTitle"), 
+        description: err.message || t("auth.register.errorDesc"), 
         variant: "destructive" 
       });
     } finally {
@@ -125,7 +129,7 @@ export default function Register() {
 
   const verifyEmail = async () => {
     if (!verificationCode || verificationCode.length < 6) {
-      toast({ title: "Falta el código", description: "Introduce el código de 6 dígitos", variant: "destructive" });
+      toast({ title: t("auth.verify.codeMissing"), description: t("auth.verify.codeMissingDesc"), variant: "destructive" });
       return;
     }
     
@@ -136,13 +140,13 @@ export default function Register() {
       
       if (result.success) {
         await queryClient.refetchQueries({ queryKey: ["/api/auth/user"] });
-        toast({ title: "Email verificado", description: "Perfecto. Ya puedes continuar" });
+        toast({ title: t("auth.verify.verified"), description: t("auth.verify.verifiedDesc") });
         setLocation("/dashboard");
       }
     } catch (err: any) {
       toast({ 
-        title: "Código incorrecto", 
-        description: "El código no es válido o ha caducado", 
+        title: t("auth.verify.codeInvalid"), 
+        description: t("auth.verify.codeInvalidDesc"), 
         variant: "destructive" 
       });
     } finally {
@@ -154,9 +158,9 @@ export default function Register() {
     setIsResending(true);
     try {
       await apiRequest("POST", "/api/auth/resend-verification");
-      toast({ title: "Código enviado", description: "Revisa tu correo, te esperamos aquí" });
+      toast({ title: t("auth.verify.codeSent"), description: t("auth.verify.codeSentDesc") });
     } catch (err) {
-      toast({ title: "Error", description: "No se pudo enviar el código", variant: "destructive" });
+      toast({ title: t("auth.verify.sendError"), description: t("auth.verify.sendErrorDesc"), variant: "destructive" });
     } finally {
       setIsResending(false);
     }
@@ -170,29 +174,29 @@ export default function Register() {
           <div className="w-full max-w-md">
             <div className="text-center mb-8">
               <h1 className="text-2xl sm:text-3xl font-black text-primary tracking-tight">
-                Comprobación rápida de <span className="text-accent">seguridad</span>
+                {t("auth.verify.title")} <span className="text-accent">{t("auth.verify.titleHighlight")}</span>
               </h1>
-              <p className="text-muted-foreground mt-3">Vamos a verificar tu email para proteger tu cuenta.</p>
-              <p className="text-muted-foreground mt-1">Te hemos enviado un código de verificación.</p>
+              <p className="text-muted-foreground mt-3">{t("auth.verify.subtitle")}</p>
+              <p className="text-muted-foreground mt-1">{t("auth.verify.subtitleDesc")}</p>
             </div>
 
             <div className="bg-white dark:bg-zinc-900 rounded-2xl p-5 border border-border shadow-sm mb-6">
               <div className="space-y-2 text-sm text-foreground">
                 <p className="flex items-start gap-2">
-                  <span>👉</span>
-                  <span>Revisa tu bandeja de entrada.</span>
+                  <span>1.</span>
+                  <span>{t("auth.verify.tip1")}</span>
                 </p>
                 <p className="flex items-start gap-2">
-                  <span>👉</span>
-                  <span>Si no lo ves, comprueba también SPAM o Promociones.</span>
+                  <span>2.</span>
+                  <span>{t("auth.verify.tip2")}</span>
                 </p>
               </div>
-              <p className="text-sm text-muted-foreground mt-3">Es solo un paso rápido y seguimos.</p>
+              <p className="text-sm text-muted-foreground mt-3">{t("auth.verify.tipDesc")}</p>
             </div>
 
             <div className="space-y-6">
               <div>
-                <label className="text-sm font-black text-primary block mb-2">Código de verificación</label>
+                <label className="text-sm font-black text-primary block mb-2">{t("auth.verify.codeLabel")}</label>
                 <Input
                   value={verificationCode}
                   onChange={(e) => setVerificationCode(e.target.value.replace(/\D/g, ""))}
@@ -211,11 +215,11 @@ export default function Register() {
                 className="w-full bg-accent text-primary font-black rounded-full h-12"
                 data-testid="button-verify"
               >
-                {isVerifying ? <Loader2 className="animate-spin" /> : "Verificar mi email"}
+                {isVerifying ? <Loader2 className="animate-spin" /> : t("auth.verify.submit")}
               </Button>
 
               <div className="text-center">
-                <p className="text-sm text-muted-foreground mb-2">¿No has recibido el código?</p>
+                <p className="text-sm text-muted-foreground mb-2">{t("auth.verify.notReceived")}</p>
                 <Button
                   variant="link"
                   onClick={resendCode}
@@ -223,19 +227,19 @@ export default function Register() {
                   className="text-accent p-0 h-auto font-bold"
                   data-testid="button-resend-code"
                 >
-                  {isResending ? "Enviando..." : "Reenviar código"}
+                  {isResending ? t("auth.verify.resending") : t("auth.verify.resend")}
                 </Button>
               </div>
 
               <div className="text-center pt-4 border-t border-gray-100 dark:border-zinc-700">
-                <p className="text-sm text-muted-foreground mb-2">Puedes verificarlo más tarde desde tu área de cliente</p>
+                <p className="text-sm text-muted-foreground mb-2">{t("auth.verify.verifyLaterDesc")}</p>
                 <Link href="/dashboard">
                   <Button
                     variant="outline"
                     className="rounded-full font-bold"
                     data-testid="button-verify-later"
                   >
-                    Ir a mi nueva área de cliente
+                    {t("auth.verify.verifyLaterBtn")}
                   </Button>
                 </Link>
               </div>
@@ -254,10 +258,10 @@ export default function Register() {
         <div className="w-full max-w-sm md:max-w-md">
           <div className="text-center mb-6 md:mb-8 flex flex-col items-center justify-center w-full">
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight text-center w-full">
-              <span className="text-foreground">Crea tu</span> <span className="text-accent">cuenta</span>
+              <span className="text-foreground">{t("auth.register.title")}</span> <span className="text-accent">{t("auth.register.titleHighlight")}</span>
             </h1>
-            <p className="text-accent font-semibold mt-2 text-sm md:text-base text-center">Empieza en menos de 1 minuto</p>
-            <p className="text-muted-foreground mt-2 text-sm md:text-base text-center max-w-xs md:max-w-sm">Tu LLC en EE. UU., fácil y acompañada.</p>
+            <p className="text-accent font-semibold mt-2 text-sm md:text-base text-center">{t("auth.register.subtitleHighlight")}</p>
+            <p className="text-muted-foreground mt-2 text-sm md:text-base text-center max-w-xs md:max-w-sm">{t("auth.register.subtitle")}</p>
           </div>
 
           {step > 0 && (
@@ -269,13 +273,10 @@ export default function Register() {
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 md:space-y-5">
               
                 {step === 0 && (
-                  <div
-                    key="step-0"
-                    className="space-y-4"
-                  >
+                  <div key="step-0" className="space-y-4">
                     <div className="text-center mb-2">
-                      <h2 className="text-base font-bold text-foreground">¿Cómo te llamas?</h2>
-                      <p className="text-xs text-muted-foreground">Así podremos dirigirnos a ti correctamente.</p>
+                      <h2 className="text-base font-bold text-foreground">{t("auth.register.step0Title")}</h2>
+                      <p className="text-xs text-muted-foreground">{t("auth.register.step0Subtitle")}</p>
                     </div>
 
                     <FormField
@@ -283,11 +284,11 @@ export default function Register() {
                       name="firstName"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="text-xs md:text-sm font-bold text-foreground">Nombre</FormLabel>
+                          <FormLabel className="text-xs md:text-sm font-bold text-foreground">{t("auth.register.firstName")}</FormLabel>
                           <FormControl>
                             <Input
                               {...field}
-                              placeholder="Escribe tu nombre"
+                              placeholder={t("auth.register.firstNamePlaceholder")}
                               className="rounded-full h-11 md:h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base placeholder:text-muted-foreground"
                               data-testid="input-firstName"
                             />
@@ -302,11 +303,11 @@ export default function Register() {
                       name="lastName"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="text-xs md:text-sm font-bold text-foreground">Apellido</FormLabel>
+                          <FormLabel className="text-xs md:text-sm font-bold text-foreground">{t("auth.register.lastName")}</FormLabel>
                           <FormControl>
                             <Input
                               {...field}
-                              placeholder="Escribe tu apellido"
+                              placeholder={t("auth.register.lastNamePlaceholder")}
                               className="rounded-full h-11 md:h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base placeholder:text-muted-foreground"
                               data-testid="input-lastName"
                             />
@@ -319,13 +320,10 @@ export default function Register() {
                 )}
 
                 {step === 1 && (
-                  <div
-                    key="step-1"
-                    className="space-y-6"
-                  >
+                  <div key="step-1" className="space-y-6">
                     <div className="mb-4">
-                      <h2 className="text-xl font-black text-primary">Tu correo electrónico</h2>
-                      <p className="text-sm text-muted-foreground">Lo usaremos para que puedas acceder a tu cuenta y recibir actualizaciones</p>
+                      <h2 className="text-xl font-black text-primary">{t("auth.register.step1Title")}</h2>
+                      <p className="text-sm text-muted-foreground">{t("auth.register.step1Subtitle")}</p>
                     </div>
 
                     <FormField
@@ -333,7 +331,7 @@ export default function Register() {
                       name="email"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="font-black text-primary">Correo electrónico</FormLabel>
+                          <FormLabel className="font-black text-primary">{t("auth.register.email")}</FormLabel>
                           <FormControl>
                             <Input
                               {...field}
@@ -351,13 +349,10 @@ export default function Register() {
                 )}
 
                 {step === 2 && (
-                  <div
-                    key="step-2"
-                    className="space-y-6"
-                  >
+                  <div key="step-2" className="space-y-6">
                     <div className="mb-4">
-                      <h2 className="text-xl font-black text-primary">Tu teléfono</h2>
-                      <p className="text-sm text-muted-foreground">Solo lo usaremos para contactarte si es necesario</p>
+                      <h2 className="text-xl font-black text-primary">{t("auth.register.step2Title")}</h2>
+                      <p className="text-sm text-muted-foreground">{t("auth.register.step2Subtitle")}</p>
                     </div>
 
                     <FormField
@@ -365,12 +360,13 @@ export default function Register() {
                       name="phone"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="font-black text-primary">Número de teléfono con prefijo</FormLabel>
+                          <FormLabel className="font-black text-primary">{t("auth.register.phone")}</FormLabel>
                           <FormControl>
                             <Input
                               {...field}
                               type="tel"
                               inputMode="tel"
+                              placeholder={t("auth.register.phonePlaceholder")}
                               className="rounded-full h-11 md:h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base placeholder:text-muted-foreground"
                               data-testid="input-phone"
                             />
@@ -383,13 +379,10 @@ export default function Register() {
                 )}
 
                 {step === 3 && (
-                  <div
-                    key="step-3"
-                    className="space-y-6"
-                  >
+                  <div key="step-3" className="space-y-6">
                     <div className="mb-4">
-                      <h2 className="text-xl font-black text-primary">Tu actividad</h2>
-                      <p className="text-sm text-muted-foreground">Opcional, pero nos ayuda a adaptar mejor el servicio a ti</p>
+                      <h2 className="text-xl font-black text-primary">{t("auth.register.step3Title")}</h2>
+                      <p className="text-sm text-muted-foreground">{t("auth.register.step3Subtitle")}</p>
                     </div>
 
                     <FormField
@@ -397,9 +390,9 @@ export default function Register() {
                       name="businessActivity"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="text-xs md:text-sm font-bold text-foreground">¿A qué te dedicas?</FormLabel>
+                          <FormLabel className="text-xs md:text-sm font-bold text-foreground">{t("auth.register.step3Label")}</FormLabel>
                           <FormDescription className="text-xs text-muted-foreground mb-2">
-                            Elige la opción que mejor describe tu negocio
+                            {t("auth.register.step3Description")}
                           </FormDescription>
                           <FormControl>
                             <select
@@ -407,10 +400,10 @@ export default function Register() {
                               className="w-full rounded-full h-11 md:h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base appearance-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-accent/20"
                               data-testid="select-businessActivity"
                             >
-                              <option value="">Selecciona una opción</option>
+                              <option value="">{t("common.select")}</option>
                               {BUSINESS_ACTIVITIES.map((activity) => (
-                                <option key={activity} value={activity}>
-                                  {activity}
+                                <option key={activity.key} value={activity.label}>
+                                  {activity.label}
                                 </option>
                               ))}
                             </select>
@@ -423,13 +416,10 @@ export default function Register() {
                 )}
 
                 {step === 4 && (
-                  <div
-                    key="step-4"
-                    className="space-y-6"
-                  >
+                  <div key="step-4" className="space-y-6">
                     <div className="mb-4">
-                      <h2 className="text-xl font-black text-primary">Tu contraseña</h2>
-                      <p className="text-sm text-muted-foreground">Elige una contraseña segura para proteger tu cuenta</p>
+                      <h2 className="text-xl font-black text-primary">{t("auth.register.step4Title")}</h2>
+                      <p className="text-sm text-muted-foreground">{t("auth.register.step4Subtitle")}</p>
                     </div>
 
                     <FormField
@@ -437,7 +427,7 @@ export default function Register() {
                       name="password"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="font-black text-primary">Contraseña</FormLabel>
+                          <FormLabel className="font-black text-primary">{t("auth.register.password")}</FormLabel>
                           <FormControl>
                             <div className="relative">
                               <Input
@@ -453,14 +443,13 @@ export default function Register() {
                                 size="icon"
                                 onClick={() => setShowPassword(!showPassword)}
                                 className="absolute right-2 top-1/2 -translate-y-1/2"
-                                aria-label={showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
                                 data-testid="button-toggle-password"
                               >
                                 {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                               </Button>
                             </div>
                           </FormControl>
-                          <p className="text-xs text-muted-foreground mt-1">Mínimo 8 caracteres</p>
+                          <p className="text-xs text-muted-foreground mt-1">{t("auth.register.passwordHint")}</p>
                           <FormMessage />
                         </FormItem>
                       )}
@@ -471,7 +460,7 @@ export default function Register() {
                       name="confirmPassword"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="font-black text-primary">Confirmar contraseña</FormLabel>
+                          <FormLabel className="font-black text-primary">{t("auth.register.confirmPassword")}</FormLabel>
                           <FormControl>
                             <Input
                               {...field}
@@ -489,44 +478,41 @@ export default function Register() {
                 )}
 
                 {step === 5 && (
-                  <div
-                    key="step-5"
-                    className="space-y-6"
-                  >
+                  <div key="step-5" className="space-y-6">
                     <div className="mb-4">
-                      <h2 className="text-xl font-black text-primary">Confirmar registro</h2>
-                      <p className="text-sm text-muted-foreground">Revisa tus datos antes de continuar</p>
+                      <h2 className="text-xl font-black text-primary">{t("auth.register.step5Title")}</h2>
+                      <p className="text-sm text-muted-foreground">{t("auth.register.step5Subtitle")}</p>
                     </div>
 
                     <div className="space-y-4 p-4 bg-gray-50 dark:bg-zinc-800 rounded-2xl">
                       <div className="flex justify-between items-center py-2 border-b border-gray-200 dark:border-zinc-700">
-                        <span className="text-sm text-muted-foreground">Nombre</span>
+                        <span className="text-sm text-muted-foreground">{t("auth.register.reviewName")}</span>
                         <span className="font-medium text-primary">{form.getValues("firstName")} {form.getValues("lastName")}</span>
                       </div>
                       <div className="flex justify-between items-center py-2 border-b border-gray-200 dark:border-zinc-700">
-                        <span className="text-sm text-muted-foreground">Email</span>
+                        <span className="text-sm text-muted-foreground">{t("auth.register.reviewEmail")}</span>
                         <span className="font-medium text-primary">{form.getValues("email")}</span>
                       </div>
                       <div className="flex justify-between items-center py-2 border-b border-gray-200 dark:border-zinc-700">
-                        <span className="text-sm text-muted-foreground">Teléfono</span>
+                        <span className="text-sm text-muted-foreground">{t("auth.register.reviewPhone")}</span>
                         <span className="font-medium text-primary">{form.getValues("phone")}</span>
                       </div>
                       {form.getValues("businessActivity") && (
                         <div className="flex justify-between items-center py-2">
-                          <span className="text-sm text-muted-foreground">Actividad</span>
+                          <span className="text-sm text-muted-foreground">{t("auth.register.reviewActivity")}</span>
                           <span className="font-medium text-primary text-right max-w-[200px]">{form.getValues("businessActivity")}</span>
                         </div>
                       )}
                     </div>
 
                     <p className="text-xs text-muted-foreground text-center">
-                      Al registrarte aceptas nuestros{" "}
+                      {t("legal.termsAcceptance")}{" "}
                       <Link href="/legal/terminos" data-testid="link-terms">
-                        <span className="text-accent underline cursor-pointer">Términos y Condiciones</span>
+                        <span className="text-accent underline cursor-pointer">{t("legal.termsAndConditions")}</span>
                       </Link>{" "}
-                      y{" "}
+                      {t("common.and")}{" "}
                       <Link href="/legal/privacidad" data-testid="link-privacy">
-                        <span className="text-accent underline cursor-pointer">Política de Privacidad</span>
+                        <span className="text-accent underline cursor-pointer">{t("legal.privacyPolicy")}</span>
                       </Link>
                     </p>
                   </div>
@@ -544,7 +530,7 @@ export default function Register() {
                     data-testid="button-prev"
                   >
                     <ArrowLeft className="w-4 h-4 mr-2" />
-                    Volver
+                    {t("common.back")}
                   </Button>
                 )}
 
@@ -555,7 +541,7 @@ export default function Register() {
                     className="flex-1 bg-accent text-accent-foreground font-black rounded-full h-11 md:h-12 text-sm md:text-base shadow-lg shadow-accent/20"
                     data-testid="button-next"
                   >
-                    Continuar
+                    {t("common.next")}
                   </Button>
                 ) : (
                   <Button
@@ -564,7 +550,7 @@ export default function Register() {
                     className="flex-1 bg-accent text-accent-foreground font-black rounded-full h-11 md:h-12 text-sm md:text-base shadow-lg shadow-accent/20"
                     data-testid="button-register"
                   >
-                    {isLoading ? <Loader2 className="animate-spin" /> : "Crear Cuenta"}
+                    {isLoading ? <Loader2 className="animate-spin" /> : t("auth.register.submit")}
                   </Button>
                 )}
               </div>
@@ -581,8 +567,8 @@ export default function Register() {
             <div className="mt-6 pt-5 border-t border-border text-center">
               <Link href="/auth/login">
                 <div className="hover:underline cursor-pointer" data-testid="link-login">
-                  <p className="text-foreground text-xs md:text-sm font-bold">¿Ya tienes una cuenta?</p>
-                  <p className="text-accent text-[10px] md:text-xs">Inicia sesión aquí</p>
+                  <p className="text-foreground text-xs md:text-sm font-bold">{t("auth.register.hasAccount")}</p>
+                  <p className="text-accent text-[10px] md:text-xs">{t("auth.register.login")}</p>
                 </div>
               </Link>
             </div>

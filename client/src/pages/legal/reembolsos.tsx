@@ -1,96 +1,139 @@
-import { useEffect } from "react";
-import { Navbar } from "@/components/layout/navbar";
-import { Footer } from "@/components/layout/footer";
-import { Button } from "@/components/ui/button";
-import { HeroSection } from "@/components/layout/hero-section";
-import { Download } from "lucide-react";
+import { useTranslation } from "react-i18next";
+import { LegalPageLayout, LegalSection, LegalSubSection, LegalList, LegalHighlightBox } from "@/components/legal/legal-page-layout";
 
 export default function Reembolsos() {
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
-
-  const handleDownload = () => {
-    window.print();
-  };
+  const { t, i18n } = useTranslation();
+  const isEnglish = i18n.language === 'en';
 
   return (
-    <div className="min-h-screen bg-background bg-green-gradient-subtle font-sans text-left selection:bg-brand-lime selection:text-brand-dark">
-      <Navbar />
-      
-      <HeroSection 
-        className="pt-20 sm:pt-24 lg:pt-28 pb-0"
-        title={
-          <h1 className="text-4xl sm:text-5xl lg:text-7xl font-black tracking-tight text-brand-dark leading-[1.1] text-center sm:text-left">
-            Política de <span className="text-brand-lime">Reembolsos</span>
-          </h1>
-        }
-        subtitle={
-          <p className="text-lg sm:text-xl text-brand-dark font-medium max-w-2xl mb-8 text-center sm:text-left mx-auto sm:mx-0">
-            Easy US LLC - Última actualización: 25 de enero de 2026
-          </p>
-        }
-      />
-      
-      <section className="py-8 sm:py-12 bg-background">
-        <div className="container max-w-7xl mx-auto px-4 sm:px-8">
-          <div className="max-w-5xl mx-auto">
-            <div className="flex justify-center sm:justify-end mb-8">
-              <Button 
-                onClick={handleDownload}
-                variant="outline" 
-                className="rounded-full border-brand-lime text-brand-dark transition-all gap-3 px-10 sm:px-8 font-black text-sm tracking-wider w-full sm:w-auto shadow-sm"
-                data-testid="button-download-reembolsos"
-              >
-                <Download className="w-5 h-5 sm:w-4 sm:h-4" />
-                Imprimir / PDF
-              </Button>
-            </div>
+    <LegalPageLayout
+      title={isEnglish ? "Refund" : "Política de"}
+      titleHighlight={isEnglish ? "Policy" : "Reembolsos"}
+      lastUpdated={t("legal.lastUpdated")}
+      pdfUrl="/legal/politica-reembolsos.pdf"
+    >
+      <LegalSection number="01" title={isEnglish ? "General Principles" : "Principios Generales"}>
+        <p>{isEnglish 
+          ? "Given the administrative, personalized, and immediate execution nature of the services provided by Easy US LLC, under the legal entity Fortuny Consulting LLC, refunds are generally not accepted once the service process has begun."
+          : "Dado el carácter administrativo, personalizado y de ejecución inmediata de los servicios prestados por Easy US LLC, bajo la entidad legal Fortuny Consulting LLC, generalmente no se aceptan reembolsos una vez iniciado el proceso del servicio."
+        }</p>
+        <p>{isEnglish 
+          ? "The client understands and accepts that the costs associated with state fees, official registrations, form filing, and administrative management are non-recoverable."
+          : "El cliente entiende y acepta que los costes asociados a tasas estatales, registros oficiales, presentación de formularios y gestión administrativa no son recuperables."
+        }</p>
+      </LegalSection>
 
-            <div className="space-y-16 text-brand-dark leading-relaxed">
-              
-              <section>
-                <h2 className="text-2xl sm:text-3xl font-black text-brand-dark tracking-tighter mb-6">
-                  <span className="text-brand-lime mr-4">01</span> Naturaleza del servicio
-                </h2>
-                <div className="space-y-4 text-base sm:text-lg">
-                  <p>Dado que los servicios prestados por Easy US LLC tienen carácter administrativo, personalizado y de <strong>ejecución inmediata</strong>, no se admiten reembolsos, totales ni parciales, una vez iniciado el proceso, presentada la documentación ante organismos públicos o realizados trámites en nombre del cliente.</p>
-                </div>
-              </section>
+      <LegalSection number="02" title={isEnglish ? "Non-Refundable Services" : "Servicios No Reembolsables"}>
+        <p>{isEnglish 
+          ? "The following services and fees are non-refundable under any circumstances:"
+          : "Los siguientes servicios y tasas no son reembolsables bajo ninguna circunstancia:"
+        }</p>
+        <LegalList items={isEnglish ? [
+          "State fees paid to government agencies",
+          "Articles of Organization filing fees",
+          "EIN application processing",
+          "BOI Report filing with FinCEN",
+          "Registered Agent services once activated",
+          "Annual Report filings",
+          "Any service where documentation has been submitted to public bodies"
+        ] : [
+          "Tasas estatales pagadas a agencias gubernamentales",
+          "Tasas de presentación de Articles of Organization",
+          "Procesamiento de solicitud de EIN",
+          "Presentación de BOI Report ante FinCEN",
+          "Servicios de Registered Agent una vez activados",
+          "Presentación de Annual Reports",
+          "Cualquier servicio donde se haya presentado documentación ante organismos públicos"
+        ]} />
+      </LegalSection>
 
-              <section>
-                <h2 className="text-2xl sm:text-3xl font-black text-brand-dark tracking-tighter mb-6">
-                  <span className="text-brand-lime mr-4">02</span> Gastos no recuperables
-                </h2>
-                <div className="space-y-4 text-base sm:text-lg">
-                  <p>El cliente entiende que los costes asociados a tasas estatales, registros oficiales, presentación de formularios y gestión administrativa no son recuperables una vez que se han abonado a las autoridades correspondientes.</p>
-                </div>
-              </section>
+      <LegalSection number="03" title={isEnglish ? "Exceptional Cases" : "Casos Excepcionales"}>
+        <p>{isEnglish 
+          ? "In exceptional circumstances, partial refunds may be considered:"
+          : "En circunstancias excepcionales, se pueden considerar reembolsos parciales:"
+        }</p>
+        <LegalList items={isEnglish ? [
+          "If the client cancels before any documentation is prepared or submitted",
+          "If Easy US LLC is unable to complete the service due to internal reasons",
+          "If there is a documented error on our part that prevents service completion"
+        ] : [
+          "Si el cliente cancela antes de que se prepare o presente cualquier documentación",
+          "Si Easy US LLC no puede completar el servicio por razones internas",
+          "Si hay un error documentado por nuestra parte que impida la finalización del servicio"
+        ]} />
+        <p className="mt-4">{isEnglish 
+          ? "Each case will be evaluated individually. Any approved refund will exclude state fees and third-party costs already incurred."
+          : "Cada caso será evaluado individualmente. Cualquier reembolso aprobado excluirá las tasas estatales y costes de terceros ya incurridos."
+        }</p>
+      </LegalSection>
 
-              <section>
-                <h2 className="text-2xl sm:text-3xl font-black text-brand-dark tracking-tighter mb-6">
-                  <span className="text-brand-lime mr-4">03</span> Excepciones
-                </h2>
-                <div className="space-y-4 text-base sm:text-lg font-medium">
-                  <p>Easy US LLC solo considerará solicitudes de reembolso en casos donde el servicio no haya sido iniciado de ninguna forma. Una vez que nuestro equipo administrativo comienza la revisión de sus datos, el servicio se considera en ejecución.</p>
-                </div>
-              </section>
+      <LegalSection number="04" title={isEnglish ? "Service Rejection" : "Rechazo del Servicio"}>
+        <p>{isEnglish 
+          ? "Easy US LLC reserves the right to reject, suspend, or not accept a request at its sole discretion, especially when:"
+          : "Easy US LLC se reserva el derecho de rechazar, suspender o no aceptar una solicitud a su entera discreción, especialmente cuando:"
+        }</p>
+        <LegalList items={isEnglish ? [
+          "The information provided is incomplete, inconsistent, or inaccurate",
+          "The documentation does not meet required standards",
+          "The request does not meet the company's internal criteria",
+          "There are suspicions of fraudulent or illegal activity"
+        ] : [
+          "La información proporcionada es incompleta, inconsistente o inexacta",
+          "La documentación no cumple con los estándares requeridos",
+          "La solicitud no cumple con los criterios internos de la empresa",
+          "Existen sospechas de actividad fraudulenta o ilegal"
+        ]} />
+        <p className="mt-4">{isEnglish 
+          ? "In cases of rejection before service initiation, a refund may be processed minus any administrative fees incurred."
+          : "En casos de rechazo antes del inicio del servicio, se puede procesar un reembolso menos cualquier tasa administrativa incurrida."
+        }</p>
+      </LegalSection>
 
-              <section>
-                <h2 className="text-2xl sm:text-3xl font-black text-brand-dark tracking-tighter mb-6">
-                  <span className="text-brand-lime mr-4">04</span> Compromiso de calidad
-                </h2>
-                <div className="bg-brand-dark text-white rounded-2xl p-10 sm:p-12 shadow-xl">
-                  <p className="text-lg sm:text-xl leading-relaxed opacity-90 font-medium">Nos comprometemos a realizar todos los trámites con la máxima diligencia y profesionalidad para asegurar que su LLC sea constituida correctamente siguiendo los estándares legales de cada estado.</p>
-                </div>
-              </section>
+      <LegalSection number="05" title={isEnglish ? "Bank Account Opening" : "Apertura de Cuentas Bancarias"}>
+        <p>{isEnglish 
+          ? "Easy US LLC provides assistance in the bank account opening process. However:"
+          : "Easy US LLC proporciona asistencia en el proceso de apertura de cuentas bancarias. Sin embargo:"
+        }</p>
+        <LegalList items={isEnglish ? [
+          "We do not guarantee the approval of bank accounts or payment platforms",
+          "Final decisions depend exclusively on financial entities",
+          "Rejection by a bank or financial institution does not entitle to a refund",
+          "Additional documentation requests from banks do not constitute grounds for refund"
+        ] : [
+          "No garantizamos la aprobación de cuentas bancarias o plataformas de pago",
+          "Las decisiones finales dependen exclusivamente de las entidades financieras",
+          "El rechazo por parte de un banco o institución financiera no da derecho a reembolso",
+          "Solicitudes adicionales de documentación por parte de bancos no constituyen motivo de reembolso"
+        ]} />
+      </LegalSection>
 
-            </div>
-          </div>
-        </div>
-      </section>
+      <LegalSection number="06" title={isEnglish ? "How to Request a Review" : "Cómo Solicitar una Revisión"}>
+        <p>{isEnglish 
+          ? "If you believe you have a valid case for a refund review, please contact us:"
+          : "Si crees que tienes un caso válido para una revisión de reembolso, contáctanos:"
+        }</p>
+        <LegalHighlightBox>
+          <p>Email: hola@easyusllc.com</p>
+          <p>WhatsApp: +34 614 916 910</p>
+          <p className="mt-4 text-sm opacity-70">{isEnglish 
+            ? "Please include your order number and a detailed explanation of your situation."
+            : "Por favor incluye tu número de pedido y una explicación detallada de tu situación."
+          }</p>
+        </LegalHighlightBox>
+        <p className="mt-4">{isEnglish 
+          ? "We will respond within 5 business days with our decision."
+          : "Responderemos en un plazo de 5 días hábiles con nuestra decisión."
+        }</p>
+      </LegalSection>
 
-      <Footer />
-    </div>
+      <LegalSection number="07" title={isEnglish ? "Acceptance" : "Aceptación"}>
+        <LegalHighlightBox variant="dark">
+          <p>{isEnglish 
+            ? "By contracting our services and making payment, the client expressly accepts this Refund Policy and acknowledges understanding that the services are non-refundable once the process has begun."
+            : "Al contratar nuestros servicios y realizar el pago, el cliente acepta expresamente esta Política de Reembolsos y reconoce entender que los servicios no son reembolsables una vez iniciado el proceso."
+          }</p>
+        </LegalHighlightBox>
+      </LegalSection>
+    </LegalPageLayout>
   );
 }
