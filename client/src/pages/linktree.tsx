@@ -5,6 +5,10 @@ import { useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
 import logoIcon from "@/assets/logo-icon.png";
 
+const WHATSAPP_NUMBER = "34614916910";
+const WHATSAPP_MESSAGE = encodeURIComponent("Hola, me interesa crear una LLC en Estados Unidos");
+const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}?text=${WHATSAPP_MESSAGE}`;
+
 const links = [
   {
     label: "Instagram",
@@ -14,7 +18,7 @@ const links = [
   },
   {
     label: "WhatsApp",
-    href: "https://wa.me/34612345678",
+    href: WHATSAPP_URL,
     icon: FaWhatsapp,
     external: true
   },
@@ -123,7 +127,8 @@ export default function LinktreePage() {
         onClick={handleShare}
         size="icon"
         variant="ghost"
-        className="absolute top-4 right-4 w-10 h-10 rounded-full !bg-[#6EDC8A] hover:!bg-[#5cd67a] !text-[#0E1215] !border-0"
+        style={{ backgroundColor: '#6EDC8A', color: '#0E1215', border: 'none' }}
+        className="absolute top-4 right-4 w-10 h-10 rounded-full hover:bg-[#5cd67a]"
         data-testid="button-share"
       >
         <Share2 className="w-5 h-5" />
@@ -159,7 +164,8 @@ export default function LinktreePage() {
               data-testid={`link-${link.label.toLowerCase().replace(/\s+/g, '-').replace(/[?¿]/g, '')}`}
             >
               <Button
-                className="w-full h-14 !bg-[#6EDC8A] hover:!bg-[#5cd67a] !text-[#0E1215] font-semibold text-base rounded-full shadow-md transition-all duration-200 hover:scale-[1.02] hover:shadow-lg active:scale-[0.98] flex items-center justify-center gap-3 !border-0"
+                style={{ backgroundColor: '#6EDC8A', color: '#0E1215', border: 'none' }}
+                className="w-full h-14 font-semibold text-base rounded-full shadow-md transition-all duration-200 hover:scale-[1.02] hover:shadow-lg active:scale-[0.98] flex items-center justify-center gap-3 hover:bg-[#5cd67a]"
                 variant="ghost"
               >
                 <link.icon className="w-5 h-5" />

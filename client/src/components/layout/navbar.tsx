@@ -239,7 +239,7 @@ export function Navbar() {
                   </Button>
                 )}
                 <a 
-                  href="https://wa.me/34614916910" 
+                  href="https://wa.me/34614916910?text=Hola%2C%20me%20interesa%20crear%20una%20LLC%20en%20Estados%20Unidos" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="w-full"

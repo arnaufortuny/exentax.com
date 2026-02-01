@@ -1047,7 +1047,7 @@ export default function Dashboard() {
                             <h3 className="text-base md:text-lg font-semibold text-foreground mb-1 md:mb-2 text-center">Sin consultas activas</h3>
                             <p className="text-xs md:text-sm text-muted-foreground mb-4 md:mb-6 text-center">Te responderá una persona, no un bot.</p>
                           </div>
-                          <a href="https://wa.me/34614916910" target="_blank" rel="noopener noreferrer">
+                          <a href="https://wa.me/34614916910?text=Hola%2C%20me%20interesa%20crear%20una%20LLC%20en%20Estados%20Unidos" target="_blank" rel="noopener noreferrer">
                             <Button className="bg-accent text-accent-foreground font-semibold rounded-lg px-6 md:px-8 py-2.5 md:py-3 text-sm md:text-base" data-testid="button-support-whatsapp">
                               <MessageSquare className="w-4 h-4 mr-2" /> Hablar con soporte
                             </Button>
@@ -2600,7 +2600,7 @@ export default function Dashboard() {
             <section className="bg-accent/10 p-6 md:p-8 rounded-[2rem] border-2 border-accent/20">
               <h3 className="text-base font-semibold text-foreground mb-2">¿Tienes alguna duda?</h3>
               <p className="text-xs text-primary/70 mb-5 leading-relaxed">Estamos aquí para ayudarte, escríbenos y te responderemos lo antes posible!</p>
-              <a href="https://wa.me/34614916910" target="_blank" rel="noopener noreferrer">
+              <a href="https://wa.me/34614916910?text=Hola%2C%20me%20interesa%20crear%20una%20LLC%20en%20Estados%20Unidos" target="_blank" rel="noopener noreferrer">
                 <Button className="w-full bg-accent text-accent-foreground font-semibold rounded-lg py-5">Hablar con un asesor</Button>
               </a>
             </section>

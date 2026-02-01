@@ -750,7 +750,7 @@ export default function LlcFormation() {
                     <strong className="text-foreground">¿Necesitas varios socios?</strong><br />
                     Contáctanos para LLCs con dos o más propietarios.
                   </p>
-                  <a href="https://wa.me/34614916910" target="_blank" rel="noopener noreferrer" className="inline-block mt-3">
+                  <a href="https://wa.me/34614916910?text=Hola%2C%20me%20interesa%20crear%20una%20LLC%20en%20Estados%20Unidos" target="_blank" rel="noopener noreferrer" className="inline-block mt-3">
                     <Button type="button" variant="outline" size="sm" className="rounded-full font-bold text-xs">
                       Consultar por WhatsApp
                     </Button>
