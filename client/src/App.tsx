@@ -4,7 +4,8 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { ThemeProvider } from "@/hooks/use-theme";
-import { useEffect, Suspense, lazy } from "react";
+import { useState, useEffect, Suspense, lazy } from "react";
+import { useTranslation } from "react-i18next";
 import NotFound from "@/pages/not-found";
 
 const Home = lazy(() => import("@/pages/home"));
@@ -39,21 +40,37 @@ function ScrollToTop() {
 }
 
 function LoadingScreen() {
+  const { t } = useTranslation();
+  const [progress, setProgress] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setProgress((prev) => {
+        if (prev >= 100) return 100;
+        const increment = Math.random() * 15 + 5;
+        return Math.min(prev + increment, 100);
+      });
+    }, 150);
+
+    return () => clearInterval(timer);
+  }, []);
+
   return (
     <div className="min-h-screen bg-background flex flex-col items-center justify-center">
       <div className="w-64 space-y-4 flex flex-col items-center">
         <div className="w-full h-1.5 bg-muted rounded-full overflow-hidden">
           <div 
-            className="h-full rounded-full loading-bar-animation"
+            className="h-full rounded-full transition-all duration-150 ease-out"
             style={{ 
+              width: `${progress}%`,
               backgroundColor: '#6EDC8A',
               boxShadow: '0 0 10px rgba(110, 220, 138, 0.5)'
             }}
           />
         </div>
         <div className="flex items-center gap-2">
-          <div className="w-2 h-2 rounded-full bg-accent animate-pulse" />
-          <span className="text-muted-foreground text-sm font-medium">Cargando...</span>
+          <span className="text-accent font-black text-xl tabular-nums">{Math.round(progress)}%</span>
+          <span className="text-muted-foreground text-sm font-medium">{t('common.loading')}</span>
         </div>
       </div>
     </div>
