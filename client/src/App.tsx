@@ -86,14 +86,12 @@ function App() {
     if (pathname === '/tu-llc' || pathname === '/tu-llc/') {
       return (
         <QueryClientProvider client={queryClient}>
-          <ThemeProvider defaultTheme="light" storageKey="easyusllc-theme">
-            <TooltipProvider>
-              <Suspense fallback={<LoadingScreen />}>
-                <Sales />
-              </Suspense>
-              <Toaster />
-            </TooltipProvider>
-          </ThemeProvider>
+          <TooltipProvider>
+            <Suspense fallback={<LoadingScreen />}>
+              <Sales />
+            </Suspense>
+            <Toaster />
+          </TooltipProvider>
         </QueryClientProvider>
       );
     }
@@ -102,6 +100,7 @@ function App() {
         <Suspense fallback={<LoadingScreen />}>
           <LinktreePage />
         </Suspense>
+        <Toaster />
       </QueryClientProvider>
     );
   }
