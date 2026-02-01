@@ -312,14 +312,16 @@ export default function Dashboard() {
 
   const { data: adminOrders } = useQuery<any[]>({
     queryKey: ["/api/admin/orders"],
-    enabled: !!user?.isAdmin,
+    enabled: !!user?.isAdmin && activeTab === 'admin',
     refetchInterval: 30000,
+    staleTime: 15000,
   });
 
   const { data: incompleteApps } = useQuery<{ llc: any[]; maintenance: any[] }>({
     queryKey: ["/api/admin/incomplete-applications"],
-    enabled: !!user?.isAdmin,
+    enabled: !!user?.isAdmin && activeTab === 'admin' && adminSubTab === 'incomplete',
     refetchInterval: 30000,
+    staleTime: 15000,
   });
 
   const deleteIncompleteAppMutation = useMutation({
@@ -339,25 +341,29 @@ export default function Dashboard() {
 
   const { data: adminUsers } = useQuery<any[]>({
     queryKey: ["/api/admin/users"],
-    enabled: !!user?.isAdmin,
+    enabled: !!user?.isAdmin && activeTab === 'admin' && adminSubTab === 'users',
     refetchInterval: 60000,
+    staleTime: 30000,
   });
 
   const { data: adminNewsletterSubs, refetch: refetchNewsletterSubs } = useQuery<any[]>({
     queryKey: ["/api/admin/newsletter"],
-    enabled: !!user?.isAdmin,
+    enabled: !!user?.isAdmin && activeTab === 'admin' && adminSubTab === 'newsletter',
+    staleTime: 30000,
   });
 
   const { data: adminDocuments } = useQuery<any[]>({
     queryKey: ["/api/admin/documents"],
-    enabled: !!user?.isAdmin,
+    enabled: !!user?.isAdmin && activeTab === 'admin' && adminSubTab === 'docs',
     refetchInterval: 30000,
+    staleTime: 15000,
   });
 
   const { data: adminInvoices } = useQuery<any[]>({
     queryKey: ["/api/admin/invoices"],
-    enabled: !!user?.isAdmin,
+    enabled: !!user?.isAdmin && activeTab === 'admin' && adminSubTab === 'facturas',
     refetchInterval: 60000,
+    staleTime: 30000,
   });
 
   const { data: adminStats } = useQuery<{
@@ -380,19 +386,21 @@ export default function Dashboard() {
     conversionRate: number;
   }>({
     queryKey: ["/api/admin/system-stats"],
-    enabled: !!user?.isAdmin,
-    refetchInterval: 10000,
-    staleTime: 5000,
+    enabled: !!user?.isAdmin && activeTab === 'admin' && adminSubTab === 'dashboard',
+    refetchInterval: 30000,
+    staleTime: 15000,
   });
 
   const { data: adminMessages } = useQuery<any[]>({
     queryKey: ["/api/admin/messages"],
-    enabled: !!user?.isAdmin,
+    enabled: !!user?.isAdmin && activeTab === 'admin' && adminSubTab === 'inbox',
+    staleTime: 30000,
   });
 
   const { data: discountCodes, refetch: refetchDiscountCodes } = useQuery<DiscountCode[]>({
     queryKey: ["/api/admin/discount-codes"],
-    enabled: !!user?.isAdmin,
+    enabled: !!user?.isAdmin && activeTab === 'admin' && adminSubTab === 'descuentos',
+    staleTime: 30000,
   });
 
   const [broadcastSubject, setBroadcastSubject] = useState("");
