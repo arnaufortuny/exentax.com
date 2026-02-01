@@ -151,8 +151,8 @@ export default function ForgotPassword() {
             <h1 className="text-2xl sm:text-3xl md:text-4xl font-black text-primary tracking-tight text-center">
               Recuperar <span className="text-accent">Contraseña</span>
             </h1>
-            <p className="text-muted-foreground mt-3 text-sm md:text-base text-center max-w-xs mx-auto">
-              {step === 'email' && "Te enviaremos un código para restablecer el acceso a tu cuenta"}
+            <p className="text-muted-foreground mt-3 text-sm md:text-base text-center max-w-sm mx-auto">
+              {step === 'email' && "Te enviaremos un código de verificación para restablecer el acceso a tu cuenta de forma segura."}
               {step === 'otp' && "Ingresa el código de 6 dígitos que enviamos a tu email"}
               {step === 'password' && "Crea una nueva contraseña segura para tu cuenta"}
             </p>
@@ -161,20 +161,26 @@ export default function ForgotPassword() {
           {step === 'email' && (
             <Form {...emailForm}>
               <form onSubmit={emailForm.handleSubmit(handleSendOtp)} className="space-y-6">
-                <FormInput
-                  control={emailForm.control}
-                  name="email"
-                  label="Email"
-                  type="email"
-                  inputMode="email"
-                />
+                <div className="space-y-2">
+                  <FormInput
+                    control={emailForm.control}
+                    name="email"
+                    label="Email"
+                    type="email"
+                    inputMode="email"
+                    placeholder="ejemplo@email.com"
+                  />
+                  <p className="text-[10px] md:text-xs text-muted-foreground px-1 italic">
+                    (Introduce el email con el que te registraste)
+                  </p>
+                </div>
                 <Button
                   type="submit"
                   disabled={isLoading}
                   className="w-full bg-accent text-primary font-black h-11 md:h-12 rounded-full text-sm md:text-base shadow-lg shadow-accent/20 active:scale-95 transition-all"
                   data-testid="button-send-otp"
                 >
-                  {isLoading ? <Loader2 className="animate-spin w-4 h-4" /> : "Enviar Código"}
+                  {isLoading ? <Loader2 className="animate-spin w-4 h-4" /> : "Enviar código de acceso"}
                 </Button>
               </form>
             </Form>
@@ -267,8 +273,8 @@ export default function ForgotPassword() {
 
           <div className="mt-6 text-center">
             <Link href="/auth/login">
-              <span className="text-sm text-muted-foreground hover:text-primary transition-colors cursor-pointer">
-                Volver al Login
+              <span className="text-sm text-muted-foreground hover:text-primary transition-colors cursor-pointer flex items-center justify-center gap-2">
+                <ArrowLeft className="w-4 h-4" /> Volver al inicio de sesión
               </span>
             </Link>
           </div>
