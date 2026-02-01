@@ -377,3 +377,35 @@ img {
 .animate-loading-bar {
   animation: loading-bar 0.4s cubic-bezier(0.65, 0, 0.35, 1) forwards;
 }
+
+/* Infinite loading bar for page transitions */
+@keyframes loading-bar-infinite {
+  0% {
+    width: 0%;
+    opacity: 1;
+  }
+  50% {
+    width: 80%;
+    opacity: 1;
+  }
+  100% {
+    width: 100%;
+    opacity: 0.8;
+  }
+}
+
+.loading-bar-animation {
+  animation: loading-bar-infinite 1.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+/* Reduce motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+  .loading-bar-animation {
+    animation: none;
+    width: 100%;
+  }
+  
+  .animate-pulse {
+    animation: none;
+  }
+}
