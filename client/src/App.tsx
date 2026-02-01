@@ -39,36 +39,22 @@ function ScrollToTop() {
 }
 
 function LoadingScreen() {
-  const [progress, setProgress] = useState(0);
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setProgress((oldProgress: number) => {
-        if (oldProgress === 100) return 100;
-        const diff = Math.random() * 40;
-        return Math.min(oldProgress + diff, 100);
-      });
-    }, 100);
-
-    return () => clearInterval(timer);
-  }, []);
-
   return (
     <div className="min-h-screen bg-background flex flex-col items-center justify-center">
       <div className="w-64 space-y-4 flex flex-col items-center">
         <div className="w-full h-1.5 bg-muted rounded-full overflow-hidden">
           <div 
-            className="h-full rounded-full transition-all duration-300 ease-out"
+            className="h-full rounded-full loading-bar-animation"
             style={{ 
-              width: `${progress}%`,
               backgroundColor: '#6EDC8A',
               boxShadow: '0 0 10px rgba(110, 220, 138, 0.5)'
             }}
           />
         </div>
-        <span className="text-accent font-black text-xl tabular-nums">
-          {Math.round(progress)}%
-        </span>
+        <div className="flex items-center gap-2">
+          <div className="w-2 h-2 rounded-full bg-accent animate-pulse" />
+          <span className="text-muted-foreground text-sm font-medium">Cargando...</span>
+        </div>
       </div>
     </div>
   );
