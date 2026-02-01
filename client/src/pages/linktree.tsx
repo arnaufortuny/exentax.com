@@ -79,16 +79,17 @@ export default function LinktreePage() {
   return (
     <div className="min-h-screen bg-white flex flex-col items-center justify-center px-4 py-12">
       <div className="w-full max-w-md mx-auto flex flex-col items-center">
-        <div className="w-28 h-28 rounded-full bg-[#6EDC8A] flex items-center justify-center mb-8 shadow-xl shadow-[#6EDC8A]/30">
+        <div className="mb-8">
           <img 
             src={logoIcon} 
             alt="Creamos tu LLC" 
-            className="w-16 h-16 object-contain"
+            className="w-24 h-24 sm:w-28 sm:h-28 object-contain"
           />
         </div>
 
-        <h1 className="text-xl sm:text-2xl font-black text-[#0E1215] mb-3 text-center tracking-tight leading-tight">
-          Optimiza tus impuestos con una LLC en EE. UU.
+        <h1 className="text-xl sm:text-2xl md:text-3xl font-black text-[#0E1215] mb-3 text-center tracking-tight leading-snug">
+          <span className="block">OPTIMIZA TUS IMPUESTOS</span>
+          <span className="block">CON UNA LLC EN EEUU</span>
         </h1>
         <p className="text-sm sm:text-base text-[#6B7280] mb-10 text-center max-w-sm leading-relaxed">
           Te ayudamos a estructurar tu negocio con una LLC en EE. UU.<br />
