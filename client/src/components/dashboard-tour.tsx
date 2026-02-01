@@ -115,8 +115,9 @@ export function DashboardTour({ onComplete }: DashboardTourProps) {
   return (
     <>
       <div 
-        className="fixed inset-0 bg-black/60 z-[9998] transition-opacity duration-300"
+        className="fixed inset-0 bg-black/60 z-[9998] transition-opacity duration-300 touch-none"
         onClick={handleClose}
+        onTouchEnd={handleClose}
       />
 
       {hasTarget && (
@@ -132,7 +133,7 @@ export function DashboardTour({ onComplete }: DashboardTourProps) {
       )}
 
       <Card 
-        className={`fixed z-[10000] w-[calc(100vw-2rem)] max-w-sm p-4 md:p-5 shadow-2xl border-0 bg-card transition-all duration-300 rounded-2xl ${
+        className={`fixed z-[10000] w-[calc(100vw-2rem)] max-w-sm p-4 md:p-5 shadow-2xl border-0 bg-card transition-all duration-300 rounded-2xl touch-auto ${
           hasTarget 
             ? 'left-1/2 -translate-x-1/2' 
             : 'left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2'
@@ -140,11 +141,11 @@ export function DashboardTour({ onComplete }: DashboardTourProps) {
         style={hasTarget ? {
           top: Math.min(
             targetRect.bottom + 16,
-            window.innerHeight - 220
+            window.innerHeight - 250
           ),
-          maxHeight: 'calc(100vh - 280px)',
+          maxHeight: 'calc(100dvh - 300px)',
         } : {
-          maxHeight: 'calc(100vh - 100px)',
+          maxHeight: 'calc(100dvh - 120px)',
         }}
       >
         <button

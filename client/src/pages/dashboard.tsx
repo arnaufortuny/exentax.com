@@ -754,7 +754,7 @@ export default function Dashboard() {
 
   const menuItems = useMemo(() => [
     { id: 'services', label: 'Mis trámites', icon: Package, mobileLabel: 'Trámites', tour: 'orders' },
-    { id: 'notifications', label: 'Seguimiento', icon: BellRing, mobileLabel: 'Seguim.' },
+    { id: 'notifications', label: 'Seguimiento', icon: BellRing, mobileLabel: 'Seguim' },
     { id: 'messages', label: 'Soporte', icon: Mail, mobileLabel: 'Soporte', tour: 'messages' },
     { id: 'documents', label: 'Documentos', icon: FileText, mobileLabel: 'Docs' },
     { id: 'payments', label: 'Pagos', icon: CreditCard, mobileLabel: 'Pagos' },
@@ -767,10 +767,10 @@ export default function Dashboard() {
   ], [user?.isAdmin]);
 
   return (
-    <div className="min-h-screen bg-muted bg-green-gradient font-sans">
+    <div className="min-h-screen bg-muted bg-green-gradient font-sans overflow-x-hidden">
       <Navbar />
       <DashboardTour />
-      <main className="pt-16 sm:pt-20 pb-12 px-4 md:px-8 max-w-7xl mx-auto">
+      <main className="pt-16 sm:pt-20 pb-20 px-4 md:px-8 max-w-7xl mx-auto">
         <header className="mb-6 md:mb-10">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 md:gap-6">
             <div>
@@ -790,7 +790,7 @@ export default function Dashboard() {
           </div>
         </header>
 
-        <div className="flex overflow-x-auto pb-3 mb-6 gap-2 no-scrollbar -mx-4 px-4 md:mx-0 md:px-0 md:gap-3 md:pb-4 md:mb-8">
+        <div className="flex overflow-x-auto pb-3 mb-6 gap-2 no-scrollbar -mx-4 px-4 md:mx-0 md:px-0 md:gap-3 md:pb-4 md:mb-8" style={{ WebkitOverflowScrolling: 'touch' }}>
           {menuItems.map((item) => (
             <Button
               key={item.id}

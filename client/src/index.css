@@ -335,3 +335,31 @@ img {
 .dark .bg-gradient-main {
   background: linear-gradient(180deg, hsl(225 18% 8%) 0%, hsl(225 16% 12%) 100%);
 }
+
+/* Mobile scroll improvements */
+@supports (-webkit-touch-callout: none) {
+  .overflow-x-auto {
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x proximity;
+  }
+  
+  .no-scrollbar {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Prevent content cutoff on mobile */
+@media (max-width: 767px) {
+  main {
+    min-height: calc(100dvh - 5rem);
+  }
+  
+  .min-h-screen {
+    min-height: 100dvh;
+  }
+}
