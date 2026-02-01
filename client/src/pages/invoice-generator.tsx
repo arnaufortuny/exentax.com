@@ -210,7 +210,7 @@ export default function InvoiceGenerator() {
   };
 
   return (
-    <div className="min-h-screen bg-background flex flex-col">
+    <div className="min-h-screen bg-background bg-green-gradient-subtle flex flex-col">
       <Navbar />
       
       <main className="flex-1 w-full max-w-4xl mx-auto px-4 py-6 md:py-10">

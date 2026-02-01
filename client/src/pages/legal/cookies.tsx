@@ -15,7 +15,7 @@ export default function Cookies() {
   };
 
   return (
-    <div className="min-h-screen bg-background font-sans text-left selection:bg-brand-lime selection:text-brand-dark">
+    <div className="min-h-screen bg-background bg-green-gradient-subtle font-sans text-left selection:bg-brand-lime selection:text-brand-dark">
       <Navbar />
       
       <HeroSection 
