@@ -20,7 +20,7 @@ import { SocialLogin } from "@/components/auth/social-login";
 import { LLCProgressWidget } from "@/components/llc-progress-widget";
 import { DashboardTour } from "@/components/dashboard-tour";
 
-type Tab = 'services' | 'profile' | 'payments' | 'documents' | 'messages' | 'notifications' | 'admin' | 'calendar';
+type Tab = 'services' | 'profile' | 'payments' | 'documents' | 'messages' | 'notifications' | 'admin' | 'calendar' | 'tools';
 
 function getOrderStatusLabel(status: string): { label: string; className: string } {
   const statusMap: Record<string, { label: string; className: string }> = {
@@ -759,6 +759,7 @@ export default function Dashboard() {
     { id: 'documents', label: 'Documentos', icon: FileText, mobileLabel: 'Docs' },
     { id: 'payments', label: 'Pagos', icon: CreditCard, mobileLabel: 'Pagos' },
     { id: 'calendar', label: 'Calendario', icon: Calendar, mobileLabel: 'Fechas', tour: 'calendar' },
+    { id: 'tools', label: 'Herramientas', icon: Receipt, mobileLabel: 'Tools' },
     { id: 'profile', label: 'Mi Perfil', icon: UserIcon, mobileLabel: 'Perfil', tour: 'profile' },
     ...(user?.isAdmin ? [
       { id: 'admin', label: 'Admin', icon: Shield, mobileLabel: 'Admin' }
@@ -1238,8 +1239,8 @@ export default function Dashboard() {
                             <p className="text-[10px] text-muted-foreground">{new Date(order.createdAt).toLocaleDateString()}</p>
                           </div>
                           <div className="flex gap-2">
-                            <Button variant="outline" size="sm" onClick={() => window.open(`/api/orders/${order.id}/invoice`, '_blank')}>Factura</Button>
-                            <Button variant="outline" size="sm" onClick={() => window.open(`/api/orders/${order.id}/receipt`, '_blank')}>Recibo</Button>
+                            <Button variant="outline" size="sm" className="rounded-full" onClick={() => window.open(`/api/orders/${order.id}/invoice`, '_blank')}>Factura</Button>
+                            <Button variant="outline" size="sm" className="rounded-full" onClick={() => window.open(`/api/orders/${order.id}/receipt`, '_blank')}>Recibo</Button>
                           </div>
                         </Card>
                       ))
@@ -1393,6 +1394,33 @@ export default function Dashboard() {
                 </div>
               )}
 
+              {activeTab === 'tools' && (
+                <div key="tools" className="space-y-6">
+                  <div className="mb-4 md:mb-6">
+                    <h2 className="text-xl md:text-2xl font-bold text-foreground tracking-tight">Herramientas</h2>
+                    <p className="text-sm text-muted-foreground mt-1">Utilidades para gestionar tu negocio</p>
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <Card className="rounded-2xl border-0 shadow-sm p-6 bg-white dark:bg-zinc-900 hover:shadow-md transition-shadow">
+                      <div className="flex items-start gap-4">
+                        <div className="w-12 h-12 bg-accent/10 rounded-full flex items-center justify-center flex-shrink-0">
+                          <Receipt className="w-6 h-6 text-accent" />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <h3 className="font-bold text-foreground mb-1">Generador de Facturas</h3>
+                          <p className="text-sm text-muted-foreground mb-4">Crea facturas profesionales en PDF con los datos de tu LLC americana.</p>
+                          <Link href="/tools/invoice">
+                            <Button className="bg-accent hover:bg-accent/90 text-accent-foreground font-semibold rounded-full" size="sm" data-testid="button-invoice-generator">
+                              Crear Factura <ChevronRight className="w-4 h-4 ml-1" />
+                            </Button>
+                          </Link>
+                        </div>
+                      </div>
+                    </Card>
+                  </div>
+                </div>
+              )}
+
               {activeTab === 'profile' && (
                 <div key="profile" className="space-y-6">
                   <div className="mb-4 md:mb-6">
@@ -1403,7 +1431,7 @@ export default function Dashboard() {
                     <div className="flex justify-between items-center mb-4">
                       <h3 className="text-lg md:text-xl font-semibold text-foreground">Datos Personales</h3>
                       {canEdit && (
-                        <Button variant="ghost" size="sm" onClick={() => setIsEditing(!isEditing)} data-testid="button-toggle-edit">{isEditing ? 'Cancelar' : 'Editar'}</Button>
+                        <Button variant="ghost" size="sm" className="rounded-full" onClick={() => setIsEditing(!isEditing)} data-testid="button-toggle-edit">{isEditing ? 'Cancelar' : 'Editar'}</Button>
                       )}
                     </div>
                     <p className="text-sm text-muted-foreground mb-6">Esta información nos permite acompañarte mejor y cumplir con los requisitos legales cuando sea necesario.</p>
