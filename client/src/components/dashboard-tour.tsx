@@ -41,11 +41,10 @@ const tourSteps: TourStep[] = [
 ];
 
 interface DashboardTourProps {
-  isNewUser: boolean;
   onComplete?: () => void;
 }
 
-export function DashboardTour({ isNewUser, onComplete }: DashboardTourProps) {
+export function DashboardTour({ onComplete }: DashboardTourProps) {
   const [isVisible, setIsVisible] = useState(false);
   const [currentStep, setCurrentStep] = useState(0);
   const [targetRect, setTargetRect] = useState<DOMRect | null>(null);
@@ -63,17 +62,15 @@ export function DashboardTour({ isNewUser, onComplete }: DashboardTourProps) {
   }, [currentStep]);
 
   useEffect(() => {
-    if (!isNewUser) return;
-    
-    const tourCompleted = localStorage.getItem('dashboard-tour-v2');
+    const tourCompleted = localStorage.getItem('dashboard-tour-v3');
     if (tourCompleted) return;
 
     const timer = setTimeout(() => {
       setIsVisible(true);
-    }, 600);
+    }, 800);
 
     return () => clearTimeout(timer);
-  }, [isNewUser]);
+  }, []);
 
   useEffect(() => {
     if (!isVisible) return;
@@ -104,7 +101,7 @@ export function DashboardTour({ isNewUser, onComplete }: DashboardTourProps) {
 
   const handleClose = () => {
     setIsVisible(false);
-    localStorage.setItem('dashboard-tour-v2', 'true');
+    localStorage.setItem('dashboard-tour-v3', 'true');
     onComplete?.();
   };
 
@@ -214,5 +211,5 @@ export function DashboardTour({ isNewUser, onComplete }: DashboardTourProps) {
 }
 
 export function resetDashboardTour() {
-  localStorage.removeItem('dashboard-tour-v2');
+  localStorage.removeItem('dashboard-tour-v3');
 }

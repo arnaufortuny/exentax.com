@@ -766,12 +766,10 @@ export default function Dashboard() {
     ] : []),
   ], [user?.isAdmin]);
 
-  const isNewUser = user && (!orders || orders.length === 0);
-
   return (
     <div className="min-h-screen bg-muted bg-green-gradient font-sans">
       <Navbar />
-      <DashboardTour isNewUser={!!isNewUser} />
+      <DashboardTour />
       <main className="pt-16 sm:pt-20 pb-12 px-4 md:px-8 max-w-7xl mx-auto">
         <header className="mb-6 md:mb-10">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 md:gap-6">
