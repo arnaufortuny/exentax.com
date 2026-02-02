@@ -716,7 +716,7 @@
       "description": "Te mostramos las funciones principales de tu panel."
     },
     "orders": {
-      "title": "Tus Pedidos",
+      "title": "Seguimiento",
       "description": "Consulta el estado de tus pedidos y documentos."
     },
     "calendar": {

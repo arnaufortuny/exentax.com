@@ -716,7 +716,7 @@
       "description": "We'll show you the main features of your dashboard."
     },
     "orders": {
-      "title": "Your Orders",
+      "title": "Tracking",
       "description": "Check the status of your orders and documents."
     },
     "calendar": {

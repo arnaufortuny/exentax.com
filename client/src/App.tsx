@@ -128,14 +128,15 @@ function LoadingScreen() {
       <img 
         src={logoIcon} 
         alt="Easy US LLC" 
-        className="w-16 h-16 sm:w-20 sm:h-20 mb-6 opacity-90"
+        className="w-16 h-16 sm:w-20 sm:h-20 mb-8 opacity-90"
       />
-      <div className="w-48 sm:w-56 h-1 bg-border rounded-full overflow-hidden">
+      <div className="w-56 sm:w-64 h-1.5 bg-muted rounded-full overflow-hidden">
         <div 
-          className="h-full bg-accent rounded-full transition-all duration-75 ease-out"
+          className="h-full bg-accent rounded-full transition-all duration-100 ease-out"
           style={{ width: `${progress}%` }}
         />
       </div>
+      <p className="text-xs text-muted-foreground mt-3 font-medium">{Math.round(progress)}%</p>
     </div>
   );
 }

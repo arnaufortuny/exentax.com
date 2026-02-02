@@ -49,11 +49,24 @@ export function Navbar() {
   const handleNavClick = (href: string) => {
     setIsOpen(false);
     resetScrollLock();
-    // Use a small timeout to ensure the scroll lock is reset before navigating
-    // and scrolling to top, avoiding race conditions with 'fixed' position
+    
+    const hasHash = href.includes('#');
+    const [path, hash] = hasHash ? href.split('#') : [href, null];
+    
     setTimeout(() => {
-      window.scrollTo(0, 0);
-      setLocation(href);
+      if (!hasHash) {
+        window.scrollTo(0, 0);
+      }
+      setLocation(path || href);
+      
+      if (hash) {
+        setTimeout(() => {
+          const element = document.getElementById(hash);
+          if (element) {
+            element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        }, 300);
+      }
     }, 10);
   };
 
