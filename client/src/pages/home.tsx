@@ -122,7 +122,10 @@ export default function Home() {
         <div className="w-full px-5 sm:px-8">
           <div className="text-center mb-6 sm:mb-20 flex flex-col items-center justify-center relative">
             <h2 className="text-4xl sm:text-4xl lg:text-5xl font-black tracking-tight text-center leading-[1.1] sm:leading-tight" style={{ fontWeight: 900 }}>
-              <span className="text-accent">{t("benefits.sectionTitle", "UNA ESTRUCTURA EFICIENTE SIMPLE Y PREPARADA PARA OPERAR A NIVEL INTERNACIONAL")}</span>
+              <span className="text-foreground">UNA ESTRUCTURA</span>{" "}
+              <span className="text-accent">EFICIENTE</span><br/>
+              <span className="text-foreground">SIMPLE Y PREPARADA PARA OPERAR</span><br/>
+              <span className="text-accent">A NIVEL INTERNACIONAL</span>
             </h2>
           </div>
           
@@ -251,7 +254,9 @@ function PorQueEasyUSLLC() {
       <div className="w-full px-5 sm:px-8">
         <div className="text-center mb-8 sm:mb-12 flex flex-col items-center justify-center relative">
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-center" style={{ fontWeight: 900 }}>
-            <span className="text-accent" dangerouslySetInnerHTML={{ __html: t("whyUs.sectionTitle", "NOS ENCARGAMOS<br/>DE TU LLC<br/>DE PRINCIPIO A FIN") }} />
+            <span className="text-foreground">NOS ENCARGAMOS</span><br/>
+            <span className="text-accent">DE TU LLC</span><br/>
+            <span className="text-foreground">DE PRINCIPIO A FIN</span>
           </h2>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 max-w-6xl mx-auto">

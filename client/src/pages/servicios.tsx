@@ -132,7 +132,8 @@ export default function Servicios() {
         <div className="w-full px-4 sm:px-8">
           <div className="text-center mb-8 sm:mb-12 flex flex-col items-center justify-center relative">
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-center" style={{ fontWeight: 900 }}>
-              <span className="text-accent">{t("services.packs.title")}</span>
+              <span className="text-foreground">PACKS</span>{" "}
+              <span className="text-accent">FORMACIÓN LLC</span>
             </h2>
           </div>
           
@@ -286,13 +287,11 @@ export default function Servicios() {
       <section className="py-12 sm:py-20 bg-background relative" id="bancos">
         <div className="w-full px-5 sm:px-8">
           <div className="text-center mb-8 sm:mb-12 flex flex-col items-center justify-center relative">
-            <span className="inline-flex items-center justify-center px-5 py-2 rounded-full bg-accent text-accent-foreground font-black text-xs sm:text-sm tracking-widest shadow-md mb-4">
-              {t("services.banks.badge")}
-            </span>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-foreground tracking-tight text-center">
-              {t("services.banks.title")}
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-center" style={{ fontWeight: 900 }}>
+              <span className="text-foreground">APERTURA DE</span>{" "}
+              <span className="text-accent">CUENTA BANCARIA</span>
             </h2>
-            <p className="text-accent font-black tracking-wide text-base sm:text-lg mt-1 sm:mt-2 text-center">
+            <p className="text-muted-foreground text-base sm:text-lg mt-2 sm:mt-3 text-center">
               {t("services.banks.subtitle")}
             </p>
           </div>
@@ -316,7 +315,8 @@ export default function Servicios() {
 
           <div className="text-center mb-6 sm:mb-10 flex flex-col items-center justify-center relative">
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-center" style={{ fontWeight: 900 }}>
-              <span className="text-accent">{t("services.maintenancePack.sectionTitle")}</span>
+              <span className="text-foreground">PACKS</span>{" "}
+              <span className="text-accent">MANTENIMIENTO</span>
             </h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 max-w-5xl mx-auto px-4 sm:px-0 mb-12">
@@ -362,7 +362,8 @@ export default function Servicios() {
         <div className="w-full px-5 sm:px-8">
           <div className="text-center mb-8 sm:mb-16 flex flex-col items-center justify-center relative">
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-center" style={{ fontWeight: 900 }}>
-              <span className="text-accent">{t("services.management.title")}</span>
+              <span className="text-foreground">NUESTRO</span>{" "}
+              <span className="text-accent">PROCESO</span>
             </h2>
             <p className="text-muted-foreground text-base sm:text-lg mt-2 sm:mt-3 text-center">
               {t("services.management.subtitle")}
