@@ -30,23 +30,36 @@ const WHATSAPP_NUMBER = "34614916910";
 const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}?text=Hola,%20quiero%20información%20sobre%20crear%20una%20LLC`;
 
 const SpainFlag = () => (
-  <svg viewBox="0 0 512 512" className="w-8 h-8 rounded-full shadow-sm">
-    <rect y="0" width="512" height="170.67" fill="#c60b1e"/>
-    <rect y="170.67" width="512" height="170.67" fill="#ffc400"/>
-    <rect y="341.33" width="512" height="170.67" fill="#c60b1e"/>
+  <svg viewBox="0 0 36 36" className="w-8 h-8">
+    <defs>
+      <clipPath id="spainCircleFunnel">
+        <circle cx="18" cy="18" r="18"/>
+      </clipPath>
+    </defs>
+    <g clipPath="url(#spainCircleFunnel)">
+      <rect fill="#C60A1D" width="36" height="36"/>
+      <rect fill="#FFC400" y="9" width="36" height="18"/>
+    </g>
   </svg>
 );
 
 const USFlag = () => (
-  <svg viewBox="0 0 512 512" className="w-8 h-8 rounded-full shadow-sm">
-    <rect width="512" height="512" fill="#bf0a30"/>
-    <rect y="39.4" width="512" height="39.4" fill="#fff"/>
-    <rect y="118.2" width="512" height="39.4" fill="#fff"/>
-    <rect y="197" width="512" height="39.4" fill="#fff"/>
-    <rect y="275.8" width="512" height="39.4" fill="#fff"/>
-    <rect y="354.6" width="512" height="39.4" fill="#fff"/>
-    <rect y="433.4" width="512" height="39.4" fill="#fff"/>
-    <rect width="204.8" height="275.8" fill="#002868"/>
+  <svg viewBox="0 0 36 36" className="w-8 h-8">
+    <defs>
+      <clipPath id="usaCircleFunnel">
+        <circle cx="18" cy="18" r="18"/>
+      </clipPath>
+    </defs>
+    <g clipPath="url(#usaCircleFunnel)">
+      <rect fill="#B22234" width="36" height="36"/>
+      <rect fill="#FFFFFF" y="2.77" width="36" height="2.77"/>
+      <rect fill="#FFFFFF" y="8.31" width="36" height="2.77"/>
+      <rect fill="#FFFFFF" y="13.85" width="36" height="2.77"/>
+      <rect fill="#FFFFFF" y="19.39" width="36" height="2.77"/>
+      <rect fill="#FFFFFF" y="24.93" width="36" height="2.77"/>
+      <rect fill="#FFFFFF" y="30.47" width="36" height="2.77"/>
+      <rect fill="#3C3B6E" width="14.4" height="19.39"/>
+    </g>
   </svg>
 );
 

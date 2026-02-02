@@ -34,27 +34,28 @@ function DialogContentInner({ className, children, ...props }: React.ComponentPr
   const { t } = useTranslation();
   
   React.useEffect(() => {
-    const originalStyle = window.getComputedStyle(document.body).overflow;
     document.body.style.overflow = 'hidden';
+    document.body.style.position = 'fixed';
+    document.body.style.width = '100%';
+    document.body.style.top = `-${window.scrollY}px`;
+    
     return () => {
-      document.body.style.overflow = originalStyle;
+      const scrollY = document.body.style.top;
+      document.body.style.overflow = '';
+      document.body.style.position = '';
+      document.body.style.width = '';
+      document.body.style.top = '';
+      window.scrollTo(0, parseInt(scrollY || '0') * -1);
     };
   }, []);
 
   return (
     <DialogPortal container={typeof document !== 'undefined' ? document.body : undefined}>
       <DialogPrimitive.Overlay 
-        className="fixed inset-0 z-[99998] bg-black/60 backdrop-blur-sm data-[state=closed]:duration-0"
+        className="fixed inset-0 z-[99998] bg-black/60 backdrop-blur-sm"
       />
       <div 
-        className="fixed inset-0 z-[99999] overflow-y-auto overscroll-none"
-        style={{ 
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          minHeight: '100%',
-          padding: '1rem',
-        }}
+        className="fixed inset-0 z-[99999] flex items-center justify-center p-4"
       >
         <DialogPrimitive.Content
           ref={ref}
@@ -66,7 +67,6 @@ function DialogContentInner({ className, children, ...props }: React.ComponentPr
             "rounded-xl shadow-2xl",
             "max-h-[85vh] overflow-y-auto overscroll-contain",
             "p-4 sm:p-6",
-            "data-[state=closed]:duration-0",
             className
           )}
           style={{ 

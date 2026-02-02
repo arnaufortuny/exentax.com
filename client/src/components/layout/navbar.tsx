@@ -69,7 +69,7 @@ export function Navbar() {
             <button onClick={() => handleNavClick("/")} onMouseEnter={() => prefetchOnHover("/")} onMouseLeave={cancelPrefetch} className="text-xs lg:text-sm font-black text-foreground hover:text-accent transition-colors whitespace-nowrap px-2 py-1 h-full flex items-center">{t("nav.home")}</button>
             <button onClick={() => handleNavClick("/servicios")} onMouseEnter={() => prefetchOnHover("/servicios")} onMouseLeave={cancelPrefetch} className="text-xs lg:text-sm font-black text-foreground hover:text-accent transition-colors whitespace-nowrap px-2 py-1 h-full flex items-center">{t("nav.services")}</button>
             <button onClick={() => handleNavClick("/llc/formation")} onMouseEnter={() => prefetchOnHover("/llc/formation")} onMouseLeave={cancelPrefetch} className="text-xs lg:text-sm font-black text-foreground hover:text-accent transition-colors whitespace-nowrap px-2 py-1 h-full flex items-center">{t("nav.pricing")}</button>
-            <button onClick={() => scrollToSection("comparador")} onMouseEnter={() => prefetchOnHover("/servicios")} onMouseLeave={cancelPrefetch} className="text-xs lg:text-sm font-black text-foreground hover:text-accent transition-colors whitespace-nowrap px-2 py-1 h-full flex items-center">{t("nav.savings")}</button>
+            <button onClick={() => handleNavClick("/servicios#comparador")} onMouseEnter={() => prefetchOnHover("/servicios")} onMouseLeave={cancelPrefetch} className="text-xs lg:text-sm font-black text-foreground hover:text-accent transition-colors whitespace-nowrap px-2 py-1 h-full flex items-center">{t("nav.savings")}</button>
             <button onClick={() => handleNavClick("/faq")} onMouseEnter={() => prefetchOnHover("/faq")} onMouseLeave={cancelPrefetch} className="text-xs lg:text-sm font-black text-foreground hover:text-accent transition-colors whitespace-nowrap px-2 py-1 h-full flex items-center">{t("nav.faq")}</button>
             <button 
               onClick={() => handleNavClick("/contacto")} 
@@ -143,31 +143,16 @@ export function Navbar() {
                 <LanguageToggle />
               </div>
             )}
-            {/* Fixed width container to prevent layout shift */}
-            <div className="w-10 h-10 flex items-center justify-center shrink-0">
-              {authLoading ? (
-                <Button 
-                  variant="outline"
-                  size="icon"
-                  className="border-2 border-accent text-accent bg-white dark:bg-zinc-900 opacity-50"
-                  disabled
-                >
-                  <UserIcon className="w-4 h-4" />
-                </Button>
-              ) : (
-                <Link href={isAuthenticated ? "/dashboard" : "/auth/login"}>
-                  <Button 
-                    variant="outline"
-                    size="icon"
-                    className="border-2 border-accent text-accent hover:bg-accent hover:text-accent-foreground bg-white dark:bg-zinc-900"
-                    aria-label={isAuthenticated ? t("nav.myArea") : t("nav.login")}
-                    data-testid={isAuthenticated ? "link-mobile-dashboard" : "button-mobile-login"}
-                  >
-                    <UserIcon className="w-4 h-4" />
-                  </Button>
-                </Link>
-              )}
-            </div>
+            <Link href={isAuthenticated ? "/dashboard" : "/auth/login"}>
+              <Button 
+                variant="outline"
+                className="border-2 border-accent text-accent hover:bg-accent hover:text-accent-foreground bg-white dark:bg-zinc-900 rounded-full px-3 h-9 text-xs font-black flex items-center gap-1.5"
+                data-testid={isAuthenticated ? "link-mobile-dashboard" : "button-mobile-login"}
+              >
+                <UserIcon className="w-3.5 h-3.5" />
+                <span>{isAuthenticated ? t("nav.myArea") : t("nav.login")}</span>
+              </Button>
+            </Link>
             <div className="w-10 h-10 flex items-center justify-center shrink-0">
               <button 
                 className="p-2 text-foreground"
@@ -221,7 +206,7 @@ export function Navbar() {
                 {t("nav.pricing")}
               </button>
               <button
-                onClick={() => scrollToSection("comparador")}
+                onClick={() => handleNavClick("/servicios#comparador")}
                 className="text-left px-3 py-3 rounded-xl text-accent hover:bg-accent/10 transition-colors font-black text-xl tracking-tighter border border-transparent hover:border-accent/20"
               >
                 {t("nav.savings")}

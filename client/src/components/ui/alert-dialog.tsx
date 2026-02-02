@@ -31,29 +31,18 @@ const AlertDialogContent = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <AlertDialogPortal container={typeof document !== 'undefined' ? document.body : undefined}>
     <AlertDialogPrimitive.Overlay 
-      style={{
-        position: 'fixed',
-        inset: 0,
-        zIndex: 99998,
-        backgroundColor: 'rgba(0, 0, 0, 0.8)',
-      }}
+      className="fixed inset-0 z-[99998] bg-black/60 backdrop-blur-sm"
     />
-    <AlertDialogPrimitive.Content
-      ref={ref}
-      style={{
-        position: 'fixed',
-        left: '50%',
-        top: '5%',
-        transform: 'translateX(-50%)',
-        zIndex: 99999,
-        maxHeight: '90vh',
-      }}
-      className={cn(
-        "flex flex-col w-[calc(100vw-2rem)] max-w-[calc(100vw-2rem)] sm:max-w-lg gap-4 border bg-background p-4 sm:p-6 shadow-xl rounded-2xl overflow-hidden",
-        className
-      )}
-      {...props}
-    />
+    <div className="fixed inset-0 z-[99999] flex items-center justify-center p-4">
+      <AlertDialogPrimitive.Content
+        ref={ref}
+        className={cn(
+          "flex flex-col w-full max-w-lg gap-4 border bg-background p-4 sm:p-6 shadow-xl rounded-2xl max-h-[85vh] overflow-y-auto",
+          className
+        )}
+        {...props}
+      />
+    </div>
   </AlertDialogPortal>
 ))
 AlertDialogContent.displayName = AlertDialogPrimitive.Content.displayName
