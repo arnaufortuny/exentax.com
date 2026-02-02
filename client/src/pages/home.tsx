@@ -221,11 +221,6 @@ function PorQueEasyUSLLC() {
   
   const whyUsFeatures = [
     { 
-      badge: t("whyUs.transparency.badge"), 
-      title: t("whyUs.transparency.title"), 
-      text: t("whyUs.transparency.text")
-    },
-    { 
       badge: t("whyUs.specialists.badge"), 
       title: t("whyUs.specialists.title"), 
       text: t("whyUs.specialists.text")
