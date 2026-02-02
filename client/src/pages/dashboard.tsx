@@ -719,7 +719,7 @@ export default function Dashboard() {
             <Card className="rounded-2xl border-0 shadow-xl overflow-hidden bg-white dark:bg-zinc-900">
               <div className="bg-orange-500 h-1.5 w-full" />
               <CardContent className="p-5 sm:p-6">
-                <div className="flex items-center gap-4 mb-4">
+                <div className="flex items-center gap-4 mb-4 pb-4 border-b border-zinc-900/10 dark:border-accent/30">
                   <div className="w-12 h-12 bg-orange-50 dark:bg-orange-950/30 rounded-full flex items-center justify-center shrink-0">
                     <Clock className="w-6 h-6 text-orange-500" />
                   </div>
@@ -819,7 +819,7 @@ export default function Dashboard() {
             <Card className="rounded-2xl border-0 shadow-xl overflow-hidden bg-white dark:bg-zinc-900">
               <div className="bg-accent h-1.5 w-full" />
               <CardContent className="p-5 sm:p-6">
-                <div className="flex items-center gap-3 mb-4">
+                <div className="flex items-center gap-3 mb-4 pb-4 border-b border-zinc-900/10 dark:border-accent/30">
                   <BellRing className="w-5 h-5 text-accent" />
                   <h2 className="font-black text-lg text-foreground">{t("dashboard.notifications.title")}</h2>
                 </div>
