@@ -18,7 +18,7 @@ export interface User {
   birthDate?: string | null;
   businessActivity?: string | null;
   isAdmin?: boolean;
-  accountStatus?: 'active' | 'pending' | 'deactivated' | 'vip';
+  accountStatus?: 'active' | 'pending' | 'deactivated' | 'vip' | string;
   emailVerified?: boolean;
   googleId?: string | null;
 }

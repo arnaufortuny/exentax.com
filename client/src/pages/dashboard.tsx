@@ -1341,7 +1341,7 @@ export default function Dashboard() {
 
               {activeTab === 'profile' && (
                 <ProfileTab
-                  user={user as Parameters<typeof ProfileTab>[0]['user']}
+                  user={user ?? null}
                   canEdit={canEdit}
                   isEditing={isEditing}
                   setIsEditing={setIsEditing}
