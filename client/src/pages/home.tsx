@@ -161,25 +161,29 @@ function BenefitsCards() {
       badge: t("benefits.vat.badge"), 
       title: t("benefits.vat.title"), 
       text: t("benefits.vat.text"), 
-      footer: t("benefits.vat.footer") 
+      footer: t("benefits.vat.footer"),
+      image: "/transparency.png?v=2"
     },
     { 
       badge: t("benefits.taxes.badge"), 
       title: t("benefits.taxes.title"), 
       text: t("benefits.taxes.text"), 
-      footer: t("benefits.taxes.footer") 
+      footer: t("benefits.taxes.footer"),
+      image: "/specialists.png?v=2"
     },
     { 
       badge: t("benefits.fees.badge"), 
       title: t("benefits.fees.title"), 
       text: t("benefits.fees.text"), 
-      footer: t("benefits.fees.footer") 
+      footer: t("benefits.fees.footer"),
+      image: "/support.png?v=2"
     },
     { 
       badge: t("benefits.banking.badge"), 
       title: t("benefits.banking.title"), 
       text: t("benefits.banking.text"), 
-      footer: t("benefits.banking.footer") 
+      footer: t("benefits.banking.footer"),
+      image: "/banking.png?v=2"
     },
   ];
 
@@ -187,6 +191,17 @@ function BenefitsCards() {
     <div className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto">
       {benefits.map((card, i) => (
         <div key={i} className="bg-background rounded-2xl shadow-md overflow-hidden border border-foreground/5 sm:border-foreground/5 border-accent/20 flex flex-col text-left">
+          {card.image && (
+            <div className="w-full h-40 sm:h-44 overflow-hidden bg-accent/10">
+              <img 
+                src={card.image} 
+                alt="" 
+                className="w-full h-full object-cover"
+                loading="eager"
+                decoding="async"
+              />
+            </div>
+          )}
           <div className="p-6 flex-grow text-left">
             <span className="inline-block px-4 py-2 rounded-full bg-accent text-accent-foreground font-black text-sm shadow-sm mb-4 text-left">{card.badge}</span>
             <h3 className="text-xl sm:text-2xl font-black tracking-tighter text-foreground mb-3 leading-tight text-left">{card.title}</h3>
@@ -208,20 +223,17 @@ function PorQueEasyUSLLC() {
     { 
       badge: t("whyUs.transparency.badge"), 
       title: t("whyUs.transparency.title"), 
-      text: t("whyUs.transparency.text"),
-      image: "/transparency.png?v=2"
+      text: t("whyUs.transparency.text")
     },
     { 
       badge: t("whyUs.specialists.badge"), 
       title: t("whyUs.specialists.title"), 
-      text: t("whyUs.specialists.text"),
-      image: "/specialists.png?v=2"
+      text: t("whyUs.specialists.text")
     },
     { 
       badge: t("whyUs.support.badge"), 
       title: t("whyUs.support.title"), 
-      text: t("whyUs.support.text"),
-      image: "/support.png?v=2"
+      text: t("whyUs.support.text")
     },
   ];
 
@@ -239,19 +251,7 @@ function PorQueEasyUSLLC() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 max-w-6xl mx-auto">
           {whyUsFeatures.map((feature, i) => (
             <div key={i} className="bg-background rounded-2xl shadow-md overflow-hidden border border-foreground/5 sm:border-foreground/5 border-accent/20 flex flex-col text-left">
-              {'image' in feature && feature.image && (
-                <div className="w-full h-40 sm:h-44 overflow-hidden bg-accent/10">
-                  <img 
-                    src={feature.image} 
-                    alt="" 
-                    className="w-full h-full object-cover"
-                    loading="eager"
-                    decoding="async"
-                    onError={(e) => { e.currentTarget.style.display = 'none'; }}
-                  />
-                </div>
-              )}
-              <div className="p-6 flex-grow text-left">
+                            <div className="p-6 flex-grow text-left">
                 <span className="inline-block px-4 py-2 rounded-full bg-accent text-accent-foreground font-black text-sm shadow-sm mb-4 text-left">{feature.badge}</span>
                 <h3 className="text-xl sm:text-2xl font-black tracking-tighter text-foreground mb-3 leading-tight text-left">{feature.title}</h3>
                 <p className="text-muted-foreground text-base sm:text-lg leading-relaxed text-left">{feature.text}</p>
