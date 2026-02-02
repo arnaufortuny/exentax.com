@@ -240,8 +240,15 @@ function PorQueEasyUSLLC() {
           {whyUsFeatures.map((feature, i) => (
             <div key={i} className="bg-background rounded-2xl shadow-md overflow-hidden border border-foreground/5 sm:border-foreground/5 border-accent/20 flex flex-col text-left">
               {'image' in feature && feature.image && (
-                <div className="w-full h-40 overflow-hidden">
-                  <img src={feature.image} alt="" className="w-full h-full object-cover" />
+                <div className="w-full h-40 overflow-hidden bg-accent/10">
+                  <img 
+                    src={feature.image} 
+                    alt="" 
+                    className="w-full h-full object-cover"
+                    loading="eager"
+                    decoding="async"
+                    fetchPriority="high"
+                  />
                 </div>
               )}
               <div className="p-6 flex-grow text-left">
