@@ -43,6 +43,7 @@ export default function Register() {
   const [verificationCode, setVerificationCode] = useState("");
   const [isVerifying, setIsVerifying] = useState(false);
   const [isResending, setIsResending] = useState(false);
+  const [acceptedTerms, setAcceptedTerms] = useState(false);
   const { toast } = useToast();
 
   const registerSchema = useMemo(() => createRegisterSchema(t), [t]);
@@ -503,16 +504,25 @@ export default function Register() {
                       )}
                     </div>
 
-                    <p className="text-xs text-muted-foreground text-center">
-                      {t("legal.termsAcceptance")}{" "}
-                      <Link href="/legal/terminos" data-testid="link-terms">
-                        <span className="text-accent underline cursor-pointer">{t("legal.termsAndConditions")}</span>
-                      </Link>{" "}
-                      {t("common.and")}{" "}
-                      <Link href="/legal/privacidad" data-testid="link-privacy">
-                        <span className="text-accent underline cursor-pointer">{t("legal.privacyPolicy")}</span>
-                      </Link>
-                    </p>
+                    <label className="flex items-start gap-3 p-4 bg-accent/5 border border-accent/20 rounded-xl cursor-pointer hover:bg-accent/10 transition-colors">
+                      <input
+                        type="checkbox"
+                        checked={acceptedTerms}
+                        onChange={(e) => setAcceptedTerms(e.target.checked)}
+                        className="w-5 h-5 mt-0.5 rounded border-2 border-accent text-accent focus:ring-accent shrink-0"
+                        data-testid="checkbox-terms"
+                      />
+                      <span className="text-sm text-foreground leading-relaxed">
+                        {t("legal.termsAcceptance")}{" "}
+                        <Link href="/legal/terminos" data-testid="link-terms">
+                          <span className="text-accent underline font-medium">{t("legal.termsAndConditions")}</span>
+                        </Link>{" "}
+                        {t("common.and")}{" "}
+                        <Link href="/legal/privacidad" data-testid="link-privacy">
+                          <span className="text-accent underline font-medium">{t("legal.privacyPolicy")}</span>
+                        </Link>
+                      </span>
+                    </label>
                   </div>
                 )}
               
@@ -544,8 +554,8 @@ export default function Register() {
                 ) : (
                   <Button
                     type="submit"
-                    disabled={isLoading}
-                    className="flex-1 bg-accent text-accent-foreground font-black rounded-full h-12 text-sm shadow-lg shadow-accent/20"
+                    disabled={isLoading || !acceptedTerms}
+                    className="flex-1 bg-accent text-accent-foreground font-black rounded-full h-12 text-sm shadow-lg shadow-accent/20 disabled:opacity-50"
                     data-testid="button-register"
                   >
                     {isLoading ? <Loader2 className="animate-spin" /> : t("auth.register.submit")}
