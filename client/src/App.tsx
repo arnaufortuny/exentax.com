@@ -130,13 +130,13 @@ function LoadingScreen() {
         alt="Easy US LLC" 
         className="w-16 h-16 sm:w-20 sm:h-20 mb-8 opacity-90"
       />
-      <div className="w-56 sm:w-64 h-1.5 bg-muted rounded-full overflow-hidden">
+      <div className="w-64 sm:w-72 h-3 bg-muted/50 rounded-full overflow-hidden border border-border">
         <div 
           className="h-full bg-accent rounded-full transition-all duration-100 ease-out"
           style={{ width: `${progress}%` }}
         />
       </div>
-      <p className="text-xs text-muted-foreground mt-3 font-medium">{Math.round(progress)}%</p>
+      <p className="text-sm sm:text-base text-foreground mt-4 font-bold">{Math.round(progress)}%</p>
     </div>
   );
 }
