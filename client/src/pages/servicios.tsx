@@ -132,7 +132,7 @@ export default function Servicios() {
 
       <TaxComparator />
 
-      <section className="py-12 sm:py-20 bg-background border-t border-primary/5" id="pricing">
+      <section className="py-12 sm:py-20 bg-background" id="pricing">
         <div className="w-full px-4 sm:px-8">
           <div className="text-center mb-8 sm:mb-12 flex flex-col items-center justify-center relative">
             <span className="inline-flex items-center justify-center px-5 py-2 rounded-full bg-accent text-accent-foreground font-black text-xs sm:text-sm tracking-widest shadow-md mb-4">
@@ -293,7 +293,7 @@ export default function Servicios() {
         </div>
       </section>
 
-      <section className="py-12 sm:py-20 bg-background border-t border-primary/5 relative" id="bancos">
+      <section className="py-12 sm:py-20 bg-background relative" id="bancos">
         <div className="w-full px-5 sm:px-8">
           <div className="text-center mb-8 sm:mb-12 flex flex-col items-center justify-center relative">
             <span className="inline-flex items-center justify-center px-5 py-2 rounded-full bg-accent text-accent-foreground font-black text-xs sm:text-sm tracking-widest shadow-md mb-4">
@@ -323,8 +323,6 @@ export default function Servicios() {
               </p>
             </div>
           </div>
-
-          <div className="border-t border-primary/5 w-full max-w-7xl mx-auto mb-12" />
 
           <div className="text-center mb-6 sm:mb-10 flex flex-col items-center justify-center relative">
             <span className="inline-flex items-center justify-center px-5 py-2 rounded-full bg-accent text-accent-foreground font-black text-xs sm:text-sm tracking-widest shadow-md mb-4">
@@ -374,7 +372,7 @@ export default function Servicios() {
         </div>
       </section>
 
-      <section className="py-12 sm:py-20 bg-background border-t border-accent/5 relative" id="proceso">
+      <section className="py-12 sm:py-20 bg-background relative" id="proceso">
         <div className="w-full px-5 sm:px-8">
           <div className="text-center mb-8 sm:mb-16 flex flex-col items-center justify-center relative">
             <span className="inline-flex items-center justify-center px-5 py-2 rounded-full bg-accent text-accent-foreground font-black text-xs sm:text-sm tracking-widest shadow-md mb-4">
