@@ -212,12 +212,6 @@ function PorQueEasyUSLLC() {
       image: "/coins.jpg"
     },
     { 
-      badge: t("whyUs.specialists.badge"), 
-      title: t("whyUs.specialists.title"), 
-      text: t("whyUs.specialists.text"),
-      image: "/handshake.jpg"
-    },
-    { 
       badge: t("whyUs.support.badge"), 
       title: t("whyUs.support.title"), 
       text: t("whyUs.support.text"),
@@ -236,7 +230,7 @@ function PorQueEasyUSLLC() {
             {t("whyUs.transparency.title", "Why Easy US LLC?")}
           </h2>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 max-w-6xl mx-auto">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8 max-w-4xl mx-auto">
           {whyUsFeatures.map((feature, i) => (
             <div key={i} className="bg-background rounded-2xl shadow-md overflow-hidden border border-foreground/5 sm:border-foreground/5 border-accent/20 flex flex-col text-left">
               {feature.image && (
