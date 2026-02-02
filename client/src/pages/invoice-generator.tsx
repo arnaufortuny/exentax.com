@@ -265,25 +265,30 @@ export default function InvoiceGenerator() {
   };
 
   return (
-    <div className="min-h-screen bg-background bg-green-gradient-subtle flex flex-col overflow-x-hidden">
+    <div className="min-h-screen bg-background dashboard-gradient flex flex-col overflow-x-hidden animate-page-in">
       <Navbar />
       
       <main className="flex-1 w-full max-w-4xl mx-auto px-4 py-6 md:py-10 pb-20">
-        <div className="mb-6 md:mb-8">
+        <div className="mb-6 md:mb-8 animate-fade-in-up">
           <Link href="/dashboard">
-            <Button variant="ghost" size="sm" className="mb-4 -ml-2 text-muted-foreground" data-testid="link-back">
+            <Button variant="ghost" size="sm" className="mb-4 -ml-2 text-muted-foreground animate-press" data-testid="link-back">
               <ArrowLeft className="w-4 h-4 mr-1" /> Volver al dashboard
             </Button>
           </Link>
-          <div>
-            <h1 className="text-xl md:text-2xl font-bold text-foreground">Generador de Facturas</h1>
-            <p className="text-muted-foreground text-xs md:text-sm">Crea facturas profesionales</p>
+          <div className="flex items-center gap-3">
+            <div className="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center">
+              <FileDown className="w-6 h-6 text-accent" />
+            </div>
+            <div>
+              <h1 className="text-2xl md:text-3xl font-black text-foreground">Generador de Facturas</h1>
+              <p className="text-muted-foreground text-sm">Crea facturas profesionales en segundos</p>
+            </div>
           </div>
         </div>
 
         <div className="space-y-4 md:space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
-            <Card className="border-0 shadow-sm">
+            <Card className="border-0 shadow-md animate-card-in animate-delay-1">
               <CardHeader className="pb-3 md:pb-4">
                 <CardTitle className="text-sm md:text-base font-semibold text-accent">Emisor</CardTitle>
               </CardHeader>

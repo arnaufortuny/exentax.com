@@ -911,11 +911,11 @@ export default function Dashboard() {
   ], [user?.isAdmin]);
 
   return (
-    <div className="min-h-screen bg-muted bg-green-gradient font-sans overflow-x-hidden">
+    <div className="min-h-screen bg-muted dashboard-gradient font-sans overflow-x-hidden animate-page-in">
       <Navbar />
       <DashboardTour />
       <main className="pt-16 sm:pt-20 pb-20 px-4 md:px-8 max-w-7xl mx-auto">
-        <header className="mb-6 md:mb-10">
+        <header className="mb-6 md:mb-10 animate-fade-in-up">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 md:gap-6">
             <div>
               <p className="text-accent font-bold tracking-wide text-xs md:text-sm mb-1 md:mb-2 uppercase">Área de Clientes</p>
@@ -1341,7 +1341,7 @@ export default function Dashboard() {
 
               {activeTab === 'profile' && (
                 <ProfileTab
-                  user={user}
+                  user={user as Parameters<typeof ProfileTab>[0]['user']}
                   canEdit={canEdit}
                   isEditing={isEditing}
                   setIsEditing={setIsEditing}
