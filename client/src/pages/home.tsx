@@ -261,7 +261,7 @@ function PorQueEasyUSLLC() {
     <section className="py-8 sm:py-14 bg-background relative">
       <div className="w-full px-5 sm:px-8">
         <div className="text-center mb-8 sm:mb-12 flex flex-col items-center justify-center relative">
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-center" style={{ fontWeight: 900 }} dangerouslySetInnerHTML={{ __html: t("whyUs.sectionTitle") }} />
+          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-center leading-[1.1]" style={{ fontWeight: 900 }} dangerouslySetInnerHTML={{ __html: t("whyUs.sectionTitle") }} />
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 max-w-6xl mx-auto">
           {whyUsFeatures.map((feature, i) => (

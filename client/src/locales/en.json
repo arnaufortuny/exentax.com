@@ -87,7 +87,7 @@
     "button": "Let's talk on WhatsApp"
   },
   "whyUs": {
-    "sectionTitle": "WE HANDLE<br/>YOUR LLC<br/>FROM START TO FINISH",
+    "sectionTitle": "<span class='text-foreground'>WE HANDLE</span><br/><span class='text-accent'>YOUR LLC</span><br/><span class='text-foreground'>FROM START TO FINISH</span>",
     "speed": {
       "badge": "REAL SPEED",
       "title": "Your LLC ready in 2-3 business days",

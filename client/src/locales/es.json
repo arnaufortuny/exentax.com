@@ -87,7 +87,7 @@
     "button": "Hablemos por WhatsApp"
   },
   "whyUs": {
-    "sectionTitle": "NOS ENCARGAMOS<br/>DE TU LLC<br/>DE PRINCIPIO A FIN",
+    "sectionTitle": "<span class='text-foreground'>NOS ENCARGAMOS</span><br/><span class='text-accent'>DE TU LLC</span><br/><span class='text-foreground'>DE PRINCIPIO A FIN</span>",
     "speed": {
       "badge": "RAPIDEZ REAL",
       "title": "Tu LLC lista en 2–3 días hábiles",
