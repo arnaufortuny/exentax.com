@@ -59,7 +59,7 @@
       .initial-loader{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:#F7F7F5;z-index:9999}
       .initial-loader-spinner{width:40px;height:40px;border:3px solid #E6E9EC;border-top-color:#6EDC8A;border-radius:50%;animation:spin .8s linear infinite}
       @keyframes spin{to{transform:rotate(360deg)}}
-      @media(prefers-color-scheme:dark){body,.initial-loader{background:#0E1215}body{color:#F7F7F5}.initial-loader-spinner{border-color:#374151;border-top-color:#6EDC8A}}
+      html.dark,html.dark body,html.dark .initial-loader{background:#0E1215}@media(prefers-color-scheme:dark){html:not(.light),html:not(.light) body,html:not(.light) .initial-loader{background:#0E1215}body{color:#F7F7F5}.initial-loader-spinner{border-color:#374151;border-top-color:#6EDC8A}}
     </style>
     
     <link rel="alternate" hreflang="es" href="https://easyusllc.com" />

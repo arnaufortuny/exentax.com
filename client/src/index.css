@@ -2,6 +2,26 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Prevent flash of unstyled content */
+html {
+  background-color: #F7F7F5;
+}
+
+html.dark {
+  background-color: #0E1215;
+}
+
+/* Ensure smooth page transitions without visual glitches */
+body {
+  background-color: inherit;
+  min-height: 100dvh;
+}
+
+#root {
+  background-color: inherit;
+  min-height: 100dvh;
+}
+
 @layer base {
   :root {
     content-visibility: auto;
