@@ -9,6 +9,7 @@ import { HeroSection } from "@/components/layout/hero-section";
 import { apiRequest } from "@/lib/queryClient";
 import type { Product } from "@shared/schema";
 import trustpilotLogo from "@assets/trustpilot-logo.png";
+import ctaProcessImage from "../../../attached_assets/19A3937D-8DC8-42F4-B932-8469593DAD36_1_1770069116316.png";
 
 import { ChevronDown, ArrowRight } from "lucide-react";
 
@@ -133,6 +134,12 @@ export default function Home() {
       <section className="py-10 sm:py-16 bg-background">
         <div className="w-full max-w-lg mx-auto px-5 sm:px-8">
           <div className="bg-gradient-to-br from-accent/10 to-accent/5 border-2 border-accent/20 rounded-3xl p-6 sm:p-8 text-center">
+            <img 
+              src={ctaProcessImage} 
+              alt="LLC Formation Process" 
+              className="w-full max-w-md mx-auto mb-6 rounded-xl"
+              loading="lazy"
+            />
             <h3 className="text-2xl sm:text-3xl font-black text-foreground mb-2 text-center">{t("ctaSection.title")}</h3>
             <p className="text-muted-foreground text-sm sm:text-base mb-6">{t("ctaSection.subtitle")}</p>
             <a 
