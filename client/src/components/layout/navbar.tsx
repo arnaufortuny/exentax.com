@@ -220,7 +220,7 @@ export function Navbar() {
               </button>
               <button
                 onClick={() => handleNavClick("/servicios#comparador")}
-                className="text-left px-3 py-3 rounded-xl text-accent hover:bg-accent/10 transition-colors font-black text-xl tracking-tighter border border-transparent hover:border-accent/20"
+                className="text-left px-3 py-3 rounded-xl text-foreground hover:bg-secondary transition-colors font-black text-xl tracking-tighter border border-transparent hover:border-accent/20"
               >
                 {t("nav.savings")}
               </button>
