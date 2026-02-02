@@ -133,7 +133,7 @@ export default function Home() {
 
       <section className="py-10 sm:py-16 bg-background">
         <div className="w-full max-w-lg mx-auto px-5 sm:px-8">
-          <div className="bg-gradient-to-br from-accent/10 to-accent/5 border-2 border-accent/20 rounded-3xl p-6 sm:p-8 text-center">
+          <div className="p-6 sm:p-8 text-center">
             <img 
               src={ctaProcessImage} 
               alt="LLC Formation Process" 
