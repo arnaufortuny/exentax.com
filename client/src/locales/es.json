@@ -298,6 +298,10 @@
     },
     "questions": "¿Alguna duda? Hablemos"
   },
+  "packsTitle": {
+    "packs": "PACKS",
+    "formation": "FORMACIÓN LLC"
+  },
   "pricing": {
     "title": "Planes y Precios",
     "subtitle": "Precios simples y transparentes, sin sorpresas",

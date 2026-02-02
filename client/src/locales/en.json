@@ -298,6 +298,10 @@
     },
     "questions": "Have questions? Let's talk"
   },
+  "packsTitle": {
+    "packs": "LLC",
+    "formation": "FORMATION PACKS"
+  },
   "pricing": {
     "title": "Plans & Pricing",
     "subtitle": "Simple, transparent pricing with no surprises",

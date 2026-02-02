@@ -132,7 +132,7 @@ export default function Home() {
 
       <section className="py-10 sm:py-16 bg-background">
         <div className="w-full max-w-lg mx-auto px-5 sm:px-8">
-          <div className="bg-background rounded-2xl shadow-md overflow-hidden border border-foreground/5 border-accent/20">
+          <div className="bg-background rounded-2xl shadow-md overflow-hidden border-2 border-accent">
             <div className="p-6 text-center flex flex-col items-center justify-center">
               <h3 className="text-2xl sm:text-3xl font-black text-foreground mb-2 text-center">{t("ctaSection.title")}</h3>
               <p className="text-muted-foreground text-sm sm:text-base mb-6">{t("ctaSection.subtitle")}</p>
@@ -240,8 +240,8 @@ function HowWeWorkSection() {
   return (
     <section className="py-12 sm:py-20 bg-background">
       <div className="w-full max-w-4xl mx-auto px-5 sm:px-8">
-        <div className="text-center mb-10 sm:mb-14">
-          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-[1.1]" style={{ fontWeight: 900 }} dangerouslySetInnerHTML={{ __html: t("howWeWork.title") }} />
+        <div className="text-center mb-10 sm:mb-14 flex flex-col items-center justify-center">
+          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-center leading-[1.1]" style={{ fontWeight: 900 }} dangerouslySetInnerHTML={{ __html: t("howWeWork.title") }} />
         </div>
         
         <div className="space-y-6">
@@ -282,7 +282,8 @@ function PorQueEasyUSLLC() {
       badge: t("whyUs.transparency.badge"), 
       title: t("whyUs.transparency.title"), 
       text: t("whyUs.transparency.text"),
-      image: "/clear-pricing.png"
+      image: "/clear-pricing.png",
+      link: "/servicios#pricing"
     },
     { 
       badge: t("whyUs.specialists.badge"), 
@@ -305,26 +306,43 @@ function PorQueEasyUSLLC() {
           <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-center leading-[1.1]" style={{ fontWeight: 900 }} dangerouslySetInnerHTML={{ __html: t("whyUs.sectionTitle") }} />
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 max-w-6xl mx-auto">
-          {whyUsFeatures.map((feature, i) => (
-            <div key={i} className="bg-background rounded-2xl shadow-md overflow-hidden border border-foreground/5 sm:border-foreground/5 border-accent/20 flex flex-col text-left">
-              {'image' in feature && feature.image && (
-                <div className="w-full h-44 overflow-hidden bg-accent/10">
-                  <img 
-                    src={feature.image} 
-                    alt="" 
-                    className="w-full h-44 object-cover"
-                    loading="eager"
-                    decoding="async"
-                  />
+          {whyUsFeatures.map((feature, i) => {
+            const CardWrapper = ({ children }: { children: React.ReactNode }) => {
+              if ('link' in feature && feature.link) {
+                return (
+                  <a href={feature.link} className="bg-background rounded-2xl shadow-md overflow-hidden border border-foreground/5 sm:border-foreground/5 border-accent/20 flex flex-col text-left hover:shadow-lg transition-shadow cursor-pointer">
+                    {children}
+                  </a>
+                );
+              }
+              return (
+                <div className="bg-background rounded-2xl shadow-md overflow-hidden border border-foreground/5 sm:border-foreground/5 border-accent/20 flex flex-col text-left">
+                  {children}
                 </div>
-              )}
-              <div className="p-6 flex-grow text-left">
-                <span className="inline-block px-4 py-2 rounded-full bg-accent text-accent-foreground font-black text-sm shadow-sm mb-4 text-left">{feature.badge}</span>
-                <h3 className="text-xl sm:text-2xl font-black tracking-tighter text-foreground mb-3 leading-tight text-left">{feature.title}</h3>
-                <p className="text-muted-foreground text-base sm:text-lg leading-relaxed text-left">{feature.text}</p>
-              </div>
-            </div>
-          ))}
+              );
+            };
+            
+            return (
+              <CardWrapper key={i}>
+                {'image' in feature && feature.image && (
+                  <div className="w-full h-44 overflow-hidden bg-accent/10">
+                    <img 
+                      src={feature.image} 
+                      alt="" 
+                      className="w-full h-44 object-cover"
+                      loading="eager"
+                      decoding="async"
+                    />
+                  </div>
+                )}
+                <div className="p-6 flex-grow text-left">
+                  <span className="inline-block px-4 py-2 rounded-full bg-accent text-accent-foreground font-black text-sm shadow-sm mb-4 text-left">{feature.badge}</span>
+                  <h3 className="text-xl sm:text-2xl font-black tracking-tighter text-foreground mb-3 leading-tight text-left">{feature.title}</h3>
+                  <p className="text-muted-foreground text-base sm:text-lg leading-relaxed text-left">{feature.text}</p>
+                </div>
+              </CardWrapper>
+            );
+          })}
         </div>
       </div>
     </section>

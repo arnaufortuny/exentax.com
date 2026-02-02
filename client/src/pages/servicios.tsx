@@ -132,8 +132,8 @@ export default function Servicios() {
         <div className="w-full px-4 sm:px-8">
           <div className="text-center mb-8 sm:mb-12 flex flex-col items-center justify-center relative">
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-center" style={{ fontWeight: 900 }}>
-              <span className="text-foreground">PACKS</span>{" "}
-              <span className="text-accent">FORMACIÓN LLC</span>
+              <span className="text-foreground">{t("packsTitle.packs")}</span>{" "}
+              <span className="text-accent">{t("packsTitle.formation")}</span>
             </h2>
           </div>
           
