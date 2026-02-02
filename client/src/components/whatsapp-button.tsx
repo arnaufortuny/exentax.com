@@ -17,13 +17,13 @@ export function WhatsAppButton() {
   };
 
   return (
-    <div className="fixed bottom-6 right-6 z-50">
+    <div className="fixed bottom-6 right-6 z-[9999]">
       <Tooltip>
         <TooltipTrigger asChild>
           <Button
             onClick={handleClick}
             size="icon"
-            className="w-14 h-14 bg-[#25D366] hover-elevate active-elevate-2 rounded-full shadow-lg"
+            className="w-14 h-14 bg-[#25D366] hover-elevate active-elevate-2 rounded-full shadow-xl shadow-black/30 border-2 border-white"
             aria-label={t("whatsapp.ariaLabel")}
             data-testid="button-whatsapp-float"
           >
