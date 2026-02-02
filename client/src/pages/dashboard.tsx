@@ -701,6 +701,143 @@ export default function Dashboard() {
     );
   }
 
+  // Cuenta en revisión - solo puede verificar email
+  if (user?.accountStatus === 'pending') {
+    return (
+      <div className="min-h-screen bg-muted bg-green-gradient font-sans flex flex-col">
+        <Navbar />
+        <main className="flex-1 flex items-center justify-center px-4 py-8 sm:py-12">
+          <div className="max-w-md w-full">
+            <Card className="rounded-2xl sm:rounded-[2rem] border-0 shadow-2xl overflow-hidden bg-white dark:bg-zinc-900">
+              <div className="bg-accent h-2 w-full" />
+              <CardContent className="p-6 sm:p-8 md:p-12 text-center">
+                <div className="w-16 h-16 sm:w-20 sm:h-20 bg-orange-50 dark:bg-orange-950/30 rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6">
+                  <Clock className="w-8 h-8 text-orange-500" />
+                </div>
+                <h1 className="text-xl sm:text-2xl md:text-3xl font-black text-foreground tracking-tight mb-3 sm:mb-4">
+                  Tu cuenta está en revisión
+                </h1>
+                
+                {!user?.emailVerified ? (
+                  <>
+                    <p className="text-sm sm:text-base text-muted-foreground font-medium leading-relaxed mb-6">
+                      Para activar tu cuenta, primero necesitas verificar tu correo electrónico.
+                    </p>
+                    <div className="space-y-4">
+                      <div className="bg-orange-50 dark:bg-orange-900/20 border-2 border-orange-200 dark:border-orange-800 rounded-xl p-4">
+                        <div className="flex items-center gap-3 mb-3">
+                          <Mail className="w-5 h-5 text-orange-600" />
+                          <span className="font-bold text-sm text-orange-800 dark:text-orange-300">Verificar email</span>
+                        </div>
+                        <p className="text-xs text-orange-600 dark:text-orange-400 mb-4">
+                          Te hemos enviado un código de 6 dígitos a <strong>{user?.email}</strong>
+                        </p>
+                        <div className="space-y-3">
+                          <Input
+                            value={emailVerificationCode}
+                            onChange={(e) => setEmailVerificationCode(e.target.value.replace(/\D/g, ""))}
+                            className="rounded-full text-center text-2xl font-black border-orange-200 focus:border-accent tracking-[0.5em] h-14"
+                            maxLength={6}
+                            inputMode="numeric"
+                            autoComplete="one-time-code"
+                            placeholder="------"
+                            data-testid="input-pending-verification-code"
+                          />
+                          <Button
+                            onClick={async () => {
+                              if (!emailVerificationCode || emailVerificationCode.length < 6) {
+                                toast({ title: "Introduce el código de 6 dígitos", variant: "destructive" });
+                                return;
+                              }
+                              setIsVerifyingEmail(true);
+                              try {
+                                const res = await apiRequest("POST", "/api/auth/verify-email", { code: emailVerificationCode });
+                                const result = await res.json();
+                                if (result.success) {
+                                  await queryClient.refetchQueries({ queryKey: ["/api/auth/user"] });
+                                  toast({ title: "¡Email verificado!", description: "Tu cuenta está siendo revisada por nuestro equipo." });
+                                  setEmailVerificationCode("");
+                                }
+                              } catch (err: any) {
+                                toast({ 
+                                  title: "Código incorrecto", 
+                                  description: err.message || "Inténtalo de nuevo", 
+                                  variant: "destructive" 
+                                });
+                              } finally {
+                                setIsVerifyingEmail(false);
+                              }
+                            }}
+                            disabled={isVerifyingEmail || emailVerificationCode.length < 6}
+                            className="w-full bg-accent text-accent-foreground font-black rounded-full h-12"
+                            data-testid="button-pending-verify"
+                          >
+                            {isVerifyingEmail ? <Loader2 className="animate-spin" /> : "Verificar mi email"}
+                          </Button>
+                          <Button
+                            variant="link"
+                            onClick={async () => {
+                              setIsResendingCode(true);
+                              try {
+                                await apiRequest("POST", "/api/auth/resend-verification");
+                                toast({ title: "Código enviado", description: "Revisa tu bandeja de entrada" });
+                              } catch {
+                                toast({ title: "Error", description: "No se pudo enviar el código", variant: "destructive" });
+                              } finally {
+                                setIsResendingCode(false);
+                              }
+                            }}
+                            disabled={isResendingCode}
+                            className="text-accent p-0 h-auto text-sm"
+                            data-testid="button-pending-resend"
+                          >
+                            {isResendingCode ? "Enviando..." : "¿No recibiste el código? Reenviar"}
+                          </Button>
+                        </div>
+                      </div>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <p className="text-sm sm:text-base text-muted-foreground font-medium leading-relaxed mb-6">
+                      Tu email ya está verificado. Nuestro equipo está revisando tu cuenta y te avisaremos pronto.
+                    </p>
+                    <div className="bg-green-50 dark:bg-green-900/20 border-2 border-green-200 dark:border-green-800 rounded-xl p-4 mb-4">
+                      <div className="flex items-center justify-center gap-2">
+                        <CheckCircle className="w-5 h-5 text-green-600" />
+                        <span className="font-bold text-sm text-green-700 dark:text-green-400">Email verificado</span>
+                      </div>
+                    </div>
+                    <p className="text-xs text-muted-foreground mb-4">
+                      Normalmente activamos las cuentas en menos de 24 horas. Si tienes alguna duda, contáctanos por WhatsApp.
+                    </p>
+                    <a href="https://wa.me/34614916910?text=Hola!%20Mi%20cuenta%20est%C3%A1%20en%20revisi%C3%B3n%20y%20me%20gustar%C3%ADa%20saber%20el%20estado." target="_blank" rel="noopener noreferrer">
+                      <Button variant="outline" className="w-full font-black h-12 rounded-full border-2" data-testid="button-pending-whatsapp">
+                        Escribir por WhatsApp
+                      </Button>
+                    </a>
+                  </>
+                )}
+                
+                <div className="mt-6 pt-4 border-t border-gray-100 dark:border-zinc-800">
+                  <Button 
+                    variant="ghost" 
+                    className="text-sm text-muted-foreground"
+                    onClick={() => apiRequest("POST", "/api/logout").then(() => window.location.href = "/")}
+                    data-testid="button-pending-logout"
+                  >
+                    Cerrar Sesión
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
+
   // Memoized filtered orders to avoid recalculating on every render
   const draftOrders = useMemo(() => 
     orders?.filter(o => o.status === 'draft' || o.application?.status === 'draft' || o.maintenanceApplication?.status === 'draft') || [],
