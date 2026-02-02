@@ -68,7 +68,7 @@ export function Navbar() {
           <nav className="hidden md:flex items-center gap-2 lg:gap-3 bg-accent/10 dark:bg-accent/20 rounded-full px-2 lg:px-3 h-11 border border-accent/30">
             <button onClick={() => handleNavClick("/")} onMouseEnter={() => prefetchOnHover("/")} onMouseLeave={cancelPrefetch} className="text-xs lg:text-sm font-black text-foreground hover:text-accent transition-colors whitespace-nowrap px-2 py-1 h-full flex items-center">{t("nav.home")}</button>
             <button onClick={() => handleNavClick("/servicios")} onMouseEnter={() => prefetchOnHover("/servicios")} onMouseLeave={cancelPrefetch} className="text-xs lg:text-sm font-black text-foreground hover:text-accent transition-colors whitespace-nowrap px-2 py-1 h-full flex items-center">{t("nav.services")}</button>
-            <button onClick={() => scrollToSection("pricing")} onMouseEnter={() => prefetchOnHover("/servicios")} onMouseLeave={cancelPrefetch} className="text-xs lg:text-sm font-black text-foreground hover:text-accent transition-colors whitespace-nowrap px-2 py-1 h-full flex items-center">{t("nav.pricing")}</button>
+            <button onClick={() => handleNavClick("/llc/formation")} onMouseEnter={() => prefetchOnHover("/llc/formation")} onMouseLeave={cancelPrefetch} className="text-xs lg:text-sm font-black text-foreground hover:text-accent transition-colors whitespace-nowrap px-2 py-1 h-full flex items-center">{t("nav.pricing")}</button>
             <button onClick={() => scrollToSection("comparador")} onMouseEnter={() => prefetchOnHover("/servicios")} onMouseLeave={cancelPrefetch} className="text-xs lg:text-sm font-black text-foreground hover:text-accent transition-colors whitespace-nowrap px-2 py-1 h-full flex items-center">{t("nav.savings")}</button>
             <button onClick={() => handleNavClick("/faq")} onMouseEnter={() => prefetchOnHover("/faq")} onMouseLeave={cancelPrefetch} className="text-xs lg:text-sm font-black text-foreground hover:text-accent transition-colors whitespace-nowrap px-2 py-1 h-full flex items-center">{t("nav.faq")}</button>
             <button 
@@ -215,7 +215,7 @@ export function Navbar() {
                 {t("nav.services")}
               </button>
               <button
-                onClick={() => scrollToSection("pricing")}
+                onClick={() => handleNavClick("/llc/formation")}
                 className="text-left px-3 py-3 rounded-xl text-foreground hover:bg-secondary transition-colors font-black text-xl tracking-tighter border border-transparent hover:border-accent/20"
               >
                 {t("nav.pricing")}

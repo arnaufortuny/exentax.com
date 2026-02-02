@@ -104,7 +104,7 @@ export default function Home() {
 
             <div className="flex flex-col sm:flex-row justify-center gap-2 sm:gap-3 mb-4 sm:mb-4 w-full">
               <Button size="lg" onClick={() => {
-                setLocation("/servicios#pricing");
+                setLocation("/llc/formation");
               }} className="bg-accent text-accent-foreground font-black text-sm px-8 border-0 rounded-full w-full sm:w-auto h-12 sm:h-12 shadow-md" data-testid="button-select-pack">
                 {t("hero.cta")} →
               </Button>
@@ -138,7 +138,7 @@ export default function Home() {
           <Button 
             size="lg" 
             onClick={() => {
-              setLocation("/servicios#pricing");
+              setLocation("/llc/formation");
             }} 
             className="bg-accent text-accent-foreground font-black text-sm px-8 sm:px-12 py-5 sm:py-6 border-0 rounded-full w-full sm:w-auto shadow-xl shadow-accent/30"
             data-testid="button-cta-bottom"

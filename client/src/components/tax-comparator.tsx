@@ -137,7 +137,7 @@ export function TaxComparator() {
         </div>
         
         <div className="max-w-5xl mx-auto">
-          <div className="bg-white dark:bg-zinc-900 rounded-3xl border border-border shadow-2xl shadow-accent/5 overflow-hidden">
+          <div className="bg-white dark:bg-zinc-900 rounded-[2rem] border border-border shadow-2xl shadow-accent/5 overflow-hidden">
             <div className="p-6 sm:p-10 bg-gradient-to-r from-accent/5 to-transparent">
               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
                 <label className="text-base font-bold text-foreground">
@@ -151,7 +151,7 @@ export function TaxComparator() {
                   <button
                     key={preset}
                     onClick={() => setIncome(preset)}
-                    className={`px-4 py-2.5 rounded-xl text-sm font-bold transition-all ${
+                    className={`px-4 py-2.5 rounded-full text-sm font-bold transition-all ${
                       income === preset
                         ? 'bg-accent text-accent-foreground shadow-lg shadow-accent/30 scale-105'
                         : 'bg-muted text-foreground hover:bg-accent/10 border border-transparent hover:border-accent/20'
@@ -191,7 +191,7 @@ export function TaxComparator() {
             <div className="grid grid-cols-1 md:grid-cols-2">
               <div className="p-6 sm:p-8 border-b md:border-b-0 md:border-r border-border">
                 <div className="flex items-center gap-3 mb-6">
-                  <div className="w-10 h-10 rounded-xl bg-red-100 dark:bg-red-900/30 flex items-center justify-center">
+                  <div className="w-10 h-10 rounded-full bg-red-100 dark:bg-red-900/30 flex items-center justify-center">
                     <SpainFlag />
                   </div>
                   <div>
@@ -222,7 +222,7 @@ export function TaxComparator() {
                       <span className="text-xs px-2 py-0.5 rounded-full bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 font-medium">{spanishTaxes.effectiveRate}% {t("taxComparator.effectiveRate")}</span>
                     </div>
                   </div>
-                  <div className="bg-red-50 dark:bg-red-950/30 rounded-2xl p-4 mt-4 border border-red-100 dark:border-red-900/50">
+                  <div className="bg-red-50 dark:bg-red-950/30 rounded-[1.5rem] p-4 mt-4 border border-red-100 dark:border-red-900/50">
                     <p className="text-xs text-muted-foreground mb-1">{t("taxComparator.netIncome")}</p>
                     <p className="font-black text-red-600 dark:text-red-400 text-2xl">{formatCurrency(spanishTaxes.netIncome)}</p>
                   </div>
@@ -231,7 +231,7 @@ export function TaxComparator() {
               
               <div className="p-6 sm:p-8 bg-accent/5">
                 <div className="flex items-center gap-3 mb-6">
-                  <div className="w-10 h-10 rounded-xl bg-accent/20 flex items-center justify-center">
+                  <div className="w-10 h-10 rounded-full bg-accent/20 flex items-center justify-center">
                     <USFlag />
                   </div>
                   <div className="flex-1">
@@ -262,7 +262,7 @@ export function TaxComparator() {
                       <span className="font-black text-accent text-xl">{formatCurrency(0)}</span>
                     </div>
                   </div>
-                  <div className="bg-accent/10 rounded-2xl p-4 mt-4 border border-accent/20">
+                  <div className="bg-accent/10 rounded-[1.5rem] p-4 mt-4 border border-accent/20">
                     <p className="text-xs text-muted-foreground mb-1">{t("taxComparator.netIncome")}</p>
                     <p className="font-black text-accent text-2xl">{formatCurrency(usLLCTaxes.netIncome)}</p>
                   </div>
@@ -273,7 +273,7 @@ export function TaxComparator() {
             <div className="p-6 sm:p-10 bg-gradient-to-r from-accent/10 via-accent/5 to-transparent border-t border-border">
               <div className="flex flex-col md:flex-row items-center justify-between gap-6">
                 <div className="flex items-center gap-4">
-                  <div className="w-16 h-16 rounded-2xl bg-accent flex items-center justify-center shadow-lg shadow-accent/30">
+                  <div className="w-16 h-16 rounded-full bg-accent flex items-center justify-center shadow-lg shadow-accent/30">
                     <TrendingDown className="w-8 h-8 text-accent-foreground" />
                   </div>
                   <div>
