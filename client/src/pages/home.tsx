@@ -125,7 +125,7 @@ export default function Home() {
               {t("benefits.vat.badge", "BENEFITS")}
             </span>
             <h2 className="text-4xl sm:text-4xl lg:text-5xl font-black text-foreground tracking-tight text-center leading-[1.1] sm:leading-tight">
-              {t("benefits.taxes.title", "Tax Benefits")}
+              {t("benefits.sectionTitle", "UNA ESTRUCTURA EFICIENTE SIMPLE Y PREPARADA PARA OPERAR A NIVEL INTERNACIONAL")}
             </h2>
           </div>
           
@@ -192,11 +192,11 @@ function BenefitsCards() {
       {benefits.map((card, i) => (
         <div key={i} className="bg-background rounded-2xl shadow-md overflow-hidden border border-foreground/5 sm:border-foreground/5 border-accent/20 flex flex-col text-left">
           {card.image && (
-            <div className="w-full h-40 sm:h-44 overflow-hidden bg-accent/10">
+            <div className="w-full h-44 overflow-hidden bg-accent/10">
               <img 
                 src={card.image} 
                 alt="" 
-                className="w-full h-full object-cover"
+                className="w-full h-44 object-cover"
                 loading="eager"
                 decoding="async"
               />
@@ -255,11 +255,11 @@ function PorQueEasyUSLLC() {
           {whyUsFeatures.map((feature, i) => (
             <div key={i} className="bg-background rounded-2xl shadow-md overflow-hidden border border-foreground/5 sm:border-foreground/5 border-accent/20 flex flex-col text-left">
               {'image' in feature && feature.image && (
-                <div className="w-full h-40 sm:h-44 overflow-hidden bg-accent/10">
+                <div className="w-full h-44 overflow-hidden bg-accent/10">
                   <img 
                     src={feature.image} 
                     alt="" 
-                    className="w-full h-full object-cover"
+                    className="w-full h-44 object-cover"
                     loading="eager"
                     decoding="async"
                   />

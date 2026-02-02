@@ -55,14 +55,15 @@
     }
   },
   "benefits": {
+    "sectionTitle": "UNA ESTRUCTURA EFICIENTE SIMPLE Y PREPARADA PARA OPERAR A NIVEL INTERNACIONAL",
     "vat": {
-      "badge": "IVA",
+      "badge": "SIN IVA",
       "title": "Sin IVA en la LLC",
       "text": "La LLC no aplica IVA en la facturación de servicios digitales, tanto a clientes finales como a clientes B2B internacionales. Estructuramos la actividad para que la facturación se realice correctamente desde la empresa americana, sin IVA, conforme a la normativa aplicable y al tipo de operación.",
       "footer": "Tus servicios están exentos."
     },
     "taxes": {
-      "badge": "Impuestos",
+      "badge": "0% SOCIEDADES",
       "title": "0% Impuesto de Sociedades",
       "text": "En estados como New Mexico o Wyoming, la LLC no está sujeta a impuesto de sociedades estatal. La empresa no tributa como sociedad en Estados Unidos, sino que los beneficios se atribuyen directamente al propietario, según la estructura fiscal de la LLC.",
       "footer": "Impuesto de Sociedades al 0%."

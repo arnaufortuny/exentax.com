@@ -55,14 +55,15 @@
     }
   },
   "benefits": {
+    "sectionTitle": "AN EFFICIENT STRUCTURE SIMPLE AND READY TO OPERATE INTERNATIONALLY",
     "vat": {
-      "badge": "VAT",
+      "badge": "NO VAT",
       "title": "No VAT on LLC",
       "text": "The LLC does not apply VAT when invoicing digital services, whether to end consumers or international B2B clients. We structure your activity so that invoicing is done correctly from the US company, without VAT, in accordance with applicable regulations and the type of operation.",
       "footer": "Your services are exempt."
     },
     "taxes": {
-      "badge": "Taxes",
+      "badge": "0% CORPORATE",
       "title": "0% Corporate Tax",
       "text": "In states like New Mexico or Wyoming, the LLC is not subject to state corporate tax. The company does not pay tax as a corporation in the United States; instead, profits are attributed directly to the owner, according to the LLC's tax structure.",
       "footer": "0% Corporate Tax."
