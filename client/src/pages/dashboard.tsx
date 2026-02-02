@@ -748,6 +748,28 @@ export default function Dashboard() {
               </Button>
             </Link>
           </div>
+
+          {!user?.emailVerified && (
+            <Card className="mt-4 p-4 rounded-2xl border-2 border-orange-200 bg-orange-50 dark:bg-orange-900/20 dark:border-orange-800">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-orange-100 dark:bg-orange-900/40 flex items-center justify-center shrink-0">
+                  <Mail className="w-5 h-5 text-orange-600 dark:text-orange-400" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="font-bold text-sm text-orange-800 dark:text-orange-300">Verifica tu email</p>
+                  <p className="text-xs text-orange-600 dark:text-orange-400">Tu cuenta está en revisión hasta que confirmes tu correo electrónico.</p>
+                </div>
+                <Button
+                  size="sm"
+                  onClick={() => setShowEmailVerification(true)}
+                  className="shrink-0 bg-orange-600 hover:bg-orange-700 text-white font-black rounded-full h-9 px-4"
+                  data-testid="button-verify-email-header"
+                >
+                  Verificar
+                </Button>
+              </div>
+            </Card>
+          )}
         </header>
 
         <div className="flex overflow-x-auto pb-3 mb-6 gap-2 no-scrollbar -mx-4 px-4 md:mx-0 md:px-0 md:gap-3 md:pb-4 md:mb-8" style={{ WebkitOverflowScrolling: 'touch' }}>
