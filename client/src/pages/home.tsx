@@ -130,18 +130,22 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="py-8 sm:py-12 bg-background">
-        <div className="w-full px-5 sm:px-8 text-center">
-          <Button 
-            size="lg" 
-            onClick={() => {
-              setLocation("/llc/formation");
-            }} 
-            className="bg-accent text-accent-foreground font-black text-sm px-8 sm:px-12 py-5 sm:py-6 border-0 rounded-full w-full sm:w-auto shadow-xl shadow-accent/30"
-            data-testid="button-cta-bottom"
-          >
-            {t("hero.cta")} →
-          </Button>
+      <section className="py-10 sm:py-16 bg-background">
+        <div className="w-full max-w-lg mx-auto px-5 sm:px-8">
+          <div className="bg-gradient-to-br from-accent/10 to-accent/5 border-2 border-accent/20 rounded-3xl p-6 sm:p-8 text-center">
+            <h3 className="text-2xl sm:text-3xl font-black text-foreground mb-2">¿Empezamos?</h3>
+            <p className="text-muted-foreground text-sm sm:text-base mb-6">Tu LLC lista en 2-3 días hábiles. Sin complicaciones.</p>
+            <Button 
+              size="lg" 
+              onClick={() => {
+                setLocation("/llc/formation");
+              }} 
+              className="bg-accent text-accent-foreground font-black text-sm px-8 sm:px-12 py-5 sm:py-6 border-0 rounded-full w-full sm:w-auto shadow-xl shadow-accent/30"
+              data-testid="button-cta-bottom"
+            >
+              {t("hero.cta")} →
+            </Button>
+          </div>
         </div>
       </section>
 
