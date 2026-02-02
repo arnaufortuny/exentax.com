@@ -1718,11 +1718,8 @@ export default function Dashboard() {
                   )}
                   {adminSubTab === 'calendar' && (
                     <Card className="rounded-2xl border-0 shadow-sm p-4 md:p-6 overflow-hidden">
-                      <h4 className="font-black text-base md:text-lg mb-4 md:mb-6 flex items-center gap-2">
-                        <div className="w-10 h-10 md:w-8 md:h-8 rounded-xl bg-accent/20 flex items-center justify-center">
-                          <Calendar className="w-5 h-5 md:w-4 md:h-4 text-accent" />
-                        </div>
-                        <span>Gestión de Fechas Fiscales</span>
+                      <h4 className="font-black text-base md:text-lg mb-4 md:mb-6">
+                        Gestión de Fechas Fiscales
                       </h4>
                       <div className="space-y-4 md:space-y-6">
                         {adminOrders?.map((order: any) => {
