@@ -775,279 +775,33 @@ export default function Dashboard() {
           <div className="lg:col-span-2 space-y-4 md:space-y-6 order-1">
             
               {activeTab === 'services' && (
-                <div key="services" className="space-y-6">
-                  <div className="mb-4 md:mb-6">
-                    <h2 className="text-xl md:text-2xl font-bold text-foreground tracking-tight">Mis trámites</h2>
-                    <p className="text-sm text-muted-foreground mt-1">Gestiona tus trámites activos</p>
-                  </div>
-                  
-                  {draftOrders.map((order) => {
-                    const abandonedAt = order.application?.abandonedAt || order.maintenanceApplication?.abandonedAt;
-                    const hoursRemaining = abandonedAt ? Math.max(0, Math.round((48 - ((Date.now() - new Date(abandonedAt).getTime()) / 3600000)))) : null;
-                    return (
-                    <div key={`draft-banner-${order.id}`} className="rounded-2xl shadow-md bg-gradient-to-r from-yellow-50 to-orange-50 dark:from-yellow-900/20 dark:to-orange-900/20 overflow-hidden flex" data-testid={`banner-pending-application-${order.id}`}>
-                      <div className="w-1 bg-yellow-500 flex-shrink-0" />
-                      <div className="p-4 md:p-5 flex-1">
-                        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-                          <div className="flex items-start gap-3">
-                            <div className="w-10 h-10 bg-yellow-100 dark:bg-yellow-900/50 rounded-full flex items-center justify-center flex-shrink-0">
-                              <AlertCircle className="w-5 h-5 text-yellow-600 dark:text-yellow-400" />
-                            </div>
-                            <div className="min-w-0">
-                              <p className="text-sm md:text-base font-semibold text-foreground">Solicitud pendiente de completar</p>
-                              <p className="text-xs text-muted-foreground mt-0.5">
-                                {order.maintenanceApplication 
-                                  ? `Mantenimiento ${order.maintenanceApplication.state || ''}`
-                                  : order.application?.companyName 
-                                    ? `${order.application.companyName} LLC`
-                                    : `${order.application?.state || 'Tu LLC'}`
-                                }
-                                {hoursRemaining !== null && (
-                                  <span className="text-yellow-600 dark:text-yellow-400 font-semibold ml-2">
-                                    · Se eliminará en {hoursRemaining}h
-                                  </span>
-                                )}
-                              </p>
-                            </div>
-                          </div>
-                          <Link href={order.maintenanceApplication ? "/llc/maintenance" : "/llc/formation"} data-testid={`link-continue-application-${order.id}`}>
-                            <Button className="bg-accent text-primary font-bold rounded-full" size="sm" data-testid={`button-continue-application-${order.id}`}>
-                              Continuar solicitud
-                              <ChevronRight className="w-4 h-4 ml-1" />
-                            </Button>
-                          </Link>
-                        </div>
-                      </div>
-                    </div>
-                  );})}
-                  
-                  {(!orders || orders.length === 0) ? (
-                    <Card className="rounded-2xl border-0 shadow-sm bg-white dark:bg-zinc-900 p-6 md:p-8 text-center">
-                      <div className="flex flex-col items-center gap-3 md:gap-4">
-                        <div className="w-12 h-12 md:w-16 md:h-16 bg-accent/10 rounded-full flex items-center justify-center">
-                          <Package className="w-6 h-6 md:w-8 md:h-8 text-accent" />
-                        </div>
-                        <div>
-                          <h3 className="text-base md:text-lg font-semibold text-foreground mb-1 md:mb-2 text-center">Aún no tienes servicios activos</h3>
-                          <p className="text-xs md:text-sm text-muted-foreground mb-4 md:mb-6 text-center">Empieza hoy y constituye tu LLC en EE. UU. en pocos pasos.</p>
-                        </div>
-                        <Link href="/servicios#pricing">
-                          <Button className="bg-accent text-accent-foreground font-semibold rounded-full px-6 md:px-8 py-2.5 md:py-3 text-sm md:text-base" data-testid="button-view-packs">
-                            Ver planes disponibles
-                          </Button>
-                        </Link>
-                      </div>
-                    </Card>
-                  ) : (
-                    <>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
-                        {activeOrders.map((order) => (
-                          <LLCProgressWidget 
-                            key={`progress-${order.id}`}
-                            status={order.status}
-                            serviceName={
-                              order.maintenanceApplication 
-                                ? `Mant. ${order.maintenanceApplication.state || order.product?.name?.replace(' LLC', '') || ''}`
-                                : order.application?.companyName 
-                                  ? `${order.application.companyName} LLC`
-                                  : order.product?.name || 'Tu LLC'
-                            }
-                            state={order.application?.state || order.maintenanceApplication?.state}
-                            requestCode={order.application?.requestCode || order.maintenanceApplication?.requestCode || order.invoiceNumber}
-                            isMaintenance={!!order.maintenanceApplication}
-                          />
-                        ))}
-                      </div>
-                      
-                      {orders.length > 0 && (
-                        <div className="mt-4 md:mt-6">
-                          <h3 className="text-xs md:text-sm font-bold text-muted-foreground mb-2 md:mb-3">Todos los Pedidos</h3>
-                          <div className="space-y-2 md:space-y-3">
-                            {orders.map((order) => (
-                              <Card key={order.id} className="rounded-lg md:rounded-xl border-0 shadow-sm hover:shadow-md transition-shadow bg-white dark:bg-zinc-900 overflow-hidden" data-testid={`card-order-${order.id}`}>
-                                <div className="flex items-center justify-between p-3 md:p-4 gap-2">
-                                  <div className="min-w-0 flex-1">
-                                    <div className="flex items-center gap-2 mb-0.5">
-                                      <p className="text-[9px] md:text-[10px] font-bold text-accent uppercase tracking-wider">
-                                        {order.application?.requestCode || order.maintenanceApplication?.requestCode || order.invoiceNumber || `#${order.id}`}
-                                      </p>
-                                      <Badge className={`${getOrderStatusLabel(order.status, t).className} font-bold uppercase text-[8px] md:text-[9px] px-1.5 py-0`} data-testid={`badge-order-status-${order.id}`}>
-                                        {getOrderStatusLabel(order.status, t).label}
-                                      </Badge>
-                                    </div>
-                                    <p className="text-sm md:text-base font-bold text-primary truncate">
-                                      {order.maintenanceApplication 
-                                        ? `Mantenimiento ${order.maintenanceApplication.state || ''}`
-                                        : order.application?.companyName 
-                                          ? `${order.application.companyName} LLC`
-                                          : order.product?.name || 'LLC pendiente'
-                                      }
-                                    </p>
-                                    <p className="text-[10px] md:text-xs text-muted-foreground">
-                                      {order.application?.state || order.maintenanceApplication?.state || ''}
-                                      {order.createdAt && ` · ${new Date(order.createdAt).toLocaleDateString('es-ES')}`}
-                                    </p>
-                                  </div>
-                                  {order.status === 'pending' && order.application && (
-                                    <Button 
-                                      variant="outline" 
-                                      size="sm" 
-                                      className="text-[9px] md:text-[10px] h-7 md:h-8 px-2 md:px-3 rounded-full font-bold shrink-0"
-                                      onClick={() => window.location.href = `/llc/formation?edit=${order.application.id}`}
-                                      data-testid={`button-modify-order-${order.id}`}
-                                    >
-                                      Modificar
-                                    </Button>
-                                  )}
-                                </div>
-                              </Card>
-                            ))}
-                          </div>
-                        </div>
-                      )}
-                    </>
-                  )}
-                </div>
+                <ServicesTab 
+                  orders={orders} 
+                  draftOrders={draftOrders} 
+                  activeOrders={activeOrders} 
+                />
               )}
 
               {activeTab === 'notifications' && (
-                <div key="notifications" className="space-y-6">
-                  <div className="mb-4 md:mb-6">
-                    <h2 className="text-xl md:text-2xl font-bold text-foreground tracking-tight">Notificaciones</h2>
-                    <p className="text-sm text-muted-foreground mt-1">Actualizaciones de tus tramites</p>
-                  </div>
-                  {notificationsLoading ? (
-                    <div className="space-y-3">
-                      {[1, 2, 3].map(i => <div key={i} className="h-24 bg-muted rounded-2xl animate-pulse" />)}
-                    </div>
-                  ) : notifications?.length === 0 ? (
-                    <Card className="rounded-2xl border-0 shadow-sm bg-white dark:bg-zinc-900 p-6 md:p-8 text-center">
-                      <div className="flex flex-col items-center gap-3 md:gap-4">
-                        <div className="w-12 h-12 md:w-16 md:h-16 bg-accent/10 rounded-full flex items-center justify-center">
-                          <BellRing className="w-6 h-6 md:w-8 md:h-8 text-accent" />
-                        </div>
-                        <div>
-                          <h3 className="text-base md:text-lg font-semibold text-foreground mb-1 md:mb-2 text-center">Sin notificaciones</h3>
-                          <p className="text-xs md:text-sm text-muted-foreground text-center">Las actualizaciones de tus trámites aparecerán aquí.</p>
-                        </div>
-                      </div>
-                    </Card>
-                  ) : (
-                    <div className="space-y-3">
-                      {notifications?.map((notif: any) => (
-                        <Card 
-                          key={notif.id} 
-                          className={`rounded-2xl border-0 shadow-sm transition-all hover:shadow-md ${!notif.isRead ? 'bg-accent/5 border-l-4 border-l-accent' : ''}`}
-                        >
-                          <CardContent className="p-4 md:p-6">
-                            <div className="flex items-start justify-between gap-4">
-                              <div className="flex-1">
-                                <div className="flex items-center gap-2 mb-2 flex-wrap">
-                                  {notif.orderCode && (
-                                    <span className="text-[10px] bg-primary/10 text-primary px-2 py-1 rounded-full font-black">Pedido: {notif.orderCode}</span>
-                                  )}
-                                  {notif.type === 'action_required' && (
-                                    <span className="text-[10px] bg-accent/20 text-primary px-2 py-1 rounded-full font-black">ACCIÓN REQUERIDA</span>
-                                  )}
-                                  {notif.type === 'update' && (
-                                    <span className="text-[10px] bg-accent/20 text-primary px-2 py-1 rounded-full font-black">ACTUALIZACIÓN</span>
-                                  )}
-                                  {notif.type === 'info' && (
-                                    <span className="text-[10px] bg-gray-100 dark:bg-zinc-700 text-gray-700 dark:text-gray-300 px-2 py-1 rounded-full font-black">INFORMACIÓN</span>
-                                  )}
-                                  <span className="text-[10px] text-muted-foreground font-medium">{new Date(notif.createdAt).toLocaleDateString()}</span>
-                                </div>
-                                <h3 className="font-black text-sm md:text-base">{notif.title}</h3>
-                                <p className="text-sm text-muted-foreground mt-1">{notif.message}</p>
-                                {notif.type === 'action_required' && user?.accountStatus !== 'deactivated' && (
-                                  <Button 
-                                    className="mt-3 bg-accent text-accent-foreground font-semibold rounded-full text-xs px-4 gap-2"
-                                    onClick={() => {
-                                      markNotificationRead.mutate(notif.id);
-                                      setActiveTab('documents');
-                                    }}
-                                    data-testid={`button-upload-document-${notif.id}`}
-                                  >
-                                    <Upload className="w-3 h-3" />
-                                    Subir Documento
-                                  </Button>
-                                )}
-                              </div>
-                              <Button
-                                variant="ghost"
-                                size="icon"
-                                className="flex-shrink-0 h-8 w-8 text-muted-foreground hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-full"
-                                onClick={() => deleteNotification.mutate(notif.id)}
-                                disabled={deleteNotification.isPending}
-                                data-testid={`button-delete-notification-${notif.id}`}
-                              >
-                                <X className="w-4 h-4" />
-                              </Button>
-                            </div>
-                          </CardContent>
-                        </Card>
-                      ))}
-                    </div>
-                  )}
-                </div>
+                <NotificationsTab
+                  notifications={notifications}
+                  notificationsLoading={notificationsLoading}
+                  user={user}
+                  markNotificationRead={markNotificationRead}
+                  deleteNotification={deleteNotification}
+                  setActiveTab={setActiveTab}
+                />
               )}
 
               {activeTab === 'messages' && (
-                <div key="messages" className="space-y-6">
-                  <div className="mb-4 md:mb-6">
-                    <div className="flex justify-between items-center">
-                      <div>
-                        <h2 className="text-xl md:text-2xl font-bold text-foreground tracking-tight">Mis Consultas</h2>
-                        <p className="text-sm text-muted-foreground mt-1">Tu historial de mensajes con nuestro equipo</p>
-                      </div>
-                      <Link href="/contacto">
-                        <Button className="bg-accent text-accent-foreground font-semibold rounded-full text-xs">Nueva Consulta</Button>
-                      </Link>
-                    </div>
-                  </div>
-                  <div className="space-y-4">
-                    {(!messagesData || messagesData.length === 0) ? (
-                      <Card className="rounded-2xl border-0 shadow-sm bg-white dark:bg-zinc-900 p-6 md:p-8 text-center" data-testid="widget-support-empty">
-                        <div className="flex flex-col items-center gap-3 md:gap-4">
-                          <div className="w-12 h-12 md:w-16 md:h-16 bg-accent/10 rounded-full flex items-center justify-center">
-                            <MessageSquare className="w-6 h-6 md:w-8 md:h-8 text-accent" />
-                          </div>
-                          <div>
-                            <h3 className="text-base md:text-lg font-semibold text-foreground mb-1 md:mb-2 text-center">Sin consultas activas</h3>
-                            <p className="text-xs md:text-sm text-muted-foreground mb-4 md:mb-6 text-center">Te responderá una persona, no un bot.</p>
-                          </div>
-                          <a href="https://wa.me/34614916910?text=Hola%2C%20me%20interesa%20crear%20una%20LLC%20en%20Estados%20Unidos" target="_blank" rel="noopener noreferrer">
-                            <Button className="bg-accent text-accent-foreground font-semibold rounded-full px-6 md:px-8 py-2.5 md:py-3 text-sm md:text-base" data-testid="button-support-whatsapp">
-                              <MessageSquare className="w-4 h-4 mr-2" /> Hablar con soporte
-                            </Button>
-                          </a>
-                        </div>
-                      </Card>
-                    ) : (
-                      messagesData.map((msg) => (
-                        <Card key={msg.id} className="rounded-2xl border-0 shadow-sm p-6 bg-white dark:bg-zinc-900 hover:shadow-md transition-shadow cursor-pointer" onClick={() => setSelectedMessage(selectedMessage?.id === msg.id ? null : msg)}>
-                          <div className="flex justify-between items-start mb-2">
-                            <div className="flex items-center gap-2">
-                              <MessageSquare className="w-4 h-4 text-accent" />
-                              <h4 className="font-semibold text-foreground">{msg.subject || 'Sin asunto'}</h4>
-                            </div>
-                            <span className="text-[10px] text-muted-foreground">{msg.messageId || msg.id}</span>
-                          </div>
-                          <p className="text-sm text-muted-foreground mb-4 line-clamp-2">{msg.content}</p>
-                          {selectedMessage?.id === msg.id && (
-                            <div className="mt-4 pt-4 border-t border-gray-100 space-y-4" onClick={(e) => e.stopPropagation()}>
-                              <Textarea value={replyContent} onChange={(e) => setReplyContent(e.target.value)} placeholder="Escribe tu respuesta..." className="rounded-xl min-h-[80px] text-sm" data-testid="input-user-reply" />
-                              <Button onClick={() => sendReplyMutation.mutate(msg.id)} disabled={!replyContent.trim() || sendReplyMutation.isPending} className="bg-accent text-accent-foreground font-semibold rounded-full px-6" data-testid="button-user-send-reply">
-                                {sendReplyMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : null}
-                                Enviar Respuesta
-                              </Button>
-                            </div>
-                          )}
-                        </Card>
-                      ))
-                    )}
-                  </div>
-                </div>
+                <MessagesTab
+                  messagesData={messagesData}
+                  selectedMessage={selectedMessage}
+                  setSelectedMessage={setSelectedMessage}
+                  replyContent={replyContent}
+                  setReplyContent={setReplyContent}
+                  sendReplyMutation={sendReplyMutation}
+                />
               )}
 
               {activeTab === 'documents' && (
