@@ -116,10 +116,11 @@ export default function Home() {
 
       <PorQueEasyUSLLC />
 
-      <section className="bg-background py-8 sm:py-24 relative" id="ventajas">
+      <section className="bg-background py-16 sm:py-20 relative" id="ventajas">
         <div className="w-full px-5 sm:px-8">
-          <div className="text-center mb-6 sm:mb-20 flex flex-col items-center justify-center relative">
+          <div className="text-center mb-10 sm:mb-14 flex flex-col items-center justify-center relative">
             <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-center leading-[1.1]" style={{ fontWeight: 900 }} dangerouslySetInnerHTML={{ __html: t("benefits.sectionTitle") }} />
+            <div className="w-24 h-1 bg-accent mt-6 rounded-full" />
           </div>
           
           <BenefitsCards />
@@ -236,10 +237,11 @@ function HowWeWorkSection() {
   ];
 
   return (
-    <section className="py-12 sm:py-20 bg-background">
+    <section className="py-16 sm:py-20 bg-background">
       <div className="w-full max-w-4xl mx-auto px-5 sm:px-8">
-        <div className="text-center mb-8 sm:mb-10 flex flex-col items-center justify-center">
+        <div className="text-center mb-10 sm:mb-14 flex flex-col items-center justify-center">
           <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-center leading-[1.1]" style={{ fontWeight: 900 }} dangerouslySetInnerHTML={{ __html: t("howWeWork.title") }} />
+          <div className="w-24 h-1 bg-foreground mt-6 rounded-full" />
         </div>
         
         <div className="mb-10 sm:mb-14">
@@ -307,10 +309,11 @@ function PorQueEasyUSLLC() {
   ];
 
   return (
-    <section className="py-8 sm:py-14 bg-background relative">
+    <section className="py-16 sm:py-20 bg-background relative">
       <div className="w-full px-5 sm:px-8">
-        <div className="text-center mb-8 sm:mb-12 flex flex-col items-center justify-center relative">
+        <div className="text-center mb-10 sm:mb-14 flex flex-col items-center justify-center relative">
           <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-center leading-[1.1]" style={{ fontWeight: 900 }} dangerouslySetInnerHTML={{ __html: t("whyUs.sectionTitle") }} />
+          <div className="w-24 h-1 bg-accent mt-6 rounded-full" />
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 max-w-6xl mx-auto">
           {whyUsFeatures.map((feature, i) => {

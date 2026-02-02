@@ -105,12 +105,13 @@ export default function Servicios() {
         }
       />
 
-      <section className="py-8 sm:py-14 bg-background relative" id="que-hacemos">
+      <section className="py-16 sm:py-20 bg-background relative" id="que-hacemos">
         <div className="w-full px-5 sm:px-8">
-          <div className="text-center mb-8 sm:mb-12 flex flex-col items-center justify-center relative">
+          <div className="text-center mb-10 sm:mb-14 flex flex-col items-center justify-center relative">
             <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-center leading-[1.1]" style={{ fontWeight: 900 }}>
               <span className="text-accent">{t("services.whatWeDo.title")}</span>
             </h2>
+            <div className="w-24 h-1 bg-foreground mt-6 rounded-full" />
           </div>
           
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
@@ -128,13 +129,14 @@ export default function Servicios() {
 
       <TaxComparator />
 
-      <section className="py-12 sm:py-20 bg-background" id="pricing">
+      <section className="py-16 sm:py-20 bg-background" id="pricing">
         <div className="w-full px-4 sm:px-8">
-          <div className="text-center mb-8 sm:mb-12 flex flex-col items-center justify-center relative">
+          <div className="text-center mb-10 sm:mb-14 flex flex-col items-center justify-center relative">
             <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-center leading-[1.1]" style={{ fontWeight: 900 }}>
               <span className="text-foreground">{t("packsTitle.packs")}</span>{" "}
               <span className="text-accent">{t("packsTitle.formation")}</span>
             </h2>
+            <div className="w-24 h-1 bg-accent mt-6 rounded-full" />
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 max-w-5xl mx-auto px-4 sm:px-0">
@@ -313,11 +315,12 @@ export default function Servicios() {
             </div>
           </div>
 
-          <div className="text-center mb-6 sm:mb-10 flex flex-col items-center justify-center relative">
+          <div className="text-center mb-10 sm:mb-14 flex flex-col items-center justify-center relative">
             <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-center leading-[1.1]" style={{ fontWeight: 900 }}>
               <span className="text-foreground">{t("packsTitle.maintenance.packs")}</span>{" "}
               <span className="text-accent">{t("packsTitle.maintenance.name")}</span>
             </h2>
+            <div className="w-24 h-1 bg-foreground mt-6 rounded-full" />
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 max-w-5xl mx-auto px-4 sm:px-0 mb-12">
             {[
