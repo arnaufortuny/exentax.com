@@ -1075,11 +1075,12 @@
     "hideDetails": "Hide information",
     "disclaimer": {
       "title": "Important information",
-      "point1": "This calculation is for guidance only and does not constitute tax advice.",
-      "point2": "Actual savings depend on your specific personal and tax situation.",
-      "point3": "An LLC without physical presence in the USA may be exempt from federal taxes, but you must comply with reporting obligations (forms 5472, FBAR if applicable).",
-      "point4": "Consult with a tax advisor for your particular case before making decisions.",
-      "note": "Freelancer calculations include income tax by current 2024 brackets and estimated social security contributions."
+      "point1": "This calculation is for guidance only and does not replace personalized tax advice.",
+      "point2": "Actual savings depend on your tax situation and how you structure your activity.",
+      "point3": "An LLC without physical presence in the United States may not be subject to federal taxes, but it must comply with formal obligations, such as:",
+      "point3a": "Form 5472 / 1120",
+      "point3b": "FBAR, if applicable",
+      "point4": "At Easy US LLC we don't leave you alone: we analyze your case and explain what applies and what doesn't, without hassle or fine print."
     }
   }
 }

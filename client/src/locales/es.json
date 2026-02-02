@@ -1075,11 +1075,12 @@
     "hideDetails": "Ocultar información",
     "disclaimer": {
       "title": "Información importante",
-      "point1": "Este cálculo es orientativo y no constituye asesoramiento fiscal.",
-      "point2": "Los ahorros reales dependen de tu situación personal y fiscal específica.",
-      "point3": "Una LLC sin presencia física en USA puede estar exenta de impuestos federales, pero debes cumplir obligaciones de reporte (formularios 5472, FBAR si aplica).",
-      "point4": "Consulta con un asesor fiscal para tu caso particular antes de tomar decisiones.",
-      "note": "Los cálculos de autónomos incluyen IRPF según tramos vigentes 2024 y cuota de autónomos estimada."
+      "point1": "Este cálculo es orientativo y no sustituye asesoramiento fiscal personalizado.",
+      "point2": "El ahorro real depende de tu situación fiscal y de cómo estructures tu actividad.",
+      "point3": "Una LLC sin presencia física en Estados Unidos puede no estar sujeta a impuestos federales, pero sí debe cumplir con obligaciones formales, como:",
+      "point3a": "Formulario 5472 / 1120",
+      "point3b": "FBAR, si aplica",
+      "point4": "En Easy US LLC no te dejamos solo: analizamos tu caso y te explicamos qué aplica y qué no, sin rodeos ni letra pequeña."
     }
   }
 }

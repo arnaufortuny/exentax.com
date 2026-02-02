@@ -284,12 +284,16 @@ export function TaxComparator() {
             {showDetails && (
               <div className="p-5 sm:p-8 border-t border-accent/10 bg-muted/30">
                 <h4 className="font-black text-foreground mb-4">{t("taxComparator.disclaimer.title")}</h4>
-                <p className="text-sm text-muted-foreground text-left leading-relaxed">
-                  {t("taxComparator.disclaimer.point1")} {t("taxComparator.disclaimer.point2")} {t("taxComparator.disclaimer.point3")} {t("taxComparator.disclaimer.point4")}
-                </p>
-                <p className="mt-4 text-xs text-muted-foreground italic text-left">
-                  {t("taxComparator.disclaimer.note")}
-                </p>
+                <div className="text-sm text-muted-foreground text-left leading-relaxed space-y-3">
+                  <p>{t("taxComparator.disclaimer.point1")}</p>
+                  <p>{t("taxComparator.disclaimer.point2")}</p>
+                  <p>{t("taxComparator.disclaimer.point3")}</p>
+                  <ul className="list-disc list-inside pl-2 space-y-1">
+                    <li>{t("taxComparator.disclaimer.point3a")}</li>
+                    <li>{t("taxComparator.disclaimer.point3b")}</li>
+                  </ul>
+                  <p className="font-medium text-foreground">{t("taxComparator.disclaimer.point4")}</p>
+                </div>
               </div>
             )}
           </div>
