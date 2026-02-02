@@ -162,28 +162,28 @@ function BenefitsCards() {
       title: t("benefits.vat.title"), 
       text: t("benefits.vat.text"), 
       footer: t("benefits.vat.footer"),
-      image: "/transparency.png?v=2"
+      image: "/benefits-no-vat.png?v=2"
     },
     { 
       badge: t("benefits.taxes.badge"), 
       title: t("benefits.taxes.title"), 
       text: t("benefits.taxes.text"), 
       footer: t("benefits.taxes.footer"),
-      image: "/specialists.png?v=2"
+      image: "/benefits-no-tax.png?v=2"
     },
     { 
       badge: t("benefits.fees.badge"), 
       title: t("benefits.fees.title"), 
       text: t("benefits.fees.text"), 
       footer: t("benefits.fees.footer"),
-      image: "/support.png?v=2"
+      image: "/benefits-no-fees.png?v=2"
     },
     { 
       badge: t("benefits.banking.badge"), 
       title: t("benefits.banking.title"), 
       text: t("benefits.banking.text"), 
       footer: t("benefits.banking.footer"),
-      image: "/banking.png?v=2"
+      image: "/benefits-banking.png?v=2"
     },
   ];
 
@@ -235,7 +235,8 @@ function PorQueEasyUSLLC() {
     { 
       badge: t("whyUs.support.badge"), 
       title: t("whyUs.support.title"), 
-      text: t("whyUs.support.text")
+      text: t("whyUs.support.text"),
+      image: "/personal-support.png?v=2"
     },
   ];
 
