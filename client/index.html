@@ -56,10 +56,11 @@
       html,body{width:100%;max-width:100vw;overflow-x:hidden;min-height:100dvh}
       body{font-family:Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#F7F7F5;color:#0E1215}
       #root{min-height:100dvh;width:100%;max-width:100vw;overflow-x:hidden}
-      .initial-loader{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:#F7F7F5;z-index:9999}
-      .initial-loader-spinner{width:40px;height:40px;border:3px solid #E6E9EC;border-top-color:#6EDC8A;border-radius:50%;animation:spin .8s linear infinite}
-      @keyframes spin{to{transform:rotate(360deg)}}
-      html.dark,html.dark body,html.dark .initial-loader{background:#0E1215}@media(prefers-color-scheme:dark){html:not(.light),html:not(.light) body,html:not(.light) .initial-loader{background:#0E1215}body{color:#F7F7F5}.initial-loader-spinner{border-color:#374151;border-top-color:#6EDC8A}}
+      .initial-loader{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#F7F7F5;z-index:9999}
+      .initial-loader-bar{width:256px;height:6px;background:#E6E9EC;border-radius:9999px;overflow:hidden}
+      .initial-loader-progress{height:100%;width:0;background:#6EDC8A;border-radius:9999px;animation:loadProgress 1.2s ease-out forwards;box-shadow:0 0 10px rgba(110,220,138,0.5)}
+      @keyframes loadProgress{0%{width:0}50%{width:60%}100%{width:95%}}
+      html.dark,html.dark body,html.dark .initial-loader{background:#0E1215}html.dark .initial-loader-bar{background:#374151}@media(prefers-color-scheme:dark){html:not(.light),html:not(.light) body,html:not(.light) .initial-loader{background:#0E1215}html:not(.light) .initial-loader-bar{background:#374151}body{color:#F7F7F5}}
     </style>
     
     <link rel="alternate" hreflang="es" href="https://easyusllc.com" />
@@ -685,7 +686,7 @@
   </head>
   <body>
     <div class="initial-loader" id="initial-loader">
-      <div class="initial-loader-spinner"></div>
+      <div class="initial-loader-bar"><div class="initial-loader-progress"></div></div>
     </div>
     <div id="root"></div>
     <script>
