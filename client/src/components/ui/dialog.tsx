@@ -34,18 +34,22 @@ function DialogContentInner({ className, children, ...props }: React.ComponentPr
   const { t } = useTranslation();
   
   React.useEffect(() => {
+    const scrollY = window.scrollY;
     document.body.style.overflow = 'hidden';
     document.body.style.position = 'fixed';
     document.body.style.width = '100%';
-    document.body.style.top = `-${window.scrollY}px`;
+    document.body.style.top = `-${scrollY}px`;
+    document.body.style.left = '0';
+    document.body.style.right = '0';
     
     return () => {
-      const scrollY = document.body.style.top;
       document.body.style.overflow = '';
       document.body.style.position = '';
       document.body.style.width = '';
       document.body.style.top = '';
-      window.scrollTo(0, parseInt(scrollY || '0') * -1);
+      document.body.style.left = '';
+      document.body.style.right = '';
+      window.scrollTo(0, scrollY);
     };
   }, []);
 
@@ -55,34 +59,37 @@ function DialogContentInner({ className, children, ...props }: React.ComponentPr
         className="fixed inset-0 z-[99998] bg-black/60 backdrop-blur-sm"
       />
       <div 
-        className="fixed inset-0 z-[99999] flex items-center justify-center p-4"
+        className="fixed inset-0 z-[99999] overflow-y-auto"
+        style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '100%' }}
       >
-        <DialogPrimitive.Content
-          ref={ref}
-          onOpenAutoFocus={(e) => e.preventDefault()}
-          onCloseAutoFocus={(e) => e.preventDefault()}
-          className={cn(
-            "relative w-full max-w-md",
-            "bg-white dark:bg-zinc-900 border border-border",
-            "rounded-xl shadow-2xl",
-            "max-h-[85vh] overflow-y-auto overscroll-contain",
-            "p-4 sm:p-6",
-            className
-          )}
-          style={{ 
-            WebkitOverflowScrolling: 'touch',
-          }}
-          {...props}
-        >
-          {children}
-          <DialogPrimitive.Close 
-            className="absolute right-3 top-3 w-9 h-9 sm:w-8 sm:h-8 rounded-full bg-muted/80 hover-elevate active-elevate-2 flex items-center justify-center z-10 touch-manipulation"
-            data-testid="button-dialog-close"
+        <div className="flex min-h-full w-full items-center justify-center p-4">
+          <DialogPrimitive.Content
+            ref={ref}
+            onOpenAutoFocus={(e) => e.preventDefault()}
+            onCloseAutoFocus={(e) => e.preventDefault()}
+            className={cn(
+              "relative w-full max-w-md my-auto",
+              "bg-white dark:bg-zinc-900 border border-border",
+              "rounded-xl shadow-2xl",
+              "max-h-[85vh] overflow-y-auto overscroll-contain",
+              "p-4 sm:p-6",
+              className
+            )}
+            style={{ 
+              WebkitOverflowScrolling: 'touch',
+            }}
+            {...props}
           >
-            <X className="h-4 w-4 text-muted-foreground" />
-            <span className="sr-only">{t("common.close")}</span>
-          </DialogPrimitive.Close>
-        </DialogPrimitive.Content>
+            {children}
+            <DialogPrimitive.Close 
+              className="absolute right-3 top-3 w-9 h-9 sm:w-8 sm:h-8 rounded-full bg-muted/80 hover-elevate active-elevate-2 flex items-center justify-center z-10 touch-manipulation"
+              data-testid="button-dialog-close"
+            >
+              <X className="h-4 w-4 text-muted-foreground" />
+              <span className="sr-only">{t("common.close")}</span>
+            </DialogPrimitive.Close>
+          </DialogPrimitive.Content>
+        </div>
       </div>
     </DialogPortal>
   );
