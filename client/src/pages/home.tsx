@@ -142,8 +142,8 @@ export default function Home() {
                 loading="lazy"
               />
             </div>
-            <div className="p-6 text-center">
-              <h3 className="text-2xl sm:text-3xl font-black text-foreground mb-2">{t("ctaSection.title")}</h3>
+            <div className="p-6 text-center flex flex-col items-center justify-center">
+              <h3 className="text-2xl sm:text-3xl font-black text-foreground mb-2 text-center">{t("ctaSection.title")}</h3>
               <p className="text-muted-foreground text-sm sm:text-base mb-6">{t("ctaSection.subtitle")}</p>
               <a 
                 href="https://wa.me/34614916910?text=Hola!%20Quiero%20formar%20mi%20LLC%20en%20Estados%20Unidos"
