@@ -1,6 +1,6 @@
 import { useState, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { Calculator, TrendingDown, ChevronDown, ChevronUp, Sparkles } from "lucide-react";
+import { Calculator, ChevronDown, ChevronUp, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useLocation } from "wouter";
 import { SpainFlag, USAFlag as USFlag } from "@/components/ui/flags";
@@ -164,14 +164,52 @@ export function TaxComparator() {
             </div>
             
             <div className="grid grid-cols-1 md:grid-cols-2">
-              <div className="p-6 sm:p-8 border-b md:border-b-0 md:border-r border-border bg-muted/30">
+              <div className="p-6 sm:p-8 bg-accent/5 border-b md:border-b-0 md:border-r border-border">
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="w-10 h-10 rounded-full bg-accent/20 flex items-center justify-center border border-accent/30">
+                    <USFlag />
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="font-bold text-foreground">{t("taxComparator.usllc.title")}</h3>
+                  </div>
+                  <span className="px-3 py-1 rounded-full bg-accent text-accent-foreground text-xs font-bold flex items-center gap-1">
+                    <Sparkles className="w-3 h-3" /> 0%
+                  </span>
+                </div>
+                
+                <div className="space-y-3">
+                  <div className="flex justify-between items-center py-2 border-b border-accent/20">
+                    <span className="text-sm text-muted-foreground">{t("taxComparator.usllc.federalTax")}</span>
+                    <span className="font-bold text-accent">{formatCurrency(0)}</span>
+                  </div>
+                  <div className="flex justify-between items-center py-2 border-b border-accent/20">
+                    <span className="text-sm text-muted-foreground">{t("taxComparator.usllc.selfEmployment")}</span>
+                    <span className="font-bold text-accent">{formatCurrency(0)}</span>
+                  </div>
+                  <div className="flex justify-between items-center py-2 border-b border-accent/20">
+                    <span className="text-sm text-muted-foreground">{t("taxComparator.usllc.vat")}</span>
+                    <span className="font-bold text-accent">{formatCurrency(0)}</span>
+                  </div>
+                  <div className="pt-3">
+                    <div className="flex justify-between items-center">
+                      <span className="font-bold text-foreground">{t("taxComparator.totalTaxes")}</span>
+                      <span className="font-black text-accent text-xl">{formatCurrency(0)}</span>
+                    </div>
+                  </div>
+                  <div className="bg-accent/10 rounded-2xl p-4 mt-4 border border-accent/20">
+                    <p className="text-xs text-muted-foreground mb-1">{t("taxComparator.netIncome")}</p>
+                    <p className="font-black text-accent text-2xl">{formatCurrency(usLLCTaxes.netIncome)}</p>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="p-6 sm:p-8 bg-muted/30">
                 <div className="flex items-center gap-3 mb-6">
                   <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center border border-border">
                     <SpainFlag />
                   </div>
                   <div>
                     <h3 className="font-bold text-foreground">{t("taxComparator.spanish.title")}</h3>
-                    <p className="text-xs text-muted-foreground">{t("taxComparator.spanish.subtitle")}</p>
                   </div>
                 </div>
                 
@@ -205,59 +243,14 @@ export function TaxComparator() {
                   </div>
                 </div>
               </div>
-              
-              <div className="p-6 sm:p-8 bg-accent/5">
-                <div className="flex items-center gap-3 mb-6">
-                  <div className="w-10 h-10 rounded-full bg-accent/20 flex items-center justify-center border border-accent/30">
-                    <USFlag />
-                  </div>
-                  <div className="flex-1">
-                    <h3 className="font-bold text-foreground">{t("taxComparator.usllc.title")}</h3>
-                    <p className="text-xs text-muted-foreground">{t("taxComparator.usllc.subtitle")}</p>
-                  </div>
-                  <span className="px-3 py-1 rounded-full bg-accent text-accent-foreground text-xs font-bold flex items-center gap-1">
-                    <Sparkles className="w-3 h-3" /> 0%
-                  </span>
-                </div>
-                
-                <div className="space-y-3">
-                  <div className="flex justify-between items-center py-2 border-b border-accent/20">
-                    <span className="text-sm text-muted-foreground">{t("taxComparator.usllc.federalTax")}</span>
-                    <span className="font-bold text-accent">{formatCurrency(0)}</span>
-                  </div>
-                  <div className="flex justify-between items-center py-2 border-b border-accent/20">
-                    <span className="text-sm text-muted-foreground">{t("taxComparator.usllc.selfEmployment")}</span>
-                    <span className="font-bold text-accent">{formatCurrency(0)}</span>
-                  </div>
-                  <div className="flex justify-between items-center py-2 border-b border-accent/20">
-                    <span className="text-sm text-muted-foreground">{t("taxComparator.usllc.vat")}</span>
-                    <span className="font-bold text-accent">{formatCurrency(0)}</span>
-                  </div>
-                  <div className="pt-3">
-                    <div className="flex justify-between items-center">
-                      <span className="font-bold text-foreground">{t("taxComparator.totalTaxes")}</span>
-                      <span className="font-black text-accent text-xl">{formatCurrency(0)}</span>
-                    </div>
-                  </div>
-                  <div className="bg-accent/10 rounded-2xl p-4 mt-4 border border-accent/20">
-                    <p className="text-xs text-muted-foreground mb-1">{t("taxComparator.netIncome")}</p>
-                    <p className="font-black text-accent text-2xl">{formatCurrency(usLLCTaxes.netIncome)}</p>
-                  </div>
-                </div>
-              </div>
             </div>
             
             <div className="p-6 sm:p-8 bg-accent/10 border-t border-border">
               <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-                <div className="flex items-center gap-4">
-                  <div className="w-14 h-14 rounded-full bg-accent flex items-center justify-center">
-                    <TrendingDown className="w-7 h-7 text-accent-foreground" />
-                  </div>
-                  <div>
-                    <p className="text-sm text-muted-foreground">{t("taxComparator.savings.label")}</p>
-                    <p className="font-black text-accent text-3xl sm:text-4xl">{formatCurrency(savings)}</p>
-                    <p className="text-sm text-muted-foreground">{t("taxComparator.savings.percentage", { percentage: Math.round(savingsPercentage) })}</p>
-                  </div>
+                <div>
+                  <p className="text-sm text-muted-foreground">{t("taxComparator.savings.label")}</p>
+                  <p className="font-black text-accent text-3xl sm:text-4xl">{formatCurrency(savings)}</p>
+                  <p className="text-sm text-muted-foreground">{t("taxComparator.savings.percentage", { percentage: Math.round(savingsPercentage) })}</p>
                 </div>
                 <Button
                   onClick={() => setLocation("/llc/formation")}

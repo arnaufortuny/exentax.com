@@ -81,6 +81,11 @@
       "footer": "Tarjeta física internacional."
     }
   },
+  "ctaSection": {
+    "title": "¿Empezamos?",
+    "subtitle": "Estamos listos para ayudarte. Hablemos cuando tú quieras.",
+    "button": "Hablemos por WhatsApp"
+  },
   "whyUs": {
     "sectionTitle": "NOS ENCARGAMOS<br/>DE TU LLC<br/>DE PRINCIPIO A FIN",
     "speed": {

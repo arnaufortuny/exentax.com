@@ -81,6 +81,11 @@
       "footer": "International physical card."
     }
   },
+  "ctaSection": {
+    "title": "Shall we start?",
+    "subtitle": "We're ready to help you. Let's talk whenever you want.",
+    "button": "Let's talk on WhatsApp"
+  },
   "whyUs": {
     "sectionTitle": "WE HANDLE<br/>YOUR LLC<br/>FROM START TO FINISH",
     "speed": {
