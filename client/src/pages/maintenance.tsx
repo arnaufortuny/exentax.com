@@ -216,12 +216,12 @@ export default function MaintenanceApplication() {
       const data = await res.json();
       setDiscountInfo(data);
       if (data.valid) {
-        toast({ title: "Descuento aplicado", description: `Se ha aplicado correctamente a tu pedido (${(data.discountAmount / 100).toFixed(2)}€)` });
+        toast({ title: t("toast.discountApplied"), description: `${t("toast.discountAppliedDesc")} (${(data.discountAmount / 100).toFixed(2)}€)` });
       } else {
-        toast({ title: "Código no válido", description: "El descuento introducido no es correcto", variant: "destructive" });
+        toast({ title: t("toast.discountInvalid"), description: t("toast.discountInvalidDesc"), variant: "destructive" });
       }
     } catch {
-      setDiscountInfo({ valid: false, discountAmount: 0, message: "Error al validar" });
+      setDiscountInfo({ valid: false, discountAmount: 0, message: t("toast.discountValidationError") });
     } finally {
       setIsValidatingDiscount(false);
     }
@@ -239,7 +239,7 @@ export default function MaintenanceApplication() {
   const sendOtp = async () => {
     const email = form.getValues("ownerEmail");
     if (!email) {
-      toast({ title: "Falta tu email", description: "Necesitamos tu email para continuar", variant: "destructive" });
+      toast({ title: t("toast.emailMissing"), description: t("toast.emailMissingDesc"), variant: "destructive" });
       return;
     }
     
@@ -248,13 +248,13 @@ export default function MaintenanceApplication() {
       const res = await apiRequest("POST", "/api/register/send-otp", { email });
       if (res.ok) {
         setIsOtpSent(true);
-        toast({ title: "Código enviado", description: "Revisa tu correo, te esperamos aquí" });
+        toast({ title: t("toast.codeSent"), description: t("toast.checkEmail") });
       } else {
         const data = await res.json();
-        toast({ title: "Error", description: data.message, variant: "destructive" });
+        toast({ title: t("toast.error"), description: data.message, variant: "destructive" });
       }
     } catch (error) {
-      toast({ title: "Error al enviar", description: "Inténtalo de nuevo en unos segundos", variant: "destructive" });
+      toast({ title: t("toast.errorSending"), description: t("toast.tryAgain"), variant: "destructive" });
     } finally {
       setIsSendingOtp(false);
     }
@@ -264,7 +264,7 @@ export default function MaintenanceApplication() {
   const verifyOtp = async () => {
     const email = form.getValues("ownerEmail");
     if (!otpCode || otpCode.length !== 6) {
-      toast({ title: "Falta el código", description: "Introduce el código de 6 dígitos", variant: "destructive" });
+      toast({ title: t("toast.otpMissing"), description: t("toast.otpMissingDesc"), variant: "destructive" });
       return;
     }
     
@@ -273,13 +273,13 @@ export default function MaintenanceApplication() {
       const res = await apiRequest("POST", "/api/register/verify-otp", { email, otp: otpCode });
       if (res.ok) {
         setIsOtpVerified(true);
-        toast({ title: "Email verificado", description: "Perfecto. Ya puedes continuar" });
+        toast({ title: t("toast.emailVerified"), description: t("toast.canContinue") });
       } else {
         const data = await res.json();
-        toast({ title: "Error", description: data.message, variant: "destructive" });
+        toast({ title: t("toast.error"), description: data.message, variant: "destructive" });
       }
     } catch (error) {
-      toast({ title: "Código incorrecto", description: "El código no es válido o ha caducado", variant: "destructive" });
+      toast({ title: t("toast.invalidCode"), description: t("toast.codeExpiredOrInvalid"), variant: "destructive" });
     } finally {
       setIsVerifyingOtp(false);
     }
@@ -290,7 +290,7 @@ export default function MaintenanceApplication() {
     const password = form.getValues("password");
     
     if (!password || password.length < 1) {
-      toast({ title: "Falta tu contraseña", description: "Introduce tu contraseña para continuar", variant: "destructive" });
+      toast({ title: t("toast.passwordMissing"), description: t("toast.passwordMissingDesc"), variant: "destructive" });
       return;
     }
 
@@ -298,15 +298,15 @@ export default function MaintenanceApplication() {
       const res = await apiRequest("POST", "/api/login", { email, password });
       if (!res.ok) {
         const data = await res.json();
-        toast({ title: "Contraseña incorrecta", description: "Revísala y vuelve a intentarlo", variant: "destructive" });
+        toast({ title: t("toast.passwordIncorrect"), description: t("toast.passwordIncorrectDesc"), variant: "destructive" });
         return;
       }
       await refetchAuth();
       setIsOtpVerified(true);
-      toast({ title: "Nos alegra verte otra vez", description: "Ya puedes continuar" });
+      toast({ title: t("toast.welcomeBack"), description: t("toast.welcomeBackDesc") });
       setStep(4);
     } catch {
-      toast({ title: "Error de conexión", description: "Inténtalo de nuevo", variant: "destructive" });
+      toast({ title: t("toast.connectionError"), description: t("toast.connectionErrorDesc"), variant: "destructive" });
     }
   };
 
@@ -332,8 +332,8 @@ export default function MaintenanceApplication() {
     
     if (step === 0 && form.getValues("creationSource")?.includes("No")) {
       toast({ 
-        title: "Te orientamos primero", 
-        description: "Como aún no tienes una LLC, te guiaremos en el proceso de creación." 
+        title: t("toast.redirectingToLLC"), 
+        description: t("toast.noLLCYetDesc") 
       });
       setLocation("/llc/formation");
       return;
@@ -385,7 +385,7 @@ export default function MaintenanceApplication() {
         const res = await apiRequest("POST", "/api/maintenance/orders", orderPayload);
         if (!res.ok) {
           const error = await res.json();
-          throw new Error(error.message || "Error al crear pedido");
+          throw new Error(error.message || t("toast.orderCreationError"));
         }
         const orderData = await res.json();
         
@@ -421,7 +421,7 @@ export default function MaintenanceApplication() {
         
         if (!res.ok) {
           const error = await res.json();
-          throw new Error(error.message || "Error al crear pedido");
+          throw new Error(error.message || t("toast.orderCreationError"));
         }
         
         const orderData = await res.json();
