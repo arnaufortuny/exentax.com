@@ -524,12 +524,12 @@ export default function Register() {
                   <Button
                     type="button"
                     variant="outline"
-                    size="lg"
+                    size="sm"
                     onClick={prevStep}
-                    className="flex-1 rounded-full font-black"
+                    className="rounded-full font-medium px-4 h-10"
                     data-testid="button-prev"
                   >
-                    <ArrowLeft className="w-4 h-4 mr-2" />
+                    <ArrowLeft className="w-4 h-4 mr-1" />
                     {t("common.back")}
                   </Button>
                 )}

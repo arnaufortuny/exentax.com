@@ -540,7 +540,7 @@ export default function MaintenanceApplication() {
                       </FormItem>
                     )} />
                     <div className="flex gap-3 max-w-md mx-auto">
-                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">Volver</Button>
+                      <Button type="button" variant="outline" size="sm" onClick={prevStep} className="rounded-full h-10 px-4 font-medium border-border transition-all">Volver</Button>
                       <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">Continuar</Button>
                     </div>
                   </div>
@@ -563,7 +563,7 @@ export default function MaintenanceApplication() {
                       </FormItem>
                     )} />
                     <div className="flex gap-3 max-w-md mx-auto">
-                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">Volver</Button>
+                      <Button type="button" variant="outline" size="sm" onClick={prevStep} className="rounded-full h-10 px-4 font-medium border-border transition-all">Volver</Button>
                       <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">Continuar</Button>
                     </div>
                   </div>
@@ -586,7 +586,7 @@ export default function MaintenanceApplication() {
                       </FormItem>
                     )} />
                     <div className="flex gap-3 max-w-md mx-auto">
-                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">Volver</Button>
+                      <Button type="button" variant="outline" size="sm" onClick={prevStep} className="rounded-full h-10 px-4 font-medium border-border transition-all">Volver</Button>
                       <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">Continuar</Button>
                     </div>
                   </div>
@@ -609,7 +609,7 @@ export default function MaintenanceApplication() {
                       </FormItem>
                     )} />
                     <div className="flex gap-3 max-w-md mx-auto">
-                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">Volver</Button>
+                      <Button type="button" variant="outline" size="sm" onClick={prevStep} className="rounded-full h-10 px-4 font-medium border-border transition-all">Volver</Button>
                       <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">Continuar</Button>
                     </div>
                   </div>
@@ -632,7 +632,7 @@ export default function MaintenanceApplication() {
                       </FormItem>
                     )} />
                     <div className="flex gap-3 max-w-md mx-auto">
-                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">Volver</Button>
+                      <Button type="button" variant="outline" size="sm" onClick={prevStep} className="rounded-full h-10 px-4 font-medium border-border transition-all">Volver</Button>
                       <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">Continuar</Button>
                     </div>
                   </div>
@@ -714,7 +714,7 @@ export default function MaintenanceApplication() {
                     )} />
                     
                     <div className="flex gap-3 max-w-md mx-auto">
-                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">Volver</Button>
+                      <Button type="button" variant="outline" size="sm" onClick={prevStep} className="rounded-full h-10 px-4 font-medium border-border transition-all">Volver</Button>
                       <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">Continuar</Button>
                     </div>
                   </div>
@@ -734,7 +734,7 @@ export default function MaintenanceApplication() {
                       </FormItem>
                     )} />
                     <div className="flex gap-3 max-w-md mx-auto">
-                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">Volver</Button>
+                      <Button type="button" variant="outline" size="sm" onClick={prevStep} className="rounded-full h-10 px-4 font-medium border-border transition-all">Volver</Button>
                       <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">Continuar</Button>
                     </div>
                   </div>
@@ -770,7 +770,7 @@ export default function MaintenanceApplication() {
                       </FormItem>
                     )} />
                     <div className="flex gap-3 max-w-md mx-auto">
-                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">Volver</Button>
+                      <Button type="button" variant="outline" size="sm" onClick={prevStep} className="rounded-full h-10 px-4 font-medium border-border transition-all">Volver</Button>
                       <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">Continuar</Button>
                     </div>
                   </div>
@@ -807,7 +807,7 @@ export default function MaintenanceApplication() {
                       </FormItem>
                     )} />
                     <div className="flex gap-3 max-w-md mx-auto">
-                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">Volver</Button>
+                      <Button type="button" variant="outline" size="sm" onClick={prevStep} className="rounded-full h-10 px-4 font-medium border-border transition-all">Volver</Button>
                       <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">Continuar</Button>
                     </div>
                   </div>
@@ -925,7 +925,7 @@ export default function MaintenanceApplication() {
                     )}
                     
                     <div className="flex gap-3 max-w-md mx-auto">
-                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">Volver</Button>
+                      <Button type="button" variant="outline" size="sm" onClick={prevStep} className="rounded-full h-10 px-4 font-medium border-border transition-all">Volver</Button>
                       <Button 
                         type="button" 
                         onClick={nextStep} 
@@ -1027,7 +1027,7 @@ export default function MaintenanceApplication() {
                     )} />
                     
                     <div className="flex gap-3 max-w-md mx-auto">
-                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">Volver</Button>
+                      <Button type="button" variant="outline" size="sm" onClick={prevStep} className="rounded-full h-10 px-4 font-medium border-border transition-all">Volver</Button>
                       <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">Continuar</Button>
                     </div>
                   </div>
@@ -1087,7 +1087,7 @@ export default function MaintenanceApplication() {
                       )} />
                     </div>
                     <div className="flex gap-3 max-w-md mx-auto">
-                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">Volver</Button>
+                      <Button type="button" variant="outline" size="sm" onClick={prevStep} className="rounded-full h-10 px-4 font-medium border-border transition-all">Volver</Button>
                       <Button 
                         type="submit" 
                         disabled={isSubmitting}

@@ -651,7 +651,7 @@ export default function LlcFormation() {
                 </div>
                 <div className="flex gap-3">
                   {!hasUrlState && (
-                    <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">{t("application.back")}</Button>
+                    <Button type="button" variant="outline" size="sm" onClick={prevStep} className="rounded-full h-10 px-4 font-medium border-border transition-all">{t("application.back")}</Button>
                   )}
                   <Button type="button" onClick={nextStep} className={`${hasUrlState ? 'flex-1' : 'flex-[2]'} bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all`}>{t("application.continue")}</Button>
                 </div>
@@ -699,7 +699,7 @@ export default function LlcFormation() {
                   </FormItem>
                 )} />
                 <div className="flex gap-3">
-                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">{t("application.back")}</Button>
+                  <Button type="button" variant="outline" size="sm" onClick={prevStep} className="rounded-full h-10 px-4 font-medium border-border transition-all">{t("application.back")}</Button>
                   <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">{t("application.continue")}</Button>
                 </div>
               </div>
@@ -717,7 +717,7 @@ export default function LlcFormation() {
                   </FormItem>
                 )} />
                 <div className="flex gap-3">
-                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">{t("application.back")}</Button>
+                  <Button type="button" variant="outline" size="sm" onClick={prevStep} className="rounded-full h-10 px-4 font-medium border-border transition-all">{t("application.back")}</Button>
                   <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">{t("application.continue")}</Button>
                 </div>
               </div>
@@ -735,7 +735,7 @@ export default function LlcFormation() {
                   </FormItem>
                 )} />
                 <div className="flex gap-3">
-                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">{t("application.back")}</Button>
+                  <Button type="button" variant="outline" size="sm" onClick={prevStep} className="rounded-full h-10 px-4 font-medium border-border transition-all">{t("application.back")}</Button>
                   <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">{t("application.continue")}</Button>
                 </div>
               </div>
@@ -761,7 +761,7 @@ export default function LlcFormation() {
                   </a>
                 </div>
                 <div className="flex gap-3">
-                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">{t("application.back")}</Button>
+                  <Button type="button" variant="outline" size="sm" onClick={prevStep} className="rounded-full h-10 px-4 font-medium border-border transition-all">{t("application.back")}</Button>
                   <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">{t("application.continue")}</Button>
                 </div>
               </div>
@@ -839,7 +839,7 @@ export default function LlcFormation() {
                 </div>
                 
                 <div className="flex gap-3">
-                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">{t("application.back")}</Button>
+                  <Button type="button" variant="outline" size="sm" onClick={prevStep} className="rounded-full h-10 px-4 font-medium border-border transition-all">{t("application.back")}</Button>
                   <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">{t("application.continue")}</Button>
                 </div>
               </div>
@@ -856,7 +856,7 @@ export default function LlcFormation() {
                   </FormItem>
                 )} />
                 <div className="flex gap-3">
-                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">{t("application.back")}</Button>
+                  <Button type="button" variant="outline" size="sm" onClick={prevStep} className="rounded-full h-10 px-4 font-medium border-border transition-all">{t("application.back")}</Button>
                   <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">{t("application.continue")}</Button>
                 </div>
               </div>
@@ -925,7 +925,7 @@ export default function LlcFormation() {
                   </label>
                 </div>
                 <div className="flex gap-3">
-                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">{t("application.back")}</Button>
+                  <Button type="button" variant="outline" size="sm" onClick={prevStep} className="rounded-full h-10 px-4 font-medium border-border transition-all">{t("application.back")}</Button>
                   <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">{t("application.continue")}</Button>
                 </div>
               </div>
@@ -942,7 +942,7 @@ export default function LlcFormation() {
                   </FormItem>
                 )} />
                 <div className="flex gap-3">
-                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">{t("application.back")}</Button>
+                  <Button type="button" variant="outline" size="sm" onClick={prevStep} className="rounded-full h-10 px-4 font-medium border-border transition-all">{t("application.back")}</Button>
                   <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">{t("application.continue")}</Button>
                 </div>
               </div>
@@ -1037,7 +1037,7 @@ export default function LlcFormation() {
                   </>
                 )}
                 <div className="flex gap-3">
-                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">{t("application.back")}</Button>
+                  <Button type="button" variant="outline" size="sm" onClick={prevStep} className="rounded-full h-10 px-4 font-medium border-border transition-all">{t("application.back")}</Button>
                   <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">{t("application.continue")}</Button>
                 </div>
               </div>
@@ -1152,7 +1152,7 @@ export default function LlcFormation() {
                 )}
                 
                 <div className="flex gap-3 pt-4">
-                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">{t("application.back")}</Button>
+                  <Button type="button" variant="outline" size="sm" onClick={prevStep} className="rounded-full h-10 px-4 font-medium border-border transition-all">{t("application.back")}</Button>
                   <Button 
                     type="button" 
                     onClick={nextStep} 
@@ -1251,7 +1251,7 @@ export default function LlcFormation() {
                 )} />
                 
                 <div className="flex gap-3 pt-4">
-                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">{t("application.back")}</Button>
+                  <Button type="button" variant="outline" size="sm" onClick={prevStep} className="rounded-full h-10 px-4 font-medium border-border transition-all">{t("application.back")}</Button>
                   <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">{t("application.continue")}</Button>
                 </div>
               </div>

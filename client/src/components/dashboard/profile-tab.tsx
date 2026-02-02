@@ -155,9 +155,9 @@ export function ProfileTab({
               {isEditing && canEdit ? <Input value={profileData.idNumber} onChange={e => setProfileData({...profileData, idNumber: e.target.value})} placeholder="Documento de identificación" className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" data-testid="input-idnumber" /> : <div className="p-3 bg-gray-50 dark:bg-zinc-800 rounded-lg text-sm">{user?.idNumber || 'No proporcionado'}</div>}
             </div>
           </div>
-          <div className="space-y-1">
+          <div className="space-y-1 max-w-[200px]">
             <Label className="text-xs font-bold text-muted-foreground">Fecha de nacimiento</Label>
-            {isEditing && canEdit ? <Input type="date" value={profileData.birthDate} onChange={e => setProfileData({...profileData, birthDate: e.target.value})} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" data-testid="input-birthdate" /> : <div className="p-3 bg-gray-50 dark:bg-zinc-800 rounded-lg text-sm">{user?.birthDate || 'No proporcionado'}</div>}
+            {isEditing && canEdit ? <Input type="date" value={profileData.birthDate} onChange={e => setProfileData({...profileData, birthDate: e.target.value})} className="rounded-full h-10 px-4 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-sm" data-testid="input-birthdate" /> : <div className="p-3 bg-gray-50 dark:bg-zinc-800 rounded-lg text-sm">{user?.birthDate || 'No proporcionado'}</div>}
           </div>
           <div className="space-y-1">
             <Label className="text-xs font-bold text-muted-foreground">Actividad profesional</Label>
