@@ -268,7 +268,7 @@ export default function Contacto() {
                 </Button>
               </Link>
               <a 
-                href="https://wa.me/34614916910?text=Hola%2C%20me%20interesa%20crear%20una%20LLC%20en%20Estados%20Unidos" 
+                href="https://wa.me/34614916910?text=Hola!%20Quer%C3%ADa%20hablar%20con%20vosotros%20sobre%20crear%20mi%20LLC" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="w-full sm:w-auto"
@@ -609,7 +609,7 @@ export default function Contacto() {
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-2xl mx-auto">
             <a 
-              href="https://wa.me/34614916910?text=Hola%2C%20me%20interesa%20crear%20una%20LLC%20en%20Estados%20Unidos" 
+              href="https://wa.me/34614916910?text=Hola!%20Quer%C3%ADa%20hablar%20con%20vosotros%20sobre%20crear%20mi%20LLC" 
               target="_blank" 
               rel="noopener noreferrer"
               className="flex items-center justify-center gap-4 p-5 rounded-full hover:bg-accent/5 transition-all group"

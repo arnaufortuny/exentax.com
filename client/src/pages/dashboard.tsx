@@ -2092,7 +2092,7 @@ export default function Dashboard() {
             <section className="bg-accent/10 p-6 md:p-8 rounded-[2rem] border-2 border-accent/20">
               <h3 className="text-base font-semibold text-foreground mb-2">¿Tienes alguna duda?</h3>
               <p className="text-xs text-primary/70 mb-5 leading-relaxed">Estamos aquí para ayudarte, escríbenos y te responderemos lo antes posible!</p>
-              <a href="https://wa.me/34614916910?text=Hola%2C%20me%20interesa%20crear%20una%20LLC%20en%20Estados%20Unidos" target="_blank" rel="noopener noreferrer">
+              <a href="https://wa.me/34614916910?text=Hola!%20Tengo%20una%20duda%20sobre%20mi%20LLC" target="_blank" rel="noopener noreferrer">
                 <Button className="w-full bg-accent text-accent-foreground font-semibold rounded-full py-5">Hablar con un asesor</Button>
               </a>
             </section>
