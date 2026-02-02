@@ -213,10 +213,10 @@ export function TaxComparator() {
                       <span className="font-black text-red-600 dark:text-red-400">{spanishTaxes.effectiveRate}%</span>
                     </div>
                   </div>
-                  <div className="bg-red-100 dark:bg-red-900/30 rounded-xl p-4 mt-4">
+                  <div className="bg-red-100 dark:bg-red-900/50 rounded-xl p-4 mt-4">
                     <div className="flex justify-between items-center">
-                      <span className="font-black text-foreground">{t("taxComparator.netIncome")}</span>
-                      <span className="font-black text-foreground text-xl">{formatCurrency(spanishTaxes.netIncome)}</span>
+                      <span className="font-black text-red-900 dark:text-red-100">{t("taxComparator.netIncome")}</span>
+                      <span className="font-black text-red-900 dark:text-red-100 text-xl">{formatCurrency(spanishTaxes.netIncome)}</span>
                     </div>
                   </div>
                 </div>
