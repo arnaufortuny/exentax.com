@@ -108,13 +108,9 @@ export default function Servicios() {
       <section className="py-8 sm:py-14 bg-background relative" id="que-hacemos">
         <div className="w-full px-5 sm:px-8">
           <div className="text-center mb-8 sm:mb-12 flex flex-col items-center justify-center relative">
-            <span className="inline-flex items-center justify-center px-5 py-2 rounded-full bg-accent text-accent-foreground font-black text-xs sm:text-sm tracking-widest shadow-md mb-4">
-              {t("services.whatWeDo.badge")}
-            </span>
-            <h2 className="text-4xl sm:text-4xl lg:text-5xl font-black text-foreground tracking-tight text-center leading-[1.1] sm:leading-tight">
-              {t("services.whatWeDo.title")}
+            <h2 className="text-4xl sm:text-4xl lg:text-5xl font-black tracking-tight text-center leading-[1.1] sm:leading-tight" style={{ fontWeight: 900 }}>
+              <span className="text-accent">{t("services.whatWeDo.title")}</span>
             </h2>
-            <p className="text-accent font-black tracking-wide text-lg sm:text-lg mt-1 sm:mt-2 text-center">{t("services.whatWeDo.subtitle")}</p>
           </div>
           
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
@@ -135,15 +131,9 @@ export default function Servicios() {
       <section className="py-12 sm:py-20 bg-background" id="pricing">
         <div className="w-full px-4 sm:px-8">
           <div className="text-center mb-8 sm:mb-12 flex flex-col items-center justify-center relative">
-            <span className="inline-flex items-center justify-center px-5 py-2 rounded-full bg-accent text-accent-foreground font-black text-xs sm:text-sm tracking-widest shadow-md mb-4">
-              {t("services.packs.badge")}
-            </span>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-foreground tracking-tight text-center">
-              {t("services.packs.title")}
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-center" style={{ fontWeight: 900 }}>
+              <span className="text-accent">{t("services.packs.title")}</span>
             </h2>
-            <p className="text-accent font-black tracking-wide text-base sm:text-lg mt-1 sm:mt-2 text-center">
-              {t("services.packs.subtitle")}
-            </p>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 max-w-5xl mx-auto px-4 sm:px-0">
@@ -325,13 +315,9 @@ export default function Servicios() {
           </div>
 
           <div className="text-center mb-6 sm:mb-10 flex flex-col items-center justify-center relative">
-            <span className="inline-flex items-center justify-center px-5 py-2 rounded-full bg-accent text-accent-foreground font-black text-xs sm:text-sm tracking-widest shadow-md mb-4">
-              {t("services.maintenancePack.badge")}
-            </span>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-foreground tracking-tight text-center">
-              {t("services.maintenancePack.sectionTitle")}
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-center" style={{ fontWeight: 900 }}>
+              <span className="text-accent">{t("services.maintenancePack.sectionTitle")}</span>
             </h2>
-            <p className="text-accent font-black tracking-wide text-base sm:text-lg mt-1 sm:mt-2 text-center">{t("services.maintenancePack.sectionSubtitle")}</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 max-w-5xl mx-auto px-4 sm:px-0 mb-12">
             {[
@@ -375,13 +361,10 @@ export default function Servicios() {
       <section className="py-12 sm:py-20 bg-background relative" id="proceso">
         <div className="w-full px-5 sm:px-8">
           <div className="text-center mb-8 sm:mb-16 flex flex-col items-center justify-center relative">
-            <span className="inline-flex items-center justify-center px-5 py-2 rounded-full bg-accent text-accent-foreground font-black text-xs sm:text-sm tracking-widest shadow-md mb-4">
-              {t("services.management.badge")}
-            </span>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-foreground tracking-tight text-center">
-              {t("services.management.title")}
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-center" style={{ fontWeight: 900 }}>
+              <span className="text-accent">{t("services.management.title")}</span>
             </h2>
-            <p className="text-accent font-black tracking-wide text-base sm:text-lg mt-1 sm:mt-2 text-center">
+            <p className="text-muted-foreground text-base sm:text-lg mt-2 sm:mt-3 text-center">
               {t("services.management.subtitle")}
             </p>
           </div>
