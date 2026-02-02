@@ -997,13 +997,15 @@
       "title": "Freelancer in Spain",
       "subtitle": "Self-employed regime",
       "irpf": "Income Tax (by brackets)",
-      "socialSecurity": "Social Security"
+      "socialSecurity": "Social Security",
+      "vat": "VAT (21%)"
     },
     "usllc": {
       "title": "US LLC",
       "subtitle": "No physical presence in USA",
       "federalTax": "US Federal Tax",
-      "selfEmployment": "US Self-Employment Tax"
+      "selfEmployment": "US Self-Employment Tax",
+      "vat": "VAT / Sales Tax"
     },
     "totalTaxes": "Total taxes",
     "effectiveRate": "Effective rate",

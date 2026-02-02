@@ -64,7 +64,10 @@ function calculateSpanishTaxes(grossIncome: number): TaxBreakdown {
     if (remainingIncome <= 0) break;
   }
   
-  const total = irpf + socialSecurity;
+  // IVA 21% - se calcula sobre los ingresos brutos
+  const vat = grossIncome * 0.21;
+  
+  const total = irpf + socialSecurity + vat;
   const netIncome = grossIncome - total;
   const effectiveRate = grossIncome > 0 ? (total / grossIncome) * 100 : 0;
   
@@ -72,7 +75,7 @@ function calculateSpanishTaxes(grossIncome: number): TaxBreakdown {
     income: grossIncome,
     irpf: Math.round(irpf),
     socialSecurity: Math.round(socialSecurity),
-    vat: 0,
+    vat: Math.round(vat),
     corporateTax: 0,
     total: Math.round(total),
     netIncome: Math.round(netIncome),
@@ -203,6 +206,10 @@ export function TaxComparator() {
                     <span className="text-sm text-muted-foreground">{t("taxComparator.spanish.socialSecurity")}</span>
                     <span className="font-black text-red-600 dark:text-red-400">{formatCurrency(spanishTaxes.socialSecurity)}</span>
                   </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm text-muted-foreground">{t("taxComparator.spanish.vat")}</span>
+                    <span className="font-black text-red-600 dark:text-red-400">{formatCurrency(spanishTaxes.vat)}</span>
+                  </div>
                   <div className="border-t border-red-200 dark:border-red-800 pt-4">
                     <div className="flex justify-between items-center">
                       <span className="font-black text-foreground">{t("taxComparator.totalTaxes")}</span>
@@ -240,6 +247,10 @@ export function TaxComparator() {
                   </div>
                   <div className="flex justify-between items-center">
                     <span className="text-sm text-muted-foreground">{t("taxComparator.usllc.selfEmployment")}</span>
+                    <span className="font-black text-accent">{formatCurrency(0)}</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm text-muted-foreground">{t("taxComparator.usllc.vat")}</span>
                     <span className="font-black text-accent">{formatCurrency(0)}</span>
                   </div>
                   <div className="border-t border-accent/20 pt-4">

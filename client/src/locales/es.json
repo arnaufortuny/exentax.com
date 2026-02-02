@@ -997,13 +997,15 @@
       "title": "Autónomo en España",
       "subtitle": "Régimen de autónomos",
       "irpf": "IRPF (según tramos)",
-      "socialSecurity": "Cuota de autónomos"
+      "socialSecurity": "Cuota de autónomos",
+      "vat": "IVA (21%)"
     },
     "usllc": {
       "title": "LLC en Estados Unidos",
       "subtitle": "Sin presencia física en USA",
       "federalTax": "Impuesto Federal USA",
-      "selfEmployment": "Cuota autónomos USA"
+      "selfEmployment": "Cuota autónomos USA",
+      "vat": "IVA / Sales Tax"
     },
     "totalTaxes": "Total impuestos",
     "effectiveRate": "Tipo efectivo",
