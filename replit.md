@@ -7,6 +7,9 @@ Easy US LLC provides business formation services, specifically for LLCs in New M
 I want to be communicated with in a clear and concise manner. I prefer explanations that are easy to understand, avoiding overly technical jargon. I appreciate an iterative development approach where I can provide feedback throughout the process. Please ask for my approval before implementing any significant changes to the codebase or design.
 
 ## Recent Changes (February 2026)
+- **Footer Logo**: Updated footer to display logo-icon.png (h-24) instead of text in both mobile and desktop views
+- **Tax Comparator Centering**: Fixed mobile centering for email capture section
+- **Data-testid Attributes**: Added 16 data-testid attributes to footer navigation links for testing
 - **Custom Icons**: Updated calendar, email, and money icons with custom branded images
 - **Operating Agreement Generator**: Full i18n support with 93 translation keys, auto-save to Document Center
 - **LLC Data Locking**: When EIN is assigned, LLC data becomes locked for data integrity
