@@ -51,35 +51,79 @@ const LinktreePage = lazy(() => lazyRetry(() => import("@/pages/linktree")));
 
 interface ErrorBoundaryState {
   hasError: boolean;
+  errorCount: number;
 }
 
 class ErrorBoundary extends Component<{ children: ReactNode; fallback?: ReactNode }, ErrorBoundaryState> {
+  private retryTimeout: ReturnType<typeof setTimeout> | null = null;
+
   constructor(props: { children: ReactNode; fallback?: ReactNode }) {
     super(props);
-    this.state = { hasError: false };
+    this.state = { hasError: false, errorCount: 0 };
   }
 
-  static getDerivedStateFromError(): ErrorBoundaryState {
+  static getDerivedStateFromError(): Partial<ErrorBoundaryState> {
     return { hasError: true };
   }
 
   componentDidCatch(error: Error): void {
     console.error('Page load error:', error);
+    const newCount = this.state.errorCount + 1;
+    this.setState({ errorCount: newCount });
+    
+    if (newCount < 3) {
+      this.retryTimeout = setTimeout(() => {
+        this.setState({ hasError: false });
+      }, 1500);
+    }
   }
+
+  componentWillUnmount(): void {
+    if (this.retryTimeout) {
+      clearTimeout(this.retryTimeout);
+    }
+  }
+
+  handleRetry = (): void => {
+    this.setState({ hasError: false, errorCount: 0 });
+  };
+
+  handleReload = (): void => {
+    window.location.reload();
+  };
 
   render(): ReactNode {
     if (this.state.hasError) {
+      if (this.state.errorCount < 3) {
+        return (
+          <div className="min-h-screen bg-background flex flex-col items-center justify-center p-4">
+            <div className="text-center space-y-4">
+              <div className="w-8 h-8 border-4 border-accent border-t-transparent rounded-full animate-spin mx-auto" />
+              <p className="text-muted-foreground">Reintentando...</p>
+            </div>
+          </div>
+        );
+      }
+      
       return this.props.fallback || (
         <div className="min-h-screen bg-background flex flex-col items-center justify-center p-4">
           <div className="text-center space-y-4">
             <h2 className="text-xl font-semibold text-foreground">Error al cargar</h2>
             <p className="text-muted-foreground">Hubo un problema al cargar la página.</p>
-            <button
-              onClick={() => window.location.reload()}
-              className="px-4 py-2 bg-accent text-white rounded-md font-medium"
-            >
-              Recargar página
-            </button>
+            <div className="flex gap-2 justify-center">
+              <button
+                onClick={this.handleRetry}
+                className="px-4 py-2 bg-muted text-foreground rounded-md font-medium"
+              >
+                Reintentar
+              </button>
+              <button
+                onClick={this.handleReload}
+                className="px-4 py-2 bg-accent text-white rounded-md font-medium"
+              >
+                Recargar página
+              </button>
+            </div>
           </div>
         </div>
       );

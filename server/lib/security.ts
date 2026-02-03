@@ -55,6 +55,7 @@ export type AuditAction =
   | 'user_register'
   | 'password_change'
   | 'password_reset'
+  | 'admin_password_reset'
   | 'order_created'
   | 'order_status_change'
   | 'order_completed'

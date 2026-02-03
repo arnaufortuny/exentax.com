@@ -99,6 +99,10 @@ export const getQueryFn: <T>(options: {
     return await res.json();
   };
 
+function retryDelayFn(attempt: number): number {
+  return Math.min(1000 * Math.pow(2, attempt), 10000);
+}
+
 export const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -107,13 +111,13 @@ export const queryClient = new QueryClient({
       refetchOnWindowFocus: false,
       staleTime: 1000 * 60 * 2,
       gcTime: 1000 * 60 * 10,
-      retry: 1,
-      retryDelay: 1000,
+      retry: 3,
+      retryDelay: retryDelayFn,
       networkMode: 'offlineFirst',
     },
     mutations: {
-      retry: 1,
-      retryDelay: 500,
+      retry: 2,
+      retryDelay: retryDelayFn,
       networkMode: 'offlineFirst',
     },
   },
