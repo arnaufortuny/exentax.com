@@ -92,7 +92,7 @@ The application uses custom branded SVG icons stored in `client/src/assets/icons
 - `calendar-icon.svg` - Custom calendar icon for fiscal calendar widget (48x48, brand colors #22C55E/#DCFCE7)
 - `money-icon.svg` - Custom money/bill icon for financial displays (48x48, brand colors)
 - `tracking-icon.svg` - Custom clock icon for "Seguimiento" in client panel (48x48, brand colors)
-- Email functionality uses Lucide `Mail` icon for consistency
+- `email-icon.svg` - Custom email envelope icon (48x48, uses currentColor fill)
 
 ## External Dependencies
 - **Drizzle ORM:** Database interaction.
