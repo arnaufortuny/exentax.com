@@ -92,7 +92,7 @@
     },
     "banking": {
       "badge": "Banking",
-      "title": "International banking",
+      "title": "About banks and opening bank accounts",
       "text": "We guide you through the process of opening bank accounts at Mercury and Relay. Access a business account in USD, with the ability to receive and send international transfers and have a physical debit and credit card to operate globally.",
       "footer": "International physical card."
     }
@@ -318,8 +318,8 @@
       "subtitle": "(What your maintenance includes)"
     },
     "process": {
-      "title": "OUR",
-      "titleHighlight": "PROCESS",
+      "title": "WHAT WE'LL DO FOR YOU",
+      "titleHighlight": "WITH THE MAINTENANCE PACK",
       "subtitle": "What your annual maintenance includes",
       "steps": {
         "1": {
@@ -354,13 +354,14 @@
     "packs": "OUR PROPOSALS",
     "formation": "TO OPTIMIZE YOUR TAXES",
     "maintenance": {
-      "packs": "MAINTENANCE",
-      "name": "PACKS"
+      "packs": "OUR",
+      "name": "MAINTENANCE PROPOSALS",
+      "subtitle": "From the second year onwards"
     }
   },
   "stateComparison": {
     "title": "COMPARE",
-    "titleHighlight": "THE STATES",
+    "titleHighlight": "OUR PROPOSALS",
     "subtitle": "Each state has its advantages. Find the one that best fits your business.",
     "characteristic": "Feature",
     "popular": "Most Popular",
@@ -1388,8 +1389,8 @@
   "taxComparator": {
     "badge": "SAVINGS CALCULATOR",
     "title": "How much can you save?",
-    "titlePart1": "CALCULATE YOUR",
-    "titlePart2": "ANNUAL SAVINGS",
+    "titlePart1": "LET'S CALCULATE HOW MUCH",
+    "titlePart2": "YOU'D SAVE WITH YOUR LLC",
     "subtitle": "Compare your current tax situation vs a US LLC",
     "taxes": "TAXES",
     "selectCountry": "WHERE DO YOU WORK FROM?",

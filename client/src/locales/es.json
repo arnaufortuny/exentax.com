@@ -92,7 +92,7 @@
     },
     "banking": {
       "badge": "Banca",
-      "title": "Banca internacional",
+      "title": "Sobre bancos y aperturas de cuentas bancarias",
       "text": "Te acompañamos en el proceso de apertura de cuentas bancarias en Mercury y Relay. Accede a una cuenta empresarial en USD, con capacidad para recibir y enviar transferencias internacionales y disponer de tarjeta física de débito y crédito para operar a nivel global.",
       "footer": "Tarjeta física internacional."
     }
@@ -318,8 +318,8 @@
       "subtitle": "(Lo que incluye tu mantenimiento)"
     },
     "process": {
-      "title": "NUESTRO",
-      "titleHighlight": "PROCESO",
+      "title": "QUÉ HAREMOS POR TI",
+      "titleHighlight": "CON EL PACK DE MANTENIMIENTO",
       "subtitle": "Lo que incluye tu mantenimiento anual",
       "steps": {
         "1": {
@@ -354,13 +354,14 @@
     "packs": "NUESTRAS PROPUESTAS",
     "formation": "PARA OPTIMIZAR TU FISCALIDAD",
     "maintenance": {
-      "packs": "PACKS",
-      "name": "MANTENIMIENTO"
+      "packs": "NUESTRAS PROPUESTAS DE",
+      "name": "MANTENIMIENTO",
+      "subtitle": "A partir del segundo año"
     }
   },
   "stateComparison": {
     "title": "COMPARA",
-    "titleHighlight": "LOS ESTADOS",
+    "titleHighlight": "NUESTRAS PROPUESTAS",
     "subtitle": "Cada estado tiene sus ventajas. Encuentra el que mejor se adapta a tu negocio.",
     "characteristic": "Característica",
     "popular": "Más Popular",
@@ -1388,8 +1389,8 @@
   "taxComparator": {
     "badge": "CALCULADORA DE AHORRO",
     "title": "¿Cuánto puedes ahorrar?",
-    "titlePart1": "CALCULA TU",
-    "titlePart2": "AHORRO ANUAL",
+    "titlePart1": "CALCULEMOS CUÁNTO TE AHORRARÍAS",
+    "titlePart2": "CON TU LLC",
     "subtitle": "Compara tu situación fiscal actual vs una LLC en Estados Unidos",
     "taxes": "IMPUESTOS",
     "selectCountry": "¿DESDE QUÉ PAÍS TRABAJAS?",
