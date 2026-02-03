@@ -138,7 +138,7 @@ export function Footer() {
               <img src={mercuryLogo} alt="Mercury" className="h-12 sm:h-14 w-auto brightness-0 invert hue-rotate-[80deg] saturate-150" />
             </a>
             <a href="https://relayfi.com" target="_blank" rel="noopener noreferrer" className="opacity-80 hover:opacity-100 transition-opacity" data-testid="link-partner-relay">
-              <img src={relayLogo} alt="Relay" className="h-12 sm:h-14 w-auto" />
+              <img src={relayLogo} alt="Relay" className="h-12 sm:h-14 w-auto brightness-0 invert sepia saturate-[10] hue-rotate-[85deg]" />
             </a>
           </div>
         </div>
