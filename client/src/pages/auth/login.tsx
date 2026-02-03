@@ -4,6 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { Link, useLocation } from "wouter";
 import { Loader2, Eye, EyeOff } from "lucide-react";
+import { Input } from "@/components/ui/input";
 import { useTranslation } from "react-i18next";
 
 import { Navbar } from "@/components/layout/navbar";
@@ -28,6 +29,8 @@ export default function Login() {
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [loginError, setLoginError] = useState<string | null>(null);
+  const [requiresSecurityOtp, setRequiresSecurityOtp] = useState(false);
+  const [securityOtp, setSecurityOtp] = useState("");
   const { toast } = useToast();
 
   const loginSchema = useMemo(() => createLoginSchema(t), [t]);
@@ -48,8 +51,17 @@ export default function Login() {
     setIsLoading(true);
     setLoginError(null);
     try {
-      const res = await apiRequest("POST", "/api/auth/login", data);
+      const res = await apiRequest("POST", "/api/auth/login", {
+        ...data,
+        securityOtp: requiresSecurityOtp ? securityOtp : undefined
+      });
       const result = await res.json();
+      
+      if (result.requiresSecurityOtp) {
+        setRequiresSecurityOtp(true);
+        toast({ title: t("auth.login.securityOtpSent"), description: t("auth.login.securityOtpDesc") });
+        return;
+      }
       
       if (result.success) {
         await queryClient.refetchQueries({ queryKey: ["/api/auth/user"] });
@@ -126,6 +138,27 @@ export default function Login() {
                     {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                   </Button>
                 </div>
+
+                {requiresSecurityOtp && (
+                  <div className="space-y-2">
+                    <div className="bg-accent/10 border border-accent/30 rounded-xl p-4 text-center mb-4">
+                      <p className="text-sm font-bold text-foreground mb-1">{t("auth.login.securityVerification")}</p>
+                      <p className="text-xs text-muted-foreground">{t("auth.login.securityVerificationDesc")}</p>
+                    </div>
+                    <label className="text-xs font-bold text-foreground tracking-wide block">
+                      {t("auth.login.securityCode")}
+                    </label>
+                    <Input
+                      type="text"
+                      value={securityOtp}
+                      onChange={(e) => setSecurityOtp(e.target.value.replace(/\D/g, "").slice(0, 6))}
+                      placeholder="000000"
+                      maxLength={6}
+                      className="h-12 text-center text-xl tracking-[0.5em] font-bold rounded-full"
+                      data-testid="input-security-otp"
+                    />
+                  </div>
+                )}
 
                 <div className="text-center">
                   <Link href="/auth/forgot-password">

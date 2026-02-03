@@ -458,7 +458,12 @@
       "genericError": "Ha ocurrido un error inesperado",
       "welcomeBack": "¡Bienvenido!",
       "welcomeBackDesc": "Has iniciado sesión correctamente",
-      "signIn": "Iniciar sesión"
+      "signIn": "Iniciar sesión",
+      "securityOtpSent": "Código de verificación enviado",
+      "securityOtpDesc": "Por seguridad, hemos enviado un código a tu email",
+      "securityVerification": "Verificación de seguridad",
+      "securityVerificationDesc": "Hemos enviado un código de 6 dígitos a tu email. Introdúcelo para continuar.",
+      "securityCode": "Código de verificación"
     },
     "register": {
       "title": "Crea tu",

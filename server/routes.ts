@@ -7,7 +7,7 @@ import { z } from "zod";
 import { insertLlcApplicationSchema, insertApplicationDocumentSchema } from "@shared/schema";
 import type { Request, Response } from "express";
 import { db } from "./db";
-import { sendEmail, sendTrustpilotEmail, getOtpEmailTemplate, getConfirmationEmailTemplate, getWelcomeEmailTemplate, getNewsletterWelcomeTemplate, getAutoReplyTemplate, getEmailFooter, getEmailHeader, getOrderUpdateTemplate, getNoteReceivedTemplate, getAccountDeactivatedTemplate, getAccountUnderReviewTemplate, getOrderCompletedTemplate, getAccountVipTemplate, getAccountReactivatedTemplate, getAdminNoteTemplate, getPaymentRequestTemplate, getDocumentRequestTemplate, getDocumentUploadedTemplate, getMessageReplyTemplate, getPasswordChangeOtpTemplate, getOrderEventTemplate, getAdminLLCOrderTemplate, getAdminMaintenanceOrderTemplate, getAccountPendingVerificationTemplate } from "./lib/email";
+import { sendEmail, sendTrustpilotEmail, getOtpEmailTemplate, getConfirmationEmailTemplate, getWelcomeEmailTemplate, getNewsletterWelcomeTemplate, getAutoReplyTemplate, getEmailFooter, getEmailHeader, getOrderUpdateTemplate, getNoteReceivedTemplate, getAccountDeactivatedTemplate, getAccountUnderReviewTemplate, getOrderCompletedTemplate, getAccountVipTemplate, getAccountReactivatedTemplate, getAdminNoteTemplate, getPaymentRequestTemplate, getDocumentRequestTemplate, getDocumentUploadedTemplate, getMessageReplyTemplate, getPasswordChangeOtpTemplate, getOrderEventTemplate, getAdminLLCOrderTemplate, getAdminMaintenanceOrderTemplate, getAccountPendingVerificationTemplate, getAdminPasswordResetTemplate } from "./lib/email";
 import { contactOtps, products as productsTable, users as usersTable, maintenanceApplications, newsletterSubscribers, messages as messagesTable, orderEvents, messageReplies, userNotifications, orders as ordersTable, llcApplications as llcApplicationsTable, applicationDocuments as applicationDocumentsTable, discountCodes, calculatorConsultations } from "@shared/schema";
 import { and, eq, gt, desc, sql, isNotNull, inArray } from "drizzle-orm";
 import { checkRateLimit, sanitizeHtml, logAudit, getSystemHealth, getClientIp, getRecentAuditLogs } from "./lib/security";
@@ -894,11 +894,7 @@ export async function registerRoutes(
       await sendEmail({
         to: user.email,
         subject: "Tu contraseña ha sido restablecida",
-        html: `${getEmailHeader('Contraseña Restablecida')}
-          <p>Hola ${user.firstName || 'Cliente'},</p>
-          <p>Tu contraseña ha sido restablecida por un administrador.</p>
-          <p>Si no solicitaste este cambio, por favor contacta con soporte inmediatamente.</p>
-          ${getEmailFooter()}`
+        html: getAdminPasswordResetTemplate(user.firstName || 'Cliente')
       }).catch(() => {});
     }
     

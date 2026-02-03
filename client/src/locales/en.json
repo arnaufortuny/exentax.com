@@ -458,7 +458,13 @@
       "errorDesc": "Check your email or password",
       "invalidCredentials": "Invalid email or password",
       "userNotFound": "User not found",
-      "genericError": "Error signing in"
+      "genericError": "Error signing in",
+      "signIn": "Sign in",
+      "securityOtpSent": "Verification code sent",
+      "securityOtpDesc": "For security, we've sent a code to your email",
+      "securityVerification": "Security verification",
+      "securityVerificationDesc": "We've sent a 6-digit code to your email. Enter it to continue.",
+      "securityCode": "Verification code"
     },
     "register": {
       "title": "Create your",

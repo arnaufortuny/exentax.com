@@ -121,9 +121,9 @@ export default function ForgotPassword() {
 
   if (step === 'success') {
     return (
-      <div className="min-h-screen bg-background font-sans">
+      <div className="min-h-screen bg-background font-sans flex flex-col">
         <Navbar />
-        <main className="pt-24 pb-16 px-5 sm:px-6 flex flex-col items-center justify-center min-h-[80vh]">
+        <main className="flex-1 flex flex-col items-center justify-center px-5 sm:px-6">
           <div className="w-full max-w-md text-center">
             <div className="w-16 h-16 bg-accent rounded-full flex items-center justify-center mx-auto mb-6">
               <CheckCircle2 className="w-8 h-8 text-primary" />
