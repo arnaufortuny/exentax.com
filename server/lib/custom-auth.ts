@@ -575,7 +575,7 @@ export function setupCustomAuth(app: Express) {
   });
 }
 
-// Middleware to check if account is under review (restricts most actions)
+// Middleware to check if account is under review or deactivated (restricts most actions)
 export const isNotUnderReview: RequestHandler = async (req, res, next) => {
   if (!req.session.userId) {
     return res.status(401).json({ message: "No autenticado" });
@@ -587,6 +587,13 @@ export const isNotUnderReview: RequestHandler = async (req, res, next) => {
     return res.status(403).json({ 
       message: "Tu cuenta está en revisión. Nuestro equipo está realizando comprobaciones de seguridad.",
       code: "ACCOUNT_UNDER_REVIEW"
+    });
+  }
+  
+  if (user?.accountStatus === 'deactivated') {
+    return res.status(403).json({ 
+      message: "Tu cuenta ha sido desactivada. Contacta a nuestro equipo de soporte para más información.",
+      code: "ACCOUNT_DEACTIVATED"
     });
   }
   
