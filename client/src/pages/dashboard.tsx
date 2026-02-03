@@ -1,6 +1,7 @@
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { useAuth } from "@/hooks/use-auth";
+import { usePageTitle } from "@/hooks/use-page-title";
 import { useTranslation } from "react-i18next";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { queryClient, apiRequest } from "@/lib/queryClient";
@@ -67,6 +68,7 @@ export default function Dashboard() {
   const [, setLocation] = useLocation();
   const { user, isAuthenticated, isLoading: authLoading } = useAuth();
   const { t } = useTranslation();
+  usePageTitle();
   const [activeTab, setActiveTab] = useState<Tab>('services');
   const [isEditing, setIsEditing] = useState(false);
   const [profileData, setProfileData] = useState({ 

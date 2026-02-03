@@ -4,9 +4,11 @@ import { useState, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { SiWhatsapp } from "react-icons/si";
 import { Button } from "@/components/ui/button";
+import { usePageTitle } from "@/hooks/use-page-title";
 
 export default function FAQ() {
   const { t } = useTranslation();
+  usePageTitle();
   const [openItems, setOpenItems] = useState<Record<string, number | null>>({});
   const [searchQuery, setSearchQuery] = useState("");
 

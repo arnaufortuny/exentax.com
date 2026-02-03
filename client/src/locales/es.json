@@ -1548,5 +1548,77 @@
         "corporateServices": "Servicios de Formación y Cumplimiento Corporativo"
       }
     }
+  },
+  "seo": {
+    "home": {
+      "title": "Easy US LLC | Constituye tu LLC en Estados Unidos",
+      "description": "En Easy US LLC ayudamos a emprendedores y negocios digitales a constituir y gestionar su LLC en Estados Unidos de forma simple."
+    },
+    "servicios": {
+      "title": "Servicios y Precios | Easy US LLC",
+      "description": "Descubre nuestros packs de formación de LLC en New Mexico, Wyoming y Delaware. Precios transparentes desde 739€."
+    },
+    "faq": {
+      "title": "Preguntas Frecuentes | Easy US LLC",
+      "description": "Resuelve todas tus dudas sobre la formación de LLC en Estados Unidos. Centro de ayuda completo."
+    },
+    "contacto": {
+      "title": "Contacto | Easy US LLC",
+      "description": "Contacta con nuestro equipo de expertos en formación de LLC en Estados Unidos."
+    },
+    "dashboard": {
+      "title": "Mi Panel | Easy US LLC",
+      "description": "Gestiona tu LLC, documentos y servicios desde tu panel personal."
+    },
+    "formation": {
+      "title": "Crear LLC | Easy US LLC",
+      "description": "Inicia el proceso de creación de tu LLC en Estados Unidos. Formulario simple y seguro."
+    },
+    "maintenance": {
+      "title": "Mantenimiento LLC | Easy US LLC",
+      "description": "Renueva el mantenimiento anual de tu LLC. Agente registrado y cumplimiento incluido."
+    },
+    "login": {
+      "title": "Iniciar Sesión | Easy US LLC",
+      "description": "Accede a tu cuenta de Easy US LLC para gestionar tu empresa."
+    },
+    "register": {
+      "title": "Crear Cuenta | Easy US LLC",
+      "description": "Crea tu cuenta gratuita en Easy US LLC."
+    },
+    "forgotPassword": {
+      "title": "Recuperar Contraseña | Easy US LLC",
+      "description": "Recupera el acceso a tu cuenta de Easy US LLC."
+    },
+    "invoice": {
+      "title": "Generador de Facturas | Easy US LLC",
+      "description": "Crea facturas profesionales para tu LLC de forma gratuita."
+    },
+    "calculator": {
+      "title": "Calculadora de Ahorro Fiscal | Easy US LLC",
+      "description": "Calcula cuánto puedes ahorrar en impuestos con una LLC en Estados Unidos."
+    },
+    "operatingAgreement": {
+      "title": "Generador Operating Agreement | Easy US LLC",
+      "description": "Genera el Operating Agreement de tu LLC de forma automática."
+    },
+    "legal": {
+      "terminos": {
+        "title": "Términos y Condiciones | Easy US LLC",
+        "description": "Consulta los términos y condiciones de uso de Easy US LLC."
+      },
+      "privacidad": {
+        "title": "Política de Privacidad | Easy US LLC",
+        "description": "Consulta nuestra política de privacidad y protección de datos."
+      },
+      "reembolsos": {
+        "title": "Política de Reembolsos | Easy US LLC",
+        "description": "Consulta nuestra política de reembolsos y devoluciones."
+      },
+      "cookies": {
+        "title": "Política de Cookies | Easy US LLC",
+        "description": "Información sobre el uso de cookies en Easy US LLC."
+      }
+    }
   }
 }

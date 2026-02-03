@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { HeroSection } from "@/components/layout/hero-section";
+import { usePageTitle } from "@/hooks/use-page-title";
 import type { Product } from "@shared/schema";
 import howWeWorkImage from "@assets/how-we-work-process.png";
 import trustpilotLogo from "@/assets/trustpilot-logo.png";
@@ -14,6 +15,7 @@ import trustpilotLogo from "@/assets/trustpilot-logo.png";
 export default function Home() {
   const [location, setLocation] = useLocation();
   const { t } = useTranslation();
+  usePageTitle();
   
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);

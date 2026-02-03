@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useTranslation } from "react-i18next";
+import { usePageTitle } from "@/hooks/use-page-title";
 import { PRICING, getFormationPriceFormatted } from "@shared/config/pricing";
 
 import { Check, Loader2, Eye, EyeOff } from "lucide-react";
@@ -76,6 +77,7 @@ type FormValues = z.infer<ReturnType<typeof createFormSchema>>;
 
 export default function LlcFormation() {
   const { t } = useTranslation();
+  usePageTitle();
   const { user, isAuthenticated } = useAuth();
   const [location, setLocation] = useLocation();
   const [step, setStep] = useState(0);

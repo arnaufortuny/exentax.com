@@ -1548,5 +1548,77 @@
         "corporateServices": "Corporate Formation and Compliance Services"
       }
     }
+  },
+  "seo": {
+    "home": {
+      "title": "Easy US LLC | Form Your US LLC",
+      "description": "Easy US LLC helps entrepreneurs and digital businesses form and manage their US LLC simply and affordably."
+    },
+    "servicios": {
+      "title": "Services & Pricing | Easy US LLC",
+      "description": "Discover our LLC formation packages in New Mexico, Wyoming and Delaware. Transparent pricing from €739."
+    },
+    "faq": {
+      "title": "Frequently Asked Questions | Easy US LLC",
+      "description": "Find answers to all your questions about US LLC formation. Complete help center."
+    },
+    "contacto": {
+      "title": "Contact | Easy US LLC",
+      "description": "Contact our team of US LLC formation experts."
+    },
+    "dashboard": {
+      "title": "My Dashboard | Easy US LLC",
+      "description": "Manage your LLC, documents and services from your personal dashboard."
+    },
+    "formation": {
+      "title": "Create LLC | Easy US LLC",
+      "description": "Start the process of creating your US LLC. Simple and secure form."
+    },
+    "maintenance": {
+      "title": "LLC Maintenance | Easy US LLC",
+      "description": "Renew your LLC annual maintenance. Registered agent and compliance included."
+    },
+    "login": {
+      "title": "Sign In | Easy US LLC",
+      "description": "Access your Easy US LLC account to manage your business."
+    },
+    "register": {
+      "title": "Create Account | Easy US LLC",
+      "description": "Create your free Easy US LLC account."
+    },
+    "forgotPassword": {
+      "title": "Reset Password | Easy US LLC",
+      "description": "Recover access to your Easy US LLC account."
+    },
+    "invoice": {
+      "title": "Invoice Generator | Easy US LLC",
+      "description": "Create professional invoices for your LLC for free."
+    },
+    "calculator": {
+      "title": "Tax Savings Calculator | Easy US LLC",
+      "description": "Calculate how much you can save on taxes with a US LLC."
+    },
+    "operatingAgreement": {
+      "title": "Operating Agreement Generator | Easy US LLC",
+      "description": "Generate your LLC Operating Agreement automatically."
+    },
+    "legal": {
+      "terminos": {
+        "title": "Terms and Conditions | Easy US LLC",
+        "description": "Review Easy US LLC's terms and conditions of use."
+      },
+      "privacidad": {
+        "title": "Privacy Policy | Easy US LLC",
+        "description": "Review our privacy and data protection policy."
+      },
+      "reembolsos": {
+        "title": "Refund Policy | Easy US LLC",
+        "description": "Review our refund and return policy."
+      },
+      "cookies": {
+        "title": "Cookie Policy | Easy US LLC",
+        "description": "Information about the use of cookies on Easy US LLC."
+      }
+    }
   }
 }

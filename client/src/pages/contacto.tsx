@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useTranslation } from "react-i18next";
+import { usePageTitle } from "@/hooks/use-page-title";
 
 import { Loader2 } from "lucide-react";
 import { SocialLogin } from "@/components/auth/social-login";
@@ -38,6 +39,7 @@ type FormValues = z.infer<ReturnType<typeof createFormSchema>>;
 export default function Contacto() {
   const { user, isAuthenticated } = useAuth();
   const { t } = useTranslation();
+  usePageTitle();
   const [step, setStep] = useState(0);
   const [hasAutoSkipped, setHasAutoSkipped] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);

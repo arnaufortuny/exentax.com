@@ -14,10 +14,12 @@ import { motion } from "framer-motion";
 import { apiRequest } from "@/lib/queryClient";
 import { ChevronDown, Check, ArrowRight } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { usePageTitle } from "@/hooks/use-page-title";
 
 export default function Servicios() {
   const [, setLocation] = useLocation();
   const { t } = useTranslation();
+  usePageTitle();
 
   useEffect(() => {
     if (window.location.hash === '#pricing') {
