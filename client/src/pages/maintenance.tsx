@@ -464,25 +464,28 @@ export default function MaintenanceApplication() {
                 {step === 0 && (
                   <div key="step-0" className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
-                      1️⃣ ¿Ya tienes una LLC creada?
+                      1️⃣ {t("maintenance.steps.hasLLC")}
                     </h2>
-                    <FormDescription>Para saber desde dónde partimos</FormDescription>
+                    <FormDescription>{t("maintenance.steps.hasLLCDesc")}</FormDescription>
                     <FormField control={form.control} name="creationSource" render={({ field }) => (
                       <FormItem className="space-y-3">
                         <FormControl>
                           <div className="flex flex-col gap-3">
-                            {["Sí", "No (en ese caso, te orientamos primero)"].map((opt) => (
+                            {[
+                              { value: "Sí", label: t("maintenance.steps.hasLLCYes") },
+                              { value: "No (en ese caso, te orientamos primero)", label: t("maintenance.steps.hasLLCNo") }
+                            ].map((opt) => (
                               <label 
-                                key={opt} 
-                                onClick={() => field.onChange(opt)}
+                                key={opt.value} 
+                                onClick={() => field.onChange(opt.value)}
                                 className={`flex items-center justify-between gap-3 p-4 rounded-full border-2 cursor-pointer transition-all active:scale-[0.98] ${
-                                  field.value === opt 
+                                  field.value === opt.value 
                                     ? 'border-accent bg-accent/10 dark:bg-accent/20' 
                                     : 'border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 hover:border-accent/50'
                                 }`}
                               >
-                                <span className="font-bold text-foreground text-sm md:text-base">{opt}</span>
-                                {field.value === opt && <Check className="w-5 h-5 text-accent flex-shrink-0" />}
+                                <span className="font-bold text-foreground text-sm md:text-base">{opt.label}</span>
+                                {field.value === opt.value && <Check className="w-5 h-5 text-accent flex-shrink-0" />}
                               </label>
                             ))}
                           </div>
@@ -490,13 +493,13 @@ export default function MaintenanceApplication() {
                         <FormMessage />
                       </FormItem>
                     )} />
-                    <Button type="button" onClick={nextStep} className="w-full bg-accent hover:bg-accent/90 text-black font-bold h-12 rounded-full text-base transition-all">Continuar</Button>
+                    <Button type="button" onClick={nextStep} className="w-full bg-accent hover:bg-accent/90 text-black font-bold h-12 rounded-full text-base transition-all">{t("maintenance.buttons.continue")}</Button>
                     
                     {!isAuthenticated && (
                       <div className="space-y-4 pt-4">
                         <div className="flex items-center gap-3">
                           <div className="flex-1 h-px bg-border" />
-                          <span className="text-xs text-muted-foreground font-medium">o continúa de forma rápida</span>
+                          <span className="text-xs text-muted-foreground font-medium">{t("maintenance.steps.orContinueQuickly")}</span>
                           <div className="flex-1 h-px bg-border" />
                         </div>
                         
@@ -512,11 +515,11 @@ export default function MaintenanceApplication() {
                             <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
                             <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
                           </svg>
-                          Acceder con Google
+                          {t("maintenance.steps.accessWithGoogle")}
                         </Button>
                         
                         <p className="text-center text-xs text-muted-foreground">
-                          o <Link href="/auth/login" className="text-accent font-bold underline">inicia sesión</Link> con email para ir más rápido
+                          {t("maintenance.steps.orLoginWithEmail").split("inicia sesión")[0]}<Link href="/auth/login" className="text-accent font-bold underline">{t("auth.login")}</Link>{t("maintenance.steps.orLoginWithEmail").includes("para ir más rápido") ? " " + t("maintenance.steps.orLoginWithEmail").split("para ir más rápido")[0].split("inicia sesión")[1] + t("maintenance.steps.orLoginWithEmail").split("para ir más rápido")[1] : ""}
                         </p>
                       </div>
                     )}
@@ -527,21 +530,21 @@ export default function MaintenanceApplication() {
                 {step === 1 && (
                   <div key={"step-" + step} className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
-                      2️⃣ Nombre completo
+                      2️⃣ {t("maintenance.steps.fullName")}
                     </h2>
-                    <FormDescription>El de los documentos oficiales</FormDescription>
+                    <FormDescription>{t("maintenance.steps.fullNameDesc")}</FormDescription>
                     <FormField control={form.control} name="ownerFullName" render={({ field }) => (
                       <FormItem>
                         <FormLabel className="text-sm md:text-base font-bold text-foreground flex items-center gap-2">
-                          Nombre completo:
+                          {t("maintenance.steps.fullNameLabel")}
                         </FormLabel>
                         <FormControl><Input {...field} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base"  /></FormControl>
                         <FormMessage />
                       </FormItem>
                     )} />
                     <div className="flex gap-3 max-w-md mx-auto">
-                      <Button type="button" variant="outline" onClick={prevStep} className="rounded-full h-12 px-6 font-bold border-border transition-all">Volver</Button>
-                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">Continuar</Button>
+                      <Button type="button" variant="outline" onClick={prevStep} className="rounded-full h-12 px-6 font-bold border-border transition-all">{t("maintenance.buttons.back")}</Button>
+                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">{t("maintenance.buttons.continue")}</Button>
                     </div>
                   </div>
                 )}
@@ -550,21 +553,21 @@ export default function MaintenanceApplication() {
                 {step === 2 && (
                   <div key={"step-" + step} className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
-                      3️⃣ Teléfono de contacto
+                      3️⃣ {t("maintenance.steps.phone")}
                     </h2>
-                    <FormDescription>Para avisos importantes y comunicación rápida</FormDescription>
+                    <FormDescription>{t("maintenance.steps.phoneDesc")}</FormDescription>
                     <FormField control={form.control} name="ownerPhone" render={({ field }) => (
                       <FormItem>
                         <FormLabel className="text-sm md:text-base font-bold text-foreground flex items-center gap-2">
-                          Teléfono:
+                          {t("maintenance.steps.phoneLabel")}
                         </FormLabel>
                         <FormControl><Input {...field} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base"  /></FormControl>
                         <FormMessage />
                       </FormItem>
                     )} />
                     <div className="flex gap-3 max-w-md mx-auto">
-                      <Button type="button" variant="outline" onClick={prevStep} className="rounded-full h-12 px-6 font-bold border-border transition-all">Volver</Button>
-                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">Continuar</Button>
+                      <Button type="button" variant="outline" onClick={prevStep} className="rounded-full h-12 px-6 font-bold border-border transition-all">{t("maintenance.buttons.back")}</Button>
+                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">{t("maintenance.buttons.continue")}</Button>
                     </div>
                   </div>
                 )}
@@ -573,21 +576,21 @@ export default function MaintenanceApplication() {
                 {step === 3 && (
                   <div key={"step-" + step} className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
-                      4️⃣ Email
+                      4️⃣ {t("maintenance.steps.email")}
                     </h2>
-                    <FormDescription>Aquí recibirás recordatorios y documentación</FormDescription>
+                    <FormDescription>{t("maintenance.steps.emailDesc")}</FormDescription>
                     <FormField control={form.control} name="ownerEmail" render={({ field }) => (
                       <FormItem>
                         <FormLabel className="text-sm md:text-base font-bold text-foreground flex items-center gap-2">
-                          Email:
+                          {t("maintenance.steps.emailLabel")}
                         </FormLabel>
                         <FormControl><Input {...field} type="email" inputMode="email" className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base"  /></FormControl>
                         <FormMessage />
                       </FormItem>
                     )} />
                     <div className="flex gap-3 max-w-md mx-auto">
-                      <Button type="button" variant="outline" onClick={prevStep} className="rounded-full h-12 px-6 font-bold border-border transition-all">Volver</Button>
-                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">Continuar</Button>
+                      <Button type="button" variant="outline" onClick={prevStep} className="rounded-full h-12 px-6 font-bold border-border transition-all">{t("maintenance.buttons.back")}</Button>
+                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">{t("maintenance.buttons.continue")}</Button>
                     </div>
                   </div>
                 )}
@@ -596,21 +599,21 @@ export default function MaintenanceApplication() {
                 {step === 4 && (
                   <div key={"step-" + step} className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
-                      5️⃣ Nombre legal de la LLC
+                      5️⃣ {t("maintenance.steps.companyName")}
                     </h2>
-                    <FormDescription>Tal y como figura en los documentos oficiales</FormDescription>
+                    <FormDescription>{t("maintenance.steps.companyNameDesc")}</FormDescription>
                     <FormField control={form.control} name="companyName" render={({ field }) => (
                       <FormItem>
                         <FormLabel className="text-sm md:text-base font-bold text-foreground flex items-center gap-2">
-                          Nombre de la LLC:
+                          {t("maintenance.steps.companyNameLabel")}
                         </FormLabel>
                         <FormControl><Input {...field} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base"  /></FormControl>
                         <FormMessage />
                       </FormItem>
                     )} />
                     <div className="flex gap-3 max-w-md mx-auto">
-                      <Button type="button" variant="outline" onClick={prevStep} className="rounded-full h-12 px-6 font-bold border-border transition-all">Volver</Button>
-                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">Continuar</Button>
+                      <Button type="button" variant="outline" onClick={prevStep} className="rounded-full h-12 px-6 font-bold border-border transition-all">{t("maintenance.buttons.back")}</Button>
+                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">{t("maintenance.buttons.continue")}</Button>
                     </div>
                   </div>
                 )}
@@ -619,21 +622,21 @@ export default function MaintenanceApplication() {
                 {step === 5 && (
                   <div key={"step-" + step} className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
-                      6️⃣ EIN
+                      6️⃣ {t("maintenance.steps.ein")}
                     </h2>
-                    <FormDescription>El número fiscal de tu empresa en EE. UU.</FormDescription>
+                    <FormDescription>{t("maintenance.steps.einDesc")}</FormDescription>
                     <FormField control={form.control} name="ein" render={({ field }) => (
                       <FormItem>
                         <FormLabel className="text-sm md:text-base font-bold text-foreground flex items-center gap-2">
-                          EIN:
+                          {t("maintenance.steps.einLabel")}
                         </FormLabel>
                         <FormControl><Input {...field} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base"  /></FormControl>
                         <FormMessage />
                       </FormItem>
                     )} />
                     <div className="flex gap-3 max-w-md mx-auto">
-                      <Button type="button" variant="outline" onClick={prevStep} className="rounded-full h-12 px-6 font-bold border-border transition-all">Volver</Button>
-                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">Continuar</Button>
+                      <Button type="button" variant="outline" onClick={prevStep} className="rounded-full h-12 px-6 font-bold border-border transition-all">{t("maintenance.buttons.back")}</Button>
+                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">{t("maintenance.buttons.continue")}</Button>
                     </div>
                   </div>
                 )}
@@ -642,18 +645,18 @@ export default function MaintenanceApplication() {
                 {step === 6 && (
                   <div key={"step-" + step} className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight">
-                      7️⃣ Detalles de tu LLC
+                      7️⃣ {t("maintenance.steps.llcDetails")}
                     </h2>
-                    <FormDescription>Información sobre la constitución y situación actual</FormDescription>
+                    <FormDescription>{t("maintenance.steps.llcDetailsDesc")}</FormDescription>
                     
                     <FormField control={form.control} name="state" render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-sm md:text-base font-bold text-foreground">Estado de constitución</FormLabel>
+                        <FormLabel className="text-sm md:text-base font-bold text-foreground">{t("maintenance.steps.stateLabel")}</FormLabel>
                         <FormControl>
                           <NativeSelect 
                             value={field.value || ""} 
                             onValueChange={field.onChange}
-                            placeholder="Seleccionar estado"
+                            placeholder={t("maintenance.steps.selectState")}
                             className="rounded-full h-14 px-6 border-border bg-white dark:bg-zinc-900 font-bold text-foreground text-lg"
                           >
                             <NativeSelectItem value="New Mexico">New Mexico</NativeSelectItem>
@@ -666,7 +669,7 @@ export default function MaintenanceApplication() {
                     
                     <FormField control={form.control} name="creationYear" render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-sm md:text-base font-bold text-foreground">Año de creación</FormLabel>
+                        <FormLabel className="text-sm md:text-base font-bold text-foreground">{t("maintenance.steps.creationYearLabel")}</FormLabel>
                         <FormControl>
                           <Input {...field} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" />
                         </FormControl>
@@ -676,18 +679,18 @@ export default function MaintenanceApplication() {
                     
                     <FormField control={form.control} name="bankAccount" render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-sm md:text-base font-bold text-foreground">Cuenta bancaria USA (opcional)</FormLabel>
+                        <FormLabel className="text-sm md:text-base font-bold text-foreground">{t("maintenance.steps.bankAccountLabel")}</FormLabel>
                         <FormControl>
                           <NativeSelect 
                             value={field.value || ""} 
                             onValueChange={field.onChange}
-                            placeholder="Selecciona si tienes cuenta"
+                            placeholder={t("maintenance.steps.selectBankAccount")}
                             className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800"
                           >
                             <NativeSelectItem value="Mercury">Mercury</NativeSelectItem>
                             <NativeSelectItem value="Relay">Relay</NativeSelectItem>
-                            <NativeSelectItem value="Otro banco">Otro banco</NativeSelectItem>
-                            <NativeSelectItem value="No tengo cuenta">No tengo cuenta</NativeSelectItem>
+                            <NativeSelectItem value="Otro banco">{t("maintenance.steps.otherBank")}</NativeSelectItem>
+                            <NativeSelectItem value="No tengo cuenta">{t("maintenance.steps.noAccount")}</NativeSelectItem>
                           </NativeSelect>
                         </FormControl>
                       </FormItem>
@@ -695,27 +698,27 @@ export default function MaintenanceApplication() {
                     
                     <FormField control={form.control} name="paymentGateway" render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-sm md:text-base font-bold text-foreground">Pasarela de pagos (opcional)</FormLabel>
+                        <FormLabel className="text-sm md:text-base font-bold text-foreground">{t("maintenance.steps.paymentGatewayLabel")}</FormLabel>
                         <FormControl>
                           <NativeSelect 
                             value={field.value || ""} 
                             onValueChange={field.onChange}
-                            placeholder="Selecciona pasarela"
+                            placeholder={t("maintenance.steps.selectPaymentGateway")}
                             className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800"
                           >
                             <NativeSelectItem value="Stripe">Stripe</NativeSelectItem>
                             <NativeSelectItem value="PayPal">PayPal</NativeSelectItem>
-                            <NativeSelectItem value="Stripe y PayPal">Stripe y PayPal</NativeSelectItem>
-                            <NativeSelectItem value="Otra">Otra</NativeSelectItem>
-                            <NativeSelectItem value="Ninguna">Ninguna</NativeSelectItem>
+                            <NativeSelectItem value="Stripe y PayPal">{t("maintenance.steps.stripeAndPaypal")}</NativeSelectItem>
+                            <NativeSelectItem value="Otra">{t("maintenance.steps.other")}</NativeSelectItem>
+                            <NativeSelectItem value="Ninguna">{t("maintenance.steps.none")}</NativeSelectItem>
                           </NativeSelect>
                         </FormControl>
                       </FormItem>
                     )} />
                     
                     <div className="flex gap-3 max-w-md mx-auto">
-                      <Button type="button" variant="outline" onClick={prevStep} className="rounded-full h-12 px-6 font-bold border-border transition-all">Volver</Button>
-                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">Continuar</Button>
+                      <Button type="button" variant="outline" onClick={prevStep} className="rounded-full h-12 px-6 font-bold border-border transition-all">{t("maintenance.buttons.back")}</Button>
+                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">{t("maintenance.buttons.continue")}</Button>
                     </div>
                   </div>
                 )}
@@ -724,9 +727,9 @@ export default function MaintenanceApplication() {
                 {step === 7 && (
                   <div key={"step-" + step} className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight">
-                      8️⃣ Actividad
+                      8️⃣ {t("maintenance.steps.activity")}
                     </h2>
-                    <FormDescription>Tipo de negocio o producto</FormDescription>
+                    <FormDescription>{t("maintenance.steps.activityDesc")}</FormDescription>
                     <FormField control={form.control} name="businessActivity" render={({ field }) => (
                       <FormItem>
                         <FormControl><Textarea {...field} className="rounded-[2rem] min-h-[120px] p-6 border-border focus:border-accent transition-all font-bold text-foreground placeholder:text-primary/30 text-lg"  /></FormControl>
@@ -734,8 +737,8 @@ export default function MaintenanceApplication() {
                       </FormItem>
                     )} />
                     <div className="flex gap-3 max-w-md mx-auto">
-                      <Button type="button" variant="outline" onClick={prevStep} className="rounded-full h-12 px-6 font-bold border-border transition-all">Volver</Button>
-                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">Continuar</Button>
+                      <Button type="button" variant="outline" onClick={prevStep} className="rounded-full h-12 px-6 font-bold border-border transition-all">{t("maintenance.buttons.back")}</Button>
+                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">{t("maintenance.buttons.continue")}</Button>
                     </div>
                   </div>
                 )}
@@ -744,25 +747,30 @@ export default function MaintenanceApplication() {
                 {step === 8 && (
                   <div key={"step-" + step} className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
-                      9️⃣ ¿Qué necesitas gestionar?
+                      9️⃣ {t("maintenance.steps.services")}
                     </h2>
-                    <FormDescription>Marca lo que aplique</FormDescription>
+                    <FormDescription>{t("maintenance.steps.servicesDesc")}</FormDescription>
                     <FormField control={form.control} name="expectedServices" render={({ field }) => (
                       <FormItem className="space-y-3">
                         <FormControl>
                           <div className="flex flex-col gap-3">
-                            {["Recordatorios y cumplimiento anual", "Presentación de documentos obligatorios", "Soporte durante el año", "Revisión general de la situación de la LLC"].map(opt => (
-                              <label key={opt} className="flex items-center gap-3 p-4 rounded-[2rem] border border-border bg-white dark:bg-zinc-900 hover:border-accent cursor-pointer transition-all active:scale-[0.98]">
+                            {[
+                              { value: "Recordatorios y cumplimiento anual", label: t("maintenance.steps.serviceReminders") },
+                              { value: "Presentación de documentos obligatorios", label: t("maintenance.steps.serviceDocuments") },
+                              { value: "Soporte durante el año", label: t("maintenance.steps.serviceSupport") },
+                              { value: "Revisión general de la situación de la LLC", label: t("maintenance.steps.serviceReview") }
+                            ].map(opt => (
+                              <label key={opt.value} className="flex items-center gap-3 p-4 rounded-[2rem] border border-border bg-white dark:bg-zinc-900 hover:border-accent cursor-pointer transition-all active:scale-[0.98]">
                                 <Checkbox 
-                                  checked={field.value?.split(", ").includes(opt)}
+                                  checked={field.value?.split(", ").includes(opt.value)}
                                   onCheckedChange={(checked) => {
                                     const current = field.value ? field.value.split(", ") : [];
-                                    const next = checked ? [...current, opt] : current.filter(v => v !== opt);
+                                    const next = checked ? [...current, opt.value] : current.filter(v => v !== opt.value);
                                     field.onChange(next.join(", "));
                                   }}
                                   className="border-border data-[state=checked]:bg-accent data-[state=checked]:border-[#6EDC8A]"
                                 />
-                                <span className="font-black text-sm text-primary">{opt}</span>
+                                <span className="font-black text-sm text-primary">{opt.label}</span>
                               </label>
                             ))}
                           </div>
@@ -770,8 +778,8 @@ export default function MaintenanceApplication() {
                       </FormItem>
                     )} />
                     <div className="flex gap-3 max-w-md mx-auto">
-                      <Button type="button" variant="outline" onClick={prevStep} className="rounded-full h-12 px-6 font-bold border-border transition-all">Volver</Button>
-                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">Continuar</Button>
+                      <Button type="button" variant="outline" onClick={prevStep} className="rounded-full h-12 px-6 font-bold border-border transition-all">{t("maintenance.buttons.back")}</Button>
+                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">{t("maintenance.buttons.continue")}</Button>
                     </div>
                   </div>
                 )}
@@ -780,25 +788,29 @@ export default function MaintenanceApplication() {
                 {step === 9 && (
                   <div key={"step-" + step} className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight">
-                      1️⃣0️⃣ ¿Deseas disolver tu LLC?
+                      1️⃣0️⃣ {t("maintenance.steps.dissolve")}
                     </h2>
-                    <FormDescription>Si necesitas cerrar la empresa de forma correcta y ordenada</FormDescription>
+                    <FormDescription>{t("maintenance.steps.dissolveDesc")}</FormDescription>
                     <FormField control={form.control} name="wantsDissolve" render={({ field }) => (
                       <FormItem className="space-y-3">
                         <FormControl>
                           <div className="flex flex-col gap-3">
-                            {["No", "Sí, quiero disolver mi LLC", "Quiero que me expliquéis primero el proceso"].map((opt) => (
+                            {[
+                              { value: "No", label: t("maintenance.steps.dissolveNo") },
+                              { value: "Sí, quiero disolver mi LLC", label: t("maintenance.steps.dissolveYes") },
+                              { value: "Quiero que me expliquéis primero el proceso", label: t("maintenance.steps.dissolveExplain") }
+                            ].map((opt) => (
                               <label 
-                                key={opt} 
-                                onClick={() => field.onChange(opt)}
+                                key={opt.value} 
+                                onClick={() => field.onChange(opt.value)}
                                 className={`flex items-center justify-between gap-3 p-4 rounded-full border-2 cursor-pointer transition-all active:scale-[0.98] ${
-                                  field.value === opt 
+                                  field.value === opt.value 
                                     ? 'border-accent bg-accent/10 dark:bg-accent/20' 
                                     : 'border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 hover:border-accent/50'
                                 }`}
                               >
-                                <span className="font-bold text-foreground text-sm md:text-base">{opt}</span>
-                                {field.value === opt && <Check className="w-5 h-5 text-accent flex-shrink-0" />}
+                                <span className="font-bold text-foreground text-sm md:text-base">{opt.label}</span>
+                                {field.value === opt.value && <Check className="w-5 h-5 text-accent flex-shrink-0" />}
                               </label>
                             ))}
                           </div>
@@ -807,8 +819,8 @@ export default function MaintenanceApplication() {
                       </FormItem>
                     )} />
                     <div className="flex gap-3 max-w-md mx-auto">
-                      <Button type="button" variant="outline" onClick={prevStep} className="rounded-full h-12 px-6 font-bold border-border transition-all">Volver</Button>
-                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">Continuar</Button>
+                      <Button type="button" variant="outline" onClick={prevStep} className="rounded-full h-12 px-6 font-bold border-border transition-all">{t("maintenance.buttons.back")}</Button>
+                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">{t("maintenance.buttons.continue")}</Button>
                     </div>
                   </div>
                 )}
@@ -817,9 +829,9 @@ export default function MaintenanceApplication() {
                 {step === 10 && (
                   <div key={"step-" + step} className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-bold text-foreground border-b border-[#6EDC8A]/20 pb-2 leading-tight flex items-center gap-2">
-                      Crea tu cuenta
+                      {t("maintenance.steps.createAccount")}
                     </h2>
-                    <p className="text-sm text-muted-foreground">Para gestionar tu pedido necesitas una cuenta. Primero verifica tu email.</p>
+                    <p className="text-sm text-muted-foreground">{t("maintenance.steps.createAccountDesc")}</p>
                     
                     {!isAuthenticated && (
                       <div className="space-y-6">
@@ -840,18 +852,18 @@ export default function MaintenanceApplication() {
                                 data-testid="button-send-otp"
                               >
                                 {isSendingOtp ? <Loader2 className="w-5 h-5 animate-spin mr-2" /> : null}
-                                {isSendingOtp ? "Enviando..." : "Enviar código de verificación"}
+                                {isSendingOtp ? t("maintenance.steps.sending") : t("maintenance.steps.sendVerificationCode")}
                               </Button>
                             ) : (
                               <div className="space-y-4">
                                 <div className="bg-green-50 border border-green-200 rounded-xl p-4 text-center">
                                   <span className="text-2xl font-black text-green-600 block mb-2">✓</span>
-                                  <p className="text-sm font-bold text-green-700">Código enviado a tu email</p>
-                                  <p className="text-xs text-green-600">Revisa tu bandeja de entrada (y spam)</p>
+                                  <p className="text-sm font-bold text-green-700">{t("maintenance.steps.codeSentToEmail")}</p>
+                                  <p className="text-xs text-green-600">{t("maintenance.steps.checkInbox")}</p>
                                 </div>
                                 
                                 <div>
-                                  <label className="text-xs font-bold text-foreground tracking-widest block mb-2">Código de verificación</label>
+                                  <label className="text-xs font-bold text-foreground tracking-widest block mb-2">{t("maintenance.steps.verificationCode")}</label>
                                   <Input 
                                     type="text" 
                                     value={otpCode}
@@ -870,7 +882,7 @@ export default function MaintenanceApplication() {
                                   data-testid="button-verify-otp"
                                 >
                                   {isVerifyingOtp ? <Loader2 className="w-5 h-5 animate-spin mr-2" /> : null}
-                                  {isVerifyingOtp ? "Verificando..." : "Verificar código"}
+                                  {isVerifyingOtp ? t("maintenance.steps.verifying") : t("maintenance.steps.verifyCode")}
                                 </Button>
                                 
                                 <button 
@@ -878,7 +890,7 @@ export default function MaintenanceApplication() {
                                   onClick={() => { setIsOtpSent(false); setOtpCode(""); }}
                                   className="text-xs text-[#6EDC8A] underline w-full text-center"
                                 >
-                                  Reenviar código
+                                  {t("maintenance.steps.resendCode")}
                                 </button>
                               </div>
                             )}
@@ -890,12 +902,12 @@ export default function MaintenanceApplication() {
                           <div className="space-y-4">
                             <div className="bg-green-50 border border-green-200 rounded-xl p-4 text-center mb-4">
                               <span className="text-2xl font-black text-green-600 block mb-2">✓</span>
-                              <p className="text-sm font-bold text-green-700">Email verificado</p>
+                              <p className="text-sm font-bold text-green-700">{t("maintenance.steps.emailVerified")}</p>
                             </div>
                             
                             <FormField control={form.control} name="password" render={({ field }) => (
                               <FormItem>
-                                <FormLabel className="text-xs font-bold text-foreground tracking-widest">Contraseña</FormLabel>
+                                <FormLabel className="text-xs font-bold text-foreground tracking-widest">{t("maintenance.steps.password")}</FormLabel>
                                 <FormControl>
                                   <Input {...field} type="password"  className="rounded-full p-6 border-border focus:border-accent" data-testid="input-password" />
                                 </FormControl>
@@ -904,7 +916,7 @@ export default function MaintenanceApplication() {
                             )} />
                             <FormField control={form.control} name="confirmPassword" render={({ field }) => (
                               <FormItem>
-                                <FormLabel className="text-xs font-bold text-foreground tracking-widest">Confirmar Contraseña</FormLabel>
+                                <FormLabel className="text-xs font-bold text-foreground tracking-widest">{t("maintenance.steps.confirmPassword")}</FormLabel>
                                 <FormControl>
                                   <Input {...field} type="password"  className="rounded-full p-6 border-border focus:border-accent" data-testid="input-confirm-password" />
                                 </FormControl>
@@ -919,13 +931,13 @@ export default function MaintenanceApplication() {
                     {isAuthenticated && (
                       <div className="bg-green-50 border border-green-200 rounded-2xl p-6 text-center">
                         <span className="text-3xl font-black text-green-600 block mb-2">✓</span>
-                        <p className="text-sm font-black text-green-700">Ya tienes cuenta activa</p>
-                        <p className="text-xs text-green-600">Continúa con el siguiente paso</p>
+                        <p className="text-sm font-black text-green-700">{t("maintenance.steps.emailVerified")}</p>
+                        <p className="text-xs text-green-600">{t("maintenance.buttons.continue")}</p>
                       </div>
                     )}
                     
                     <div className="flex gap-3 max-w-md mx-auto">
-                      <Button type="button" variant="outline" onClick={prevStep} className="rounded-full h-12 px-6 font-bold border-border transition-all">Volver</Button>
+                      <Button type="button" variant="outline" onClick={prevStep} className="rounded-full h-12 px-6 font-bold border-border transition-all">{t("maintenance.buttons.back")}</Button>
                       <Button 
                         type="button" 
                         onClick={nextStep} 
@@ -933,7 +945,7 @@ export default function MaintenanceApplication() {
                         className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all disabled:opacity-50"
                         data-testid="button-next-step-10"
                       >
-                        Continuar
+                        {t("maintenance.buttons.continue")}
                       </Button>
                     </div>
                   </div>
@@ -943,12 +955,12 @@ export default function MaintenanceApplication() {
                 {step === 11 && (
                   <div key={"step-" + step} className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-bold text-foreground border-b border-[#6EDC8A]/20 pb-2 leading-tight">
-                      1️⃣1️⃣ Método de Pago
+                      1️⃣1️⃣ {t("maintenance.payment.title")}
                     </h2>
-                    <p className="text-sm text-muted-foreground">Selecciona cómo deseas realizar el pago del servicio de mantenimiento.</p>
+                    <p className="text-sm text-muted-foreground">{t("maintenance.payment.desc")}</p>
                     
                     <div className="bg-accent text-primary p-6 rounded-[2rem] text-center mb-6">
-                      <p className="text-[10px] font-black tracking-widest opacity-50 mb-1">Total a pagar</p>
+                      <p className="text-[10px] font-black tracking-widest opacity-50 mb-1">{t("maintenance.payment.totalToPay")}</p>
                       <p className="text-3xl font-black">
                         {discountInfo?.valid 
                           ? `${((maintenancePrice - discountInfo.discountAmount) / 100).toFixed(2)} €` 
@@ -957,11 +969,11 @@ export default function MaintenanceApplication() {
                       {discountInfo?.valid && (
                         <p className="text-xs line-through opacity-60">{(maintenancePrice / 100).toFixed(2)} €</p>
                       )}
-                      <p className="text-[10px] opacity-80">Mantenimiento Anual</p>
+                      <p className="text-[10px] opacity-80">{t("maintenance.payment.annualMaintenance")}</p>
                     </div>
 
                     <div className="space-y-3 p-5 rounded-2xl border-2 border-border bg-white dark:bg-zinc-900 mb-6">
-                      <label className="font-bold text-foreground text-sm block">Código de descuento</label>
+                      <label className="font-bold text-foreground text-sm block">{t("maintenance.payment.discountCode")}</label>
                       <div className="flex gap-2">
                         <FormField control={form.control} name="discountCode" render={({ field }) => (
                           <FormItem className="flex-1">
@@ -986,13 +998,13 @@ export default function MaintenanceApplication() {
                           className="rounded-full h-11 px-6 font-black border-border"
                           data-testid="button-validate-discount"
                         >
-                          {isValidatingDiscount ? <Loader2 className="w-4 h-4 animate-spin" /> : "Aplicar"}
+                          {isValidatingDiscount ? <Loader2 className="w-4 h-4 animate-spin" /> : t("maintenance.payment.apply")}
                         </Button>
                       </div>
                       {discountInfo && (
                         <div className={`text-sm p-3 rounded-xl ${discountInfo.valid ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-700'}`}>
                           {discountInfo.valid 
-                            ? `Descuento aplicado: -${(discountInfo.discountAmount / 100).toFixed(2)}€` 
+                            ? `${t("maintenance.payment.discountApplied")}: -${(discountInfo.discountAmount / 100).toFixed(2)}€` 
                             : discountInfo.message}
                         </div>
                       )}
@@ -1004,22 +1016,22 @@ export default function MaintenanceApplication() {
                           <label className={`flex items-start gap-4 p-5 rounded-2xl border-2 cursor-pointer transition-all ${field.value === 'transfer' ? 'border-[#6EDC8A] bg-accent/5' : 'border-border bg-white dark:bg-zinc-900 hover:border-accent/50'}`}>
                             <input type="radio" {...field} value="transfer" checked={field.value === 'transfer'} className="w-5 h-5 accent-[#6EDC8A] mt-1" />
                             <div className="flex-1">
-                              <span className="font-bold text-foreground text-sm block mb-2">Transferencia Bancaria</span>
+                              <span className="font-bold text-foreground text-sm block mb-2">{t("maintenance.payment.bankTransfer")}</span>
                               <div className="bg-gray-50 dark:bg-zinc-800 rounded-xl p-4 text-xs space-y-1">
-                                <p><span className="opacity-60">Beneficiario:</span> <span className="font-bold">Fortuny Consulting LLC</span></p>
-                                <p><span className="opacity-60">Número de cuenta:</span> <span className="font-bold font-mono">141432778929495</span></p>
-                                <p><span className="opacity-60">Número de ruta:</span> <span className="font-bold font-mono">121145433</span></p>
-                                <p><span className="opacity-60">Banco:</span> <span className="font-bold">Column N.A.</span></p>
+                                <p><span className="opacity-60">{t("maintenance.payment.beneficiary")}:</span> <span className="font-bold">Fortuny Consulting LLC</span></p>
+                                <p><span className="opacity-60">{t("maintenance.payment.accountNumber")}:</span> <span className="font-bold font-mono">141432778929495</span></p>
+                                <p><span className="opacity-60">{t("maintenance.payment.routingNumber")}:</span> <span className="font-bold font-mono">121145433</span></p>
+                                <p><span className="opacity-60">{t("maintenance.payment.bank")}:</span> <span className="font-bold">Column N.A.</span></p>
                                 <p className="opacity-60 text-[10px] pt-2">1 Letterman Drive, Building A, Suite A4-700, San Francisco, CA 94129</p>
-                                <p className="pt-2 text-[#6EDC8A] font-bold">Concepto: Tu número de pedido</p>
+                                <p className="pt-2 text-[#6EDC8A] font-bold">{t("maintenance.payment.conceptOrder")}</p>
                               </div>
                             </div>
                           </label>
                           <label className={`flex items-start gap-4 p-5 rounded-2xl border-2 cursor-pointer transition-all ${field.value === 'link' ? 'border-[#6EDC8A] bg-accent/5' : 'border-border bg-white dark:bg-zinc-900 hover:border-accent/50'}`}>
                             <input type="radio" {...field} value="link" checked={field.value === 'link'} className="w-5 h-5 accent-[#6EDC8A] mt-1" />
                             <div className="flex-1">
-                              <span className="font-bold text-foreground text-sm block mb-1">Link de Pago</span>
-                              <p className="text-xs text-muted-foreground">Recibirás un enlace de pago seguro por email para completar la transacción.</p>
+                              <span className="font-bold text-foreground text-sm block mb-1">{t("maintenance.payment.paymentLink")}</span>
+                              <p className="text-xs text-muted-foreground">{t("maintenance.payment.paymentLinkDesc")}</p>
                             </div>
                           </label>
                         </div>
@@ -1027,8 +1039,8 @@ export default function MaintenanceApplication() {
                     )} />
                     
                     <div className="flex gap-3 max-w-md mx-auto">
-                      <Button type="button" variant="outline" onClick={prevStep} className="rounded-full h-12 px-6 font-bold border-border transition-all">Volver</Button>
-                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">Continuar</Button>
+                      <Button type="button" variant="outline" onClick={prevStep} className="rounded-full h-12 px-6 font-bold border-border transition-all">{t("maintenance.buttons.back")}</Button>
+                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">{t("maintenance.buttons.continue")}</Button>
                     </div>
                   </div>
                 )}
@@ -1037,20 +1049,20 @@ export default function MaintenanceApplication() {
                 {step === 12 && (
                   <div key={"step-" + step} className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
-                      Último paso: Confirmación
+                      {t("maintenance.confirmation.title")}
                     </h2>
                     <div className="bg-accent/5 p-5 rounded-2xl border border-accent/20 text-xs space-y-2 mb-4">
-                      <p><span className="opacity-50">Nombre:</span> <span className="font-black">{form.getValues("ownerFullName")}</span></p>
-                      <p><span className="opacity-50">Email:</span> <span className="font-black">{form.getValues("ownerEmail")}</span></p>
-                      <p><span className="opacity-50">LLC:</span> <span className="font-black">{form.getValues("companyName")}</span></p>
-                      <p><span className="opacity-50">Estado:</span> <span className="font-black">{form.getValues("state")}</span></p>
+                      <p><span className="opacity-50">{t("maintenance.confirmation.name")}:</span> <span className="font-black">{form.getValues("ownerFullName")}</span></p>
+                      <p><span className="opacity-50">{t("maintenance.confirmation.email")}:</span> <span className="font-black">{form.getValues("ownerEmail")}</span></p>
+                      <p><span className="opacity-50">{t("maintenance.confirmation.llc")}:</span> <span className="font-black">{form.getValues("companyName")}</span></p>
+                      <p><span className="opacity-50">{t("maintenance.confirmation.state")}:</span> <span className="font-black">{form.getValues("state")}</span></p>
                       <p><span className="opacity-50">EIN:</span> <span className="font-black">{form.getValues("ein")}</span></p>
-                      <p><span className="opacity-50">Pago:</span> <span className="font-black">{form.getValues("paymentMethod") === 'transfer' ? 'Transferencia Bancaria' : 'Link de Pago'}</span></p>
+                      <p><span className="opacity-50">{t("maintenance.confirmation.payment")}:</span> <span className="font-black">{form.getValues("paymentMethod") === 'transfer' ? t("maintenance.confirmation.bankTransfer") : t("maintenance.confirmation.paymentLink")}</span></p>
                     </div>
                     
                     <FormField control={form.control} name="notes" render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-sm font-bold text-foreground">Notas adicionales (opcional)</FormLabel>
+                        <FormLabel className="text-sm font-bold text-foreground">{t("maintenance.confirmation.additionalNotes")}</FormLabel>
                         <FormControl>
                           <Textarea {...field} className="rounded-2xl min-h-[80px] p-4 border-border focus:border-accent transition-all text-foreground" />
                         </FormControl>
@@ -1062,7 +1074,7 @@ export default function MaintenanceApplication() {
                         <FormItem className="flex flex-row items-start space-x-3 space-y-0 p-4 rounded-2xl bg-gray-50 dark:bg-zinc-800">
                           <FormControl><Checkbox checked={field.value} onCheckedChange={field.onChange} /></FormControl>
                           <div className="space-y-1 leading-none">
-                            <FormLabel className="text-xs md:text-sm font-medium">Autorizo a Easy US LLC a gestionar administrativamente mi LLC ante los organismos competentes.</FormLabel>
+                            <FormLabel className="text-xs md:text-sm font-medium">{t("maintenance.confirmation.authorizedManagement")}</FormLabel>
                             <FormMessage />
                           </div>
                         </FormItem>
@@ -1071,7 +1083,7 @@ export default function MaintenanceApplication() {
                         <FormItem className="flex flex-row items-start space-x-3 space-y-0 p-4 rounded-2xl bg-gray-50 dark:bg-zinc-800">
                           <FormControl><Checkbox checked={field.value} onCheckedChange={field.onChange} /></FormControl>
                           <div className="space-y-1 leading-none">
-                            <FormLabel className="text-xs md:text-sm font-medium">Acepto el tratamiento de mis datos personales según la política de privacidad.</FormLabel>
+                            <FormLabel className="text-xs md:text-sm font-medium">{t("maintenance.confirmation.dataProcessing")}</FormLabel>
                             <FormMessage />
                           </div>
                         </FormItem>
@@ -1080,21 +1092,21 @@ export default function MaintenanceApplication() {
                         <FormItem className="flex flex-row items-start space-x-3 space-y-0 p-4 rounded-2xl bg-gray-50 dark:bg-zinc-800">
                           <FormControl><Checkbox checked={field.value} onCheckedChange={field.onChange} /></FormControl>
                           <div className="space-y-1 leading-none">
-                            <FormLabel className="text-xs md:text-sm font-medium">He leído y acepto los Términos y Condiciones de Easy US LLC.</FormLabel>
+                            <FormLabel className="text-xs md:text-sm font-medium">{t("maintenance.confirmation.termsConsent")}</FormLabel>
                             <FormMessage />
                           </div>
                         </FormItem>
                       )} />
                     </div>
                     <div className="flex gap-3 max-w-md mx-auto">
-                      <Button type="button" variant="outline" onClick={prevStep} className="rounded-full h-12 px-6 font-bold border-border transition-all">Volver</Button>
+                      <Button type="button" variant="outline" onClick={prevStep} className="rounded-full h-12 px-6 font-bold border-border transition-all">{t("maintenance.buttons.back")}</Button>
                       <Button 
                         type="submit" 
                         disabled={isSubmitting}
                         className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all disabled:opacity-50"
                       >
                         {isSubmitting ? <Loader2 className="w-5 h-5 animate-spin mr-2" /> : null}
-                        {isSubmitting ? "Enviando..." : "Enviar Solicitud"}
+                        {isSubmitting ? t("maintenance.confirmation.submitting") : t("maintenance.confirmation.submit")}
                       </Button>
                     </div>
                   </div>
@@ -1104,15 +1116,15 @@ export default function MaintenanceApplication() {
                 {step === 20 && (
                   <div key={"step-" + step} className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-bold text-foreground border-b border-[#6EDC8A]/20 pb-2 leading-tight flex items-center gap-2">
-                      Inicia sesión
+                      {t("maintenance.login.title")}
                     </h2>
                     
                     <div className="bg-accent/10 border border-[#6EDC8A]/30 rounded-2xl p-5 text-center">
                                             <p className="text-sm font-bold text-foreground mb-1">
-                        ¡Hola{existingUserName ? `, ${existingUserName}` : ""}!
+                        {t("maintenance.login.hello")}{existingUserName ? `, ${existingUserName}` : ""}!
                       </p>
                       <p className="text-xs text-muted-foreground">
-                        Ya tienes una cuenta con este email. Inicia sesión para continuar.
+                        {t("maintenance.login.existingAccount")}
                       </p>
                     </div>
 
@@ -1153,7 +1165,7 @@ export default function MaintenanceApplication() {
                         }}
                         className="rounded-full h-10 px-4 font-medium border-border transition-all"
                       >
-                        Usar otro email
+                        {t("auth.useAnotherEmail")}
                       </Button>
                       <Button
                         type="button"
@@ -1163,13 +1175,13 @@ export default function MaintenanceApplication() {
                         data-testid="button-login-submit"
                       >
                         {isCheckingEmail ? <Loader2 className="w-5 h-5 animate-spin mr-2" /> : null}
-                        Iniciar sesión
+                        {t("auth.login.submit")}
                       </Button>
                     </div>
 
                     <div className="text-center">
                       <a href="/recuperar" className="text-xs text-[#6EDC8A] hover:underline">
-                        ¿Olvidaste tu contraseña?
+                        {t("maintenance.login.forgotPassword")}
                       </a>
                     </div>
                   </div>

@@ -7,6 +7,7 @@ Easy US LLC provides business formation services, specifically for LLCs in New M
 I want to be communicated with in a clear and concise manner. I prefer explanations that are easy to understand, avoiding overly technical jargon. I appreciate an iterative development approach where I can provide feedback throughout the process. Please ask for my approval before implementing any significant changes to the codebase or design.
 
 ## Recent Changes (February 2026)
+- **Maintenance Form i18n**: Complete internationalization of /llc/maintenance form with 80+ translation keys covering all 12 form steps, payment methods, OTP verification, login flow, and confirmation. All hardcoded Spanish text replaced with t() function calls.
 - **Footer Logo**: Updated footer to display logo-icon.png (h-24) instead of text in both mobile and desktop views
 - **Tax Comparator Centering**: Fixed mobile centering for email capture section
 - **Data-testid Attributes**: Added 16 data-testid attributes to footer navigation links for testing
