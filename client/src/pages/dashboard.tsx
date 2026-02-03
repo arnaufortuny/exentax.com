@@ -695,10 +695,10 @@ export default function Dashboard() {
                   <span className="text-2xl sm:text-3xl font-black text-red-500">!</span>
                 </div>
                 <h1 className="text-xl sm:text-2xl md:text-3xl font-black text-foreground tracking-tight mb-3 sm:mb-4">
-                  Cuenta desactivada
+                  {t("dashboard.accountDeactivated.title")}
                 </h1>
                 <p className="text-sm sm:text-base text-muted-foreground font-medium leading-relaxed mb-6 sm:mb-8">
-                  Tu cuenta ha sido desactivada. Contacta con soporte si tienes dudas.
+                  {t("dashboard.accountDeactivated.message")}
                 </p>
                 <Button 
                   variant="outline" 
@@ -706,7 +706,7 @@ export default function Dashboard() {
                   onClick={() => apiRequest("POST", "/api/logout").then(() => window.location.href = "/")}
                   data-testid="button-logout"
                 >
-                  Cerrar Sesión
+                  {t("nav.logout")}
                 </Button>
               </CardContent>
             </Card>

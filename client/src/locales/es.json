@@ -936,6 +936,10 @@
     "subtitle": "Aquí gestionas todo lo relacionado con tu LLC, de forma simple y clara.",
     "clientArea": "Área de Clientes",
     "newLLC": "Constituir una nueva LLC",
+    "accountDeactivated": {
+      "title": "Cuenta desactivada",
+      "message": "Tu cuenta ha sido desactivada. Contacta con soporte si tienes dudas."
+    },
     "menu": {
       "services": "Mis trámites",
       "servicesMobile": "Trámites",

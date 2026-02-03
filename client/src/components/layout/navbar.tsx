@@ -159,7 +159,7 @@ export function Navbar() {
             <Link href={isAuthenticated ? "/dashboard" : "/auth/login"}>
               <Button 
                 variant="outline"
-                className="border-2 border-accent text-accent hover:bg-accent hover:text-accent-foreground bg-white dark:bg-card rounded-full px-4 h-10 text-sm font-black flex items-center gap-2"
+                className="border-2 border-accent text-accent hover:bg-accent hover:text-accent-foreground bg-white dark:bg-zinc-800 dark:text-accent dark:border-accent rounded-full px-4 h-10 text-sm font-black flex items-center gap-2"
                 data-testid={isAuthenticated ? "link-mobile-dashboard" : "button-mobile-login"}
               >
                 <UserIcon className="w-4 h-4" />
