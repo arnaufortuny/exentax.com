@@ -88,14 +88,29 @@ export default function Servicios() {
         className="flex flex-col items-center justify-center text-center pt-32 sm:pt-24 min-h-[450px] sm:min-h-[auto] w-full"
         showOverlay={false}
         title={
-          <motion.h1 
-            className="text-4xl sm:text-5xl lg:text-7xl font-black text-foreground tracking-tight leading-[1.1] text-center uppercase will-change-[transform,opacity]"
-            variants={heroTitle}
-            initial="hidden"
-            animate="visible"
-          >
-            {t("services.heroTitle")} <span className="text-accent">{t("services.heroTitleHighlight")}</span>
-          </motion.h1>
+          <>
+            <div className="mb-4 sm:hidden flex justify-center">
+              <a href="https://es.trustpilot.com/review/easyusllc.com" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-white dark:bg-white px-4 py-2.5 rounded-full shadow-md border border-border">
+                <img src={trustpilotLogo} alt="Trustpilot" className="h-6 w-auto" />
+                <div className="flex gap-0.5">
+                  {[1,2,3,4,5].map((star) => (
+                    <svg key={star} className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="#00b67a">
+                      <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+                    </svg>
+                  ))}
+                </div>
+                <span className="text-black text-xs font-black">5/5</span>
+              </a>
+            </div>
+            <motion.h1 
+              className="text-4xl sm:text-5xl lg:text-7xl font-black text-foreground tracking-tight leading-[1.1] text-center uppercase will-change-[transform,opacity]"
+              variants={heroTitle}
+              initial="hidden"
+              animate="visible"
+            >
+              {t("services.heroTitle")} <span className="text-accent">{t("services.heroTitleHighlight")}</span>
+            </motion.h1>
+          </>
         }
         subtitle={
             <div className="flex flex-col items-center justify-center w-full mt-6 sm:mt-8">
@@ -130,19 +145,6 @@ export default function Servicios() {
       <section className="py-16 sm:py-20 bg-background relative" id="que-hacemos">
         <div className="w-full px-5 sm:px-8">
           <div className="text-center mb-10 sm:mb-14 flex flex-col items-center justify-center relative">
-            <div className="mb-6 sm:hidden flex justify-center">
-              <a href="https://es.trustpilot.com/review/easyusllc.com" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-white dark:bg-white px-4 py-2.5 rounded-full shadow-md border border-border">
-                <img src={trustpilotLogo} alt="Trustpilot" className="h-6 w-auto" />
-                <div className="flex gap-0.5">
-                  {[1,2,3,4,5].map((star) => (
-                    <svg key={star} className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="#00b67a">
-                      <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
-                    </svg>
-                  ))}
-                </div>
-                <span className="text-black text-xs font-black">5/5</span>
-              </a>
-            </div>
             <motion.h2 
               className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-center leading-[1.1] will-change-[transform,opacity]" 
               style={{ fontWeight: 900 }}
