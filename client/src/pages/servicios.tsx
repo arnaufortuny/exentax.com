@@ -365,8 +365,8 @@ export default function Servicios() {
         <div className="w-full px-5 sm:px-8">
           <div className="text-center mb-8 sm:mb-16 flex flex-col items-center justify-center relative">
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-center" style={{ fontWeight: 900 }}>
-              <span className="text-foreground">NUESTRO</span>{" "}
-              <span className="text-accent">PROCESO</span>
+              <span className="text-foreground">{t("services.process.title")}</span>{" "}
+              <span className="text-accent">{t("services.process.titleHighlight")}</span>
             </h2>
             <p className="text-muted-foreground text-base sm:text-lg mt-2 sm:mt-3 text-center">
               {t("services.management.subtitle")}

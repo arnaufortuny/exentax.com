@@ -299,6 +299,10 @@
       "title": "Mantenimiento Anual",
       "subtitle": "(Lo que incluye tu mantenimiento)"
     },
+    "process": {
+      "title": "NUESTRO",
+      "titleHighlight": "PROCESO"
+    },
     "questions": "¿Alguna duda? Hablemos"
   },
   "packsTitle": {
