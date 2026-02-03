@@ -1922,6 +1922,20 @@ export default function Dashboard() {
                                   />
                                 </div>
                               </div>
+                              {/* EIN Field */}
+                              <div className="mt-3 md:mt-4 pt-3 md:pt-4 border-t">
+                                <div className="bg-white dark:bg-zinc-900 p-2 md:p-3 rounded-lg md:rounded-xl border">
+                                  <Label className="text-[10px] md:text-xs font-bold text-muted-foreground mb-1 block">EIN (Employer Identification Number)</Label>
+                                  <Input 
+                                    type="text" 
+                                    placeholder="XX-XXXXXXX"
+                                    className="h-8 md:h-10 text-xs md:text-sm px-2 md:px-3 font-mono"
+                                    defaultValue={app.ein || ''}
+                                    onChange={e => updateLlcDatesMutation.mutate({ appId: app.id, field: 'ein', value: e.target.value })}
+                                    data-testid={`input-ein-${app.id}`}
+                                  />
+                                </div>
+                              </div>
                               {/* Tax Extension Toggle */}
                               <div className="mt-3 md:mt-4 pt-3 md:pt-4 border-t flex items-center justify-between">
                                 <div>

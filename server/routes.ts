@@ -532,9 +532,17 @@ export async function registerRoutes(
   app.patch("/api/admin/llc/:appId/dates", isAdmin, asyncHandler(async (req: Request, res: Response) => {
     const appId = Number(req.params.appId);
     const { field, value } = z.object({ 
-      field: z.enum(['llcCreatedDate', 'agentRenewalDate', 'irs1120DueDate', 'irs5472DueDate', 'annualReportDueDate']),
+      field: z.enum(['llcCreatedDate', 'agentRenewalDate', 'irs1120DueDate', 'irs5472DueDate', 'annualReportDueDate', 'ein']),
       value: z.string()
     }).parse(req.body);
+    
+    // Handle EIN as text field
+    if (field === 'ein') {
+      await db.update(llcApplicationsTable)
+        .set({ ein: value || null })
+        .where(eq(llcApplicationsTable.id, appId));
+      return res.json({ success: true });
+    }
     
     const dateValue = value ? new Date(value) : null;
     const updateData: Record<string, Date | null> = {};
