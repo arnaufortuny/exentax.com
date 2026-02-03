@@ -967,6 +967,15 @@
         "q5": "What is the Annual Report?",
         "a5": "It's an annual maintenance report required by states like Wyoming to confirm that the company is still active and that its contact information is correct. It includes payment of a state maintenance fee. If you don't file this report before the deadline, the state will change your company's status to 'Delinquent' and eventually dissolve it, losing you all limited liability protection."
       },
+      "taxExtensions": {
+        "title": "Tax Extensions",
+        "q1": "What is a tax extension?",
+        "a1": "A tax extension is an official request to the IRS that allows you to extend the deadline for filing your tax returns. It doesn't eliminate the obligation to file the forms, but it gives you more time to prepare them correctly and avoid penalties. For non-resident LLCs, it extends the deadline for filing mandatory forms like IRS Form 1120 and IRS Form 5472.",
+        "q2": "How does a tax extension help me?",
+        "a2": "The extension protects you against one of the biggest risks of an LLC: late filing penalties. The IRS can impose very high penalties if these forms are not filed on time, even if the company has no activity or taxes to pay. Requesting the extension allows you to avoid penalties, have more time to prepare documentation, properly review your accounting and comply with the IRS safely and professionally.",
+        "q3": "Is the tax extension included in Easy US LLC?",
+        "a3": "Yes. We handle requesting the extension as part of our services so your company complies with IRS deadlines without complications. Our goal is to protect your LLC against penalties, help you correctly comply with your tax obligations and provide real support throughout the entire process."
+      },
       "operations": {
         "title": "Operations and Platforms",
         "q1": "Can I use my LLC to collect payments on Stripe, PayPal or Wise?",

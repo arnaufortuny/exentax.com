@@ -44,6 +44,15 @@ export default function FAQ() {
       ]
     },
     {
+      key: "taxExtensions",
+      title: t("faq.categories.taxExtensions.title"),
+      questions: [
+        { q: t("faq.categories.taxExtensions.q1"), a: t("faq.categories.taxExtensions.a1") },
+        { q: t("faq.categories.taxExtensions.q2"), a: t("faq.categories.taxExtensions.a2") },
+        { q: t("faq.categories.taxExtensions.q3"), a: t("faq.categories.taxExtensions.a3") }
+      ]
+    },
+    {
       key: "operations",
       title: t("faq.categories.operations.title"),
       questions: [

@@ -967,6 +967,15 @@
         "q5": "¿Qué es el Annual Report?",
         "a5": "Es un informe anual de mantenimiento que exigen estados como Wyoming para confirmar que la empresa sigue activa y que sus datos de contacto son correctos. Incluye el pago de una tasa estatal de mantenimiento. Si no presentas este informe antes de la fecha límite, el estado cambiará el estatus de tu empresa a 'Delinquent' y eventualmente la disolverá, perdiendo tú toda la protección de responsabilidad limitada."
       },
+      "taxExtensions": {
+        "title": "Extensión de Impuestos",
+        "q1": "¿Qué es la extensión de impuestos?",
+        "a1": "La extensión de impuestos es una solicitud oficial ante el IRS que te permite ampliar el plazo para presentar tus declaraciones fiscales. No elimina la obligación de presentar los formularios, pero te concede más tiempo para prepararlos correctamente y evitar sanciones. En el caso de LLCs de no residentes, permite ampliar el plazo de presentación de formularios obligatorios como el IRS Form 1120 y el IRS Form 5472.",
+        "q2": "¿Cómo me ayuda la extensión de impuestos?",
+        "a2": "La extensión te protege frente a uno de los mayores riesgos de una LLC: las multas por presentación tardía. El IRS puede imponer sanciones muy elevadas si estos formularios no se presentan a tiempo, incluso aunque la empresa no tenga actividad o impuestos a pagar. Solicitar la extensión te permite evitar sanciones, disponer de más tiempo para preparar la documentación, revisar correctamente la contabilidad y cumplir con el IRS de forma segura y profesional.",
+        "q3": "¿La extensión de impuestos está incluida en Easy US LLC?",
+        "a3": "Sí. Nos encargamos de solicitar la extensión dentro de nuestros servicios para que tu empresa cumpla con los plazos del IRS sin complicaciones. Nuestro objetivo es que tu LLC esté protegida frente a sanciones, cumplas correctamente con tus obligaciones fiscales y tengas acompañamiento real durante todo el proceso."
+      },
       "operations": {
         "title": "Operativa y Plataformas",
         "q1": "¿Puedo usar mi LLC para cobrar en Stripe, PayPal o Wise?",
