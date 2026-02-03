@@ -378,19 +378,20 @@ export function TaxComparator() {
               
               {/* Selected Country */}
               <div className="p-6 sm:p-8 bg-muted/50 relative">
-                <div className="absolute top-4 right-4">
-                  <span className="px-3 py-1.5 rounded-full bg-destructive/20 text-destructive text-xs font-black flex items-center gap-1.5">
-                    {countryTaxes.effectiveRate}% {t("taxComparator.effectiveRate")}
-                  </span>
-                </div>
-                
-                <div className="flex items-center gap-3 mb-8">
-                  <div className="w-14 h-14 rounded-2xl bg-muted flex items-center justify-center border-2 border-border shadow-lg text-3xl">
-                    {selectedCountryInfo.flag}
+                <div className="flex items-start justify-between gap-3 mb-8">
+                  <div className="flex items-center gap-3">
+                    <div className="w-14 h-14 rounded-2xl bg-muted flex items-center justify-center border-2 border-border shadow-lg text-3xl shrink-0">
+                      {selectedCountryInfo.flag}
+                    </div>
+                    <div className="text-left">
+                      <h3 className="font-black text-foreground text-xl">{t(`taxComparator.countries.${selectedCountry}.title`)}</h3>
+                      <p className="text-sm text-muted-foreground font-bold">{t(`taxComparator.countries.${selectedCountry}.subtitle`)}</p>
+                    </div>
                   </div>
-                  <div>
-                    <h3 className="font-black text-foreground text-xl">{t(`taxComparator.countries.${selectedCountry}.title`)}</h3>
-                    <p className="text-sm text-muted-foreground font-bold">{t(`taxComparator.countries.${selectedCountry}.subtitle`)}</p>
+                  <div className="px-3 py-1.5 rounded-full bg-destructive/15 border border-destructive/30 shrink-0">
+                    <span className="text-destructive text-xs font-black whitespace-nowrap">
+                      {countryTaxes.effectiveRate}% {t("taxComparator.effectiveRate")}
+                    </span>
                   </div>
                 </div>
                 
