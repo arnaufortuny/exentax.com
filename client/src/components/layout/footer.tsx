@@ -150,7 +150,7 @@ export function Footer() {
               <img src={visaLogo} alt="Visa" className="h-8 sm:h-10 w-auto" />
             </a>
             <a href="https://trustpilot.com/review/easyusllc.com" target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity" data-testid="link-partner-trustpilot">
-              <img src={trustpilotLogo} alt="Trustpilot" className="h-8 sm:h-10 w-auto" style={{ filter: 'brightness(0) invert(1)' }} />
+              <img src={trustpilotLogo} alt="Trustpilot" className="h-10 sm:h-14 w-auto" style={{ filter: 'brightness(0) invert(1)' }} />
             </a>
           </div>
         </div>
