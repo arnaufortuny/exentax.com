@@ -40,7 +40,8 @@ export default function FAQ() {
         { q: t("faq.categories.taxes.q2"), a: t("faq.categories.taxes.a2") },
         { q: t("faq.categories.taxes.q3"), a: t("faq.categories.taxes.a3") },
         { q: t("faq.categories.taxes.q4"), a: t("faq.categories.taxes.a4") },
-        { q: t("faq.categories.taxes.q5"), a: t("faq.categories.taxes.a5") }
+        { q: t("faq.categories.taxes.q5"), a: t("faq.categories.taxes.a5") },
+        { q: t("faq.categories.taxes.q6"), a: t("faq.categories.taxes.a6") }
       ]
     },
     {
