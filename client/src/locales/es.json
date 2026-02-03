@@ -1147,9 +1147,12 @@
     "tooltip": "¿Dudas? ¡Escríbenos!"
   },
   "taxComparator": {
-    "badge": "COMPARADOR DE IMPUESTOS",
+    "badge": "CALCULADORA DE AHORRO",
     "title": "¿Cuánto puedes ahorrar?",
+    "titlePart1": "CALCULA TU",
+    "titlePart2": "AHORRO ANUAL",
     "subtitle": "Compara tu situación fiscal actual como autónomo en España vs una LLC en Estados Unidos",
+    "taxes": "IMPUESTOS",
     "annualIncome": "Selecciona tus ingresos anuales brutos",
     "minIncome": "20.000€",
     "maxIncome": "200.000€",

@@ -1147,9 +1147,12 @@
     "tooltip": "Questions? Write us!"
   },
   "taxComparator": {
-    "badge": "TAX COMPARATOR",
+    "badge": "SAVINGS CALCULATOR",
     "title": "How much can you save?",
+    "titlePart1": "CALCULATE YOUR",
+    "titlePart2": "ANNUAL SAVINGS",
     "subtitle": "Compare your current tax situation as a freelancer in Spain vs a US LLC",
+    "taxes": "TAXES",
     "annualIncome": "Select your gross annual income",
     "minIncome": "€20,000",
     "maxIncome": "€200,000",
