@@ -216,9 +216,13 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getMessagesByUserId(userId: string): Promise<any[]> {
-    return await db.select().from(messagesTable)
-      .where(eq(messagesTable.userId, userId))
-      .orderBy(desc(messagesTable.createdAt));
+    return await db.query.messages.findMany({
+      where: eq(messagesTable.userId, userId),
+      orderBy: desc(messagesTable.createdAt),
+      with: {
+        replies: true
+      }
+    });
   }
 
   async getAllMessages(): Promise<any[]> {

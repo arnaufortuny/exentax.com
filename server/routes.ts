@@ -3651,15 +3651,101 @@ export async function registerRoutes(
   app.patch("/api/admin/documents/:id/review", isAdmin, async (req, res) => {
     try {
       const docId = Number(req.params.id);
-      const { reviewStatus } = z.object({ reviewStatus: z.enum(["pending", "approved", "rejected", "action_required"]) }).parse(req.body);
+      const { reviewStatus, rejectionReason } = z.object({ 
+        reviewStatus: z.enum(["pending", "approved", "rejected", "action_required"]),
+        rejectionReason: z.string().optional()
+      }).parse(req.body);
       
       const [updated] = await db.update(applicationDocumentsTable)
         .set({ reviewStatus })
         .where(eq(applicationDocumentsTable.id, docId))
         .returning();
       
+      // Get document details and user info for notification
+      const [docWithOrder] = await db.select({
+        doc: applicationDocumentsTable,
+        order: ordersTable,
+        user: usersTable
+      })
+        .from(applicationDocumentsTable)
+        .leftJoin(ordersTable, eq(applicationDocumentsTable.orderId, ordersTable.id))
+        .leftJoin(usersTable, eq(ordersTable.userId, usersTable.id))
+        .where(eq(applicationDocumentsTable.id, docId))
+        .limit(1);
+      
+      if (docWithOrder?.user) {
+        const docTypeLabels: Record<string, string> = {
+          'id_document': 'Documento de identidad',
+          'proof_of_address': 'Comprobante de domicilio',
+          'passport': 'Pasaporte',
+          'ein_letter': 'Carta EIN',
+          'articles_of_organization': 'Artículos de Organización',
+          'operating_agreement': 'Acuerdo Operativo',
+          'invoice': 'Factura',
+          'other': 'Otro documento'
+        };
+        const docLabel = docTypeLabels[docWithOrder.doc.documentType] || docWithOrder.doc.fileName;
+        
+        if (reviewStatus === 'approved') {
+          // Notify client: document approved
+          await db.insert(userNotifications).values({
+            userId: docWithOrder.user.id,
+            orderId: docWithOrder.order?.id || null,
+            orderCode: docWithOrder.order?.invoiceNumber || 'General',
+            title: 'Documento aprobado',
+            message: `Tu documento "${docLabel}" ha sido revisado y aprobado.`,
+            type: 'success',
+            isRead: false
+          });
+          
+          // Email notification
+          sendEmail({
+            to: docWithOrder.user.email!,
+            subject: `Documento aprobado - ${docLabel}`,
+            html: `
+              <div style="font-family: sans-serif; padding: 20px;">
+                <h2 style="color: #22C55E;">✓ Documento Aprobado</h2>
+                <p>Hola ${docWithOrder.user.firstName || 'Cliente'},</p>
+                <p>Tu documento <strong>"${docLabel}"</strong> ha sido revisado y <strong>aprobado</strong> correctamente.</p>
+                <p>Puedes ver el estado de tus documentos en tu panel de cliente.</p>
+                <p style="color: #6B7280; font-size: 12px; margin-top: 20px;">Equipo Easy US LLC</p>
+              </div>
+            `
+          }).catch(console.error);
+        } else if (reviewStatus === 'rejected') {
+          // Notify client: document rejected - request again
+          const reason = rejectionReason || 'No cumple los requisitos necesarios';
+          await db.insert(userNotifications).values({
+            userId: docWithOrder.user.id,
+            orderId: docWithOrder.order?.id || null,
+            orderCode: docWithOrder.order?.invoiceNumber || 'General',
+            title: 'Documento rechazado - Acción requerida',
+            message: `Tu documento "${docLabel}" ha sido rechazado. Motivo: ${reason}. Por favor, sube nuevamente el documento.`,
+            type: 'action_required',
+            isRead: false
+          });
+          
+          // Email notification requesting new upload
+          sendEmail({
+            to: docWithOrder.user.email!,
+            subject: `Acción requerida - Documento rechazado`,
+            html: `
+              <div style="font-family: sans-serif; padding: 20px;">
+                <h2 style="color: #EF4444;">⚠️ Documento Rechazado</h2>
+                <p>Hola ${docWithOrder.user.firstName || 'Cliente'},</p>
+                <p>Tu documento <strong>"${docLabel}"</strong> ha sido revisado y <strong>rechazado</strong>.</p>
+                <p><strong>Motivo:</strong> ${reason}</p>
+                <p style="margin-top: 15px;">Por favor, accede a tu panel de cliente y sube nuevamente el documento corregido.</p>
+                <p style="color: #6B7280; font-size: 12px; margin-top: 20px;">Equipo Easy US LLC</p>
+              </div>
+            `
+          }).catch(console.error);
+        }
+      }
+      
       res.json(updated);
     } catch (error) {
+      console.error("Document review error:", error);
       res.status(500).json({ message: "Error updating document review status" });
     }
   });
