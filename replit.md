@@ -25,6 +25,15 @@ I want to be communicated with in a clear and concise manner. I prefer explanati
 - **Document Backup System**: Automated hourly backup of /uploads/ files to Replit Object Storage (GCS). Features incremental backup (only changed files), backup state tracking, and audit logging. Service at `server/lib/backup-service.ts`.
 - **Linktree Page Redesign**: Completely redesigned creamostullc.com landing page with professional green gradient background, always light mode, rounded buttons, instant loading (no progress bar), and mobile-first responsive design.
 - **Cleanup**: Removed unused attached_assets directory and temporary files.
+- **SEO/Performance Pro Optimizations** (Feb 2026):
+  - Added preconnect/dns-prefetch for Stripe, Google OAuth for faster external resource loading
+  - Enhanced Link headers with resource hints (preconnect + canonical for SEO pages)
+  - Improved sitemap with all public routes including /tools/* pages
+  - Separate sitemap for creamostullc.com domain
+  - Enhanced robots.txt with bot-specific rules and crawl-delay
+  - Optimized Vite build: es2020 target, esbuild minify, CSS code splitting, no sourcemaps
+  - Improved cache headers with stale-while-revalidate for better CDN performance
+  - Added fetchpriority="high" for critical images
 
 ## Domain Separation
 
