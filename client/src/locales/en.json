@@ -924,6 +924,11 @@
     "searchPlaceholder": "Search your question...",
     "noResults": "We couldn't find anything",
     "noResultsHint": "Try another word or contact us directly.",
+    "helpCenter": {
+      "title": "Didn't find what you were looking for?",
+      "description": "We're here to help. Message us on WhatsApp and we'll respond right away.",
+      "button": "Let's chat on WhatsApp"
+    },
     "categories": {
       "aboutUs": {
         "title": "About Easy US LLC",

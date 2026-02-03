@@ -343,9 +343,7 @@ export function TaxComparator() {
             <div className="p-6 sm:p-8 bg-background">
               <div className="flex flex-col items-center gap-4">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-accent flex items-center justify-center p-2">
-                    <img src={moneyIcon} alt="" className="w-6 h-6 object-contain" loading="lazy" decoding="async" />
-                  </div>
+                  <img src={moneyIcon} alt="" className="w-8 h-8 object-contain" loading="lazy" decoding="async" />
                   <label className="text-sm font-black text-foreground">
                     {t("taxComparator.annualIncome")}
                   </label>

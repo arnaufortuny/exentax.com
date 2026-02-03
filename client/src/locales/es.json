@@ -924,6 +924,11 @@
     "searchPlaceholder": "Busca tu duda...",
     "noResults": "No hemos encontrado nada",
     "noResultsHint": "Prueba con otra palabra o contáctanos directamente.",
+    "helpCenter": {
+      "title": "¿No has encontrado lo que buscabas?",
+      "description": "Estamos aquí para ayudarte. Escríbenos por WhatsApp y te respondemos al momento.",
+      "button": "Hablemos por WhatsApp"
+    },
     "categories": {
       "aboutUs": {
         "title": "Sobre Easy US LLC",
