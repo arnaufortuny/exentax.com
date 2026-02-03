@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import logoIcon from "@/assets/logo-icon.png";
 import mercuryLogo from "@/assets/mercury-logo.png";
 import relayLogo from "@/assets/relay-logo.png";
+import mastercardLogo from "@/assets/mastercard-logo.png";
 
 export function Footer() {
   const [location, setLocation] = useLocation();
@@ -135,10 +136,13 @@ export function Footer() {
           <h4 className="font-black text-base tracking-wider mb-6 text-center text-white/90">{t("footer.partners")}</h4>
           <div className="flex flex-wrap justify-center items-center gap-8 sm:gap-12">
             <a href="https://mercury.com" target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity" data-testid="link-partner-mercury">
-              <img src={mercuryLogo} alt="Mercury" className="h-8 sm:h-10 w-auto brightness-0 invert hue-rotate-[80deg] saturate-150" />
+              <img src={mercuryLogo} alt="Mercury" className="h-8 sm:h-10 w-auto brightness-0 invert" />
             </a>
             <a href="https://relayfi.com" target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity" data-testid="link-partner-relay">
-              <img src={relayLogo} alt="Relay" className="h-8 sm:h-10 w-auto brightness-0 invert sepia saturate-[10] hue-rotate-[85deg]" />
+              <img src={relayLogo} alt="Relay" className="h-8 sm:h-10 w-auto brightness-0 invert" />
+            </a>
+            <a href="https://mastercard.com" target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity" data-testid="link-partner-mastercard">
+              <img src={mastercardLogo} alt="Mastercard" className="h-8 sm:h-10 w-auto" />
             </a>
           </div>
         </div>
