@@ -518,22 +518,68 @@ img {
   background: linear-gradient(135deg, hsl(var(--background)) 0%, hsl(var(--accent)/0.08) 50%, hsl(var(--background)) 100%);
 }
 
-/* GPU acceleration for animations */
+/* GPU acceleration for animations - critical for 0 lag */
 .gpu-accelerated {
   will-change: transform, opacity;
   transform: translateZ(0);
   backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  contain: layout style paint;
 }
 
-/* Optimized motion elements */
-[data-motion] {
+/* Optimized motion elements - instant GPU compositing */
+[data-motion],
+.motion-element {
   will-change: transform, opacity;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
+  transform: translateZ(0);
+  contain: layout style paint;
+}
+
+/* Global animation performance optimization */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Optimized transitions - fast and smooth */
+.transition-optimized {
+  transition-timing-function: cubic-bezier(0.25, 0.1, 0.25, 1);
+  transition-duration: 0.15s;
+}
+
+/* Smooth scrolling with GPU acceleration */
+.smooth-scroll {
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Image loading optimization */
+img {
+  content-visibility: auto;
+}
+
+/* Lazy load images optimization */
+img[loading="lazy"] {
+  background: linear-gradient(90deg, hsl(var(--muted)) 0%, hsl(var(--muted)/0.5) 50%, hsl(var(--muted)) 100%);
+  background-size: 200% 100%;
+}
+
+/* Button and interactive element optimizations */
+button, a, [role="button"] {
+  touch-action: manipulation;
 }
 
 /* Reduce motion for accessibility */
 @media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  
   .animate-fade-in,
   .animate-fade-in-up,
   .animate-scale-in,
