@@ -113,10 +113,10 @@ export function TaxComparator() {
         <div className="text-center mb-10 sm:mb-14 flex flex-col items-center justify-center">
           <motion.div 
             className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent/20 text-accent font-bold text-sm mb-6"
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 15 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
+            transition={{ duration: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
           >
             <Calculator className="w-4 h-4" />
             {t("taxComparator.badge")}
@@ -124,10 +124,10 @@ export function TaxComparator() {
           <motion.h2 
             className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-center leading-tight"
             style={{ fontWeight: 900 }}
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 15 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
+            transition={{ duration: 0.35, ease: [0.25, 0.1, 0.25, 1] }}
           >
             <span className="text-foreground">{t("taxComparator.titlePart1")}</span>{" "}
             <span className="text-accent">{t("taxComparator.titlePart2")}</span>
@@ -137,7 +137,7 @@ export function TaxComparator() {
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.4, delay: 0.15, ease: [0.25, 0.1, 0.25, 1] }}
+            transition={{ duration: 0.3, delay: 0.05, ease: [0.25, 0.1, 0.25, 1] }}
           >
             {t("taxComparator.subtitle")}
           </motion.p>
@@ -145,10 +145,10 @@ export function TaxComparator() {
         
         <motion.div 
           className="max-w-4xl mx-auto"
-          initial={{ opacity: 0, y: 40 }}
+          initial={{ opacity: 0, y: 15 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
+          transition={{ duration: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
         >
           <div className="bg-background rounded-3xl border-2 border-accent/20 shadow-2xl shadow-accent/10 overflow-hidden">
             <div className="p-6 sm:p-8 bg-gradient-to-br from-accent/5 to-transparent">

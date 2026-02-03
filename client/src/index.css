@@ -518,6 +518,20 @@ img {
   background: linear-gradient(135deg, hsl(var(--background)) 0%, hsl(var(--accent)/0.08) 50%, hsl(var(--background)) 100%);
 }
 
+/* GPU acceleration for animations */
+.gpu-accelerated {
+  will-change: transform, opacity;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* Optimized motion elements */
+[data-motion] {
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
 /* Reduce motion for accessibility */
 @media (prefers-reduced-motion: reduce) {
   .animate-fade-in,
@@ -525,10 +539,12 @@ img {
   .animate-scale-in,
   .animate-card-in,
   .animate-page-in,
-  .animate-section-in {
-    animation: none;
-    opacity: 1;
-    transform: none;
+  .animate-section-in,
+  [data-motion] {
+    animation: none !important;
+    transition: none !important;
+    opacity: 1 !important;
+    transform: none !important;
   }
   
   .animate-delay-1,
