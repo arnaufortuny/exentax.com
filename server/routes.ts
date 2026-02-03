@@ -15,8 +15,10 @@ import { generateOrderInvoice, generateOrderReceipt, type InvoiceData, type Rece
 import { setupOAuth } from "./oauth";
 import { checkAndSendReminders, updateApplicationDeadlines, getUpcomingDeadlinesForUser } from "./calendar-service";
 import { processAbandonedApplications } from "./lib/abandoned-service";
+import { startBackupService } from "./lib/backup-service";
 import { csrfMiddleware, getCsrfToken, validateCsrf } from "./lib/csrf";
 import { checkRateLimit as checkApiRateLimit } from "./lib/rate-limiter";
+import { registerObjectStorageRoutes } from "./replit_integrations/object_storage";
 
 export async function registerRoutes(
   httpServer: Server,
@@ -155,6 +157,9 @@ export async function registerRoutes(
 
   // Set up Google OAuth
   setupOAuth(app);
+  
+  // Set up Object Storage routes for file uploads
+  registerObjectStorageRoutes(app);
 
   // CSRF Protection - initialize token first
   app.use(csrfMiddleware);
@@ -209,6 +214,9 @@ export async function registerRoutes(
     } catch (e) {
       console.error("Initial abandoned applications check error:", e);
     }
+    
+    // Start backup service for Object Storage
+    startBackupService();
   }, 30000);
 
   // Health check endpoint for deployment with database verification
@@ -1071,6 +1079,22 @@ export async function registerRoutes(
       res.json({ totalSales: Number(result[0]?.total || 0) });
     } catch (error) {
       res.status(500).json({ message: "Error fetching stats" });
+    }
+  });
+
+  // Audit logs endpoint (persistent from database)
+  app.get("/api/admin/audit-logs", isAdmin, async (req, res) => {
+    try {
+      const limit = Math.min(parseInt(req.query.limit as string) || 100, 500);
+      const offset = parseInt(req.query.offset as string) || 0;
+      
+      const { getAuditLogsFromDb } = await import("./lib/security");
+      const { logs, total } = await getAuditLogsFromDb({ limit, offset });
+      
+      res.json({ logs, total, limit, offset });
+    } catch (error) {
+      console.error("Audit logs error:", error);
+      res.status(500).json({ message: "Error fetching audit logs" });
     }
   });
 

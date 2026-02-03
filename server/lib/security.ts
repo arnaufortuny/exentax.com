@@ -1,6 +1,7 @@
 import { db } from "../db";
-import { sql } from "drizzle-orm";
+import { sql, desc } from "drizzle-orm";
 import { checkRateLimitInMemory, checkRateLimit as checkRateLimitAuto } from "./rate-limiter";
+import { auditLogs } from "@shared/schema";
 
 export { checkRateLimitInMemory as checkRateLimit };
 export { checkRateLimitAuto };
@@ -71,19 +72,22 @@ export type AuditAction =
   | 'account_status_change'
   | 'account_flagged_for_review'
   | 'security_otp_required'
-  | 'ip_order_blocked';
+  | 'ip_order_blocked'
+  | 'backup_completed'
+  | 'backup_failed';
 
 interface AuditLogEntry {
   action: AuditAction;
   userId?: string;
   targetId?: string;
   ip?: string;
+  userAgent?: string;
   details?: Record<string, any>;
   timestamp: Date;
 }
 
-const auditLogs: AuditLogEntry[] = [];
-const MAX_AUDIT_LOGS = 10000;
+const memoryAuditLogs: AuditLogEntry[] = [];
+const MAX_MEMORY_LOGS = 1000;
 
 export function logAudit(entry: Omit<AuditLogEntry, 'timestamp'>): void {
   const logEntry: AuditLogEntry = {
@@ -91,23 +95,74 @@ export function logAudit(entry: Omit<AuditLogEntry, 'timestamp'>): void {
     timestamp: new Date(),
   };
   
-  auditLogs.push(logEntry);
-  
-  if (auditLogs.length > MAX_AUDIT_LOGS) {
-    auditLogs.shift();
+  memoryAuditLogs.push(logEntry);
+  if (memoryAuditLogs.length > MAX_MEMORY_LOGS) {
+    memoryAuditLogs.shift();
   }
+  
+  db.insert(auditLogs).values({
+    action: entry.action,
+    userId: entry.userId || null,
+    targetId: entry.targetId || null,
+    ip: entry.ip || null,
+    userAgent: entry.userAgent || null,
+    details: entry.details || null,
+  }).catch(err => {
+    console.error("[AUDIT] Failed to persist audit log:", err.message);
+  });
   
   if (process.env.NODE_ENV === 'development') {
     console.log(`[AUDIT] ${entry.action}:`, {
       userId: entry.userId,
       targetId: entry.targetId,
+      ip: entry.ip,
       details: entry.details
     });
   }
 }
 
 export function getRecentAuditLogs(limit: number = 100): AuditLogEntry[] {
-  return auditLogs.slice(-limit).reverse();
+  return memoryAuditLogs.slice(-limit).reverse();
+}
+
+export async function getAuditLogsFromDb(options: {
+  limit?: number;
+  offset?: number;
+  action?: string;
+  userId?: string;
+} = {}): Promise<{ logs: any[]; total: number }> {
+  const { limit = 100, offset = 0, action, userId } = options;
+  
+  try {
+    let query = db.select().from(auditLogs).orderBy(desc(auditLogs.createdAt));
+    
+    const logs = await query.limit(limit).offset(offset);
+    
+    const countResult = await db.select({ count: sql<number>`count(*)` }).from(auditLogs);
+    const total = Number(countResult[0]?.count || 0);
+    
+    return { logs, total };
+  } catch (error) {
+    console.error("[AUDIT] Failed to fetch logs from DB:", error);
+    return { logs: [], total: 0 };
+  }
+}
+
+export async function cleanupOldAuditLogs(daysToKeep: number = 90): Promise<number> {
+  try {
+    const cutoffDate = new Date();
+    cutoffDate.setDate(cutoffDate.getDate() - daysToKeep);
+    
+    const result = await db.execute(sql`
+      DELETE FROM audit_logs 
+      WHERE created_at < ${cutoffDate}
+    `);
+    
+    return Number((result as any).rowCount || 0);
+  } catch (error) {
+    console.error("[AUDIT] Failed to cleanup old logs:", error);
+    return 0;
+  }
 }
 
 export async function checkDatabaseHealth(): Promise<{ healthy: boolean; latencyMs: number; error?: string }> {

@@ -306,6 +306,25 @@ export const rateLimitEntries = pgTable("rate_limit_entries", {
   createdAtIdx: index("rate_limit_created_at_idx").on(table.createdAt),
 }));
 
+export const auditLogs = pgTable("audit_logs", {
+  id: serial("id").primaryKey(),
+  action: text("action").notNull(),
+  userId: varchar("user_id"),
+  targetId: text("target_id"),
+  ip: text("ip"),
+  userAgent: text("user_agent"),
+  details: jsonb("details").$type<Record<string, any>>(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+}, (table) => ({
+  actionIdx: index("audit_logs_action_idx").on(table.action),
+  userIdIdx: index("audit_logs_user_id_idx").on(table.userId),
+  createdAtIdx: index("audit_logs_created_at_idx").on(table.createdAt),
+}));
+
+export const insertAuditLogSchema = createInsertSchema(auditLogs).omit({ id: true, createdAt: true });
+export type AuditLog = typeof auditLogs.$inferSelect;
+export type InsertAuditLog = z.infer<typeof insertAuditLogSchema>;
+
 export type MaintenanceApplication = typeof maintenanceApplications.$inferSelect;
 export type Product = typeof products.$inferSelect;
 export type Order = typeof orders.$inferSelect;

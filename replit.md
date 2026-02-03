@@ -22,6 +22,7 @@ I want to be communicated with in a clear and concise manner. I prefer explanati
 - **LLC Data Locking**: When EIN is assigned, LLC data becomes locked for data integrity
 - **Production Review**: Complete security audit, performance optimization, and i18n verification
 - **Unified ID System**: Centralized order code generator with state prefix pattern (NM-12345678)
+- **Document Backup System**: Automated hourly backup of /uploads/ files to Replit Object Storage (GCS). Features incremental backup (only changed files), backup state tracking, and audit logging. Service at `server/lib/backup-service.ts`.
 
 ## Domain Separation
 
