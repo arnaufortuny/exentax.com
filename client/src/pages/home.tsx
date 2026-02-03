@@ -50,7 +50,7 @@ export default function Home() {
         title={
           <div className="flex flex-col items-center w-full">
             <div className="mb-4 sm:hidden flex justify-center mt-6">
-              <a href="https://es.trustpilot.com/review/easyusllc.com" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2">
+              <a href="https://es.trustpilot.com/review/easyusllc.com" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-white dark:bg-white px-4 py-2.5 rounded-full shadow-md border-2 border-accent">
                 <img src={trustpilotLogo} alt="Trustpilot" className="h-5 w-auto" loading="lazy" />
                 <div className="flex gap-1">
                   {[1,2,3,4,5].map((star) => (
@@ -59,7 +59,7 @@ export default function Home() {
                     </svg>
                   ))}
                 </div>
-                <span className="text-foreground text-xs font-black">5/5</span>
+                <span className="text-black text-xs font-black">5/5</span>
               </a>
             </div>
 
@@ -80,7 +80,7 @@ export default function Home() {
             </div>
             
             <div className="hidden sm:flex mb-8 justify-center">
-              <a href="https://es.trustpilot.com/review/easyusllc.com" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-4">
+              <a href="https://es.trustpilot.com/review/easyusllc.com" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-4 bg-white dark:bg-white px-6 py-3 rounded-full shadow-md border-2 border-accent">
                 <img src={trustpilotLogo} alt="Trustpilot" className="h-7 w-auto" loading="lazy" />
                 <div className="flex gap-1">
                   {[1,2,3,4,5].map((star) => (
@@ -89,7 +89,7 @@ export default function Home() {
                     </svg>
                   ))}
                 </div>
-                <span className="text-foreground text-lg font-black">5/5</span>
+                <span className="text-black text-lg font-black">5/5</span>
               </a>
             </div>
 
