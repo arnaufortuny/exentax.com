@@ -6,6 +6,7 @@ import { useQuery, useMutation } from "@tanstack/react-query";
 import { queryClient, apiRequest } from "@/lib/queryClient";
 import { Building2, FileText, Clock, ChevronRight, User as UserIcon, Settings, Package, CreditCard, PlusCircle, Download, ExternalLink, Mail, BellRing, CheckCircle2, AlertCircle, MessageSquare, Send, Shield, Users, Power, Edit, Trash2, FileUp, Newspaper, Loader2, CheckCircle, Receipt, Plus, Calendar, DollarSign, TrendingUp, BarChart3, UserCheck, UserX, Star, Eye, FileCheck, Upload, XCircle, Tag, Percent, X, Calculator, Archive, Key } from "lucide-react";
 import emailIconPath from "@/assets/icons/email-icon.png";
+import calendarIconPath from "@/assets/icons/calendar-icon.png";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { useEffect, useState, useMemo, useCallback } from "react";
@@ -1397,7 +1398,7 @@ export default function Dashboard() {
                                 </div>
                               ) : (
                                 <div className="text-center py-6 md:py-8">
-                                  <Calendar className="w-10 h-10 md:w-12 md:h-12 mx-auto text-muted-foreground/30 mb-2 md:mb-3" />
+                                  <img src={calendarIconPath} alt="Calendar" className="w-10 h-10 md:w-12 md:h-12 mx-auto opacity-30 mb-2 md:mb-3" />
                                   <p className="text-xs md:text-sm text-muted-foreground">Fechas pendientes de configuración</p>
                                 </div>
                               )}
@@ -1410,7 +1411,7 @@ export default function Dashboard() {
                     <Card className="rounded-2xl border-0 shadow-sm bg-white dark:bg-zinc-900 p-6 md:p-8 text-center" data-testid="widget-calendar-empty">
                       <div className="flex flex-col items-center gap-3 md:gap-4">
                         <div className="w-12 h-12 md:w-16 md:h-16 bg-accent/10 rounded-full flex items-center justify-center">
-                          <Calendar className="w-6 h-6 md:w-8 md:h-8 text-accent" />
+                          <img src={calendarIconPath} alt="Calendar" className="w-6 h-6 md:w-8 md:h-8" />
                         </div>
                         <div>
                           <h3 className="text-base md:text-lg font-semibold text-foreground mb-1 md:mb-2 text-center">Mi Calendario Fiscal</h3>
