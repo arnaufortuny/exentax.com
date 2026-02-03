@@ -360,7 +360,7 @@ export function TaxComparator() {
                   />
                   <span className="absolute right-6 top-1/2 -translate-y-1/2 text-xl font-black text-accent/60">€</span>
                 </div>
-                <p className="text-xs text-muted-foreground">{t("taxComparator.enterIncome")}</p>
+                <p className="text-xs text-muted-foreground font-bold">{t("taxComparator.enterIncome")}</p>
               </div>
             </div>
             
@@ -372,9 +372,9 @@ export function TaxComparator() {
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.2, ease: "easeOut" }}
-                  className="p-6 sm:p-8 bg-background will-change-transform flex items-center justify-center min-h-[280px]"
+                  className="p-6 sm:p-8 bg-background will-change-transform flex items-center justify-center min-h-[280px] w-full"
                 >
-                  <div className="max-w-sm mx-auto text-center">
+                  <div className="max-w-sm w-full mx-auto text-center">
                     <div className="w-14 h-14 mx-auto mb-4 rounded-full bg-accent/20 flex items-center justify-center">
                       <Mail className="w-7 h-7 text-accent" />
                     </div>
