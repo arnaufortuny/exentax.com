@@ -495,6 +495,8 @@
       "step4Subtitle": "Choose a secure password to protect your account",
       "step5Title": "Confirm registration",
       "step5Subtitle": "Review your data before continuing",
+      "createAccountAccept": "By creating my account, I accept:",
+      "ageConfirmation": "I confirm that I am over 18 years old",
       "reviewName": "Name",
       "reviewEmail": "Email",
       "reviewPhone": "Phone",
@@ -1269,7 +1271,10 @@
     "termsAcceptance": "I accept the",
     "termsAndConditions": "Terms and Conditions",
     "termsMiddle": "of Easy US LLC when creating my account. I also understand the",
-    "privacyPolicy": "Privacy Policy"
+    "privacyPolicy": "Privacy Policy",
+    "refundPolicy": "Refund Policy",
+    "cookiePolicy": "Cookie Policy",
+    "ofEasyUS": "of Easy US LLC"
   },
   "theme": {
     "title": "Preferences",

@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -44,6 +44,7 @@ export default function Register() {
   const [isVerifying, setIsVerifying] = useState(false);
   const [isResending, setIsResending] = useState(false);
   const [acceptedTerms, setAcceptedTerms] = useState(false);
+  const [acceptedAge, setAcceptedAge] = useState(false);
   const { toast } = useToast();
 
   const registerSchema = useMemo(() => createRegisterSchema(t), [t]);
@@ -167,11 +168,17 @@ export default function Register() {
     }
   };
 
+  useEffect(() => {
+    if (isRegistered) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }, [isRegistered]);
+
   if (isRegistered) {
     return (
       <div className="min-h-screen bg-background bg-green-gradient-subtle font-sans">
         <Navbar />
-        <main className="pt-24 pb-16 px-5 sm:px-6 flex flex-col items-center justify-center min-h-[80vh]">
+        <main className="pt-24 pb-16 px-5 sm:px-6 flex flex-col items-center justify-center min-h-screen">
           <div className="w-full max-w-md">
             <div className="text-center mb-8">
               <h1 className="text-2xl sm:text-3xl font-black text-primary tracking-tight">
@@ -504,25 +511,48 @@ export default function Register() {
                       )}
                     </div>
 
-                    <label className="flex items-start gap-3 p-4 bg-accent/5 border border-accent/20 rounded-xl cursor-pointer hover:bg-accent/10 transition-colors">
-                      <input
-                        type="checkbox"
-                        checked={acceptedTerms}
-                        onChange={(e) => setAcceptedTerms(e.target.checked)}
-                        className="w-5 h-5 mt-0.5 rounded border-2 border-accent text-accent focus:ring-accent shrink-0"
-                        data-testid="checkbox-terms"
-                      />
-                      <span className="text-sm text-foreground leading-relaxed">
-                        {t("legal.termsAcceptance")}{" "}
-                        <Link href="/legal/terminos" data-testid="link-terms">
-                          <span className="text-accent underline font-medium">{t("legal.termsAndConditions")}</span>
-                        </Link>{" "}
-                        {t("legal.termsMiddle")}{" "}
-                        <Link href="/legal/privacidad" data-testid="link-privacy">
-                          <span className="text-accent underline font-medium">{t("legal.privacyPolicy")}</span>
-                        </Link>
-                      </span>
-                    </label>
+                    <div className="space-y-3">
+                      <p className="text-sm font-medium text-foreground">{t("auth.register.createAccountAccept")}</p>
+                      
+                      <label className="flex items-start gap-3 p-3 bg-accent/5 border border-accent/20 rounded-xl cursor-pointer hover:bg-accent/10 transition-colors">
+                        <input
+                          type="checkbox"
+                          checked={acceptedTerms}
+                          onChange={(e) => setAcceptedTerms(e.target.checked)}
+                          className="w-5 h-5 mt-0.5 rounded border-2 border-accent text-accent focus:ring-accent shrink-0"
+                          data-testid="checkbox-terms"
+                        />
+                        <span className="text-sm text-foreground leading-relaxed">
+                          <Link href="/legal/terminos" data-testid="link-terms">
+                            <span className="text-accent underline font-medium">{t("legal.termsAndConditions")}</span>
+                          </Link>,{" "}
+                          <Link href="/legal/privacidad" data-testid="link-privacy">
+                            <span className="text-accent underline font-medium">{t("legal.privacyPolicy")}</span>
+                          </Link>,{" "}
+                          <Link href="/legal/reembolsos" data-testid="link-refunds">
+                            <span className="text-accent underline font-medium">{t("legal.refundPolicy")}</span>
+                          </Link>{" "}
+                          {t("common.and")}{" "}
+                          <Link href="/legal/cookies" data-testid="link-cookies">
+                            <span className="text-accent underline font-medium">{t("legal.cookiePolicy")}</span>
+                          </Link>{" "}
+                          {t("legal.ofEasyUS")}
+                        </span>
+                      </label>
+
+                      <label className="flex items-start gap-3 p-3 bg-accent/5 border border-accent/20 rounded-xl cursor-pointer hover:bg-accent/10 transition-colors">
+                        <input
+                          type="checkbox"
+                          checked={acceptedAge}
+                          onChange={(e) => setAcceptedAge(e.target.checked)}
+                          className="w-5 h-5 mt-0.5 rounded border-2 border-accent text-accent focus:ring-accent shrink-0"
+                          data-testid="checkbox-age"
+                        />
+                        <span className="text-sm text-foreground leading-relaxed">
+                          {t("auth.register.ageConfirmation")}
+                        </span>
+                      </label>
+                    </div>
                   </div>
                 )}
               
@@ -533,7 +563,7 @@ export default function Register() {
                     type="button"
                     variant="outline"
                     onClick={prevStep}
-                    className="rounded-full font-black px-6 h-12 text-sm border-border"
+                    className="flex-1 rounded-full font-black h-12 text-sm border-border"
                     data-testid="button-prev"
                   >
                     <ArrowLeft className="w-4 h-4 mr-2" />
@@ -554,7 +584,7 @@ export default function Register() {
                 ) : (
                   <Button
                     type="submit"
-                    disabled={isLoading || !acceptedTerms}
+                    disabled={isLoading || !acceptedTerms || !acceptedAge}
                     className="flex-1 bg-accent text-accent-foreground font-black rounded-full h-12 text-sm shadow-lg shadow-accent/20 disabled:opacity-50"
                     data-testid="button-register"
                   >
