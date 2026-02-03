@@ -5,6 +5,8 @@ import logoIcon from "@/assets/logo-icon.png";
 import mercuryLogo from "@/assets/mercury-logo.png";
 import relayLogo from "@/assets/relay-logo.png";
 import mastercardLogo from "@/assets/mastercard-logo.png";
+import visaLogo from "@/assets/visa-logo.png";
+import trustpilotLogo from "@/assets/trustpilot-logo.png";
 
 export function Footer() {
   const [location, setLocation] = useLocation();
@@ -143,6 +145,12 @@ export function Footer() {
             </a>
             <a href="https://mastercard.com" target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity" data-testid="link-partner-mastercard">
               <img src={mastercardLogo} alt="Mastercard" className="h-8 sm:h-10 w-auto" />
+            </a>
+            <a href="https://visa.com" target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity" data-testid="link-partner-visa">
+              <img src={visaLogo} alt="Visa" className="h-8 sm:h-10 w-auto" />
+            </a>
+            <a href="https://trustpilot.com" target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity" data-testid="link-partner-trustpilot">
+              <img src={trustpilotLogo} alt="Trustpilot" className="h-8 sm:h-10 w-auto" style={{ filter: 'brightness(0) invert(1)' }} />
             </a>
           </div>
         </div>
