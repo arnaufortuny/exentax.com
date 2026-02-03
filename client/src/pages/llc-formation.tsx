@@ -617,20 +617,24 @@ export default function LlcFormation() {
                               field.onChange(opt.name);
                               setStep(1);
                             }}
-                            className={`flex items-center justify-between gap-3 p-4 rounded-2xl border-2 cursor-pointer transition-all active:scale-[0.98] ${
+                            className={`flex items-center justify-between gap-3 p-4 rounded-full border-2 cursor-pointer transition-all active:scale-[0.98] ${
                               field.value === opt.name 
                                 ? 'border-accent bg-accent/10 dark:bg-accent/20' 
                                 : 'border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 hover:border-accent/50'
                             }`}
                           >
-                            <div className="flex flex-col">
-                              <span className="font-bold text-foreground text-sm md:text-base">{opt.name}</span>
-                              <span className="text-xs text-muted-foreground">{opt.desc}</span>
+                            <div className="flex items-center gap-3">
+                              <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 ${
+                                field.value === opt.name ? 'border-accent bg-accent' : 'border-gray-300 dark:border-zinc-600'
+                              }`}>
+                                {field.value === opt.name && <div className="w-2 h-2 rounded-full bg-white" />}
+                              </div>
+                              <div className="flex flex-col">
+                                <span className="font-bold text-foreground text-sm md:text-base">{opt.name}</span>
+                                <span className="text-xs text-muted-foreground">{opt.desc}</span>
+                              </div>
                             </div>
-                            <div className="flex items-center gap-2">
-                              <span className="font-black text-accent text-lg">{opt.price}</span>
-                              {field.value === opt.name && <Check className="w-5 h-5 text-accent" />}
-                            </div>
+                            <span className="font-black text-accent text-lg">{opt.price}</span>
                           </label>
                         ))}
                       </div>

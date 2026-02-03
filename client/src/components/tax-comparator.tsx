@@ -344,7 +344,7 @@ export function TaxComparator() {
             <div className="p-6 sm:p-8 bg-background">
               <div className="flex flex-col items-center gap-4">
                 <div className="flex items-center gap-3">
-                  <img src={moneyIcon} alt="" className="w-8 h-8 object-contain" loading="lazy" decoding="async" />
+                  <img src={moneyIcon} alt="" className="w-6 h-6 object-contain" loading="lazy" decoding="async" />
                   <label className="text-sm font-black text-foreground">
                     {t("taxComparator.annualIncome")}
                   </label>
@@ -376,8 +376,8 @@ export function TaxComparator() {
                   className="p-6 sm:p-8 bg-background will-change-transform flex items-center justify-center min-h-[280px] w-full"
                 >
                   <div className="max-w-sm w-full mx-auto text-center">
-                    <div className="w-14 h-14 mx-auto mb-4 rounded-full bg-accent/20 flex items-center justify-center">
-                      <img src={emailIcon} alt="" className="w-7 h-7 object-contain" loading="lazy" decoding="async" />
+                    <div className="w-10 h-10 mx-auto mb-4 flex items-center justify-center">
+                      <img src={emailIcon} alt="" className="w-8 h-8 object-contain" loading="lazy" decoding="async" />
                     </div>
                     <h3 className="text-lg sm:text-xl font-black text-foreground mb-1">
                       {t("taxComparator.emailTitle")}

@@ -277,7 +277,7 @@ function HowWeWorkSection() {
           <img 
             src={howWeWorkImage} 
             alt="How we work process" 
-            className="w-full max-w-2xl mx-auto rounded-2xl"
+            className="w-full max-w-2xl mx-auto"
             loading="lazy"
           />
         </div>
