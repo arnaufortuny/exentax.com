@@ -1,12 +1,11 @@
 import { useState, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronDown, ChevronUp, TrendingUp, Calculator } from "lucide-react";
+import { ChevronDown, ChevronUp, TrendingUp, Calculator, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useLocation } from "wouter";
 import { apiRequest } from "@/lib/queryClient";
-import moneyIcon from "@/assets/icons/money-icon.png";
-import emailIcon from "@/assets/icons/email-icon.png";
+import moneyIcon from "@/assets/icons/money-icon.svg";
 
 interface TaxBreakdown {
   income: number;
@@ -377,7 +376,7 @@ export function TaxComparator() {
                 >
                   <div className="max-w-sm w-full mx-auto text-center">
                     <div className="w-10 h-10 mx-auto mb-4 flex items-center justify-center">
-                      <img src={emailIcon} alt="" className="w-8 h-8 object-contain" loading="lazy" decoding="async" />
+                      <Mail className="w-8 h-8 text-accent" />
                     </div>
                     <h3 className="text-lg sm:text-xl font-black text-foreground mb-1">
                       {t("taxComparator.emailTitle")}

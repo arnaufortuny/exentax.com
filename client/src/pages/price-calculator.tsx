@@ -6,7 +6,7 @@ import { Label } from "@/components/ui/label";
 import { NativeSelect } from "@/components/ui/native-select";
 import { Trash2, Plus, ArrowLeft, Calculator, TrendingUp, Percent, Package, Truck, PiggyBank } from "lucide-react";
 import { Link, useLocation } from "wouter";
-import moneyIconPath from "@/assets/icons/money-icon.png";
+import moneyIconPath from "@/assets/icons/money-icon.svg";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { useAuth } from "@/hooks/use-auth";

@@ -88,10 +88,11 @@ The application features a modern UI/UX with a consistent design system (Primary
 - **Operating Agreement Generator:** Professional 16-section legal document generator for completed LLCs with validated EIN, Easy US LLC branding, editable fields, automatic save to Document Center.
 
 ## Custom Icons
-The application uses custom branded icons stored in `client/src/assets/icons/`:
-- `calendar-icon.png` - Custom calendar icon for fiscal calendar widget
-- `email-icon.png` - Custom email icon for messaging features
-- `money-icon.png` - Custom money icon for financial displays
+The application uses custom branded SVG icons stored in `client/src/assets/icons/`:
+- `calendar-icon.svg` - Custom calendar icon for fiscal calendar widget (48x48, brand colors #22C55E/#DCFCE7)
+- `money-icon.svg` - Custom money/bill icon for financial displays (48x48, brand colors)
+- `tracking-icon.svg` - Custom clock icon for "Seguimiento" in client panel (48x48, brand colors)
+- Email functionality uses Lucide `Mail` icon for consistency
 
 ## External Dependencies
 - **Drizzle ORM:** Database interaction.
