@@ -157,7 +157,10 @@
     "heroSubtitle": "Nos encargamos de todo el proceso: desde la estructura correcta hasta los aspectos fiscales, bancarios y operativos, para que puedas centrarte en hacer crecer tu negocio con tranquilidad.",
     "llc": {
       "title": "Formación de LLC",
-      "description": "Constituye tu LLC americana de forma rápida y sencilla"
+      "description": "Constituye tu LLC americana de forma rápida y sencilla",
+      "messages": {
+        "codeSent": "Código enviado"
+      }
     },
     "maintenance": {
       "title": "Mantenimiento Anual",
@@ -974,8 +977,9 @@
     "downloadPdf": "Descargar PDF",
     "documentInfo": "Documento legal oficial",
     "lastUpdated": "Última actualización: 1 de febrero de 2026",
-    "termsAcceptance": "Al registrarte aceptas nuestros",
+    "termsAcceptance": "Acepto los",
     "termsAndConditions": "Términos y Condiciones",
+    "termsMiddle": "de Easy US LLC al crear mi cuenta. Entiendo y comprendo también la",
     "privacyPolicy": "Política de Privacidad"
   },
   "theme": {

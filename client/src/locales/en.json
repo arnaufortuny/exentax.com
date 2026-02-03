@@ -157,7 +157,10 @@
     "heroSubtitle": "We handle the entire process: from the right structure to tax, banking and operational aspects, so you can focus on growing your business with peace of mind.",
     "llc": {
       "title": "LLC Formation",
-      "description": "Form your US LLC quickly and easily"
+      "description": "Form your US LLC quickly and easily",
+      "messages": {
+        "codeSent": "Code sent"
+      }
     },
     "maintenance": {
       "title": "Annual Maintenance",
@@ -974,8 +977,9 @@
     "downloadPdf": "Download PDF",
     "documentInfo": "Official legal document",
     "lastUpdated": "Last updated: February 1, 2026",
-    "termsAcceptance": "By registering you accept our",
+    "termsAcceptance": "I accept the",
     "termsAndConditions": "Terms and Conditions",
+    "termsMiddle": "of Easy US LLC when creating my account. I also understand the",
     "privacyPolicy": "Privacy Policy"
   },
   "theme": {

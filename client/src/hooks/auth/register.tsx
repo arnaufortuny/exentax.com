@@ -517,7 +517,7 @@ export default function Register() {
                         <Link href="/legal/terminos" data-testid="link-terms">
                           <span className="text-accent underline font-medium">{t("legal.termsAndConditions")}</span>
                         </Link>{" "}
-                        {t("common.and")}{" "}
+                        {t("legal.termsMiddle")}{" "}
                         <Link href="/legal/privacidad" data-testid="link-privacy">
                           <span className="text-accent underline font-medium">{t("legal.privacyPolicy")}</span>
                         </Link>
