@@ -134,11 +134,11 @@ export function Footer() {
         <div className="mt-10 sm:mt-12 pt-8 border-t border-white/20">
           <h4 className="font-black text-base tracking-wider mb-6 text-center text-white/90">{t("footer.partners")}</h4>
           <div className="flex flex-wrap justify-center items-center gap-8 sm:gap-12">
-            <a href="https://mercury.com" target="_blank" rel="noopener noreferrer" className="opacity-80 hover:opacity-100 transition-opacity" data-testid="link-partner-mercury">
-              <img src={mercuryLogo} alt="Mercury" className="h-12 sm:h-14 w-auto brightness-0 invert hue-rotate-[80deg] saturate-150" />
+            <a href="https://mercury.com" target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity" data-testid="link-partner-mercury">
+              <img src={mercuryLogo} alt="Mercury" className="h-8 sm:h-10 w-auto brightness-0 invert hue-rotate-[80deg] saturate-150" />
             </a>
-            <a href="https://relayfi.com" target="_blank" rel="noopener noreferrer" className="opacity-80 hover:opacity-100 transition-opacity" data-testid="link-partner-relay">
-              <img src={relayLogo} alt="Relay" className="h-12 sm:h-14 w-auto brightness-0 invert sepia saturate-[10] hue-rotate-[85deg]" />
+            <a href="https://relayfi.com" target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity" data-testid="link-partner-relay">
+              <img src={relayLogo} alt="Relay" className="h-8 sm:h-10 w-auto brightness-0 invert sepia saturate-[10] hue-rotate-[85deg]" />
             </a>
           </div>
         </div>
