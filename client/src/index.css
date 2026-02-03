@@ -175,7 +175,7 @@ body {
 
   --border: 225 15% 20%;
   --input: 225 15% 13%;
-  --ring: 145 70% 48%;
+  --ring: 220 15% 50%;
 
   --card: 225 16% 11%;
   --card-foreground: 210 20% 98%;
@@ -188,7 +188,7 @@ body {
   --sidebar: 225 18% 6%;
   --sidebar-foreground: 210 20% 98%;
   --sidebar-border: 225 15% 18%;
-  --sidebar-ring: 145 70% 48%;
+  --sidebar-ring: 220 15% 50%;
   --sidebar-primary: 210 20% 98%;
   --sidebar-primary-foreground: 225 18% 8%;
   --sidebar-accent: 145 70% 48%;
