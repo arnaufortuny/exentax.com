@@ -1702,6 +1702,44 @@ export async function registerRoutes(
     }
   });
 
+  // Get completed LLCs for user (for Operating Agreement generator)
+  app.get("/api/user/completed-llcs", isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.session.userId;
+      
+      // Join LLC applications with orders to ensure ownership at DB level
+      const llcApps = await db.select({
+        id: llcApplicationsTable.id,
+        orderId: llcApplicationsTable.orderId,
+        companyName: llcApplicationsTable.companyName,
+        ein: llcApplicationsTable.ein,
+        state: llcApplicationsTable.state,
+        ownerFullName: llcApplicationsTable.ownerFullName,
+        ownerEmail: llcApplicationsTable.ownerEmail,
+        ownerIdNumber: llcApplicationsTable.ownerIdNumber,
+        ownerIdType: llcApplicationsTable.ownerIdType,
+        ownerAddress: llcApplicationsTable.ownerAddress,
+        ownerCity: llcApplicationsTable.ownerCity,
+        ownerCountry: llcApplicationsTable.ownerCountry,
+        ownerProvince: llcApplicationsTable.ownerProvince,
+        ownerPostalCode: llcApplicationsTable.ownerPostalCode,
+        llcCreatedDate: llcApplicationsTable.llcCreatedDate,
+        designator: llcApplicationsTable.designator,
+      })
+        .from(llcApplicationsTable)
+        .innerJoin(ordersTable, eq(llcApplicationsTable.orderId, ordersTable.id))
+        .where(and(
+          eq(ordersTable.userId, userId),
+          eq(ordersTable.status, 'completed')
+        ));
+      
+      res.json(llcApps);
+    } catch (error) {
+      console.error("Error fetching completed LLCs:", error);
+      res.status(500).json({ message: "Error fetching completed LLCs" });
+    }
+  });
+
   app.get("/api/user/documents", isAuthenticated, async (req: any, res) => {
     try {
       const userId = req.session.userId;

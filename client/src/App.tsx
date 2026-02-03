@@ -53,6 +53,7 @@ const ForgotPassword = lazy(() => lazyRetry(() => import("@/pages/auth/forgot-pa
 const Sales = lazy(() => lazyRetry(() => import("@/pages/funnel")));
 const InvoiceGenerator = lazy(() => lazyRetry(() => import("@/pages/invoice-generator")));
 const PriceCalculator = lazy(() => lazyRetry(() => import("@/pages/price-calculator")));
+const OperatingAgreement = lazy(() => lazyRetry(() => import("@/pages/operating-agreement")));
 const LinktreePage = lazy(() => lazyRetry(() => import("@/pages/linktree")));
 
 interface ErrorBoundaryState {
@@ -233,6 +234,7 @@ function MainRouter() {
           <Route path="/auth/forgot-password" component={ForgotPassword} />
           <Route path="/tools/invoice" component={InvoiceGenerator} />
           <Route path="/tools/price-calculator" component={PriceCalculator} />
+          <Route path="/tools/operating-agreement" component={OperatingAgreement} />
           <Route component={NotFound} />
         </Switch>
       </Suspense>
