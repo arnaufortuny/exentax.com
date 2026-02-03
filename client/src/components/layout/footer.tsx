@@ -135,14 +135,14 @@ export function Footer() {
         <div className="mt-10 sm:mt-14 pt-8 border-t border-white/20">
           <p className="text-center text-white/50 text-sm font-black tracking-widest mb-6">{t("footer.partners")}</p>
           <div className="flex items-center justify-center gap-8 sm:gap-12 flex-wrap">
-            <a href="https://es.trustpilot.com/review/easyusllc.com" target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity flex items-center gap-2 grayscale hover:grayscale-0">
-              <img src={trustpilotLogo} alt="Trustpilot" className="h-6 sm:h-7 w-auto brightness-0 invert" loading="lazy" />
+            <a href="https://es.trustpilot.com/review/easyusllc.com" target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity flex items-center gap-2">
+              <img src={trustpilotLogo} alt="Trustpilot" className="h-6 sm:h-7 w-auto" loading="lazy" />
             </a>
-            <a href="https://mercury.com" target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity flex items-center gap-2 grayscale hover:grayscale-0">
-              <img src={mercuryLogo} alt="Mercury" className="h-6 sm:h-7 w-auto brightness-0 invert" loading="lazy" />
+            <a href="https://mercury.com" target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity flex items-center gap-2">
+              <img src={mercuryLogo} alt="Mercury" className="h-6 sm:h-7 w-auto" loading="lazy" />
             </a>
-            <a href="https://relayfi.com" target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity flex items-center gap-2 grayscale hover:grayscale-0">
-              <img src={relayLogo} alt="Relay" className="h-6 sm:h-7 w-auto brightness-0 invert" loading="lazy" />
+            <a href="https://relayfi.com" target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity flex items-center gap-2">
+              <img src={relayLogo} alt="Relay" className="h-6 sm:h-7 w-auto" loading="lazy" />
             </a>
           </div>
         </div>
