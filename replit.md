@@ -23,6 +23,8 @@ I want to be communicated with in a clear and concise manner. I prefer explanati
 - **Production Review**: Complete security audit, performance optimization, and i18n verification
 - **Unified ID System**: Centralized order code generator with state prefix pattern (NM-12345678)
 - **Document Backup System**: Automated hourly backup of /uploads/ files to Replit Object Storage (GCS). Features incremental backup (only changed files), backup state tracking, and audit logging. Service at `server/lib/backup-service.ts`.
+- **Linktree Page Redesign**: Completely redesigned creamostullc.com landing page with professional green gradient background, always light mode, rounded buttons, instant loading (no progress bar), and mobile-first responsive design.
+- **Cleanup**: Removed unused attached_assets directory and temporary files.
 
 ## Domain Separation
 
@@ -50,7 +52,7 @@ I want to be communicated with in a clear and concise manner. I prefer explanati
 1. **NEVER** modify `linktree.tsx` or `funnel.tsx` when making changes to the main web system
 2. **NEVER** import shared components from main web into linktree/funnel (they are self-contained)
 3. **NEVER** add i18n to linktree/funnel - they use hardcoded Spanish intentionally
-4. Each domain has its own loading screen using the green progress bar (NO spinner circles)
+4. Linktree page loads instantly without loading screen; funnel.tsx uses green progress bar
 
 **Architecture in App.tsx:**
 ```javascript

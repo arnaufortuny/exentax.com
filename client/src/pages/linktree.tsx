@@ -1,15 +1,15 @@
-import { Instagram, Package, Briefcase, HelpCircle, Share2, ArrowRight, Clock, Check, Star, TrendingDown, ChevronDown, ChevronUp } from "lucide-react";
+import { Instagram, Package, Briefcase, HelpCircle, Share2, ArrowRight, Clock, Check, TrendingDown, ChevronDown, ChevronUp } from "lucide-react";
 import { FaWhatsapp } from "react-icons/fa";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Card } from "@/components/ui/card";
 import { useEffect, useState, useMemo } from "react";
 import { useToast } from "@/hooks/use-toast";
 import logoIcon from "@/assets/logo-icon.png";
 import { getFormationPriceFormatted } from "@shared/config/pricing";
 
 const SpainFlag = () => (
-  <svg viewBox="0 0 512 512" className="w-6 h-6 rounded-full shadow-sm">
+  <svg viewBox="0 0 512 512" className="w-5 h-5 rounded-full shadow-sm">
     <rect y="0" width="512" height="170.67" fill="#c60b1e"/>
     <rect y="170.67" width="512" height="170.67" fill="#ffc400"/>
     <rect y="341.33" width="512" height="170.67" fill="#c60b1e"/>
@@ -17,7 +17,7 @@ const SpainFlag = () => (
 );
 
 const USFlag = () => (
-  <svg viewBox="0 0 512 512" className="w-6 h-6 rounded-full shadow-sm">
+  <svg viewBox="0 0 512 512" className="w-5 h-5 rounded-full shadow-sm">
     <rect width="512" height="512" fill="#bf0a30"/>
     <rect y="39.4" width="512" height="39.4" fill="#fff"/>
     <rect y="118.2" width="512" height="39.4" fill="#fff"/>
@@ -117,9 +117,6 @@ const links = [
 
 export default function LinktreePage() {
   const { toast } = useToast();
-  const [isDark, setIsDark] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-  const [loadingProgress, setLoadingProgress] = useState(0);
   const [income, setIncome] = useState(50000);
   const [showDetails, setShowDetails] = useState(false);
   
@@ -136,37 +133,6 @@ export default function LinktreePage() {
   };
   
   const incomePresets = [30000, 50000, 75000, 100000];
-
-  useEffect(() => {
-    const darkModeMediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-    setIsDark(darkModeMediaQuery.matches);
-    
-    const handleChange = (e: MediaQueryListEvent) => setIsDark(e.matches);
-    darkModeMediaQuery.addEventListener('change', handleChange);
-    
-    let currentProgress = 0;
-    const timer = setInterval(() => {
-      currentProgress += Math.random() * 15 + 10;
-      if (currentProgress >= 100) {
-        currentProgress = 100;
-        clearInterval(timer);
-        setTimeout(() => setIsLoading(false), 100);
-      }
-      setLoadingProgress(currentProgress);
-    }, 80);
-
-    const forceComplete = setTimeout(() => {
-      clearInterval(timer);
-      setLoadingProgress(100);
-      setTimeout(() => setIsLoading(false), 100);
-    }, 1200);
-    
-    return () => {
-      darkModeMediaQuery.removeEventListener('change', handleChange);
-      clearInterval(timer);
-      clearTimeout(forceComplete);
-    };
-  }, []);
 
   const handleShare = async () => {
     const shareData = {
@@ -204,13 +170,13 @@ export default function LinktreePage() {
       tag.setAttribute('content', content);
     };
 
-    setMeta('description', `Optimiza tus impuestos con una LLC en EE. UU. Formación desde ${getFormationPriceFormatted("newMexico")}. Te ayudamos a estructurar tu negocio. Sin letra pequeña. Sin consultorías interminables.`);
+    setMeta('description', `Optimiza tus impuestos con una LLC en EE. UU. Formacion desde ${getFormationPriceFormatted("newMexico")}. Te ayudamos a estructurar tu negocio. Sin letra pequena. Sin consultorias interminables.`);
     setMeta('keywords', 'LLC Estados Unidos, crear LLC, empresa USA, optimizar impuestos, LLC para autonomos, LLC emprendedores, abrir empresa EEUU');
     setMeta('robots', 'index, follow');
     setMeta('author', 'Creamos tu LLC');
 
     setMeta('og:title', 'Creamos tu LLC | Optimiza tus impuestos con una LLC en EEUU', true);
-    setMeta('og:description', `Formación LLC desde ${getFormationPriceFormatted("newMexico")}. Sin letra pequeña. Sin consultorías interminables.`, true);
+    setMeta('og:description', `Formacion LLC desde ${getFormationPriceFormatted("newMexico")}. Sin letra pequena. Sin consultorias interminables.`, true);
     setMeta('og:type', 'website', true);
     setMeta('og:url', 'https://creamostullc.com', true);
     setMeta('og:site_name', 'Creamos tu LLC', true);
@@ -238,77 +204,60 @@ export default function LinktreePage() {
     favicon.setAttribute('type', 'image/png');
   }, []);
 
-  if (isLoading) {
-    return (
-      <div className={`min-h-screen flex items-center justify-center ${isDark ? 'bg-zinc-950' : 'bg-white'}`}>
-        <div className="w-64 space-y-4 flex flex-col items-center">
-          <div className={`w-full h-1.5 rounded-full overflow-hidden ${isDark ? 'bg-zinc-800' : 'bg-zinc-200'}`}>
-            <div 
-              className="h-full rounded-full transition-all duration-100 ease-out"
-              style={{ 
-                width: `${Math.min(loadingProgress, 100)}%`,
-                backgroundColor: '#6EDC8A',
-                boxShadow: '0 0 10px rgba(110, 220, 138, 0.5)'
-              }}
-            />
-          </div>
-          <div className="flex items-center gap-2">
-            <span className="font-black text-xl tabular-nums" style={{ color: '#6EDC8A' }}>{Math.min(Math.round(loadingProgress), 100)}%</span>
-            <span className={`text-sm font-medium ${isDark ? 'text-zinc-400' : 'text-zinc-500'}`}>Cargando</span>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
   return (
-    <div className={`min-h-screen flex flex-col ${isDark ? 'bg-zinc-950' : 'bg-white'}`}>
+    <div 
+      className="min-h-screen flex flex-col"
+      style={{
+        background: 'linear-gradient(135deg, #22c55e 0%, #16a34a 50%, #15803d 100%)'
+      }}
+    >
       <Button
         onClick={handleShare}
         size="icon"
         variant="ghost"
-        className={`fixed top-4 right-4 rounded-full z-50 ${isDark ? 'bg-zinc-800 text-white' : 'bg-zinc-100 text-zinc-900'}`}
+        className="fixed top-4 right-4 z-50 rounded-full bg-white/20 backdrop-blur-sm text-white"
         data-testid="button-share"
       >
         <Share2 className="w-5 h-5" />
       </Button>
 
-      <div className="flex-1 flex flex-col items-center justify-center px-5 py-12">
+      <div className="flex-1 flex flex-col items-center justify-start px-4 py-8 sm:py-12 sm:justify-center">
         <div className="w-full max-w-md mx-auto">
-          <div className="text-center mb-10">
-            <div className="flex justify-center mb-6">
-              <img 
-                src={logoIcon} 
-                alt="Creamos tu LLC" 
-                className="w-20 h-20 object-contain"
-              />
+          <div className="text-center mb-8">
+            <div className="flex justify-center mb-5">
+              <div className="w-20 h-20 rounded-full bg-white shadow-xl flex items-center justify-center">
+                <img 
+                  src={logoIcon} 
+                  alt="Creamos tu LLC" 
+                  className="w-14 h-14 object-contain"
+                />
+              </div>
             </div>
 
-            <h1 className={`text-3xl sm:text-4xl font-black tracking-tight leading-tight mb-4 ${isDark ? 'text-white' : 'text-zinc-900'}`}>
+            <h1 className="text-2xl sm:text-3xl font-black tracking-tight leading-tight mb-3 text-white drop-shadow-sm">
               Tu LLC en Estados Unidos
             </h1>
             
-            <p className={`text-base sm:text-lg mb-6 leading-relaxed ${isDark ? 'text-zinc-400' : 'text-zinc-600'}`}>
-              Formación desde <span className="font-bold" style={{ color: '#6EDC8A' }}>{getFormationPriceFormatted("newMexico")}</span>
+            <p className="text-base sm:text-lg mb-5 leading-relaxed text-white/90">
+              Formacion desde <span className="font-bold text-white">{getFormationPriceFormatted("newMexico")}</span>
               <br />
-              Todo incluido. Sin sorpresas.
+              <span className="text-white/80">Todo incluido. Sin sorpresas.</span>
             </p>
 
-            <div className={`flex flex-wrap items-center justify-center gap-4 text-sm font-medium mb-6 ${isDark ? 'text-zinc-400' : 'text-zinc-600'}`}>
-              <span className="flex items-center gap-1.5">
-                <Clock className="w-4 h-4" style={{ color: '#6EDC8A' }} />
+            <div className="flex flex-wrap items-center justify-center gap-3 text-sm font-medium text-white/90 mb-6">
+              <Badge variant="secondary" className="bg-white/20 backdrop-blur-sm text-white border-0">
+                <Clock className="w-3 h-3 mr-1" />
                 48-72h
-              </span>
-              <span className="flex items-center gap-1.5">
-                <Check className="w-4 h-4" style={{ color: '#6EDC8A' }} />
+              </Badge>
+              <Badge variant="secondary" className="bg-white/20 backdrop-blur-sm text-white border-0">
+                <Check className="w-3 h-3 mr-1" />
                 EIN incluido
-              </span>
-              <span className="flex items-center gap-1.5">
-                <Check className="w-4 h-4" style={{ color: '#6EDC8A' }} />
+              </Badge>
+              <Badge variant="secondary" className="bg-white/20 backdrop-blur-sm text-white border-0">
+                <Check className="w-3 h-3 mr-1" />
                 100% online
-              </span>
+              </Badge>
             </div>
-
           </div>
 
           <div className="space-y-3">
@@ -322,15 +271,12 @@ export default function LinktreePage() {
                 data-testid={`link-${link.label.toLowerCase().replace(/\s+/g, '-').replace(/[?¿]/g, '')}`}
               >
                 <Button
-                  className={`w-full font-bold text-base rounded-full flex items-center justify-center gap-3 ${
+                  className={`w-full font-bold text-base rounded-full flex items-center justify-center gap-3 shadow-lg ${
                     link.primary 
-                      ? 'shadow-lg shadow-green-500/30' 
-                      : isDark 
-                        ? 'bg-zinc-800 text-white border border-zinc-700' 
-                        : 'bg-white text-zinc-900 border border-zinc-200'
+                      ? 'bg-white text-green-600' 
+                      : 'bg-white/20 backdrop-blur-sm text-white border-2 border-white/30'
                   }`}
-                  style={link.primary ? { backgroundColor: '#6EDC8A', color: '#0E1215' } : undefined}
-                  variant={link.primary ? "default" : "outline"}
+                  variant={link.primary ? "secondary" : "outline"}
                   size="lg"
                 >
                   <link.icon className="w-5 h-5" />
@@ -341,110 +287,102 @@ export default function LinktreePage() {
             ))}
           </div>
 
-          {/* Tax Comparator */}
-          <div className="mt-10">
-            <Card className={`overflow-hidden ${isDark ? 'bg-zinc-900 border-zinc-800' : 'bg-white border-zinc-200'}`}>
-              <div className="p-5 text-center">
-                <Badge 
-                  className="mb-3 border-0 px-3 py-1 text-xs font-bold"
-                  style={{ backgroundColor: isDark ? 'rgba(34, 197, 94, 0.2)' : 'rgba(34, 197, 94, 0.15)', color: '#22c55e' }}
-                >
-                  Calculadora
-                </Badge>
-                <h3 className={`text-lg font-bold mb-2 ${isDark ? 'text-white' : 'text-zinc-900'}`}>
-                  ¿Cuánto te ahorras?
-                </h3>
-                
-                <div className="flex flex-wrap gap-2 justify-center mb-3">
-                  {incomePresets.map((preset) => (
-                    <button
-                      key={preset}
-                      onClick={() => setIncome(preset)}
-                      className={`px-3 py-1.5 rounded-full text-xs font-semibold transition-all ${
-                        income === preset
-                          ? 'text-white shadow-sm'
-                          : isDark 
-                            ? 'bg-zinc-800 text-zinc-300' 
-                            : 'bg-zinc-100 text-zinc-700'
-                      }`}
-                      style={income === preset ? { backgroundColor: '#6EDC8A', color: '#0E1215' } : {}}
-                      data-testid={`button-preset-${preset}`}
-                    >
-                      {formatCurrency(preset)}
-                    </button>
-                  ))}
+          <Card className="mt-8 bg-white rounded-3xl shadow-2xl overflow-hidden border-0">
+            <div className="p-5 text-center">
+              <Badge className="mb-3 bg-green-100 text-green-600 border-0">
+                Calculadora
+              </Badge>
+              <h3 className="text-lg font-bold mb-3 text-gray-900">
+                ¿Cuanto te ahorras?
+              </h3>
+              
+              <div className="flex flex-wrap gap-2 justify-center mb-3">
+                {incomePresets.map((preset) => (
+                  <Button
+                    key={preset}
+                    onClick={() => setIncome(preset)}
+                    variant={income === preset ? "default" : "outline"}
+                    size="sm"
+                    className={`rounded-full ${
+                      income === preset
+                        ? 'bg-green-500 text-white'
+                        : 'bg-gray-100 text-gray-700 border-0'
+                    }`}
+                    data-testid={`button-preset-${preset}`}
+                  >
+                    {formatCurrency(preset)}
+                  </Button>
+                ))}
+              </div>
+            </div>
+            
+            <div className="grid grid-cols-2 gap-3 px-5 pb-3">
+              <div className="p-4 rounded-2xl text-center bg-red-50">
+                <div className="flex items-center justify-center gap-1.5 mb-1">
+                  <SpainFlag />
+                  <span className="text-xs font-semibold text-gray-900">Autonomo</span>
                 </div>
+                <p className="text-xl font-black text-red-500" data-testid="text-spain-total">{formatCurrency(spanishTaxes.total)}</p>
+                <p className="text-xs text-gray-400">impuestos</p>
               </div>
               
-              <div className={`grid grid-cols-2 gap-3 px-5 pb-3`}>
-                <div className={`p-3 rounded-xl text-center ${isDark ? 'bg-red-900/30' : 'bg-red-50'}`}>
-                  <div className="flex items-center justify-center gap-1.5 mb-1">
-                    <SpainFlag />
-                    <span className={`text-xs font-semibold ${isDark ? 'text-white' : 'text-zinc-900'}`}>Autónomo</span>
-                  </div>
-                  <p className="text-lg font-black text-red-500" data-testid="text-spain-total">{formatCurrency(spanishTaxes.total)}</p>
-                  <p className={`text-xs ${isDark ? 'text-zinc-500' : 'text-zinc-400'}`}>impuestos</p>
+              <div className="p-4 rounded-2xl text-center bg-green-50">
+                <div className="flex items-center justify-center gap-1.5 mb-1">
+                  <USFlag />
+                  <span className="text-xs font-semibold text-gray-900">LLC USA</span>
                 </div>
-                
-                <div className={`p-3 rounded-xl text-center ${isDark ? 'bg-green-900/30' : 'bg-green-50'}`}>
-                  <div className="flex items-center justify-center gap-1.5 mb-1">
-                    <USFlag />
-                    <span className={`text-xs font-semibold ${isDark ? 'text-white' : 'text-zinc-900'}`}>LLC USA</span>
-                  </div>
-                  <p className="text-lg font-black text-green-500" data-testid="text-usa-total">{formatCurrency(0)}</p>
-                  <p className={`text-xs ${isDark ? 'text-zinc-500' : 'text-zinc-400'}`}>impuestos</p>
-                </div>
+                <p className="text-xl font-black text-green-500" data-testid="text-usa-total">{formatCurrency(0)}</p>
+                <p className="text-xs text-gray-400">impuestos</p>
               </div>
-              
-              <div className="px-5 pb-5">
-                <div className="p-4 rounded-xl text-center" style={{ backgroundColor: isDark ? 'rgba(110, 220, 138, 0.1)' : 'rgba(110, 220, 138, 0.08)' }}>
-                  <div className="flex items-center justify-center gap-1.5 mb-1">
-                    <TrendingDown className="w-4 h-4" style={{ color: '#6EDC8A' }} />
-                    <span className={`text-xs font-semibold ${isDark ? 'text-zinc-300' : 'text-zinc-600'}`}>Tu ahorro</span>
-                  </div>
-                  <p className="text-2xl font-black" style={{ color: '#6EDC8A' }} data-testid="text-savings-amount">{formatCurrency(savings)}</p>
-                  <p className={`text-xs ${isDark ? 'text-zinc-400' : 'text-zinc-500'}`}>
-                    {Math.round(savingsPercentage)}% de tus ingresos
-                  </p>
+            </div>
+            
+            <div className="px-5 pb-5">
+              <div className="p-5 rounded-2xl text-center bg-gradient-to-r from-green-50 to-emerald-50">
+                <div className="flex items-center justify-center gap-1.5 mb-1">
+                  <TrendingDown className="w-4 h-4 text-green-500" />
+                  <span className="text-xs font-semibold text-gray-600">Tu ahorro</span>
                 </div>
+                <p className="text-3xl font-black text-green-500" data-testid="text-savings-amount">{formatCurrency(savings)}</p>
+                <p className="text-xs text-gray-500">
+                  {Math.round(savingsPercentage)}% de tus ingresos
+                </p>
               </div>
-              
-              <button
-                onClick={() => setShowDetails(!showDetails)}
-                className={`w-full p-3 flex items-center justify-center gap-1.5 text-xs font-semibold transition-colors border-t ${
-                  isDark ? 'text-zinc-400 hover:text-zinc-200 border-zinc-800' : 'text-zinc-500 hover:text-zinc-700 border-zinc-200'
-                }`}
-                data-testid="button-toggle-details"
-              >
-                {showDetails ? 'Ocultar' : 'Ver desglose'}
-                {showDetails ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />}
-              </button>
-              
-              {showDetails && (
-                <div className={`p-4 border-t text-xs ${isDark ? 'bg-zinc-800/50 border-zinc-800' : 'bg-zinc-50 border-zinc-200'}`}>
-                  <div className="space-y-1.5">
-                    <div className={`flex justify-between ${isDark ? 'text-zinc-300' : 'text-zinc-700'}`}>
-                      <span>IRPF</span>
-                      <span className="font-semibold" data-testid="text-irpf">{formatCurrency(spanishTaxes.irpf)}</span>
-                    </div>
-                    <div className={`flex justify-between ${isDark ? 'text-zinc-300' : 'text-zinc-700'}`}>
-                      <span>Seg. Social</span>
-                      <span className="font-semibold" data-testid="text-social-security">{formatCurrency(spanishTaxes.socialSecurity)}</span>
-                    </div>
-                    <div className={`flex justify-between ${isDark ? 'text-zinc-300' : 'text-zinc-700'}`}>
-                      <span>IVA (21%)</span>
-                      <span className="font-semibold" data-testid="text-vat">{formatCurrency(spanishTaxes.vat)}</span>
-                    </div>
+            </div>
+            
+            <Button
+              onClick={() => setShowDetails(!showDetails)}
+              variant="ghost"
+              className="w-full rounded-none border-t border-gray-100 text-gray-500"
+              data-testid="button-toggle-details"
+            >
+              {showDetails ? 'Ocultar' : 'Ver desglose'}
+              {showDetails ? <ChevronUp className="w-3 h-3 ml-1" /> : <ChevronDown className="w-3 h-3 ml-1" />}
+            </Button>
+            
+            {showDetails && (
+              <div className="p-5 border-t border-gray-100 bg-gray-50 text-sm">
+                <div className="space-y-2">
+                  <div className="flex justify-between text-gray-700">
+                    <span>IRPF</span>
+                    <span className="font-semibold" data-testid="text-irpf">{formatCurrency(spanishTaxes.irpf)}</span>
                   </div>
-                  <p className={`mt-3 text-xs leading-relaxed ${isDark ? 'text-zinc-500' : 'text-zinc-400'}`}>
-                    LLC USA sin presencia física = 0% impuestos. Consulta tu caso.
-                  </p>
+                  <div className="flex justify-between text-gray-700">
+                    <span>Seg. Social</span>
+                    <span className="font-semibold" data-testid="text-social-security">{formatCurrency(spanishTaxes.socialSecurity)}</span>
+                  </div>
+                  <div className="flex justify-between text-gray-700">
+                    <span>IVA (21%)</span>
+                    <span className="font-semibold" data-testid="text-vat">{formatCurrency(spanishTaxes.vat)}</span>
+                  </div>
                 </div>
-              )}
-            </Card>
-          </div>
+                <p className="mt-4 text-xs leading-relaxed text-gray-400">
+                  LLC USA sin presencia fisica = 0% impuestos. Consulta tu caso.
+                </p>
+              </div>
+            )}
+          </Card>
 
-          <div className={`mt-10 text-center text-xs ${isDark ? 'text-zinc-600' : 'text-zinc-400'}`}>
+          <div className="mt-8 text-center text-xs text-white/60">
             © {new Date().getFullYear()} Easy US LLC
           </div>
         </div>
