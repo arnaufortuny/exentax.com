@@ -1221,8 +1221,11 @@ export default function Dashboard() {
                       <Card key={doc.id} className="rounded-xl md:rounded-2xl border-0 shadow-sm p-4 md:p-6 flex flex-col items-center text-center bg-white dark:bg-card">
                         <FileUp className="w-10 h-10 md:w-12 md:h-12 text-accent mb-3" />
                         <h3 className="font-bold text-primary mb-1 text-xs md:text-sm line-clamp-2">{doc.fileName}</h3>
-                        <p className="text-[9px] md:text-[10px] text-muted-foreground mb-3">{new Date(doc.createdAt || doc.uploadedAt).toLocaleDateString()}</p>
-                        <div className="flex gap-2 w-full">
+                        <p className="text-[9px] md:text-[10px] text-muted-foreground">{new Date(doc.createdAt || doc.uploadedAt).toLocaleDateString()}</p>
+                        {doc.uploader && (
+                          <p className="text-[9px] text-accent mb-1">Subido por: {doc.uploader.firstName} {doc.uploader.lastName}</p>
+                        )}
+                        <div className="flex gap-2 w-full mt-3">
                           <Button variant="outline" size="sm" className="rounded-full font-bold flex-1 text-[10px] md:text-xs" onClick={() => window.open(doc.fileUrl, "_blank")} data-testid={`button-download-doc-${doc.id}`}>
                             <Download className="w-3 h-3 mr-1" /> Descargar
                           </Button>
@@ -1653,6 +1656,16 @@ export default function Dashboard() {
                               <div className="flex-1 min-w-0">
                                 <div className="flex items-center gap-2 flex-wrap mb-1">
                                   <p className="font-black text-sm">{orderCode}</p>
+                                  <NativeSelect 
+                                    value={order.status} 
+                                    onValueChange={val => updateStatusMutation.mutate({ id: order.id, status: val })}
+                                    className="w-28 h-7 rounded-lg text-xs bg-white dark:bg-card border px-2"
+                                  >
+                                    <NativeSelectItem value="pending">Pendiente</NativeSelectItem>
+                                    <NativeSelectItem value="paid">Pagado</NativeSelectItem>
+                                    <NativeSelectItem value="filed">Presentado</NativeSelectItem>
+                                    <NativeSelectItem value="cancelled">Cancelado</NativeSelectItem>
+                                  </NativeSelect>
                                   <Badge className={`text-[9px] ${isMaintenance ? 'bg-blue-100 text-blue-700' : 'bg-green-100 text-green-700'}`}>
                                     {isMaintenance ? 'MANTENIMIENTO' : 'LLC'}
                                   </Badge>
@@ -1675,16 +1688,6 @@ export default function Dashboard() {
                                 {app?.businessCategory && <p className="text-xs text-muted-foreground"><strong>Categoría:</strong> {app.businessCategory}</p>}
                                 {isMaintenance && app?.ein && <p className="text-xs text-muted-foreground"><strong>EIN:</strong> {app.ein}</p>}
                               </div>
-                              <NativeSelect 
-                                value={order.status} 
-                                onValueChange={val => updateStatusMutation.mutate({ id: order.id, status: val })}
-                                className="w-28 h-9 rounded-lg text-xs bg-white dark:bg-card border px-3 relative z-0"
-                              >
-                                <NativeSelectItem value="pending">Pendiente</NativeSelectItem>
-                                <NativeSelectItem value="paid">Pagado</NativeSelectItem>
-                                <NativeSelectItem value="filed">Presentado</NativeSelectItem>
-                                <NativeSelectItem value="cancelled">Cancelado</NativeSelectItem>
-                              </NativeSelect>
                             </div>
                             <div className="flex gap-2 flex-wrap">
                               <Button size="sm" variant="outline" className="rounded-full text-xs" onClick={() => window.open(`/api/admin/invoice/${order.id}`, '_blank')} data-testid={`btn-view-invoice-${order.id}`}>
@@ -1968,6 +1971,40 @@ export default function Dashboard() {
                                   data-testid={`button-tax-extension-${app.id}`}
                                 >
                                   {app.hasTaxExtension ? t("dashboard.calendar.taxExtension.active") : t("dashboard.calendar.taxExtension.inactive")}
+                                </Button>
+                              </div>
+                              {/* Clear Calendar Button */}
+                              <div className="mt-3 md:mt-4 pt-3 md:pt-4 border-t flex items-center justify-between">
+                                <div>
+                                  <Label className="text-xs md:text-sm font-bold text-foreground text-red-600">Limpiar Calendario</Label>
+                                  <p className="text-[10px] md:text-xs text-muted-foreground">
+                                    Eliminar todas las fechas de este calendario
+                                  </p>
+                                </div>
+                                <Button
+                                  size="sm"
+                                  variant="outline"
+                                  className="rounded-full text-xs text-red-600 border-red-200 hover:bg-red-50"
+                                  onClick={async () => {
+                                    if (!confirm('¿Estás seguro de que quieres eliminar todas las fechas de este calendario?')) return;
+                                    try {
+                                      // Clear all dates
+                                      await Promise.all([
+                                        apiRequest("PATCH", `/api/admin/llc/${app.id}/dates`, { field: 'llcCreatedDate', value: null }),
+                                        apiRequest("PATCH", `/api/admin/llc/${app.id}/dates`, { field: 'agentRenewalDate', value: null }),
+                                        apiRequest("PATCH", `/api/admin/llc/${app.id}/dates`, { field: 'irs1120DueDate', value: null }),
+                                        apiRequest("PATCH", `/api/admin/llc/${app.id}/dates`, { field: 'irs5472DueDate', value: null }),
+                                        apiRequest("PATCH", `/api/admin/llc/${app.id}/dates`, { field: 'annualReportDueDate', value: null }),
+                                      ]);
+                                      queryClient.invalidateQueries({ queryKey: ["/api/admin/orders"] });
+                                      toast({ title: "Calendario limpiado", description: "Todas las fechas han sido eliminadas" });
+                                    } catch {
+                                      toast({ title: "Error al limpiar calendario", variant: "destructive" });
+                                    }
+                                  }}
+                                  data-testid={`button-clear-calendar-${app.id}`}
+                                >
+                                  <Trash2 className="w-3 h-3 mr-1" /> Limpiar
                                 </Button>
                               </div>
                             </div>

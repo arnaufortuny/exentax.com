@@ -1792,7 +1792,10 @@ export async function registerRoutes(
       const userId = req.session.userId;
       
       // Get documents associated with user's orders
-      const orderDocs = await db.select().from(applicationDocumentsTable)
+      const orderDocs = await db.select({
+        doc: applicationDocumentsTable,
+        order: ordersTable
+      }).from(applicationDocumentsTable)
         .leftJoin(ordersTable, eq(applicationDocumentsTable.orderId, ordersTable.id))
         .where(eq(ordersTable.userId, userId))
         .orderBy(desc(applicationDocumentsTable.uploadedAt));
@@ -1803,12 +1806,27 @@ export async function registerRoutes(
         .orderBy(desc(applicationDocumentsTable.uploadedAt));
       
       // Combine and deduplicate
-      const allDocs = [...orderDocs.map(d => d.application_documents), ...directDocs];
+      const allDocs = [...orderDocs.map(d => d.doc), ...directDocs];
       const uniqueDocs = allDocs.filter((doc, index, self) => 
         index === self.findIndex(d => d.id === doc.id)
       );
       
-      res.json(uniqueDocs);
+      // Fetch uploader info for each doc
+      const docsWithUploader = await Promise.all(uniqueDocs.map(async (doc) => {
+        let uploader = null;
+        if (doc.uploadedBy) {
+          const [uploaderUser] = await db.select({
+            id: usersTable.id,
+            firstName: usersTable.firstName,
+            lastName: usersTable.lastName,
+            isAdmin: usersTable.isAdmin
+          }).from(usersTable).where(eq(usersTable.id, doc.uploadedBy)).limit(1);
+          uploader = uploaderUser || null;
+        }
+        return { ...doc, uploader };
+      }));
+      
+      res.json(docsWithUploader);
     } catch (error) {
       res.status(500).json({ message: "Error fetching documents" });
     }
