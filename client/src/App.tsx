@@ -6,6 +6,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { ThemeProvider } from "@/hooks/use-theme";
 import { useState, useEffect, Suspense, lazy, Component, type ReactNode } from "react";
 import { useTranslation } from "react-i18next";
+import i18n from "@/lib/i18n";
 import NotFound from "@/pages/not-found";
 import logoIcon from "@/assets/logo-icon.png";
 
@@ -120,7 +121,7 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
           <div className="min-h-screen bg-background flex flex-col items-center justify-center p-4">
             <div className="text-center space-y-4">
               <div className="w-8 h-8 border-4 border-accent border-t-transparent rounded-full animate-spin mx-auto" />
-              <p className="text-muted-foreground">Cargando...</p>
+              <p className="text-muted-foreground">{i18n.t("common.loading")}</p>
             </div>
           </div>
         );
@@ -129,22 +130,22 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
       return this.props.fallback || (
         <div className="min-h-screen bg-background flex flex-col items-center justify-center p-4">
           <div className="text-center space-y-4">
-            <h2 className="text-xl font-semibold text-foreground">Error al cargar</h2>
-            <p className="text-muted-foreground">Hubo un problema al cargar la página.</p>
+            <h2 className="text-xl font-semibold text-foreground">{i18n.t("common.errorLoading")}</h2>
+            <p className="text-muted-foreground">{i18n.t("common.errorLoadingDescription")}</p>
             <div className="flex gap-2 justify-center">
               <button
                 onClick={this.handleRetry}
                 className="px-4 py-2 bg-muted text-foreground rounded-md font-medium"
                 data-testid="button-retry"
               >
-                Reintentar
+                {i18n.t("common.retry")}
               </button>
               <button
                 onClick={this.handleReload}
                 className="px-4 py-2 bg-accent text-white rounded-md font-medium"
                 data-testid="button-reload"
               >
-                Recargar página
+                {i18n.t("common.reloadPage")}
               </button>
             </div>
           </div>

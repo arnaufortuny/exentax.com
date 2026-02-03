@@ -128,10 +128,10 @@ export function Navbar() {
               <Button 
                 onClick={() => setLocation("/auth/login")}
                 variant="outline"
-                className="rounded-full border-2 border-accent text-foreground font-black text-sm h-11 px-5 flex items-center gap-2 hover:scale-105 transition-all shadow-lg active:scale-95 shadow-accent/10"
+                className="rounded-full border-2 border-accent text-foreground font-black text-base h-12 px-6 flex items-center gap-2 hover:scale-105 transition-all shadow-lg active:scale-95 shadow-accent/10"
                 data-testid="button-desktop-login"
               >
-                <UserIcon className="w-4 h-4" /> {t("nav.login")}
+                <UserIcon className="w-5 h-5" /> {t("nav.login")}
               </Button>
             )}
             {!authLoading && !isAuthenticated && (
@@ -159,10 +159,10 @@ export function Navbar() {
             <Link href={isAuthenticated ? "/dashboard" : "/auth/login"}>
               <Button 
                 variant="outline"
-                className="border-2 border-accent text-accent hover:bg-accent hover:text-accent-foreground bg-white dark:bg-zinc-900 rounded-full px-3 h-9 text-xs font-black flex items-center gap-1.5"
+                className="border-2 border-accent text-accent hover:bg-accent hover:text-accent-foreground bg-white dark:bg-zinc-900 rounded-full px-4 h-10 text-sm font-black flex items-center gap-2"
                 data-testid={isAuthenticated ? "link-mobile-dashboard" : "button-mobile-login"}
               >
-                <UserIcon className="w-3.5 h-3.5" />
+                <UserIcon className="w-4 h-4" />
                 <span>{isAuthenticated ? t("nav.myArea") : t("nav.login")}</span>
               </Button>
             </Link>
