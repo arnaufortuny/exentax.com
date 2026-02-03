@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { queryClient, apiRequest } from "@/lib/queryClient";
 import { Building2, FileText, Clock, ChevronRight, User as UserIcon, Settings, Package, CreditCard, PlusCircle, Download, ExternalLink, Mail, BellRing, CheckCircle2, AlertCircle, MessageSquare, Send, Shield, Users, Power, Edit, Trash2, FileUp, Newspaper, Loader2, CheckCircle, Receipt, Plus, Calendar, DollarSign, TrendingUp, BarChart3, UserCheck, UserX, Star, Eye, FileCheck, Upload, XCircle, Tag, Percent, X, Calculator, Archive, Key } from "lucide-react";
+import emailIconPath from "@/assets/icons/email-icon.png";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { useEffect, useState, useMemo, useCallback } from "react";
@@ -756,7 +757,7 @@ export default function Dashboard() {
                 {!user?.emailVerified ? (
                   <div className="bg-orange-50 dark:bg-orange-900/20 border border-orange-200 dark:border-orange-800 rounded-xl p-4">
                     <div className="flex items-center gap-2 mb-3">
-                      <Mail className="w-4 h-4 text-orange-600" />
+                      <img src={emailIconPath} alt="" className="w-4 h-4" />
                       <span className="font-bold text-sm text-orange-800 dark:text-orange-300">{t("dashboard.pendingAccount.verifyEmailStep")}</span>
                     </div>
                     <p className="text-xs text-orange-600 dark:text-orange-400 mb-3">
@@ -965,7 +966,7 @@ export default function Dashboard() {
             <Card className="mt-4 p-4 rounded-2xl border-2 border-orange-200 bg-orange-50 dark:bg-orange-900/20 dark:border-orange-800">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-full bg-orange-100 dark:bg-orange-900/40 flex items-center justify-center shrink-0">
-                  <Mail className="w-5 h-5 text-orange-600 dark:text-orange-400" />
+                  <img src={emailIconPath} alt="" className="w-5 h-5" />
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="font-bold text-sm text-orange-800 dark:text-orange-300">Verifica tu email</p>
