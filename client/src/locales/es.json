@@ -1151,17 +1151,40 @@
     "title": "¿Cuánto puedes ahorrar?",
     "titlePart1": "CALCULA TU",
     "titlePart2": "AHORRO ANUAL",
-    "subtitle": "Compara tu situación fiscal actual como autónomo en España vs una LLC en Estados Unidos",
+    "subtitle": "Compara tu situación fiscal actual vs una LLC en Estados Unidos",
     "taxes": "IMPUESTOS",
-    "annualIncome": "Selecciona tus ingresos anuales brutos",
+    "selectCountry": "¿DESDE QUÉ PAÍS TRABAJAS?",
+    "annualIncome": "Ingresos anuales brutos",
     "minIncome": "20.000€",
     "maxIncome": "200.000€",
-    "spanish": {
-      "title": "Autónomo en España",
-      "subtitle": "Régimen de autónomos",
-      "irpf": "IRPF (según tramos)",
-      "socialSecurity": "Cuota de autónomos",
-      "vat": "IVA (21%)"
+    "incomeTax": "Impuesto sobre la renta",
+    "socialSecurity": "Seguridad social",
+    "vat": "IVA",
+    "countries": {
+      "spain": {
+        "title": "Autónomo en España",
+        "subtitle": "Régimen de autónomos"
+      },
+      "uk": {
+        "title": "Autónomo en Reino Unido",
+        "subtitle": "Self-employed + NI"
+      },
+      "germany": {
+        "title": "Freelancer en Alemania",
+        "subtitle": "Freiberufler"
+      },
+      "france": {
+        "title": "Auto-entrepreneur en Francia",
+        "subtitle": "Micro-entreprise"
+      },
+      "lithuania": {
+        "title": "Autónomo en Lituania",
+        "subtitle": "Individualios veiklos"
+      },
+      "bulgaria": {
+        "title": "Freelancer en Bulgaria",
+        "subtitle": "Свободна практика"
+      }
     },
     "usllc": {
       "title": "LLC en Estados Unidos",

@@ -1151,17 +1151,40 @@
     "title": "How much can you save?",
     "titlePart1": "CALCULATE YOUR",
     "titlePart2": "ANNUAL SAVINGS",
-    "subtitle": "Compare your current tax situation as a freelancer in Spain vs a US LLC",
+    "subtitle": "Compare your current tax situation vs a US LLC",
     "taxes": "TAXES",
-    "annualIncome": "Select your gross annual income",
+    "selectCountry": "WHERE DO YOU WORK FROM?",
+    "annualIncome": "Gross annual income",
     "minIncome": "€20,000",
     "maxIncome": "€200,000",
-    "spanish": {
-      "title": "Freelancer in Spain",
-      "subtitle": "Self-employed regime",
-      "irpf": "Income Tax (by brackets)",
-      "socialSecurity": "Social Security",
-      "vat": "VAT (21%)"
+    "incomeTax": "Income tax",
+    "socialSecurity": "Social security",
+    "vat": "VAT",
+    "countries": {
+      "spain": {
+        "title": "Freelancer in Spain",
+        "subtitle": "Self-employed regime"
+      },
+      "uk": {
+        "title": "Freelancer in UK",
+        "subtitle": "Self-employed + NI"
+      },
+      "germany": {
+        "title": "Freelancer in Germany",
+        "subtitle": "Freiberufler"
+      },
+      "france": {
+        "title": "Auto-entrepreneur in France",
+        "subtitle": "Micro-entreprise"
+      },
+      "lithuania": {
+        "title": "Freelancer in Lithuania",
+        "subtitle": "Individual activity"
+      },
+      "bulgaria": {
+        "title": "Freelancer in Bulgaria",
+        "subtitle": "Sole proprietor"
+      }
     },
     "usllc": {
       "title": "US LLC",
