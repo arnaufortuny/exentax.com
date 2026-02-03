@@ -1,4 +1,4 @@
-import { Instagram, Package, Briefcase, HelpCircle, Share2, ArrowRight, Clock, Check, Star, Calculator, TrendingDown, ChevronDown, ChevronUp } from "lucide-react";
+import { Instagram, Package, Briefcase, HelpCircle, Share2, ArrowRight, Clock, Check, Star, TrendingDown, ChevronDown, ChevronUp } from "lucide-react";
 import { FaWhatsapp } from "react-icons/fa";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -349,7 +349,6 @@ export default function LinktreePage() {
                   className="mb-3 border-0 px-3 py-1 text-xs font-bold"
                   style={{ backgroundColor: isDark ? 'rgba(34, 197, 94, 0.2)' : 'rgba(34, 197, 94, 0.15)', color: '#22c55e' }}
                 >
-                  <Calculator className="w-3 h-3 mr-1.5" />
                   Calculadora
                 </Badge>
                 <h3 className={`text-lg font-bold mb-2 ${isDark ? 'text-white' : 'text-zinc-900'}`}>

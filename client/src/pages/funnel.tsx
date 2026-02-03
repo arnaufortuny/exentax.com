@@ -20,7 +20,6 @@ import {
   ChevronDown,
   Sparkles,
   Star,
-  Calculator,
   TrendingDown
 } from "lucide-react";
 import { SiWhatsapp } from "react-icons/si";
@@ -150,7 +149,6 @@ function TaxComparatorSection({ whatsappUrl }: { whatsappUrl: string }) {
       <div className="max-w-lg mx-auto">
         <div className="text-center mb-10 sm:mb-14 flex flex-col items-center">
           <Badge className="mb-4 bg-accent/15 text-accent border-0 px-4 py-2 text-sm font-bold">
-            <Calculator className="w-4 h-4 mr-2" />
             Calcula tu ahorro
           </Badge>
           <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-[1.1]">
