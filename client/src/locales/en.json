@@ -1265,11 +1265,19 @@
     "backToDashboard": "Back to dashboard",
     "invoiceGenerator": {
       "loginRequired": "Login Required",
-      "loginDescription": "Log in to use the invoice generator."
+      "loginDescription": "Log in to use the invoice generator.",
+      "title": "Invoice Generator",
+      "subtitle": "Create professional invoices",
+      "backToDashboard": "Back to dashboard",
+      "validationError": "Please complete all required fields",
+      "generationError": "Error generating PDF"
     },
     "priceCalculator": {
       "loginRequired": "Login Required",
-      "loginDescription": "Log in to use the price calculator."
+      "loginDescription": "Log in to use the price calculator.",
+      "title": "Price Calculator",
+      "subtitle": "Calculate prices with margins and costs professionally",
+      "backToDashboard": "Back to Dashboard"
     },
     "operatingAgreement": {
       "title": "Operating Agreement Generator",

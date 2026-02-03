@@ -115,7 +115,7 @@ export default function PriceCalculator() {
           <Link href="/dashboard">
             <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground mb-4 -ml-2" data-testid="button-back-dashboard">
               <ArrowLeft className="w-4 h-4 mr-2" />
-              Volver al Dashboard
+              {t('tools.priceCalculator.backToDashboard')}
             </Button>
           </Link>
           
@@ -124,8 +124,8 @@ export default function PriceCalculator() {
               <Calculator className="w-6 h-6 text-accent" />
             </div>
             <div>
-              <h1 className="text-2xl md:text-3xl font-bold text-foreground">Calculadora de Precios</h1>
-              <p className="text-sm text-muted-foreground">Calcula precios con márgenes y costos de forma profesional</p>
+              <h1 className="text-2xl md:text-3xl font-bold text-foreground">{t('tools.priceCalculator.title')}</h1>
+              <p className="text-sm text-muted-foreground">{t('tools.priceCalculator.subtitle')}</p>
             </div>
           </div>
         </div>

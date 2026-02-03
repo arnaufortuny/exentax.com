@@ -96,7 +96,7 @@ export default function InvoiceGenerator() {
 
   const generatePDF = async () => {
     if (!issuerName || !clientName || items.some(i => !i.description)) {
-      alert("Por favor completa todos los campos obligatorios");
+      alert(t('tools.invoiceGenerator.validationError'));
       return;
     }
 
@@ -262,7 +262,7 @@ export default function InvoiceGenerator() {
     } catch (error) {
       console.error('Error generating PDF:', error);
       setIsGenerating(false);
-      alert('Error al generar el PDF');
+      alert(t('tools.invoiceGenerator.generationError'));
     }
   };
 
@@ -274,7 +274,7 @@ export default function InvoiceGenerator() {
         <div className="mb-6 md:mb-8 animate-fade-in-up">
           <Link href="/dashboard">
             <Button variant="ghost" size="sm" className="mb-4 -ml-2 text-muted-foreground animate-press" data-testid="link-back">
-              <ArrowLeft className="w-4 h-4 mr-1" /> Volver al dashboard
+              <ArrowLeft className="w-4 h-4 mr-1" /> {t('tools.invoiceGenerator.backToDashboard')}
             </Button>
           </Link>
           <div className="flex items-center gap-2 sm:gap-3">
@@ -282,8 +282,8 @@ export default function InvoiceGenerator() {
               <FileDown className="w-5 h-5 sm:w-6 sm:h-6 text-accent" />
             </div>
             <div className="min-w-0">
-              <h1 className="text-xl sm:text-2xl md:text-3xl font-black text-foreground leading-tight">Generador de Facturas</h1>
-              <p className="text-muted-foreground text-xs sm:text-sm">Crea facturas profesionales</p>
+              <h1 className="text-xl sm:text-2xl md:text-3xl font-black text-foreground leading-tight">{t('tools.invoiceGenerator.title')}</h1>
+              <p className="text-muted-foreground text-xs sm:text-sm">{t('tools.invoiceGenerator.subtitle')}</p>
             </div>
           </div>
         </div>

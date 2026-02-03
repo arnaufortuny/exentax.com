@@ -1265,11 +1265,19 @@
     "backToDashboard": "Volver al panel",
     "invoiceGenerator": {
       "loginRequired": "Acceso Requerido",
-      "loginDescription": "Inicia sesión para usar el generador de facturas."
+      "loginDescription": "Inicia sesión para usar el generador de facturas.",
+      "title": "Generador de Facturas",
+      "subtitle": "Crea facturas profesionales",
+      "backToDashboard": "Volver al dashboard",
+      "validationError": "Por favor completa todos los campos obligatorios",
+      "generationError": "Error al generar el PDF"
     },
     "priceCalculator": {
       "loginRequired": "Acceso Requerido",
-      "loginDescription": "Inicia sesión para usar la calculadora de precios."
+      "loginDescription": "Inicia sesión para usar la calculadora de precios.",
+      "title": "Calculadora de Precios",
+      "subtitle": "Calcula precios con márgenes y costos de forma profesional",
+      "backToDashboard": "Volver al Dashboard"
     },
     "operatingAgreement": {
       "title": "Generador de Operating Agreement",
