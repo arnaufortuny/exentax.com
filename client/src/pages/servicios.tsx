@@ -150,9 +150,9 @@ export default function Servicios() {
               initial="hidden"
               whileInView="visible"
               viewport={viewportOnce}
-            >
-              <span className="text-accent">{t("services.whatWeDo.title")}</span>
-            </motion.h2>
+              dangerouslySetInnerHTML={{ __html: t("services.whatWeDo.title") }}
+            />
+            
             <motion.p
               className="text-lg sm:text-xl text-muted-foreground mt-4"
               variants={fadeInUp}

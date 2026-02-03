@@ -275,7 +275,7 @@
     },
     "whatWeDo": {
       "badge": "SERVICES",
-      "title": "OUR WAY OF WORKING",
+      "title": "<span class='text-accent'>OUR WAY</span> <span class='text-foreground'>OF WORKING</span>",
       "subtitle": "How we form your LLC",
       "items": {
         "formation": {
