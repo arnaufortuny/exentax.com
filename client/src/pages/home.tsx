@@ -383,15 +383,13 @@ function PorQueEasyUSLLC() {
             return (
               <CardWrapper key={i}>
                 {'image' in feature && feature.image && (
-                  <div className="w-full h-44 overflow-hidden bg-accent/10">
-                    <img 
-                      src={feature.image} 
-                      alt="" 
-                      className="w-full h-44 object-cover"
-                      loading="eager"
-                      decoding="async"
-                    />
-                  </div>
+                  <img 
+                    src={feature.image} 
+                    alt="" 
+                    className="w-full h-44 object-cover"
+                    loading="eager"
+                    decoding="async"
+                  />
                 )}
                 <div className="p-6 flex-grow text-left">
                   <span className="inline-block px-4 py-2 rounded-full bg-accent text-accent-foreground font-black text-sm shadow-sm mb-4 text-left">{feature.badge}</span>
