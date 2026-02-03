@@ -21,6 +21,11 @@ export default defineConfig({
     emptyOutDir: true,
     reportCompressedSize: false,
     chunkSizeWarningLimit: 1000,
+    target: 'es2020',
+    minify: 'esbuild',
+    cssMinify: true,
+    cssCodeSplit: true,
+    sourcemap: false,
     rollupOptions: {
       output: {
         manualChunks(id) {
@@ -35,9 +40,13 @@ export default defineConfig({
             if (id.includes('zod') || id.includes('drizzle')) return 'validation';
             if (id.includes('i18next')) return 'i18n';
             if (id.includes('date-fns')) return 'date-utils';
+            if (id.includes('jspdf')) return 'pdf';
           }
           if (id.includes('/components/ui/')) return 'ui-components';
-        }
+        },
+        chunkFileNames: 'assets/[name]-[hash].js',
+        entryFileNames: 'assets/[name]-[hash].js',
+        assetFileNames: 'assets/[name]-[hash].[ext]',
       }
     }
   },

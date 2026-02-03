@@ -80,6 +80,8 @@ app.use((req, res, next) => {
     const isAsset = req.path.startsWith('/assets/') || req.path.match(/\.(jpg|jpeg|png|gif|svg|webp|ico|css|js|woff2|woff)$/);
     const isStaticFile = req.path.match(/\.(png|jpg|jpeg|gif|svg|webp|ico|woff2|woff|ttf|eot)$/);
     const isSeoFile = req.path === '/robots.txt' || req.path.startsWith('/sitemap');
+    const isJS = req.path.match(/\.js$/);
+    const isCSS = req.path.match(/\.css$/);
     
     if (isAsset) {
       res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
@@ -87,19 +89,39 @@ app.use((req, res, next) => {
     } else if (isStaticFile) {
       res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
     } else if (isSeoFile) {
-      res.setHeader('Cache-Control', 'public, max-age=86400');
+      res.setHeader('Cache-Control', 'public, max-age=86400, stale-while-revalidate=604800');
       res.setHeader('X-Robots-Tag', 'all');
     }
     
+    // Content-type specific optimizations
+    if (isJS) {
+      res.setHeader('X-Content-Type-Options', 'nosniff');
+    }
+    if (isCSS) {
+      res.setHeader('X-Content-Type-Options', 'nosniff');
+    }
+    
     res.setHeader("X-DNS-Prefetch-Control", "on");
-    res.setHeader("Link", "</logo-icon.png>; rel=preload; as=image, </favicon.png>; rel=icon");
+    
+    // Resource hints via Link header
+    const linkHints = [
+      '</logo-icon.png>; rel=preload; as=image; fetchpriority=high',
+      '<https://fonts.googleapis.com>; rel=preconnect',
+      '<https://fonts.gstatic.com>; rel=preconnect; crossorigin',
+      '<https://js.stripe.com>; rel=preconnect',
+    ];
+    res.setHeader("Link", linkHints.join(', '));
   }
   
   // SEO Headers for main pages
   const seoPages = ['/', '/servicios', '/faq', '/contacto', '/llc/formation', '/llc/maintenance'];
   if (seoPages.includes(req.path)) {
     res.setHeader('X-Robots-Tag', 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1');
-    res.setHeader('Link', '<https://easyusllc.com' + req.path + '>; rel="canonical"');
+    // Append canonical to existing Link header (don't overwrite preconnect hints)
+    const existingLinkRaw = res.getHeader('Link');
+    const existingLink = Array.isArray(existingLinkRaw) ? existingLinkRaw.join(', ') : (existingLinkRaw || '');
+    const canonicalLink = `<https://easyusllc.com${req.path}>; rel="canonical"`;
+    res.setHeader('Link', existingLink ? `${existingLink}, ${canonicalLink}` : canonicalLink);
   }
   
   // Noindex for private/auth pages
