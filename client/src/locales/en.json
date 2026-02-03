@@ -103,7 +103,7 @@
     "button": "Let's talk on WhatsApp"
   },
   "howWeWork": {
-    "title": "<span class='text-foreground'>OUR WAY</span><br/><span class='text-foreground'>OF WORKING</span>",
+    "title": "<span class='text-accent'>OUR WAY</span><br/><span class='text-foreground'>OF WORKING</span>",
     "steps": {
       "listen": {
         "number": "1",
