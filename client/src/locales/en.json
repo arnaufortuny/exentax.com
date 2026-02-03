@@ -803,7 +803,11 @@
       "accountActivation": "Your account will be activated within 24 hours. We will notify you by email.",
       "askStatusWhatsApp": "Ask status via WhatsApp",
       "logout": "Log out",
-      "enter6DigitCode": "Enter the 6-digit code"
+      "enter6DigitCode": "Enter the 6-digit code",
+      "adminReviewTitle": "Account under administrative review",
+      "adminReviewSubtitle": "Our team is verifying your account",
+      "adminReviewMessage": "Your account is being reviewed by our security team. This process may take up to 24-48 business hours. We will notify you by email when your account is active.",
+      "adminReviewContact": "If you have questions, contact our team:"
     },
     "profile": {
       "title": "My Profile",

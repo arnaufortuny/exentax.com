@@ -149,17 +149,31 @@ export async function verifyEmailToken(userId: string, token: string): Promise<b
     return false;
   }
 
+  const [user] = await db.select().from(users).where(eq(users.id, userId)).limit(1);
+  if (!user) {
+    return false;
+  }
+
   await db.update(emailVerificationTokens)
     .set({ used: true })
     .where(eq(emailVerificationTokens.id, tokenRecord.id));
 
-  await db.update(users)
-    .set({ 
-      emailVerified: true, 
-      accountStatus: "active",
-      updatedAt: new Date() 
-    })
-    .where(eq(users.id, userId));
+  if (!user.emailVerified && user.accountStatus === "pending") {
+    await db.update(users)
+      .set({ 
+        emailVerified: true, 
+        accountStatus: "active",
+        updatedAt: new Date() 
+      })
+      .where(eq(users.id, userId));
+  } else if (!user.emailVerified) {
+    await db.update(users)
+      .set({ 
+        emailVerified: true, 
+        updatedAt: new Date() 
+      })
+      .where(eq(users.id, userId));
+  }
 
   return true;
 }

@@ -803,7 +803,11 @@
       "accountActivation": "Tu cuenta será activada en menos de 24 horas. Te avisaremos por email.",
       "askStatusWhatsApp": "Preguntar estado por WhatsApp",
       "logout": "Cerrar Sesión",
-      "enter6DigitCode": "Introduce el código de 6 dígitos"
+      "enter6DigitCode": "Introduce el código de 6 dígitos",
+      "adminReviewTitle": "Cuenta bajo revisión administrativa",
+      "adminReviewSubtitle": "Nuestro equipo está verificando tu cuenta",
+      "adminReviewMessage": "Tu cuenta está siendo revisada por nuestro equipo de seguridad. Este proceso puede tomar hasta 24-48 horas hábiles. Te notificaremos por email cuando tu cuenta esté activa.",
+      "adminReviewContact": "Si tienes dudas, contacta con nuestro equipo:"
     },
     "profile": {
       "title": "Mi Perfil",

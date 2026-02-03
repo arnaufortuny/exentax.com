@@ -720,15 +720,23 @@ export default function Dashboard() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {/* Estado de cuenta */}
             <Card className="rounded-2xl border-0 shadow-xl overflow-hidden bg-white dark:bg-zinc-900">
-              <div className="bg-orange-500 h-1.5 w-full" />
+              <div className={`h-1.5 w-full ${!user?.emailVerified ? 'bg-orange-500' : 'bg-amber-500'}`} />
               <CardContent className="p-5 sm:p-6">
                 <div className="flex items-center gap-4 mb-4 pb-4 border-b border-zinc-900/10 dark:border-accent/30">
-                  <div className="w-12 h-12 bg-orange-50 dark:bg-orange-950/30 rounded-full flex items-center justify-center shrink-0">
-                    <Clock className="w-6 h-6 text-orange-500" />
+                  <div className={`w-12 h-12 rounded-full flex items-center justify-center shrink-0 ${!user?.emailVerified ? 'bg-orange-50 dark:bg-orange-950/30' : 'bg-amber-50 dark:bg-amber-950/30'}`}>
+                    {!user?.emailVerified ? (
+                      <Clock className="w-6 h-6 text-orange-500" />
+                    ) : (
+                      <Shield className="w-6 h-6 text-amber-500" />
+                    )}
                   </div>
                   <div>
-                    <h2 className="font-black text-lg text-foreground">{t("dashboard.pendingAccount.title")}</h2>
-                    <p className="text-sm text-muted-foreground">{t("dashboard.pendingAccount.subtitle")}</p>
+                    <h2 className="font-black text-lg text-foreground">
+                      {!user?.emailVerified ? t("dashboard.pendingAccount.title") : t("dashboard.pendingAccount.adminReviewTitle")}
+                    </h2>
+                    <p className="text-sm text-muted-foreground">
+                      {!user?.emailVerified ? t("dashboard.pendingAccount.subtitle") : t("dashboard.pendingAccount.adminReviewSubtitle")}
+                    </p>
                   </div>
                 </div>
                 
@@ -798,17 +806,20 @@ export default function Dashboard() {
                     </Button>
                   </div>
                 ) : (
-                  <div className="space-y-3">
-                    <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-xl p-3">
-                      <div className="flex items-center gap-2">
-                        <CheckCircle className="w-4 h-4 text-green-600" />
-                        <span className="font-bold text-sm text-green-700 dark:text-green-400">{t("dashboard.pendingAccount.emailVerified")}</span>
+                  <div className="space-y-4">
+                    <div className="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-xl p-4">
+                      <div className="flex items-center gap-2 mb-2">
+                        <Shield className="w-5 h-5 text-amber-600" />
+                        <span className="font-bold text-sm text-amber-800 dark:text-amber-300">{t("dashboard.pendingAccount.adminReviewTitle")}</span>
                       </div>
+                      <p className="text-xs text-amber-700 dark:text-amber-400 leading-relaxed">
+                        {t("dashboard.pendingAccount.adminReviewMessage")}
+                      </p>
                     </div>
-                    <p className="text-xs text-muted-foreground">
-                      {t("dashboard.pendingAccount.accountActivation")}
-                    </p>
-                    <a href="https://wa.me/34614916910?text=Hola!%20Mi%20cuenta%20est%C3%A1%20en%20revisi%C3%B3n" target="_blank" rel="noopener noreferrer">
+                    <div className="text-xs text-muted-foreground">
+                      {t("dashboard.pendingAccount.adminReviewContact")}
+                    </div>
+                    <a href="https://wa.me/34614916910?text=Hola!%20Mi%20cuenta%20est%C3%A1%20en%20revisi%C3%B3n%20administrativa" target="_blank" rel="noopener noreferrer">
                       <Button variant="outline" className="w-full font-semibold h-10 rounded-full text-sm" data-testid="button-pending-whatsapp">
                         {t("dashboard.pendingAccount.askStatusWhatsApp")}
                       </Button>
