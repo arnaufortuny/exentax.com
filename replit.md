@@ -7,6 +7,9 @@ Easy US LLC provides business formation services, specifically for LLCs in New M
 I want to be communicated with in a clear and concise manner. I prefer explanations that are easy to understand, avoiding overly technical jargon. I appreciate an iterative development approach where I can provide feedback throughout the process. Please ask for my approval before implementing any significant changes to the codebase or design.
 
 ## Recent Changes (February 2026)
+- **Centralized Pricing Configuration**: Created `shared/config/pricing.ts` with all formation and maintenance prices. Components now use `getFormationPriceFormatted()` and `getMaintenancePriceFormatted()` functions instead of hardcoded values. Updated: servicios.tsx, llc-formation.tsx, maintenance.tsx, funnel.tsx, linktree.tsx, terminos.tsx.
+- **Partners Section in Footer**: Added Mercury and Relay banking partner logos to footer with links to their sites.
+- **Dynamic Sitemap**: Created `server/sitemap.ts` that generates sitemap.xml and robots.txt dynamically with all public routes.
 - **Maintenance Form i18n**: Complete internationalization of /llc/maintenance form with 80+ translation keys covering all 12 form steps, payment methods, OTP verification, login flow, and confirmation. All hardcoded Spanish text replaced with t() function calls.
 - **Footer Logo**: Updated footer to display logo-icon.png (h-24) instead of text in both mobile and desktop views
 - **Tax Comparator Centering**: Fixed mobile centering for email capture section
