@@ -5,7 +5,6 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
 import logoIcon from "@assets/logo-icon.png";
-import trustpilotLogo from "@assets/trustpilot-logo.png";
 import { 
   Check, 
   Clock, 
@@ -422,21 +421,6 @@ export default function SalesPage() {
             </span>
           </div>
 
-          <a 
-            href="https://www.trustpilot.com/review/easyusllc.com" 
-            target="_blank" 
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-3 rounded-full px-6 py-3 shadow-lg mx-auto bg-card border border-border"
-            data-testid="link-trustpilot"
-          >
-            <img src={trustpilotLogo} alt="Trustpilot" className="h-5" style={{ mixBlendMode: 'multiply' }} />
-            <div className="flex items-center gap-0.5">
-              {[...Array(5)].map((_, i) => (
-                <Star key={i} className="w-4 h-4 text-accent fill-accent" />
-              ))}
-            </div>
-            <span className="font-bold text-foreground">5/5</span>
-          </a>
         </div>
       </section>
 

@@ -1,8 +1,5 @@
 import { Link, useLocation } from "wouter";
 import logoIcon from "@/assets/logo-icon.png";
-import relayLogo from "@assets/relay-logo.png";
-import trustpilotLogo from "@assets/trustpilot-logo.png";
-import mercuryLogo from "@assets/mercury-logo.png";
 import { NewsletterSection } from "./newsletter-section";
 import { useTranslation } from "react-i18next";
 
@@ -131,21 +128,6 @@ export function Footer() {
           </div>
         </div>
 
-        {/* Partners section */}
-        <div className="mt-10 sm:mt-14 pt-8 border-t border-white/20">
-          <p className="text-center text-white/50 text-sm font-black tracking-widest mb-6">{t("footer.partners")}</p>
-          <div className="flex items-center justify-center gap-8 sm:gap-12 flex-wrap">
-            <a href="https://es.trustpilot.com/review/easyusllc.com" target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity flex items-center gap-2">
-              <img src={trustpilotLogo} alt="Trustpilot" className="h-6 sm:h-7 w-auto object-contain max-w-[100px] brightness-0 invert" loading="lazy" />
-            </a>
-            <a href="https://mercury.com" target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity flex items-center gap-2">
-              <img src={mercuryLogo} alt="Mercury" className="h-6 sm:h-7 w-auto object-contain max-w-[100px] brightness-0 invert" loading="lazy" />
-            </a>
-            <a href="https://relayfi.com" target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity flex items-center gap-2">
-              <img src={relayLogo} alt="Relay" className="h-6 sm:h-7 w-auto object-contain max-w-[80px] brightness-0 invert" loading="lazy" />
-            </a>
-          </div>
-        </div>
         
         {/* Legal Disclaimer */}
         <div className="mt-8 sm:mt-10 pt-6 border-t border-white/20">

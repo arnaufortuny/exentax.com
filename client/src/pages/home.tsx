@@ -8,7 +8,6 @@ import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { HeroSection } from "@/components/layout/hero-section";
 import type { Product } from "@shared/schema";
-import trustpilotLogo from "@assets/trustpilot-logo.png";
 import howWeWorkImage from "@assets/how-we-work-process.png";
 
 export default function Home() {
@@ -49,19 +48,6 @@ export default function Home() {
         showOverlay={false}
         title={
           <div className="flex flex-col items-center w-full">
-            <div className="mb-4 sm:hidden flex justify-center mt-6">
-              <a href="https://es.trustpilot.com/review/easyusllc.com" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-white dark:bg-white px-4 py-2.5 rounded-full shadow-md border-2 border-accent">
-                <img src={trustpilotLogo} alt="Trustpilot" className="h-5 w-auto object-contain max-w-[80px]" style={{ mixBlendMode: 'multiply' }} loading="lazy" />
-                <div className="flex gap-1">
-                  {[1,2,3,4,5].map((star) => (
-                    <svg key={star} className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="#00b67a">
-                      <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
-                    </svg>
-                  ))}
-                </div>
-                <span className="text-black text-xs font-black">5/5</span>
-              </a>
-            </div>
 
             <h1 
               className="font-black tracking-tighter text-foreground mb-4 sm:mb-4 w-full block [text-wrap:balance] [word-break:keep-all] [overflow-wrap:break-word] text-center" 
@@ -79,19 +65,6 @@ export default function Home() {
               <span className="block sm:inline font-black mt-2 text-accent">{t("hero.highlight")}</span>
             </div>
             
-            <div className="hidden sm:flex mb-8 justify-center">
-              <a href="https://es.trustpilot.com/review/easyusllc.com" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-4 bg-white dark:bg-white px-6 py-3 rounded-full shadow-md border-2 border-accent">
-                <img src={trustpilotLogo} alt="Trustpilot" className="h-7 w-auto object-contain max-w-[100px]" style={{ mixBlendMode: 'multiply' }} loading="lazy" />
-                <div className="flex gap-1">
-                  {[1,2,3,4,5].map((star) => (
-                    <svg key={star} className="w-5 h-5" viewBox="0 0 24 24" fill="#00b67a">
-                      <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
-                    </svg>
-                  ))}
-                </div>
-                <span className="text-black text-lg font-black">5/5</span>
-              </a>
-            </div>
 
             <div className="hidden sm:flex flex-wrap justify-center gap-3 mb-8 px-2">
               {heroFeatures.map((feature, i) => (

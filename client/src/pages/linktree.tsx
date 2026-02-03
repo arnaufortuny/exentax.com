@@ -6,7 +6,6 @@ import { Badge } from "@/components/ui/badge";
 import { useEffect, useState, useMemo } from "react";
 import { useToast } from "@/hooks/use-toast";
 import logoIcon from "@/assets/logo-icon.png";
-import trustpilotLogo from "@assets/trustpilot-logo.png";
 
 const SpainFlag = () => (
   <svg viewBox="0 0 512 512" className="w-6 h-6 rounded-full shadow-sm">
@@ -309,21 +308,6 @@ export default function LinktreePage() {
               </span>
             </div>
 
-            <a 
-              href="https://www.trustpilot.com/review/easyusllc.com" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className={`inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium ${isDark ? 'bg-zinc-800 text-white' : 'bg-zinc-100 text-zinc-900'}`}
-              data-testid="link-trustpilot"
-            >
-              <img src={trustpilotLogo} alt="Trustpilot" className={`h-4 ${isDark ? 'brightness-0 invert' : ''}`} style={isDark ? undefined : { mixBlendMode: 'multiply' }} />
-              <div className="flex items-center gap-0.5">
-                {[...Array(5)].map((_, i) => (
-                  <Star key={i} className="w-3.5 h-3.5 fill-green-500 text-green-500" />
-                ))}
-              </div>
-              <span className="font-bold">5/5</span>
-            </a>
           </div>
 
           <div className="space-y-3">
