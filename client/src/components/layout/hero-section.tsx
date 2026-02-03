@@ -16,7 +16,7 @@ export function HeroSection({
 }: HeroSectionProps) {
   return (
     <section 
-      className={`relative overflow-hidden pt-16 pb-6 sm:pt-16 sm:pb-16 lg:pt-20 lg:pb-20 flex flex-col items-center justify-center text-center ${className}`}
+      className={`relative overflow-hidden pt-12 pb-6 sm:pt-16 sm:pb-16 lg:pt-20 lg:pb-20 flex flex-col items-center justify-center text-center ${className}`}
       style={{
         background: 'linear-gradient(180deg, rgba(110, 220, 138, 0.15) 0%, rgba(110, 220, 138, 0.08) 50%, rgba(110, 220, 138, 0.02) 80%, transparent 100%)'
       }}
