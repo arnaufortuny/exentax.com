@@ -20,7 +20,16 @@ const createRegisterSchema = (t: (key: string) => string) => z.object({
   firstName: z.string().min(1, t("validation.required")),
   lastName: z.string().min(1, t("validation.required")),
   email: z.string().email(t("validation.invalidEmail")),
-  phone: z.string().min(6, t("validation.required")),
+  phone: z.string()
+    .min(1, t("validation.required"))
+    .refine(
+      (val) => {
+        if (/[a-zA-Z]/.test(val)) return false;
+        const digitsOnly = val.replace(/\D/g, '');
+        return val.startsWith('+') || digitsOnly.length >= 6;
+      },
+      { message: t("validation.phoneFormat") }
+    ),
   businessActivity: z.string().optional(),
   password: z.string().min(8, t("validation.minPassword")),
   confirmPassword: z.string(),
