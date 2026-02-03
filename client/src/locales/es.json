@@ -319,7 +319,34 @@
     },
     "process": {
       "title": "NUESTRO",
-      "titleHighlight": "PROCESO"
+      "titleHighlight": "PROCESO",
+      "subtitle": "De la idea a tu LLC operativa en pocos días",
+      "steps": {
+        "1": {
+          "title": "Consulta inicial",
+          "desc": "Analizamos tu situación y te asesoramos sobre el mejor estado para tu negocio."
+        },
+        "2": {
+          "title": "Documentación",
+          "desc": "Preparamos todos los documentos necesarios para la formación de tu LLC."
+        },
+        "3": {
+          "title": "Formación LLC",
+          "desc": "Registramos tu LLC ante el Secretario de Estado correspondiente."
+        },
+        "4": {
+          "title": "Obtención EIN",
+          "desc": "Solicitamos tu número de identificación fiscal ante el IRS."
+        },
+        "5": {
+          "title": "Apertura bancaria",
+          "desc": "Te asistimos en la apertura de tu cuenta bancaria empresarial en USA."
+        },
+        "6": {
+          "title": "Listo para operar",
+          "desc": "Recibes toda la documentación y empiezas a facturar."
+        }
+      }
     },
     "questions": "¿Alguna duda? Hablemos"
   },

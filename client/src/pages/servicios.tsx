@@ -452,7 +452,7 @@ export default function Servicios() {
 
       <section className="py-12 sm:py-20 bg-background relative" id="proceso">
         <div className="w-full px-5 sm:px-8">
-          <div className="text-center mb-8 sm:mb-16 flex flex-col items-center justify-center relative">
+          <div className="text-center mb-10 sm:mb-16 flex flex-col items-center justify-center relative">
             <motion.h2 
               className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-center will-change-[transform,opacity]" 
               style={{ fontWeight: 900 }}
@@ -471,24 +471,30 @@ export default function Servicios() {
               viewport={viewportOnce}
               transition={transitions.fast}
             >
-              {t("services.management.subtitle")}
+              {t("services.process.subtitle")}
             </motion.p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 max-w-5xl mx-auto">
-            {["fiscal", "agent", "annual", "boi", "support", "updates"].map((key, i) => (
+          <div className="max-w-4xl mx-auto grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-6 sm:gap-8">
+            {[1, 2, 3, 4, 5, 6].map((step) => (
               <motion.div 
-                key={i} 
-                className="p-6 bg-accent/5 rounded-2xl border border-accent/10 sm:border-accent/10 border-accent/30 hover:bg-accent/10 transition-colors text-left will-change-[transform,opacity]"
-                variants={cardVariants}
+                key={step}
+                className="flex flex-col items-center text-center"
+                variants={fadeInUp}
                 initial="hidden"
                 whileInView="visible"
                 viewport={viewportOnce}
+                transition={{ delay: step * 0.08 }}
               >
-                <span className="inline-flex items-center px-4 py-2 rounded-full bg-accent text-primary font-black text-sm shadow-sm mb-4">
-                  {t(`services.maintenancePack.details.${key}.title`)}
-                </span>
-                <p className="text-sm sm:text-base text-muted-foreground leading-relaxed text-left">{t(`services.maintenancePack.details.${key}.desc`)}</p>
+                <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-accent flex items-center justify-center mb-3 sm:mb-4 shadow-lg shadow-accent/30">
+                  <span className="text-xl sm:text-2xl font-black text-primary-foreground">{step}</span>
+                </div>
+                <h4 className="text-sm sm:text-base font-black text-foreground mb-1 sm:mb-2 leading-tight">
+                  {t(`services.process.steps.${step}.title`)}
+                </h4>
+                <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
+                  {t(`services.process.steps.${step}.desc`)}
+                </p>
               </motion.div>
             ))}
           </div>

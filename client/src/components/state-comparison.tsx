@@ -1,81 +1,59 @@
-import { Check, X, Info } from "lucide-react";
+import { Check } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
 import { fadeInUp, viewportOnce, transitions } from "@/lib/animations";
 import { getFormationPriceFormatted, getMaintenancePriceFormatted } from "@shared/config/pricing";
 
-interface ComparisonRow {
-  feature: string;
-  newMexico: string | boolean;
-  wyoming: string | boolean;
-  delaware: string | boolean;
-  tooltip?: string;
+interface StateData {
+  name: string;
+  badge: string;
+  badgeStyle: string;
+  formationPrice: string;
+  maintenancePrice: string;
+  processingTime: string;
+  privacy: boolean;
+  noStateTax: boolean;
+  idealFor: string;
 }
 
 export function StateComparison() {
   const { t } = useTranslation();
 
-  const comparisonData: ComparisonRow[] = [
+  const states: StateData[] = [
     {
-      feature: t("stateComparison.features.formationPrice"),
-      newMexico: getFormationPriceFormatted("newMexico"),
-      wyoming: getFormationPriceFormatted("wyoming"),
-      delaware: getFormationPriceFormatted("delaware"),
+      name: "New Mexico",
+      badge: t("stateComparison.popular"),
+      badgeStyle: "bg-accent/20 text-accent",
+      formationPrice: getFormationPriceFormatted("newMexico"),
+      maintenancePrice: getMaintenancePriceFormatted("newMexico"),
+      processingTime: "2-3 " + t("stateComparison.days"),
+      privacy: true,
+      noStateTax: true,
+      idealFor: t("stateComparison.idealFor.newMexico"),
     },
     {
-      feature: t("stateComparison.features.maintenancePrice"),
-      newMexico: getMaintenancePriceFormatted("newMexico"),
-      wyoming: getMaintenancePriceFormatted("wyoming"),
-      delaware: getMaintenancePriceFormatted("delaware"),
+      name: "Wyoming",
+      badge: t("stateComparison.premium"),
+      badgeStyle: "bg-accent text-primary-foreground",
+      formationPrice: getFormationPriceFormatted("wyoming"),
+      maintenancePrice: getMaintenancePriceFormatted("wyoming"),
+      processingTime: "2-3 " + t("stateComparison.days"),
+      privacy: true,
+      noStateTax: true,
+      idealFor: t("stateComparison.idealFor.wyoming"),
     },
     {
-      feature: t("stateComparison.features.processingTime"),
-      newMexico: "2-3 " + t("stateComparison.days"),
-      wyoming: "2-3 " + t("stateComparison.days"),
-      delaware: "3-5 " + t("stateComparison.days"),
-    },
-    {
-      feature: t("stateComparison.features.stateFee"),
-      newMexico: "$0",
-      wyoming: "$100",
-      delaware: "$300",
-    },
-    {
-      feature: t("stateComparison.features.annualReport"),
-      newMexico: "$0",
-      wyoming: "$60",
-      delaware: "$300",
-    },
-    {
-      feature: t("stateComparison.features.privacy"),
-      newMexico: true,
-      wyoming: true,
-      delaware: true,
-    },
-    {
-      feature: t("stateComparison.features.noStateTax"),
-      newMexico: true,
-      wyoming: true,
-      delaware: true,
-    },
-    {
-      feature: t("stateComparison.features.idealFor"),
-      newMexico: t("stateComparison.idealFor.newMexico"),
-      wyoming: t("stateComparison.idealFor.wyoming"),
-      delaware: t("stateComparison.idealFor.delaware"),
+      name: "Delaware",
+      badge: t("stateComparison.startups"),
+      badgeStyle: "bg-accent/20 text-accent",
+      formationPrice: getFormationPriceFormatted("delaware"),
+      maintenancePrice: getMaintenancePriceFormatted("delaware"),
+      processingTime: "3-5 " + t("stateComparison.days"),
+      privacy: true,
+      noStateTax: true,
+      idealFor: t("stateComparison.idealFor.delaware"),
     },
   ];
-
-  const renderValue = (value: string | boolean) => {
-    if (typeof value === "boolean") {
-      return value ? (
-        <Check className="w-5 h-5 text-accent mx-auto" />
-      ) : (
-        <X className="w-5 h-5 text-destructive mx-auto" />
-      );
-    }
-    return <span className="text-foreground font-medium">{value}</span>;
-  };
 
   return (
     <section className="py-12 sm:py-16 bg-muted/30" id="comparador">
@@ -103,75 +81,57 @@ export function StateComparison() {
           </motion.p>
         </div>
 
-        <motion.div
-          className="max-w-5xl mx-auto overflow-hidden rounded-2xl border border-border bg-background shadow-lg"
-          variants={fadeInUp}
-          initial="hidden"
-          whileInView="visible"
-          viewport={viewportOnce}
-        >
-          <div className="overflow-x-auto">
-            <table className="w-full min-w-[600px]">
-              <thead>
-                <tr className="bg-accent/10">
-                  <th className="text-left p-4 sm:p-5 font-black text-foreground text-sm sm:text-base">
-                    {t("stateComparison.characteristic")}
-                  </th>
-                  <th className="text-center p-4 sm:p-5 font-black text-foreground text-sm sm:text-base">
-                    <div className="flex flex-col items-center gap-1">
-                      <span>New Mexico</span>
-                      <span className="text-xs font-medium text-accent bg-accent/20 px-2 py-0.5 rounded-full">
-                        {t("stateComparison.popular")}
-                      </span>
-                    </div>
-                  </th>
-                  <th className="text-center p-4 sm:p-5 font-black text-foreground text-sm sm:text-base">
-                    <div className="flex flex-col items-center gap-1">
-                      <span>Wyoming</span>
-                      <span className="text-xs font-medium text-primary-foreground bg-accent px-2 py-0.5 rounded-full">
-                        {t("stateComparison.premium")}
-                      </span>
-                    </div>
-                  </th>
-                  <th className="text-center p-4 sm:p-5 font-black text-foreground text-sm sm:text-base">
-                    <div className="flex flex-col items-center gap-1">
-                      <span>Delaware</span>
-                      <span className="text-xs font-medium text-accent bg-accent/20 px-2 py-0.5 rounded-full">
-                        {t("stateComparison.startups")}
-                      </span>
-                    </div>
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {comparisonData.map((row, index) => (
-                  <tr
-                    key={index}
-                    className={`border-t border-border ${index % 2 === 0 ? "bg-background" : "bg-muted/20"}`}
-                  >
-                    <td className="p-4 sm:p-5 text-sm sm:text-base text-muted-foreground font-medium">
-                      <div className="flex items-center gap-2">
-                        {row.feature}
-                        {row.tooltip && (
-                          <Info className="w-4 h-4 text-muted-foreground/50" />
-                        )}
-                      </div>
-                    </td>
-                    <td className="p-4 sm:p-5 text-center text-sm sm:text-base">
-                      {renderValue(row.newMexico)}
-                    </td>
-                    <td className="p-4 sm:p-5 text-center text-sm sm:text-base">
-                      {renderValue(row.wyoming)}
-                    </td>
-                    <td className="p-4 sm:p-5 text-center text-sm sm:text-base">
-                      {renderValue(row.delaware)}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </motion.div>
+        <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
+          {states.map((state, index) => (
+            <motion.div
+              key={state.name}
+              className="bg-background rounded-2xl border border-border p-5 sm:p-6 shadow-sm hover:shadow-md transition-shadow"
+              variants={fadeInUp}
+              initial="hidden"
+              whileInView="visible"
+              viewport={viewportOnce}
+              transition={{ delay: index * 0.1 }}
+            >
+              <div className="text-center mb-4">
+                <h3 className="text-xl font-black text-foreground mb-2">{state.name}</h3>
+                <span className={`text-xs font-bold px-3 py-1 rounded-full ${state.badgeStyle}`}>
+                  {state.badge}
+                </span>
+              </div>
+
+              <div className="space-y-3 mb-4">
+                <div className="flex justify-between items-center py-2 border-b border-border/50">
+                  <span className="text-sm text-muted-foreground">{t("stateComparison.features.formationPrice")}</span>
+                  <span className="font-bold text-foreground">{state.formationPrice}</span>
+                </div>
+                <div className="flex justify-between items-center py-2 border-b border-border/50">
+                  <span className="text-sm text-muted-foreground">{t("stateComparison.features.maintenancePrice")}</span>
+                  <span className="font-bold text-foreground">{state.maintenancePrice}</span>
+                </div>
+                <div className="flex justify-between items-center py-2 border-b border-border/50">
+                  <span className="text-sm text-muted-foreground">{t("stateComparison.features.processingTime")}</span>
+                  <span className="font-medium text-foreground">{state.processingTime}</span>
+                </div>
+              </div>
+
+              <div className="space-y-2 mb-4">
+                <div className="flex items-center gap-2">
+                  <Check className="w-4 h-4 text-accent flex-shrink-0" />
+                  <span className="text-sm text-muted-foreground">{t("stateComparison.features.privacy")}</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Check className="w-4 h-4 text-accent flex-shrink-0" />
+                  <span className="text-sm text-muted-foreground">{t("stateComparison.features.noStateTax")}</span>
+                </div>
+              </div>
+
+              <div className="bg-accent/10 rounded-xl p-3 text-center">
+                <span className="text-xs font-medium text-muted-foreground">{t("stateComparison.features.idealFor")}</span>
+                <p className="text-sm font-bold text-foreground mt-1">{state.idealFor}</p>
+              </div>
+            </motion.div>
+          ))}
+        </div>
 
         <motion.p
           className="text-center text-muted-foreground text-xs sm:text-sm mt-6 max-w-3xl mx-auto"
