@@ -25,7 +25,7 @@ import {
 import { SiWhatsapp } from "react-icons/si";
 
 const WHATSAPP_NUMBER = "34614916910";
-const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}?text=Hola,%20quiero%20información%20sobre%20crear%20una%20LLC`;
+const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}?text=Hola!%20Os%20contacto%20desde%20vuestra%20landing%20page.%20Quiero%20crear%20mi%20LLC%20y%20me%20gustar%C3%ADa%20que%20me%20asesor%C3%A9is.%20%C2%BFPodemos%20hablar%3F`;
 
 const SpainFlag = () => (
   <svg viewBox="0 0 36 36" className="w-8 h-8">

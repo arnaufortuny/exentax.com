@@ -190,7 +190,7 @@ export default function FAQ() {
                 data-testid="button-whatsapp-help"
               >
                 <a 
-                  href="https://wa.me/34614916910" 
+                  href="https://wa.me/34614916910?text=Hola!%20He%20estado%20revisando%20las%20FAQ%20pero%20tengo%20una%20duda%20que%20no%20encuentro.%20%C2%BFPodemos%20hablar%3F" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2"

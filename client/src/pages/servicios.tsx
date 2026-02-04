@@ -355,7 +355,7 @@ export default function Servicios() {
           <div className="mt-12 sm:mt-16 flex justify-center">
             <Button 
               onClick={() => {
-                window.open("https://wa.me/34614916910?text=" + encodeURIComponent("Hola, me interesa crear una LLC en Estados Unidos"), "_blank");
+                window.open("https://wa.me/34614916910?text=" + encodeURIComponent("Hola! He revisado vuestros servicios y precios. Me gustaría resolver algunas dudas antes de decidirme. ¿Podemos hablar?"), "_blank");
               }}
               className="group bg-accent text-primary font-black text-sm rounded-full px-8 py-6 h-14 shadow-md hover:bg-accent/90 transition-all transform hover:scale-105 active:scale-95 shadow-accent/20"
             >

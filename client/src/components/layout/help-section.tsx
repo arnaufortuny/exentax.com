@@ -19,7 +19,7 @@ export function HelpSection() {
           </div>
 
           <div className="flex flex-col sm:flex-row justify-center items-center gap-3 md:gap-4 w-full max-w-lg mx-auto">
-            <a href="https://wa.me/34614916910?text=Hola!%20Tengo%20una%20consulta%20sobre%20vuestros%20servicios" target="_blank" rel="noopener noreferrer" className="w-full">
+            <a href="https://wa.me/34614916910?text=Hola!%20He%20estado%20revisando%20vuestra%20web%20y%20me%20gustar%C3%ADa%20resolver%20algunas%20dudas%20antes%20de%20crear%20mi%20LLC.%20%C2%BFPodemos%20hablar%3F" target="_blank" rel="noopener noreferrer" className="w-full">
               <Button 
                 className="bg-accent text-accent-foreground font-black text-xs md:text-base px-8 border-0 w-full rounded-full h-10 md:h-14 shadow-lg hover:bg-accent/90 flex items-center justify-center gap-2 md:gap-3 shadow-accent/20"
               >

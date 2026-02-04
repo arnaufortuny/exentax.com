@@ -154,7 +154,7 @@ export default function Home() {
               <h3 className="text-2xl sm:text-3xl font-black text-foreground mb-2 text-center">{t("ctaSection.title")}</h3>
               <p className="text-muted-foreground text-sm sm:text-base mb-6">{t("ctaSection.subtitle")}</p>
               <a 
-                href="https://wa.me/34614916910?text=Hola!%20Quiero%20formar%20mi%20LLC%20en%20Estados%20Unidos"
+                href="https://wa.me/34614916910?text=Hola!%20Estoy%20listo%2Fa%20para%20crear%20mi%20LLC%20en%20Estados%20Unidos.%20%C2%BFPodemos%20empezar%3F"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-full sm:w-auto inline-block"

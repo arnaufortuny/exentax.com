@@ -55,6 +55,7 @@ const InvoiceGenerator = lazy(() => lazyRetry(() => import("@/pages/invoice-gene
 const PriceCalculator = lazy(() => lazyRetry(() => import("@/pages/price-calculator")));
 const OperatingAgreement = lazy(() => lazyRetry(() => import("@/pages/operating-agreement")));
 const LinktreePage = lazy(() => lazyRetry(() => import("@/pages/linktree")));
+const TuLlcPlaceholder = lazy(() => lazyRetry(() => import("@/pages/tu-llc-placeholder")));
 
 interface ErrorBoundaryState {
   hasError: boolean;
@@ -251,7 +252,7 @@ function App() {
           <TooltipProvider>
             <ErrorBoundary>
               <Suspense fallback={<LoadingScreen />}>
-                <Sales />
+                <TuLlcPlaceholder />
               </Suspense>
             </ErrorBoundary>
             <Toaster />

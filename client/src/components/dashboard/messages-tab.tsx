@@ -30,7 +30,7 @@ export function MessagesTab({
             <h2 className="text-xl md:text-2xl font-bold text-foreground tracking-tight">Mis Consultas</h2>
             <p className="text-sm text-muted-foreground mt-1">Tu historial de mensajes con nuestro equipo</p>
           </div>
-          <a href="https://wa.me/34614916910?text=Hola!%20Necesito%20ayuda%20con%20mi%20cuenta" target="_blank" rel="noopener noreferrer">
+          <a href="https://wa.me/34614916910?text=Hola!%20Soy%20cliente%20de%20Easy%20US%20LLC%20y%20tengo%20una%20consulta%20sobre%20mi%20cuenta.%20%C2%BFPodr%C3%ADais%20ayudarme%3F" target="_blank" rel="noopener noreferrer">
             <Button className="bg-accent text-accent-foreground font-semibold rounded-full text-xs">Nueva Consulta</Button>
           </a>
         </div>
@@ -44,7 +44,7 @@ export function MessagesTab({
                 <h3 className="text-base md:text-lg font-semibold text-foreground mb-1 md:mb-2 text-center">Sin consultas activas</h3>
                 <p className="text-xs md:text-sm text-muted-foreground mb-4 md:mb-6 text-center">Te responderá una persona, no un bot.</p>
               </div>
-              <a href="https://wa.me/34614916910?text=Hola!%20Necesito%20ayuda%20con%20mi%20cuenta" target="_blank" rel="noopener noreferrer">
+              <a href="https://wa.me/34614916910?text=Hola!%20Soy%20cliente%20de%20Easy%20US%20LLC%20y%20tengo%20una%20consulta%20sobre%20mi%20cuenta.%20%C2%BFPodr%C3%ADais%20ayudarme%3F" target="_blank" rel="noopener noreferrer">
                 <Button className="bg-accent text-accent-foreground font-semibold rounded-full px-6 md:px-8 py-2.5 md:py-3 text-sm md:text-base" data-testid="button-support-whatsapp">
                   <MessageSquare className="w-4 h-4 mr-2" /> Nueva Consulta
                 </Button>

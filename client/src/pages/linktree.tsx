@@ -78,7 +78,7 @@ function calculateSpanishTaxes(grossIncome: number): TaxBreakdown {
 }
 
 const WHATSAPP_NUMBER = "34614916910";
-const WHATSAPP_MESSAGE = encodeURIComponent("Hola! Quiero formar mi LLC en Estados Unidos");
+const WHATSAPP_MESSAGE = encodeURIComponent("Hola! Os contacto desde vuestro Linktree. Quiero crear mi LLC en Estados Unidos y me gustaría que me asesoréis. ¿Podemos hablar?");
 const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}?text=${WHATSAPP_MESSAGE}`;
 
 const links = [
