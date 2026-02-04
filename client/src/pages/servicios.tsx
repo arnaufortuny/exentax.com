@@ -481,35 +481,6 @@ export default function Servicios() {
             </div>
           </motion.div>
 
-          {/* Details Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 max-w-5xl mx-auto mb-10 px-4">
-            {["fiscal", "agent", "annual", "boi", "deadlines", "support"].map((key, i) => (
-              <motion.div 
-                key={key}
-                className="bg-background rounded-2xl p-5 border border-accent/10 hover:border-accent/30 transition-colors"
-                variants={fadeInUp}
-                initial="hidden"
-                whileInView="visible"
-                viewport={viewportOnce}
-                transition={{ delay: i * 0.05 }}
-              >
-                <div className="flex items-start gap-3">
-                  <div className="w-8 h-8 rounded-full bg-accent flex items-center justify-center flex-shrink-0 mt-0.5">
-                    <span className="text-sm font-black text-primary-foreground">{i + 1}</span>
-                  </div>
-                  <div>
-                    <h4 className="font-bold text-foreground text-sm sm:text-base mb-1">
-                      {t(`services.maintenancePack.details.${key}.title`)}
-                    </h4>
-                    <p className="text-muted-foreground text-xs sm:text-sm leading-relaxed font-medium">
-                      {t(`services.maintenancePack.details.${key}.desc`)}
-                    </p>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-
           {/* Emotional Block */}
           <motion.div 
             className="max-w-4xl mx-auto mb-10 px-4"
