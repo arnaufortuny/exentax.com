@@ -50,7 +50,7 @@ export function StateComparison() {
   ];
 
   return (
-    <section className="py-16 sm:py-24 bg-muted/30" id="comparador">
+    <section className="py-16 sm:py-24 bg-background" id="comparador">
       <div className="w-full px-4 sm:px-8 max-w-7xl mx-auto">
         <div className="text-center mb-12 sm:mb-16 flex flex-col items-center justify-center">
           <motion.h2
