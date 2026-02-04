@@ -3,13 +3,15 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { NativeSelect, NativeSelectItem } from "@/components/ui/native-select";
-import { CheckCircle2, Trash2, Mail, Copy, Check } from "lucide-react";
+import { CheckCircle2, Trash2, Mail, Copy, Check, Globe } from "lucide-react";
 import { useState } from "react";
 import { NewsletterToggle } from "./";
 import { SocialLogin } from "@/components/auth/social-login";
 import type { User, ProfileData } from "./types";
 import { queryClient } from "@/lib/queryClient";
 import type { UseMutationResult } from "@tanstack/react-query";
+import { useTranslation } from "react-i18next";
+import { SpainFlag, USAFlag, CatalanFlag } from "@/components/ui/flags";
 
 interface ProfileTabProps {
   user: User | null;
@@ -63,6 +65,21 @@ export function ProfileTab({
   setDeleteOwnAccountDialog,
 }: ProfileTabProps) {
   const [copiedId, setCopiedId] = useState(false);
+  const { t, i18n } = useTranslation();
+  
+  const languages = [
+    { code: 'es', label: 'Español', Flag: SpainFlag },
+    { code: 'en', label: 'English', Flag: USAFlag },
+    { code: 'ca', label: 'Català', Flag: CatalanFlag }
+  ];
+  
+  const currentLangCode = i18n.language?.split('-')[0] || 'es';
+  const currentLang = languages.find(l => l.code === currentLangCode) || languages[0];
+
+  const handleLanguageChange = (langCode: string) => {
+    i18n.changeLanguage(langCode);
+    localStorage.setItem('i18nextLng', langCode);
+  };
   
   const copyIdToClipboard = () => {
     const clientId = user?.clientId || user?.id?.slice(0, 8).toUpperCase() || '';
@@ -256,16 +273,46 @@ export function ProfileTab({
         <div className="mt-8 pt-8 border-t">
           <div className="flex items-center justify-between">
             <div>
-              <h4 className="font-semibold text-foreground">Suscripción Newsletter</h4>
-              <p className="text-xs text-muted-foreground">Recibe noticias y consejos para tu LLC.</p>
+              <h4 className="font-semibold text-foreground">{t('profile.newsletter.title', 'Suscripción Newsletter')}</h4>
+              <p className="text-xs text-muted-foreground">{t('profile.newsletter.description', 'Recibe noticias y consejos para tu LLC.')}</p>
             </div>
             <NewsletterToggle />
           </div>
         </div>
         <div className="mt-8 pt-8 border-t">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <div>
+              <h4 className="font-semibold text-foreground flex items-center gap-2">
+                <Globe className="w-4 h-4" />
+                {t('profile.language.title', 'Idioma preferido')}
+              </h4>
+              <p className="text-xs text-muted-foreground">{t('profile.language.description', 'Selecciona el idioma de la plataforma y documentos.')}</p>
+            </div>
+            <div className="flex gap-2">
+              {languages.map((lang) => (
+                <Button
+                  key={lang.code}
+                  variant={currentLangCode === lang.code ? "default" : "outline"}
+                  size="sm"
+                  className={`rounded-full h-10 px-4 flex items-center gap-2 transition-all ${
+                    currentLangCode === lang.code 
+                      ? 'bg-accent text-primary shadow-md ring-2 ring-accent/50' 
+                      : 'bg-white dark:bg-muted border border-border hover:border-accent/50'
+                  }`}
+                  onClick={() => handleLanguageChange(lang.code)}
+                  data-testid={`button-language-${lang.code}`}
+                >
+                  <lang.Flag className="w-5 h-5" />
+                  <span className="hidden sm:inline font-medium">{lang.label}</span>
+                </Button>
+              ))}
+            </div>
+          </div>
+        </div>
+        <div className="mt-8 pt-8 border-t">
           <div className="flex items-center justify-between mb-4">
             <div>
-              <h4 className="font-semibold text-foreground">Cambiar Contraseña</h4>
+              <h4 className="font-semibold text-foreground">{t('profile.changePassword.title', 'Cambiar Contraseña')}</h4>
               <p className="text-xs text-muted-foreground">Actualiza tu contraseña de acceso.</p>
             </div>
             {!showPasswordForm && (

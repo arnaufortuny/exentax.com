@@ -1082,10 +1082,21 @@
       "security": "Security",
       "preferences": "Preferences",
       "saveChanges": "Save changes",
-      "changePassword": "Change password",
+      "changePassword": {
+        "title": "Change Password",
+        "description": "Update your login password."
+      },
       "currentPassword": "Current password",
       "newPassword": "New password",
-      "confirmNewPassword": "Confirm new password"
+      "confirmNewPassword": "Confirm new password",
+      "newsletter": {
+        "title": "Newsletter Subscription",
+        "description": "Receive news and tips for your LLC."
+      },
+      "language": {
+        "title": "Preferred Language",
+        "description": "Select the platform and document language."
+      }
     },
     "toasts": {
       "preferencesUpdated": "Great, your preferences are saved!",

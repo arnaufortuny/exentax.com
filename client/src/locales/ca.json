@@ -1,73 +1,73 @@
 {
   "notFound": {
-    "title": "Página No Encontrada",
-    "description": "La página que buscas no existe o ha sido movida.",
-    "button": "Volver al Inicio"
+    "title": "Pàgina No Trobada",
+    "description": "La pàgina que busques no existeix o ha estat moguda.",
+    "button": "Tornar a l'Inici"
   },
   "common": {
-    "loading": "Cargando...",
-    "save": "Guardar",
-    "cancel": "Cancelar",
+    "loading": "Carregant...",
+    "save": "Desar",
+    "cancel": "Cancel·lar",
     "confirm": "Confirmar",
     "delete": "Eliminar",
     "edit": "Editar",
-    "back": "Volver",
-    "next": "Siguiente",
+    "back": "Tornar",
+    "next": "Següent",
     "previous": "Anterior",
     "submit": "Enviar",
-    "search": "Buscar",
-    "close": "Cerrar",
+    "search": "Cercar",
+    "close": "Tancar",
     "yes": "Sí",
     "no": "No",
-    "and": "y",
-    "errorLoading": "Error al cargar",
-    "errorLoadingDescription": "Hubo un problema al cargar la página.",
+    "and": "i",
+    "errorLoading": "Error en carregar",
+    "errorLoadingDescription": "Hi ha hagut un problema en carregar la pàgina.",
     "retry": "Reintentar",
-    "reloadPage": "Recargar página",
+    "reloadPage": "Recarregar pàgina",
     "error": "Error",
-    "success": "Éxito",
-    "required": "Este campo es obligatorio",
+    "success": "Èxit",
+    "required": "Aquest camp és obligatori",
     "optional": "Opcional",
     "select": "Seleccionar...",
-    "sending": "Enviando...",
-    "processing": "Procesando...",
-    "verifying": "Verificando...",
-    "yourEmail": "TU EMAIL"
+    "sending": "Enviant...",
+    "processing": "Processant...",
+    "verifying": "Verificant...",
+    "yourEmail": "EL TEU EMAIL"
   },
   "helpSection": {
-    "title": "¿ALGUNA",
+    "title": "ALGUNA",
     "titleHighlight": "CONSULTA",
-    "subtitle": "Estamos disponibles para ayudarte. Escríbenos y te respondemos en menos de 24h.",
-    "whatsapp": "Envíanos un WhatsApp"
+    "subtitle": "Estem disponibles per ajudar-te. Escriu-nos i et responem en menys de 24h.",
+    "whatsapp": "Envia'ns un WhatsApp"
   },
   "nav": {
-    "home": "Inicio",
-    "services": "Cómo te ayudamos",
-    "pricing": "Precios claros",
-    "savings": "Cuánto me ahorro",
+    "home": "Inici",
+    "services": "Com t'ajudem",
+    "pricing": "Preus clars",
+    "savings": "Quant m'estalvio",
     "faq": "FAQ",
-    "contact": "Habla con un experto",
-    "login": "Mi Cuenta",
-    "myArea": "Mi Panel",
-    "register": "Constituye ahora tu LLC",
-    "dashboard": "Panel de control",
-    "openMenu": "Abrir menú",
-    "closeMenu": "Cerrar menú"
+    "contact": "Parla amb un expert",
+    "login": "El Meu Compte",
+    "myArea": "El Meu Panell",
+    "register": "Constitueix ara la teva LLC",
+    "dashboard": "Panell de control",
+    "openMenu": "Obrir menú",
+    "closeMenu": "Tancar menú"
   },
   "hero": {
-    "title": "OPTIMIZA LA ESTRUCTURA FISCAL DE TU NEGOCIO DIGITAL",
-    "subtitle": "CON UNA LLC AMERICANA",
-    "description": "Para freelancers y emprendedores digitales que trabajan online y venden a nivel internacional.",
-    "highlight": "Te entregamos tu LLC en 2 días. Sin IVA. Sin Impuesto de Sociedades. Sin cuota de autónomos.",
-    "cta": "Tu LLC en 2 días",
+    "title": "OPTIMITZA L'ESTRUCTURA FISCAL DEL TEU NEGOCI DIGITAL",
+    "subtitle": "AMB UNA LLC AMERICANA",
+    "description": "Per a freelancers i emprenedors digitals que treballen online i venen a nivell internacional.",
+    "highlight": "Et lliurem la teva LLC en 2 dies. Sense IVA. Sense Impost de Societats. Sense quota d'autònoms.",
+    "cta": "La teva LLC en 2 dies",
     "features": {
-      "fast": "Tu LLC en 2 días",
-      "complete": "Pack Todo Incluido",
-      "noVat": "Sin IVA",
-      "transparent": "Precios Transparentes",
-      "close": "Trato Cercano",
-      "bank": "Apertura Cuenta Mercury & Relay",
-      "card": "Tarjeta Física de Crédito y Débito"
+      "fast": "La teva LLC en 2 dies",
+      "complete": "Pack Tot Inclòs",
+      "noVat": "Sense IVA",
+      "transparent": "Preus Transparents",
+      "close": "Tracte Proper",
+      "bank": "Obertura Compte Mercury & Relay",
+      "card": "Targeta Física de Crèdit i Dèbit"
     }
   },
   "benefits": {
@@ -1076,25 +1076,25 @@
       "adminReviewContact": "Si tienes dudas, contacta con nuestro equipo:"
     },
     "profile": {
-      "title": "Mi Perfil",
-      "personalInfo": "Información Personal",
-      "security": "Seguridad",
-      "preferences": "Preferencias",
-      "saveChanges": "Guardar cambios",
+      "title": "El meu Perfil",
+      "personalInfo": "Informació Personal",
+      "security": "Seguretat",
+      "preferences": "Preferències",
+      "saveChanges": "Desar canvis",
       "changePassword": {
-        "title": "Cambiar Contraseña",
-        "description": "Actualiza tu contraseña de acceso."
+        "title": "Canviar Contrasenya",
+        "description": "Actualitza la teva contrasenya d'accés."
       },
-      "currentPassword": "Contraseña actual",
-      "newPassword": "Nueva contraseña",
-      "confirmNewPassword": "Confirmar nueva contraseña",
+      "currentPassword": "Contrasenya actual",
+      "newPassword": "Nova contrasenya",
+      "confirmNewPassword": "Confirmar nova contrasenya",
       "newsletter": {
-        "title": "Suscripción Newsletter",
-        "description": "Recibe noticias y consejos para tu LLC."
+        "title": "Subscripció Newsletter",
+        "description": "Rep notícies i consells per a la teva LLC."
       },
       "language": {
-        "title": "Idioma preferido",
-        "description": "Selecciona el idioma de la plataforma y documentos."
+        "title": "Idioma preferit",
+        "description": "Selecciona l'idioma de la plataforma i documents."
       }
     },
     "toasts": {
