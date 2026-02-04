@@ -47,7 +47,29 @@ export function validatePassword(password: string): { valid: boolean; message?: 
   if (password.length > 128) {
     return { valid: false, message: "La contraseña es demasiado larga" };
   }
+  if (!/[A-Z]/.test(password)) {
+    return { valid: false, message: "La contraseña debe contener al menos una letra mayúscula" };
+  }
+  if (!/[a-z]/.test(password)) {
+    return { valid: false, message: "La contraseña debe contener al menos una letra minúscula" };
+  }
+  if (!/[0-9]/.test(password)) {
+    return { valid: false, message: "La contraseña debe contener al menos un número" };
+  }
+  if (!/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password)) {
+    return { valid: false, message: "La contraseña debe contener al menos un símbolo especial (!@#$%^&*...)" };
+  }
   return { valid: true };
+}
+
+export function getPasswordRequirements(): string[] {
+  return [
+    "Mínimo 8 caracteres",
+    "Al menos una mayúscula (A-Z)",
+    "Al menos una minúscula (a-z)",
+    "Al menos un número (0-9)",
+    "Al menos un símbolo (!@#$%^&*...)"
+  ];
 }
 
 export type AuditAction = 

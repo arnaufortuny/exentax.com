@@ -106,14 +106,18 @@ export const applicationDocuments = pgTable("application_documents", {
   id: serial("id").primaryKey(),
   applicationId: integer("application_id").references(() => llcApplications.id),
   orderId: integer("order_id").references(() => orders.id),
-  userId: varchar("user_id").references(() => users.id), // Direct user reference for docs without order
+  userId: varchar("user_id").references(() => users.id),
   fileName: text("file_name").notNull(),
   fileType: text("file_type").notNull(),
   fileUrl: text("file_url").notNull(),
-  documentType: text("document_type").notNull(), // passport, id, company_docs, tax_id, official_filing, other
-  reviewStatus: text("review_status").notNull().default("pending"), // pending, approved, rejected, action_required
+  documentType: text("document_type").notNull(),
+  reviewStatus: text("review_status").notNull().default("pending"),
   uploadedBy: varchar("uploaded_by").references(() => users.id),
   uploadedAt: timestamp("uploaded_at").defaultNow(),
+  isEncrypted: boolean("is_encrypted").default(false),
+  encryptionIv: text("encryption_iv"),
+  fileHash: text("file_hash"),
+  originalSize: integer("original_size"),
 }, (table) => ({
   applicationIdIdx: index("app_docs_application_id_idx").on(table.applicationId),
   orderIdIdx: index("app_docs_order_id_idx").on(table.orderId),
@@ -324,6 +328,44 @@ export const auditLogs = pgTable("audit_logs", {
 export const insertAuditLogSchema = createInsertSchema(auditLogs).omit({ id: true, createdAt: true });
 export type AuditLog = typeof auditLogs.$inferSelect;
 export type InsertAuditLog = z.infer<typeof insertAuditLogSchema>;
+
+export const documentAccessLogs = pgTable("document_access_logs", {
+  id: serial("id").primaryKey(),
+  documentId: integer("document_id").notNull().references(() => applicationDocuments.id),
+  userId: varchar("user_id").references(() => users.id),
+  action: text("action").notNull(), // view, download, upload, delete
+  ip: text("ip"),
+  userAgent: text("user_agent"),
+  success: boolean("success").notNull().default(true),
+  errorMessage: text("error_message"),
+  metadata: jsonb("metadata").$type<Record<string, any>>(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+}, (table) => ({
+  documentIdIdx: index("doc_access_logs_doc_id_idx").on(table.documentId),
+  userIdIdx: index("doc_access_logs_user_id_idx").on(table.userId),
+  actionIdx: index("doc_access_logs_action_idx").on(table.action),
+  createdAtIdx: index("doc_access_logs_created_at_idx").on(table.createdAt),
+}));
+
+export const insertDocumentAccessLogSchema = createInsertSchema(documentAccessLogs).omit({ id: true, createdAt: true });
+export type DocumentAccessLog = typeof documentAccessLogs.$inferSelect;
+export type InsertDocumentAccessLog = z.infer<typeof insertDocumentAccessLogSchema>;
+
+export const encryptedFields = pgTable("encrypted_fields", {
+  id: serial("id").primaryKey(),
+  entityType: text("entity_type").notNull(), // llc_application, user, maintenance
+  entityId: integer("entity_id").notNull(),
+  fieldName: text("field_name").notNull(),
+  encryptedValue: text("encrypted_value").notNull(),
+  iv: text("iv").notNull(),
+  hash: text("hash").notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+}, (table) => ({
+  entityIdx: index("encrypted_fields_entity_idx").on(table.entityType, table.entityId),
+}));
+
+export type EncryptedField = typeof encryptedFields.$inferSelect;
 
 export type MaintenanceApplication = typeof maintenanceApplications.$inferSelect;
 export type Product = typeof products.$inferSelect;
