@@ -50,7 +50,6 @@ const Dashboard = lazy(() => lazyRetry(() => import("@/pages/dashboard")));
 const Login = lazy(() => lazyRetry(() => import("@/pages/auth/login.tsx")));
 const Register = lazy(() => lazyRetry(() => import("@/pages/auth/register.tsx")));
 const ForgotPassword = lazy(() => lazyRetry(() => import("@/pages/auth/forgot-password.tsx")));
-const Sales = lazy(() => lazyRetry(() => import("@/pages/funnel")));
 const InvoiceGenerator = lazy(() => lazyRetry(() => import("@/pages/invoice-generator")));
 const PriceCalculator = lazy(() => lazyRetry(() => import("@/pages/price-calculator")));
 const CsvGenerator = lazy(() => lazyRetry(() => import("@/pages/csv-generator")));
