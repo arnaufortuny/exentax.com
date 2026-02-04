@@ -563,35 +563,35 @@ export default function Servicios() {
               viewport={viewportOnce}
             />
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 max-w-5xl mx-auto px-4 sm:px-0 mb-12">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 max-w-5xl mx-auto px-4 sm:px-0 mb-12">
             {[
               { state: "New Mexico", price: getMaintenancePriceFormatted("newMexico"), annual: true },
               { state: "Wyoming", price: getMaintenancePriceFormatted("wyoming"), annual: true },
               { state: "Delaware", price: getMaintenancePriceFormatted("delaware"), annual: true }
             ].map((item, i) => (
-              <div key={i} className="border-[2px] border-accent rounded-2xl overflow-hidden relative bg-background shadow-lg flex flex-col h-full transform transition-all hover:scale-[1.01] hover:shadow-xl group text-center mx-auto w-full sm:max-w-none">
-                <div className="p-5 sm:p-6 flex-grow text-center">
-                  <div className="flex flex-col items-center justify-center mb-4 sm:mb-4 gap-2">
-                    <h3 className="text-xl sm:text-xl font-black text-primary  tracking-tight">{item.state}</h3>
-                    <span className="bg-accent/20 text-primary text-[10px] sm:text-[11px] font-black px-3 py-1 rounded-full ">{t("services.maintenance.title")}</span>
+              <div key={i} className="border-[2px] border-accent rounded-xl overflow-hidden relative bg-background shadow-lg flex flex-col h-full transform transition-all hover:scale-[1.01] hover:shadow-xl group text-center mx-auto w-full sm:max-w-none">
+                <div className="p-4 sm:p-5 flex-grow text-center">
+                  <div className="flex flex-col items-center justify-center mb-3 gap-1">
+                    <h3 className="text-lg sm:text-xl font-black text-primary tracking-tight">{item.state}</h3>
+                    <span className="bg-accent/20 text-primary text-[10px] font-black px-2 py-0.5 rounded-full">{t("services.maintenance.title")}</span>
                   </div>
                   <div className="flex items-baseline justify-center gap-1 mb-2">
-                    <p className="text-4xl sm:text-4xl font-black text-primary">{item.price}</p>
-                    <span className="text-muted-foreground text-xs sm:text-xs font-medium">{t("services.formation.year")}</span>
+                    <p className="text-2xl sm:text-3xl font-black text-primary">{item.price}</p>
+                    <span className="text-muted-foreground text-[10px] sm:text-xs font-medium">{t("services.formation.year")}</span>
                   </div>
-                  <div className="space-y-2 text-left mt-4 border-t border-accent/10 pt-4">
+                  <div className="space-y-1.5 text-left mt-3 border-t border-accent/10 pt-3">
                     {maintenanceFeatures.map((f, idx) => (
-                      <div key={idx} className="flex items-start gap-2 text-primary/80 font-bold leading-tight text-left">
-                        <Check className="text-accent w-5 h-5 mt-0.5 flex-shrink-0" /> 
-                        <span className="text-[11px] sm:text-xs">{f}</span>
+                      <div key={idx} className="flex items-start gap-1.5 text-primary/80 font-bold leading-tight text-left">
+                        <Check className="text-accent w-4 h-4 mt-0.5 flex-shrink-0" /> 
+                        <span className="text-[10px] sm:text-[11px]">{f}</span>
                       </div>
                     ))}
                   </div>
                 </div>
-                <div className="p-5 sm:p-6 pt-0 mt-auto">
+                <div className="p-4 sm:p-5 pt-0 mt-auto">
                   <Button 
                     onClick={() => handleSelectMaintenance(item.state)}
-                    className="w-full bg-accent text-primary font-black text-sm rounded-full py-4 sm:py-4 border-0 shadow-md hover:bg-accent/90 transition-all transform active:scale-95 h-11 sm:h-11 shadow-accent/20"
+                    className="w-full bg-accent text-primary font-black text-xs sm:text-sm rounded-full border-0 shadow-md hover:bg-accent/90 transition-all transform active:scale-95 h-9 sm:h-10 shadow-accent/20"
                   >
                     {t("services.maintenancePack.choosePack")} {item.state}
                   </Button>
