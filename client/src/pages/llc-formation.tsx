@@ -715,7 +715,10 @@ export default function LlcFormation() {
                     <FormMessage />
                   </FormItem>
                 )} />
-                <Button type="button" onClick={nextStep} className="w-full bg-accent hover:bg-accent/90 text-black font-bold h-12 rounded-full text-base transition-all">{t("application.continue")}</Button>
+                <Button type="button" onClick={nextStep} className="w-full bg-accent hover:bg-accent/90 text-black font-bold h-12 rounded-full text-base transition-all" data-testid="button-continue-step0">{t("application.continue")}</Button>
+                <Link href="/servicios#comparador" className="block text-center text-sm text-accent hover:text-accent/80 underline mt-3 font-medium" data-testid="link-help-choose">
+                  {t("application.helpChoose")}
+                </Link>
               </div>
             )}
 

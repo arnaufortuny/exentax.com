@@ -662,12 +662,13 @@
   "application": {
     "title": "Constituir la meva LLC",
     "editTitle": "Modificar dades de",
-    "subtitle": "Constitueix la teva LLC online en uns clics. Et guiem pas a pas i ens encarreguem de tot.",
+    "subtitle": "Selecciona l'estat on vols registrar la teva LLC. Nosaltres ens encarreguem de la resta.",
     "editMode": "Mode Edició",
     "editModeDesc": "Estàs modificant les dades de la teva comanda pendent",
     "cancel": "Cancel·lar",
     "saveChanges": "Desar Canvis",
     "continue": "Continuar",
+    "helpChoose": "No saps quin triar? T'ajudem",
     "back": "Tornar",
     "submit": "Enviar Sol·licitud",
     "submitting": "Enviant...",
@@ -758,11 +759,11 @@
     },
     "states": {
       "newMexico": "New Mexico",
-      "newMexicoDesc": "Más económico, sin impuestos estatales",
+      "newMexicoDesc": "L'opció més simple i econòmica. Sense reporting anual estatal. Ideal per començar ràpid.",
       "wyoming": "Wyoming",
-      "wyomingDesc": "Máxima privacidad y protección",
+      "wyomingDesc": "Equilibri perfecte entre privacitat, protecció legal i prestigi empresarial.",
       "delaware": "Delaware",
-      "delawareDesc": "Prestigio internacional, ideal inversores"
+      "delawareDesc": "Estàndard internacional per a empreses amb inversors o estructures corporatives complexes."
     },
     "options": {
       "yes": "Sí",

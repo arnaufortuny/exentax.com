@@ -662,12 +662,13 @@
   "application": {
     "title": "Form my LLC",
     "editTitle": "Edit data for",
-    "subtitle": "Form your LLC online in a few clicks. We guide you step by step and take care of everything.",
+    "subtitle": "Select the state where you want to register your LLC. We take care of the rest.",
     "editMode": "Edit Mode",
     "editModeDesc": "You are modifying the data of your pending order",
     "cancel": "Cancel",
     "saveChanges": "Save Changes",
     "continue": "Continue",
+    "helpChoose": "Not sure which to choose? We can help",
     "back": "Back",
     "submit": "Submit Request",
     "submitting": "Submitting...",
@@ -758,11 +759,11 @@
     },
     "states": {
       "newMexico": "New Mexico",
-      "newMexicoDesc": "Most affordable, no state taxes",
+      "newMexicoDesc": "The simplest and most affordable option. No annual state reporting. Ideal to get started quickly.",
       "wyoming": "Wyoming",
-      "wyomingDesc": "Maximum privacy and protection",
+      "wyomingDesc": "Perfect balance between privacy, legal protection and business prestige.",
       "delaware": "Delaware",
-      "delawareDesc": "International prestige, ideal for investors"
+      "delawareDesc": "International standard for companies with investors or complex corporate structures."
     },
     "options": {
       "yes": "Yes",

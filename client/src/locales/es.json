@@ -662,12 +662,13 @@
   "application": {
     "title": "Constituir mi LLC",
     "editTitle": "Modificar datos de",
-    "subtitle": "Constituye tu LLC online en unos clics. Te guiamos paso a paso y nos encargamos de todo.",
+    "subtitle": "Selecciona el estado donde quieres registrar tu LLC. Nosotros nos encargamos del resto.",
     "editMode": "Modo Edición",
     "editModeDesc": "Estás modificando los datos de tu pedido pendiente",
     "cancel": "Cancelar",
     "saveChanges": "Guardar Cambios",
     "continue": "Continuar",
+    "helpChoose": "¿No sabes cuál elegir? Te ayudamos",
     "back": "Volver",
     "submit": "Enviar Solicitud",
     "submitting": "Enviando...",
@@ -758,11 +759,11 @@
     },
     "states": {
       "newMexico": "New Mexico",
-      "newMexicoDesc": "Más económico, sin impuestos estatales",
+      "newMexicoDesc": "La opción más simple y económica. Sin reporting anual estatal. Ideal para empezar rápido.",
       "wyoming": "Wyoming",
-      "wyomingDesc": "Máxima privacidad y protección",
+      "wyomingDesc": "Equilibrio perfecto entre privacidad, protección legal y prestigio empresarial.",
       "delaware": "Delaware",
-      "delawareDesc": "Prestigio internacional, ideal inversores"
+      "delawareDesc": "Estándar internacional para empresas con inversores o estructuras corporativas complejas."
     },
     "options": {
       "yes": "Sí",
