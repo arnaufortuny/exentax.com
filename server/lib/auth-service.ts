@@ -4,6 +4,7 @@ import { db } from "../db";
 import { users, passwordResetTokens, emailVerificationTokens, messages as messagesTable } from "@shared/schema";
 import { eq, and, gt, sql } from "drizzle-orm";
 import { sendEmail, getRegistrationOtpTemplate, getAdminNewRegistrationTemplate, getAccountLockedTemplate, getOtpEmailTemplate } from "./email";
+import { validatePassword } from "./security";
 
 const SALT_ROUNDS = 12;
 const OTP_EXPIRY_MINUTES = 15;
@@ -65,10 +66,14 @@ export async function createUser(data: {
   businessActivity?: string;
   clientId: string;
 }): Promise<{ user: typeof users.$inferSelect; verificationToken: string }> {
+  const passwordValidation = validatePassword(data.password);
+  if (!passwordValidation.valid) {
+    throw new Error(passwordValidation.message || "Contraseña no válida");
+  }
+
   const existingUser = await db.select().from(users).where(eq(users.email, data.email)).limit(1);
   if (existingUser.length > 0) {
     const existing = existingUser[0];
-    // Check if account is deactivated
     if (existing.isActive === false || existing.accountStatus === 'deactivated') {
       const error = new Error("Tu cuenta ha sido desactivada. Contacta con nuestro equipo de soporte para más información.");
       (error as any).code = "ACCOUNT_DEACTIVATED";
@@ -314,6 +319,11 @@ export async function verifyPasswordResetOtp(email: string, otp: string): Promis
 }
 
 export async function resetPasswordWithOtp(email: string, otp: string, newPassword: string): Promise<boolean> {
+  const passwordValidation = validatePassword(newPassword);
+  if (!passwordValidation.valid) {
+    throw new Error(passwordValidation.message || "Contraseña no válida");
+  }
+
   const [user] = await db.select().from(users).where(eq(users.email, email)).limit(1);
   if (!user) return false;
 

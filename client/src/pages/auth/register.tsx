@@ -16,6 +16,7 @@ import { useToast } from "@/hooks/use-toast";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { SocialLogin } from "@/components/auth/social-login";
 import { StepProgress } from "@/components/ui/step-progress";
+import { PasswordStrength } from "@/components/ui/password-strength";
 
 const createRegisterSchema = (t: (key: string) => string) => z.object({
   firstName: z.string().min(1, t("validation.required")),
@@ -32,7 +33,12 @@ const createRegisterSchema = (t: (key: string) => string) => z.object({
       { message: t("validation.phoneFormat") }
     ),
   businessActivity: z.string().optional(),
-  password: z.string().min(8, t("validation.minPassword")),
+  password: z.string()
+    .min(8, t("validation.minPassword"))
+    .refine((val) => /[A-Z]/.test(val), { message: t("auth.passwordStrength.hasUppercase") })
+    .refine((val) => /[a-z]/.test(val), { message: t("auth.passwordStrength.hasLowercase") })
+    .refine((val) => /[0-9]/.test(val), { message: t("auth.passwordStrength.hasNumber") })
+    .refine((val) => /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(val), { message: t("auth.passwordStrength.hasSymbol") }),
   confirmPassword: z.string(),
 }).refine(data => data.password === data.confirmPassword, {
   message: t("validation.passwordMismatch"),
@@ -482,10 +488,11 @@ export default function Register() {
                               </Button>
                             </div>
                           </FormControl>
+                          <PasswordStrength 
+                            password={form.watch("password")} 
+                            className="mt-2"
+                          />
                           <FormMessage />
-                          {!form.formState.errors.password && (
-                            <p className="text-xs text-muted-foreground mt-1">{t("auth.register.passwordHint")}</p>
-                          )}
                         </FormItem>
                       )}
                     />

@@ -529,6 +529,18 @@
         "other": "Other"
       }
     },
+    "passwordStrength": {
+      "veryWeak": "Very weak",
+      "weak": "Weak",
+      "fair": "Fair",
+      "good": "Good",
+      "strong": "Strong",
+      "minLength": "At least 8 characters",
+      "hasUppercase": "One uppercase (A-Z)",
+      "hasLowercase": "One lowercase (a-z)",
+      "hasNumber": "One number (0-9)",
+      "hasSymbol": "One symbol (!@#$...)"
+    },
     "verify": {
       "title": "Verify your",
       "titleHighlight": "email",

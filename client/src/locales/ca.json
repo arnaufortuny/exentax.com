@@ -528,6 +528,18 @@
         "other": "Altre"
       }
     },
+    "passwordStrength": {
+      "veryWeak": "Molt feble",
+      "weak": "Feble",
+      "fair": "Regular",
+      "good": "Bona",
+      "strong": "Segura",
+      "minLength": "Mínim 8 caràcters",
+      "hasUppercase": "Una majúscula (A-Z)",
+      "hasLowercase": "Una minúscula (a-z)",
+      "hasNumber": "Un número (0-9)",
+      "hasSymbol": "Un símbol (!@#$...)"
+    },
     "verify": {
       "title": "Verifica el teu",
       "titleHighlight": "email",
