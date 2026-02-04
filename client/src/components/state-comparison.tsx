@@ -94,7 +94,7 @@ export function StateComparison() {
             return (
               <motion.div
                 key={state.name}
-                className="bg-background rounded-3xl border-2 border-border p-6 sm:p-8 shadow-lg hover:shadow-xl transition-all flex flex-col"
+                className="bg-background rounded-xl border-2 border-border p-6 sm:p-8 shadow-lg hover:shadow-xl transition-all flex flex-col"
                 variants={fadeInUp}
                 initial="hidden"
                 whileInView="visible"
