@@ -301,7 +301,7 @@
     },
     "whatWeDo": {
       "badge": "SERVICIOS",
-      "title": "<span class='text-foreground'>CONSTITUIMOS TU LLC</span><br/><span class='text-accent'>CON VISIÓN LEGAL, BANCARIA Y FISCAL</span>",
+      "title": "<span class='text-foreground'>CONSTITUIMOS</span><br/><span class='text-foreground'>TU LLC</span><br/><span class='text-accent'>CON VISIÓN LEGAL,</span><br/><span class='text-accent'>BANCARIA Y FISCAL</span>",
       "subtitle": "Nos ocupamos de todo el proceso para que tengas una empresa preparada para operar, crecer y optimizar su carga fiscal con total seguridad.",
       "items": {
         "formation": {
@@ -338,8 +338,8 @@
     "banks": {
       "badge": "BANCOS",
       "title": "Asistencia Bancaria",
-      "sectionTitle": "NOS OCUPAMOS DE LOS BANCOS",
-      "sectionTitleHighlight": "PARA QUE TÚ TE OCUPES DE TU NEGOCIO",
+      "sectionTitle": "NOS OCUPAMOS DE LOS BANCOS PARA QUE TÚ",
+      "sectionTitleHighlight": "TE OCUPES DE TU NEGOCIO",
       "subtitle": "Preparamos tu solicitud, revisamos la documentación y te guiamos hasta que tu cuenta esté operativa.",
       "mercury": {
         "title": "Mercury",
@@ -398,10 +398,10 @@
     "questions": "¿Alguna duda? Hablemos"
   },
   "packsTitle": {
-    "packs": "SOLUCIONES COMPLETAS",
-    "formation": "PARA CONSTITUIR Y MANTENER TU LLC AL DÍA",
-    "packsLine1": "SOLUCIONES COMPLETAS",
-    "packsLine2": "PARA CONSTITUIR Y MANTENER TU LLC AL DÍA",
+    "packs": "SOLUCIONES",
+    "formation": "COMPLETAS",
+    "packsLine1": "PARA CONSTITUIR Y",
+    "packsLine2": "MANTENER TU LLC AL DÍA",
     "subtitle": "Cada plan está diseñado para cubrir las obligaciones reales de tu empresa y evitarte problemas futuros.",
     "maintenance": {
       "packs": "TU LLC SIEMPRE AL DÍA,",
@@ -410,8 +410,10 @@
     }
   },
   "stateComparison": {
-    "title": "LA MEJOR LLC NO ES LA MÁS POPULAR.",
-    "titleHighlight": "ES LA QUE MEJOR FUNCIONA PARA TI.",
+    "title": "LA MEJOR LLC",
+    "titleLine2": "NO ES LA MÁS POPULAR.",
+    "titleHighlight": "ES LA QUE MEJOR",
+    "titleHighlight2": "FUNCIONA PARA TI.",
     "subtitle": "Comparamos costes, privacidad, fiscalidad y mantenimiento para que elijas con criterio y sin sorpresas.",
     "popular": "Más Popular",
     "premium": "Premium",
@@ -1825,9 +1827,10 @@
   "taxComparator": {
     "badge": "CALCULADORA DE AHORRO",
     "title": "¿Cuánto puedes ahorrar?",
-    "titlePart1": "DESCUBRE SI UNA LLC PUEDE",
-    "titlePart2": "OPTIMIZAR TU",
-    "titlePart3": "CARGA FISCAL",
+    "titlePart1": "DESCUBRE",
+    "titlePart2": "SI UNA LLC",
+    "titlePart3": "PUEDE OPTIMIZAR",
+    "titlePart4": "TU CARGA FISCAL",
     "subtitle": "Analizamos tu situación actual y te mostramos una estimación realista del impacto fiscal que podría tener operar con una LLC en Estados Unidos.",
     "taxes": "IMPUESTOS",
     "selectCountry": "¿DESDE QUÉ PAÍS TRABAJAS?",

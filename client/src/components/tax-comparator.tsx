@@ -280,9 +280,10 @@ export function TaxComparator() {
             viewport={{ once: true, amount: 0.3 }}
             transition={{ duration: 0.25, ease: "easeOut" }}
           >
-            <span className="text-foreground">{t("taxComparator.titlePart1")}</span>{" "}
-            <span className="text-accent">{t("taxComparator.titlePart2")}</span>{" "}
-            <span className="text-accent">{t("taxComparator.titlePart3")}</span>
+            <span className="text-foreground">{t("taxComparator.titlePart1")}</span><br/>
+            <span className="text-foreground">{t("taxComparator.titlePart2")}</span><br/>
+            <span className="text-accent">{t("taxComparator.titlePart3")}</span><br/>
+            <span className="text-accent">{t("taxComparator.titlePart4")}</span>
           </motion.h2>
           <motion.p 
             className="text-muted-foreground text-base sm:text-lg mt-4 text-center max-w-2xl will-change-transform"

@@ -85,7 +85,7 @@ export default function Servicios() {
       <Navbar />
       
       <HeroSection 
-        className="flex flex-col items-center justify-center text-center pt-32 sm:pt-28 min-h-[450px] sm:min-h-[auto] w-full"
+        className="flex flex-col items-center justify-center text-center pt-28 sm:pt-28 min-h-[450px] sm:min-h-[auto] w-full"
         showGradient={false}
         title={
           <>
@@ -214,8 +214,10 @@ export default function Servicios() {
               whileInView="visible"
               viewport={viewportOnce}
             >
-              <span className="text-foreground">{t("packsTitle.packs")}</span>{" "}
-              <span className="text-accent">{t("packsTitle.formation")}</span>
+              <span className="text-foreground">{t("packsTitle.packs")}</span><br/>
+              <span className="text-accent">{t("packsTitle.formation")}</span><br/>
+              <span className="text-foreground">{t("packsTitle.packsLine1")}</span><br/>
+              <span className="text-accent">{t("packsTitle.packsLine2")}</span>
             </motion.h2>
             <motion.p
               className="text-base sm:text-lg text-muted-foreground mt-4 max-w-2xl"

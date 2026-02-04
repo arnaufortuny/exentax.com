@@ -61,8 +61,10 @@ export function StateComparison() {
             whileInView="visible"
             viewport={viewportOnce}
           >
-            <span className="text-foreground">{t("stateComparison.title")}</span>{" "}
-            <span className="text-accent">{t("stateComparison.titleHighlight")}</span>
+            <span className="text-foreground">{t("stateComparison.title")}</span><br/>
+            <span className="text-foreground">{t("stateComparison.titleLine2")}</span><br/>
+            <span className="text-accent">{t("stateComparison.titleHighlight")}</span><br/>
+            <span className="text-accent">{t("stateComparison.titleHighlight2")}</span>
           </motion.h2>
           <motion.p
             className="text-muted-foreground text-base sm:text-lg mt-4 text-center max-w-2xl"

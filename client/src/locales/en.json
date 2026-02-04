@@ -399,10 +399,10 @@
     "questions": "Have questions? Let's talk"
   },
   "packsTitle": {
-    "packs": "COMPLETE SOLUTIONS",
-    "formation": "TO FORM AND KEEP YOUR LLC UP TO DATE",
-    "packsLine1": "COMPLETE SOLUTIONS",
-    "packsLine2": "TO FORM AND KEEP YOUR LLC UP TO DATE",
+    "packs": "COMPLETE",
+    "formation": "SOLUTIONS",
+    "packsLine1": "TO FORM AND",
+    "packsLine2": "KEEP YOUR LLC UP TO DATE",
     "subtitle": "Each plan is designed to cover your company's real obligations and prevent future problems.",
     "maintenance": {
       "packs": "YOUR LLC ALWAYS UP TO DATE,",
@@ -411,8 +411,10 @@
     }
   },
   "stateComparison": {
-    "title": "THE BEST LLC IS NOT THE MOST POPULAR.",
-    "titleHighlight": "IT'S THE ONE THAT WORKS BEST FOR YOU.",
+    "title": "THE BEST LLC",
+    "titleLine2": "IS NOT THE MOST POPULAR.",
+    "titleHighlight": "IT'S THE ONE THAT",
+    "titleHighlight2": "WORKS BEST FOR YOU.",
     "subtitle": "We compare costs, privacy, taxation and maintenance so you can choose wisely and without surprises.",
     "popular": "Most Popular",
     "premium": "Premium",
@@ -1826,9 +1828,10 @@
   "taxComparator": {
     "badge": "SAVINGS CALCULATOR",
     "title": "How much can you save?",
-    "titlePart1": "DISCOVER IF AN LLC CAN",
-    "titlePart2": "OPTIMIZE YOUR",
-    "titlePart3": "TAX BURDEN",
+    "titlePart1": "DISCOVER",
+    "titlePart2": "IF AN LLC",
+    "titlePart3": "CAN OPTIMIZE",
+    "titlePart4": "YOUR TAX BURDEN",
     "subtitle": "We analyze your current situation and show you a realistic estimate of the tax impact of operating with an LLC in the United States.",
     "taxes": "TAXES",
     "selectCountry": "WHERE DO YOU WORK FROM?",
