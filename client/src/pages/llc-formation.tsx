@@ -686,11 +686,8 @@ export default function LlcFormation() {
                         ].map(opt => (
                           <label 
                             key={opt.name} 
-                            onClick={() => {
-                              field.onChange(opt.name);
-                              setStep(1);
-                            }}
-                            className={`flex items-center justify-between gap-3 px-4 py-3 rounded-xl border-2 cursor-pointer transition-colors ${
+                            onClick={() => field.onChange(opt.name)}
+                            className={`flex items-center justify-between gap-3 px-4 py-3 rounded-full border-2 cursor-pointer transition-colors ${
                               field.value === opt.name 
                                 ? 'border-accent bg-accent/10 dark:bg-accent/20' 
                                 : 'border-gray-200 dark:border-border bg-white dark:bg-[#1A1A1A] hover:border-accent/50'

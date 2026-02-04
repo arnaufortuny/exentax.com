@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { useLocation } from "wouter";
 import { apiRequest } from "@/lib/queryClient";
 import moneyIcon from "@/assets/icons/money-icon.svg";
-import { SpainFlag, UKFlag, GermanyFlag, FranceFlag, BulgariaFlag } from "@/components/ui/flags";
+import { SpainFlag, UKFlag, GermanyFlag, FranceFlag, BulgariaFlag, USAFlag } from "@/components/ui/flags";
 
 interface TaxBreakdown {
   income: number;
@@ -351,7 +351,7 @@ export function TaxComparator() {
                     value={formatInputCurrency(income)}
                     onChange={(e) => handleIncomeChange(e.target.value)}
                     placeholder="50.000"
-                    className="w-full px-6 py-3 text-2xl sm:text-3xl font-black text-accent text-center bg-background border-2 border-accent/30 rounded-full focus:border-accent outline-none transition-all"
+                    className="w-full px-6 py-3 text-2xl sm:text-3xl font-black text-accent text-center bg-white dark:bg-[#1A1A1A] border-2 border-accent/30 rounded-full focus:border-accent outline-none transition-colors"
                     data-testid="input-income"
                   />
                   <span className="absolute right-6 top-1/2 -translate-y-1/2 text-xl font-black text-accent/60">€</span>
@@ -392,7 +392,7 @@ export function TaxComparator() {
                             emailError 
                               ? 'border-destructive focus:border-destructive' 
                               : 'border-accent/30 focus:border-accent'
-                          } bg-background text-foreground font-medium text-center outline-none transition-all`}
+                          } bg-white dark:bg-[#1A1A1A] text-foreground font-medium text-center outline-none transition-colors`}
                           data-testid="input-email-calculator"
                         />
                         {emailError && (
@@ -469,8 +469,8 @@ export function TaxComparator() {
                     {/* US LLC */}
                     <div className="p-6 sm:p-8 bg-accent/10 border-b md:border-b-0 md:border-r border-accent/20 relative">
                       <div className="flex items-center gap-3 mb-8">
-                        <div className="w-14 h-14 rounded-2xl bg-accent/20 flex items-center justify-center border-2 border-accent/30 shadow-lg text-3xl">
-                          🇺🇸
+                        <div className="w-14 h-14 rounded-2xl bg-accent/20 flex items-center justify-center border-2 border-accent/30 shadow-lg">
+                          <USAFlag className="w-8 h-8" />
                         </div>
                         <div>
                           <h3 className="font-black text-foreground text-xl">{t("taxComparator.usllc.title")}</h3>
