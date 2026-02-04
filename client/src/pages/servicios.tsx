@@ -25,8 +25,9 @@ export default function Servicios() {
   usePageTitle();
 
   useEffect(() => {
-    if (window.location.hash === '#pricing') {
-      const element = document.getElementById('pricing');
+    const hash = window.location.hash;
+    if (hash === '#pricing' || hash === '#comparador' || hash === '#estados') {
+      const element = document.getElementById(hash.slice(1));
       if (element) {
         setTimeout(() => {
           element.scrollIntoView({ behavior: 'smooth' });

@@ -351,7 +351,7 @@ export default function SalesPage() {
   return (
     <div className="min-h-screen bg-background">
       {/* Hero Section */}
-      <section className="relative overflow-hidden px-5 pt-12 pb-16 sm:pt-16 sm:pb-20">
+      <section className="relative px-5 pt-12 pb-16 sm:pt-16 sm:pb-20">
         <div className="relative max-w-lg mx-auto text-center">
           <div className="flex justify-center mb-6">
             <img 

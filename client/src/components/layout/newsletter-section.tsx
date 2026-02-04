@@ -51,7 +51,7 @@ export function NewsletterSection() {
   };
 
   return (
-    <section className="py-16 md:py-20 bg-background relative overflow-hidden font-sans w-full">
+    <section className="py-16 md:py-20 bg-background relative font-sans w-full">
       <div className="absolute inset-0 opacity-[0.03] dark:opacity-0 pointer-events-none bg-[radial-gradient(circle_at_1px_1px,currentColor_1px,transparent_0)] bg-[length:24px_24px]" />
       
       <div className="w-full px-5 sm:px-8 relative z-10 flex flex-col items-center justify-center">
