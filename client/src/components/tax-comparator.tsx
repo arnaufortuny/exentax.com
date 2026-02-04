@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, ComponentType } from "react";
 import { useTranslation } from "react-i18next";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown, ChevronUp, TrendingUp, Calculator, Mail } from "lucide-react";
@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { useLocation } from "wouter";
 import { apiRequest } from "@/lib/queryClient";
 import moneyIcon from "@/assets/icons/money-icon.svg";
+import { SpainFlag, UKFlag, GermanyFlag, FranceFlag, BulgariaFlag } from "@/components/ui/flags";
 
 interface TaxBreakdown {
   income: number;
@@ -23,17 +24,17 @@ type Country = "spain" | "uk" | "germany" | "france" | "bulgaria";
 interface CountryInfo {
   id: Country;
   name: string;
-  flag: string;
+  FlagComponent: ComponentType<{ className?: string }>;
   vatRate: number;
   corporateTaxRate: number;
 }
 
 const countries: CountryInfo[] = [
-  { id: "spain", name: "España", flag: "🇪🇸", vatRate: 21, corporateTaxRate: 25 },
-  { id: "uk", name: "Reino Unido", flag: "🇬🇧", vatRate: 20, corporateTaxRate: 25 },
-  { id: "germany", name: "Alemania", flag: "🇩🇪", vatRate: 19, corporateTaxRate: 30 },
-  { id: "france", name: "Francia", flag: "🇫🇷", vatRate: 20, corporateTaxRate: 25 },
-  { id: "bulgaria", name: "Bulgaria", flag: "🇧🇬", vatRate: 20, corporateTaxRate: 10 },
+  { id: "spain", name: "España", FlagComponent: SpainFlag, vatRate: 21, corporateTaxRate: 25 },
+  { id: "uk", name: "Reino Unido", FlagComponent: UKFlag, vatRate: 20, corporateTaxRate: 25 },
+  { id: "germany", name: "Alemania", FlagComponent: GermanyFlag, vatRate: 19, corporateTaxRate: 30 },
+  { id: "france", name: "Francia", FlagComponent: FranceFlag, vatRate: 20, corporateTaxRate: 25 },
+  { id: "bulgaria", name: "Bulgaria", FlagComponent: BulgariaFlag, vatRate: 20, corporateTaxRate: 10 },
 ];
 
 function calculateTaxes(grossIncome: number, country: Country): TaxBreakdown {
@@ -322,8 +323,8 @@ export function TaxComparator() {
                     }`}
                     data-testid={`button-country-${country.id}`}
                   >
-                    <span className="text-lg">{country.flag}</span>
-                    <span className="hidden sm:inline">{country.name}</span>
+                    <country.FlagComponent className="w-5 h-5" data-testid={`icon-country-flag-${country.id}`} />
+                    <span className="hidden sm:inline" data-testid={`text-country-name-${country.id}`}>{country.name}</span>
                   </button>
                 ))}
               </div>
@@ -507,8 +508,8 @@ export function TaxComparator() {
                     <div className="p-6 sm:p-8 bg-muted/50 relative">
                       <div className="flex items-start justify-between gap-3 mb-8">
                         <div className="flex items-center gap-3">
-                          <div className="w-14 h-14 rounded-2xl bg-muted flex items-center justify-center border-2 border-border shadow-lg text-3xl shrink-0">
-                            {selectedCountryInfo.flag}
+                          <div className="w-14 h-14 rounded-2xl bg-muted flex items-center justify-center border-2 border-border shadow-lg shrink-0" data-testid="container-selected-country-flag">
+                            <selectedCountryInfo.FlagComponent className="w-8 h-8" data-testid={`icon-selected-flag-${selectedCountry}`} />
                           </div>
                           <div className="text-left">
                             <h3 className="font-black text-foreground text-xl">{t(`taxComparator.countries.${selectedCountry}.title`)}</h3>

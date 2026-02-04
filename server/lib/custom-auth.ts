@@ -7,6 +7,7 @@ import { users } from "@shared/models/auth";
 import { userNotifications, messages as messagesTable } from "@shared/schema";
 import { eq, sql, and, inArray, desc, gt } from "drizzle-orm";
 import { sendEmail, getWelcomeEmailTemplate } from "./email";
+import { EmailLanguage, getWelcomeNotificationTitle, getWelcomeNotificationMessage, getWelcomeEmailSubject, getDefaultClientName } from "./email-translations";
 import { checkRateLimit, logAudit, getClientIp } from "./security";
 import {
   createUser,
@@ -73,7 +74,7 @@ export function setupCustomAuth(app: Express) {
   // Register endpoint
   app.post("/api/auth/register", async (req, res) => {
     try {
-      const { email, password, firstName, lastName, phone, birthDate, businessActivity } = req.body;
+      const { email, password, firstName, lastName, phone, birthDate, businessActivity, preferredLanguage } = req.body;
 
       if (!email || !password || !firstName || !lastName || !phone) {
         return res.status(400).json({ message: "Todos los campos son obligatorios" });
@@ -84,6 +85,7 @@ export function setupCustomAuth(app: Express) {
       }
 
       const clientId = Math.floor(10000000 + Math.random() * 90000000).toString();
+      const lang = (preferredLanguage === 'en' || preferredLanguage === 'ca') ? preferredLanguage : 'es';
       const { user } = await createUser({
         email,
         password,
@@ -93,22 +95,24 @@ export function setupCustomAuth(app: Express) {
         birthDate,
         businessActivity,
         clientId,
+        preferredLanguage: lang,
       });
 
-      // NOTIFICATION: Welcome
+      // NOTIFICATION: Welcome (in user's language)
+      const emailLang = lang as EmailLanguage;
       await db.insert(userNotifications).values({
         userId: user.id,
-        title: "¡Bienvenido a Easy US LLC!",
-        message: "Gracias por confiar en nosotros para crear tu empresa en EE.UU. Explora tu panel para comenzar.",
+        title: getWelcomeNotificationTitle(emailLang),
+        message: getWelcomeNotificationMessage(emailLang),
         type: 'info',
         isRead: false
       });
 
-      // Send Welcome Email with Client ID
+      // Send Welcome Email with Client ID (in user's language)
       sendEmail({
         to: user.email!,
-        subject: "¡Bienvenido a Easy US LLC!",
-        html: getWelcomeEmailTemplate(user.firstName || "Cliente")
+        subject: getWelcomeEmailSubject(emailLang),
+        html: getWelcomeEmailTemplate(user.firstName || getDefaultClientName(emailLang), emailLang)
       }).catch(() => {});
 
       req.session.userId = user.id;

@@ -1560,79 +1560,79 @@
     "tooltip": "¿Dudas? ¡Escríbenos!"
   },
   "taxComparator": {
-    "badge": "CALCULADORA DE AHORRO",
-    "title": "¿Cuánto puedes ahorrar?",
-    "titlePart1": "CALCULEMOS",
-    "titlePart2": "CUÁNTO TE AHORRARÍAS CON",
-    "titlePart3": "TU LLC",
-    "subtitle": "Compara tu situación fiscal actual vs una LLC en Estados Unidos",
-    "taxes": "IMPUESTOS",
-    "selectCountry": "¿DESDE QUÉ PAÍS TRABAJAS?",
-    "annualIncome": "Ingresos anuales brutos",
+    "badge": "CALCULADORA D'ESTALVI",
+    "title": "Quant pots estalviar?",
+    "titlePart1": "CALCULEM",
+    "titlePart2": "QUANT ESTALVIARIES AMB",
+    "titlePart3": "LA TEVA LLC",
+    "subtitle": "Compara la teva situació fiscal actual vs una LLC als Estats Units",
+    "taxes": "IMPOSTOS",
+    "selectCountry": "DES DE QUIN PAÍS TREBALLES?",
+    "annualIncome": "Ingressos anuals bruts",
     "minIncome": "20.000€",
     "maxIncome": "200.000€",
-    "corporateTax": "Impuesto de sociedades",
-    "dividendTax": "IRPF dividendos",
-    "socialSecurity": "Cuota autónomos",
+    "corporateTax": "Impost de societats",
+    "dividendTax": "IRPF dividends",
+    "socialSecurity": "Quota autònoms",
     "vat": "IVA",
     "countries": {
       "spain": {
-        "title": "España",
-        "subtitle": "Sociedad Limitada (SL)"
+        "title": "Espanya",
+        "subtitle": "Societat Limitada (SL)"
       },
       "uk": {
-        "title": "Reino Unido",
+        "title": "Regne Unit",
         "subtitle": "Limited Company (Ltd)"
       },
       "germany": {
-        "title": "Alemania",
+        "title": "Alemanya",
         "subtitle": "GmbH"
       },
       "france": {
-        "title": "Francia",
+        "title": "França",
         "subtitle": "SARL"
       },
       "bulgaria": {
-        "title": "Bulgaria",
+        "title": "Bulgària",
         "subtitle": "EOOD"
       }
     },
     "usllc": {
-      "title": "Estados Unidos",
-      "subtitle": "LLC sin presencia física",
-      "federalTax": "Impuesto Federal USA",
-      "corporateTax": "Impuesto de sociedades",
-      "selfEmployment": "Cuota autónomos USA",
+      "title": "Estats Units",
+      "subtitle": "LLC sense presència física",
+      "federalTax": "Impost Federal USA",
+      "corporateTax": "Impost de societats",
+      "selfEmployment": "Quota autònoms USA",
       "vat": "IVA / Sales Tax"
     },
-    "totalTaxes": "Total impuestos",
-    "effectiveRate": "Tipo efectivo",
-    "netIncome": "Ingreso neto",
+    "totalTaxes": "Total impostos",
+    "effectiveRate": "Tipus efectiu",
+    "netIncome": "Ingrés net",
     "savings": {
-      "label": "Tu ahorro anual estimado",
-      "percentage": "{{percentage}}% de tus ingresos"
+      "label": "El teu estalvi anual estimat",
+      "percentage": "{{percentage}}% dels teus ingressos"
     },
-    "cta": "Empieza tu LLC ahora",
-    "emailTitle": "Calcula tu ahorro gratis",
-    "emailSubtitle": "Introduce tu email para ver cuánto puedes ahorrar con una LLC en Estados Unidos",
+    "cta": "Comença la teva LLC ara",
+    "emailTitle": "Calcula el teu estalvi gratis",
+    "emailSubtitle": "Introdueix el teu email per veure quant pots estalviar amb una LLC als Estats Units",
     "emailPlaceholder": "",
-    "emailRequired": "Por favor, introduce tu email",
-    "emailInvalid": "Por favor, introduce un email válido",
-    "emailPrivacy": "Tu email está protegido. No enviamos spam.",
-    "calculateButton": "Calcular mi ahorro",
-    "enterIncome": "Introduce tu facturación anual",
-    "calculating": "Calculando tu ahorro...",
-    "calculatingSubtitle": "Analizando impuestos y optimizaciones",
-    "showDetails": "Ver información importante",
-    "hideDetails": "Ocultar información",
+    "emailRequired": "Si us plau, introdueix el teu email",
+    "emailInvalid": "Si us plau, introdueix un email vàlid",
+    "emailPrivacy": "El teu email està protegit. No enviem spam.",
+    "calculateButton": "Calcular el meu estalvi",
+    "enterIncome": "Introdueix la teva facturació anual",
+    "calculating": "Calculant el teu estalvi...",
+    "calculatingSubtitle": "Analitzant impostos i optimitzacions",
+    "showDetails": "Veure informació important",
+    "hideDetails": "Amagar informació",
     "disclaimer": {
-      "title": "Información importante",
-      "point1": "Este cálculo es orientativo y no sustituye asesoramiento fiscal personalizado.",
-      "point2": "El ahorro real depende de tu situación fiscal y de cómo estructures tu actividad.",
-      "point3": "Una LLC sin presencia física en Estados Unidos puede no estar sujeta a impuestos federales, pero sí debe cumplir con obligaciones formales, como:",
-      "point3a": "Formulario 5472 / 1120",
+      "title": "Informació important",
+      "point1": "Aquest càlcul és orientatiu i no substitueix assessorament fiscal personalitzat.",
+      "point2": "L'estalvi real depèn de la teva situació fiscal i de com estructuris la teva activitat.",
+      "point3": "Una LLC sense presència física als Estats Units pot no estar subjecta a impostos federals, però sí ha de complir amb obligacions formals, com:",
+      "point3a": "Formulari 5472 / 1120",
       "point3b": "FBAR, si aplica",
-      "point4": "En Easy US LLC no te dejamos solo: analizamos tu caso y te explicamos qué aplica y qué no, sin rodeos ni letra pequeña."
+      "point4": "A Easy US LLC no et deixem sol: analitzem el teu cas i t'expliquem què aplica i què no, sense embuts ni lletra petita."
     }
   },
   "tools": {

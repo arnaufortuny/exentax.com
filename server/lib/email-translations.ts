@@ -785,3 +785,30 @@ export function getDefaultClientName(lang: EmailLanguage = 'es'): string {
   const t = getEmailTranslations(lang);
   return t.common.client;
 }
+
+export function getWelcomeNotificationTitle(lang: EmailLanguage = 'es'): string {
+  const titles: Record<EmailLanguage, string> = {
+    es: "¡Bienvenido a Easy US LLC!",
+    en: "Welcome to Easy US LLC!",
+    ca: "Benvingut a Easy US LLC!"
+  };
+  return titles[lang] || titles.es;
+}
+
+export function getWelcomeNotificationMessage(lang: EmailLanguage = 'es'): string {
+  const messages: Record<EmailLanguage, string> = {
+    es: "Gracias por confiar en nosotros para crear tu empresa en EE.UU. Explora tu panel para comenzar.",
+    en: "Thank you for trusting us to create your US business. Explore your dashboard to get started.",
+    ca: "Gràcies per confiar en nosaltres per crear la teva empresa als EUA. Explora el teu panell per començar."
+  };
+  return messages[lang] || messages.es;
+}
+
+export function getWelcomeEmailSubject(lang: EmailLanguage = 'es'): string {
+  const subjects: Record<EmailLanguage, string> = {
+    es: "¡Bienvenido a Easy US LLC!",
+    en: "Welcome to Easy US LLC!",
+    ca: "Benvingut a Easy US LLC!"
+  };
+  return subjects[lang] || subjects.es;
+}

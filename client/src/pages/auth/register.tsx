@@ -3,8 +3,9 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { Link, useLocation } from "wouter";
-import { Loader2, Eye, EyeOff, ArrowLeft, ArrowRight } from "lucide-react";
+import { Loader2, Eye, EyeOff, ArrowLeft, ArrowRight, Globe } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import { SpainFlag, USAFlag, CatalanFlag } from "@/components/ui/flags";
 
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
@@ -43,7 +44,7 @@ type RegisterFormValues = z.infer<ReturnType<typeof createRegisterSchema>>;
 const TOTAL_STEPS = 6;
 
 export default function Register() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [, setLocation] = useLocation();
   const [step, setStep] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
@@ -54,7 +55,14 @@ export default function Register() {
   const [isResending, setIsResending] = useState(false);
   const [acceptedTerms, setAcceptedTerms] = useState(false);
   const [acceptedAge, setAcceptedAge] = useState(false);
+  const [selectedLanguage, setSelectedLanguage] = useState(i18n.language?.split('-')[0] || 'es');
   const { toast } = useToast();
+
+  const languages = [
+    { code: 'es', label: 'Español', Flag: SpainFlag },
+    { code: 'en', label: 'English', Flag: USAFlag },
+    { code: 'ca', label: 'Català', Flag: CatalanFlag }
+  ];
 
   const registerSchema = useMemo(() => createRegisterSchema(t), [t]);
 
@@ -109,6 +117,15 @@ export default function Register() {
     }
   };
 
+  const allowedLanguages = ['es', 'en', 'ca'] as const;
+  
+  const handleLanguageChange = (langCode: string) => {
+    const validLang = allowedLanguages.includes(langCode as typeof allowedLanguages[number]) ? langCode : 'es';
+    setSelectedLanguage(validLang);
+    i18n.changeLanguage(validLang);
+    localStorage.setItem('i18nextLng', validLang);
+  };
+
   const onSubmit = async (data: RegisterFormValues) => {
     setIsLoading(true);
     try {
@@ -119,6 +136,7 @@ export default function Register() {
         phone: data.phone,
         businessActivity: data.businessActivity || null,
         password: data.password,
+        preferredLanguage: selectedLanguage,
       });
       const result = await res.json();
       
@@ -520,6 +538,29 @@ export default function Register() {
                           <span className="font-medium text-primary text-right max-w-[200px]">{form.getValues("businessActivity")}</span>
                         </div>
                       )}
+                    </div>
+
+                    <div className="p-4 bg-accent/5 border border-accent/20 rounded-2xl" data-testid="section-language-selector">
+                      <div className="flex items-center gap-2 mb-3">
+                        <Globe className="w-4 h-4 text-accent" data-testid="icon-language-globe" />
+                        <span className="font-bold text-foreground text-sm" data-testid="text-language-title">{t('profile.language.title', 'Idioma preferido')}</span>
+                      </div>
+                      <p className="text-xs text-muted-foreground mb-3" data-testid="text-language-description">{t('profile.language.description', 'Selecciona el idioma de la plataforma y documentos.')}</p>
+                      <div className="flex gap-2 flex-wrap">
+                        {languages.map((lang) => (
+                          <Button
+                            key={lang.code}
+                            type="button"
+                            variant={selectedLanguage === lang.code ? "default" : "outline"}
+                            className={`rounded-full ${selectedLanguage === lang.code ? 'toggle-elevate toggle-elevated' : ''}`}
+                            onClick={() => handleLanguageChange(lang.code)}
+                            data-testid={`button-language-${lang.code}`}
+                          >
+                            <lang.Flag className="w-5 h-5" data-testid={`icon-flag-${lang.code}`} />
+                            <span data-testid={`text-language-label-${lang.code}`}>{lang.label}</span>
+                          </Button>
+                        ))}
+                      </div>
                     </div>
 
                     <div className="space-y-3">
