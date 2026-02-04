@@ -55,7 +55,6 @@ const PriceCalculator = lazy(() => lazyRetry(() => import("@/pages/price-calcula
 const CsvGenerator = lazy(() => lazyRetry(() => import("@/pages/csv-generator")));
 const OperatingAgreement = lazy(() => lazyRetry(() => import("@/pages/operating-agreement")));
 const LinktreePage = lazy(() => lazyRetry(() => import("@/pages/linktree")));
-const TuLlcPlaceholder = lazy(() => lazyRetry(() => import("@/pages/tu-llc-placeholder")));
 
 interface ErrorBoundaryState {
   hasError: boolean;
@@ -244,22 +243,8 @@ function App() {
   
   const isLinktreeDomain = hostname === 'creamostullc.com' || hostname === 'www.creamostullc.com';
 
-  // creamostullc.com - Standalone landing pages (completely isolated)
+  // creamostullc.com - Solo Linktree (completamente aislado, sin i18n)
   if (isLinktreeDomain) {
-    if (pathname === '/tu-llc' || pathname === '/tu-llc/') {
-      return (
-        <QueryClientProvider client={queryClient}>
-          <TooltipProvider>
-            <ErrorBoundary>
-              <Suspense fallback={<LoadingScreen />}>
-                <TuLlcPlaceholder />
-              </Suspense>
-            </ErrorBoundary>
-            <Toaster />
-          </TooltipProvider>
-        </QueryClientProvider>
-      );
-    }
     return (
       <QueryClientProvider client={queryClient}>
         <ErrorBoundary>
