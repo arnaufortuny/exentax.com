@@ -958,6 +958,27 @@
       "admin": "Admin",
       "tools": "Tools"
     },
+    "emailVerification": {
+      "title": "Verify your email",
+      "description": "Your account is under review until you confirm your email address.",
+      "button": "Verify"
+    },
+    "llcStatus": {
+      "inProcess": "Your LLC is being processed",
+      "datesWillAppear": "Dates will appear when it's active",
+      "cancelled": "This LLC was cancelled"
+    },
+    "clientTools": {
+      "invoiceGenerator": "Invoice Generator",
+      "invoiceDescription": "Create professional PDF invoices with your US LLC details.",
+      "createInvoice": "Create Invoice",
+      "operatingAgreement": "Operating Agreement",
+      "operatingDescription": "Generate your personalized Operating Agreement.",
+      "createAgreement": "Create Agreement",
+      "priceCalculator": "Savings Calculator",
+      "calculatorDescription": "Calculate how much you can save with your LLC.",
+      "calculate": "Calculate"
+    },
     "services": {
       "title": "My applications status",
       "subtitle": "Manage your active applications",

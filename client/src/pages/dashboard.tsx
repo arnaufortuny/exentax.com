@@ -968,8 +968,8 @@ export default function Dashboard() {
                   <Mail className="w-5 h-5 text-orange-600" />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="font-bold text-sm text-orange-800 dark:text-orange-300">Verifica tu email</p>
-                  <p className="text-xs text-orange-600 dark:text-orange-400">Tu cuenta está en revisión hasta que confirmes tu correo electrónico.</p>
+                  <p className="font-bold text-sm text-orange-800 dark:text-orange-300">{t('dashboard.emailVerification.title')}</p>
+                  <p className="text-xs text-orange-600 dark:text-orange-400">{t('dashboard.emailVerification.description')}</p>
                 </div>
                 <Button
                   size="sm"
@@ -977,7 +977,7 @@ export default function Dashboard() {
                   className="shrink-0 bg-orange-600 hover:bg-orange-700 text-white font-black rounded-full h-9 px-4"
                   data-testid="button-verify-email-header"
                 >
-                  Verificar
+                  {t('dashboard.emailVerification.button')}
                 </Button>
               </div>
             </Card>
@@ -1358,13 +1358,13 @@ export default function Dashboard() {
                               {isCancelled ? (
                                 <div className="text-center py-6 md:py-8">
                                   <XCircle className="w-10 h-10 md:w-12 md:h-12 mx-auto text-red-300 mb-2 md:mb-3" />
-                                  <p className="text-xs md:text-sm text-muted-foreground">Esta LLC fue cancelada</p>
+                                  <p className="text-xs md:text-sm text-muted-foreground">{t('dashboard.llcStatus.cancelled')}</p>
                                 </div>
                               ) : isInReview ? (
                                 <div className="text-center py-6 md:py-8">
                                   <Clock className="w-10 h-10 md:w-12 md:h-12 mx-auto text-yellow-400 mb-2 md:mb-3" />
-                                  <p className="text-xs md:text-sm text-muted-foreground">Tu LLC está en proceso</p>
-                                  <p className="text-[10px] md:text-xs text-muted-foreground mt-1">Las fechas aparecerán cuando esté activa</p>
+                                  <p className="text-xs md:text-sm text-muted-foreground">{t('dashboard.llcStatus.inProcess')}</p>
+                                  <p className="text-[10px] md:text-xs text-muted-foreground mt-1">{t('dashboard.llcStatus.datesWillAppear')}</p>
                                 </div>
                               ) : hasDates ? (
                                 <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-2 md:gap-3">
@@ -1457,12 +1457,12 @@ export default function Dashboard() {
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 mb-1">
                           <img src={facturasIconPath} alt="Facturas" className="w-6 h-6" />
-                          <h3 className="font-bold text-foreground">Generador de Facturas</h3>
+                          <h3 className="font-bold text-foreground">{t('dashboard.clientTools.invoiceGenerator')}</h3>
                         </div>
-                        <p className="text-sm text-muted-foreground mb-4">Crea facturas profesionales en PDF con los datos de tu LLC americana.</p>
+                        <p className="text-sm text-muted-foreground mb-4">{t('dashboard.clientTools.invoiceDescription')}</p>
                         <Link href="/tools/invoice">
                           <Button className="bg-accent hover:bg-accent/90 text-accent-foreground font-semibold rounded-full" size="sm" data-testid="button-invoice-generator">
-                            Crear Factura <ChevronRight className="w-4 h-4 ml-1" />
+                            {t('dashboard.clientTools.createInvoice')} <ChevronRight className="w-4 h-4 ml-1" />
                           </Button>
                         </Link>
                       </div>

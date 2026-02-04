@@ -957,6 +957,27 @@
       "admin": "Administración",
       "tools": "Herramientas"
     },
+    "emailVerification": {
+      "title": "Verifica tu email",
+      "description": "Tu cuenta está en revisión hasta que confirmes tu correo electrónico.",
+      "button": "Verificar"
+    },
+    "llcStatus": {
+      "inProcess": "Tu LLC está en proceso",
+      "datesWillAppear": "Las fechas aparecerán cuando esté activa",
+      "cancelled": "Esta LLC fue cancelada"
+    },
+    "clientTools": {
+      "invoiceGenerator": "Generador de Facturas",
+      "invoiceDescription": "Crea facturas profesionales en PDF con los datos de tu LLC americana.",
+      "createInvoice": "Crear Factura",
+      "operatingAgreement": "Acuerdo Operativo",
+      "operatingDescription": "Genera tu Operating Agreement personalizado.",
+      "createAgreement": "Crear Acuerdo",
+      "priceCalculator": "Calculadora de Ahorro",
+      "calculatorDescription": "Calcula cuánto puedes ahorrar con tu LLC.",
+      "calculate": "Calcular"
+    },
     "services": {
       "title": "Mis trámites",
       "subtitle": "Gestiona tus trámites activos",
