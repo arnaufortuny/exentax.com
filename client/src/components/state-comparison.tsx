@@ -216,7 +216,7 @@ export function StateComparison() {
         </motion.p>
 
         <motion.div 
-          className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-10"
+          className="flex flex-row items-center justify-center gap-3 sm:gap-4 mt-10"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={viewportOnce}
@@ -224,17 +224,17 @@ export function StateComparison() {
         >
           <Link href="/llc/formation">
             <Button 
-              className="bg-accent hover:bg-accent/90 text-primary font-black text-base sm:text-lg rounded-full px-10 py-7 h-14 shadow-lg shadow-accent/20 transition-all transform active:scale-95"
+              className="bg-accent hover:bg-accent/90 text-primary font-black text-sm sm:text-base rounded-full px-5 sm:px-8 h-10 sm:h-11 shadow-lg shadow-accent/20 transition-all transform active:scale-95"
               data-testid="button-im-ready"
             >
               {t("stateComparison.imReady")}
-              <ArrowRight className="w-5 h-5 ml-2" />
+              <ArrowRight className="w-4 h-4 ml-1 sm:ml-2" />
             </Button>
           </Link>
           <Link href="/servicios#comparador">
             <Button 
               variant="outline"
-              className="font-black text-base sm:text-lg rounded-full px-10 py-7 h-14 border-2 transition-all transform active:scale-95"
+              className="font-black text-sm sm:text-base rounded-full px-5 sm:px-8 h-10 sm:h-11 border-2 transition-all transform active:scale-95"
               data-testid="button-need-help"
             >
               {t("stateComparison.needHelp")}
