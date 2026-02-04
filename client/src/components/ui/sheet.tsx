@@ -21,7 +21,7 @@ const SheetOverlay = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <SheetPrimitive.Overlay
     className={cn(
-      "fixed inset-0 z-50 bg-black/80  data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
+      "fixed inset-0 z-[9999] bg-black/80",
       className
     )}
     {...props}
@@ -31,16 +31,14 @@ const SheetOverlay = React.forwardRef<
 SheetOverlay.displayName = SheetPrimitive.Overlay.displayName
 
 const sheetVariants = cva(
-  "fixed z-50 gap-4 bg-background p-4 sm:p-6 shadow-lg transition ease-in-out data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:duration-200 data-[state=open]:duration-300 touch-pan-y overscroll-contain",
+  "fixed z-[10000] gap-4 bg-background p-4 sm:p-6 shadow-2xl touch-pan-y overscroll-contain",
   {
     variants: {
       side: {
-        top: "inset-x-0 top-0 border-b data-[state=closed]:slide-out-to-top data-[state=open]:slide-in-from-top max-h-[85vh] overflow-y-auto",
-        bottom:
-          "inset-x-0 bottom-0 border-t data-[state=closed]:slide-out-to-bottom data-[state=open]:slide-in-from-bottom max-h-[85vh] overflow-y-auto rounded-t-2xl",
-        left: "inset-y-0 left-0 h-full w-[85vw] sm:w-3/4 border-r data-[state=closed]:slide-out-to-left data-[state=open]:slide-in-from-left sm:max-w-sm overflow-y-auto",
-        right:
-          "inset-x-0 bottom-0 sm:inset-x-auto sm:top-1/2 sm:-translate-y-1/2 sm:right-0 max-h-[90vh] w-full sm:w-[420px] md:w-[480px] border-t sm:border-t-0 sm:border-l rounded-t-2xl sm:rounded-t-none sm:rounded-l-2xl data-[state=closed]:slide-out-to-bottom sm:data-[state=closed]:slide-out-to-right data-[state=open]:slide-in-from-bottom sm:data-[state=open]:slide-in-from-right overflow-y-auto",
+        top: "inset-x-0 top-0 border-b max-h-[85vh] overflow-y-auto",
+        bottom: "inset-x-0 bottom-0 border-t max-h-[85vh] overflow-y-auto rounded-t-2xl",
+        left: "inset-y-0 left-0 h-full w-[85vw] sm:w-3/4 border-r sm:max-w-sm overflow-y-auto",
+        right: "inset-y-0 right-0 h-full w-full sm:w-[420px] md:w-[480px] border-l overflow-y-auto",
       },
     },
     defaultVariants: {

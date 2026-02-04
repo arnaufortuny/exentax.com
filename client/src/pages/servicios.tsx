@@ -509,24 +509,24 @@ export default function Servicios() {
             </motion.p>
           </div>
 
-          <div className="max-w-4xl mx-auto grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-6 sm:gap-8">
+          <div className="max-w-5xl mx-auto grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-x-4 gap-y-8 sm:gap-x-6 sm:gap-y-10">
             {[1, 2, 3, 4, 5, 6].map((step) => (
               <motion.div 
                 key={step}
-                className="flex flex-col items-center text-center"
+                className="flex flex-col items-center text-center h-full"
                 variants={fadeInUp}
                 initial="hidden"
                 whileInView="visible"
                 viewport={viewportOnce}
                 transition={{ delay: step * 0.08 }}
               >
-                <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-accent flex items-center justify-center mb-3 sm:mb-4 shadow-lg shadow-accent/30">
-                  <span className="text-xl sm:text-2xl font-black text-primary-foreground">{step}</span>
+                <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-accent flex items-center justify-center mb-3 shadow-lg shadow-accent/30 flex-shrink-0">
+                  <span className="text-lg sm:text-xl font-black text-primary-foreground">{step}</span>
                 </div>
-                <h4 className="text-sm sm:text-base font-black text-foreground mb-1 sm:mb-2 leading-tight">
+                <h4 className="text-xs sm:text-sm font-black text-foreground mb-1 leading-tight min-h-[2.5rem] flex items-center justify-center">
                   {t(`services.process.steps.${step}.title`)}
                 </h4>
-                <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
+                <p className="text-[11px] sm:text-xs text-muted-foreground leading-relaxed flex-grow">
                   {t(`services.process.steps.${step}.desc`)}
                 </p>
               </motion.div>
