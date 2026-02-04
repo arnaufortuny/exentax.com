@@ -272,7 +272,7 @@ export function Navbar() {
                   <Button 
                     onClick={() => {
                       setIsOpen(false);
-                      document.body.style.overflow = '';
+                      resetScrollLock();
                       setLocation("/llc/formation");
                     }}
                     className="w-full bg-accent text-accent-foreground font-black text-sm h-12 shadow-lg flex items-center justify-center gap-2"

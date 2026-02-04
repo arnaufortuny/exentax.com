@@ -577,7 +577,7 @@ export function TaxComparator() {
                       </div>
                       <Button
                         onClick={() => setLocation("/llc/formation")}
-                        className="bg-accent text-primary font-black text-base rounded-full px-10 h-14 w-full md:w-auto shadow-xl shadow-accent/30 hover:bg-accent/90 transition-all transform hover:scale-105 active:scale-95"
+                        className="bg-accent text-primary font-black text-base rounded-full px-10 h-14 w-full md:w-auto shadow-xl shadow-accent/30 hover:bg-accent/90 transition-colors"
                         data-testid="button-start-llc-comparator"
                       >
                         {t("taxComparator.cta")} →

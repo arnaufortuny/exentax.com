@@ -50,7 +50,7 @@ export function StateComparison() {
   ];
 
   return (
-    <section className="py-16 sm:py-24 bg-background" id="comparador">
+    <section className="py-16 sm:py-24 bg-background" id="state-comparison">
       <div className="w-full px-4 sm:px-8 max-w-7xl mx-auto">
         <div className="text-center mb-12 sm:mb-16 flex flex-col items-center justify-center">
           <motion.h2
@@ -227,7 +227,7 @@ export function StateComparison() {
               <ArrowRight className="w-4 h-4 ml-1 sm:ml-2" />
             </Button>
           </Link>
-          <Link href="/servicios#comparador">
+          <Link href="/servicios#state-comparison">
             <Button 
               variant="outline"
               className="font-black text-sm sm:text-base rounded-full px-5 sm:px-8 h-10 sm:h-11 border-2 transition-all transform active:scale-95"

@@ -25,8 +25,10 @@ export default function Servicios() {
   usePageTitle();
 
   useEffect(() => {
-    if (window.location.hash === '#pricing') {
-      const element = document.getElementById('pricing');
+    const hash = window.location.hash;
+    if (hash === '#pricing' || hash === '#comparador' || hash === '#state-comparison') {
+      const elementId = hash.replace('#', '');
+      const element = document.getElementById(elementId);
       if (element) {
         setTimeout(() => {
           element.scrollIntoView({ behavior: 'smooth' });
@@ -244,7 +246,7 @@ export default function Servicios() {
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 max-w-5xl mx-auto px-6 sm:px-0">
             {/* New Mexico */}
-            <div className="border-[2px] border-accent rounded-2xl overflow-hidden relative bg-background shadow-lg flex flex-col h-full transition-shadow hover:shadow-xl group mx-auto w-full sm:max-w-none">
+            <div className="border-[2px] border-accent rounded-2xl overflow-hidden relative bg-background shadow-lg flex flex-col h-full group mx-auto w-full sm:max-w-none">
               <div className="p-4 sm:p-5 flex-grow text-center">
                 <div className="flex items-center justify-between mb-3 gap-2 sm:flex-col sm:items-center sm:justify-center">
                   <h3 className="text-lg sm:text-xl font-black text-primary tracking-tight">New Mexico</h3>
@@ -288,7 +290,7 @@ export default function Servicios() {
             </div>
 
             {/* Wyoming */}
-            <div className="border-[2px] border-accent rounded-2xl overflow-hidden relative bg-background shadow-lg flex flex-col h-full transition-shadow hover:shadow-xl group mx-auto w-full sm:max-w-none">
+            <div className="border-[2px] border-accent rounded-2xl overflow-hidden relative bg-background shadow-lg flex flex-col h-full group mx-auto w-full sm:max-w-none">
               <div className="p-4 sm:p-5 flex-grow text-center">
                 <div className="flex items-center justify-between mb-3 gap-2 sm:flex-col sm:items-center sm:justify-center">
                   <h3 className="text-lg sm:text-xl font-black text-primary tracking-tight">Wyoming</h3>
@@ -332,7 +334,7 @@ export default function Servicios() {
             </div>
 
             {/* Delaware */}
-            <div className="border-[2px] border-accent rounded-2xl overflow-hidden relative bg-background shadow-lg flex flex-col h-full transition-shadow hover:shadow-xl group mx-auto w-full sm:max-w-none">
+            <div className="border-[2px] border-accent rounded-2xl overflow-hidden relative bg-background shadow-lg flex flex-col h-full group mx-auto w-full sm:max-w-none">
               <div className="p-4 sm:p-5 flex-grow text-center">
                 <div className="flex items-center justify-between mb-3 gap-2 sm:flex-col sm:items-center sm:justify-center">
                   <h3 className="text-lg sm:text-xl font-black text-primary tracking-tight">Delaware</h3>
@@ -584,7 +586,7 @@ export default function Servicios() {
               { state: "Wyoming", price: getMaintenancePriceFormatted("wyoming"), annual: true },
               { state: "Delaware", price: getMaintenancePriceFormatted("delaware"), annual: true }
             ].map((item, i) => (
-              <div key={i} className="border-[2px] border-accent rounded-xl overflow-hidden relative bg-background shadow-lg flex flex-col h-full transition-shadow hover:shadow-xl group text-center mx-auto w-full sm:max-w-none">
+              <div key={i} className="border-[2px] border-accent rounded-xl overflow-hidden relative bg-background shadow-lg flex flex-col h-full group text-center mx-auto w-full sm:max-w-none">
                 <div className="p-4 sm:p-5 flex-grow text-center">
                   <div className="flex flex-col items-center justify-center mb-3 gap-1">
                     <h3 className="text-lg sm:text-xl font-black text-primary tracking-tight">{item.state}</h3>
