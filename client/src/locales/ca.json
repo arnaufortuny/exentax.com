@@ -577,6 +577,7 @@
       "emailHelp": "(Introdueix l'email amb el qual et vas registrar)",
       "sendCode": "Enviar codi d'accés",
       "codeSentTo": "Codi enviat a:",
+      "enterCode": "Codi de verificació",
       "verify": "Verificar",
       "noCodeReceived": "No has rebut el codi? Reenviar",
       "changeEmail": "Canviar email",

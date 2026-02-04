@@ -14,14 +14,19 @@ import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
 import { FormInput } from "@/components/forms";
-import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp";
+import { PasswordStrength } from "@/components/ui/password-strength";
 
 const createEmailSchema = (t: (key: string) => string) => z.object({
   email: z.string().email(t("validation.email")),
 });
 
 const createResetSchema = (t: (key: string) => string) => z.object({
-  password: z.string().min(8, t("validation.passwordMin")),
+  password: z.string()
+    .min(8, t("validation.passwordMin"))
+    .refine((val) => /[A-Z]/.test(val), { message: t("auth.passwordStrength.hasUppercase") })
+    .refine((val) => /[a-z]/.test(val), { message: t("auth.passwordStrength.hasLowercase") })
+    .refine((val) => /[0-9]/.test(val), { message: t("auth.passwordStrength.hasNumber") })
+    .refine((val) => /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(val), { message: t("auth.passwordStrength.hasSymbol") }),
   confirmPassword: z.string(),
 }).refine(data => data.password === data.confirmPassword, {
   message: t("validation.passwordMatch"),
@@ -194,13 +199,17 @@ export default function ForgotPassword() {
             {step === 'otp' && (
               <div className="space-y-6">
                 <div className="flex flex-col items-center gap-4">
-                  <p className="text-sm text-muted-foreground">{t("auth.forgotPassword.codeSentTo")} <strong>{email}</strong></p>
+                  <p className="text-sm text-muted-foreground text-center">{t("auth.forgotPassword.codeSentTo")} <strong className="text-foreground">{email}</strong></p>
                   <div className="w-full">
+                    <label className="text-xs font-bold text-foreground mb-2 block text-center">{t("auth.forgotPassword.enterCode")}</label>
                     <Input
                       maxLength={6}
                       value={otp}
                       onChange={(e) => setOtp(e.target.value.replace(/\D/g, ""))}
-                      className="h-12 text-center text-xl tracking-[0.5em] font-bold rounded-full"
+                      className="h-14 text-center text-2xl md:text-3xl tracking-[0.5em] font-black rounded-full border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-muted"
+                      inputMode="numeric"
+                      autoComplete="one-time-code"
+                      placeholder="000000"
                       data-testid="input-otp"
                     />
                   </div>
@@ -218,7 +227,7 @@ export default function ForgotPassword() {
                     type="button"
                     onClick={handleResendOtp}
                     disabled={isLoading}
-                    className="text-sm text-muted-foreground hover:text-primary transition-colors"
+                    className="text-sm text-accent font-semibold hover:underline transition-colors"
                     data-testid="button-resend-otp"
                   >
                     {t("auth.forgotPassword.noCodeReceived")}
@@ -236,7 +245,7 @@ export default function ForgotPassword() {
 
             {step === 'password' && (
               <Form {...resetForm}>
-                <form onSubmit={resetForm.handleSubmit(handleResetPassword)} className="space-y-6">
+                <form onSubmit={resetForm.handleSubmit(handleResetPassword)} className="space-y-5">
                   <div className="relative">
                     <FormInput
                       control={resetForm.control}
@@ -248,9 +257,14 @@ export default function ForgotPassword() {
                       type="button"
                       onClick={() => setShowPassword(!showPassword)}
                       className="absolute right-4 top-[42px] text-muted-foreground hover:text-primary transition-colors"
+                      data-testid="button-toggle-password-visibility"
                     >
                       {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                     </button>
+                    <PasswordStrength 
+                      password={resetForm.watch("password")} 
+                      className="mt-2"
+                    />
                   </div>
                   <FormInput
                     control={resetForm.control}

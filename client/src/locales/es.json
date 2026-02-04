@@ -577,6 +577,7 @@
       "emailHelp": "(Introduce el email con el que te registraste)",
       "sendCode": "Enviar código de acceso",
       "codeSentTo": "Código enviado a:",
+      "enterCode": "Código de verificación",
       "verify": "Verificar",
       "noCodeReceived": "¿No recibiste el código? Reenviar",
       "changeEmail": "Cambiar email",

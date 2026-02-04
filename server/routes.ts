@@ -10,7 +10,7 @@ import { db } from "./db";
 import { sendEmail, sendTrustpilotEmail, getOtpEmailTemplate, getConfirmationEmailTemplate, getWelcomeEmailTemplate, getNewsletterWelcomeTemplate, getAutoReplyTemplate, getEmailFooter, getEmailHeader, getOrderUpdateTemplate, getNoteReceivedTemplate, getAccountDeactivatedTemplate, getAccountUnderReviewTemplate, getOrderCompletedTemplate, getAccountVipTemplate, getAccountReactivatedTemplate, getAdminNoteTemplate, getPaymentRequestTemplate, getDocumentRequestTemplate, getDocumentUploadedTemplate, getMessageReplyTemplate, getPasswordChangeOtpTemplate, getOrderEventTemplate, getAdminLLCOrderTemplate, getAdminMaintenanceOrderTemplate, getAccountPendingVerificationTemplate, getAdminPasswordResetTemplate } from "./lib/email";
 import { contactOtps, products as productsTable, users as usersTable, maintenanceApplications, newsletterSubscribers, messages as messagesTable, orderEvents, messageReplies, userNotifications, orders as ordersTable, llcApplications as llcApplicationsTable, applicationDocuments as applicationDocumentsTable, discountCodes, calculatorConsultations } from "@shared/schema";
 import { and, eq, gt, desc, sql, isNotNull, inArray } from "drizzle-orm";
-import { checkRateLimit, sanitizeHtml, logAudit, getSystemHealth, getClientIp, getRecentAuditLogs } from "./lib/security";
+import { checkRateLimit, sanitizeHtml, logAudit, getSystemHealth, getClientIp, getRecentAuditLogs, validatePassword } from "./lib/security";
 import { generateOrderInvoice, generateOrderReceipt, type InvoiceData, type ReceiptData } from "./lib/pdf-generator";
 import { setupOAuth } from "./oauth";
 import { checkAndSendReminders, updateApplicationDeadlines, getUpcomingDeadlinesForUser } from "./calendar-service";
@@ -869,8 +869,13 @@ export async function registerRoutes(
     const userId = req.params.id;
     const { newPassword } = req.body;
     
-    if (!newPassword || newPassword.length < 8) {
-      return res.status(400).json({ message: "La contraseña debe tener al menos 8 caracteres" });
+    if (!newPassword) {
+      return res.status(400).json({ message: "La contraseña es obligatoria" });
+    }
+    
+    const passwordValidation = validatePassword(newPassword);
+    if (!passwordValidation.valid) {
+      return res.status(400).json({ message: passwordValidation.message });
     }
     
     const [user] = await db.select().from(usersTable).where(eq(usersTable.id, userId)).limit(1);

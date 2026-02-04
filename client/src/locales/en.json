@@ -578,6 +578,7 @@
       "emailHelp": "(Enter the email you registered with)",
       "sendCode": "Send access code",
       "codeSentTo": "Code sent to:",
+      "enterCode": "Verification code",
       "verify": "Verify",
       "noCodeReceived": "Didn't receive the code? Resend",
       "changeEmail": "Change email",
