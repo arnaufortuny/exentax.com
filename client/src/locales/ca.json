@@ -110,8 +110,9 @@
     "button": "Parlem per WhatsApp"
   },
   "howWeWork": {
-    "title": "<span class='text-accent'>Construïm la teva LLC</span><br/><span class='text-foreground'>amb visió legal, bancària i fiscal</span>",
-    "subtitle": "Ens ocupem de tot el procés perquè tinguis una empresa preparada per operar, créixer i optimitzar la seva càrrega fiscal amb total seguretat.",
+    "title": "<span class='text-foreground'>LA NOSTRA FORMA</span><br/><span class='text-accent'>DE TREBALLAR</span>",
+    "subtitle": "Construïm la teva LLC amb visió legal, bancària i fiscal",
+    "subtitleDesc": "Ens ocupem de tot el procés perquè tinguis una empresa preparada per operar, créixer i optimitzar la seva càrrega fiscal amb total seguretat.",
     "steps": {
       "listen": {
         "number": "1",
@@ -242,8 +243,8 @@
     "maintenancePack": {
       "title": "Manteniment Anual",
       "badge": "MANTENIMENT",
-      "sectionTitle": "La teva LLC sempre en regla,",
-      "sectionTitleHighlight": "sense preocupacions ni sorpreses",
+      "sectionTitle": "LA TEVA LLC SEMPRE EN REGLA,",
+      "sectionTitleHighlight": "SENSE PREOCUPACIONS NI SORPRESES",
       "sectionSubtitle": "Ens ocupem de totes les obligacions legals, fiscals i administratives de la teva empresa perquè puguis centrar-te a fer créixer el teu negoci amb total tranquil·litat.",
       "trustText": "Sabem que gestionar una empresa als Estats Units pot generar dubtes, especialment si operes des d'un altre país. Per això vam crear un sistema de manteniment complet on revisem cada requisit legal i fiscal per tu, assegurant-nos que tot estigui presentat correctament i dins de termini.",
       "trustGoal": "El nostre objectiu és simple: que la teva empresa funcioni sense interrupcions i sense estrès.",
@@ -337,8 +338,8 @@
     "banks": {
       "badge": "BANCS",
       "title": "Assistència Bancària",
-      "sectionTitle": "Ens ocupem dels bancs",
-      "sectionTitleHighlight": "perquè tu t'ocupis del teu negoci",
+      "sectionTitle": "ENS OCUPEM DELS BANCS",
+      "sectionTitleHighlight": "PERQUÈ TU T'OCUPIS DEL TEU NEGOCI",
       "subtitle": "Preparem la teva sol·licitud, revisem la documentació i et guiem fins que el teu compte estigui operatiu.",
       "mercury": {
         "title": "Mercury",
@@ -397,20 +398,20 @@
     "questions": "Algun dubte? Parlem"
   },
   "packsTitle": {
-    "packs": "Solucions completes",
-    "formation": "per crear i mantenir la teva LLC",
-    "packsLine1": "Solucions completes",
-    "packsLine2": "per crear i mantenir la teva LLC",
+    "packs": "SOLUCIONS COMPLETES",
+    "formation": "PER CREAR I MANTENIR LA TEVA LLC",
+    "packsLine1": "SOLUCIONS COMPLETES",
+    "packsLine2": "PER CREAR I MANTENIR LA TEVA LLC",
     "subtitle": "Cada pla està dissenyat per cobrir les obligacions reals de la teva empresa i evitar-te problemes futurs.",
     "maintenance": {
-      "packs": "La teva LLC sempre al dia,",
-      "name": "sense que t'hagis de preocupar",
+      "packs": "LA TEVA LLC SEMPRE AL DIA,",
+      "name": "SENSE QUE T'HAGIS DE PREOCUPAR",
       "subtitle": "Ens ocupem de renovacions, informes i compliment fiscal mentre tu et centres a fer créixer el teu negoci."
     }
   },
   "stateComparison": {
-    "title": "La millor LLC no és la més popular.",
-    "titleHighlight": "És la que millor funciona per a tu.",
+    "title": "LA MILLOR LLC NO ÉS LA MÉS POPULAR.",
+    "titleHighlight": "ÉS LA QUE MILLOR FUNCIONA PER A TU.",
     "subtitle": "Comparem costos, privacitat, fiscalitat i manteniment perquè triïs amb criteri i sense sorpreses.",
     "popular": "Més Popular",
     "premium": "Premium",
@@ -1823,8 +1824,8 @@
   "taxComparator": {
     "badge": "CALCULADORA D'ESTALVI",
     "title": "Quant pots estalviar?",
-    "titlePart1": "Compara la teva fiscalitat actual",
-    "titlePart2": "amb una estructura als",
+    "titlePart1": "COMPARA LA TEVA FISCALITAT ACTUAL",
+    "titlePart2": "AMB UNA ESTRUCTURA ALS",
     "titlePart3": "EUA",
     "subtitle": "Obtén una estimació orientativa basada en la teva facturació i país de residència per entendre si una LLC et pot beneficiar.",
     "taxes": "IMPOSTOS",

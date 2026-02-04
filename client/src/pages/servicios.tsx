@@ -146,7 +146,7 @@ export default function Servicios() {
         <div className="w-full px-5 sm:px-8">
           <div className="text-center mb-10 sm:mb-14 flex flex-col items-center justify-center relative">
             <motion.h2 
-              className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-center leading-[1.1] will-change-[transform,opacity]" 
+              className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-center leading-[1.1] will-change-[transform,opacity]" 
               style={{ fontWeight: 900 }}
               variants={fadeInUp}
               initial="hidden"
@@ -156,7 +156,7 @@ export default function Servicios() {
             />
             
             <motion.p
-              className="text-lg sm:text-xl text-muted-foreground mt-4"
+              className="text-lg sm:text-xl text-accent font-bold mt-4"
               variants={fadeInUp}
               initial="hidden"
               whileInView="visible"
@@ -164,8 +164,17 @@ export default function Servicios() {
             >
               {t("services.whatWeDo.subtitle")}
             </motion.p>
+            <motion.p
+              className="text-base sm:text-lg text-muted-foreground mt-2 max-w-2xl"
+              variants={fadeInUp}
+              initial="hidden"
+              whileInView="visible"
+              viewport={viewportOnce}
+            >
+              {t("services.whatWeDo.subtitleDesc")}
+            </motion.p>
             <motion.div 
-              className="w-24 h-1 bg-foreground mt-6 rounded-full will-change-transform"
+              className="w-24 h-1 bg-accent mt-6 rounded-full will-change-transform"
               variants={lineExpand}
               initial="hidden"
               whileInView="visible"
@@ -480,17 +489,6 @@ export default function Servicios() {
               </p>
             </div>
           </motion.div>
-
-          {/* What We Do Title */}
-          <motion.h3 
-            className="text-2xl sm:text-3xl font-black text-center mb-8"
-            variants={fadeInUp}
-            initial="hidden"
-            whileInView="visible"
-            viewport={viewportOnce}
-          >
-            {t("services.maintenancePack.whatWeDoTitle")}
-          </motion.h3>
 
           {/* Details Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 max-w-5xl mx-auto mb-10 px-4">

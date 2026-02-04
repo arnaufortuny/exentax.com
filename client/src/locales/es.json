@@ -110,8 +110,9 @@
     "button": "Hablemos por WhatsApp"
   },
   "howWeWork": {
-    "title": "<span class='text-accent'>Construimos tu LLC</span><br/><span class='text-foreground'>con visión legal, bancaria y fiscal</span>",
-    "subtitle": "Nos ocupamos de todo el proceso para que tengas una empresa preparada para operar, crecer y optimizar su carga fiscal con total seguridad.",
+    "title": "<span class='text-foreground'>NUESTRA FORMA</span><br/><span class='text-accent'>DE TRABAJAR</span>",
+    "subtitle": "Construimos tu LLC con visión legal, bancaria y fiscal",
+    "subtitleDesc": "Nos ocupamos de todo el proceso para que tengas una empresa preparada para operar, crecer y optimizar su carga fiscal con total seguridad.",
     "steps": {
       "listen": {
         "number": "1",
@@ -242,12 +243,11 @@
     "maintenancePack": {
       "title": "Mantenimiento Anual",
       "badge": "MANTENIMIENTO",
-      "sectionTitle": "Tu LLC siempre en regla,",
-      "sectionTitleHighlight": "sin preocupaciones ni sorpresas",
+      "sectionTitle": "TU LLC SIEMPRE EN REGLA,",
+      "sectionTitleHighlight": "SIN PREOCUPACIONES NI SORPRESAS",
       "sectionSubtitle": "Nos ocupamos de todas las obligaciones legales, fiscales y administrativas de tu empresa para que puedas centrarte en hacer crecer tu negocio con total tranquilidad.",
       "trustText": "Sabemos que gestionar una empresa en Estados Unidos puede generar dudas, especialmente si operas desde otro país. Por eso creamos un sistema de mantenimiento completo donde revisamos cada requisito legal y fiscal por ti, asegurándonos de que todo esté presentado correctamente y dentro de plazo.",
       "trustGoal": "Nuestro objetivo es simple: que tu empresa funcione sin interrupciones y sin estrés.",
-      "whatWeDoTitle": "Qué haremos por ti durante todo el año",
       "includes": [
         "Presentación Form 1120 ante el IRS",
         "Presentación Form 5472 ante el IRS",
@@ -300,8 +300,9 @@
     },
     "whatWeDo": {
       "badge": "SERVICIOS",
-      "title": "<span class='text-accent'>NUESTRA FORMA</span> <span class='text-foreground'>DE TRABAJAR</span>",
-      "subtitle": "Cómo constituimos tu LLC",
+      "title": "<span class='text-foreground'>CÓMO</span> <span class='text-accent'>TE AYUDAMOS</span>",
+      "subtitle": "Constituimos tu LLC con visión legal, bancaria y fiscal",
+      "subtitleDesc": "Nos ocupamos de todo el proceso para que tengas una empresa preparada para operar, crecer y optimizar su carga fiscal con total seguridad.",
       "items": {
         "formation": {
           "title": "Constitución oficial",
@@ -337,8 +338,8 @@
     "banks": {
       "badge": "BANCOS",
       "title": "Asistencia Bancaria",
-      "sectionTitle": "Nos ocupamos de los bancos",
-      "sectionTitleHighlight": "para que tú te ocupes de tu negocio",
+      "sectionTitle": "NOS OCUPAMOS DE LOS BANCOS",
+      "sectionTitleHighlight": "PARA QUE TÚ TE OCUPES DE TU NEGOCIO",
       "subtitle": "Preparamos tu solicitud, revisamos la documentación y te guiamos hasta que tu cuenta esté operativa.",
       "mercury": {
         "title": "Mercury",
@@ -361,12 +362,12 @@
     "management": {
       "badge": "GESTIÓN",
       "title": "Mantenimiento Anual",
-      "subtitle": "(Lo que incluye tu mantenimiento)"
+      "subtitle": ""
     },
     "process": {
-      "title": "QUÉ HAREMOS",
-      "titleHighlight": "POR TI CON EL PACK DE MANTENIMIENTO",
-      "subtitle": "Lo que incluye tu mantenimiento anual",
+      "title": "NUESTRO",
+      "titleHighlight": "PROCESO",
+      "subtitle": "Cómo trabajamos contigo paso a paso",
       "steps": {
         "1": {
           "title": "Gestión Fiscal",
@@ -397,20 +398,20 @@
     "questions": "¿Alguna duda? Hablemos"
   },
   "packsTitle": {
-    "packs": "Soluciones completas",
-    "formation": "para crear y mantener tu LLC",
-    "packsLine1": "Soluciones completas",
-    "packsLine2": "para crear y mantener tu LLC",
+    "packs": "SOLUCIONES COMPLETAS",
+    "formation": "PARA CREAR Y MANTENER TU LLC",
+    "packsLine1": "SOLUCIONES COMPLETAS",
+    "packsLine2": "PARA CREAR Y MANTENER TU LLC",
     "subtitle": "Cada plan está diseñado para cubrir las obligaciones reales de tu empresa y evitarte problemas futuros.",
     "maintenance": {
-      "packs": "Tu LLC siempre al día,",
-      "name": "sin que tengas que preocuparte",
+      "packs": "TU LLC SIEMPRE AL DÍA,",
+      "name": "SIN QUE TENGAS QUE PREOCUPARTE",
       "subtitle": "Nos ocupamos de renovaciones, reportes y cumplimiento fiscal mientras tú te centras en hacer crecer tu negocio."
     }
   },
   "stateComparison": {
-    "title": "La mejor LLC no es la más popular.",
-    "titleHighlight": "Es la que mejor funciona para ti.",
+    "title": "LA MEJOR LLC NO ES LA MÁS POPULAR.",
+    "titleHighlight": "ES LA QUE MEJOR FUNCIONA PARA TI.",
     "subtitle": "Comparamos costes, privacidad, fiscalidad y mantenimiento para que elijas con criterio y sin sorpresas.",
     "popular": "Más Popular",
     "premium": "Premium",
@@ -1823,8 +1824,8 @@
   "taxComparator": {
     "badge": "CALCULADORA DE AHORRO",
     "title": "¿Cuánto puedes ahorrar?",
-    "titlePart1": "Compara tu fiscalidad actual",
-    "titlePart2": "con una estructura en",
+    "titlePart1": "COMPARA TU FISCALIDAD ACTUAL",
+    "titlePart2": "CON UNA ESTRUCTURA EN",
     "titlePart3": "EE.UU.",
     "subtitle": "Obtén una estimación orientativa basada en tu facturación y país de residencia para entender si una LLC puede beneficiarte.",
     "taxes": "IMPUESTOS",

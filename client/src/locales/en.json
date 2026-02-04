@@ -110,8 +110,9 @@
     "button": "Let's talk on WhatsApp"
   },
   "howWeWork": {
-    "title": "<span class='text-accent'>We build your LLC</span><br/><span class='text-foreground'>with legal, banking and tax vision</span>",
-    "subtitle": "We handle the entire process so you have a company ready to operate, grow and optimize its tax burden with complete security.",
+    "title": "<span class='text-foreground'>OUR WAY</span><br/><span class='text-accent'>OF WORKING</span>",
+    "subtitle": "We build your LLC with legal, banking and tax vision",
+    "subtitleDesc": "We handle the entire process so you have a company ready to operate, grow and optimize its tax burden with complete security.",
     "steps": {
       "listen": {
         "number": "1",
@@ -242,8 +243,8 @@
     "maintenancePack": {
       "title": "Annual Maintenance",
       "badge": "MAINTENANCE",
-      "sectionTitle": "Your LLC always compliant,",
-      "sectionTitleHighlight": "without worries or surprises",
+      "sectionTitle": "YOUR LLC ALWAYS COMPLIANT,",
+      "sectionTitleHighlight": "WITHOUT WORRIES OR SURPRISES",
       "sectionSubtitle": "We handle all legal, tax and administrative obligations of your company so you can focus on growing your business with complete peace of mind.",
       "trustText": "We know that managing a company in the United States can raise questions, especially if you operate from another country. That's why we created a complete maintenance system where we review every legal and tax requirement for you, ensuring everything is filed correctly and on time.",
       "trustGoal": "Our goal is simple: for your company to run without interruptions and without stress.",
@@ -337,8 +338,8 @@
     "banks": {
       "badge": "BANKS",
       "title": "Banking Assistance",
-      "sectionTitle": "We handle the banks",
-      "sectionTitleHighlight": "so you can focus on your business",
+      "sectionTitle": "WE HANDLE THE BANKS",
+      "sectionTitleHighlight": "SO YOU CAN FOCUS ON YOUR BUSINESS",
       "subtitle": "We prepare your application, review documentation and guide you until your account is operational.",
       "mercury": {
         "title": "Mercury",
@@ -397,20 +398,20 @@
     "questions": "Have questions? Let's talk"
   },
   "packsTitle": {
-    "packs": "Complete solutions",
-    "formation": "to create and maintain your LLC",
-    "packsLine1": "Complete solutions",
-    "packsLine2": "to create and maintain your LLC",
+    "packs": "COMPLETE SOLUTIONS",
+    "formation": "TO CREATE AND MAINTAIN YOUR LLC",
+    "packsLine1": "COMPLETE SOLUTIONS",
+    "packsLine2": "TO CREATE AND MAINTAIN YOUR LLC",
     "subtitle": "Each plan is designed to cover your company's real obligations and prevent future problems.",
     "maintenance": {
-      "packs": "Your LLC always up to date,",
-      "name": "without you having to worry",
+      "packs": "YOUR LLC ALWAYS UP TO DATE,",
+      "name": "WITHOUT YOU HAVING TO WORRY",
       "subtitle": "We handle renewals, reports and tax compliance while you focus on growing your business."
     }
   },
   "stateComparison": {
-    "title": "The best LLC is not the most popular.",
-    "titleHighlight": "It's the one that works best for you.",
+    "title": "THE BEST LLC IS NOT THE MOST POPULAR.",
+    "titleHighlight": "IT'S THE ONE THAT WORKS BEST FOR YOU.",
     "subtitle": "We compare costs, privacy, taxation and maintenance so you can choose wisely and without surprises.",
     "popular": "Most Popular",
     "premium": "Premium",
@@ -1823,9 +1824,9 @@
   "taxComparator": {
     "badge": "SAVINGS CALCULATOR",
     "title": "How much can you save?",
-    "titlePart1": "Compare your current taxes",
-    "titlePart2": "with a US",
-    "titlePart3": "structure",
+    "titlePart1": "COMPARE YOUR CURRENT TAXES",
+    "titlePart2": "WITH A US",
+    "titlePart3": "STRUCTURE",
     "subtitle": "Get an indicative estimate based on your billing and country of residence to understand if an LLC can benefit you.",
     "taxes": "TAXES",
     "selectCountry": "WHERE DO YOU WORK FROM?",
