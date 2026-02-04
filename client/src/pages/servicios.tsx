@@ -86,7 +86,7 @@ export default function Servicios() {
       
       <HeroSection 
         className="flex flex-col items-center justify-center text-center min-h-[450px] sm:min-h-[auto] w-full"
-        mobilePaddingTop="pt-28 sm:pt-16 lg:pt-20"
+        mobilePaddingTop="pt-32 sm:pt-20 lg:pt-24"
         showGradient={false}
         title={
           <>
