@@ -82,7 +82,7 @@ function DialogContentInner({ className, children, ...props }: React.ComponentPr
           >
             {children}
             <DialogPrimitive.Close 
-              className="absolute right-3 top-3 w-9 h-9 sm:w-8 sm:h-8 rounded-full bg-muted/80 hover-elevate active-elevate-2 flex items-center justify-center z-10 touch-manipulation"
+              className="absolute right-3 top-3 w-9 h-9 sm:w-8 sm:h-8 rounded-full bg-muted/80 hover:bg-muted flex items-center justify-center z-10 touch-manipulation transition-colors"
               data-testid="button-dialog-close"
             >
               <X className="h-4 w-4 text-muted-foreground" />

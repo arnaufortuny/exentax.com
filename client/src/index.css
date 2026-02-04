@@ -454,13 +454,13 @@ button {
   transform: scale3d(0.97, 0.97, 1) translateZ(0);
 }
 
-/* Page transitions - simple fade only */
+/* Page transitions - smooth fade */
 .animate-page-in {
-  animation: fadeIn 0.15s ease-out forwards;
+  animation: fadeIn 0.3s ease-out forwards;
 }
 
 .animate-section-in {
-  animation: fadeIn 0.2s ease-out forwards;
+  animation: fadeIn 0.35s ease-out forwards;
 }
 
 /* GPU acceleration utility - minimal */
@@ -485,16 +485,23 @@ button {
   -webkit-overflow-scrolling: touch;
 }
 
-/* Image loading optimization */
+/* Image loading optimization - prevent layout shift */
 img {
   max-width: 100%;
   height: auto;
+  display: block;
+}
+
+/* Container for images to prevent layout shift */
+.img-container {
+  position: relative;
+  overflow: hidden;
+  background: hsl(var(--muted) / 0.3);
 }
 
 /* Lazy load images optimization */
 img[loading="lazy"] {
-  background: linear-gradient(90deg, hsl(var(--muted)) 0%, hsl(var(--muted)/0.5) 50%, hsl(var(--muted)) 100%);
-  background-size: 200% 100%;
+  background: hsl(var(--muted) / 0.3);
 }
 
 /* Button and interactive element optimizations */
