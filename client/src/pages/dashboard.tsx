@@ -754,12 +754,21 @@ export default function Dashboard() {
               <div className={`h-1.5 w-full ${!user?.emailVerified ? 'bg-orange-500' : 'bg-amber-500'}`} />
               <CardContent className="p-5 sm:p-6">
                 <div className="flex items-center gap-4 mb-4 pb-4 border-b border-zinc-900/10 dark:border-accent/30">
-                  <div className={`w-12 h-12 rounded-full flex items-center justify-center shrink-0 ${!user?.emailVerified ? 'bg-orange-50 dark:bg-orange-950/30' : 'bg-amber-50 dark:bg-amber-950/30'}`}>
-                    {!user?.emailVerified ? (
-                      <Clock className="w-6 h-6 text-orange-500" />
-                    ) : (
-                      <Shield className="w-6 h-6 text-amber-500" />
-                    )}
+                  <div className="flex items-center justify-center shrink-0">
+                    <svg width="80" height="80" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <defs>
+                        <radialGradient id="reviewGlow" cx="50%" cy="50%" r="60%">
+                          <stop offset="0%" stopColor="#facc15" stopOpacity="0.35"/>
+                          <stop offset="100%" stopColor="#facc15" stopOpacity="0"/>
+                        </radialGradient>
+                      </defs>
+                      <circle cx="60" cy="60" r="50" fill="url(#reviewGlow)"/>
+                      <circle cx="60" cy="60" r="34" fill="#1A1F26" stroke="#facc15" strokeWidth="3"/>
+                      <circle cx="60" cy="60" r="20" stroke="#facc15" strokeWidth="2"/>
+                      <line x1="60" y1="60" x2="60" y2="48" stroke="#facc15" strokeWidth="3" strokeLinecap="round"/>
+                      <line x1="60" y1="60" x2="70" y2="66" stroke="#facc15" strokeWidth="3" strokeLinecap="round"/>
+                      <circle cx="60" cy="60" r="2.5" fill="#facc15"/>
+                    </svg>
                   </div>
                   <div>
                     <h2 className="font-black text-lg text-foreground">
