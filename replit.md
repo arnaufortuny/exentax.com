@@ -31,7 +31,15 @@ The application features a modern UI/UX with a consistent design system (Primary
 - **PDF Generation:** Single-page designs with real bank details, payment links, and contact information.
 - **Testing:** Automated test suite using Vitest for validation, i18n, theme, and PDF generation.
 - **SEO Optimization:** Targeted keywords, structured data (JSON-LD), server-side SEO headers, enhanced robots.txt, dual sitemaps, optimized meta tags, preconnect/dns-prefetch, fetchpriority for critical images.
-- **Unified ID System:** Centralized ID generator (`server/lib/id-generator.ts`) for unique 8-digit numeric or alphanumeric IDs. Order codes follow `{STATE}-{8-DIGITS}` pattern.
+- **Unified ID System:** Centralized ID generator (`server/lib/id-generator.ts`) for all unique IDs:
+  - **Client IDs:** 8-digit numeric IDs for users
+  - **Order Codes:** `{STATE}-{8-DIGITS}` pattern (e.g., NM-12345678, WY-87654321)
+  - **Maintenance Codes:** `M-{STATE}-{YEAR}-{8-DIGITS}` pattern
+  - **Invoice Numbers:** `INV-{YEAR}-{8-DIGITS}` pattern
+  - **Message IDs:** 8-digit numeric IDs for messages/tickets
+  - **Document IDs:** 8-digit numeric IDs
+  - **Booking Codes:** `CON-{8-DIGITS}` for consultations
+  - All IDs verified unique against database before assignment
 - **Document Backup System:** Automated hourly incremental backup of `/uploads/` files to Replit Object Storage (GCS) with state tracking and audit logging.
 
 **Feature Specifications:**

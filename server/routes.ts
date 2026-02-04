@@ -997,11 +997,8 @@ export async function registerRoutes(
     const product = productMap[state];
     const amountCents = Math.round(Number(amount) * 100);
     
-    const statePrefix = state === "Wyoming" ? "WY" : state === "Delaware" ? "DE" : "NM";
-    const year = new Date().getFullYear().toString().slice(-2);
-    const timestamp = Date.now().toString(36).toUpperCase().slice(-4);
-    const randomSuffix = Math.random().toString(36).substring(2, 6).toUpperCase();
-    const invoiceNumber = `${statePrefix}-${year}${timestamp}-${randomSuffix}`;
+    const { generateUniqueAdminOrderCode } = await import("./lib/id-generator");
+    const invoiceNumber = await generateUniqueAdminOrderCode(state);
     
     const [order] = await db.insert(ordersTable).values({
       userId,
@@ -1065,11 +1062,8 @@ export async function registerRoutes(
     const product = productMap[state];
     const amountCents = Math.round(Number(amount) * 100);
     
-    const statePrefix = state === "Wyoming" ? "WY" : state === "Delaware" ? "DE" : "NM";
-    const year = new Date().getFullYear().toString().slice(-2);
-    const timestamp = Date.now().toString(36).toUpperCase().slice(-4);
-    const randomSuffix = Math.random().toString(36).substring(2, 6).toUpperCase();
-    const invoiceNumber = `M-${statePrefix}-${year}${timestamp}-${randomSuffix}`;
+    const { generateUniqueAdminOrderCode } = await import("./lib/id-generator");
+    const invoiceNumber = `M-${await generateUniqueAdminOrderCode(state)}`;
     
     const [order] = await db.insert(ordersTable).values({
       userId,
@@ -2894,7 +2888,8 @@ export async function registerRoutes(
         userId: z.string().optional()
       }).parse(req.body);
 
-      const msgId = Math.floor(10000000 + Math.random() * 90000000).toString();
+      const { generateDocRequestId } = await import("./lib/id-generator");
+      const msgId = generateDocRequestId();
       
       const docTypeLabels: Record<string, string> = {
         'passport': 'Pasaporte / Documento de Identidad',
@@ -3063,7 +3058,8 @@ export async function registerRoutes(
       return res.status(404).json({ message: "Usuario no encontrado" });
     }
 
-    const invoiceNumber = `INV-${new Date().getFullYear()}-${Date.now().toString().slice(-6)}`;
+    const { generateUniqueInvoiceNumber } = await import("./lib/id-generator");
+    const invoiceNumber = await generateUniqueInvoiceNumber();
     
     // Generate invoice HTML
     const invoiceHtml = `

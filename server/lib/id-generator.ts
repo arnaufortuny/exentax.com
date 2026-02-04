@@ -1,5 +1,5 @@
 import { db } from "../db";
-import { users, llcApplications, maintenanceApplications, messages, userNotifications, applicationDocuments, consultationBookings } from "@shared/schema";
+import { users, llcApplications, maintenanceApplications, messages, userNotifications, applicationDocuments, consultationBookings, orders } from "@shared/schema";
 import { eq } from "drizzle-orm";
 
 export function generate8DigitId(): string {
@@ -142,4 +142,65 @@ export async function generateUniqueBookingCode(): Promise<string> {
   }
   
   return `CON-${Date.now().toString().slice(-8)}`;
+}
+
+export async function generateUniqueAdminOrderCode(state: string): Promise<string> {
+  const statePrefix = getStatePrefix(state);
+  const year = new Date().getFullYear();
+  let attempts = 0;
+  const maxAttempts = 10;
+  
+  while (attempts < maxAttempts) {
+    const digits = generate8DigitId();
+    const code = `${statePrefix}-${year}-${digits}`;
+    
+    const existingLlc = await db.select({ id: llcApplications.id })
+      .from(llcApplications)
+      .where(eq(llcApplications.requestCode, code))
+      .limit(1);
+    
+    const existingMaint = await db.select({ id: maintenanceApplications.id })
+      .from(maintenanceApplications)
+      .where(eq(maintenanceApplications.requestCode, code))
+      .limit(1);
+    
+    const existingOrder = await db.select({ id: orders.id })
+      .from(orders)
+      .where(eq(orders.invoiceNumber, code))
+      .limit(1);
+    
+    if (existingLlc.length === 0 && existingMaint.length === 0 && existingOrder.length === 0) {
+      return code;
+    }
+    attempts++;
+  }
+  
+  return `${statePrefix}-${year}-${Date.now().toString().slice(-8)}`;
+}
+
+export async function generateUniqueInvoiceNumber(): Promise<string> {
+  const year = new Date().getFullYear();
+  let attempts = 0;
+  const maxAttempts = 10;
+  
+  while (attempts < maxAttempts) {
+    const digits = generate8DigitId();
+    const invoiceNum = `INV-${year}-${digits}`;
+    
+    const existing = await db.select({ id: orders.id })
+      .from(orders)
+      .where(eq(orders.invoiceNumber, invoiceNum))
+      .limit(1);
+    
+    if (existing.length === 0) {
+      return invoiceNum;
+    }
+    attempts++;
+  }
+  
+  return `INV-${year}-${Date.now().toString().slice(-8)}`;
+}
+
+export function generateDocRequestId(): string {
+  return generate8DigitId();
 }
