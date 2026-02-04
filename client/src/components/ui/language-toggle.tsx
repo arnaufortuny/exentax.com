@@ -34,7 +34,7 @@ export function LanguageToggle() {
           variant="outline" 
           size="icon" 
           data-testid="button-language-toggle"
-          className="relative bg-white dark:bg-zinc-800 border-border dark:border-zinc-600 rounded-full overflow-hidden"
+          className="relative bg-card dark:bg-card border-border rounded-full overflow-hidden"
         >
           <CurrentFlag />
           <span className="sr-only">Change language</span>
