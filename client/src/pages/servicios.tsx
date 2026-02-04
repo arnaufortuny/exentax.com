@@ -95,7 +95,10 @@ export default function Servicios() {
               initial="hidden"
               animate="visible"
             >
-              {t("services.heroTitle")} <span className="text-accent">{t("services.heroTitleHighlight")}</span>
+              {t("services.heroTitleLine1")}<br/>
+              {t("services.heroTitleLine2")}<br/>
+              {t("services.heroTitleLine3")}<br/>
+              <span className="text-accent">{t("services.heroTitleHighlight")}</span>
             </motion.h1>
           </>
         }

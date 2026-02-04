@@ -199,7 +199,10 @@
     "title": "Our Services",
     "subtitle": "Everything you need to form and maintain your LLC",
     "heroTitle": "HOW WE HELP YOU OPERATE YOUR LLC",
-    "heroTitleHighlight": "LEGALLY AND OPTIMIZED",
+    "heroTitleLine1": "HOW WE HELP",
+    "heroTitleLine2": "YOU OPERATE",
+    "heroTitleLine3": "YOUR LLC LEGALLY",
+    "heroTitleHighlight": "AND OPTIMIZED",
     "heroSubtitle": "We accompany you from formation to annual maintenance, ensuring your company complies with all its obligations and is ready to operate without risks or surprises.",
     "trustpilotTitle": "What our clients say",
     "llc": {

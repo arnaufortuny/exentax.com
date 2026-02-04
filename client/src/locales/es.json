@@ -199,7 +199,10 @@
     "title": "Nuestros Servicios",
     "subtitle": "Todo lo que necesitas para formar y mantener tu LLC",
     "heroTitle": "CÓMO TE AYUDAMOS A OPERAR TU LLC",
-    "heroTitleHighlight": "DE FORMA LEGAL Y OPTIMIZADA",
+    "heroTitleLine1": "CÓMO TE AYUDAMOS",
+    "heroTitleLine2": "A OPERAR",
+    "heroTitleLine3": "TU LLC DE FORMA LEGAL",
+    "heroTitleHighlight": "Y OPTIMIZADA",
     "heroSubtitle": "Te acompañamos desde la constitución hasta el mantenimiento anual, asegurándonos de que tu empresa cumpla con todas sus obligaciones y esté preparada para operar sin riesgos ni sorpresas.",
     "trustpilotTitle": "Qué dicen nuestros clientes",
     "llc": {
