@@ -535,7 +535,7 @@ export default function MaintenanceApplication() {
                         </Button>
                         
                         <p className="text-center text-xs text-muted-foreground">
-                          {t("maintenance.steps.orLoginWithEmail").split("inicia sesión")[0]}<Link href="/auth/login" className="text-accent font-bold underline">{t("auth.login")}</Link>{t("maintenance.steps.orLoginWithEmail").includes("para ir más rápido") ? " " + t("maintenance.steps.orLoginWithEmail").split("para ir más rápido")[0].split("inicia sesión")[1] + t("maintenance.steps.orLoginWithEmail").split("para ir más rápido")[1] : ""}
+                          {t("maintenance.steps.orLoginWithEmail")}
                         </p>
                       </div>
                     )}
