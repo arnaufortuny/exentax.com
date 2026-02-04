@@ -1675,7 +1675,7 @@ export async function registerRoutes(
     const html = `
       <div style="font-family: Inter, sans-serif; max-width: 600px; margin: 0 auto; padding: 40px 20px; background: #f7f7f5;">
         <div style="background: white; padding: 32px; border-radius: 16px;">
-          <h1 style="font-size: 24px; font-weight: 900; color: #0E1215; margin: 0 0 24px 0;">${subject}</h1>
+          <h1 style="font-size: 24px; font-weight: 900; color: #0A0A0A; margin: 0 0 24px 0;">${subject}</h1>
           <div style="font-size: 15px; line-height: 1.6; color: #333;">${message.replace(/\n/g, '<br>')}</div>
           <hr style="border: none; border-top: 1px solid #E6E9EC; margin: 32px 0;" />
           <p style="font-size: 12px; color: #6B7280; margin: 0;">Easy US LLC - Formación de empresas en USA</p>
@@ -3069,9 +3069,9 @@ export async function registerRoutes(
   <meta charset="utf-8">
   <title>Factura ${invoiceNumber}</title>
   <style>
-    body { font-family: 'Inter', Arial, sans-serif; margin: 0; padding: 40px; color: #0E1215; }
+    body { font-family: 'Inter', Arial, sans-serif; margin: 0; padding: 40px; color: #0A0A0A; }
     .header { display: flex; justify-content: space-between; margin-bottom: 40px; }
-    .logo { font-size: 24px; font-weight: 900; color: #0E1215; }
+    .logo { font-size: 24px; font-weight: 900; color: #0A0A0A; }
     .logo span { color: #6EDC8A; }
     .invoice-title { font-size: 32px; font-weight: 900; text-align: right; }
     .invoice-number { font-size: 14px; color: #6B7280; text-align: right; }
@@ -3079,11 +3079,11 @@ export async function registerRoutes(
     .section-title { font-size: 12px; color: #6B7280; text-transform: uppercase; margin-bottom: 8px; }
     .section-content { font-size: 14px; line-height: 1.6; }
     .items { margin: 40px 0; }
-    .items-header { display: grid; grid-template-columns: 3fr 1fr 1fr; padding: 12px 0; border-bottom: 2px solid #0E1215; font-weight: 700; font-size: 12px; text-transform: uppercase; }
+    .items-header { display: grid; grid-template-columns: 3fr 1fr 1fr; padding: 12px 0; border-bottom: 2px solid #0A0A0A; font-weight: 700; font-size: 12px; text-transform: uppercase; }
     .items-row { display: grid; grid-template-columns: 3fr 1fr 1fr; padding: 16px 0; border-bottom: 1px solid #E6E9EC; font-size: 14px; }
     .total-section { text-align: right; margin-top: 24px; }
     .total-row { font-size: 14px; margin-bottom: 8px; }
-    .total-final { font-size: 24px; font-weight: 900; color: #0E1215; }
+    .total-final { font-size: 24px; font-weight: 900; color: #0A0A0A; }
     .footer { margin-top: 60px; padding-top: 20px; border-top: 1px solid #E6E9EC; font-size: 11px; color: #6B7280; text-align: center; }
   </style>
 </head>
@@ -4637,13 +4637,13 @@ export async function registerRoutes(
               @page { margin: 1cm; }
             }
             * { box-sizing: border-box; margin: 0; padding: 0; }
-            body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; padding: 40px; color: #0E1215; line-height: 1.6; background: #fff; max-width: 800px; margin: 0 auto; }
+            body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; padding: 40px; color: #0A0A0A; line-height: 1.6; background: #fff; max-width: 800px; margin: 0 auto; }
             .header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 50px; padding-bottom: 30px; border-bottom: 3px solid #6EDC8A; }
             .logo-section h1 { font-size: 28px; font-weight: 900; letter-spacing: -0.02em; }
             .logo-section .subtitle { color: #6B7280; font-size: 13px; margin-top: 4px; }
             .invoice-info { text-align: right; }
-            .invoice-badge { background: linear-gradient(135deg, #6EDC8A 0%, #4eca70 100%); color: #0E1215; padding: 10px 20px; border-radius: 100px; font-weight: 900; font-size: 13px; display: inline-block; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.05em; }
-            .invoice-number { font-size: 20px; font-weight: 800; color: #0E1215; }
+            .invoice-badge { background: linear-gradient(135deg, #6EDC8A 0%, #4eca70 100%); color: #0A0A0A; padding: 10px 20px; border-radius: 100px; font-weight: 900; font-size: 13px; display: inline-block; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.05em; }
+            .invoice-number { font-size: 20px; font-weight: 800; color: #0A0A0A; }
             .invoice-date { font-size: 13px; color: #6B7280; margin-top: 4px; }
             .details-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; margin-bottom: 50px; }
             .detail-box { background: #F7F7F5; padding: 25px; border-radius: 16px; }
@@ -4658,13 +4658,13 @@ export async function registerRoutes(
             .totals-section { display: flex; justify-content: flex-end; margin-bottom: 50px; }
             .totals-box { background: linear-gradient(135deg, #F7F7F5 0%, #E6E9EC 100%); padding: 30px; border-radius: 20px; min-width: 280px; }
             .totals-row { display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 14px; }
-            .totals-row.final { border-top: 2px solid #0E1215; padding-top: 15px; margin-top: 15px; margin-bottom: 0; }
+            .totals-row.final { border-top: 2px solid #0A0A0A; padding-top: 15px; margin-top: 15px; margin-bottom: 0; }
             .totals-row.final .label { font-size: 12px; font-weight: 800; text-transform: uppercase; color: #6B7280; }
-            .totals-row.final .amount { font-size: 28px; font-weight: 900; color: #0E1215; }
+            .totals-row.final .amount { font-size: 28px; font-weight: 900; color: #0A0A0A; }
             .footer { text-align: center; padding-top: 30px; border-top: 1px solid #E6E9EC; font-size: 12px; color: #6B7280; }
             .footer p { margin-bottom: 4px; }
             .print-controls { text-align: center; margin-bottom: 30px; }
-            .print-btn { background: #6EDC8A; color: #0E1215; padding: 14px 35px; border: none; border-radius: 100px; font-weight: 800; cursor: pointer; font-size: 14px; transition: transform 0.15s, box-shadow 0.15s; box-shadow: 0 4px 15px rgba(110, 220, 138, 0.3); }
+            .print-btn { background: #6EDC8A; color: #0A0A0A; padding: 14px 35px; border: none; border-radius: 100px; font-weight: 800; cursor: pointer; font-size: 14px; transition: transform 0.15s, box-shadow 0.15s; box-shadow: 0 4px 15px rgba(110, 220, 138, 0.3); }
             .print-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(110, 220, 138, 0.4); }
           </style>
         </head>

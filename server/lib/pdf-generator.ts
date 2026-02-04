@@ -15,7 +15,7 @@ function getDirname(): string {
 const __dirname = getDirname();
 
 const BRAND_GREEN = '#6EDC8A';
-const BRAND_DARK = '#0E1215';
+const BRAND_DARK = '#0A0A0A';
 const BRAND_GRAY = '#6B7280';
 const BRAND_LIGHT_GREEN = '#ECFDF5';
 const BRAND_LIGHT_GRAY = '#F9FAFB';

@@ -12,7 +12,7 @@ const EMAIL_LOGO = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHgAAAB4CAYAAA
 
 function getSimpleHeader() {
   return `
-    <div style="background: linear-gradient(180deg, #0E1215 0%, #1a1f25 100%); padding: 35px 20px; text-align: center;">
+    <div style="background: linear-gradient(180deg, #0A0A0A 0%, #0A0A0A 100%); padding: 35px 20px; text-align: center;">
       <a href="https://${domain}" target="_blank" style="text-decoration: none; display: inline-block;">
         <img src="${EMAIL_LOGO}" alt="Easy US LLC" width="70" height="70" style="display: block; margin: 0 auto; border-radius: 50%; border: 0;" />
       </a>
@@ -22,7 +22,7 @@ function getSimpleHeader() {
 
 function getSimpleFooter() {
   return `
-    <div style="background-color: #0E1215; padding: 35px 25px; text-align: center; color: #F7F7F5;">
+    <div style="background-color: #0A0A0A; padding: 35px 25px; text-align: center; color: #F7F7F5;">
       <div style="width: 40px; height: 3px; background: #6EDC8A; margin: 0 auto 20px; border-radius: 2px;"></div>
       <p style="margin: 0 0 15px 0; font-size: 12px; color: #9CA3AF; line-height: 1.7;">1209 Mountain Road Place Northeast, STE R<br>Albuquerque, NM 87110</p>
       <p style="margin: 0; font-size: 11px; color: #6B7280;">© ${new Date().getFullYear()} Easy US LLC</p>
@@ -42,7 +42,7 @@ function getEmailWrapper(content: string, lang: EmailLanguage = 'es') {
     </head>
     <body style="margin: 0; padding: 0; background-color: #F7F7F5;">
       <div style="background-color: #F7F7F5; padding: 40px 15px;">
-        <div style="font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 560px; margin: auto; border-radius: 24px; overflow: hidden; color: #0E1215; background-color: #ffffff; box-shadow: 0 4px 24px rgba(0,0,0,0.06);">
+        <div style="font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 560px; margin: auto; border-radius: 24px; overflow: hidden; color: #0A0A0A; background-color: #ffffff; box-shadow: 0 4px 24px rgba(0,0,0,0.06);">
           ${getSimpleHeader()}
           <div style="padding: 40px 35px;">
             ${content}
@@ -68,11 +68,11 @@ export function getOtpEmailTemplate(otp: string, name?: string, lang: EmailLangu
     
     <div style="background: linear-gradient(135deg, #F0FDF4 0%, #ECFDF5 100%); padding: 30px; border-radius: 16px; margin: 25px 0; text-align: center; border: 2px solid #6EDC8A;">
       <p style="margin: 0 0 10px 0; font-size: 14px; color: #059669; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;">${t.otp.yourCode}</p>
-      <p style="margin: 0; font-size: 42px; font-weight: 900; color: #0E1215; letter-spacing: 12px; font-family: 'SF Mono', 'Consolas', monospace;">${otp}</p>
+      <p style="margin: 0; font-size: 42px; font-weight: 900; color: #0A0A0A; letter-spacing: 12px; font-family: 'SF Mono', 'Consolas', monospace;">${otp}</p>
     </div>
 
     <div style="background: #F9FAFB; padding: 20px 25px; border-radius: 16px; margin: 25px 0; border-left: 4px solid #6EDC8A;">
-      <p style="margin: 0 0 12px 0; font-size: 13px; font-weight: 800; color: #0E1215; text-transform: uppercase;">${t.otp.important}</p>
+      <p style="margin: 0 0 12px 0; font-size: 13px; font-weight: 800; color: #0A0A0A; text-transform: uppercase;">${t.otp.important}</p>
       <ul style="margin: 0; padding-left: 18px; color: #444; font-size: 14px; line-height: 1.8;">
         <li style="margin-bottom: 6px;">${t.otp.personalAndConfidential}</li>
         <li style="margin-bottom: 6px;">${t.otp.validFor}</li>
@@ -107,7 +107,7 @@ export function getWelcomeEmailTemplate(name?: string, lang: EmailLanguage = 'es
     <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 25px;">${t.welcome.hereToHelp}</p>
     
     <div style="text-align: center; margin: 30px 0;">
-      <a href="https://${domain}/dashboard" style="display: inline-block; background: #6EDC8A; color: #0E1215; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">${t.welcome.exploreButton}</a>
+      <a href="https://${domain}/dashboard" style="display: inline-block; background: #6EDC8A; color: #0A0A0A; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">${t.welcome.exploreButton}</a>
     </div>
   `;
   return getEmailWrapper(content, lang);
@@ -128,7 +128,7 @@ export function getAccountPendingVerificationTemplate(name?: string, lang: Email
     </div>
     
     <div style="text-align: center; margin: 30px 0;">
-      <a href="https://${domain}/dashboard" style="display: inline-block; background: #6EDC8A; color: #0E1215; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">${t.accountPendingVerification.verifyButton}</a>
+      <a href="https://${domain}/dashboard" style="display: inline-block; background: #6EDC8A; color: #0A0A0A; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">${t.accountPendingVerification.verifyButton}</a>
     </div>
     
     <p style="line-height: 1.6; font-size: 14px; color: #6B7280;">${t.accountPendingVerification.whileUnverified}</p>
@@ -164,7 +164,7 @@ export function getAccountVipTemplate(name?: string, lang: EmailLanguage = 'es')
     <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">${t.accountVip.updatedToVip}</p>
     
     <div style="background: linear-gradient(135deg, #F0FDF4 0%, #ECFDF5 100%); padding: 25px; border-radius: 16px; margin: 25px 0; border: 2px solid #6EDC8A;">
-      <p style="margin: 0 0 15px 0; font-size: 15px; color: #0E1215; font-weight: 600;">${t.accountVip.benefits}</p>
+      <p style="margin: 0 0 15px 0; font-size: 15px; color: #0A0A0A; font-weight: 600;">${t.accountVip.benefits}</p>
       <ul style="margin: 0; padding-left: 20px; font-size: 14px; color: #444; line-height: 1.8;">
         <li>${t.accountVip.priorityAttention}</li>
         <li>${t.accountVip.preferentialTracking}</li>
@@ -173,7 +173,7 @@ export function getAccountVipTemplate(name?: string, lang: EmailLanguage = 'es')
     </div>
     
     <div style="text-align: center; margin: 30px 0;">
-      <a href="https://${domain}/dashboard" style="display: inline-block; background: #6EDC8A; color: #0E1215; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">${t.accountVip.viewDashboard}</a>
+      <a href="https://${domain}/dashboard" style="display: inline-block; background: #6EDC8A; color: #0A0A0A; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">${t.accountVip.viewDashboard}</a>
     </div>
   `;
   return getEmailWrapper(content, lang);
@@ -191,7 +191,7 @@ export function getAccountReactivatedTemplate(name?: string, lang: EmailLanguage
     <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 25px;">${t.accountReactivated.canAccess}</p>
     
     <div style="text-align: center; margin: 30px 0;">
-      <a href="https://${domain}/dashboard" style="display: inline-block; background: #6EDC8A; color: #0E1215; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">${t.accountReactivated.viewDashboard}</a>
+      <a href="https://${domain}/dashboard" style="display: inline-block; background: #6EDC8A; color: #0A0A0A; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">${t.accountReactivated.viewDashboard}</a>
     </div>
   `;
   return getEmailWrapper(content, lang);
@@ -209,11 +209,11 @@ export function getConfirmationEmailTemplate(name: string, requestCode: string, 
       <table style="width: 100%; font-size: 14px; border-collapse: collapse;">
         <tr>
           <td style="padding: 8px 0; color: #6B7280;">Referencia:</td>
-          <td style="padding: 8px 0; font-weight: 700; text-align: right; color: #0E1215;">#${requestCode}</td>
+          <td style="padding: 8px 0; font-weight: 700; text-align: right; color: #0A0A0A;">#${requestCode}</td>
         </tr>
-        ${details?.serviceType ? `<tr><td style="padding: 8px 0; color: #6B7280;">Servicio:</td><td style="padding: 8px 0; font-weight: 700; text-align: right; color: #0E1215;">${details.serviceType}</td></tr>` : ''}
-        ${details?.companyName ? `<tr><td style="padding: 8px 0; color: #6B7280;">Empresa:</td><td style="padding: 8px 0; font-weight: 700; text-align: right; color: #0E1215;">${details.companyName}</td></tr>` : ''}
-        ${details?.state ? `<tr><td style="padding: 8px 0; color: #6B7280;">Estado:</td><td style="padding: 8px 0; font-weight: 700; text-align: right; color: #0E1215;">${details.state}</td></tr>` : ''}
+        ${details?.serviceType ? `<tr><td style="padding: 8px 0; color: #6B7280;">Servicio:</td><td style="padding: 8px 0; font-weight: 700; text-align: right; color: #0A0A0A;">${details.serviceType}</td></tr>` : ''}
+        ${details?.companyName ? `<tr><td style="padding: 8px 0; color: #6B7280;">Empresa:</td><td style="padding: 8px 0; font-weight: 700; text-align: right; color: #0A0A0A;">${details.companyName}</td></tr>` : ''}
+        ${details?.state ? `<tr><td style="padding: 8px 0; color: #6B7280;">Estado:</td><td style="padding: 8px 0; font-weight: 700; text-align: right; color: #0A0A0A;">${details.state}</td></tr>` : ''}
         <tr>
           <td style="padding: 8px 0; color: #6B7280;">Estado actual:</td>
           <td style="padding: 8px 0; font-weight: 700; text-align: right; color: #059669;">En revisión</td>
@@ -225,7 +225,7 @@ export function getConfirmationEmailTemplate(name: string, requestCode: string, 
     <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">Nuestro equipo está validando toda la información que nos proporcionaste. En las próximas horas recibirás actualizaciones sobre el progreso de tu solicitud directamente en tu correo. También podrás seguir el estado en tiempo real desde tu Área Cliente.</p>
     
     <div style="text-align: center; margin: 30px 0;">
-      <a href="https://${domain}/dashboard" style="display: inline-block; background: #6EDC8A; color: #0E1215; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">Ver Estado de mi Solicitud</a>
+      <a href="https://${domain}/dashboard" style="display: inline-block; background: #6EDC8A; color: #0A0A0A; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">Ver Estado de mi Solicitud</a>
     </div>
     
     <p style="line-height: 1.6; font-size: 14px; color: #6B7280;">¿Tienes alguna pregunta? Simplemente responde a este correo mencionando tu referencia #${requestCode} y te ayudaremos encantados.</p>
@@ -240,7 +240,7 @@ export function getAutoReplyTemplate(ticketId: string, name: string = "Cliente")
     
     <div style="background: linear-gradient(135deg, #F0FDF4 0%, #ECFDF5 100%); padding: 25px; border-radius: 16px; margin: 25px 0; border: 2px solid #6EDC8A; text-align: center;">
       <p style="margin: 0 0 8px 0; font-size: 12px; color: #6B7280; text-transform: uppercase; letter-spacing: 1px;">Número de ticket</p>
-      <p style="margin: 0; font-size: 24px; font-weight: 900; color: #0E1215;">#${ticketId}</p>
+      <p style="margin: 0; font-size: 24px; font-weight: 900; color: #0A0A0A;">#${ticketId}</p>
     </div>
     
     <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">Tiempo estimado de respuesta: <strong>24-48 horas laborables</strong></p>
@@ -270,7 +270,7 @@ export function getOrderUpdateTemplate(name: string, orderNumber: string, newSta
       <table style="width: 100%; font-size: 14px; border-collapse: collapse;">
         <tr>
           <td style="padding: 8px 0; color: #6B7280;">Pedido:</td>
-          <td style="padding: 8px 0; font-weight: 700; text-align: right; color: #0E1215;">#${orderNumber}</td>
+          <td style="padding: 8px 0; font-weight: 700; text-align: right; color: #0A0A0A;">#${orderNumber}</td>
         </tr>
         <tr>
           <td style="padding: 8px 0; color: #6B7280;">Nuevo estado:</td>
@@ -295,7 +295,7 @@ export function getOrderCompletedTemplate(name: string, orderNumber: string) {
     
     <div style="background: linear-gradient(135deg, #F0FDF4 0%, #ECFDF5 100%); padding: 25px; border-radius: 16px; margin: 25px 0; border: 2px solid #6EDC8A;">
       <p style="margin: 0 0 15px 0; font-size: 14px; font-weight: 700; color: #059669; text-transform: uppercase; letter-spacing: 1px;">Tu documentación está lista</p>
-      <p style="margin: 0; font-size: 15px; color: #0E1215; line-height: 1.6;">Ya puedes acceder y descargar todos los documentos de tu empresa desde tu Centro de Documentación.</p>
+      <p style="margin: 0; font-size: 15px; color: #0A0A0A; line-height: 1.6;">Ya puedes acceder y descargar todos los documentos de tu empresa desde tu Centro de Documentación.</p>
     </div>
     
     <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 15px;"><strong>¿Qué encontrarás?</strong></p>
@@ -307,7 +307,7 @@ export function getOrderCompletedTemplate(name: string, orderNumber: string) {
     </ul>
     
     <div style="text-align: center; margin: 30px 0;">
-      <a href="https://${domain}/dashboard" style="display: inline-block; background: #6EDC8A; color: #0E1215; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">Ver Mis Documentos</a>
+      <a href="https://${domain}/dashboard" style="display: inline-block; background: #6EDC8A; color: #0A0A0A; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">Ver Mis Documentos</a>
     </div>
     
     <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">Recuerda que seguimos aquí para ayudarte en todo lo que necesites. Si tienes dudas sobre los siguientes pasos, como abrir una cuenta bancaria o configurar tu pasarela de pagos, no dudes en escribirnos.</p>
@@ -325,11 +325,11 @@ export function getNoteReceivedTemplate(name: string, noteContent: string, order
     <p style="line-height: 1.7; font-size: 15px; color: #444; margin: 0 0 25px 0;">Tienes un nuevo mensaje de nuestro equipo${orderNumber ? ` relacionado con tu pedido <strong>#${orderNumber}</strong>` : ''}.</p>
     
     <div style="background: #F9FAFB; padding: 25px; border-radius: 16px; margin: 25px 0; border-left: 4px solid #6EDC8A;">
-      <p style="margin: 0; font-size: 15px; color: #0E1215; line-height: 1.7; white-space: pre-wrap;">${noteContent}</p>
+      <p style="margin: 0; font-size: 15px; color: #0A0A0A; line-height: 1.7; white-space: pre-wrap;">${noteContent}</p>
     </div>
     
     <div style="text-align: center; margin: 30px 0;">
-      <a href="https://${domain}/dashboard" style="display: inline-block; background: #6EDC8A; color: #0E1215; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">Ver Mi Área Cliente</a>
+      <a href="https://${domain}/dashboard" style="display: inline-block; background: #6EDC8A; color: #0A0A0A; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">Ver Mi Área Cliente</a>
     </div>
   `;
   return getEmailWrapper(content);
@@ -341,16 +341,16 @@ export function getAdminNoteTemplate(name: string, title: string, message: strin
     <p style="line-height: 1.7; font-size: 15px; color: #444; margin: 0 0 25px 0;">Hola ${name},</p>
     
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-      <h2 style="margin: 0; font-size: 18px; font-weight: 700; color: #0E1215;">${title}</h2>
+      <h2 style="margin: 0; font-size: 18px; font-weight: 700; color: #0A0A0A;">${title}</h2>
       <span style="font-size: 12px; color: #6B7280; background: #F3F4F6; padding: 6px 12px; border-radius: 20px;">Ticket: ${ticketId}</span>
     </div>
     
     <div style="background: #F9FAFB; padding: 25px; border-radius: 16px; margin: 25px 0; border-left: 4px solid #6EDC8A;">
-      <p style="margin: 0; font-size: 15px; color: #0E1215; line-height: 1.7; white-space: pre-wrap;">${message}</p>
+      <p style="margin: 0; font-size: 15px; color: #0A0A0A; line-height: 1.7; white-space: pre-wrap;">${message}</p>
     </div>
     
     <div style="text-align: center; margin: 30px 0;">
-      <a href="https://${domain}/dashboard" style="display: inline-block; background: #6EDC8A; color: #0E1215; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">Ver Mi Área Cliente</a>
+      <a href="https://${domain}/dashboard" style="display: inline-block; background: #6EDC8A; color: #0A0A0A; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">Ver Mi Área Cliente</a>
     </div>
   `;
   return getEmailWrapper(content);
@@ -365,11 +365,11 @@ export function getPaymentRequestTemplate(name: string, message: string, payment
     
     <div style="background: #F9FAFB; padding: 25px; border-radius: 16px; margin: 25px 0; border-left: 4px solid #6EDC8A;">
       <p style="margin: 0 0 8px 0; font-size: 13px; font-weight: 700; color: #6B7280; text-transform: uppercase;">Mensaje:</p>
-      <p style="margin: 0; font-size: 15px; color: #0E1215; line-height: 1.7;">${message}</p>
+      <p style="margin: 0; font-size: 15px; color: #0A0A0A; line-height: 1.7;">${message}</p>
     </div>
     
     <div style="text-align: center; margin: 35px 0;">
-      <a href="${paymentLink}" style="display: inline-block; background: #6EDC8A; color: #0E1215; text-decoration: none; font-weight: 800; font-size: 14px; text-transform: uppercase; padding: 16px 45px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">Realizar Pago</a>
+      <a href="${paymentLink}" style="display: inline-block; background: #6EDC8A; color: #0A0A0A; text-decoration: none; font-weight: 800; font-size: 14px; text-transform: uppercase; padding: 16px 45px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">Realizar Pago</a>
     </div>
     
     <p style="line-height: 1.5; font-size: 12px; color: #9CA3AF; text-align: center; margin-top: 20px;">Si el botón no funciona, copia y pega este enlace:<br><a href="${paymentLink}" style="color: #6EDC8A; word-break: break-all;">${paymentLink}</a></p>
@@ -390,13 +390,13 @@ export function getDocumentRequestTemplate(name: string, documentType: string, m
     
     <div style="background: #F9FAFB; padding: 25px; border-radius: 16px; margin: 25px 0; border-left: 4px solid #6EDC8A;">
       <p style="margin: 0 0 8px 0; font-size: 13px; font-weight: 700; color: #6B7280; text-transform: uppercase;">Mensaje:</p>
-      <p style="margin: 0; font-size: 15px; color: #0E1215; line-height: 1.7;">${message}</p>
+      <p style="margin: 0; font-size: 15px; color: #0A0A0A; line-height: 1.7;">${message}</p>
     </div>
     
     <p style="line-height: 1.6; font-size: 13px; color: #6B7280; margin-bottom: 25px;">Ticket de referencia: <strong>#${ticketId}</strong></p>
     
     <div style="text-align: center; margin: 30px 0;">
-      <a href="https://${domain}/dashboard" style="display: inline-block; background: #6EDC8A; color: #0E1215; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">Subir Documento</a>
+      <a href="https://${domain}/dashboard" style="display: inline-block; background: #6EDC8A; color: #0A0A0A; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">Subir Documento</a>
     </div>
   `;
   return getEmailWrapper(content);
@@ -417,7 +417,7 @@ export function getDocumentUploadedTemplate(name: string, documentType: string, 
     <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">Puedes acceder y descargar este documento desde tu Área Cliente.</p>
     
     <div style="text-align: center; margin: 30px 0;">
-      <a href="https://${domain}/dashboard" style="display: inline-block; background: #6EDC8A; color: #0E1215; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">Ver Mis Documentos</a>
+      <a href="https://${domain}/dashboard" style="display: inline-block; background: #6EDC8A; color: #0A0A0A; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">Ver Mis Documentos</a>
     </div>
   `;
   return getEmailWrapper(content);
@@ -431,11 +431,11 @@ export function getMessageReplyTemplate(name: string, content: string, ticketId:
     <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">Hemos respondido a tu consulta (Ticket: <strong>#${ticketId}</strong>):</p>
     
     <div style="background: #F9FAFB; padding: 25px; border-radius: 16px; margin: 25px 0; border-left: 4px solid #6EDC8A;">
-      <p style="margin: 0; font-size: 15px; color: #0E1215; line-height: 1.7; white-space: pre-wrap;">${content}</p>
+      <p style="margin: 0; font-size: 15px; color: #0A0A0A; line-height: 1.7; white-space: pre-wrap;">${content}</p>
     </div>
     
     <div style="text-align: center; margin: 30px 0;">
-      <a href="https://${domain}/dashboard" style="display: inline-block; background: #6EDC8A; color: #0E1215; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">Ver Mi Área Cliente</a>
+      <a href="https://${domain}/dashboard" style="display: inline-block; background: #6EDC8A; color: #0A0A0A; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">Ver Mi Área Cliente</a>
     </div>
   `;
   return getEmailWrapper(emailContent);
@@ -449,7 +449,7 @@ export function getPasswordChangeOtpTemplate(name: string, otp: string) {
     <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">Has solicitado cambiar tu contraseña. Usa este código para verificar tu identidad:</p>
     
     <div style="background: linear-gradient(135deg, #F0FDF4 0%, #ECFDF5 100%); padding: 30px; border-radius: 16px; margin: 25px 0; text-align: center; border: 2px solid #6EDC8A;">
-      <p style="margin: 0; font-size: 42px; font-weight: 900; color: #0E1215; letter-spacing: 12px; font-family: 'SF Mono', 'Consolas', monospace;">${otp}</p>
+      <p style="margin: 0; font-size: 42px; font-weight: 900; color: #0A0A0A; letter-spacing: 12px; font-family: 'SF Mono', 'Consolas', monospace;">${otp}</p>
     </div>
     
     <p style="line-height: 1.6; font-size: 14px; color: #6B7280;">Este código expira en <strong>10 minutos</strong>.</p>
@@ -466,14 +466,14 @@ export function getOrderEventTemplate(name: string, orderId: string, eventType: 
     <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">Tu pedido <strong>#${orderId}</strong> tiene una actualización:</p>
     
     <div style="background: #F9FAFB; padding: 25px; border-radius: 16px; margin: 25px 0; border-left: 4px solid #6EDC8A;">
-      <p style="margin: 0 0 10px 0; font-size: 16px; font-weight: 700; color: #0E1215;">${eventType}</p>
+      <p style="margin: 0 0 10px 0; font-size: 16px; font-weight: 700; color: #0A0A0A;">${eventType}</p>
       <p style="margin: 0; font-size: 14px; color: #6B7280; line-height: 1.6;">${description}</p>
     </div>
     
     <p style="line-height: 1.5; font-size: 13px; color: #9CA3AF;">Fecha: ${new Date().toLocaleString('es-ES')}</p>
     
     <div style="text-align: center; margin: 30px 0;">
-      <a href="https://${domain}/dashboard" style="display: inline-block; background: #6EDC8A; color: #0E1215; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">Ver Detalles</a>
+      <a href="https://${domain}/dashboard" style="display: inline-block; background: #6EDC8A; color: #0A0A0A; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">Ver Detalles</a>
     </div>
   `;
   return getEmailWrapper(content);
@@ -527,7 +527,7 @@ export function getRenewalReminderTemplate(
     
     <div style="background: ${urgencyBg}; padding: 25px; border-radius: 16px; margin: 25px 0; border-left: 4px solid ${urgencyColor};">
       <p style="margin: 0 0 10px 0; font-size: 14px; font-weight: 700; color: ${urgencyColor}; text-transform: uppercase;">Vence en ${daysRemaining}</p>
-      <p style="margin: 0; font-size: 16px; font-weight: 600; color: #0E1215;">Fecha de vencimiento: ${renewalDate}</p>
+      <p style="margin: 0; font-size: 16px; font-weight: 600; color: #0A0A0A;">Fecha de vencimiento: ${renewalDate}</p>
     </div>
     
     <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">Sin el pack de mantenimiento activo, tu LLC puede perder su buen estado legal. Esto incluye:</p>
@@ -540,7 +540,7 @@ export function getRenewalReminderTemplate(
     </ul>
     
     <div style="text-align: center; margin: 30px 0;">
-      <a href="https://${domain}/llc/maintenance" style="display: inline-block; background: #6EDC8A; color: #0E1215; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">Renovar Ahora</a>
+      <a href="https://${domain}/llc/maintenance" style="display: inline-block; background: #6EDC8A; color: #0A0A0A; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">Renovar Ahora</a>
     </div>
   `;
   return getEmailWrapper(content);
@@ -553,7 +553,7 @@ export function getRegistrationOtpTemplate(name: string, otp: string, clientId: 
     
     <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 25px;">Gracias por registrarte en Easy US LLC. Tu código de verificación es:</p>
     
-    <div style="background-color: #0E1215; padding: 25px; text-align: center; border-radius: 16px; margin: 25px 0;">
+    <div style="background-color: #0A0A0A; padding: 25px; text-align: center; border-radius: 16px; margin: 25px 0;">
       <span style="color: #6EDC8A; font-size: 36px; font-weight: 900; letter-spacing: 8px; font-family: monospace;">${otp}</span>
     </div>
     
@@ -599,7 +599,7 @@ export function getAccountLockedTemplate(name: string, ticketId: string) {
     <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 25px;">Su Ticket ID de referencia es: <strong>#${ticketId}</strong></p>
     
     <div style="text-align: center; margin: 35px 0;">
-      <a href="${baseUrl}/forgot-password" style="background-color: #6EDC8A; color: #0E1215; font-weight: 700; font-size: 15px; padding: 16px 40px; border-radius: 50px; text-decoration: none; display: inline-block; box-shadow: 0 4px 15px rgba(110, 220, 138, 0.3);">Restablecer contraseña</a>
+      <a href="${baseUrl}/forgot-password" style="background-color: #6EDC8A; color: #0A0A0A; font-weight: 700; font-size: 15px; padding: 16px 40px; border-radius: 50px; text-decoration: none; display: inline-block; box-shadow: 0 4px 15px rgba(110, 220, 138, 0.3);">Restablecer contraseña</a>
     </div>
   `;
   return getEmailWrapper(content);
@@ -760,7 +760,7 @@ export function getAdminPasswordResetTemplate(name: string = "Cliente") {
     </div>
     
     <div style="text-align: center; margin: 30px 0;">
-      <a href="https://${domain}/auth/login" style="display: inline-block; background: #6EDC8A; color: #0E1215; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">Iniciar Sesión</a>
+      <a href="https://${domain}/auth/login" style="display: inline-block; background: #6EDC8A; color: #0A0A0A; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">Iniciar Sesión</a>
     </div>
 
     <div style="background: #FEF3C7; padding: 20px 25px; border-radius: 16px; margin: 25px 0; border-left: 4px solid #F59E0B;">
@@ -790,11 +790,11 @@ export function getCalculatorResultsTemplate(
       <table style="width: 100%; font-size: 14px; border-collapse: collapse;">
         <tr>
           <td style="padding: 10px 0; color: #6B7280; border-bottom: 1px solid #D1FAE5;">Ingresos anuales:</td>
-          <td style="padding: 10px 0; font-weight: 700; text-align: right; color: #0E1215; border-bottom: 1px solid #D1FAE5;">${annualIncome}€</td>
+          <td style="padding: 10px 0; font-weight: 700; text-align: right; color: #0A0A0A; border-bottom: 1px solid #D1FAE5;">${annualIncome}€</td>
         </tr>
         <tr>
           <td style="padding: 10px 0; color: #6B7280; border-bottom: 1px solid #D1FAE5;">Gastos deducibles:</td>
-          <td style="padding: 10px 0; font-weight: 700; text-align: right; color: #0E1215; border-bottom: 1px solid #D1FAE5;">${expenses}€</td>
+          <td style="padding: 10px 0; font-weight: 700; text-align: right; color: #0A0A0A; border-bottom: 1px solid #D1FAE5;">${expenses}€</td>
         </tr>
         <tr>
           <td style="padding: 10px 0; color: #6B7280; border-bottom: 1px solid #D1FAE5;">Impuestos como autónomo:</td>
@@ -816,7 +816,7 @@ export function getCalculatorResultsTemplate(
     <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 25px;">¿Te gustaría saber más sobre cómo funciona? Estaremos encantados de resolver todas tus dudas sin ningún compromiso.</p>
     
     <div style="text-align: center; margin: 30px 0;">
-      <a href="https://${domain}/servicios" style="display: inline-block; background: #6EDC8A; color: #0E1215; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">Ver Nuestros Servicios</a>
+      <a href="https://${domain}/servicios" style="display: inline-block; background: #6EDC8A; color: #0A0A0A; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">Ver Nuestros Servicios</a>
     </div>
     
     <p style="line-height: 1.6; font-size: 14px; color: #6B7280; margin-top: 25px;">Este cálculo es orientativo y se basa en los datos que proporcionaste. Para un análisis personalizado de tu situación, no dudes en contactarnos.</p>
@@ -841,11 +841,11 @@ export function getOperatingAgreementReadyTemplate(
       <table style="width: 100%; font-size: 14px; border-collapse: collapse;">
         <tr>
           <td style="padding: 8px 0; color: #6B7280;">Empresa:</td>
-          <td style="padding: 8px 0; font-weight: 700; text-align: right; color: #0E1215;">${companyName}</td>
+          <td style="padding: 8px 0; font-weight: 700; text-align: right; color: #0A0A0A;">${companyName}</td>
         </tr>
         <tr>
           <td style="padding: 8px 0; color: #6B7280;">Estado:</td>
-          <td style="padding: 8px 0; font-weight: 700; text-align: right; color: #0E1215;">${state}</td>
+          <td style="padding: 8px 0; font-weight: 700; text-align: right; color: #0A0A0A;">${state}</td>
         </tr>
         <tr>
           <td style="padding: 8px 0; color: #6B7280;">EIN:</td>
@@ -902,11 +902,11 @@ export function getAbandonedApplicationTemplate(
     <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 25px;">Si tienes alguna pregunta o necesitas asistencia para completar tu solicitud, simplemente responde a este correo y te ayudaremos encantados.</p>
     
     <div style="text-align: center; margin: 30px 0;">
-      <a href="https://${domain}/dashboard" style="display: inline-block; background: #6EDC8A; color: #0E1215; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">Continuar mi Solicitud</a>
+      <a href="https://${domain}/dashboard" style="display: inline-block; background: #6EDC8A; color: #0A0A0A; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">Continuar mi Solicitud</a>
     </div>
     
     <div style="background: #F9FAFB; padding: 25px; border-radius: 16px; margin: 25px 0; border-left: 4px solid #6EDC8A;">
-      <p style="margin: 0 0 12px 0; font-size: 13px; font-weight: 800; color: #0E1215; text-transform: uppercase;">¿Por qué elegir Easy US LLC?</p>
+      <p style="margin: 0 0 12px 0; font-size: 13px; font-weight: 800; color: #0A0A0A; text-transform: uppercase;">¿Por qué elegir Easy US LLC?</p>
       <ul style="margin: 0; padding-left: 18px; color: #444; font-size: 14px; line-height: 1.8;">
         <li>Formación completa en 48-72 horas</li>
         <li>Asistencia en español durante todo el proceso</li>
@@ -1136,7 +1136,7 @@ export function getAbandonedApplicationReminderTemplate(
     <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 25px;">No pierdas tu progreso. Retoma tu solicitud ahora y completa el proceso en pocos minutos.</p>
     
     <div style="text-align: center; margin: 30px 0;">
-      <a href="https://${emailDomain}/dashboard" style="display: inline-block; background: #6EDC8A; color: #0E1215; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">Continuar mi solicitud</a>
+      <a href="https://${emailDomain}/dashboard" style="display: inline-block; background: #6EDC8A; color: #0A0A0A; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">Continuar mi solicitud</a>
     </div>
     
     <p style="line-height: 1.6; font-size: 14px; color: #6B7280;">Si tienes alguna pregunta o necesitas ayuda, responde a este correo y te asistiremos.</p>

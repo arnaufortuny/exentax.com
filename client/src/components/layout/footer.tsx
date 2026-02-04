@@ -34,7 +34,7 @@ export function Footer() {
   return (
     <>
       <NewsletterSection />
-      <footer className="bg-zinc-950 text-white py-12 sm:py-20 overflow-hidden font-sans w-full" style={{ backgroundColor: '#0E1215' }}>
+      <footer className="bg-zinc-950 text-white py-12 sm:py-20 overflow-hidden font-sans w-full" style={{ backgroundColor: '#0A0A0A' }}>
       <div className="w-full px-5 sm:px-8">
         {/* Mobile: Title centered at top */}
         <div className="flex flex-col items-center mb-10 md:hidden">
