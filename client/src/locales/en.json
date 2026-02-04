@@ -1561,8 +1561,9 @@
     "loginFaster": "or log in with email to go faster"
   },
   "faq": {
-    "title": "Help Center",
-    "subtitle": "(Everything you need to know)",
+    "title": "HELP CENTER",
+    "titleHighlight": "CLEAR AND TRANSPARENT INFORMATION",
+    "subtitle": "Answers about processes, taxation, banking and maintenance of your LLC.",
     "searchPlaceholder": "Search your question...",
     "noResults": "We couldn't find anything",
     "noResultsHint": "Try another word or contact us directly.",

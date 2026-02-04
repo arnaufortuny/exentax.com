@@ -95,11 +95,12 @@ export default function FAQ() {
       <section className="pt-16 sm:pt-24 lg:pt-28 pb-4 sm:py-20 bg-background">
         <div className="container max-w-7xl mx-auto px-5 sm:px-8">
           <div className="text-center mb-8 sm:mb-12 flex flex-col items-center justify-center">
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-primary tracking-tight text-center">
-              <span className="text-accent tracking-widths text-xs sm:text-sm font-black block mb-2 text-center">{t("nav.faq")}</span>
-              {t("faq.title")}
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-center">
+              <span className="text-foreground">{t("faq.title")}</span>{" "}
+              <span className="text-accent">{t("faq.titleHighlight")}</span>
             </h2>
-            <p className="hidden sm:block text-accent font-black tracking-wide text-base sm:text-lg mt-1 sm:mt-2 text-center">{t("faq.subtitle")}</p>
+            <p className="text-muted-foreground text-sm sm:text-lg mt-3 sm:mt-4 text-center max-w-2xl">{t("faq.subtitle")}</p>
+            <div className="w-24 h-1 bg-accent mt-6" />
           </div>
 
           <div className="max-w-4xl mx-auto">

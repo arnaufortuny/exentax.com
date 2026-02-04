@@ -1561,8 +1561,9 @@
     "loginFaster": "o inicia sessió amb email per anar més ràpid"
   },
   "faq": {
-    "title": "Centre d'Ajuda",
-    "subtitle": "(Tot el que necessites saber)",
+    "title": "CENTRE D'AJUDA",
+    "titleHighlight": "INFORMACIÓ CLARA I TRANSPARENT",
+    "subtitle": "Respostes sobre processos, fiscalitat, banca i manteniment de la teva LLC.",
     "searchPlaceholder": "Cerca el teu dubte...",
     "noResults": "No hem trobat res",
     "noResultsHint": "Prova amb una altra paraula o contacta'ns directament.",

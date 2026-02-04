@@ -1560,8 +1560,9 @@
     "loginFaster": "o inicia sesión con email para ir más rápido"
   },
   "faq": {
-    "title": "Centro de Ayuda",
-    "subtitle": "(Todo lo que necesitas saber)",
+    "title": "CENTRO DE AYUDA",
+    "titleHighlight": "INFORMACIÓN CLARA Y TRANSPARENTE",
+    "subtitle": "Respuestas sobre procesos, fiscalidad, banca y mantenimiento de tu LLC.",
     "searchPlaceholder": "Busca tu duda...",
     "noResults": "No hemos encontrado nada",
     "noResultsHint": "Prueba con otra palabra o contáctanos directamente.",
