@@ -87,12 +87,22 @@ export function getWelcomeEmailTemplate(name: string = "Cliente") {
   const content = `
     <p style="line-height: 1.7; font-size: 15px; color: #444; margin: 0 0 25px 0;">Hola ${name},</p>
     
-    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">Gracias por registrarte en Easy US LLC.</p>
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">¡Bienvenido a Easy US LLC! Nos alegra mucho tenerte con nosotros.</p>
     
-    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 25px;">Tu cuenta ha sido creada correctamente. Desde tu Área Cliente podrás gestionar solicitudes, documentación y el estado de tus servicios en todo momento.</p>
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">Tu cuenta ha sido creada correctamente y ya puedes empezar a explorar todo lo que podemos hacer juntos. Desde tu Área Cliente tendrás acceso a:</p>
+    
+    <ul style="margin: 0 0 25px 0; padding-left: 20px; color: #444; font-size: 14px; line-height: 1.8;">
+      <li>Seguimiento en tiempo real de tus solicitudes</li>
+      <li>Centro de documentación para descargar todos tus archivos</li>
+      <li>Herramientas profesionales como generador de facturas</li>
+      <li>Calendario fiscal con tus fechas importantes</li>
+      <li>Comunicación directa con nuestro equipo de soporte</li>
+    </ul>
+    
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 25px;">Estamos aquí para ayudarte en cada paso de tu aventura empresarial en Estados Unidos. Si tienes cualquier pregunta, no dudes en escribirnos.</p>
     
     <div style="text-align: center; margin: 30px 0;">
-      <a href="https://${domain}/dashboard" style="display: inline-block; background: #6EDC8A; color: #0E1215; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">Ver Mi Área Cliente</a>
+      <a href="https://${domain}/dashboard" style="display: inline-block; background: #6EDC8A; color: #0E1215; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">Explorar Mi Área Cliente</a>
     </div>
   `;
   return getEmailWrapper(content);
@@ -177,15 +187,20 @@ export function getAccountReactivatedTemplate(name: string = "Cliente") {
 // 4. Confirmación de Solicitud (LLC / Mantenimiento)
 export function getConfirmationEmailTemplate(name: string, requestCode: string, details?: { companyName?: string; state?: string; serviceType?: string }) {
   const content = `
-    <p style="line-height: 1.7; font-size: 15px; color: #444; margin: 0 0 25px 0;">Hemos recibido correctamente tu solicitud.</p>
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin: 0 0 25px 0;">Hola ${name},</p>
+    
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">¡Excelente noticia! Hemos recibido correctamente tu solicitud y ya estamos trabajando en ella. A partir de ahora, nuestro equipo se encargará de todo.</p>
     
     <div style="background: linear-gradient(135deg, #F0FDF4 0%, #ECFDF5 100%); padding: 25px; border-radius: 16px; margin: 25px 0; border: 2px solid #6EDC8A;">
+      <p style="margin: 0 0 15px 0; font-size: 14px; font-weight: 700; color: #059669; text-transform: uppercase; letter-spacing: 1px;">Detalles de tu Solicitud</p>
       <table style="width: 100%; font-size: 14px; border-collapse: collapse;">
         <tr>
           <td style="padding: 8px 0; color: #6B7280;">Referencia:</td>
           <td style="padding: 8px 0; font-weight: 700; text-align: right; color: #0E1215;">#${requestCode}</td>
         </tr>
         ${details?.serviceType ? `<tr><td style="padding: 8px 0; color: #6B7280;">Servicio:</td><td style="padding: 8px 0; font-weight: 700; text-align: right; color: #0E1215;">${details.serviceType}</td></tr>` : ''}
+        ${details?.companyName ? `<tr><td style="padding: 8px 0; color: #6B7280;">Empresa:</td><td style="padding: 8px 0; font-weight: 700; text-align: right; color: #0E1215;">${details.companyName}</td></tr>` : ''}
+        ${details?.state ? `<tr><td style="padding: 8px 0; color: #6B7280;">Estado:</td><td style="padding: 8px 0; font-weight: 700; text-align: right; color: #0E1215;">${details.state}</td></tr>` : ''}
         <tr>
           <td style="padding: 8px 0; color: #6B7280;">Estado actual:</td>
           <td style="padding: 8px 0; font-weight: 700; text-align: right; color: #059669;">En revisión</td>
@@ -193,9 +208,14 @@ export function getConfirmationEmailTemplate(name: string, requestCode: string, 
       </table>
     </div>
     
-    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">Nuestro equipo está validando la información y te notificaremos cualquier actualización directamente por email.</p>
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 15px;"><strong>¿Qué pasa ahora?</strong></p>
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">Nuestro equipo está validando toda la información que nos proporcionaste. En las próximas horas recibirás actualizaciones sobre el progreso de tu solicitud directamente en tu correo. También podrás seguir el estado en tiempo real desde tu Área Cliente.</p>
     
-    <p style="line-height: 1.6; font-size: 14px; color: #6B7280;">Para cualquier duda relacionada con esta solicitud, responde a este correo indicando tu número de referencia.</p>
+    <div style="text-align: center; margin: 30px 0;">
+      <a href="https://${domain}/dashboard" style="display: inline-block; background: #6EDC8A; color: #0E1215; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">Ver Estado de mi Solicitud</a>
+    </div>
+    
+    <p style="line-height: 1.6; font-size: 14px; color: #6B7280;">¿Tienes alguna pregunta? Simplemente responde a este correo mencionando tu referencia #${requestCode} y te ayudaremos encantados.</p>
   `;
   return getEmailWrapper(content);
 }
@@ -256,17 +276,30 @@ export function getOrderUpdateTemplate(name: string, orderNumber: string, newSta
 // 7. Pedido Completado + Trustpilot
 export function getOrderCompletedTemplate(name: string, orderNumber: string) {
   const content = `
-    <p style="line-height: 1.7; font-size: 15px; color: #444; margin: 0 0 25px 0;">Tu pedido ha sido completado correctamente.</p>
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin: 0 0 25px 0;">Hola ${name},</p>
+    
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">¡Felicidades! Tu pedido <strong>#${orderNumber}</strong> ha sido completado con éxito. Todo está listo para que puedas empezar a operar con tu empresa en Estados Unidos.</p>
     
     <div style="background: linear-gradient(135deg, #F0FDF4 0%, #ECFDF5 100%); padding: 25px; border-radius: 16px; margin: 25px 0; border: 2px solid #6EDC8A;">
-      <p style="margin: 0; font-size: 15px; color: #0E1215; line-height: 1.6;">Ya puedes acceder a toda la documentación desde tu Área Cliente.</p>
+      <p style="margin: 0 0 15px 0; font-size: 14px; font-weight: 700; color: #059669; text-transform: uppercase; letter-spacing: 1px;">Tu documentación está lista</p>
+      <p style="margin: 0; font-size: 15px; color: #0E1215; line-height: 1.6;">Ya puedes acceder y descargar todos los documentos de tu empresa desde tu Centro de Documentación.</p>
     </div>
+    
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 15px;"><strong>¿Qué encontrarás?</strong></p>
+    <ul style="margin: 0 0 25px 0; padding-left: 20px; color: #444; font-size: 14px; line-height: 1.8;">
+      <li>Articles of Organization (documento de constitución)</li>
+      <li>Carta del EIN del IRS</li>
+      <li>Información del agente registrado</li>
+      <li>Guías y documentos adicionales según tu servicio</li>
+    </ul>
     
     <div style="text-align: center; margin: 30px 0;">
-      <a href="https://${domain}/dashboard" style="display: inline-block; background: #6EDC8A; color: #0E1215; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">Acceder a documentos</a>
+      <a href="https://${domain}/dashboard" style="display: inline-block; background: #6EDC8A; color: #0E1215; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">Ver Mis Documentos</a>
     </div>
     
-    <p style="line-height: 1.6; font-size: 14px; color: #6B7280;">Tu experiencia es importante para nosotros. Si lo deseas, puedes valorar nuestro servicio cuando recibas la invitación correspondiente.</p>
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">Recuerda que seguimos aquí para ayudarte en todo lo que necesites. Si tienes dudas sobre los siguientes pasos, como abrir una cuenta bancaria o configurar tu pasarela de pagos, no dudes en escribirnos.</p>
+    
+    <p style="line-height: 1.6; font-size: 14px; color: #6B7280;">Tu experiencia es muy importante para nosotros. Si tienes un momento, nos encantaría conocer tu opinión sobre nuestro servicio.</p>
   `;
   return getEmailWrapper(content);
 }
@@ -719,6 +752,156 @@ export function getAdminPasswordResetTemplate(name: string = "Cliente") {
       <p style="margin: 0 0 8px 0; font-size: 13px; font-weight: 800; color: #92400E; text-transform: uppercase;">Importante:</p>
       <p style="margin: 0; font-size: 14px; color: #78350F; line-height: 1.6;">Si no solicitaste este cambio, por favor contacta con nuestro equipo de soporte inmediatamente.</p>
     </div>
+  `;
+  return getEmailWrapper(content);
+}
+
+// 22. Calculadora de Precios - Resultado enviado al cliente
+export function getCalculatorResultsTemplate(
+  name: string,
+  freelancerTax: string,
+  llcTax: string,
+  savings: string,
+  annualIncome: string,
+  expenses: string
+) {
+  const content = `
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin: 0 0 25px 0;">Hola ${name},</p>
+    
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">Aquí tienes el resumen de tu comparación fiscal que solicitaste. Hemos analizado los números y queremos que tengas toda la información para tomar la mejor decisión para tu negocio.</p>
+    
+    <div style="background: linear-gradient(135deg, #F0FDF4 0%, #ECFDF5 100%); padding: 25px; border-radius: 16px; margin: 25px 0; border: 2px solid #6EDC8A;">
+      <p style="margin: 0 0 15px 0; font-size: 14px; font-weight: 700; color: #059669; text-transform: uppercase; letter-spacing: 1px;">Resumen de tu Análisis</p>
+      <table style="width: 100%; font-size: 14px; border-collapse: collapse;">
+        <tr>
+          <td style="padding: 10px 0; color: #6B7280; border-bottom: 1px solid #D1FAE5;">Ingresos anuales:</td>
+          <td style="padding: 10px 0; font-weight: 700; text-align: right; color: #0E1215; border-bottom: 1px solid #D1FAE5;">${annualIncome}€</td>
+        </tr>
+        <tr>
+          <td style="padding: 10px 0; color: #6B7280; border-bottom: 1px solid #D1FAE5;">Gastos deducibles:</td>
+          <td style="padding: 10px 0; font-weight: 700; text-align: right; color: #0E1215; border-bottom: 1px solid #D1FAE5;">${expenses}€</td>
+        </tr>
+        <tr>
+          <td style="padding: 10px 0; color: #6B7280; border-bottom: 1px solid #D1FAE5;">Impuestos como autónomo:</td>
+          <td style="padding: 10px 0; font-weight: 700; text-align: right; color: #EF4444; border-bottom: 1px solid #D1FAE5;">${freelancerTax}€</td>
+        </tr>
+        <tr>
+          <td style="padding: 10px 0; color: #6B7280; border-bottom: 1px solid #D1FAE5;">Impuestos con LLC:</td>
+          <td style="padding: 10px 0; font-weight: 700; text-align: right; color: #059669; border-bottom: 1px solid #D1FAE5;">${llcTax}€</td>
+        </tr>
+        <tr>
+          <td style="padding: 12px 0; color: #059669; font-weight: 700; font-size: 15px;">Tu ahorro potencial:</td>
+          <td style="padding: 12px 0; font-weight: 900; text-align: right; color: #059669; font-size: 18px;">${savings}€/año</td>
+        </tr>
+      </table>
+    </div>
+    
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">Con una LLC en Estados Unidos, podrías optimizar significativamente tu carga fiscal mientras operas de forma completamente legal. Este ahorro se mantiene año tras año, lo que puede suponer una diferencia importante para tu negocio a largo plazo.</p>
+    
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 25px;">¿Te gustaría saber más sobre cómo funciona? Estaremos encantados de resolver todas tus dudas sin ningún compromiso.</p>
+    
+    <div style="text-align: center; margin: 30px 0;">
+      <a href="https://${domain}/servicios" style="display: inline-block; background: #6EDC8A; color: #0E1215; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">Ver Nuestros Servicios</a>
+    </div>
+    
+    <p style="line-height: 1.6; font-size: 14px; color: #6B7280; margin-top: 25px;">Este cálculo es orientativo y se basa en los datos que proporcionaste. Para un análisis personalizado de tu situación, no dudes en contactarnos.</p>
+  `;
+  return getEmailWrapper(content);
+}
+
+// 23. Operating Agreement listo - Para clientes con EIN asignado
+export function getOperatingAgreementReadyTemplate(
+  name: string,
+  companyName: string,
+  ein: string,
+  state: string
+) {
+  const content = `
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin: 0 0 25px 0;">Hola ${name},</p>
+    
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">Tenemos excelentes noticias para ti. Tu LLC <strong>${companyName}</strong> ya cuenta con su EIN (Número de Identificación del Empleador) asignado por el IRS, lo que significa que puedes generar tu Operating Agreement oficial.</p>
+    
+    <div style="background: linear-gradient(135deg, #F0FDF4 0%, #ECFDF5 100%); padding: 25px; border-radius: 16px; margin: 25px 0; border: 2px solid #6EDC8A;">
+      <p style="margin: 0 0 15px 0; font-size: 14px; font-weight: 700; color: #059669; text-transform: uppercase; letter-spacing: 1px;">Datos de tu LLC</p>
+      <table style="width: 100%; font-size: 14px; border-collapse: collapse;">
+        <tr>
+          <td style="padding: 8px 0; color: #6B7280;">Empresa:</td>
+          <td style="padding: 8px 0; font-weight: 700; text-align: right; color: #0E1215;">${companyName}</td>
+        </tr>
+        <tr>
+          <td style="padding: 8px 0; color: #6B7280;">Estado:</td>
+          <td style="padding: 8px 0; font-weight: 700; text-align: right; color: #0E1215;">${state}</td>
+        </tr>
+        <tr>
+          <td style="padding: 8px 0; color: #6B7280;">EIN:</td>
+          <td style="padding: 8px 0; font-weight: 700; text-align: right; color: #059669;">${ein}</td>
+        </tr>
+      </table>
+    </div>
+    
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 15px;"><strong>¿Qué es el Operating Agreement?</strong></p>
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">Es el documento legal fundamental de tu LLC. Define cómo se gestiona tu empresa, las responsabilidades del propietario y las reglas de operación. Aunque en algunos estados no es obligatorio, es altamente recomendable tenerlo porque:</p>
+    
+    <ul style="margin: 0 0 25px 0; padding-left: 20px; color: #444; font-size: 14px; line-height: 1.8;">
+      <li>Refuerza la separación entre tus finanzas personales y las de la empresa</li>
+      <li>Es requerido por bancos y procesadores de pago como Stripe</li>
+      <li>Proporciona protección legal adicional para ti como propietario</li>
+      <li>Documenta oficialmente la estructura de tu negocio</li>
+    </ul>
+    
+    <div style="text-align: center; margin: 30px 0;">
+      <a href="https://${domain}/tools/operating-agreement" style="display: inline-block; background: #8B5CF6; color: #FFFFFF; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(139,92,246,0.35);">Generar mi Operating Agreement</a>
+    </div>
+    
+    <p style="line-height: 1.6; font-size: 14px; color: #6B7280; margin-top: 25px;">El documento se generará automáticamente con los datos de tu LLC y se guardará en tu Centro de Documentación para que puedas descargarlo cuando lo necesites.</p>
+  `;
+  return getEmailWrapper(content);
+}
+
+// 24. Carrito abandonado - Aplicación incompleta
+export function getAbandonedApplicationTemplate(
+  name: string,
+  serviceType: string,
+  state?: string,
+  hoursRemaining?: number
+) {
+  const urgency = hoursRemaining && hoursRemaining <= 12 ? true : false;
+  const urgencyColor = urgency ? "#EF4444" : "#F59E0B";
+  const urgencyBg = urgency ? "#FEE2E2" : "#FEF3C7";
+  
+  const content = `
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin: 0 0 25px 0;">Hola ${name},</p>
+    
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">Hemos notado que empezaste a completar tu solicitud de <strong>${serviceType}</strong>${state ? ` en ${state}` : ''}, pero no llegaste a finalizarla. No te preocupes, hemos guardado todo tu progreso para que puedas continuar exactamente donde lo dejaste.</p>
+    
+    ${hoursRemaining ? `
+    <div style="background: ${urgencyBg}; padding: 20px 25px; border-radius: 16px; margin: 25px 0; border-left: 4px solid ${urgencyColor};">
+      <p style="margin: 0; font-size: 14px; color: ${urgency ? '#B91C1C' : '#92400E'}; line-height: 1.7;">
+        <strong>Nota importante:</strong> Tu borrador se eliminará automáticamente en ${hoursRemaining} horas si no lo completas. Por motivos de seguridad y protección de datos, no podemos mantener solicitudes incompletas indefinidamente.
+      </p>
+    </div>
+    ` : ''}
+    
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 15px;">Entendemos que dar el paso de crear una LLC puede generar algunas dudas. Queremos que sepas que estamos aquí para ayudarte en cada paso del proceso.</p>
+    
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 25px;">Si tienes alguna pregunta o necesitas asistencia para completar tu solicitud, simplemente responde a este correo y te ayudaremos encantados.</p>
+    
+    <div style="text-align: center; margin: 30px 0;">
+      <a href="https://${domain}/dashboard" style="display: inline-block; background: #6EDC8A; color: #0E1215; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">Continuar mi Solicitud</a>
+    </div>
+    
+    <div style="background: #F9FAFB; padding: 25px; border-radius: 16px; margin: 25px 0; border-left: 4px solid #6EDC8A;">
+      <p style="margin: 0 0 12px 0; font-size: 13px; font-weight: 800; color: #0E1215; text-transform: uppercase;">¿Por qué elegir Easy US LLC?</p>
+      <ul style="margin: 0; padding-left: 18px; color: #444; font-size: 14px; line-height: 1.8;">
+        <li>Formación completa en 48-72 horas</li>
+        <li>Asistencia en español durante todo el proceso</li>
+        <li>Obtención del EIN incluida</li>
+        <li>Ayuda con apertura de cuenta bancaria</li>
+        <li>Soporte continuo post-formación</li>
+      </ul>
+    </div>
+    
+    <p style="line-height: 1.6; font-size: 14px; color: #6B7280;">Si finalmente decides no continuar, no te enviaremos más recordatorios sobre esta solicitud. Tu privacidad es importante para nosotros.</p>
   `;
   return getEmailWrapper(content);
 }
