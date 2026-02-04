@@ -123,7 +123,7 @@ export default function Home() {
         <div className="w-full px-6 sm:px-8">
           <div className="text-center mb-10 sm:mb-14 flex flex-col items-center justify-center relative">
             <motion.h2 
-              className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-center leading-[1.1] will-change-[transform,opacity]" 
+              className="text-5xl sm:text-6xl lg:text-8xl font-black tracking-tight text-center leading-[1.1] will-change-[transform,opacity]" 
               style={{ fontWeight: 900 }} 
               dangerouslySetInnerHTML={{ __html: t("benefits.sectionTitle") }}
               variants={fadeInUp}
