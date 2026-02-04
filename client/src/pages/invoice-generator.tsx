@@ -313,27 +313,27 @@ export default function InvoiceGenerator() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
             <Card className="border-0 shadow-md animate-card-in animate-delay-1">
               <CardHeader className="pb-3 md:pb-4">
-                <CardTitle className="text-sm md:text-base font-semibold text-accent">Emisor</CardTitle>
+                <CardTitle className="text-sm md:text-base font-semibold text-accent">{t('tools.invoiceGenerator.issuer')}</CardTitle>
               </CardHeader>
               <CardContent className="space-y-3 md:space-y-4">
                 <div>
-                  <Label htmlFor="issuerName" className="text-xs md:text-sm">Nombre / Empresa *</Label>
+                  <Label htmlFor="issuerName" className="text-xs md:text-sm">{t('tools.invoiceGenerator.nameCompany')} *</Label>
                   <Input
                     id="issuerName"
                     value={issuerName}
                     onChange={(e) => setIssuerName(e.target.value)}
-                    placeholder="Tu nombre o empresa"
+                    placeholder={t('tools.invoiceGenerator.namePlaceholder')}
                     className="mt-1"
                     data-testid="input-issuer-name"
                   />
                 </div>
                 <div>
-                  <Label htmlFor="issuerAddress" className="text-xs md:text-sm">Direccion</Label>
+                  <Label htmlFor="issuerAddress" className="text-xs md:text-sm">{t('tools.invoiceGenerator.address')}</Label>
                   <Textarea
                     id="issuerAddress"
                     value={issuerAddress}
                     onChange={(e) => setIssuerAddress(e.target.value)}
-                    placeholder="Direccion completa"
+                    placeholder={t('tools.invoiceGenerator.addressPlaceholder')}
                     rows={2}
                     className="mt-1 resize-none"
                     data-testid="input-issuer-address"
@@ -347,18 +347,18 @@ export default function InvoiceGenerator() {
                       type="email"
                       value={issuerEmail}
                       onChange={(e) => setIssuerEmail(e.target.value)}
-                      placeholder="email@ejemplo.com"
+                      placeholder={t('tools.invoiceGenerator.emailPlaceholder')}
                       className="mt-1"
                       data-testid="input-issuer-email"
                     />
                   </div>
                   <div>
-                    <Label htmlFor="issuerTaxId" className="text-xs md:text-sm">ID Fiscal</Label>
+                    <Label htmlFor="issuerTaxId" className="text-xs md:text-sm">{t('tools.invoiceGenerator.taxId')}</Label>
                     <Input
                       id="issuerTaxId"
                       value={issuerTaxId}
                       onChange={(e) => setIssuerTaxId(e.target.value)}
-                      placeholder="12345678A"
+                      placeholder={t('tools.invoiceGenerator.taxIdPlaceholder')}
                       className="mt-1"
                       data-testid="input-issuer-tax-id"
                     />
@@ -369,27 +369,27 @@ export default function InvoiceGenerator() {
 
             <Card className="border-0 shadow-sm">
               <CardHeader className="pb-3 md:pb-4">
-                <CardTitle className="text-sm md:text-base font-semibold text-accent">Cliente</CardTitle>
+                <CardTitle className="text-sm md:text-base font-semibold text-accent">{t('tools.invoiceGenerator.client')}</CardTitle>
               </CardHeader>
               <CardContent className="space-y-3 md:space-y-4">
                 <div>
-                  <Label htmlFor="clientName" className="text-xs md:text-sm">Nombre / Empresa *</Label>
+                  <Label htmlFor="clientName" className="text-xs md:text-sm">{t('tools.invoiceGenerator.nameCompany')} *</Label>
                   <Input
                     id="clientName"
                     value={clientName}
                     onChange={(e) => setClientName(e.target.value)}
-                    placeholder="Nombre del cliente"
+                    placeholder={t('tools.invoiceGenerator.clientNamePlaceholder')}
                     className="mt-1"
                     data-testid="input-client-name"
                   />
                 </div>
                 <div>
-                  <Label htmlFor="clientAddress" className="text-xs md:text-sm">Direccion</Label>
+                  <Label htmlFor="clientAddress" className="text-xs md:text-sm">{t('tools.invoiceGenerator.address')}</Label>
                   <Textarea
                     id="clientAddress"
                     value={clientAddress}
                     onChange={(e) => setClientAddress(e.target.value)}
-                    placeholder="Direccion completa"
+                    placeholder={t('tools.invoiceGenerator.addressPlaceholder')}
                     rows={2}
                     className="mt-1 resize-none"
                     data-testid="input-client-address"
@@ -403,18 +403,18 @@ export default function InvoiceGenerator() {
                       type="email"
                       value={clientEmail}
                       onChange={(e) => setClientEmail(e.target.value)}
-                      placeholder="email@ejemplo.com"
+                      placeholder={t('tools.invoiceGenerator.emailPlaceholder')}
                       className="mt-1"
                       data-testid="input-client-email"
                     />
                   </div>
                   <div>
-                    <Label htmlFor="clientTaxId" className="text-xs md:text-sm">ID Fiscal</Label>
+                    <Label htmlFor="clientTaxId" className="text-xs md:text-sm">{t('tools.invoiceGenerator.taxId')}</Label>
                     <Input
                       id="clientTaxId"
                       value={clientTaxId}
                       onChange={(e) => setClientTaxId(e.target.value)}
-                      placeholder="12345678A"
+                      placeholder={t('tools.invoiceGenerator.taxIdPlaceholder')}
                       className="mt-1"
                       data-testid="input-client-tax-id"
                     />
@@ -426,12 +426,12 @@ export default function InvoiceGenerator() {
 
           <Card className="border-0 shadow-sm">
             <CardHeader className="pb-3 md:pb-4">
-              <CardTitle className="text-sm md:text-base font-semibold text-accent">Detalles</CardTitle>
+              <CardTitle className="text-sm md:text-base font-semibold text-accent">{t('tools.invoiceGenerator.invoiceDetails')}</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
                 <div>
-                  <Label htmlFor="invoiceNumber" className="text-xs md:text-sm">No Factura</Label>
+                  <Label htmlFor="invoiceNumber" className="text-xs md:text-sm">{t('tools.invoiceGenerator.invoiceNumber')}</Label>
                   <Input
                     id="invoiceNumber"
                     value={invoiceNumber}
@@ -442,7 +442,7 @@ export default function InvoiceGenerator() {
                   />
                 </div>
                 <div>
-                  <Label htmlFor="invoiceDate" className="text-xs md:text-sm">Fecha *</Label>
+                  <Label htmlFor="invoiceDate" className="text-xs md:text-sm">{t('tools.invoiceGenerator.invoiceDate')} *</Label>
                   <Input
                     id="invoiceDate"
                     type="date"
@@ -453,7 +453,7 @@ export default function InvoiceGenerator() {
                   />
                 </div>
                 <div>
-                  <Label htmlFor="dueDate" className="text-xs md:text-sm">Vencimiento</Label>
+                  <Label htmlFor="dueDate" className="text-xs md:text-sm">{t('tools.invoiceGenerator.dueDate')}</Label>
                   <Input
                     id="dueDate"
                     type="date"
@@ -464,7 +464,7 @@ export default function InvoiceGenerator() {
                   />
                 </div>
                 <div>
-                  <Label htmlFor="currency" className="text-xs md:text-sm">Moneda</Label>
+                  <Label htmlFor="currency" className="text-xs md:text-sm">{t('tools.invoiceGenerator.currency')}</Label>
                   <NativeSelect
                     value={currency}
                     onChange={(e) => setCurrency(e.target.value)}
@@ -477,7 +477,7 @@ export default function InvoiceGenerator() {
                   </NativeSelect>
                 </div>
                 <div>
-                  <Label htmlFor="taxRate" className="text-xs md:text-sm">IVA (%)</Label>
+                  <Label htmlFor="taxRate" className="text-xs md:text-sm">{t('tools.invoiceGenerator.taxRate')}</Label>
                   <NativeSelect
                     value={String(taxRate)}
                     onChange={(e) => setTaxRate(Number(e.target.value))}
@@ -496,7 +496,7 @@ export default function InvoiceGenerator() {
 
           <Card className="border-0 shadow-sm">
             <CardHeader className="pb-3 md:pb-4 flex flex-row items-center justify-between gap-2">
-              <CardTitle className="text-sm md:text-base font-semibold text-accent">Conceptos</CardTitle>
+              <CardTitle className="text-sm md:text-base font-semibold text-accent">{t('tools.invoiceGenerator.items')}</CardTitle>
               <Button
                 type="button"
                 variant="outline"
@@ -506,15 +506,15 @@ export default function InvoiceGenerator() {
                 data-testid="button-add-item"
               >
                 <Plus className="w-3.5 h-3.5 mr-1" />
-                Anadir
+                {t('tools.invoiceGenerator.addItem')}
               </Button>
             </CardHeader>
             <CardContent>
               <div className="space-y-3">
                 <div className="hidden md:grid grid-cols-12 gap-3 text-xs text-muted-foreground font-medium px-1">
-                  <div className="col-span-6">Descripcion *</div>
-                  <div className="col-span-2">Cantidad</div>
-                  <div className="col-span-3">Precio ({currencySymbol})</div>
+                  <div className="col-span-6">{t('tools.invoiceGenerator.description')} *</div>
+                  <div className="col-span-2">{t('tools.invoiceGenerator.quantity')}</div>
+                  <div className="col-span-3">{t('tools.invoiceGenerator.price')} ({currencySymbol})</div>
                   <div className="col-span-1"></div>
                 </div>
                 {items.map((item, index) => (
@@ -523,7 +523,7 @@ export default function InvoiceGenerator() {
                       <Input
                         value={item.description}
                         onChange={(e) => updateItem(item.id, 'description', e.target.value)}
-                        placeholder="Descripcion del servicio"
+                        placeholder={t('tools.invoiceGenerator.descriptionPlaceholder')}
                         data-testid={`input-item-description-${index}`}
                       />
                     </div>
@@ -566,12 +566,12 @@ export default function InvoiceGenerator() {
               <div className="mt-6 pt-4 border-t border-border flex justify-end">
                 <div className="text-right space-y-1">
                   <div className="flex justify-end gap-4 text-xs md:text-sm text-muted-foreground">
-                    <span>Subtotal:</span>
+                    <span>{t('tools.invoiceGenerator.subtotal')}:</span>
                     <span>{subtotal.toFixed(2)} {currencySymbol}</span>
                   </div>
                   {taxRate > 0 && (
                     <div className="flex justify-end gap-4 text-xs md:text-sm text-muted-foreground">
-                      <span>IVA ({taxRate}%):</span>
+                      <span>{t('tools.invoiceGenerator.tax')} ({taxRate}%):</span>
                       <span>{taxAmount.toFixed(2)} {currencySymbol}</span>
                     </div>
                   )}
@@ -585,13 +585,13 @@ export default function InvoiceGenerator() {
 
           <Card className="border-0 shadow-sm">
             <CardHeader className="pb-3 md:pb-4">
-              <CardTitle className="text-sm md:text-base font-semibold text-accent">Notas</CardTitle>
+              <CardTitle className="text-sm md:text-base font-semibold text-accent">{t('tools.invoiceGenerator.notes')}</CardTitle>
             </CardHeader>
             <CardContent>
               <Textarea
                 value={notes}
                 onChange={(e) => setNotes(e.target.value)}
-                placeholder="Condiciones de pago, instrucciones..."
+                placeholder={t('tools.invoiceGenerator.notesPlaceholder')}
                 rows={2}
                 className="resize-none"
                 data-testid="input-notes"
@@ -608,10 +608,10 @@ export default function InvoiceGenerator() {
               data-testid="button-generate-pdf"
             >
               <FileDown className="w-5 h-5 mr-2" />
-              {isGenerating ? 'Generando...' : 'Descargar PDF'}
+              {isGenerating ? t('tools.invoiceGenerator.generating') : t('tools.invoiceGenerator.generatePdf')}
             </Button>
             <p className="text-xs text-muted-foreground text-center">
-              La factura se genera en tu dispositivo y no se guarda en nuestros servidores.
+              {t('tools.invoiceGenerator.privacyNote')}
             </p>
           </div>
         </div>
