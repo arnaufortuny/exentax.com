@@ -269,12 +269,7 @@ export function TaxComparator() {
   };
   
   return (
-    <section className="py-16 sm:py-24 bg-accent/5 relative overflow-hidden" id="comparador">
-      <div className="absolute inset-0 opacity-30">
-        <div className="absolute top-20 left-10 w-72 h-72 bg-accent/20 rounded-full blur-3xl" />
-        <div className="absolute bottom-20 right-10 w-96 h-96 bg-accent/10 rounded-full blur-3xl" />
-      </div>
-      
+    <section className="py-16 sm:py-24 bg-background relative overflow-hidden" id="comparador">
       <div className="w-full px-4 sm:px-8 relative z-10">
         <div className="text-center mb-10 sm:mb-14 flex flex-col items-center justify-center">
           <motion.h2 
@@ -286,7 +281,8 @@ export function TaxComparator() {
             transition={{ duration: 0.25, ease: "easeOut" }}
           >
             <span className="text-foreground">{t("taxComparator.titlePart1")}</span>{" "}
-            <span className="text-accent">{t("taxComparator.titlePart2")}</span>
+            <span className="text-accent">{t("taxComparator.titlePart2")}</span>{" "}
+            <span className="text-accent">{t("taxComparator.titlePart3")}</span>
           </motion.h2>
           <motion.p 
             className="text-muted-foreground text-base sm:text-lg mt-4 text-center max-w-2xl will-change-transform"
