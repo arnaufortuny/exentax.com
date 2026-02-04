@@ -54,7 +54,7 @@ export function StateComparison() {
       <div className="w-full px-4 sm:px-8 max-w-7xl mx-auto">
         <div className="text-center mb-12 sm:mb-16 flex flex-col items-center justify-center">
           <motion.h2
-            className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-center leading-[1.1]"
+            className="text-5xl sm:text-6xl lg:text-8xl font-black tracking-tight text-center leading-[1.1]"
             style={{ fontWeight: 900 }}
             variants={fadeInUp}
             initial="hidden"
