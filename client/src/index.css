@@ -6,6 +6,7 @@
 html {
   background: #F8F8F6;
   min-height: 100dvh;
+  overflow-x: hidden;
 }
 
 /* Clean background - Dark Mode (Pure Black) */
@@ -13,15 +14,21 @@ html.dark {
   background: #0A0A0A;
 }
 
-/* Ensure consistent background */
+/* Ensure consistent background - prevent flash during page transitions */
 body {
-  background: inherit;
+  background: #F8F8F6;
   min-height: 100dvh;
+  overflow-x: hidden;
+}
+
+html.dark body {
+  background: #0A0A0A;
 }
 
 #root {
   background: inherit;
   min-height: 100dvh;
+  isolation: isolate;
 }
 
 @layer base {

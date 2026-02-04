@@ -129,8 +129,8 @@ export function Navbar() {
             ) : (
               <Button 
                 onClick={() => setLocation("/auth/login")}
-                variant="ghost"
-                className="rounded-full text-foreground font-semibold text-sm h-10 px-4 flex items-center gap-2"
+                variant="outline"
+                className="rounded-full border-2 border-accent text-foreground font-semibold text-sm h-10 px-4 flex items-center gap-2"
                 data-testid="button-desktop-login"
               >
                 <UserIcon className="w-4 h-4" /> {t("nav.login")}
@@ -216,13 +216,13 @@ export function Navbar() {
               </button>
               <button
                 onClick={() => handleNavClick("/servicios#pricing")}
-                className="text-left px-3 py-3 rounded-xl text-foreground hover:bg-secondary transition-colors font-black text-xl tracking-tighter border border-transparent hover:border-accent/20"
+                className="text-left px-3 py-3 rounded-xl text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors font-bold text-lg tracking-tighter border border-transparent hover:border-accent/20 ml-3"
               >
                 {t("nav.pricing")}
               </button>
               <button
                 onClick={() => handleNavClick("/servicios#comparador")}
-                className="text-left px-3 py-3 rounded-xl text-foreground hover:bg-secondary transition-colors font-black text-xl tracking-tighter border border-transparent hover:border-accent/20"
+                className="text-left px-3 py-3 rounded-xl text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors font-bold text-lg tracking-tighter border border-transparent hover:border-accent/20 ml-3"
               >
                 {t("nav.savings")}
               </button>

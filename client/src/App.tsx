@@ -191,27 +191,29 @@ function MainRouter() {
   return (
     <ErrorBoundary>
       <Suspense key={location} fallback={<LoadingScreen />}>
-        <Switch>
-          <Route path="/" component={Home} />
-          <Route path="/servicios" component={Servicios} />
-          <Route path="/faq" component={FAQ} />
-          <Route path="/contacto" component={Contacto} />
-          <Route path="/legal/terminos" component={Legal} />
-          <Route path="/legal/privacidad" component={Privacidad} />
-          <Route path="/legal/reembolsos" component={Reembolsos} />
-          <Route path="/legal/cookies" component={Cookies} />
-          <Route path="/llc/maintenance" component={MaintenancePage} />
-          <Route path="/llc/formation" component={LlcFormation} />
-          <Route path="/dashboard" component={Dashboard} />
-          <Route path="/auth/login" component={Login} />
-          <Route path="/auth/register" component={Register} />
-          <Route path="/auth/forgot-password" component={ForgotPassword} />
-          <Route path="/tools/invoice" component={InvoiceGenerator} />
-          <Route path="/tools/price-calculator" component={PriceCalculator} />
-          <Route path="/tools/operating-agreement" component={OperatingAgreement} />
-          <Route path="/tools/csv-generator" component={CsvGenerator} />
-          <Route component={NotFound} />
-        </Switch>
+        <div className="animate-page-in min-h-screen bg-background">
+          <Switch>
+            <Route path="/" component={Home} />
+            <Route path="/servicios" component={Servicios} />
+            <Route path="/faq" component={FAQ} />
+            <Route path="/contacto" component={Contacto} />
+            <Route path="/legal/terminos" component={Legal} />
+            <Route path="/legal/privacidad" component={Privacidad} />
+            <Route path="/legal/reembolsos" component={Reembolsos} />
+            <Route path="/legal/cookies" component={Cookies} />
+            <Route path="/llc/maintenance" component={MaintenancePage} />
+            <Route path="/llc/formation" component={LlcFormation} />
+            <Route path="/dashboard" component={Dashboard} />
+            <Route path="/auth/login" component={Login} />
+            <Route path="/auth/register" component={Register} />
+            <Route path="/auth/forgot-password" component={ForgotPassword} />
+            <Route path="/tools/invoice" component={InvoiceGenerator} />
+            <Route path="/tools/price-calculator" component={PriceCalculator} />
+            <Route path="/tools/operating-agreement" component={OperatingAgreement} />
+            <Route path="/tools/csv-generator" component={CsvGenerator} />
+            <Route component={NotFound} />
+          </Switch>
+        </div>
       </Suspense>
     </ErrorBoundary>
   );
