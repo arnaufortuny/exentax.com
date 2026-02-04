@@ -955,7 +955,10 @@
     "newLLC": "Constituir una nueva LLC",
     "accountDeactivated": {
       "title": "Cuenta desactivada",
-      "message": "Tu cuenta ha sido desactivada. Contacta con soporte si tienes dudas."
+      "message": "Tu cuenta ha sido desactivada. Contacta con soporte si tienes dudas.",
+      "description": "Tu cuenta ha sido desactivada. Si crees que esto es un error, por favor contacta con nuestro equipo de soporte.",
+      "contactSupport": "Contactar Soporte",
+      "back": "Volver"
     },
     "accountStatus": {
       "pendingReview": {

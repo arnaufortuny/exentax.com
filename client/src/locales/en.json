@@ -956,7 +956,10 @@
     "newLLC": "Form a new LLC",
     "accountDeactivated": {
       "title": "Account Deactivated",
-      "message": "Your account has been deactivated. Contact support if you have any questions."
+      "message": "Your account has been deactivated. Contact support if you have any questions.",
+      "description": "Your account has been deactivated. If you believe this is an error, please contact our support team.",
+      "contactSupport": "Contact Support",
+      "back": "Go Back"
     },
     "accountStatus": {
       "pendingReview": {

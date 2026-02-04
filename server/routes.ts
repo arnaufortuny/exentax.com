@@ -4930,8 +4930,11 @@ export async function registerRoutes(
       
       const [existingUser] = await db.select().from(usersTable).where(eq(usersTable.email, email)).limit(1);
       
+      const isDeactivated = existingUser ? (existingUser.isActive === false || existingUser.accountStatus === 'deactivated') : false;
+      
       res.json({ 
         exists: !!existingUser,
+        deactivated: isDeactivated,
         firstName: existingUser?.firstName || null
       });
     } catch (err) {

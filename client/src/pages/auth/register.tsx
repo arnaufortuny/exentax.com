@@ -33,12 +33,7 @@ const createRegisterSchema = (t: (key: string) => string) => z.object({
       { message: t("validation.phoneFormat") }
     ),
   businessActivity: z.string().optional(),
-  password: z.string()
-    .min(8, t("validation.minPassword"))
-    .refine((val) => /[A-Z]/.test(val), { message: t("auth.passwordStrength.hasUppercase") })
-    .refine((val) => /[a-z]/.test(val), { message: t("auth.passwordStrength.hasLowercase") })
-    .refine((val) => /[0-9]/.test(val), { message: t("auth.passwordStrength.hasNumber") })
-    .refine((val) => /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(val), { message: t("auth.passwordStrength.hasSymbol") }),
+  password: z.string().min(8, t("validation.minPassword")),
   confirmPassword: z.string(),
 }).refine(data => data.password === data.confirmPassword, {
   message: t("validation.passwordMismatch"),
@@ -62,6 +57,8 @@ export default function Register() {
   const [acceptedTerms, setAcceptedTerms] = useState(false);
   const [acceptedAge, setAcceptedAge] = useState(false);
   const [selectedLanguage, setSelectedLanguage] = useState(i18n.language?.split('-')[0] || 'es');
+  const [isAccountDeactivated, setIsAccountDeactivated] = useState(false);
+  const [isCheckingEmail, setIsCheckingEmail] = useState(false);
   const { toast } = useToast();
 
   const languages = [
@@ -111,6 +108,29 @@ export default function Register() {
     const fieldsToValidate = stepsValidation[step] || [];
     const valid = await form.trigger(fieldsToValidate);
     if (valid) {
+      if (step === 1) {
+        setIsCheckingEmail(true);
+        try {
+          const res = await apiRequest("POST", "/api/auth/check-email", { email: form.getValues("email") });
+          const result = await res.json();
+          if (result.exists) {
+            if (result.deactivated) {
+              setIsAccountDeactivated(true);
+              return;
+            }
+            setLocation(`/login?email=${encodeURIComponent(form.getValues("email"))}`);
+            return;
+          }
+        } catch (err: any) {
+          const errorData = err.message ? JSON.parse(err.message) : {};
+          if (errorData.code === "ACCOUNT_DEACTIVATED") {
+            setIsAccountDeactivated(true);
+            return;
+          }
+        } finally {
+          setIsCheckingEmail(false);
+        }
+      }
       if (step < TOTAL_STEPS - 1) {
         setStep(step + 1);
       }
@@ -206,6 +226,46 @@ export default function Register() {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   }, [isRegistered]);
+
+  if (isAccountDeactivated) {
+    return (
+      <div className="min-h-screen bg-background bg-green-gradient-subtle font-sans">
+        <Navbar />
+        <main className="pt-20 md:pt-24 pb-12 md:pb-16 px-4 sm:px-6 flex flex-col items-center justify-center min-h-[80vh]">
+          <div className="w-full max-w-md text-center">
+            <div className="mb-8">
+              <svg width="80" height="80" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" className="mx-auto mb-6">
+                <circle cx="60" cy="60" r="50" fill="#FEE2E2" stroke="#EF4444" strokeWidth="4"/>
+                <path d="M60 35V65" stroke="#EF4444" strokeWidth="6" strokeLinecap="round"/>
+                <circle cx="60" cy="80" r="5" fill="#EF4444"/>
+              </svg>
+              <h1 className="text-2xl sm:text-3xl font-black text-foreground tracking-tight">
+                {t("auth.accountDeactivated.title", "Cuenta desactivada")}
+              </h1>
+              <p className="text-muted-foreground mt-4 text-sm sm:text-base">
+                {t("auth.accountDeactivated.description", "Tu cuenta ha sido desactivada. Si crees que esto es un error, por favor contacta con nuestro equipo de soporte.")}
+              </p>
+            </div>
+            <div className="space-y-4">
+              <Link href="/contacto">
+                <Button className="w-full bg-accent text-primary font-black rounded-full h-12">
+                  {t("auth.accountDeactivated.contactSupport", "Contactar Soporte")}
+                </Button>
+              </Link>
+              <Button 
+                variant="outline" 
+                className="w-full rounded-full h-12"
+                onClick={() => setIsAccountDeactivated(false)}
+              >
+                {t("auth.accountDeactivated.back", "Volver")}
+              </Button>
+            </div>
+          </div>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
 
   if (isRegistered) {
     return (
