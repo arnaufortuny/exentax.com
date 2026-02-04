@@ -2748,18 +2748,31 @@ export default function Dashboard() {
                     <NativeSelect 
                       value={editingUser.businessActivity || ''} 
                       onValueChange={val => setEditingUser({...editingUser, businessActivity: val})}
-                      placeholder="Seleccionar actividad"
+                      placeholder={t("common.select")}
                       className="rounded-xl h-10 px-3 border border-gray-200 dark:border-border text-sm"
                       data-testid="select-edit-activity"
                     >
-                      <NativeSelectItem value="ecommerce">E-commerce</NativeSelectItem>
-                      <NativeSelectItem value="dropshipping">Dropshipping</NativeSelectItem>
-                      <NativeSelectItem value="consulting">Consultoría</NativeSelectItem>
-                      <NativeSelectItem value="marketing">Marketing Digital</NativeSelectItem>
-                      <NativeSelectItem value="software">Desarrollo de Software</NativeSelectItem>
-                      <NativeSelectItem value="trading">Trading / Inversiones</NativeSelectItem>
-                      <NativeSelectItem value="freelance">Freelance</NativeSelectItem>
-                      <NativeSelectItem value="other">Otra</NativeSelectItem>
+                      <NativeSelectItem value="ecommerce">{t("auth.register.businessActivities.ecommerce")}</NativeSelectItem>
+                      <NativeSelectItem value="dropshipping">{t("auth.register.businessActivities.dropshipping")}</NativeSelectItem>
+                      <NativeSelectItem value="consulting">{t("auth.register.businessActivities.consulting")}</NativeSelectItem>
+                      <NativeSelectItem value="marketing">{t("auth.register.businessActivities.marketing")}</NativeSelectItem>
+                      <NativeSelectItem value="software">{t("auth.register.businessActivities.software")}</NativeSelectItem>
+                      <NativeSelectItem value="saas">{t("auth.register.businessActivities.saas")}</NativeSelectItem>
+                      <NativeSelectItem value="apps">{t("auth.register.businessActivities.apps")}</NativeSelectItem>
+                      <NativeSelectItem value="ai">{t("auth.register.businessActivities.ai")}</NativeSelectItem>
+                      <NativeSelectItem value="investments">{t("auth.register.businessActivities.investments")}</NativeSelectItem>
+                      <NativeSelectItem value="tradingEducation">{t("auth.register.businessActivities.tradingEducation")}</NativeSelectItem>
+                      <NativeSelectItem value="financial">{t("auth.register.businessActivities.financial")}</NativeSelectItem>
+                      <NativeSelectItem value="crypto">{t("auth.register.businessActivities.crypto")}</NativeSelectItem>
+                      <NativeSelectItem value="realestate">{t("auth.register.businessActivities.realestate")}</NativeSelectItem>
+                      <NativeSelectItem value="import">{t("auth.register.businessActivities.import")}</NativeSelectItem>
+                      <NativeSelectItem value="coaching">{t("auth.register.businessActivities.coaching")}</NativeSelectItem>
+                      <NativeSelectItem value="content">{t("auth.register.businessActivities.content")}</NativeSelectItem>
+                      <NativeSelectItem value="affiliate">{t("auth.register.businessActivities.affiliate")}</NativeSelectItem>
+                      <NativeSelectItem value="freelance">{t("auth.register.businessActivities.freelance")}</NativeSelectItem>
+                      <NativeSelectItem value="gaming">{t("auth.register.businessActivities.gaming")}</NativeSelectItem>
+                      <NativeSelectItem value="digitalProducts">{t("auth.register.businessActivities.digitalProducts")}</NativeSelectItem>
+                      <NativeSelectItem value="other">{t("auth.register.businessActivities.other")}</NativeSelectItem>
                     </NativeSelect>
                   </div>
                   <div>

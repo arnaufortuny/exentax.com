@@ -1,4 +1,10 @@
 {
+  "profile": {
+    "language": {
+      "title": "Idioma preferido",
+      "description": "Recibirás comunicaciones y documentos en este idioma."
+    }
+  },
   "notFound": {
     "title": "Página No Encontrada",
     "description": "La página que buscas no existe o ha sido movida.",
@@ -522,11 +528,21 @@
         "consulting": "Consultoría / Servicios profesionales",
         "marketing": "Marketing digital / Agencia",
         "software": "Desarrollo de software / IT",
+        "saas": "SaaS / Servicios por suscripción",
+        "apps": "Apps / Plataformas",
+        "ai": "Servicios de IA / Automatización / Herramientas IA",
         "investments": "Inversiones / Trading",
+        "tradingEducation": "Formación en trading",
+        "financial": "Servicios financieros / Asesoría",
+        "crypto": "Crypto / Servicios Web3",
         "realestate": "Bienes raíces / Real estate",
         "import": "Importación / Exportación",
         "coaching": "Coaching / Formación online",
         "content": "Creador de contenido / Influencer",
+        "affiliate": "Marketing de afiliados / Generación de leads",
+        "freelance": "Freelance / Servicios remotos",
+        "gaming": "Desarrollo de videojuegos / Servicios gaming",
+        "digitalProducts": "Productos digitales (plantillas, plugins, cursos, etc.)",
         "other": "Otro"
       }
     },

@@ -1,4 +1,10 @@
 {
+  "profile": {
+    "language": {
+      "title": "Idioma preferit",
+      "description": "Rebràs comunicacions i documents en aquest idioma."
+    }
+  },
   "notFound": {
     "title": "Pàgina No Trobada",
     "description": "La pàgina que busques no existeix o ha estat moguda.",
@@ -522,11 +528,21 @@
         "consulting": "Consultoria / Serveis professionals",
         "marketing": "Màrqueting digital / Agència",
         "software": "Desenvolupament de software / IT",
+        "saas": "SaaS / Serveis per subscripció",
+        "apps": "Apps / Plataformes",
+        "ai": "Serveis d'IA / Automatització / Eines IA",
         "investments": "Inversions / Trading",
+        "tradingEducation": "Formació en trading",
+        "financial": "Serveis financers / Assessoria",
+        "crypto": "Crypto / Serveis Web3",
         "realestate": "Béns immobles / Real estate",
         "import": "Importació / Exportació",
         "coaching": "Coaching / Formació online",
         "content": "Creador de contingut / Influencer",
+        "affiliate": "Màrqueting d'afiliats / Generació de leads",
+        "freelance": "Freelance / Serveis remots",
+        "gaming": "Desenvolupament de videojocs / Serveis gaming",
+        "digitalProducts": "Productes digitals (plantilles, plugins, cursos, etc.)",
         "other": "Altre"
       }
     },
