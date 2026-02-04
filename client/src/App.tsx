@@ -178,10 +178,10 @@ function LoadingScreen() {
       <img 
         src={logoIcon} 
         alt="Easy US LLC" 
-        className="w-16 h-16 sm:w-20 sm:h-20 mb-8 opacity-90"
+        className="w-16 h-16 mb-6 opacity-90"
       />
-      <div className="w-64 sm:w-72 h-2 bg-muted/50 rounded-full overflow-hidden border border-border">
-        <div className="h-full bg-accent rounded-full animate-loading-bar" />
+      <div className="w-[280px] h-1 bg-muted/30 rounded-full overflow-hidden">
+        <div className="h-full bg-gradient-to-r from-accent to-accent/80 rounded-full animate-loading-bar" />
       </div>
     </div>
   );
