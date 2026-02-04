@@ -30,7 +30,14 @@ i18n
     },
     detection: {
       order: ['localStorage', 'navigator', 'htmlTag'],
-      caches: ['localStorage']
+      caches: ['localStorage'],
+      convertDetectedLanguage: (lng: string) => {
+        // Map language codes to supported languages
+        if (lng.startsWith('ca')) return 'ca';
+        if (lng.startsWith('en')) return 'en';
+        if (lng.startsWith('es')) return 'es';
+        return 'es'; // Default to Spanish
+      }
     }
   });
 

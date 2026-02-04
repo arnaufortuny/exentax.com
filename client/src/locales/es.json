@@ -446,7 +446,7 @@
       "titleHighlight": "de nuevo",
       "subtitle": "Accede a tu espacio personal y gestiona tu LLC con total tranquilidad.",
       "email": "Email",
-      "emailPlaceholder": "",
+      "emailPlaceholder": "tu@email.com",
       "password": "Contraseña",
       "passwordPlaceholder": "Tu contraseña",
       "forgotPassword": "¿Olvidaste tu contraseña?",
