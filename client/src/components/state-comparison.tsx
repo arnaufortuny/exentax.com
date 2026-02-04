@@ -181,26 +181,20 @@ export function StateComparison() {
             {t("stateComparison.quickGuide.title")}
           </h3>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <div className="flex items-center gap-3 p-4 bg-accent/5 rounded-xl">
+            <div className="flex items-center gap-3 p-4 bg-accent/5 rounded-xl text-left">
               <div className="w-3 h-3 bg-accent rounded-full flex-shrink-0" />
-              <div>
-                <p className="text-sm text-muted-foreground">{t("stateComparison.quickGuide.easy")}</p>
-                <p className="font-black text-foreground">New Mexico</p>
-              </div>
+              <p className="text-sm text-muted-foreground">{t("stateComparison.quickGuide.easy")}</p>
+              <p className="font-black text-foreground whitespace-nowrap">New Mexico</p>
             </div>
-            <div className="flex items-center gap-3 p-4 bg-accent/5 rounded-xl">
+            <div className="flex items-center gap-3 p-4 bg-accent/5 rounded-xl text-left">
               <div className="w-3 h-3 bg-accent rounded-full flex-shrink-0" />
-              <div>
-                <p className="text-sm text-muted-foreground">{t("stateComparison.quickGuide.protection")}</p>
-                <p className="font-black text-foreground">Wyoming</p>
-              </div>
+              <p className="text-sm text-muted-foreground">{t("stateComparison.quickGuide.protection")}</p>
+              <p className="font-black text-foreground whitespace-nowrap">Wyoming</p>
             </div>
-            <div className="flex items-center gap-3 p-4 bg-accent/5 rounded-xl">
+            <div className="flex items-center gap-3 p-4 bg-accent/5 rounded-xl text-left">
               <div className="w-3 h-3 bg-accent rounded-full flex-shrink-0" />
-              <div>
-                <p className="text-sm text-muted-foreground">{t("stateComparison.quickGuide.growth")}</p>
-                <p className="font-black text-foreground">Delaware</p>
-              </div>
+              <p className="text-sm text-muted-foreground">{t("stateComparison.quickGuide.growth")}</p>
+              <p className="font-black text-foreground whitespace-nowrap">Delaware</p>
             </div>
           </div>
         </motion.div>
