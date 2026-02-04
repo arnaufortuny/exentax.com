@@ -13,8 +13,7 @@ function getSimpleHeader() {
   return `
     <div style="background: linear-gradient(180deg, #0E1215 0%, #1a1f25 100%); padding: 35px 20px; text-align: center;">
       <a href="https://${domain}" target="_blank" style="text-decoration: none; display: inline-block;">
-        <img src="${EMAIL_LOGO}" alt="Easy US LLC" width="60" height="60" style="display: block; margin: 0 auto 12px; border-radius: 50%; border: 0;" />
-        <span style="font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; font-size: 18px; font-weight: 800; color: #F7F7F5; letter-spacing: -0.5px;">Easy US LLC</span>
+        <img src="${EMAIL_LOGO}" alt="Easy US LLC" width="70" height="70" style="display: block; margin: 0 auto; border-radius: 50%; border: 0;" />
       </a>
     </div>
   `;
