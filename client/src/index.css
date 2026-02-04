@@ -2,15 +2,20 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Prevent flash of unstyled content */
+/* Professional green gradient - Light Mode */
 html {
-  background: linear-gradient(135deg, #F7F7F5 0%, #e8f5e9 25%, #F7F7F5 50%, #e0f2e0 75%, #F7F7F5 100%);
+  background: 
+    radial-gradient(ellipse 120% 80% at 50% 0%, rgba(110, 220, 138, 0.25) 0%, rgba(110, 220, 138, 0.12) 35%, transparent 70%),
+    linear-gradient(180deg, #F7F7F5 0%, #FAFAFA 100%);
   background-attachment: fixed;
   min-height: 100dvh;
 }
 
+/* Professional green gradient - Dark Mode */
 html.dark {
-  background: linear-gradient(135deg, #0E1215 0%, #0d1f14 25%, #0E1215 50%, #0a1a10 75%, #0E1215 100%);
+  background: 
+    radial-gradient(ellipse 120% 80% at 50% 0%, rgba(110, 220, 138, 0.12) 0%, rgba(110, 220, 138, 0.05) 35%, transparent 70%),
+    linear-gradient(180deg, #0E1215 0%, #0a0d0f 100%);
   background-attachment: fixed;
 }
 
@@ -252,84 +257,34 @@ body {
     border-color: #6EDC8A;
   }
   
-  /* Beautiful green gradient backgrounds - Light mode (top section only, then white) */
+  /* Professional green gradient backgrounds - Light mode */
   .bg-green-gradient {
-    background: 
-      linear-gradient(180deg, 
-        rgba(110, 220, 138, 0.35) 0%, 
-        rgba(110, 220, 138, 0.20) 30%,
-        rgba(110, 220, 138, 0.05) 80%,
-        rgba(255, 255, 255, 0) 100%),
-      #ffffff !important;
-    background-size: 100% 700px, 100% 100% !important;
-    background-repeat: no-repeat !important;
+    background: transparent !important;
   }
   
   .bg-green-gradient-subtle {
-    background: 
-      linear-gradient(180deg, 
-        rgba(110, 220, 138, 0.15) 0%, 
-        rgba(110, 220, 138, 0.05) 60%,
-        rgba(255, 255, 255, 0) 100%),
-      #ffffff !important;
-    background-size: 100% 500px, 100% 100% !important;
-    background-repeat: no-repeat !important;
+    background: transparent !important;
   }
   
   .bg-green-gradient-hero {
-    background: 
-      linear-gradient(180deg, 
-        rgba(110, 220, 138, 0.20) 0%, 
-        rgba(110, 220, 138, 0.08) 50%,
-        rgba(255, 255, 255, 0) 100%),
-      #ffffff !important;
-    background-size: 100% 600px, 100% 100% !important;
-    background-repeat: no-repeat !important;
+    background: transparent !important;
   }
   
   .bg-green-dots {
-    background-image: radial-gradient(rgba(110, 220, 138, 0.15) 1px, transparent 1px);
-    background-size: 20px 20px;
+    background-image: radial-gradient(rgba(110, 220, 138, 0.08) 1px, transparent 1px);
+    background-size: 24px 24px;
   }
   
-  /* Dark mode variants (top section only) */
-  .dark .bg-green-gradient {
-    background: 
-      linear-gradient(180deg, 
-        rgba(110, 220, 138, 0.15) 0%, 
-        rgba(110, 220, 138, 0.08) 30%,
-        rgba(110, 220, 138, 0.02) 80%,
-        rgba(14, 18, 21, 0) 100%),
-      #0E1215 !important;
-    background-size: 100% 700px, 100% 100% !important;
-    background-repeat: no-repeat !important;
-  }
-  
-  .dark .bg-green-gradient-subtle {
-    background: 
-      linear-gradient(180deg, 
-        rgba(110, 220, 138, 0.10) 0%, 
-        rgba(110, 220, 138, 0.03) 60%,
-        rgba(14, 18, 21, 0) 100%),
-      #0E1215 !important;
-    background-size: 100% 500px, 100% 100% !important;
-    background-repeat: no-repeat !important;
-  }
-  
+  /* Dark mode variants - gradient comes from html element */
+  .dark .bg-green-gradient,
+  .dark .bg-green-gradient-subtle,
   .dark .bg-green-gradient-hero {
-    background: 
-      linear-gradient(180deg, 
-        rgba(110, 220, 138, 0.12) 0%, 
-        rgba(110, 220, 138, 0.04) 50%,
-        rgba(14, 18, 21, 0) 100%),
-      #0E1215 !important;
-    background-size: 100% 600px, 100% 100% !important;
-    background-repeat: no-repeat !important;
+    background: transparent !important;
   }
   
   .dark .bg-green-dots {
-    background-image: radial-gradient(rgba(110, 220, 138, 0.08) 1px, transparent 1px);
-    background-size: 20px 20px;
+    background-image: radial-gradient(rgba(110, 220, 138, 0.05) 1px, transparent 1px);
+    background-size: 24px 24px;
   }
   
   .gpu-accelerated {
@@ -583,26 +538,6 @@ img {
   perspective: 1000px;
 }
 
-/* Dashboard gradient background - Professional and elegant */
-.dashboard-gradient {
-  background: 
-    radial-gradient(ellipse 80% 50% at 50% -20%, rgba(110, 220, 138, 0.15) 0%, transparent 50%),
-    radial-gradient(ellipse 60% 30% at 100% 0%, rgba(110, 220, 138, 0.08) 0%, transparent 40%),
-    linear-gradient(180deg, 
-      rgba(110, 220, 138, 0.06) 0%, 
-      rgba(255, 255, 255, 0) 40%),
-    hsl(var(--background));
-}
-
-.dark .dashboard-gradient {
-  background: 
-    radial-gradient(ellipse 80% 50% at 50% -20%, rgba(110, 220, 138, 0.12) 0%, transparent 50%),
-    radial-gradient(ellipse 60% 30% at 100% 0%, rgba(110, 220, 138, 0.06) 0%, transparent 40%),
-    linear-gradient(180deg, 
-      rgba(110, 220, 138, 0.04) 0%, 
-      rgba(14, 18, 21, 0) 40%),
-    hsl(var(--background));
-}
 
 /* GPU acceleration for animations - critical for 0 lag */
 .gpu-accelerated {

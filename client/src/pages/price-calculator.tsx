@@ -43,7 +43,7 @@ export default function PriceCalculator() {
   
   if (!isAuthenticated || !user) {
     return (
-      <div className="min-h-screen bg-muted flex items-center justify-center px-4">
+      <div className="min-h-screen bg-background flex items-center justify-center px-4">
         <div className="text-center max-w-sm">
           <h2 className="text-xl font-bold text-foreground mb-2">{t("tools.priceCalculator.loginRequired")}</h2>
           <p className="text-muted-foreground text-sm mb-4">{t("tools.priceCalculator.loginDescription")}</p>
@@ -109,7 +109,7 @@ export default function PriceCalculator() {
   };
 
   return (
-    <div className="min-h-screen bg-muted dark:bg-background flex flex-col">
+    <div className="min-h-screen bg-background flex flex-col">
       <Navbar />
       
       <main className="flex-1 w-full max-w-5xl mx-auto px-4 py-6 md:py-10">

@@ -691,7 +691,7 @@ export default function Dashboard() {
 
   if (user?.accountStatus === 'deactivated') {
     return (
-      <div className="min-h-screen bg-muted font-sans flex flex-col">
+      <div className="min-h-screen bg-background font-sans flex flex-col">
         <Navbar />
         <main className="flex-1 flex items-center justify-center px-4 py-8 sm:py-12">
           <div className="max-w-md w-full">
@@ -727,7 +727,7 @@ export default function Dashboard() {
   // Cuenta en revisión - solo verificar email y ver notificaciones
   if (user?.accountStatus === 'pending') {
     return (
-      <div className="min-h-screen bg-muted bg-green-gradient font-sans flex flex-col overflow-x-hidden overflow-y-auto">
+      <div className="min-h-screen bg-background font-sans flex flex-col overflow-x-hidden overflow-y-auto">
         <Navbar />
         <main className="flex-1 pt-16 sm:pt-20 pb-20 px-4 md:px-8 max-w-4xl mx-auto w-full overflow-y-auto">
           <header className="mb-6 md:mb-8">
@@ -937,7 +937,7 @@ export default function Dashboard() {
   const isAdmin = user?.isAdmin;
 
   return (
-    <div className="min-h-screen bg-muted dashboard-gradient font-sans overflow-x-hidden animate-page-in">
+    <div className="min-h-screen bg-background font-sans overflow-x-hidden animate-page-in">
       <Navbar />
       <DashboardTour />
       <main className="pt-16 sm:pt-20 pb-20 px-4 md:px-8 max-w-7xl mx-auto">

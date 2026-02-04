@@ -59,7 +59,7 @@ export default function InvoiceGenerator() {
   // Show login prompt if not authenticated
   if (!isAuthenticated || !user) {
     return (
-      <div className="min-h-screen bg-muted flex items-center justify-center px-4">
+      <div className="min-h-screen bg-background flex items-center justify-center px-4">
         <div className="text-center max-w-sm">
           <h2 className="text-xl font-bold text-foreground mb-2">{t("tools.invoiceGenerator.loginRequired")}</h2>
           <p className="text-muted-foreground text-sm mb-4">{t("tools.invoiceGenerator.loginDescription")}</p>
@@ -290,7 +290,7 @@ export default function InvoiceGenerator() {
   };
 
   return (
-    <div className="min-h-screen bg-background dashboard-gradient flex flex-col overflow-x-hidden animate-page-in">
+    <div className="min-h-screen bg-background flex flex-col overflow-x-hidden animate-page-in">
       <Navbar />
       
       <main className="flex-1 w-full max-w-4xl mx-auto px-4 py-6 md:py-10 pb-20">

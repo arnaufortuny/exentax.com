@@ -94,7 +94,7 @@ export default function OperatingAgreementGenerator() {
   
   if (!isAuthenticated || !user) {
     return (
-      <div className="min-h-screen bg-muted flex items-center justify-center px-4">
+      <div className="min-h-screen bg-background flex items-center justify-center px-4">
         <div className="text-center max-w-sm">
           <h2 className="text-xl font-bold text-foreground mb-2">{t("tools.operatingAgreement.loginRequired")}</h2>
           <p className="text-muted-foreground text-sm mb-4">{t("tools.operatingAgreement.loginDescription")}</p>
@@ -524,7 +524,7 @@ export default function OperatingAgreementGenerator() {
   };
 
   return (
-    <div className="min-h-screen bg-muted flex flex-col">
+    <div className="min-h-screen bg-background flex flex-col">
       <Navbar />
       <main className="flex-1 py-8 px-4">
         <div className="max-w-2xl mx-auto">
