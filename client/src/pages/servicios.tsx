@@ -67,6 +67,43 @@ const SupportIcon = ({ className }: { className?: string }) => (
   </svg>
 );
 
+const MercuryIcon = ({ className }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+    <circle cx="12" cy="12" r="9"/>
+    <path d="M12 3v18"/>
+    <path d="M3 12h18"/>
+    <circle cx="12" cy="12" r="4"/>
+  </svg>
+);
+
+const RelayIcon = ({ className }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M4 4h16v16H4z" strokeWidth="0" fill="none"/>
+    <path d="M7 12h10"/>
+    <path d="M7 8h10"/>
+    <path d="M7 16h6"/>
+    <circle cx="4" cy="8" r="1.5" fill="currentColor" stroke="none"/>
+    <circle cx="4" cy="12" r="1.5" fill="currentColor" stroke="none"/>
+    <circle cx="4" cy="16" r="1.5" fill="currentColor" stroke="none"/>
+  </svg>
+);
+
+const StrategyIcon = ({ className }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+    <path d="M2 17l10 5 10-5"/>
+    <path d="M2 12l10 5 10-5"/>
+  </svg>
+);
+
+const ContinuousIcon = ({ className }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/>
+    <path d="M12 6v6l4 2"/>
+    <path d="M16 16l2 2"/>
+  </svg>
+);
+
 export default function Servicios() {
   const [, setLocation] = useLocation();
   const { t } = useTranslation();
@@ -124,10 +161,10 @@ export default function Servicios() {
   ];
 
   const bankItems = [
-    { key: "mercury" },
-    { key: "relay" },
-    { key: "strategy" },
-    { key: "continuous" }
+    { key: "mercury", icon: MercuryIcon },
+    { key: "relay", icon: RelayIcon },
+    { key: "strategy", icon: StrategyIcon },
+    { key: "continuous", icon: ContinuousIcon }
   ];
 
   return (
@@ -478,22 +515,35 @@ export default function Servicios() {
               viewport={viewportOnce}
             />
           </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-4 sm:gap-5 mb-5 sm:mb-6 max-w-4xl mx-auto">
-            {bankItems.map((item, i) => (
-              <motion.div 
-                key={i} 
-                className="p-6 bg-accent/5 rounded-2xl border border-accent/10 sm:border-accent/10 border-accent/30 hover:bg-accent/10 transition-colors text-center will-change-[transform,opacity]"
-                variants={cardVariants}
-                initial="hidden"
-                whileInView="visible"
-                viewport={viewportOnce}
-              >
-                <span className="inline-flex items-center px-4 py-2 rounded-full bg-accent text-primary font-black text-sm shadow-sm mb-4">
-                  {t(`services.banks.${item.key}.title`)}
-                </span>
-                <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">{t(`services.banks.${item.key}.desc`)}</p>
-              </motion.div>
-            ))}
+          <div className="grid md:grid-cols-2 gap-5 sm:gap-6 mb-6 sm:mb-8 max-w-4xl mx-auto">
+            {bankItems.map((item, i) => {
+              const IconComponent = item.icon;
+              return (
+                <motion.div 
+                  key={i} 
+                  className="group relative bg-card rounded-2xl border border-border p-6 sm:p-8 text-left hover:shadow-lg hover:border-accent/40 transition-all duration-300 will-change-[transform,opacity]"
+                  variants={cardVariants}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={viewportOnce}
+                >
+                  <div className="flex items-start gap-4">
+                    <div className="flex-shrink-0 w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-accent/10 flex items-center justify-center group-hover:bg-accent/20 transition-colors">
+                      <IconComponent className="w-6 h-6 sm:w-7 sm:h-7 text-accent" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <h3 className="font-bold text-lg sm:text-xl text-foreground mb-2 group-hover:text-accent transition-colors">
+                        {t(`services.banks.${item.key}.title`)}
+                      </h3>
+                      <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
+                        {t(`services.banks.${item.key}.desc`)}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="absolute top-4 right-4 w-2 h-2 rounded-full bg-accent/50 group-hover:bg-accent transition-colors" />
+                </motion.div>
+              );
+            })}
           </div>
           <div className="mt-8 mb-12 flex justify-center">
             <div className="bg-accent px-8 py-3 rounded-full shadow-lg transform -rotate-1">
