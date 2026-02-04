@@ -507,7 +507,7 @@ export default function Servicios() {
             whileInView="visible"
             viewport={viewportOnce}
           >
-            <div className="flex flex-wrap justify-center gap-4 sm:gap-6">
+            <div className="flex flex-wrap justify-start gap-x-6 gap-y-3 text-left">
               {(t("services.maintenancePack.benefits", { returnObjects: true }) as string[]).map((benefit, i) => (
                 <div key={i} className="flex items-center gap-2 text-foreground">
                   <Check className="w-5 h-5 text-accent flex-shrink-0" />
