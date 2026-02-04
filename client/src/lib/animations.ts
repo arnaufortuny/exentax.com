@@ -1,22 +1,23 @@
 import { Variants, Transition } from "framer-motion";
 
-// Optimized easing curves for professional feel - GPU accelerated
+// Professional easing curves - GPU accelerated, no lag
 export const easing = {
-  smooth: [0.25, 0.1, 0.25, 1.0] as const,
-  snappy: [0.4, 0, 0.2, 1] as const,
-  bounce: [0.68, -0.55, 0.265, 1.55] as const,
-  decelerate: [0, 0, 0.2, 1] as const,
-  accelerate: [0.4, 0, 1, 1] as const,
+  smooth: [0.22, 0.03, 0.26, 1] as const,
+  snappy: [0.32, 0, 0.14, 1] as const,
+  bounce: [0.34, 1.56, 0.64, 1] as const,
+  decelerate: [0, 0, 0.15, 1] as const,
+  accelerate: [0.35, 0, 1, 1] as const,
+  professional: [0.16, 1, 0.3, 1] as const,
 };
 
-// Optimized transitions - faster durations for instant feel
+// Ultra-smooth transitions - optimized for 60fps
 export const transitions = {
-  instant: { duration: 0.1, ease: easing.snappy } as Transition,
-  fast: { duration: 0.12, ease: easing.snappy } as Transition,
-  normal: { duration: 0.2, ease: easing.smooth } as Transition,
-  slow: { duration: 0.3, ease: easing.smooth } as Transition,
-  spring: { type: "spring", stiffness: 500, damping: 35, mass: 0.8 } as Transition,
-  springBounce: { type: "spring", stiffness: 400, damping: 25, mass: 0.8 } as Transition,
+  instant: { duration: 0.08, ease: easing.snappy } as Transition,
+  fast: { duration: 0.15, ease: easing.professional } as Transition,
+  normal: { duration: 0.25, ease: easing.professional } as Transition,
+  slow: { duration: 0.4, ease: easing.smooth } as Transition,
+  spring: { type: "spring", stiffness: 400, damping: 30, mass: 0.5 } as Transition,
+  springBounce: { type: "spring", stiffness: 300, damping: 20, mass: 0.5 } as Transition,
 };
 
 // Fade animations - optimized with smaller movements for snappier feel
@@ -125,21 +126,22 @@ export const cardVariants: Variants = {
   },
 };
 
-// Hero text animations
+// Hero text animations - professional entrance
 export const heroTitle: Variants = {
-  hidden: { opacity: 0, y: 20 },
+  hidden: { opacity: 0, y: 12 },
   visible: { 
     opacity: 1, 
     y: 0,
-    transition: { duration: 0.35, ease: easing.smooth },
+    transition: { duration: 0.4, ease: easing.professional },
   },
 };
 
 export const heroSubtitle: Variants = {
-  hidden: { opacity: 0 },
+  hidden: { opacity: 0, y: 6 },
   visible: { 
     opacity: 1,
-    transition: { duration: 0.25, delay: 0.1, ease: easing.smooth },
+    y: 0,
+    transition: { duration: 0.35, delay: 0.08, ease: easing.professional },
   },
 };
 
