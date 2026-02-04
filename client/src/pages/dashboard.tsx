@@ -1353,11 +1353,11 @@ export default function Dashboard() {
                         const isInReview = ['pending', 'paid', 'processing'].includes(order.status);
                         const stateHasAnnualReport = ['Wyoming', 'Delaware', 'WY', 'DE'].includes(app.state);
                         const dates = [
-                          { label: 'Creación', fullLabel: 'Creación de LLC', date: app.llcCreatedDate, icon: Building2, bgColor: 'bg-accent/10', textColor: 'text-accent', borderColor: 'border-accent/20' },
-                          { label: 'Agente', fullLabel: 'Renovación Agente Registrado', date: app.agentRenewalDate, icon: UserCheck, bgColor: 'bg-blue-50 dark:bg-blue-900/20', textColor: 'text-blue-600 dark:text-blue-400', borderColor: 'border-blue-200 dark:border-blue-800' },
-                          { label: 'IRS 1120', fullLabel: 'Formulario IRS 1120', date: app.irs1120DueDate, icon: FileText, bgColor: 'bg-orange-50 dark:bg-orange-900/20', textColor: 'text-orange-600 dark:text-orange-400', borderColor: 'border-orange-200 dark:border-orange-800' },
-                          { label: 'IRS 5472', fullLabel: 'Formulario IRS 5472', date: app.irs5472DueDate, icon: FileText, bgColor: 'bg-red-50 dark:bg-red-900/20', textColor: 'text-red-600 dark:text-red-400', borderColor: 'border-red-200 dark:border-red-800' },
-                          ...(stateHasAnnualReport ? [{ label: 'Anual', fullLabel: `Reporte Anual ${app.state}`, date: app.annualReportDueDate, icon: Newspaper, bgColor: 'bg-purple-50 dark:bg-purple-900/20', textColor: 'text-purple-600 dark:text-purple-400', borderColor: 'border-purple-200 dark:border-purple-800' }] : []),
+                          { label: t('dashboard.calendar.creation'), fullLabel: t('dashboard.calendar.creationFull'), date: app.llcCreatedDate, icon: Building2, bgColor: 'bg-accent/10', textColor: 'text-accent', borderColor: 'border-accent/20' },
+                          { label: t('dashboard.calendar.agent'), fullLabel: t('dashboard.calendar.agentFull'), date: app.agentRenewalDate, icon: UserCheck, bgColor: 'bg-blue-50 dark:bg-blue-900/20', textColor: 'text-blue-600 dark:text-blue-400', borderColor: 'border-blue-200 dark:border-blue-800' },
+                          { label: 'IRS 1120', fullLabel: t('dashboard.calendar.irs1120'), date: app.irs1120DueDate, icon: FileText, bgColor: 'bg-orange-50 dark:bg-orange-900/20', textColor: 'text-orange-600 dark:text-orange-400', borderColor: 'border-orange-200 dark:border-orange-800' },
+                          { label: 'IRS 5472', fullLabel: t('dashboard.calendar.irs5472'), date: app.irs5472DueDate, icon: FileText, bgColor: 'bg-red-50 dark:bg-red-900/20', textColor: 'text-red-600 dark:text-red-400', borderColor: 'border-red-200 dark:border-red-800' },
+                          ...(stateHasAnnualReport ? [{ label: t('dashboard.calendar.annual'), fullLabel: `${t('dashboard.calendar.annualFull')} ${app.state}`, date: app.annualReportDueDate, icon: Newspaper, bgColor: 'bg-purple-50 dark:bg-purple-900/20', textColor: 'text-purple-600 dark:text-purple-400', borderColor: 'border-purple-200 dark:border-purple-800' }] : []),
                         ];
                         const hasDates = dates.some(d => d.date);
                         const sortedDates = dates.filter(d => d.date).sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
@@ -1372,7 +1372,7 @@ export default function Dashboard() {
                                     <Building2 className="w-4 h-4 md:w-5 md:h-5 text-accent" />
                                   </div>
                                   <div className="flex flex-col">
-                                    <span className="text-sm md:text-base">{app.companyName || 'LLC en proceso'}</span>
+                                    <span className="text-sm md:text-base">{app.companyName || t('dashboard.llcStatus.inProcess')}</span>
                                     <span className="text-[10px] md:text-xs font-normal text-muted-foreground">{app.state}</span>
                                   </div>
                                 </CardTitle>
@@ -1381,7 +1381,7 @@ export default function Dashboard() {
                                   {isInReview && <Badge className="text-[9px] md:text-[10px] bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400">{t('dashboard.calendar.inReview')}</Badge>}
                                   {!isCancelled && !isInReview && nextDeadline && (
                                     <Badge className={`text-[9px] md:text-[10px] ${nextDeadline.bgColor} ${nextDeadline.textColor}`}>
-                                      Próximo: {nextDeadline.label}
+                                      {t('dashboard.calendar.next')}: {nextDeadline.label}
                                     </Badge>
                                   )}
                                 </div>
@@ -1433,16 +1433,16 @@ export default function Dashboard() {
                                         ) : isUrgent ? (
                                           <div className="mt-1.5 md:mt-2 flex items-center gap-1">
                                             <AlertCircle className="w-3 h-3 text-red-500" />
-                                            <span className="text-[9px] md:text-[10px] text-red-600 dark:text-red-400 font-bold">{daysUntil} días</span>
+                                            <span className="text-[9px] md:text-[10px] text-red-600 dark:text-red-400 font-bold">{daysUntil} {t('dashboard.calendar.days')}</span>
                                           </div>
                                         ) : isWarning ? (
                                           <div className="mt-1.5 md:mt-2 flex items-center gap-1">
                                             <Clock className="w-3 h-3 text-orange-500" />
-                                            <span className="text-[9px] md:text-[10px] text-orange-600 dark:text-orange-400 font-medium">{daysUntil} días</span>
+                                            <span className="text-[9px] md:text-[10px] text-orange-600 dark:text-orange-400 font-medium">{daysUntil} {t('dashboard.calendar.days')}</span>
                                           </div>
                                         ) : (
                                           <div className="mt-1.5 md:mt-2">
-                                            <span className="text-[9px] md:text-[10px] text-muted-foreground">{daysUntil} días</span>
+                                            <span className="text-[9px] md:text-[10px] text-muted-foreground">{daysUntil} {t('dashboard.calendar.days')}</span>
                                           </div>
                                         )}
                                       </div>
@@ -1465,12 +1465,12 @@ export default function Dashboard() {
                       <div className="flex flex-col items-center gap-3 md:gap-4">
                         <img src={calendarIconPath} alt="Calendar" className="w-10 h-10 md:w-12 md:h-12" />
                         <div>
-                          <h3 className="text-base md:text-lg font-semibold text-foreground mb-1 md:mb-2 text-center">Mi Calendario Fiscal</h3>
-                          <p className="text-xs md:text-sm text-muted-foreground mb-4 md:mb-6 text-center">Tus vencimientos fiscales aparecerán aquí una vez constituyas tu LLC.</p>
+                          <h3 className="text-base md:text-lg font-semibold text-foreground mb-1 md:mb-2 text-center">{t('dashboard.calendar.title')}</h3>
+                          <p className="text-xs md:text-sm text-muted-foreground mb-4 md:mb-6 text-center">{t('dashboard.calendar.emptyDescription')}</p>
                         </div>
                         <Link href="/servicios#pricing">
                           <Button className="bg-accent text-accent-foreground font-semibold rounded-full px-6 md:px-8 py-2.5 md:py-3 text-sm md:text-base" data-testid="button-start-llc-calendar">
-                            Constituir mi LLC
+                            {t('dashboard.calendar.createLlc')}
                           </Button>
                         </Link>
                       </div>
@@ -1573,7 +1573,7 @@ export default function Dashboard() {
                       { id: 'users', label: 'Clientes', mobileLabel: 'Clientes', icon: Users },
                       { id: 'facturas', label: 'Facturas', mobileLabel: 'Facturas', icon: Receipt },
                       { id: 'accounting', label: 'Contabilidad', mobileLabel: 'Contab.', icon: Calculator },
-                      { id: 'calendar', label: 'Fechas', mobileLabel: 'Fechas', icon: Calendar },
+                      { id: 'calendar', label: t('dashboard.calendar.dates'), mobileLabel: t('dashboard.calendar.dates'), icon: Calendar },
                       { id: 'docs', label: 'Docs', mobileLabel: 'Docs', icon: FileText },
                       { id: 'newsletter', label: 'News', mobileLabel: 'News', icon: Mail },
                       { id: 'inbox', label: 'Inbox', mobileLabel: 'Inbox', icon: MessageSquare },
@@ -2061,9 +2061,9 @@ export default function Dashboard() {
                               {/* Clear Calendar Button */}
                               <div className="mt-3 md:mt-4 pt-3 md:pt-4 border-t flex items-center justify-between">
                                 <div>
-                                  <Label className="text-xs md:text-sm font-bold text-foreground text-red-600">Limpiar Calendario</Label>
+                                  <Label className="text-xs md:text-sm font-bold text-foreground text-red-600">{t('dashboard.calendar.clearCalendar')}</Label>
                                   <p className="text-[10px] md:text-xs text-muted-foreground">
-                                    Eliminar todas las fechas de este calendario
+                                    {t('dashboard.calendar.clearCalendarDesc')}
                                   </p>
                                 </div>
                                 <Button
@@ -2071,7 +2071,7 @@ export default function Dashboard() {
                                   variant="outline"
                                   className="rounded-full text-xs text-red-600 border-red-200 hover:bg-red-50"
                                   onClick={async () => {
-                                    if (!confirm('¿Estás seguro de que quieres eliminar todas las fechas de este calendario?')) return;
+                                    if (!confirm(t('dashboard.calendar.clearCalendarConfirm'))) return;
                                     try {
                                       // Clear all dates
                                       await Promise.all([
@@ -2089,7 +2089,7 @@ export default function Dashboard() {
                                   }}
                                   data-testid={`button-clear-calendar-${app.id}`}
                                 >
-                                  <Trash2 className="w-3 h-3 mr-1" /> Limpiar
+                                  <Trash2 className="w-3 h-3 mr-1" /> {t('dashboard.calendar.clear')}
                                 </Button>
                               </div>
                             </div>

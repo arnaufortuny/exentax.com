@@ -232,12 +232,6 @@ export async function registerRoutes(
     }
   });
 
-  // Admin endpoint for audit logs
-  app.get("/api/admin/audit-logs", isAdmin, async (_req, res) => {
-    const logs = getRecentAuditLogs(500);
-    res.json(logs);
-  });
-
     // Unified activity log helper (console only - no email spam)
     const logActivity = async (title: string, data: any, _req?: any) => {
       if (process.env.NODE_ENV === 'development') {
