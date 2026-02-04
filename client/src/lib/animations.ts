@@ -1,26 +1,26 @@
 import { Variants, Transition } from "framer-motion";
 
-// Professional easing curves - GPU accelerated, no lag
+// Professional easing curves - GPU accelerated, elegant motion
 export const easing = {
-  smooth: [0.22, 0.03, 0.26, 1] as const,
-  snappy: [0.32, 0, 0.14, 1] as const,
+  smooth: [0.25, 0.1, 0.25, 1] as const,
+  elegant: [0.4, 0, 0.2, 1] as const,
   bounce: [0.34, 1.56, 0.64, 1] as const,
-  decelerate: [0, 0, 0.15, 1] as const,
-  accelerate: [0.35, 0, 1, 1] as const,
-  professional: [0.16, 1, 0.3, 1] as const,
+  decelerate: [0, 0, 0.2, 1] as const,
+  accelerate: [0.4, 0, 1, 1] as const,
+  professional: [0.22, 0.03, 0.26, 1] as const,
 };
 
-// Ultra-smooth transitions - optimized for 60fps
+// Elegant transitions - optimized for 60fps with smoother motion
 export const transitions = {
-  instant: { duration: 0.08, ease: easing.snappy } as Transition,
-  fast: { duration: 0.15, ease: easing.professional } as Transition,
-  normal: { duration: 0.25, ease: easing.professional } as Transition,
-  slow: { duration: 0.4, ease: easing.smooth } as Transition,
-  spring: { type: "spring", stiffness: 400, damping: 30, mass: 0.5 } as Transition,
-  springBounce: { type: "spring", stiffness: 300, damping: 20, mass: 0.5 } as Transition,
+  instant: { duration: 0.12, ease: easing.elegant } as Transition,
+  fast: { duration: 0.25, ease: easing.professional } as Transition,
+  normal: { duration: 0.4, ease: easing.elegant } as Transition,
+  slow: { duration: 0.6, ease: easing.smooth } as Transition,
+  spring: { type: "spring", stiffness: 300, damping: 28, mass: 0.8 } as Transition,
+  springBounce: { type: "spring", stiffness: 250, damping: 22, mass: 0.6 } as Transition,
 };
 
-// Fade animations - optimized with smaller movements for snappier feel
+// Fade animations - smooth with elegant timing
 export const fadeIn: Variants = {
   hidden: { opacity: 0 },
   visible: { 
@@ -30,7 +30,7 @@ export const fadeIn: Variants = {
 };
 
 export const fadeInUp: Variants = {
-  hidden: { opacity: 0, y: 8 },
+  hidden: { opacity: 0, y: 20 },
   visible: { 
     opacity: 1, 
     y: 0,
@@ -39,7 +39,7 @@ export const fadeInUp: Variants = {
 };
 
 export const fadeInDown: Variants = {
-  hidden: { opacity: 0, y: -8 },
+  hidden: { opacity: 0, y: -20 },
   visible: { 
     opacity: 1, 
     y: 0,
@@ -48,7 +48,7 @@ export const fadeInDown: Variants = {
 };
 
 export const fadeInLeft: Variants = {
-  hidden: { opacity: 0, x: -12 },
+  hidden: { opacity: 0, x: -24 },
   visible: { 
     opacity: 1, 
     x: 0,
@@ -57,7 +57,7 @@ export const fadeInLeft: Variants = {
 };
 
 export const fadeInRight: Variants = {
-  hidden: { opacity: 0, x: 12 },
+  hidden: { opacity: 0, x: 24 },
   visible: { 
     opacity: 1, 
     x: 0,
@@ -65,9 +65,9 @@ export const fadeInRight: Variants = {
   },
 };
 
-// Scale animations
+// Scale animations - elegant entrance
 export const scaleIn: Variants = {
-  hidden: { opacity: 0, scale: 0.95 },
+  hidden: { opacity: 0, scale: 0.92 },
   visible: { 
     opacity: 1, 
     scale: 1,
@@ -76,7 +76,7 @@ export const scaleIn: Variants = {
 };
 
 export const scaleInBounce: Variants = {
-  hidden: { opacity: 0, scale: 0.9 },
+  hidden: { opacity: 0, scale: 0.85 },
   visible: { 
     opacity: 1, 
     scale: 1,
@@ -84,23 +84,23 @@ export const scaleInBounce: Variants = {
   },
 };
 
-// Line/bar animations
+// Line/bar animations - smooth expansion
 export const lineExpand: Variants = {
   hidden: { scaleX: 0, originX: 0.5 },
   visible: { 
     scaleX: 1,
-    transition: { duration: 0.3, ease: easing.smooth, delay: 0.1 },
+    transition: { duration: 0.5, ease: easing.elegant, delay: 0.15 },
   },
 };
 
-// Container with stagger children - faster stagger for fluidity
+// Container with stagger children - elegant cascade
 export const staggerContainer: Variants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.04,
-      delayChildren: 0.05,
+      staggerChildren: 0.08,
+      delayChildren: 0.1,
     },
   },
 };
@@ -110,15 +110,15 @@ export const staggerContainerFast: Variants = {
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.02,
-      delayChildren: 0.02,
+      staggerChildren: 0.05,
+      delayChildren: 0.05,
     },
   },
 };
 
-// Card animations for grid items
+// Card animations for grid items - smooth reveal
 export const cardVariants: Variants = {
-  hidden: { opacity: 0, y: 16 },
+  hidden: { opacity: 0, y: 30 },
   visible: { 
     opacity: 1, 
     y: 0,
@@ -126,28 +126,28 @@ export const cardVariants: Variants = {
   },
 };
 
-// Hero text animations - professional entrance
+// Hero text animations - cinematic entrance
 export const heroTitle: Variants = {
-  hidden: { opacity: 0, y: 12 },
+  hidden: { opacity: 0, y: 24 },
   visible: { 
     opacity: 1, 
     y: 0,
-    transition: { duration: 0.4, ease: easing.professional },
+    transition: { duration: 0.6, ease: easing.elegant },
   },
 };
 
 export const heroSubtitle: Variants = {
-  hidden: { opacity: 0, y: 6 },
+  hidden: { opacity: 0, y: 16 },
   visible: { 
     opacity: 1,
     y: 0,
-    transition: { duration: 0.35, delay: 0.08, ease: easing.professional },
+    transition: { duration: 0.5, delay: 0.15, ease: easing.elegant },
   },
 };
 
-// Counter/number animations
+// Counter/number animations - satisfying pop
 export const numberPop: Variants = {
-  hidden: { opacity: 0, scale: 0.8 },
+  hidden: { opacity: 0, scale: 0.7 },
   visible: { 
     opacity: 1, 
     scale: 1,
@@ -155,9 +155,9 @@ export const numberPop: Variants = {
   },
 };
 
-// List item animations
+// List item animations - smooth slide
 export const listItem: Variants = {
-  hidden: { opacity: 0, x: -10 },
+  hidden: { opacity: 0, x: -16 },
   visible: { 
     opacity: 1, 
     x: 0,
@@ -167,21 +167,21 @@ export const listItem: Variants = {
 
 // Button hover animations (use with whileHover/whileTap)
 export const buttonHover = {
-  scale: 1.02,
+  scale: 1.03,
   transition: transitions.fast,
 };
 
 export const buttonTap = {
-  scale: 0.98,
-  transition: { duration: 0.1 },
+  scale: 0.97,
+  transition: { duration: 0.12, ease: easing.elegant },
 };
 
-// Viewport settings optimized for performance - trigger earlier for smoother feel
-export const viewportOnce = { once: true, amount: 0.1, margin: "-50px" };
-export const viewportRepeat = { once: false, amount: 0.15 };
+// Viewport settings - trigger for smooth reveal
+export const viewportOnce = { once: true, amount: 0.15, margin: "-80px" };
+export const viewportRepeat = { once: false, amount: 0.2 };
 
 // Utility function for staggered delays
-export const getStaggerDelay = (index: number, baseDelay = 0.05) => ({
+export const getStaggerDelay = (index: number, baseDelay = 0.08) => ({
   transition: { delay: index * baseDelay },
 });
 
@@ -193,7 +193,7 @@ export const cssAnimations = {
   pageIn: "animate-page-in",
 };
 
-// Performance optimizations
+// Performance optimizations - GPU acceleration
 export const willChangeTransform = "will-change-transform";
 export const willChangeOpacity = "will-change-[opacity]";
 export const willChangeBoth = "will-change-[transform,opacity]";
