@@ -68,7 +68,7 @@ export default function Home() {
 
             <h1 
               className="font-black tracking-tighter text-foreground mb-4 sm:mb-4 w-full block [text-wrap:balance] [word-break:keep-all] [overflow-wrap:break-word] text-center" 
-              style={{ fontSize: 'clamp(42px, 12vw, 110px)', lineHeight: '0.85' }}
+              style={{ fontSize: 'clamp(34px, 10vw, 88px)', lineHeight: '0.85' }}
             >
               {t("hero.title")}<br />
               <span className="text-accent">{t("hero.subtitle")}</span>
@@ -82,7 +82,6 @@ export default function Home() {
               <span className="block sm:inline font-black mt-2 text-accent">{t("hero.highlight")}</span>
             </div>
             
-            <p className="text-accent tracking-widest text-xs sm:text-sm font-black uppercase mb-4">{t("hero.trustpilotTitle")}</p>
             <div className="hidden sm:flex mb-8 justify-center">
               <a href="https://es.trustpilot.com/review/easyusllc.com" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-4 bg-white dark:bg-white px-6 py-3 rounded-full shadow-md border-2 border-accent">
                 <img src={trustpilotLogo} alt="Trustpilot" className="h-7 w-auto" />
@@ -390,7 +389,7 @@ function PorQueEasyUSLLC() {
   ];
 
   return (
-    <section className="py-16 sm:py-20 md:pt-28 bg-background relative">
+    <section className="py-16 sm:py-20 bg-background relative">
       <div className="w-full px-6 sm:px-8">
         <div className="text-center mb-10 sm:mb-14 flex flex-col items-center justify-center relative">
           <motion.h2 
