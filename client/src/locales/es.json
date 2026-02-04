@@ -1126,8 +1126,7 @@
       "empty": "Sin pagos registrados",
       "emptyDesc": "Tus facturas y recibos aparecerán aquí.",
       "invoice": "Factura",
-      "receipt": "Recibo",
-      "viewServices": "Ver servicios"
+            "viewServices": "Ver servicios"
     },
     "calendar": {
       "title": "Mi Calendario Fiscal",
@@ -1162,7 +1161,8 @@
     },
     "admin": {
       "title": "Panel de Administración",
-      "newClient": "Nuevo Cliente"
+      "newClient": "Nuevo Cliente",
+      "searchPlaceholder": "Buscar ID cliente, pedido o ticket..."
     },
     "notifications": {
       "title": "Notificaciones",

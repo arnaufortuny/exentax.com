@@ -1126,8 +1126,7 @@
       "empty": "Sense pagaments registrats",
       "emptyDesc": "Les teves factures i rebuts apareixeran aquí.",
       "invoice": "Factura",
-      "receipt": "Rebut",
-      "viewServices": "Veure serveis"
+            "viewServices": "Veure serveis"
     },
     "calendar": {
       "title": "El Meu Calendari Fiscal",
@@ -1162,7 +1161,8 @@
     },
     "admin": {
       "title": "Panell d'Administració",
-      "newClient": "Nou Client"
+      "newClient": "Nou Client",
+      "searchPlaceholder": "Cercar ID client, comanda o tiquet..."
     },
     "notifications": {
       "title": "Notificacions",

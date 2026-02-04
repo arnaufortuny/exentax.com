@@ -11,7 +11,7 @@ import { sendEmail, sendTrustpilotEmail, getOtpEmailTemplate, getConfirmationEma
 import { contactOtps, products as productsTable, users as usersTable, maintenanceApplications, newsletterSubscribers, messages as messagesTable, orderEvents, messageReplies, userNotifications, orders as ordersTable, llcApplications as llcApplicationsTable, applicationDocuments as applicationDocumentsTable, discountCodes, calculatorConsultations, consultationTypes, consultationAvailability, consultationBlockedDates, consultationBookings, accountingTransactions } from "@shared/schema";
 import { and, eq, gt, desc, sql, isNotNull, inArray } from "drizzle-orm";
 import { checkRateLimit, sanitizeHtml, logAudit, getSystemHealth, getClientIp, getRecentAuditLogs, validatePassword } from "./lib/security";
-import { generateOrderInvoice, generateOrderReceipt, type InvoiceData, type ReceiptData } from "./lib/pdf-generator";
+import { generateOrderInvoice, type InvoiceData } from "./lib/pdf-generator";
 import { setupOAuth } from "./oauth";
 import { checkAndSendReminders, updateApplicationDeadlines, getUpcomingDeadlinesForUser } from "./calendar-service";
 import { processAbandonedApplications } from "./lib/abandoned-service";
@@ -4401,53 +4401,6 @@ export async function registerRoutes(
     res.send(generateInvoiceHtml(order));
   });
 
-  // Client Receipt/Resumen Route (PDF)
-  app.get("/api/orders/:id/receipt", isAuthenticated, async (req: any, res) => {
-    try {
-      const orderId = Number(req.params.id);
-      const order = await storage.getOrder(orderId);
-      
-      if (!order) return res.status(404).json({ message: "Pedido no encontrado" });
-      if (order.userId !== req.session.userId && !req.session.isAdmin) {
-        return res.status(403).json({ message: "Acceso denegado" });
-      }
-      
-      // Get application requestCode (LLC or Maintenance)
-      const [llcApp] = await db.select().from(llcApplicationsTable).where(eq(llcApplicationsTable.orderId, orderId)).limit(1);
-      const [maintApp] = await db.select().from(maintenanceApplications).where(eq(maintenanceApplications.orderId, orderId)).limit(1);
-      const requestCode = llcApp?.requestCode || maintApp?.requestCode || order.invoiceNumber || '';
-      
-      const pdfBuffer = await generateOrderReceipt({
-        order: {
-          id: order.id,
-          invoiceNumber: order.invoiceNumber,
-          amount: order.amount,
-          currency: order.currency || 'EUR',
-          status: order.status,
-          createdAt: order.createdAt
-        },
-        product: {
-          name: order.product?.name || (maintApp ? 'Mantenimiento LLC' : 'Formación LLC'),
-          description: order.product?.description || ''
-        },
-        user: {
-          firstName: order.user?.firstName,
-          lastName: order.user?.lastName,
-          email: order.user?.email || ''
-        },
-        application: llcApp || null,
-        maintenanceApplication: maintApp || null
-      });
-      
-      res.setHeader('Content-Type', 'application/pdf');
-      res.setHeader('Content-Disposition', `inline; filename="Recibo-${requestCode}.pdf"`);
-      res.send(pdfBuffer);
-    } catch (error) {
-      console.error("Receipt Error:", error);
-      res.status(500).send("Error al generar recibo");
-    }
-  });
-
   // Order Events Timeline
   app.get("/api/orders/:id/events", isAuthenticated, async (req: any, res) => {
     try {
@@ -4734,126 +4687,6 @@ export async function registerRoutes(
             <p><strong>EASY US LLC</strong> • FORTUNY CONSULTING LLC</p>
             <p>1209 Mountain Road Place NE, STE R, Albuquerque, NM 87110, USA</p>
             <p>hola@easyusllc.com • +34 614 91 69 10 • www.easyusllc.com</p>
-          </div>
-        </body>
-      </html>
-    `;
-  }
-
-  function generateReceiptHtml(order: any, requestCode?: string) {
-    const receiptNumber = requestCode || order.application?.requestCode || order.maintenanceApplication?.requestCode || order.invoiceNumber;
-    const userName = order.user ? `${order.user.firstName || ''} ${order.user.lastName || ''}`.trim() : 'Cliente';
-    const userEmail = order.user?.email || '';
-    const productName = order.product?.name || 'Servicio de Constitución LLC';
-    const statusLabels: Record<string, string> = {
-      'paid': 'Pagado',
-      'pending': 'Pendiente',
-      'processing': 'En Proceso',
-      'completed': 'Completado'
-    };
-    
-    return `
-      <!DOCTYPE html>
-      <html lang="es">
-        <head>
-          <meta charset="UTF-8">
-          <meta name="viewport" content="width=device-width, initial-scale=1.0">
-          <title>Recibo ${receiptNumber}</title>
-          <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
-          <style>
-            @media print { 
-              body { -webkit-print-color-adjust: exact; print-color-adjust: exact; background: #fff !important; } 
-              .no-print { display: none !important; }
-              .receipt-card { box-shadow: none !important; }
-              @page { margin: 1cm; }
-            }
-            * { box-sizing: border-box; margin: 0; padding: 0; }
-            body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; padding: 40px; color: #0E1215; line-height: 1.6; background: #F7F7F5; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-            .print-controls { text-align: center; margin-bottom: 25px; }
-            .print-btn { background: #6EDC8A; color: #0E1215; padding: 14px 35px; border: none; border-radius: 100px; font-weight: 800; cursor: pointer; font-size: 14px; transition: transform 0.15s, box-shadow 0.15s; box-shadow: 0 4px 15px rgba(110, 220, 138, 0.3); }
-            .print-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(110, 220, 138, 0.4); }
-            .receipt-card { background: white; max-width: 500px; width: 100%; padding: 50px; border-radius: 32px; box-shadow: 0 25px 50px rgba(0,0,0,0.08); }
-            .receipt-header { text-align: center; margin-bottom: 35px; }
-            .success-icon { width: 70px; height: 70px; background: linear-gradient(135deg, #6EDC8A 0%, #4eca70 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; }
-            .success-icon svg { width: 35px; height: 35px; color: #0E1215; }
-            .receipt-badge { background: #6EDC8A; color: #0E1215; padding: 8px 18px; border-radius: 100px; font-size: 11px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.08em; display: inline-block; margin-bottom: 15px; }
-            .receipt-title { font-size: 26px; font-weight: 900; letter-spacing: -0.02em; margin-bottom: 8px; }
-            .receipt-number { color: #6EDC8A; font-size: 18px; font-weight: 800; }
-            .receipt-message { color: #6B7280; font-size: 14px; margin-top: 15px; padding: 0 20px; }
-            .receipt-details { background: #F7F7F5; border-radius: 20px; padding: 25px; margin-bottom: 30px; }
-            .detail-row { display: flex; justify-content: space-between; align-items: center; padding: 14px 0; border-bottom: 1px solid #E6E9EC; }
-            .detail-row:last-child { border-bottom: none; }
-            .detail-label { font-size: 12px; font-weight: 700; color: #6B7280; text-transform: uppercase; letter-spacing: 0.05em; }
-            .detail-value { font-size: 15px; font-weight: 600; color: #0E1215; text-align: right; }
-            .detail-value.highlight { font-size: 22px; font-weight: 900; color: #6EDC8A; }
-            .status-badge { background: #6EDC8A; color: #0E1215; padding: 6px 14px; border-radius: 100px; font-size: 12px; font-weight: 800; }
-            .status-badge.pending { background: #FEF3C7; color: #92400E; }
-            .receipt-footer { text-align: center; padding-top: 25px; border-top: 1px solid #E6E9EC; font-size: 12px; color: #6B7280; }
-            .receipt-footer p { margin-bottom: 4px; }
-            .receipt-footer .company { font-weight: 700; color: #0E1215; }
-          </style>
-        </head>
-        <body>
-          <div class="print-controls no-print">
-            <button class="print-btn" onclick="window.print()">Imprimir / Descargar PDF</button>
-          </div>
-          
-          <div class="receipt-card">
-            <div class="receipt-header">
-              <img src="https://easyusllc.com/logo-icon.png" alt="Easy US LLC" style="width: 70px; height: 70px; margin: 0 auto 20px; display: block; border-radius: 12px;">
-              <div class="receipt-badge">Recibo de Solicitud</div>
-              <h1 class="receipt-title">Pedido Confirmado</h1>
-              <div class="receipt-number">${receiptNumber}</div>
-              <p class="receipt-message">Hemos recibido correctamente tu solicitud. Tu proceso de constitución está en marcha.</p>
-            </div>
-            
-            <div class="receipt-details">
-              <div class="detail-row">
-                <span class="detail-label">Cliente</span>
-                <span class="detail-value">${userName}</span>
-              </div>
-              ${userEmail ? `<div class="detail-row">
-                <span class="detail-label">Email</span>
-                <span class="detail-value">${userEmail}</span>
-              </div>` : ''}
-              <div class="detail-row">
-                <span class="detail-label">Servicio</span>
-                <span class="detail-value">${productName}</span>
-              </div>
-              <div class="detail-row">
-                <span class="detail-label">Fecha</span>
-                <span class="detail-value">${new Date(order.createdAt).toLocaleDateString('es-ES', { day: '2-digit', month: 'long', year: 'numeric' })}</span>
-              </div>
-              <div class="detail-row">
-                <span class="detail-label">Referencia</span>
-                <span class="detail-value">${requestCode}</span>
-              </div>
-              <div class="detail-row">
-                <span class="detail-label">Estado</span>
-                <span class="status-badge ${order.status === 'pending' ? 'pending' : ''}">${statusLabels[order.status] || order.status}</span>
-              </div>
-              ${order.discountCode ? `
-              <div class="detail-row">
-                <span class="detail-label">Subtotal</span>
-                <span class="detail-value">${((order.originalAmount || order.amount) / 100).toFixed(2)} €</span>
-              </div>
-              <div class="detail-row" style="color: #16a34a;">
-                <span class="detail-label">Descuento (${order.discountCode})</span>
-                <span class="detail-value" style="color: #16a34a;">-${(order.discountAmount / 100).toFixed(2)} €</span>
-              </div>
-              ` : ''}
-              <div class="detail-row">
-                <span class="detail-label">Total</span>
-                <span class="detail-value highlight">${(order.amount / 100).toFixed(2)} €</span>
-              </div>
-            </div>
-            
-            <div class="receipt-footer">
-              <p>Conserva este recibo para tus registros.</p>
-              <p class="company">EASY US LLC • FORTUNY CONSULTING LLC</p>
-              <p>1209 Mountain Road Place NE, STE R, Albuquerque, NM 87110</p>
-              <p>hola@easyusllc.com • +34 614 91 69 10</p>
-            </div>
           </div>
         </body>
       </html>

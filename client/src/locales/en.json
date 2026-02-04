@@ -1126,8 +1126,7 @@
       "empty": "No payments recorded",
       "emptyDesc": "Your invoices and receipts will appear here.",
       "invoice": "Invoice",
-      "receipt": "Receipt",
-      "viewServices": "View services"
+            "viewServices": "View services"
     },
     "calendar": {
       "title": "My Tax Calendar",
@@ -1162,7 +1161,8 @@
     },
     "admin": {
       "title": "Administration Panel",
-      "newClient": "New Client"
+      "newClient": "New Client",
+      "searchPlaceholder": "Search client, order or ticket ID..."
     },
     "notifications": {
       "title": "Notifications",

@@ -5,7 +5,7 @@ import { usePageTitle } from "@/hooks/use-page-title";
 import { useTranslation } from "react-i18next";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { queryClient, apiRequest } from "@/lib/queryClient";
-import { Building2, FileText, Clock, ChevronRight, User as UserIcon, Settings, Package, CreditCard, PlusCircle, Download, ExternalLink, Mail, BellRing, CheckCircle2, AlertCircle, MessageSquare, Send, Shield, Users, Power, Edit, Edit2, Trash2, FileUp, Newspaper, Loader2, CheckCircle, Receipt, Plus, Calendar, DollarSign, TrendingUp, BarChart3, UserCheck, UserX, Star, Eye, FileCheck, Upload, XCircle, Tag, Percent, X, Calculator, Archive, Key } from "lucide-react";
+import { Building2, FileText, Clock, ChevronRight, User as UserIcon, Settings, Package, CreditCard, PlusCircle, Download, ExternalLink, Mail, BellRing, CheckCircle2, AlertCircle, MessageSquare, Send, Shield, Users, Power, Edit, Edit2, Trash2, FileUp, Newspaper, Loader2, CheckCircle, Receipt, Plus, Calendar, DollarSign, TrendingUp, BarChart3, UserCheck, UserX, Star, Eye, FileCheck, Upload, XCircle, Tag, Percent, X, Calculator, Archive, Key, Search } from "lucide-react";
 import calendarIconPath from "@/assets/icons/calendar-icon.svg";
 import moneyIconPath from "@/assets/icons/money-icon.svg";
 import trackingIconPath from "@/assets/icons/tracking-icon.svg";
@@ -118,6 +118,7 @@ export default function Dashboard() {
   const [invoiceAmount, setInvoiceAmount] = useState("");
   const [invoiceCurrency, setInvoiceCurrency] = useState("EUR");
   const [adminSubTab, setAdminSubTab] = useState("dashboard");
+  const [adminSearchQuery, setAdminSearchQuery] = useState("");
   const [createUserDialog, setCreateUserDialog] = useState(false);
   const [newUserData, setNewUserData] = useState({ firstName: '', lastName: '', email: '', phone: '', password: '' });
   const [createOrderDialog, setCreateOrderDialog] = useState(false);
@@ -962,6 +963,44 @@ export default function Dashboard() {
     { id: 'tools', label: t('dashboard.tabs.tools'), icon: Calculator, mobileLabel: t('dashboard.tabs.toolsMobile') },
     { id: 'profile', label: t('dashboard.tabs.profile'), icon: UserIcon, mobileLabel: t('dashboard.tabs.profileMobile'), tour: 'profile' },
   ], [t]);
+
+  // Admin search filtering
+  const filteredAdminOrders = useMemo(() => {
+    if (!adminSearchQuery.trim() || !adminOrders) return adminOrders;
+    const query = adminSearchQuery.toLowerCase().trim();
+    return adminOrders.filter((order: any) => {
+      const app = order.application || order.maintenanceApplication;
+      const requestCode = (app?.requestCode || order.invoiceNumber || '').toLowerCase();
+      const userId = (order.userId?.toString() || '');
+      const orderId = (order.id?.toString() || '');
+      const userName = ((order.user?.firstName || '') + ' ' + (order.user?.lastName || '')).toLowerCase();
+      const userEmail = (order.user?.email || '').toLowerCase();
+      return requestCode.includes(query) || userId.includes(query) || orderId.includes(query) || userName.includes(query) || userEmail.includes(query);
+    });
+  }, [adminOrders, adminSearchQuery]);
+
+  const filteredAdminUsers = useMemo(() => {
+    if (!adminSearchQuery.trim() || !adminUsers) return adminUsers;
+    const query = adminSearchQuery.toLowerCase().trim();
+    return adminUsers.filter((u: any) => {
+      const fullName = ((u.firstName || '') + ' ' + (u.lastName || '')).toLowerCase();
+      const email = (u.email || '').toLowerCase();
+      const clientId = (u.clientId || '').toLowerCase();
+      const id = (u.id?.toString() || '');
+      return fullName.includes(query) || email.includes(query) || clientId.includes(query) || id.includes(query);
+    });
+  }, [adminUsers, adminSearchQuery]);
+
+  const filteredAdminMessages = useMemo(() => {
+    if (!adminSearchQuery.trim() || !adminMessages) return adminMessages;
+    const query = adminSearchQuery.toLowerCase().trim();
+    return adminMessages.filter((msg: any) => {
+      const messageId = (msg.messageId || '').toLowerCase();
+      const userEmail = (msg.email || '').toLowerCase();
+      const userName = (msg.name || '').toLowerCase();
+      return messageId.includes(query) || userEmail.includes(query) || userName.includes(query);
+    });
+  }, [adminMessages, adminSearchQuery]);
   
   const isAdmin = user?.isAdmin;
 
@@ -1327,7 +1366,6 @@ export default function Dashboard() {
                           </div>
                           <div className="flex gap-2">
                             <Button variant="outline" size="sm" className="rounded-full" onClick={() => window.open(`/api/orders/${order.id}/invoice`, '_blank')}>{t('dashboard.payments.invoice')}</Button>
-                            <Button variant="outline" size="sm" className="rounded-full" onClick={() => window.open(`/api/orders/${order.id}/receipt`, '_blank')}>{t('dashboard.payments.receipt')}</Button>
                           </div>
                         </Card>
                       ))
@@ -1596,17 +1634,29 @@ export default function Dashboard() {
                       </Button>
                     ))}
                   </div>
-                  <div className="flex gap-2 mb-4">
-                    <Button variant="ghost" size="sm" className="rounded-full text-xs font-semibold bg-white dark:bg-muted shadow-sm" onClick={() => setCreateUserDialog(true)} data-testid="button-create-user">
-                      <Plus className="w-3 h-3 mr-1" />
-                      <span className="hidden sm:inline">{t('dashboard.admin.newClient')}</span>
-                      <span className="sm:hidden">{t('dashboard.admin.newClient')}</span>
-                    </Button>
-                    <Button variant="ghost" size="sm" className="rounded-full text-xs font-semibold bg-white dark:bg-muted shadow-sm" onClick={() => setCreateOrderDialog(true)} data-testid="button-create-order">
-                      <Plus className="w-3 h-3 mr-1" />
-                      <span className="hidden sm:inline">Nuevo Pedido</span>
-                      <span className="sm:hidden">Pedido</span>
-                    </Button>
+                  <div className="flex flex-col sm:flex-row flex-wrap gap-2 mb-4">
+                    <div className="flex flex-wrap gap-2">
+                      <Button variant="ghost" size="sm" className="rounded-full text-xs font-semibold bg-white dark:bg-muted shadow-sm" onClick={() => setCreateUserDialog(true)} data-testid="button-create-user">
+                        <Plus className="w-3 h-3 mr-1" />
+                        <span className="hidden sm:inline">{t('dashboard.admin.newClient')}</span>
+                        <span className="sm:hidden">{t('dashboard.admin.newClient')}</span>
+                      </Button>
+                      <Button variant="ghost" size="sm" className="rounded-full text-xs font-semibold bg-white dark:bg-muted shadow-sm" onClick={() => setCreateOrderDialog(true)} data-testid="button-create-order">
+                        <Plus className="w-3 h-3 mr-1" />
+                        <span className="hidden sm:inline">Nuevo Pedido</span>
+                        <span className="sm:hidden">Pedido</span>
+                      </Button>
+                    </div>
+                    <div className="relative flex-1 max-w-xs min-w-48">
+                      <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                      <Input
+                        placeholder={t('dashboard.admin.searchPlaceholder')}
+                        value={adminSearchQuery}
+                        onChange={(e) => setAdminSearchQuery(e.target.value)}
+                        className="pl-9 rounded-full text-xs bg-white dark:bg-muted border-border"
+                        data-testid="input-admin-search"
+                      />
+                    </div>
                   </div>
                   
                   {adminSubTab === 'dashboard' && (
@@ -1709,7 +1759,7 @@ export default function Dashboard() {
                   {adminSubTab === 'orders' && (
                     <Card className="rounded-2xl border-0 shadow-sm p-0 overflow-hidden">
                       <div className="divide-y">
-                        {adminOrders?.map(order => {
+                        {filteredAdminOrders?.map(order => {
                           const app = order.application || order.maintenanceApplication;
                           const isMaintenance = !!order.maintenanceApplication && !order.application;
                           const orderCode = app?.requestCode || order.invoiceNumber;
@@ -1860,7 +1910,7 @@ export default function Dashboard() {
                   {adminSubTab === 'users' && (
                     <Card className="rounded-2xl border-0 shadow-sm p-0 overflow-hidden">
                       <div className="divide-y">
-                        {adminUsers?.map(u => (
+                        {filteredAdminUsers?.map(u => (
                           <div key={u.id} className="p-3 md:p-4 space-y-3">
                             <div className="flex flex-col gap-2">
                               <div className="flex items-center gap-2 flex-wrap">
