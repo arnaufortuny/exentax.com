@@ -95,11 +95,11 @@ export default function FAQ() {
       <section className="pt-16 sm:pt-24 lg:pt-28 pb-4 sm:py-20 bg-background">
         <div className="container max-w-7xl mx-auto px-5 sm:px-8">
           <div className="text-center mb-8 sm:mb-12 flex flex-col items-center justify-center">
-            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-center">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-center">
               <span className="text-foreground">{t("faq.title")}</span>{" "}
               <span className="text-accent">{t("faq.titleHighlight")}</span>
             </h2>
-            <p className="text-muted-foreground text-xs sm:text-base mt-3 sm:mt-4 text-center max-w-2xl">{t("faq.subtitle")}</p>
+            <p className="text-muted-foreground text-[11px] sm:text-sm mt-3 sm:mt-4 text-center max-w-2xl">{t("faq.subtitle")}</p>
             <div className="w-24 h-1 bg-accent mt-6" />
           </div>
 
