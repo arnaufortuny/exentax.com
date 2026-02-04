@@ -99,7 +99,7 @@ export default function FAQ() {
               <span className="text-foreground">{t("faq.title")}</span>{" "}
               <span className="text-accent">{t("faq.titleHighlight")}</span>
             </h2>
-            <p className="text-muted-foreground text-[11px] sm:text-sm mt-3 sm:mt-4 text-center max-w-2xl">{t("faq.subtitle")}</p>
+            <p className="text-foreground/80 text-sm sm:text-base mt-3 sm:mt-4 text-center max-w-2xl font-medium">{t("faq.subtitle")}</p>
             <div className="w-24 h-1 bg-accent mt-6" />
           </div>
 
