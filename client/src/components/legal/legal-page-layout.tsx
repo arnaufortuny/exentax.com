@@ -40,8 +40,9 @@ export function LegalPageLayout({ title, titleHighlight, lastUpdated, pdfUrl, ch
       <header className="pt-24 sm:pt-32 lg:pt-40 pb-10 sm:pb-14 lg:pb-16 print:pt-4 print:pb-4">
         <div className="container max-w-5xl mx-auto px-5 sm:px-6 lg:px-8">
           <div className="text-center w-full flex flex-col items-center">
-            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black tracking-tight text-brand-dark dark:text-white leading-[1.15] mb-4 sm:mb-5 print:text-2xl text-center w-full">
-              {title} <span className="text-brand-lime">{titleHighlight}</span>
+            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black tracking-tight text-foreground leading-[1.15] mb-4 sm:mb-5 print:text-2xl text-center w-full">
+              <span className="text-accent tracking-widest text-xs sm:text-sm font-black block mb-2 uppercase">{title}</span>
+              <span className="text-foreground">{titleHighlight}</span>
             </h1>
             
             <div className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-5 text-muted-foreground dark:text-zinc-400 mb-6 sm:mb-8 w-full text-center">
