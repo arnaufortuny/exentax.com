@@ -90,7 +90,7 @@ export default function Servicios() {
         title={
           <>
             <motion.h1 
-              className="text-4xl sm:text-5xl lg:text-7xl font-black text-foreground tracking-tight leading-[1.1] text-center uppercase will-change-[transform,opacity]"
+              className="text-5xl sm:text-6xl lg:text-8xl font-black text-foreground tracking-tight leading-[1.1] text-center uppercase will-change-[transform,opacity]"
               variants={heroTitle}
               initial="hidden"
               animate="visible"
