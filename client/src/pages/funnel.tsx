@@ -145,7 +145,7 @@ function TaxComparatorSection({ whatsappUrl }: { whatsappUrl: string }) {
   const incomePresets = [30000, 50000, 75000, 100000, 150000];
   
   return (
-    <section className="px-5 py-16 sm:py-20 bg-background" id="comparador">
+    <section className="px-5 py-16 sm:py-20 bg-background" id="calculadora">
       <div className="max-w-lg mx-auto">
         <div className="text-center mb-10 sm:mb-14 flex flex-col items-center">
           <Badge className="mb-4 bg-accent/15 text-accent border-0 px-4 py-2 text-sm font-bold">
