@@ -919,17 +919,16 @@ export default function Dashboard() {
 
   const menuItems = useMemo(() => [
     { id: 'services', label: 'Mis trámites', icon: Package, mobileLabel: 'Trámites', tour: 'orders' },
-    { id: 'notifications', label: 'Seguimiento', icon: BellRing, mobileLabel: 'Seguim.' },
+    { id: 'notifications', label: 'Notificaciones', icon: BellRing, mobileLabel: 'Notific.' },
     { id: 'messages', label: 'Soporte', icon: Mail, mobileLabel: 'Soporte', tour: 'messages' },
     { id: 'documents', label: 'Documentos', icon: FileText, mobileLabel: 'Docs' },
     { id: 'payments', label: 'Pagos', icon: CreditCard, mobileLabel: 'Pagos' },
     { id: 'calendar', label: 'Calendario', icon: Calendar, mobileLabel: 'Fechas', tour: 'calendar' },
     { id: 'tools', label: 'Herramientas', icon: Calculator, mobileLabel: 'Tools' },
     { id: 'profile', label: 'Mi Perfil', icon: UserIcon, mobileLabel: 'Perfil', tour: 'profile' },
-    ...(user?.isAdmin ? [
-      { id: 'admin', label: 'Admin', icon: Shield, mobileLabel: 'Admin' }
-    ] : []),
-  ], [user?.isAdmin]);
+  ], []);
+  
+  const isAdmin = user?.isAdmin;
 
   return (
     <div className="min-h-screen bg-muted dashboard-gradient font-sans overflow-x-hidden animate-page-in">
@@ -984,26 +983,47 @@ export default function Dashboard() {
           )}
         </header>
 
-        <div className="flex overflow-x-auto pb-3 mb-6 gap-2 no-scrollbar -mx-4 px-4 md:mx-0 md:px-0 md:gap-3 md:pb-4 md:mb-8" style={{ WebkitOverflowScrolling: 'touch' }}>
-          {menuItems.map((item) => (
-            <Button
-              key={item.id}
-              variant={activeTab === item.id ? "default" : "ghost"}
-              onClick={() => setActiveTab(item.id as Tab)}
-              size="sm"
-              className={`flex items-center gap-1.5 sm:gap-2 rounded-full font-semibold text-[11px] sm:text-xs md:text-sm tracking-normal whitespace-nowrap shrink-0 h-10 px-4 md:px-5 transition-all duration-200 ${
-                activeTab === item.id 
-                ? 'bg-accent text-accent-foreground shadow-md' 
-                : 'bg-card text-muted-foreground hover:text-foreground hover:bg-secondary'
-              }`}
-              data-testid={`button-tab-${item.id}`}
-              {...('tour' in item && item.tour ? { 'data-tour': item.tour } : {})}
-            >
-              <item.icon className="w-4 h-4" />
-              <span className="hidden md:inline">{item.label}</span>
-              <span className="md:hidden">{item.mobileLabel}</span>
-            </Button>
-          ))}
+        <div className="flex flex-col gap-2 mb-6 md:mb-8">
+          <div className="flex overflow-x-auto pb-3 gap-2 no-scrollbar -mx-4 px-4 md:mx-0 md:px-0 md:gap-3" style={{ WebkitOverflowScrolling: 'touch' }}>
+            {menuItems.map((item) => (
+              <Button
+                key={item.id}
+                variant={activeTab === item.id ? "default" : "ghost"}
+                onClick={() => setActiveTab(item.id as Tab)}
+                size="sm"
+                className={`flex items-center gap-1.5 sm:gap-2 rounded-full font-semibold text-[11px] sm:text-xs md:text-sm tracking-normal whitespace-nowrap shrink-0 h-10 px-4 md:px-5 transition-all duration-200 ${
+                  activeTab === item.id 
+                  ? 'bg-accent text-accent-foreground shadow-md' 
+                  : 'bg-card text-muted-foreground hover:text-foreground hover:bg-secondary'
+                }`}
+                data-testid={`button-tab-${item.id}`}
+                {...('tour' in item && item.tour ? { 'data-tour': item.tour } : {})}
+              >
+                <item.icon className="w-4 h-4" />
+                <span className="hidden md:inline">{item.label}</span>
+                <span className="md:hidden">{item.mobileLabel}</span>
+              </Button>
+            ))}
+          </div>
+          {isAdmin && (
+            <div className="flex -mx-4 px-4 md:mx-0 md:px-0">
+              <Button
+                variant={activeTab === 'admin' ? "default" : "ghost"}
+                onClick={() => setActiveTab('admin' as Tab)}
+                size="sm"
+                className={`flex items-center gap-1.5 sm:gap-2 rounded-full font-semibold text-[11px] sm:text-xs md:text-sm tracking-normal whitespace-nowrap shrink-0 h-10 px-4 md:px-5 transition-all duration-200 ${
+                  activeTab === 'admin' 
+                  ? 'bg-orange-500 text-white shadow-md' 
+                  : 'bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-300 hover:bg-orange-200 dark:hover:bg-orange-900/50'
+                }`}
+                data-testid="button-tab-admin"
+              >
+                <Shield className="w-4 h-4" />
+                <span className="hidden md:inline">Panel de Administración</span>
+                <span className="md:hidden">Admin</span>
+              </Button>
+            </div>
+          )}
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6 lg:gap-8">
@@ -1433,38 +1453,40 @@ export default function Dashboard() {
                     <h2 className="text-xl md:text-2xl font-bold text-foreground tracking-tight">Herramientas</h2>
                     <p className="text-sm text-muted-foreground mt-1">Utilidades para gestionar tu negocio</p>
                   </div>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                     <Card className="rounded-2xl border-0 shadow-sm p-6 bg-white dark:bg-card hover:shadow-md transition-shadow">
-                      <div className="flex items-start gap-4">
-                        <div className="w-12 h-12 bg-accent/10 rounded-full flex items-center justify-center flex-shrink-0">
-                          <Receipt className="w-6 h-6 text-accent" />
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <h3 className="font-bold text-foreground mb-1">Generador de Facturas</h3>
-                          <p className="text-sm text-muted-foreground mb-4">Crea facturas profesionales en PDF con los datos de tu LLC americana.</p>
-                          <Link href="/tools/invoice">
-                            <Button className="bg-accent hover:bg-accent/90 text-accent-foreground font-semibold rounded-full" size="sm" data-testid="button-invoice-generator">
-                              Crear Factura <ChevronRight className="w-4 h-4 ml-1" />
-                            </Button>
-                          </Link>
-                        </div>
+                      <div className="flex-1 min-w-0">
+                        <h3 className="font-bold text-foreground mb-1">Generador de Facturas</h3>
+                        <p className="text-sm text-muted-foreground mb-4">Crea facturas profesionales en PDF con los datos de tu LLC americana.</p>
+                        <Link href="/tools/invoice">
+                          <Button className="bg-accent hover:bg-accent/90 text-accent-foreground font-semibold rounded-full" size="sm" data-testid="button-invoice-generator">
+                            Crear Factura <ChevronRight className="w-4 h-4 ml-1" />
+                          </Button>
+                        </Link>
                       </div>
                     </Card>
                     
                     <Card className="rounded-2xl border-0 shadow-sm p-6 bg-white dark:bg-card hover:shadow-md transition-shadow">
-                      <div className="flex items-start gap-4">
-                        <div className="w-12 h-12 bg-blue-500/10 rounded-full flex items-center justify-center flex-shrink-0">
-                          <Calculator className="w-6 h-6 text-blue-500" />
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <h3 className="font-bold text-foreground mb-1">Calculadora de Precios</h3>
-                          <p className="text-sm text-muted-foreground mb-4">Calcula precios con márgenes y costos para tus productos o servicios.</p>
-                          <Link href="/tools/price-calculator">
-                            <Button className="bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-full" size="sm" data-testid="button-price-calculator">
-                              Calcular Precio <ChevronRight className="w-4 h-4 ml-1" />
-                            </Button>
-                          </Link>
-                        </div>
+                      <div className="flex-1 min-w-0">
+                        <h3 className="font-bold text-foreground mb-1">Calculadora de Precios</h3>
+                        <p className="text-sm text-muted-foreground mb-4">Calcula precios con márgenes y costos para tus productos o servicios.</p>
+                        <Link href="/tools/price-calculator">
+                          <Button className="bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-full" size="sm" data-testid="button-price-calculator">
+                            Calcular Precio <ChevronRight className="w-4 h-4 ml-1" />
+                          </Button>
+                        </Link>
+                      </div>
+                    </Card>
+                    
+                    <Card className="rounded-2xl border-0 shadow-sm p-6 bg-white dark:bg-card hover:shadow-md transition-shadow">
+                      <div className="flex-1 min-w-0">
+                        <h3 className="font-bold text-foreground mb-1">Operating Agreement</h3>
+                        <p className="text-sm text-muted-foreground mb-4">Genera el documento legal de tu LLC con todos los datos requeridos.</p>
+                        <Link href="/tools/operating-agreement">
+                          <Button className="bg-purple-500 hover:bg-purple-600 text-white font-semibold rounded-full" size="sm" data-testid="button-operating-agreement">
+                            Generar Documento <ChevronRight className="w-4 h-4 ml-1" />
+                          </Button>
+                        </Link>
                       </div>
                     </Card>
                   </div>
