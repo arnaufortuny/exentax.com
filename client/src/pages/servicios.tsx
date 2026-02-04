@@ -85,7 +85,8 @@ export default function Servicios() {
       <Navbar />
       
       <HeroSection 
-        className="flex flex-col items-center justify-center text-center pt-[7.5rem] sm:pt-28 min-h-[450px] sm:min-h-[auto] w-full"
+        className="flex flex-col items-center justify-center text-center min-h-[450px] sm:min-h-[auto] w-full"
+        mobilePaddingTop="pt-28 sm:pt-16 lg:pt-20"
         showGradient={false}
         title={
           <>

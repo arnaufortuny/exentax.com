@@ -7,6 +7,7 @@ interface HeroSectionProps {
   className?: string;
   showOverlay?: boolean;
   showGradient?: boolean;
+  mobilePaddingTop?: string;
 }
 
 export function HeroSection({ 
@@ -14,10 +15,11 @@ export function HeroSection({
   subtitle, 
   children, 
   className = "",
+  mobilePaddingTop = "pt-8 sm:pt-16 lg:pt-20",
 }: HeroSectionProps) {
   return (
     <section 
-      className={`relative overflow-hidden pb-6 sm:pb-16 lg:pb-20 flex flex-col items-center justify-center text-center ${className}`}
+      className={`relative overflow-hidden pb-6 sm:pb-16 lg:pb-20 flex flex-col items-center justify-center text-center ${mobilePaddingTop} ${className}`}
     >
       <div className="container max-w-7xl mx-auto px-4 sm:px-8 relative z-10 flex flex-col items-center justify-center text-center">
         <div className="w-full text-center flex flex-col items-center justify-center">
