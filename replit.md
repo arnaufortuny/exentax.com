@@ -7,6 +7,7 @@ Easy US LLC provides business formation services, specifically for LLCs in New M
 I want to be communicated with in a clear and concise manner. I prefer explanations that are easy to understand, avoiding overly technical jargon. I appreciate an iterative development approach where I can provide feedback throughout the process. Please ask for my approval before implementing any significant changes to the codebase or design.
 
 ## Recent Changes (February 2026)
+- **Email Header Cleanup**: Updated email templates to display only the PNG logo icon (70x70px) in headers, removing redundant text title for cleaner branding.
 - **Complete Dashboard i18n**: Replaced all ~80 hardcoded toast messages in dashboard.tsx with i18n t() function calls. Added 60+ new translation keys under "dashboard.toasts" namespace in both ES/EN. Messages now sound more human and conversational instead of robotic.
 - **Animation System Optimization**: Created centralized animation library (`client/src/lib/animations.ts`) with GPU-accelerated animations, optimized easing curves, and reusable variants. CSS animations now use translate3d/scale3d for hardware acceleration. Reduced animation durations for snappier UX (0.15-0.25s). Added will-change hints for performance.
 - **Dynamic SEO Titles**: Created `usePageTitle` hook for dynamic page titles and meta descriptions per route with i18n support.
