@@ -398,9 +398,9 @@
   },
   "packsTitle": {
     "packs": "SOLUCIONES COMPLETAS",
-    "formation": "PARA CREAR Y MANTENER TU LLC",
+    "formation": "PARA CONSTITUIR Y MANTENER TU LLC AL DÍA",
     "packsLine1": "SOLUCIONES COMPLETAS",
-    "packsLine2": "PARA CREAR Y MANTENER TU LLC",
+    "packsLine2": "PARA CONSTITUIR Y MANTENER TU LLC AL DÍA",
     "subtitle": "Cada plan está diseñado para cubrir las obligaciones reales de tu empresa y evitarte problemas futuros.",
     "maintenance": {
       "packs": "TU LLC SIEMPRE AL DÍA,",
@@ -1823,10 +1823,10 @@
   "taxComparator": {
     "badge": "CALCULADORA DE AHORRO",
     "title": "¿Cuánto puedes ahorrar?",
-    "titlePart1": "COMPARA TU FISCALIDAD ACTUAL",
-    "titlePart2": "CON UNA ESTRUCTURA EN",
-    "titlePart3": "EE.UU.",
-    "subtitle": "Obtén una estimación orientativa basada en tu facturación y país de residencia para entender si una LLC puede beneficiarte.",
+    "titlePart1": "DESCUBRE SI UNA LLC PUEDE",
+    "titlePart2": "OPTIMIZAR TU",
+    "titlePart3": "CARGA FISCAL",
+    "subtitle": "Analizamos tu situación actual y te mostramos una estimación realista del impacto fiscal que podría tener operar con una LLC en Estados Unidos.",
     "taxes": "IMPUESTOS",
     "selectCountry": "¿DESDE QUÉ PAÍS TRABAJAS?",
     "annualIncome": "Ingresos anuales brutos",

@@ -399,9 +399,9 @@
   },
   "packsTitle": {
     "packs": "COMPLETE SOLUTIONS",
-    "formation": "TO CREATE AND MAINTAIN YOUR LLC",
+    "formation": "TO FORM AND KEEP YOUR LLC UP TO DATE",
     "packsLine1": "COMPLETE SOLUTIONS",
-    "packsLine2": "TO CREATE AND MAINTAIN YOUR LLC",
+    "packsLine2": "TO FORM AND KEEP YOUR LLC UP TO DATE",
     "subtitle": "Each plan is designed to cover your company's real obligations and prevent future problems.",
     "maintenance": {
       "packs": "YOUR LLC ALWAYS UP TO DATE,",
@@ -1824,10 +1824,10 @@
   "taxComparator": {
     "badge": "SAVINGS CALCULATOR",
     "title": "How much can you save?",
-    "titlePart1": "COMPARE YOUR CURRENT TAXES",
-    "titlePart2": "WITH A US",
-    "titlePart3": "STRUCTURE",
-    "subtitle": "Get an indicative estimate based on your billing and country of residence to understand if an LLC can benefit you.",
+    "titlePart1": "DISCOVER IF AN LLC CAN",
+    "titlePart2": "OPTIMIZE YOUR",
+    "titlePart3": "TAX BURDEN",
+    "subtitle": "We analyze your current situation and show you a realistic estimate of the tax impact of operating with an LLC in the United States.",
     "taxes": "TAXES",
     "selectCountry": "WHERE DO YOU WORK FROM?",
     "annualIncome": "Gross annual income",

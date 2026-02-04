@@ -399,9 +399,9 @@
   },
   "packsTitle": {
     "packs": "SOLUCIONS COMPLETES",
-    "formation": "PER CREAR I MANTENIR LA TEVA LLC",
+    "formation": "PER CONSTITUIR I MANTENIR LA TEVA LLC AL DIA",
     "packsLine1": "SOLUCIONS COMPLETES",
-    "packsLine2": "PER CREAR I MANTENIR LA TEVA LLC",
+    "packsLine2": "PER CONSTITUIR I MANTENIR LA TEVA LLC AL DIA",
     "subtitle": "Cada pla està dissenyat per cobrir les obligacions reals de la teva empresa i evitar-te problemes futurs.",
     "maintenance": {
       "packs": "LA TEVA LLC SEMPRE AL DIA,",
@@ -1824,10 +1824,10 @@
   "taxComparator": {
     "badge": "CALCULADORA D'ESTALVI",
     "title": "Quant pots estalviar?",
-    "titlePart1": "COMPARA LA TEVA FISCALITAT ACTUAL",
-    "titlePart2": "AMB UNA ESTRUCTURA ALS",
-    "titlePart3": "EUA",
-    "subtitle": "Obtén una estimació orientativa basada en la teva facturació i país de residència per entendre si una LLC et pot beneficiar.",
+    "titlePart1": "DESCOBREIX SI UNA LLC POT",
+    "titlePart2": "OPTIMITZAR LA TEVA",
+    "titlePart3": "CÀRREGA FISCAL",
+    "subtitle": "Analitzem la teva situació actual i et mostrem una estimació realista de l'impacte fiscal que podria tenir operar amb una LLC als Estats Units.",
     "taxes": "IMPOSTOS",
     "selectCountry": "DES DE QUIN PAÍS TREBALLES?",
     "annualIncome": "Ingressos anuals bruts",
