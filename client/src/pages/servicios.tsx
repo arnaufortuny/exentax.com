@@ -81,12 +81,12 @@ export default function Servicios() {
   ];
 
   return (
-    <div className="min-h-screen font-sans bg-background bg-green-gradient text-center overflow-x-hidden w-full relative animate-page-in">
+    <div className="min-h-screen font-sans bg-background text-center overflow-x-hidden w-full relative animate-page-in">
       <Navbar />
       
       <HeroSection 
         className="flex flex-col items-center justify-center text-center pt-32 sm:pt-24 min-h-[450px] sm:min-h-[auto] w-full"
-        showOverlay={false}
+        showGradient={false}
         title={
           <>
             <div className="mb-4 sm:hidden flex justify-center">
@@ -124,7 +124,7 @@ export default function Servicios() {
               </motion.div>
               
               <motion.div 
-                className="hidden sm:flex flex-wrap justify-center gap-3 sm:gap-4 max-w-4xl px-4 mb-12 will-change-[transform,opacity]"
+                className="hidden sm:flex flex-wrap justify-center gap-3 sm:gap-4 max-w-4xl px-4 mb-8 will-change-[transform,opacity]"
                 initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={transitions.normal}
@@ -137,6 +137,27 @@ export default function Servicios() {
                     {text}
                   </div>
                 ))}
+              </motion.div>
+              
+              {/* Trustpilot Section */}
+              <motion.div
+                className="flex flex-col items-center justify-center gap-3 mt-4 mb-8"
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ ...transitions.normal, delay: 0.2 }}
+              >
+                <p className="text-foreground font-bold text-sm sm:text-base">{t("services.trustpilotTitle")}</p>
+                <a href="https://es.trustpilot.com/review/easyusllc.com" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-3 bg-white dark:bg-white px-5 py-3 rounded-full shadow-md border border-border hover:shadow-lg transition-shadow">
+                  <img src={trustpilotLogo} alt="Trustpilot" className="h-6 w-auto" />
+                  <div className="flex gap-0.5">
+                    {[1,2,3,4,5].map((star) => (
+                      <svg key={star} className="w-5 h-5" viewBox="0 0 24 24" fill="#FBBF24">
+                        <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+                      </svg>
+                    ))}
+                  </div>
+                  <span className="text-black text-sm font-black">5/5</span>
+                </a>
               </motion.div>
             </div>
         }

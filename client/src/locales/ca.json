@@ -198,9 +198,10 @@
   "services": {
     "title": "Els Nostres Serveis",
     "subtitle": "Tot el que necessites per formar i mantenir la teva LLC",
-    "heroTitle": "OPTIMITZA LA FISCALITAT DEL TEU NEGOCI DIGITAL AMB UNA LLC ALS USA,",
-    "heroTitleHighlight": "DE FORMA LEGAL, CLARA I PREPARADA PER OPERAR.",
-    "heroSubtitle": "Ens encarreguem de tot el procés: des de l'estructura correcta fins als aspectes fiscals, bancaris i operatius, perquè puguis centrar-te en fer créixer el teu negoci amb tranquil·litat.",
+    "heroTitle": "COM T'AJUDEM A OPERAR LA TEVA LLC",
+    "heroTitleHighlight": "DE FORMA LEGAL I OPTIMITZADA",
+    "heroSubtitle": "T'acompanyem des de la constitució fins al manteniment anual, assegurant-nos que la teva empresa compleixi amb totes les seves obligacions i estigui preparada per operar sense riscos ni sorpreses.",
+    "trustpilotTitle": "Què diuen els nostres clients",
     "llc": {
       "title": "FORMACIÓ DE LLC",
       "description": "Constitueix la teva LLC americana de forma ràpida i senzilla",

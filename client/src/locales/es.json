@@ -198,9 +198,10 @@
   "services": {
     "title": "Nuestros Servicios",
     "subtitle": "Todo lo que necesitas para formar y mantener tu LLC",
-    "heroTitle": "OPTIMIZA LA FISCALIDAD DE TU NEGOCIO DIGITAL CON UNA LLC EN USA,",
-    "heroTitleHighlight": "DE FORMA LEGAL, CLARA Y LISTA PARA OPERAR.",
-    "heroSubtitle": "Nos encargamos de todo el proceso: desde la estructura correcta hasta los aspectos fiscales, bancarios y operativos, para que puedas centrarte en hacer crecer tu negocio con tranquilidad.",
+    "heroTitle": "CÓMO TE AYUDAMOS A OPERAR TU LLC",
+    "heroTitleHighlight": "DE FORMA LEGAL Y OPTIMIZADA",
+    "heroSubtitle": "Te acompañamos desde la constitución hasta el mantenimiento anual, asegurándonos de que tu empresa cumpla con todas sus obligaciones y esté preparada para operar sin riesgos ni sorpresas.",
+    "trustpilotTitle": "Qué dicen nuestros clientes",
     "llc": {
       "title": "FORMACIÓN DE LLC",
       "description": "Constituye tu LLC americana de forma rápida y sencilla",
