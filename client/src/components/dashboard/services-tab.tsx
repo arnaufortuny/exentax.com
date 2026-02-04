@@ -99,14 +99,14 @@ export function ServicesTab({ orders, draftOrders, activeOrders }: ServicesTabPr
       );})}
       
       {(!orders || orders.length === 0) ? (
-        <Card className="rounded-2xl border-0 shadow-sm bg-white dark:bg-card p-6 md:p-8 text-center">
+        <Card className="rounded-2xl border-0 shadow-sm bg-white dark:bg-card p-6 md:p-8 text-center" data-testid="card-empty-services">
           <div className="flex flex-col items-center gap-3 md:gap-4">
-            <img src={tramitesIconPath} alt={t('dashboard.services.title')} className="w-12 h-12 md:w-16 md:h-16" />
+            <img src={tramitesIconPath} alt={t('dashboard.services.title')} className="w-12 h-12 md:w-16 md:h-16" data-testid="img-empty-icon" />
             <div>
-              <h3 className="text-base md:text-lg font-semibold text-foreground mb-1 md:mb-2 text-center">{t('dashboard.services.empty')}</h3>
-              <p className="text-xs md:text-sm text-muted-foreground mb-4 md:mb-6 text-center">{t('dashboard.services.emptyDescription')}</p>
+              <h3 className="text-base md:text-lg font-semibold text-foreground mb-1 md:mb-2 text-center" data-testid="text-empty-title">{t('dashboard.services.empty')}</h3>
+              <p className="text-xs md:text-sm text-muted-foreground mb-4 md:mb-6 text-center" data-testid="text-empty-description">{t('dashboard.services.emptyDescription')}</p>
             </div>
-            <Link href="/servicios#pricing">
+            <Link href="/servicios#pricing" data-testid="link-view-plans">
               <Button className="bg-accent text-accent-foreground font-semibold rounded-full px-6 md:px-8 py-2.5 md:py-3 text-sm md:text-base" data-testid="button-view-packs">
                 {t('dashboard.services.viewPlans')}
               </Button>
@@ -132,10 +132,10 @@ export function ServicesTab({ orders, draftOrders, activeOrders }: ServicesTabPr
                         <div>
                           <div className="flex items-center gap-2 mb-1">
                             <CheckCircle2 className="w-5 h-5 text-green-600 dark:text-green-400" />
-                            <h4 className="text-lg font-bold text-foreground">{app.companyName} LLC</h4>
+                            <h4 className="text-lg font-bold text-foreground" data-testid={`text-company-name-${order.id}`}>{app.companyName} LLC</h4>
                           </div>
-                          <p className="text-xs text-muted-foreground">
-                            {app.state} · {t('dashboard.llcDetails.orderCode')}: {app.requestCode}
+                          <p className="text-xs text-muted-foreground" data-testid={`text-llc-info-${order.id}`}>
+                            <span data-testid={`text-state-${order.id}`}>{app.state}</span> · {t('dashboard.llcDetails.orderCode')}: <span data-testid={`text-order-code-${order.id}`}>{app.requestCode}</span>
                           </p>
                         </div>
                         <Badge className="bg-green-500 text-white font-bold text-xs self-start sm:self-auto" data-testid={`badge-completed-${order.id}`}>
