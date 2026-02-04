@@ -298,135 +298,202 @@ export default function Servicios() {
             />
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 max-w-5xl mx-auto px-6 sm:px-0">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 max-w-6xl mx-auto px-4 sm:px-6">
             {/* New Mexico */}
-            <div className="border-[2px] border-accent rounded-2xl overflow-hidden relative bg-background shadow-lg flex flex-col h-full group mx-auto w-full sm:max-w-none">
-              <div className="p-4 sm:p-5 flex-grow text-center">
-                <div className="flex items-center justify-between mb-3 gap-2 sm:flex-col sm:items-center sm:justify-center">
-                  <h3 className="text-lg sm:text-xl font-black text-primary tracking-tight">New Mexico</h3>
-                  <span className="bg-accent/20 text-primary text-[10px] font-black px-2.5 py-0.5 rounded-full">{t("services.formation.popular")}</span>
+            <div className="bg-card border border-border rounded-2xl overflow-hidden flex flex-col h-full hover:shadow-xl transition-shadow">
+              <div className="p-6 border-b border-border">
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="text-xl font-black text-foreground">New Mexico</h3>
+                  <span className="bg-accent/20 text-foreground text-xs font-bold px-3 py-1 rounded-full">{t("services.formation.popular")}</span>
                 </div>
-                <div className="flex items-baseline justify-center gap-1 mb-1">
-                  <p className="text-3xl font-black text-primary">{getFormationPriceFormatted("newMexico")}</p>
-                  <span className="text-muted-foreground text-[10px] font-medium">{t("services.formation.year1")}</span>
-                </div>
-                <div className="text-muted-foreground text-[9px] font-black tracking-widest mb-3 flex items-center justify-center gap-1">
-                  <div className="w-1.5 h-1.5 rounded-full bg-accent" />
-                  {t("services.formation.stateFeesIncluded")}
-                </div>
-                <div className="space-y-1.5 text-sm mb-3 border-t border-accent/10 pt-3">
-                  {nmWyFeatures.map((f) => (
-                    <div key={f} className="flex items-start justify-start gap-1.5 text-primary/80 font-bold text-left leading-tight">
-                      <Check className="text-accent w-4 h-4 mt-0.5 flex-shrink-0" /> 
-                      <span className="text-[11px] sm:text-xs">{f}</span>
-                    </div>
-                  ))}
+                <div className="space-y-2">
+                  <div className="flex items-baseline gap-2">
+                    <span className="text-sm text-muted-foreground">{t("stateComparison.formationPrice")}:</span>
+                    <span className="text-2xl font-black text-foreground">{getFormationPriceFormatted("newMexico")}</span>
+                  </div>
+                  <div className="flex items-baseline gap-2">
+                    <span className="text-sm text-muted-foreground">{t("stateComparison.annualMaintenance")}:</span>
+                    <span className="text-lg font-bold text-foreground">{getMaintenancePriceFormatted("newMexico")}</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                    <div className="w-2 h-2 rounded-full bg-accent" />
+                    {t("stateComparison.processingTime")}: 2-3 {t("stateComparison.days")}
+                  </div>
                 </div>
               </div>
-              <div className="p-4 sm:p-5 pt-0">
+              
+              <div className="p-6 flex-grow">
+                <div className="mb-4">
+                  <p className="text-xs font-bold text-accent uppercase tracking-wider mb-3">{t("stateComparison.advantages")}</p>
+                  <div className="space-y-2">
+                    {(t("stateComparison.newMexico.pros", { returnObjects: true }) as string[]).map((pro, i) => (
+                      <div key={i} className="flex items-start gap-2">
+                        <Check className="w-4 h-4 text-accent mt-0.5 flex-shrink-0" />
+                        <span className="text-sm text-foreground">{pro}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                
+                <div className="mb-4">
+                  <p className="text-xs font-bold text-muted-foreground uppercase tracking-wider mb-3">{t("stateComparison.considerations")}</p>
+                  <div className="space-y-2">
+                    {(t("stateComparison.newMexico.cons", { returnObjects: true }) as string[]).map((con, i) => (
+                      <div key={i} className="flex items-start gap-2">
+                        <div className="w-1.5 h-1.5 rounded-full bg-muted-foreground mt-2 flex-shrink-0" />
+                        <span className="text-sm text-muted-foreground">{con}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                
+                <div className="bg-accent/5 rounded-xl p-4 border border-accent/10">
+                  <p className="text-xs font-bold text-accent uppercase tracking-wider mb-2">{t("stateComparison.idealIf")}</p>
+                  <p className="text-sm text-foreground">{t("stateComparison.newMexico.idealIf")}</p>
+                  <p className="text-xs font-bold text-accent mt-2">{t("stateComparison.newMexico.tagline")}</p>
+                </div>
+              </div>
+              
+              <div className="p-6 pt-0">
                 <Button 
                   onClick={() => handleSelectProduct("New Mexico")}
-                  className="w-full bg-accent text-primary font-black text-xs rounded-full py-2.5 border-0 shadow-md hover:bg-accent/90 transition-colors h-9"
+                  className="w-full bg-accent text-accent-foreground font-bold rounded-full h-11"
+                  data-testid="button-select-nm"
                 >
                   {t("services.formation.choose")} New Mexico
-                </Button>
-              </div>
-              <div className="bg-accent/5 px-4 py-2 border-t border-accent/10 mt-auto text-center">
-                <Button 
-                  variant="link"
-                  onClick={() => setLocation(`/contacto?subject=${encodeURIComponent("Mantenimiento New Mexico")}`)}
-                  className="font-black text-[9px] tracking-widest text-primary/70 p-0 h-auto"
-                  data-testid="button-maintenance-nm"
-                >
-                  {t("services.formation.maintenanceYear2")}: {getMaintenancePriceFormatted("newMexico")}
                 </Button>
               </div>
             </div>
 
             {/* Wyoming */}
-            <div className="border-[2px] border-accent rounded-2xl overflow-hidden relative bg-background shadow-lg flex flex-col h-full group mx-auto w-full sm:max-w-none">
-              <div className="p-4 sm:p-5 flex-grow text-center">
-                <div className="flex items-center justify-between mb-3 gap-2 sm:flex-col sm:items-center sm:justify-center">
-                  <h3 className="text-lg sm:text-xl font-black text-primary tracking-tight">Wyoming</h3>
-                  <span className="bg-accent text-primary-foreground text-[10px] font-black px-2.5 py-0.5 rounded-full">{t("services.formation.premium")}</span>
+            <div className="bg-card border-2 border-accent rounded-2xl overflow-hidden flex flex-col h-full hover:shadow-xl transition-shadow relative">
+              <div className="absolute top-0 left-0 right-0 h-1 bg-accent" />
+              <div className="p-6 border-b border-border">
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="text-xl font-black text-foreground">Wyoming</h3>
+                  <span className="bg-accent text-accent-foreground text-xs font-bold px-3 py-1 rounded-full">{t("services.formation.premium")}</span>
                 </div>
-                <div className="flex items-baseline justify-center gap-1 mb-1">
-                  <p className="text-3xl font-black text-primary">{getFormationPriceFormatted("wyoming")}</p>
-                  <span className="text-muted-foreground text-[10px] font-medium">{t("services.formation.year1")}</span>
-                </div>
-                <div className="text-muted-foreground text-[9px] font-black tracking-widest mb-3 flex items-center justify-center gap-1">
-                  <div className="w-1.5 h-1.5 rounded-full bg-accent" />
-                  {t("services.formation.stateFeesIncluded")}
-                </div>
-                <div className="space-y-1.5 text-sm mb-3 border-t border-accent/10 pt-3">
-                  {nmWyFeatures.map((f) => (
-                    <div key={f} className="flex items-start justify-start gap-1.5 text-primary/80 font-bold text-left leading-tight">
-                      <Check className="text-accent w-4 h-4 mt-0.5 flex-shrink-0" /> 
-                      <span className="text-[11px] sm:text-xs">{f}</span>
-                    </div>
-                  ))}
+                <div className="space-y-2">
+                  <div className="flex items-baseline gap-2">
+                    <span className="text-sm text-muted-foreground">{t("stateComparison.formationPrice")}:</span>
+                    <span className="text-2xl font-black text-foreground">{getFormationPriceFormatted("wyoming")}</span>
+                  </div>
+                  <div className="flex items-baseline gap-2">
+                    <span className="text-sm text-muted-foreground">{t("stateComparison.annualMaintenance")}:</span>
+                    <span className="text-lg font-bold text-foreground">{getMaintenancePriceFormatted("wyoming")}</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                    <div className="w-2 h-2 rounded-full bg-accent" />
+                    {t("stateComparison.processingTime")}: 2-3 {t("stateComparison.days")}
+                  </div>
                 </div>
               </div>
-              <div className="p-4 sm:p-5 pt-0">
+              
+              <div className="p-6 flex-grow">
+                <div className="mb-4">
+                  <p className="text-xs font-bold text-accent uppercase tracking-wider mb-3">{t("stateComparison.advantages")}</p>
+                  <div className="space-y-2">
+                    {(t("stateComparison.wyoming.pros", { returnObjects: true }) as string[]).map((pro, i) => (
+                      <div key={i} className="flex items-start gap-2">
+                        <Check className="w-4 h-4 text-accent mt-0.5 flex-shrink-0" />
+                        <span className="text-sm text-foreground">{pro}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                
+                <div className="mb-4">
+                  <p className="text-xs font-bold text-muted-foreground uppercase tracking-wider mb-3">{t("stateComparison.considerations")}</p>
+                  <div className="space-y-2">
+                    {(t("stateComparison.wyoming.cons", { returnObjects: true }) as string[]).map((con, i) => (
+                      <div key={i} className="flex items-start gap-2">
+                        <div className="w-1.5 h-1.5 rounded-full bg-muted-foreground mt-2 flex-shrink-0" />
+                        <span className="text-sm text-muted-foreground">{con}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                
+                <div className="bg-accent/5 rounded-xl p-4 border border-accent/10">
+                  <p className="text-xs font-bold text-accent uppercase tracking-wider mb-2">{t("stateComparison.idealIf")}</p>
+                  <p className="text-sm text-foreground">{t("stateComparison.wyoming.idealIf")}</p>
+                  <p className="text-xs font-bold text-accent mt-2">{t("stateComparison.wyoming.tagline")}</p>
+                </div>
+              </div>
+              
+              <div className="p-6 pt-0">
                 <Button 
                   onClick={() => handleSelectProduct("Wyoming")}
-                  className="w-full bg-accent text-primary font-black text-xs rounded-full py-2.5 border-0 shadow-md hover:bg-accent/90 transition-colors h-9"
+                  className="w-full bg-accent text-accent-foreground font-bold rounded-full h-11"
+                  data-testid="button-select-wy"
                 >
                   {t("services.formation.choose")} Wyoming
-                </Button>
-              </div>
-              <div className="bg-accent/5 px-4 py-2 border-t border-accent/10 mt-auto text-center">
-                <Button 
-                  variant="link"
-                  onClick={() => setLocation(`/contacto?subject=${encodeURIComponent("Mantenimiento Wyoming")}`)}
-                  className="font-black text-[9px] tracking-widest text-primary/70 p-0 h-auto"
-                  data-testid="button-maintenance-wy"
-                >
-                  {t("services.formation.maintenanceYear2")}: {getMaintenancePriceFormatted("wyoming")}
                 </Button>
               </div>
             </div>
 
             {/* Delaware */}
-            <div className="border-[2px] border-accent rounded-2xl overflow-hidden relative bg-background shadow-lg flex flex-col h-full group mx-auto w-full sm:max-w-none">
-              <div className="p-4 sm:p-5 flex-grow text-center">
-                <div className="flex items-center justify-between mb-3 gap-2 sm:flex-col sm:items-center sm:justify-center">
-                  <h3 className="text-lg sm:text-xl font-black text-primary tracking-tight">Delaware</h3>
-                  <span className="bg-accent text-primary text-[10px] font-black px-2.5 py-0.5 rounded-full">{t("services.formation.startups")}</span>
+            <div className="bg-card border border-border rounded-2xl overflow-hidden flex flex-col h-full hover:shadow-xl transition-shadow">
+              <div className="p-6 border-b border-border">
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="text-xl font-black text-foreground">Delaware</h3>
+                  <span className="bg-foreground/10 text-foreground text-xs font-bold px-3 py-1 rounded-full">{t("services.formation.startups")}</span>
                 </div>
-                <div className="flex items-baseline justify-center gap-1 mb-1">
-                  <p className="text-3xl font-black text-primary">{getFormationPriceFormatted("delaware")}</p>
-                  <span className="text-muted-foreground text-[10px] font-medium">{t("services.formation.year1")}</span>
-                </div>
-                <div className="text-muted-foreground text-[9px] font-black tracking-widest mb-3 flex items-center justify-center gap-1">
-                  <div className="w-1.5 h-1.5 rounded-full bg-accent" />
-                  {t("services.formation.stateFeesIncluded")}
-                </div>
-                <div className="space-y-1.5 text-sm mb-3 border-t border-accent/10 pt-3">
-                  {deFeatures.map((f) => (
-                    <div key={f} className="flex items-start justify-start gap-1.5 text-primary/80 font-bold text-left leading-tight">
-                      <Check className="text-accent w-4 h-4 mt-0.5 flex-shrink-0" /> 
-                      <span className="text-[11px] sm:text-xs">{f}</span>
-                    </div>
-                  ))}
+                <div className="space-y-2">
+                  <div className="flex items-baseline gap-2">
+                    <span className="text-sm text-muted-foreground">{t("stateComparison.formationPrice")}:</span>
+                    <span className="text-2xl font-black text-foreground">{getFormationPriceFormatted("delaware")}</span>
+                  </div>
+                  <div className="flex items-baseline gap-2">
+                    <span className="text-sm text-muted-foreground">{t("stateComparison.annualMaintenance")}:</span>
+                    <span className="text-lg font-bold text-foreground">{getMaintenancePriceFormatted("delaware")}</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                    <div className="w-2 h-2 rounded-full bg-accent" />
+                    {t("stateComparison.processingTime")}: 3-5 {t("stateComparison.days")}
+                  </div>
                 </div>
               </div>
-              <div className="p-4 sm:p-5 pt-0">
+              
+              <div className="p-6 flex-grow">
+                <div className="mb-4">
+                  <p className="text-xs font-bold text-accent uppercase tracking-wider mb-3">{t("stateComparison.advantages")}</p>
+                  <div className="space-y-2">
+                    {(t("stateComparison.delaware.pros", { returnObjects: true }) as string[]).map((pro, i) => (
+                      <div key={i} className="flex items-start gap-2">
+                        <Check className="w-4 h-4 text-accent mt-0.5 flex-shrink-0" />
+                        <span className="text-sm text-foreground">{pro}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                
+                <div className="mb-4">
+                  <p className="text-xs font-bold text-muted-foreground uppercase tracking-wider mb-3">{t("stateComparison.considerations")}</p>
+                  <div className="space-y-2">
+                    {(t("stateComparison.delaware.cons", { returnObjects: true }) as string[]).map((con, i) => (
+                      <div key={i} className="flex items-start gap-2">
+                        <div className="w-1.5 h-1.5 rounded-full bg-muted-foreground mt-2 flex-shrink-0" />
+                        <span className="text-sm text-muted-foreground">{con}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                
+                <div className="bg-accent/5 rounded-xl p-4 border border-accent/10">
+                  <p className="text-xs font-bold text-accent uppercase tracking-wider mb-2">{t("stateComparison.idealIf")}</p>
+                  <p className="text-sm text-foreground">{t("stateComparison.delaware.idealIf")}</p>
+                  <p className="text-xs font-bold text-accent mt-2">{t("stateComparison.delaware.tagline")}</p>
+                </div>
+              </div>
+              
+              <div className="p-6 pt-0">
                 <Button 
                   onClick={() => handleSelectProduct("Delaware")}
-                  className="w-full bg-accent text-primary font-black text-xs rounded-full py-2.5 border-0 shadow-md hover:bg-accent/90 transition-colors h-9"
+                  className="w-full bg-accent text-accent-foreground font-bold rounded-full h-11"
+                  data-testid="button-select-de"
                 >
                   {t("services.formation.choose")} Delaware
-                </Button>
-              </div>
-              <div className="bg-accent/5 px-4 py-2 border-t border-accent/10 mt-auto text-center">
-                <Button 
-                  variant="link"
-                  onClick={() => setLocation(`/contacto?subject=${encodeURIComponent("Mantenimiento Delaware")}`)}
-                  className="font-black text-[9px] tracking-widest text-primary/70 p-0 h-auto"
-                  data-testid="button-maintenance-de"
-                >
-                  {t("services.formation.maintenanceYear2")}: {getMaintenancePriceFormatted("delaware")}
                 </Button>
               </div>
             </div>
