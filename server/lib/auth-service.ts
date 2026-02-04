@@ -65,6 +65,7 @@ export async function createUser(data: {
   birthDate?: string;
   businessActivity?: string;
   clientId: string;
+  preferredLanguage?: string;
 }): Promise<{ user: typeof users.$inferSelect; verificationToken: string }> {
   const passwordValidation = validatePassword(data.password);
   if (!passwordValidation.valid) {

@@ -1565,7 +1565,7 @@ export async function registerRoutes(
         return res.status(404).json({ message: "Factura o pedido no encontrado" });
       }
       
-      await db.update(ordersTable).set({ status, updatedAt: new Date() })
+      await db.update(ordersTable).set({ status })
         .where(eq(ordersTable.id, invoice.orderId));
       
       res.json({ success: true, message: "Estado actualizado" });

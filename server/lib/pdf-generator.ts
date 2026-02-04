@@ -92,6 +92,7 @@ export interface InvoiceData {
   paymentLink?: string;
   notes?: string;
   isMaintenance?: boolean;
+  maintenanceApplication?: any;
 }
 
 export interface CustomInvoiceData {
