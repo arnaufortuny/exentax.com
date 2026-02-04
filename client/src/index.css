@@ -13,14 +13,14 @@ html.dark {
   background: #0A0A0A;
 }
 
-/* Ensure smooth page transitions without visual glitches */
+/* Ensure consistent background */
 body {
-  background: transparent;
+  background: inherit;
   min-height: 100dvh;
 }
 
 #root {
-  background: transparent;
+  background: inherit;
   min-height: 100dvh;
 }
 
@@ -227,8 +227,12 @@ body {
   }
 }
 
-a, button {
-  transition: none;
+a {
+  transition: color 0.15s ease;
+}
+
+button {
+  transition: background-color 0.15s ease, color 0.15s ease;
 }
 
 /* Main site gradient background - top to bottom (white at bottom) */
