@@ -240,18 +240,11 @@ export default function Register() {
                 <circle cx="60" cy="80" r="5" fill="#EF4444"/>
               </svg>
               <h1 className="text-2xl sm:text-3xl font-black text-foreground tracking-tight">
-                {t("auth.accountDeactivated.title", "Cuenta desactivada")}
+                {t("auth.accountDeactivated.title")}
               </h1>
               <p className="text-muted-foreground mt-4 text-sm sm:text-base">
-                {t("auth.accountDeactivated.description", "Tu cuenta ha sido desactivada. Si crees que esto es un error, por favor contacta con nuestro equipo de soporte.")}
+                {t("auth.accountDeactivated.description")}
               </p>
-            </div>
-            <div className="space-y-4">
-              <Link href="/contacto">
-                <Button className="w-full bg-accent text-primary font-black rounded-full h-12">
-                  {t("auth.accountDeactivated.contactSupport", "Contactar Soporte")}
-                </Button>
-              </Link>
             </div>
           </div>
         </main>

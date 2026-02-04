@@ -955,10 +955,8 @@
     "newLLC": "Constituir una nova LLC",
     "accountDeactivated": {
       "title": "Compte desactivat",
-      "message": "El teu compte ha estat desactivat. Contacta amb suport si tens dubtes.",
-      "description": "El teu compte ha estat desactivat. Si creus que això és un error, si us plau contacta amb el nostre equip de suport.",
-      "contactSupport": "Contactar Suport",
-      "back": "Tornar"
+      "message": "El teu compte ha estat desactivat.",
+      "description": "El teu compte ha estat desactivat i no pots accedir al sistema."
     },
     "accountStatus": {
       "pendingReview": {

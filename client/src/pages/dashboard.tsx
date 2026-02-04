@@ -719,11 +719,15 @@ export default function Dashboard() {
                   {t("dashboard.accountDeactivated.message")}
                 </p>
                 <Button 
-                  variant="outline" 
-                  className="w-full font-black text-foreground h-12 rounded-full border-2"
+                  variant="destructive" 
+                  className="w-full sm:w-auto px-8 font-black h-11 sm:h-12 rounded-full shadow-lg hover:shadow-xl transition-all"
                   onClick={() => apiRequest("POST", "/api/logout").then(() => window.location.href = "/")}
                   data-testid="button-logout"
                 >
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="mr-2">
+                    <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    <path d="M16 17l5-5-5-5M21 12H9" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
                   {t("nav.logout")}
                 </Button>
               </CardContent>

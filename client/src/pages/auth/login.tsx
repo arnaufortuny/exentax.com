@@ -117,13 +117,6 @@ export default function Login() {
                 {t("auth.accountDeactivated.description")}
               </p>
             </div>
-            <div className="space-y-4">
-              <Link href="/contacto">
-                <Button className="w-full bg-accent text-primary font-black rounded-full h-12">
-                  {t("auth.accountDeactivated.contactSupport")}
-                </Button>
-              </Link>
-            </div>
           </div>
         </main>
         <Footer />
