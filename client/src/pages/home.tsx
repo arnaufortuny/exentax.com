@@ -68,7 +68,7 @@ export default function Home() {
 
             <h1 
               className="font-black tracking-tighter text-foreground mb-4 sm:mb-4 w-full block [text-wrap:balance] [word-break:keep-all] [overflow-wrap:break-word] text-center" 
-              style={{ fontSize: 'clamp(34px, 10vw, 88px)', lineHeight: '0.85' }}
+              style={{ fontSize: 'clamp(42px, 12vw, 110px)', lineHeight: '0.85' }}
             >
               {t("hero.title")}<br />
               <span className="text-accent">{t("hero.subtitle")}</span>
