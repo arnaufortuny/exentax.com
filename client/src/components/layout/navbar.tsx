@@ -197,7 +197,7 @@ export function Navbar() {
       </div>
 
       {isOpen && (
-        <div className="md:hidden fixed inset-0 bg-background z-[60] flex flex-col pt-20 overflow-hidden">
+        <div className="md:hidden fixed inset-0 bg-background z-[60] flex flex-col pt-20">
           <div className="flex flex-col bg-background p-6 justify-between items-stretch overflow-y-auto overscroll-contain flex-1" style={{ maxHeight: 'calc(100dvh - 5rem)' }}>
               <div className="flex flex-col gap-0.5 items-stretch text-left">
                 <button

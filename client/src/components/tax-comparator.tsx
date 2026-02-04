@@ -269,7 +269,7 @@ export function TaxComparator() {
   };
   
   return (
-    <section className="py-16 sm:py-24 bg-background relative overflow-hidden" id="comparador">
+    <section className="py-16 sm:py-24 bg-background relative" id="comparador">
       <div className="w-full px-4 sm:px-8 relative z-10">
         <div className="text-center mb-10 sm:mb-14 flex flex-col items-center justify-center">
           <motion.h2 
@@ -561,7 +561,7 @@ export function TaxComparator() {
             </div>
             
                   {/* Savings */}
-                  <div className="p-6 sm:p-8 bg-background relative overflow-hidden border-t border-accent/10">
+                  <div className="p-6 sm:p-8 bg-background relative border-t border-accent/10">
                     <div className="absolute inset-0 opacity-10">
                       <div className="absolute -top-10 -right-10 w-40 h-40 bg-accent rounded-full blur-2xl" />
                       <div className="absolute -bottom-10 -left-10 w-32 h-32 bg-accent rounded-full blur-2xl" />
