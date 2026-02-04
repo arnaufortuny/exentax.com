@@ -96,7 +96,16 @@ export type AuditAction =
   | 'security_otp_required'
   | 'ip_order_blocked'
   | 'backup_completed'
-  | 'backup_failed';
+  | 'backup_failed'
+  | 'admin_create_maintenance_order'
+  | 'consultation_booked'
+  | 'consultation_cancelled'
+  | 'consultation_type_created'
+  | 'consultation_updated'
+  | 'consultation_rescheduled'
+  | 'accounting_transaction_created'
+  | 'accounting_transaction_updated'
+  | 'accounting_transaction_deleted';
 
 interface AuditLogEntry {
   action: AuditAction;

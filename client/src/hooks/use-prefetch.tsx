@@ -11,7 +11,6 @@ export function usePrefetch() {
     const routeLoaders: Record<string, () => Promise<unknown>> = {
       "/": () => import("../pages/home"),
       "/servicios": () => import("../pages/servicios"),
-      "/precios": () => import("../pages/servicios"),
       "/faq": () => import("../pages/faq"),
       "/contacto": () => import("../pages/contacto"),
       "/llc/maintenance": () => import("../pages/maintenance"),

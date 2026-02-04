@@ -21,12 +21,6 @@ const routeTitles: Record<string, PageTitleConfig> = {
     fallbackTitle: "Servicios y Precios | Easy US LLC",
     fallbackDescription: "Descubre nuestros packs de formación de LLC en New Mexico, Wyoming y Delaware. Precios transparentes desde 739€."
   },
-  "/precios": {
-    titleKey: "seo.servicios.title",
-    descriptionKey: "seo.servicios.description",
-    fallbackTitle: "Precios LLC USA | Easy US LLC",
-    fallbackDescription: "Precios transparentes para tu LLC en Estados Unidos. New Mexico desde 739€, Wyoming desde 899€, Delaware desde 1,399€."
-  },
   "/faq": {
     titleKey: "seo.faq.title",
     descriptionKey: "seo.faq.description",
