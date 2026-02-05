@@ -38,8 +38,16 @@ interface EmailTranslations {
   };
   accountUnderReview: {
     underReview: string;
+    whyReview: string;
+    whyReviewText: string;
     duringProcess: string;
+    whatHappens: string;
+    step1: string;
+    step2: string;
+    step3: string;
     teamReviewing: string;
+    patience: string;
+    closing: string;
   };
   accountVip: {
     updatedToVip: string;
@@ -231,9 +239,17 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       whileUnverified: "Mientras tu email no esté verificado, tu cuenta permanecerá en estado de revisión."
     },
     accountUnderReview: {
-      underReview: "Te informamos de que tu cuenta se encuentra actualmente en revisión.",
-      duringProcess: "Durante este proceso de validación, no será posible realizar nuevos pedidos ni modificar información existente en tu Área Cliente. Esta medida es temporal y forma parte de nuestros procedimientos de verificación.",
-      teamReviewing: "Nuestro equipo está revisando la información proporcionada y te notificaremos por este mismo medio en cuanto el proceso haya finalizado o si fuera necesario aportar documentación adicional."
+      underReview: "Queremos informarte de que tu cuenta ha entrado en un breve proceso de revisión. No te preocupes, esto es algo completamente rutinario y forma parte de nuestros estándares de seguridad para proteger tu información y garantizar una experiencia segura.",
+      whyReview: "¿Por qué hacemos esto?",
+      whyReviewText: "En Easy US LLC nos tomamos muy en serio la seguridad de nuestros clientes. Este proceso nos permite verificar que toda la información está correcta y que tu cuenta está debidamente protegida.",
+      duringProcess: "Durante este breve período, las funciones de tu cuenta estarán temporalmente limitadas. Esto significa que no podrás realizar nuevos pedidos ni modificar información existente, pero no te preocupes: esta situación es temporal y no afectará a ningún trámite que ya esté en curso.",
+      whatHappens: "¿Qué pasará ahora?",
+      step1: "Nuestro equipo revisará la información de tu cuenta (normalmente en 24-48 horas laborables)",
+      step2: "Te notificaremos por este mismo correo en cuanto la revisión haya finalizado",
+      step3: "Si necesitamos algún documento adicional, te lo haremos saber de forma clara y sencilla",
+      teamReviewing: "Mientras tanto, si tienes cualquier pregunta o necesitas ayuda, no dudes en responder a este correo. Estamos aquí para ayudarte en todo lo que necesites.",
+      patience: "Gracias por tu paciencia y confianza. Sabemos que tu tiempo es valioso y haremos todo lo posible para resolver esto lo antes posible.",
+      closing: "Un abrazo del equipo de Easy US LLC"
     },
     accountVip: {
       updatedToVip: "Tu cuenta ha sido actualizada al estado VIP.",
@@ -423,9 +439,17 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       whileUnverified: "While your email is not verified, your account will remain under review."
     },
     accountUnderReview: {
-      underReview: "We inform you that your account is currently under review.",
-      duringProcess: "During this validation process, it will not be possible to place new orders or modify existing information in your Client Area. This measure is temporary and is part of our verification procedures.",
-      teamReviewing: "Our team is reviewing the information provided and will notify you through this same channel when the process is complete or if additional documentation is required."
+      underReview: "We wanted to let you know that your account has entered a brief review process. Don't worry, this is completely routine and is part of our security standards to protect your information and ensure a safe experience.",
+      whyReview: "Why do we do this?",
+      whyReviewText: "At Easy US LLC, we take our clients' security very seriously. This process allows us to verify that all information is correct and that your account is properly protected.",
+      duringProcess: "During this brief period, your account functions will be temporarily limited. This means you won't be able to place new orders or modify existing information, but don't worry: this situation is temporary and won't affect any procedures already in progress.",
+      whatHappens: "What happens now?",
+      step1: "Our team will review your account information (usually within 24-48 business hours)",
+      step2: "We'll notify you by this same email once the review is complete",
+      step3: "If we need any additional documents, we'll let you know clearly and simply",
+      teamReviewing: "In the meantime, if you have any questions or need help, don't hesitate to reply to this email. We're here to help you with whatever you need.",
+      patience: "Thank you for your patience and trust. We know your time is valuable and we'll do everything possible to resolve this as quickly as possible.",
+      closing: "Warm regards from the Easy US LLC team"
     },
     accountVip: {
       updatedToVip: "Your account has been upgraded to VIP status.",
@@ -615,9 +639,17 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       whileUnverified: "Mentre el teu email no estigui verificat, el teu compte romandrà en estat de revisió."
     },
     accountUnderReview: {
-      underReview: "T'informem que el teu compte es troba actualment en revisió.",
-      duringProcess: "Durant aquest procés de validació, no serà possible realitzar noves comandes ni modificar informació existent a la teva Àrea Client. Aquesta mesura és temporal i forma part dels nostres procediments de verificació.",
-      teamReviewing: "El nostre equip està revisant la informació proporcionada i et notificarem per aquest mateix mitjà quan el procés hagi finalitzat o si fos necessari aportar documentació addicional."
+      underReview: "Volem informar-te que el teu compte ha entrat en un breu procés de revisió. No et preocupis, això és completament rutinari i forma part dels nostres estàndards de seguretat per protegir la teva informació i garantir una experiència segura.",
+      whyReview: "Per què fem això?",
+      whyReviewText: "A Easy US LLC ens prenem molt seriosament la seguretat dels nostres clients. Aquest procés ens permet verificar que tota la informació és correcta i que el teu compte està degudament protegit.",
+      duringProcess: "Durant aquest breu període, les funcions del teu compte estaran temporalment limitades. Això significa que no podràs realitzar noves comandes ni modificar informació existent, però no et preocupis: aquesta situació és temporal i no afectarà cap tràmit que ja estigui en curs.",
+      whatHappens: "Què passarà ara?",
+      step1: "El nostre equip revisarà la informació del teu compte (normalment en 24-48 hores laborables)",
+      step2: "Et notificarem per aquest mateix correu quan la revisió hagi finalitzat",
+      step3: "Si necessitem algun document addicional, t'ho farem saber de forma clara i senzilla",
+      teamReviewing: "Mentrestant, si tens qualsevol pregunta o necessites ajuda, no dubtis a respondre a aquest correu. Estem aquí per ajudar-te en tot el que necessitis.",
+      patience: "Gràcies per la teva paciència i confiança. Sabem que el teu temps és valuós i farem tot el possible per resoldre això el més aviat possible.",
+      closing: "Una abraçada de l'equip d'Easy US LLC"
     },
     accountVip: {
       updatedToVip: "El teu compte ha estat actualitzat a l'estat VIP.",

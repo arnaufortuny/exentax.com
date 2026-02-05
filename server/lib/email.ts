@@ -143,13 +143,31 @@ export function getAccountUnderReviewTemplate(name?: string, lang: EmailLanguage
   const content = `
     <p style="line-height: 1.7; font-size: 15px; color: #444; margin: 0 0 25px 0;">${t.common.greeting} ${clientName},</p>
     
-    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">${t.accountUnderReview.underReview}</p>
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 25px;">${t.accountUnderReview.underReview}</p>
+    
+    <div style="background: #F9FAFB; padding: 25px; border-radius: 16px; margin: 25px 0; border-left: 4px solid #6EDC8A;">
+      <p style="margin: 0 0 10px 0; font-size: 14px; font-weight: 700; color: #0A0A0A;">${t.accountUnderReview.whyReview}</p>
+      <p style="margin: 0; font-size: 14px; color: #444; line-height: 1.7;">${t.accountUnderReview.whyReviewText}</p>
+    </div>
     
     <div style="background: #FEF3C7; padding: 20px 25px; border-radius: 16px; margin: 25px 0; border-left: 4px solid #F59E0B;">
       <p style="margin: 0; font-size: 14px; color: #92400E; line-height: 1.7;">${t.accountUnderReview.duringProcess}</p>
     </div>
     
+    <div style="background: #F0FDF4; padding: 25px; border-radius: 16px; margin: 25px 0; border: 1px solid #6EDC8A;">
+      <p style="margin: 0 0 15px 0; font-size: 14px; font-weight: 700; color: #0A0A0A;">${t.accountUnderReview.whatHappens}</p>
+      <ul style="margin: 0; padding-left: 20px; font-size: 14px; color: #444; line-height: 1.9;">
+        <li style="margin-bottom: 8px;">${t.accountUnderReview.step1}</li>
+        <li style="margin-bottom: 8px;">${t.accountUnderReview.step2}</li>
+        <li>${t.accountUnderReview.step3}</li>
+      </ul>
+    </div>
+    
     <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">${t.accountUnderReview.teamReviewing}</p>
+    
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">${t.accountUnderReview.patience}</p>
+    
+    <p style="line-height: 1.7; font-size: 15px; color: #0A0A0A; font-weight: 600; margin-bottom: 0;">${t.accountUnderReview.closing}</p>
   `;
   return getEmailWrapper(content, lang);
 }
