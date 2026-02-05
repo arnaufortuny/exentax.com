@@ -529,9 +529,11 @@ export default function OperatingAgreementGenerator() {
       <main className="flex-1 py-8 px-4">
         <div className="max-w-2xl mx-auto">
           <div className="mb-6">
-            <Link href="/dashboard" className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground text-sm font-medium transition-colors">
-              <ArrowLeft className="w-4 h-4" />
-              {t("tools.backToDashboard")}
+            <Link href="/dashboard">
+              <Button variant="ghost" size="sm" className="rounded-full text-muted-foreground hover:text-foreground -ml-2" data-testid="button-back-dashboard">
+                <ArrowLeft className="w-4 h-4 mr-2" />
+                {t("tools.backToDashboard")}
+              </Button>
             </Link>
           </div>
           

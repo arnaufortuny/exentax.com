@@ -296,8 +296,9 @@ export default function InvoiceGenerator() {
       <main className="flex-1 w-full max-w-4xl mx-auto px-4 py-6 md:py-10 pb-20">
         <div className="mb-6 md:mb-8 animate-fade-in-up">
           <Link href="/dashboard">
-            <Button variant="ghost" size="sm" className="mb-4 -ml-2 text-muted-foreground animate-press" data-testid="link-back">
-              <ArrowLeft className="w-4 h-4 mr-1" /> {t('tools.invoiceGenerator.backToDashboard')}
+            <Button variant="ghost" size="sm" className="rounded-full text-muted-foreground hover:text-foreground mb-4 -ml-2" data-testid="link-back">
+              <ArrowLeft className="w-4 h-4 mr-2" />
+              {t('tools.backToDashboard')}
             </Button>
           </Link>
           <div className="flex items-center gap-2 sm:gap-3">

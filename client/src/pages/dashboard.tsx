@@ -2713,7 +2713,7 @@ export default function Dashboard() {
                 )}
               </div>
             </section>
-            <section className="bg-accent/10 p-6 md:p-8 rounded-[2rem] border-2 border-accent/20 mt-8 mb-12">
+            <section className="bg-accent/10 p-6 md:p-8 rounded-[2rem] border-2 border-accent/20 mt-8 mb-16 md:mb-12">
               <h3 className="text-base font-semibold text-foreground mb-2">¿Tienes alguna duda?</h3>
               <p className="text-xs text-primary/70 mb-5 leading-relaxed">Estamos aquí para ayudarte, escríbenos y te responderemos lo antes posible!</p>
               <a href="https://wa.me/34614916910?text=Hola!%20Soy%20cliente%20de%20Easy%20US%20LLC%20y%20tengo%20una%20duda%20sobre%20el%20estado%20de%20mi%20LLC%20o%20documentaci%C3%B3n.%20%C2%BFPodr%C3%ADais%20ayudarme%3F" target="_blank" rel="noopener noreferrer">

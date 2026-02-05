@@ -206,9 +206,9 @@ export default function CsvGenerator() {
       <main className="flex-1 w-full max-w-5xl mx-auto px-4 py-6 md:py-10">
         <div className="mb-6">
           <Link href="/dashboard">
-            <Button variant="ghost" size="sm" className="rounded-full text-muted-foreground hover:text-foreground mb-4" data-testid="button-back-dashboard">
+            <Button variant="ghost" size="sm" className="rounded-full text-muted-foreground hover:text-foreground mb-4 -ml-2" data-testid="button-back-dashboard">
               <ArrowLeft className="w-4 h-4 mr-2" />
-              {t("tools.csvGenerator.backToDashboard")}
+              {t("tools.backToDashboard")}
             </Button>
           </Link>
           

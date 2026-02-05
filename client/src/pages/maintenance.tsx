@@ -33,11 +33,13 @@ const createFormSchema = (t: (key: string) => string) => z.object({
     .min(1, t("validation.required"))
     .refine(
       (val) => {
+        // Must start with +
+        if (!val.startsWith('+')) return false;
         // No letters allowed
         if (/[a-zA-Z]/.test(val)) return false;
-        // Must start with + OR have at least 6 digits
+        // Must have at least 6 digits after the +
         const digitsOnly = val.replace(/\D/g, '');
-        return val.startsWith('+') || digitsOnly.length >= 6;
+        return digitsOnly.length >= 6;
       },
       { message: t("validation.phoneFormat") }
     ),

@@ -7,7 +7,7 @@ import { useTranslation } from "react-i18next";
 import { usePageTitle } from "@/hooks/use-page-title";
 import { PRICING, getFormationPriceFormatted } from "@shared/config/pricing";
 
-import { Check, Loader2, Eye, EyeOff } from "lucide-react";
+import { Check, Loader2, Eye, EyeOff, CheckCircle2 } from "lucide-react";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { Button } from "@/components/ui/button";
@@ -33,11 +33,13 @@ const createFormSchema = (t: (key: string) => string) => z.object({
     .min(1, t("validation.required"))
     .refine(
       (val) => {
+        // Must start with +
+        if (!val.startsWith('+')) return false;
         // No letters allowed
         if (/[a-zA-Z]/.test(val)) return false;
-        // Must start with + OR have at least 6 digits
+        // Must have at least 6 digits after the +
         const digitsOnly = val.replace(/\D/g, '');
-        return val.startsWith('+') || digitsOnly.length >= 6;
+        return digitsOnly.length >= 6;
       },
       { message: t("validation.phoneFormat") }
     ),
@@ -1404,43 +1406,97 @@ export default function LlcFormation() {
             )}
 
             {step === 16 && (
-              <div key={"step-" + step} className="space-y-8 text-left">
-                <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight">Revisión Final</h2>
-                <div className="bg-accent/5 p-6 md:p-8 rounded-[2rem] border border-accent/20 space-y-4">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs md:text-sm">
-                    <p className="flex justify-between md:block"><span className="opacity-50">Nombre:</span> <span className="font-black">{form.getValues("ownerFirstName")} {form.getValues("ownerLastName")}</span></p>
-                    <p className="flex justify-between md:block"><span className="opacity-50">Email:</span> <span className="font-black">{form.getValues("ownerEmail")}</span></p>
-                    <p className="flex justify-between md:block"><span className="opacity-50">LLC:</span> <span className="font-black">{form.getValues("companyName")}</span></p>
-                    <p className="flex justify-between md:block"><span className="opacity-50">Estado:</span> <span className="font-black">{form.getValues("state")}</span></p>
-                    <p className="flex justify-between md:block"><span className="opacity-50">Pago:</span> <span className="font-black">{form.getValues("paymentMethod") === 'transfer' ? 'Transferencia Bancaria' : 'Link de Pago'}</span></p>
+              <div key={"step-" + step} className="space-y-6 text-left">
+                <div className="text-center mb-6">
+                  <div className="w-16 h-16 bg-accent/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <CheckCircle2 className="w-8 h-8 text-accent" />
+                  </div>
+                  <h2 className="text-xl md:text-2xl font-black text-foreground leading-tight">{t("application.reviewTitle")}</h2>
+                  <p className="text-sm text-muted-foreground mt-2">{t("application.reviewSubtitle")}</p>
+                </div>
+                
+                <div className="space-y-4">
+                  <div className="bg-card border border-border rounded-2xl overflow-hidden">
+                    <div className="bg-accent/10 px-5 py-3 border-b border-border">
+                      <h3 className="text-xs font-black text-foreground tracking-wide">{t("application.personalInfo")}</h3>
+                    </div>
+                    <div className="p-5 space-y-3">
+                      <div className="flex justify-between items-center">
+                        <span className="text-xs text-muted-foreground">{t("application.fullName")}</span>
+                        <span className="text-sm font-bold text-foreground">{form.getValues("ownerFirstName")} {form.getValues("ownerLastName")}</span>
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <span className="text-xs text-muted-foreground">{t("application.emailLabel")}</span>
+                        <span className="text-sm font-bold text-foreground">{form.getValues("ownerEmail")}</span>
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <span className="text-xs text-muted-foreground">{t("application.phoneLabel")}</span>
+                        <span className="text-sm font-bold text-foreground">{form.getValues("ownerPhone")}</span>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="bg-card border border-border rounded-2xl overflow-hidden">
+                    <div className="bg-accent/10 px-5 py-3 border-b border-border">
+                      <h3 className="text-xs font-black text-foreground tracking-wide">{t("application.llcInfo")}</h3>
+                    </div>
+                    <div className="p-5 space-y-3">
+                      <div className="flex justify-between items-center">
+                        <span className="text-xs text-muted-foreground">{t("application.companyNameLabel")}</span>
+                        <span className="text-sm font-bold text-foreground">{form.getValues("companyName")}</span>
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <span className="text-xs text-muted-foreground">{t("application.stateLabel")}</span>
+                        <span className="text-sm font-bold text-foreground">{form.getValues("state")}</span>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="bg-card border border-border rounded-2xl overflow-hidden">
+                    <div className="bg-accent/10 px-5 py-3 border-b border-border">
+                      <h3 className="text-xs font-black text-foreground tracking-wide">{t("application.paymentInfo")}</h3>
+                    </div>
+                    <div className="p-5 space-y-3">
+                      <div className="flex justify-between items-center">
+                        <span className="text-xs text-muted-foreground">{t("application.paymentMethodLabel")}</span>
+                        <span className="text-sm font-bold text-foreground">{form.getValues("paymentMethod") === 'transfer' ? t("application.bankTransfer") : t("application.paymentLink")}</span>
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <span className="text-xs text-muted-foreground">{t("application.totalLabel")}</span>
+                        <span className="text-lg font-black text-accent">
+                          {discountInfo?.valid 
+                            ? `${((formationPrice - discountInfo.discountAmount) / 100).toFixed(2)} €` 
+                            : `${(formationPrice / 100).toFixed(2)} €`}
+                        </span>
+                      </div>
+                    </div>
                   </div>
                 </div>
 
-                <div className="space-y-4">
-                  <h3 className="text-[10px] font-black text-primary tracking-widest opacity-60">Consentimientos</h3>
+                <div className="space-y-4 pt-2">
                   <div className="space-y-3">
-                    <label className="flex items-start gap-4 p-4 rounded-[2rem] border border-border bg-white dark:bg-card hover:border-accent cursor-pointer transition-colors active:scale-[0.98]">
-                      <Checkbox checked={acceptedInfo} onCheckedChange={(checked) => setAcceptedInfo(!!checked)} className="mt-1" />
-                      <span className="text-xs md:text-sm font-black text-primary leading-tight">Confirmo que la información es correcta y autorizo a Easy US LLC a procesar mi solicitud.</span>
+                    <label className="flex items-start gap-4 p-4 rounded-2xl border border-border bg-white dark:bg-card hover:border-accent cursor-pointer transition-colors">
+                      <Checkbox checked={acceptedInfo} onCheckedChange={(checked) => setAcceptedInfo(!!checked)} className="mt-0.5" />
+                      <span className="text-xs md:text-sm text-foreground leading-tight">{t("application.confirmInfo")}</span>
                     </label>
-                    <label className="flex items-start gap-4 p-4 rounded-[2rem] border border-border bg-white dark:bg-card hover:border-accent cursor-pointer transition-colors active:scale-[0.98]">
-                      <Checkbox checked={acceptedTerms} onCheckedChange={(checked) => setAcceptedTerms(!!checked)} className="mt-1" />
-                      <span className="text-xs md:text-sm font-black text-primary leading-tight">
-                        Acepto los <Link href="/legal/terminos" className="text-accent underline" target="_blank">Términos y Condiciones</Link> de Easy US LLC y el tratamiento de mis datos.
+                    <label className="flex items-start gap-4 p-4 rounded-2xl border border-border bg-white dark:bg-card hover:border-accent cursor-pointer transition-colors">
+                      <Checkbox checked={acceptedTerms} onCheckedChange={(checked) => setAcceptedTerms(!!checked)} className="mt-0.5" />
+                      <span className="text-xs md:text-sm text-foreground leading-tight">
+                        {t("application.acceptTerms")} <Link href="/legal/terminos" className="text-accent underline font-medium" target="_blank">{t("application.termsLink")}</Link>
                       </span>
                     </label>
                   </div>
                 </div>
 
-                <div className="flex flex-col gap-4 pt-4">
+                <div className="flex flex-col gap-3 pt-4">
                   <Button 
                     type="submit" 
                     disabled={!acceptedInfo || !acceptedTerms || isSubmitting}
-                    className="w-full bg-accent text-accent-foreground font-bold py-8 rounded-full text-base md:text-lg hover:bg-accent/90 active:scale-95 transition-colors shadow-xl shadow-accent/20 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="w-full bg-accent text-accent-foreground font-bold py-7 rounded-full text-base md:text-lg hover:bg-accent/90 transition-colors shadow-lg shadow-accent/20 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     {isSubmitting ? <Loader2 className="animate-spin" /> : t("application.submit")}
                   </Button>
-                  <Button type="button" variant="ghost" onClick={() => setStep(0)} className="text-primary/50 font-black text-[10px] tracking-widest">Empezar de nuevo</Button>
+                  <Button type="button" variant="outline" onClick={prevStep} className="rounded-full h-12 font-medium border-border">{t("application.back")}</Button>
                 </div>
               </div>
             )}
