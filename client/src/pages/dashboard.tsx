@@ -1044,15 +1044,16 @@ export default function Dashboard() {
           )}
         </header>
 
-        <div className="flex flex-col gap-2 mb-6 md:mb-8">
-          <div className="flex overflow-x-auto pb-3 gap-2 no-scrollbar -mx-4 px-4 md:mx-0 md:px-0 md:gap-3" style={{ WebkitOverflowScrolling: 'touch' }}>
+        {/* Mobile Navigation - Horizontal scroll buttons */}
+        <div className="flex flex-col gap-2 mb-6 lg:hidden">
+          <div className="flex overflow-x-auto pb-3 gap-2 no-scrollbar -mx-4 px-4" style={{ WebkitOverflowScrolling: 'touch' }}>
             {menuItems.map((item) => (
               <Button
                 key={item.id}
                 variant={activeTab === item.id ? "default" : "ghost"}
                 onClick={() => setActiveTab(item.id as Tab)}
                 size="sm"
-                className={`flex items-center gap-1.5 sm:gap-2 rounded-full font-semibold text-[11px] sm:text-xs md:text-sm tracking-normal whitespace-nowrap shrink-0 h-10 px-4 md:px-5 transition-all duration-200 ${
+                className={`flex items-center gap-1.5 rounded-full font-semibold text-[11px] sm:text-xs tracking-normal whitespace-nowrap shrink-0 h-10 px-4 transition-colors ${
                   activeTab === item.id 
                   ? 'bg-accent text-accent-foreground shadow-md' 
                   : 'bg-card text-muted-foreground hover:text-foreground hover:bg-secondary'
@@ -1061,34 +1062,83 @@ export default function Dashboard() {
                 {...('tour' in item && item.tour ? { 'data-tour': item.tour } : {})}
               >
                 <item.icon className="w-4 h-4" />
-                <span className="hidden md:inline">{item.label}</span>
-                <span className="md:hidden">{item.mobileLabel}</span>
+                <span>{item.mobileLabel}</span>
               </Button>
             ))}
           </div>
           {isAdmin && (
-            <div className="flex -mx-4 px-4 md:mx-0 md:px-0">
+            <div className="flex -mx-4 px-4">
               <Button
                 variant={activeTab === 'admin' ? "default" : "ghost"}
                 onClick={() => setActiveTab('admin' as Tab)}
                 size="sm"
-                className={`flex items-center gap-1.5 sm:gap-2 rounded-full font-semibold text-[11px] sm:text-xs md:text-sm tracking-normal whitespace-nowrap shrink-0 h-10 px-4 md:px-5 transition-all duration-200 ${
+                className={`flex items-center gap-1.5 rounded-full font-semibold text-[11px] sm:text-xs tracking-normal whitespace-nowrap shrink-0 h-10 px-4 transition-colors ${
                   activeTab === 'admin' 
                   ? 'bg-accent text-accent-foreground shadow-md' 
                   : 'bg-accent/10 dark:bg-accent/20 text-accent hover:bg-accent/20 dark:hover:bg-accent/30'
                 }`}
-                data-testid="button-tab-admin"
+                data-testid="button-tab-admin-mobile"
               >
                 <Shield className="w-4 h-4" />
-                <span className="hidden md:inline">{t('dashboard.menu.admin')}</span>
-                <span className="md:hidden">{t('dashboard.menu.admin')}</span>
+                <span>{t('dashboard.menu.admin')}</span>
               </Button>
             </div>
           )}
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6 lg:gap-8">
-          <div className="lg:col-span-2 space-y-4 md:space-y-6 order-1">
+        {/* Desktop Layout with Sidebar */}
+        <div className="flex gap-8">
+          {/* Desktop Sidebar - Hidden on mobile/tablet */}
+          <aside className="hidden lg:block w-56 shrink-0">
+            <nav className="sticky top-24 space-y-1">
+              <div className="bg-card border border-border/50 rounded-2xl p-3 space-y-1 shadow-sm">
+                {menuItems.map((item) => (
+                  <button
+                    key={item.id}
+                    onClick={() => setActiveTab(item.id as Tab)}
+                    className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-colors ${
+                      activeTab === item.id 
+                      ? 'bg-accent text-accent-foreground shadow-sm' 
+                      : 'text-muted-foreground hover:text-foreground hover:bg-secondary/50'
+                    }`}
+                    data-testid={`button-sidebar-${item.id}`}
+                    {...('tour' in item && item.tour ? { 'data-tour': item.tour } : {})}
+                  >
+                    <item.icon className={`w-5 h-5 ${activeTab === item.id ? 'text-accent-foreground' : 'text-accent'}`} />
+                    <span>{item.label}</span>
+                    {activeTab === item.id && (
+                      <div className="ml-auto w-1.5 h-1.5 rounded-full bg-accent-foreground" />
+                    )}
+                  </button>
+                ))}
+              </div>
+              
+              {isAdmin && (
+                <div className="bg-accent/5 dark:bg-accent/10 border border-accent/20 rounded-2xl p-3 mt-3">
+                  <button
+                    onClick={() => setActiveTab('admin' as Tab)}
+                    className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-colors ${
+                      activeTab === 'admin' 
+                      ? 'bg-accent text-accent-foreground shadow-sm' 
+                      : 'text-accent hover:bg-accent/10'
+                    }`}
+                    data-testid="button-sidebar-admin"
+                  >
+                    <Shield className={`w-5 h-5 ${activeTab === 'admin' ? 'text-accent-foreground' : 'text-accent'}`} />
+                    <span>{t('dashboard.menu.admin')}</span>
+                    {activeTab === 'admin' && (
+                      <div className="ml-auto w-1.5 h-1.5 rounded-full bg-accent-foreground" />
+                    )}
+                  </button>
+                </div>
+              )}
+            </nav>
+          </aside>
+
+          {/* Main Content Area */}
+          <div className="flex-1 min-w-0">
+            <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 lg:gap-8">
+              <div className="xl:col-span-2 space-y-6 order-1">
             
               {activeTab === 'services' && (
                 <ServicesTab 
@@ -2720,6 +2770,8 @@ export default function Dashboard() {
                 <Button className="w-full bg-accent text-accent-foreground font-semibold rounded-full py-5">Hablar con un asesor</Button>
               </a>
             </section>
+          </div>
+            </div>
           </div>
         </div>
       </main>
