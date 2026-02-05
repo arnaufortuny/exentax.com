@@ -1222,7 +1222,7 @@ export default function Dashboard() {
                                 data-testid="input-upload-document"
                               />
                               <Button variant="outline" className="rounded-full text-xs border-orange-300 dark:border-orange-700 text-orange-700 dark:text-orange-300" asChild>
-                                <span><FileUp className="w-3 h-3 mr-1" /> {t('dashboard.documents.uploadDocument', 'Subir Documento')}</span>
+                                <span><FileUp className="w-3 h-3 mr-1" /> {t('dashboard.documents.uploadDocument')}</span>
                               </Button>
                             </label>
                           </div>
@@ -3758,6 +3758,79 @@ export default function Dashboard() {
           </div>
 
           <div className="space-y-6 md:gap-8 order-2 lg:order-2">
+            {/* Consolidated Action Required Card */}
+            {!user?.isAdmin && (notifications?.some((n: any) => n.type === 'action_required') || 
+              (orders?.some((o: any) => o.application?.fiscalYearEnd && new Date(o.application.fiscalYearEnd) <= new Date(Date.now() + 30 * 24 * 60 * 60 * 1000))) ||
+              (orders?.some((o: any) => o.status === 'pending_payment' || o.status === 'payment_failed'))) && (
+              <section className="bg-orange-50 dark:bg-orange-900/20 p-5 rounded-[2rem] border-2 border-orange-200 dark:border-orange-800 mb-4">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-10 h-10 rounded-full bg-orange-100 dark:bg-orange-900/40 flex items-center justify-center">
+                    <AlertCircle className="w-5 h-5 text-orange-600 dark:text-orange-400" />
+                  </div>
+                  <div>
+                    <h3 className="text-sm font-bold text-orange-800 dark:text-orange-300">{t('dashboard.actionRequired.title')}</h3>
+                    <p className="text-[10px] text-orange-600 dark:text-orange-400">{t('dashboard.actionRequired.subtitle')}</p>
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  {notifications?.filter((n: any) => n.type === 'action_required').map((n: any) => (
+                    <div key={n.id} className="flex items-start gap-2 bg-white/60 dark:bg-black/20 rounded-xl p-3" data-testid={`action-item-document-${n.id}`}>
+                      <FileUp className="w-4 h-4 text-orange-600 dark:text-orange-400 mt-0.5 shrink-0" />
+                      <div className="flex-1 min-w-0">
+                        <p className="text-xs font-medium text-orange-800 dark:text-orange-300">{t('dashboard.actionRequired.documentRequest')}</p>
+                        <p className="text-[10px] text-orange-600 dark:text-orange-400 truncate">{n.message}</p>
+                      </div>
+                      <Button 
+                        size="sm" 
+                        variant="outline" 
+                        className="rounded-full text-xs border-orange-300 dark:border-orange-700 text-orange-700 dark:text-orange-300"
+                        onClick={() => setActiveTab('documents')}
+                        data-testid={`button-action-document-${n.id}`}
+                      >
+                        {t('dashboard.actionRequired.viewDocuments')}
+                      </Button>
+                    </div>
+                  ))}
+                  {orders?.filter((o: any) => o.status === 'pending_payment' || o.status === 'payment_failed').map((o: any) => (
+                    <div key={o.id} className="flex items-start gap-2 bg-white/60 dark:bg-black/20 rounded-xl p-3" data-testid={`action-item-payment-${o.id}`}>
+                      <DollarSign className="w-4 h-4 text-orange-600 dark:text-orange-400 mt-0.5 shrink-0" />
+                      <div className="flex-1 min-w-0">
+                        <p className="text-xs font-medium text-orange-800 dark:text-orange-300">{t('dashboard.actionRequired.paymentPending')}</p>
+                        <p className="text-[10px] text-orange-600 dark:text-orange-400 truncate">{o.application?.companyName || o.maintenanceApplication?.requestCode || o.invoiceNumber}</p>
+                      </div>
+                      <Button 
+                        size="sm" 
+                        variant="outline" 
+                        className="rounded-full text-xs border-orange-300 dark:border-orange-700 text-orange-700 dark:text-orange-300"
+                        onClick={() => setActiveTab('payments')}
+                        data-testid={`button-action-payment-${o.id}`}
+                      >
+                        {t('dashboard.actionRequired.payNow')}
+                      </Button>
+                    </div>
+                  ))}
+                  {orders?.filter((o: any) => o.application?.fiscalYearEnd && new Date(o.application.fiscalYearEnd) <= new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)).map((o: any) => (
+                    <div key={`fiscal-${o.id}`} className="flex items-start gap-2 bg-white/60 dark:bg-black/20 rounded-xl p-3" data-testid={`action-item-fiscal-${o.id}`}>
+                      <Calendar className="w-4 h-4 text-orange-600 dark:text-orange-400 mt-0.5 shrink-0" />
+                      <div className="flex-1 min-w-0">
+                        <p className="text-xs font-medium text-orange-800 dark:text-orange-300">{t('dashboard.actionRequired.fiscalDeadline')}</p>
+                        <p className="text-[10px] text-orange-600 dark:text-orange-400">{o.application?.companyName} - {new Date(o.application.fiscalYearEnd).toLocaleDateString()}</p>
+                      </div>
+                      <Button 
+                        size="sm" 
+                        variant="outline" 
+                        className="rounded-full text-xs border-orange-300 dark:border-orange-700 text-orange-700 dark:text-orange-300"
+                        onClick={() => setActiveTab('calendar')}
+                        data-testid={`button-action-fiscal-${o.id}`}
+                      >
+                        {t('dashboard.actionRequired.viewCalendar')}
+                      </Button>
+                    </div>
+                  ))}
+                </div>
+              </section>
+            )}
+            
             <section className="bg-white dark:bg-card p-6 md:p-8 rounded-[2rem] shadow-sm">
               <div className="mb-6">
                 <h3 className="text-lg md:text-xl font-black tracking-tight text-primary flex items-center gap-2">

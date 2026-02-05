@@ -1256,6 +1256,16 @@
       "orderReceived": "Order Received",
       "dataVerification": "Data Verification"
     },
+    "actionRequired": {
+      "title": "Actions Required",
+      "subtitle": "You have pending tasks",
+      "documentRequest": "Document requested",
+      "viewDocuments": "View",
+      "paymentPending": "Payment pending",
+      "payNow": "Pay",
+      "fiscalDeadline": "Upcoming fiscal deadline",
+      "viewCalendar": "View"
+    },
     "support": {
       "title": "My Messages",
       "subtitle": "Your message history with our team",

@@ -1256,6 +1256,16 @@
       "orderReceived": "Comanda Rebuda",
       "dataVerification": "Verificació de Dades"
     },
+    "actionRequired": {
+      "title": "Accions Requerides",
+      "subtitle": "Tens tasques pendents",
+      "documentRequest": "Document sol·licitat",
+      "viewDocuments": "Veure",
+      "paymentPending": "Pagament pendent",
+      "payNow": "Pagar",
+      "fiscalDeadline": "Venciment fiscal proper",
+      "viewCalendar": "Veure"
+    },
     "support": {
       "title": "Les Meves Consultes",
       "subtitle": "El teu historial de missatges amb el nostre equip",

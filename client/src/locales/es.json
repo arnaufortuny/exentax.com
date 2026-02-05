@@ -1256,6 +1256,16 @@
       "orderReceived": "Pedido Recibido",
       "dataVerification": "Verificación de Datos"
     },
+    "actionRequired": {
+      "title": "Acciones Requeridas",
+      "subtitle": "Tienes tareas pendientes",
+      "documentRequest": "Documento solicitado",
+      "viewDocuments": "Ver",
+      "paymentPending": "Pago pendiente",
+      "payNow": "Pagar",
+      "fiscalDeadline": "Vencimiento fiscal próximo",
+      "viewCalendar": "Ver"
+    },
     "support": {
       "title": "Mis Consultas",
       "subtitle": "Tu historial de mensajes con nuestro equipo",
