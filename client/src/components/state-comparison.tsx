@@ -93,7 +93,7 @@ export function StateComparison() {
 
             const isWyoming = state.key === "wyoming";
             const isDelaware = state.key === "delaware";
-            const stateEmoji = state.key === "newMexico" ? "🌵" : state.key === "wyoming" ? "🦬" : "🚀";
+            const isNewMexico = state.key === "newMexico";
             
             const cardBg = isWyoming 
               ? "bg-gradient-to-br from-accent/90 to-[#3CB365]"
@@ -133,7 +133,28 @@ export function StateComparison() {
                 <div className="p-6 sm:p-7 flex-grow relative z-10">
                   <div className="flex items-center gap-3 mb-5">
                     <div className={`w-11 h-11 rounded-2xl ${iconBg} flex items-center justify-center`}>
-                      <span className="text-xl">{stateEmoji}</span>
+                      {isNewMexico && (
+                        <svg className={`w-5 h-5 ${checkColor}`} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M12 2v20M8 6v12M16 8v10M4 10v6M20 12v4" />
+                        </svg>
+                      )}
+                      {isWyoming && (
+                        <svg className="w-5 h-5 text-[#0A0A0A]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M17 8l-5-6-5 6" />
+                          <path d="M3 14h18" />
+                          <path d="M6 14v4a2 2 0 002 2h8a2 2 0 002-2v-4" />
+                          <circle cx="8" cy="10" r="1" fill="currentColor" />
+                          <circle cx="16" cy="10" r="1" fill="currentColor" />
+                        </svg>
+                      )}
+                      {isDelaware && (
+                        <svg className="w-5 h-5 text-purple-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 00-2.91-.09z" />
+                          <path d="M12 15l-3-3a22 22 0 012-3.95A12.88 12.88 0 0122 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 01-4 2z" />
+                          <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0" />
+                          <path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5" />
+                        </svg>
+                      )}
                     </div>
                     <div>
                       <h3 className={`text-xl sm:text-2xl font-black ${textPrimary} tracking-tight`}>{state.name}</h3>
@@ -229,7 +250,9 @@ export function StateComparison() {
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 relative z-10">
             <div className="flex items-center gap-3 p-4 bg-white/5 backdrop-blur-sm rounded-2xl text-left border border-white/10">
               <div className="w-10 h-10 rounded-xl bg-accent/20 flex items-center justify-center flex-shrink-0">
-                <span className="text-lg">🌵</span>
+                <svg className="w-5 h-5 text-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M12 2v20M8 6v12M16 8v10M4 10v6M20 12v4" />
+                </svg>
               </div>
               <div>
                 <p className="text-xs text-white/60">{t("stateComparison.quickGuide.easy")}</p>
@@ -238,7 +261,13 @@ export function StateComparison() {
             </div>
             <div className="flex items-center gap-3 p-4 bg-accent/20 backdrop-blur-sm rounded-2xl text-left border border-accent/30">
               <div className="w-10 h-10 rounded-xl bg-accent/30 flex items-center justify-center flex-shrink-0">
-                <span className="text-lg">🦬</span>
+                <svg className="w-5 h-5 text-[#0A0A0A]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M17 8l-5-6-5 6" />
+                  <path d="M3 14h18" />
+                  <path d="M6 14v4a2 2 0 002 2h8a2 2 0 002-2v-4" />
+                  <circle cx="8" cy="10" r="1" fill="currentColor" />
+                  <circle cx="16" cy="10" r="1" fill="currentColor" />
+                </svg>
               </div>
               <div>
                 <p className="text-xs text-white/60">{t("stateComparison.quickGuide.protection")}</p>
@@ -247,7 +276,12 @@ export function StateComparison() {
             </div>
             <div className="flex items-center gap-3 p-4 bg-white/5 backdrop-blur-sm rounded-2xl text-left border border-white/10">
               <div className="w-10 h-10 rounded-xl bg-purple-500/20 flex items-center justify-center flex-shrink-0">
-                <span className="text-lg">🚀</span>
+                <svg className="w-5 h-5 text-purple-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 00-2.91-.09z" />
+                  <path d="M12 15l-3-3a22 22 0 012-3.95A12.88 12.88 0 0122 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 01-4 2z" />
+                  <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0" />
+                  <path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5" />
+                </svg>
               </div>
               <div>
                 <p className="text-xs text-white/60">{t("stateComparison.quickGuide.growth")}</p>

@@ -4,10 +4,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { NativeSelect } from "@/components/ui/native-select";
-import { Trash2, Plus, ArrowLeft, Calculator, TrendingUp, Percent, Package, Truck, PiggyBank } from "lucide-react";
+import { Trash2, Plus, ArrowLeft, Calculator, TrendingUp, Percent, Package, Truck, PiggyBank, DollarSign } from "lucide-react";
 import { Link, useLocation } from "wouter";
-import moneyIconPath from "@/assets/icons/money-icon.svg";
-import calculadoraIconPath from "@/assets/icons/calculadora-icon.svg";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { useAuth } from "@/hooks/use-auth";
@@ -122,7 +120,9 @@ export default function PriceCalculator() {
           </Link>
           
           <div className="flex items-center gap-3 mb-2">
-            <img src={calculadoraIconPath} alt="Calculadora" className="w-12 h-12" />
+            <div className="w-12 h-12 rounded-2xl bg-accent/10 flex items-center justify-center">
+              <Calculator className="w-6 h-6 text-accent" />
+            </div>
             <div>
               <h1 className="text-2xl md:text-3xl font-bold text-foreground">{t('tools.priceCalculator.title')}</h1>
               <p className="text-sm text-muted-foreground">{t('tools.priceCalculator.subtitle')}</p>
@@ -344,7 +344,7 @@ export default function PriceCalculator() {
               <Card className="rounded-2xl border-0 shadow-lg bg-gradient-to-br from-accent to-green-600 text-white overflow-hidden">
                 <CardContent className="p-5 md:p-6">
                   <div className="flex items-center gap-2 mb-4">
-                    <img src={moneyIconPath} alt="" className="w-5 h-5" />
+                    <DollarSign className="w-5 h-5" />
                     <h2 className="font-bold">Precio Recomendado</h2>
                   </div>
                   

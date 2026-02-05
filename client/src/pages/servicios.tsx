@@ -351,7 +351,9 @@ export default function Servicios() {
                 <div className="flex items-center justify-between mb-5">
                   <div className="flex items-center gap-3">
                     <div className="w-12 h-12 rounded-2xl bg-accent/20 flex items-center justify-center">
-                      <span className="text-2xl">🌵</span>
+                      <svg className="w-6 h-6 text-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M12 2v20M8 6v12M16 8v10M4 10v6M20 12v4" />
+                      </svg>
                     </div>
                     <div>
                       <h3 className="text-xl sm:text-2xl font-black text-white tracking-tight">New Mexico</h3>
@@ -418,7 +420,13 @@ export default function Servicios() {
               <div className="p-6 sm:p-8 flex-grow relative z-10">
                 <div className="flex items-center gap-3 mb-5">
                   <div className="w-12 h-12 rounded-2xl bg-white/20 flex items-center justify-center">
-                    <span className="text-2xl">🦬</span>
+                    <svg className="w-6 h-6 text-[#0A0A0A]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M17 8l-5-6-5 6" />
+                      <path d="M3 14h18" />
+                      <path d="M6 14v4a2 2 0 002 2h8a2 2 0 002-2v-4" />
+                      <circle cx="8" cy="10" r="1" fill="currentColor" />
+                      <circle cx="16" cy="10" r="1" fill="currentColor" />
+                    </svg>
                   </div>
                   <div>
                     <h3 className="text-xl sm:text-2xl font-black text-[#0A0A0A] tracking-tight">Wyoming</h3>
@@ -482,7 +490,12 @@ export default function Servicios() {
                 <div className="flex items-center justify-between mb-5">
                   <div className="flex items-center gap-3">
                     <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-blue-500/20 to-purple-500/20 flex items-center justify-center">
-                      <span className="text-2xl">🚀</span>
+                      <svg className="w-6 h-6 text-purple-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 00-2.91-.09z" />
+                        <path d="M12 15l-3-3a22 22 0 012-3.95A12.88 12.88 0 0122 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 01-4 2z" />
+                        <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0" />
+                        <path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5" />
+                      </svg>
                     </div>
                     <div>
                       <h3 className="text-xl sm:text-2xl font-black text-white tracking-tight">Delaware</h3>

@@ -5,9 +5,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { NativeSelect } from "@/components/ui/native-select";
-import { Trash2, Plus, FileDown, ArrowLeft, Loader2 } from "lucide-react";
+import { Trash2, Plus, FileDown, ArrowLeft, Loader2, Receipt } from "lucide-react";
 import { Link, useLocation } from "wouter";
-import facturasIconPath from "@/assets/icons/facturas-icon.svg";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { useAuth } from "@/hooks/use-auth";
@@ -302,7 +301,9 @@ export default function InvoiceGenerator() {
             </Button>
           </Link>
           <div className="flex items-center gap-2 sm:gap-3">
-            <img src={facturasIconPath} alt="Facturas" className="w-10 h-10 sm:w-12 sm:h-12" />
+            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-accent/10 flex items-center justify-center">
+              <Receipt className="w-5 h-5 sm:w-6 sm:h-6 text-accent" />
+            </div>
             <div className="min-w-0">
               <h1 className="text-xl sm:text-2xl md:text-3xl font-black text-foreground leading-tight">{t('tools.invoiceGenerator.title')}</h1>
               <p className="text-muted-foreground text-xs sm:text-sm">{t('tools.invoiceGenerator.subtitle')}</p>
