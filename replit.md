@@ -13,9 +13,6 @@ I want to be communicated with in a clear and concise manner. I prefer explanati
 - Esta regla tiene máxima prioridad
 
 ## Recent Changes (February 2026)
-- **Service Cards Redesign (Feb 5):** Complete redesign of LLC formation pricing cards with premium dark gradient backgrounds, state-specific emojis (🌵 NM, 🦬 WY, 🚀 DE), animated pulse indicators, and Wyoming elevated as "Premium/Recommended" option. State comparison cards also redesigned with matching professional style.
-- **Tools SVG Removal (Feb 5):** Replaced all custom SVG icon imports in tools pages (invoice generator, price calculator, operating agreement) with Lucide React icons for consistency. Icons now use rounded containers with accent backgrounds.
-- **Account Review Email (Feb 5):** Expanded email template with 8 new translation keys for warmer, human-friendly tone across all 3 languages. Includes "Why do we do this?", step-by-step process, and personalized closing.
 - **Comprehensive System Review (Feb 5):** Verified all 26 database tables match schema definitions, fixed broken navigation links, confirmed no LSP errors.
 - **Navigation Fix:** Fixed broken `/recuperar` link in maintenance.tsx → now correctly points to `/auth/forgot-password`.
 - **DashboardIcon Component:** Created reusable SVG icon component (`client/src/components/ui/dashboard-icon.tsx`) that adapts to light/dark themes using `currentColor` with proper foreground color defaults for consistent rendering.

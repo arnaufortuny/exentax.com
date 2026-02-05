@@ -5,7 +5,9 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { NativeSelect } from "@/components/ui/native-select";
-import { FileDown, ArrowLeft, Loader2, AlertCircle, CheckCircle, Building2, User, MapPin, Phone, Mail, FileText, DollarSign } from "lucide-react";
+import { FileDown, ArrowLeft, Loader2, AlertCircle, CheckCircle, Building2, User, MapPin, Phone, Mail } from "lucide-react";
+import moneyIconPath from "@/assets/icons/money-icon.svg";
+import tramitesIconPath from "@/assets/icons/tramites-icon.svg";
 import { Link, useLocation } from "wouter";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
@@ -538,9 +540,7 @@ export default function OperatingAgreementGenerator() {
           <Card className="rounded-2xl border-0 shadow-lg overflow-hidden">
             <CardHeader className="bg-accent/10 border-b border-accent/20 p-6">
               <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-2xl bg-accent/20 flex items-center justify-center">
-                  <FileText className="w-6 h-6 text-accent" />
-                </div>
+                <img src={tramitesIconPath} alt="Operating Agreement" className="w-12 h-12" />
                 <div>
                   <CardTitle className="text-xl font-black text-foreground">
                     {t("tools.operatingAgreement.title")}
@@ -668,7 +668,7 @@ export default function OperatingAgreementGenerator() {
                           
                           <div>
                             <Label className="text-sm font-medium text-foreground mb-2 flex items-center gap-2">
-                              <DollarSign className="w-4 h-4 opacity-60" />
+                              <img src={moneyIconPath} alt="" className="w-4 h-4 opacity-60" />
                               {t("tools.operatingAgreement.capitalContribution")}
                             </Label>
                             <Input

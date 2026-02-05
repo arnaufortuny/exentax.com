@@ -335,215 +335,138 @@ export default function Servicios() {
             />
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-6 max-w-6xl mx-auto px-4 sm:px-0">
-            {/* New Mexico - Popular Choice */}
-            <motion.div 
-              className="relative rounded-3xl overflow-hidden bg-gradient-to-br from-[#1a1a2e] to-[#16213e] dark:from-[#0d1117] dark:to-[#161b22] shadow-2xl flex flex-col h-full group mx-auto w-full"
-              variants={cardVariants}
-              initial="hidden"
-              whileInView="visible"
-              viewport={viewportOnce}
-              transition={{ delay: 0 }}
-            >
-              <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-accent via-[#52D882] to-accent" />
-              <div className="absolute -top-20 -right-20 w-40 h-40 bg-accent/10 rounded-full blur-3xl" />
-              <div className="p-6 sm:p-8 flex-grow relative z-10">
-                <div className="flex items-center justify-between mb-5">
-                  <div className="flex items-center gap-3">
-                    <div className="w-12 h-12 rounded-2xl bg-accent/20 flex items-center justify-center">
-                      <svg className="w-6 h-6 text-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M12 2v20M8 6v12M16 8v10M4 10v6M20 12v4" />
-                      </svg>
-                    </div>
-                    <div>
-                      <h3 className="text-xl sm:text-2xl font-black text-white tracking-tight">New Mexico</h3>
-                      <p className="text-accent text-xs font-bold">{t("services.formation.popular")}</p>
-                    </div>
-                  </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 max-w-5xl mx-auto px-6 sm:px-0">
+            {/* New Mexico */}
+            <div className="border-[2px] border-accent rounded-2xl overflow-hidden relative bg-background shadow-lg flex flex-col h-full group mx-auto w-full sm:max-w-none">
+              <div className="p-4 sm:p-5 flex-grow text-center">
+                <div className="flex items-center justify-between mb-3 gap-2 sm:flex-col sm:items-center sm:justify-center">
+                  <h3 className="text-lg sm:text-xl font-black text-primary tracking-tight">New Mexico</h3>
+                  <span className="bg-accent/20 text-primary text-[10px] font-black px-2.5 py-0.5 rounded-full">{t("services.formation.popular")}</span>
                 </div>
-                <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-5 mb-5 border border-white/10">
-                  <div className="flex items-baseline justify-center gap-1 mb-1">
-                    <span className="text-accent text-4xl sm:text-5xl font-black">{getFormationPriceFormatted("newMexico")}</span>
-                  </div>
-                  <p className="text-white/60 text-xs font-medium text-center">{t("services.formation.year1")}</p>
-                  <div className="flex items-center justify-center gap-2 mt-3 pt-3 border-t border-white/10">
-                    <div className="w-2 h-2 rounded-full bg-accent animate-pulse" />
-                    <span className="text-white/70 text-[10px] font-bold uppercase tracking-wider">{t("services.formation.stateFeesIncluded")}</span>
-                  </div>
+                <div className="flex items-baseline justify-center gap-1 mb-1">
+                  <p className="text-3xl font-black text-primary">{getFormationPriceFormatted("newMexico")}</p>
+                  <span className="text-muted-foreground text-[10px] font-medium">{t("services.formation.year1")}</span>
                 </div>
-                <div className="space-y-3 mb-5">
-                  {nmWyFeatures.map((f, idx) => (
-                    <div key={f} className="flex items-start gap-3 text-white/80">
-                      <div className="w-5 h-5 rounded-full bg-accent/20 flex items-center justify-center flex-shrink-0 mt-0.5">
-                        <Check className="text-accent w-3 h-3" />
-                      </div>
-                      <span className="text-sm leading-tight">{f}</span>
+                <div className="text-muted-foreground text-[9px] font-black tracking-widest mb-3 flex items-center justify-center gap-1">
+                  <div className="w-1.5 h-1.5 rounded-full bg-accent" />
+                  {t("services.formation.stateFeesIncluded")}
+                </div>
+                <div className="space-y-1.5 text-sm mb-3 border-t border-accent/10 pt-3">
+                  {nmWyFeatures.map((f) => (
+                    <div key={f} className="flex items-start justify-start gap-1.5 text-primary/80 font-bold text-left leading-tight">
+                      <Check className="text-accent w-4 h-4 mt-0.5 flex-shrink-0" /> 
+                      <span className="text-[11px] sm:text-xs">{f}</span>
                     </div>
                   ))}
                 </div>
               </div>
-              <div className="p-6 sm:p-8 pt-0 relative z-10">
+              <div className="p-4 sm:p-5 pt-0">
                 <Button 
                   onClick={() => handleSelectProduct("New Mexico")}
-                  className="w-full bg-accent hover:bg-accent/90 text-[#0A0A0A] font-black text-sm rounded-xl py-6 h-12 shadow-lg shadow-accent/25 transition-all"
+                  className="w-full bg-accent text-primary font-black text-xs rounded-full py-2.5 border-0 shadow-md hover:bg-accent/90 transition-colors h-9"
                 >
                   {t("services.formation.choose")} New Mexico
-                  <ArrowRight className="w-4 h-4 ml-2" />
                 </Button>
               </div>
-              <div className="bg-white/5 backdrop-blur-sm px-6 py-3 border-t border-white/10 text-center">
+              <div className="bg-accent/5 px-4 py-2 border-t border-accent/10 mt-auto text-center">
                 <Button 
                   variant="link"
                   onClick={() => setLocation(`/contacto?subject=${encodeURIComponent("Mantenimiento New Mexico")}`)}
-                  className="font-bold text-[10px] tracking-wider text-white/50 hover:text-accent p-0 h-auto transition-colors"
+                  className="font-black text-[9px] tracking-widest text-primary/70 p-0 h-auto"
                   data-testid="button-maintenance-nm"
                 >
                   {t("services.formation.maintenanceYear2")}: {getMaintenancePriceFormatted("newMexico")}
                 </Button>
               </div>
-            </motion.div>
+            </div>
 
-            {/* Wyoming - Premium Choice */}
-            <motion.div 
-              className="relative rounded-3xl overflow-hidden bg-gradient-to-br from-accent/90 to-[#3CB365] shadow-2xl flex flex-col h-full group mx-auto w-full md:-mt-4 md:mb-4"
-              variants={cardVariants}
-              initial="hidden"
-              whileInView="visible"
-              viewport={viewportOnce}
-              transition={{ delay: 0.1 }}
-            >
-              <div className="absolute -top-20 -right-20 w-40 h-40 bg-white/20 rounded-full blur-3xl" />
-              <div className="absolute -bottom-20 -left-20 w-40 h-40 bg-white/10 rounded-full blur-3xl" />
-              <div className="bg-[#0A0A0A] text-accent text-[10px] font-black uppercase tracking-widest py-2 text-center">
-                {t("services.formation.premium")}
-              </div>
-              <div className="p-6 sm:p-8 flex-grow relative z-10">
-                <div className="flex items-center gap-3 mb-5">
-                  <div className="w-12 h-12 rounded-2xl bg-white/20 flex items-center justify-center">
-                    <svg className="w-6 h-6 text-[#0A0A0A]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M17 8l-5-6-5 6" />
-                      <path d="M3 14h18" />
-                      <path d="M6 14v4a2 2 0 002 2h8a2 2 0 002-2v-4" />
-                      <circle cx="8" cy="10" r="1" fill="currentColor" />
-                      <circle cx="16" cy="10" r="1" fill="currentColor" />
-                    </svg>
-                  </div>
-                  <div>
-                    <h3 className="text-xl sm:text-2xl font-black text-[#0A0A0A] tracking-tight">Wyoming</h3>
-                    <p className="text-[#0A0A0A]/70 text-xs font-bold">{t("services.formation.recommended")}</p>
-                  </div>
+            {/* Wyoming */}
+            <div className="border-[2px] border-accent rounded-2xl overflow-hidden relative bg-background shadow-lg flex flex-col h-full group mx-auto w-full sm:max-w-none">
+              <div className="p-4 sm:p-5 flex-grow text-center">
+                <div className="flex items-center justify-between mb-3 gap-2 sm:flex-col sm:items-center sm:justify-center">
+                  <h3 className="text-lg sm:text-xl font-black text-primary tracking-tight">Wyoming</h3>
+                  <span className="bg-accent text-primary-foreground text-[10px] font-black px-2.5 py-0.5 rounded-full">{t("services.formation.premium")}</span>
                 </div>
-                <div className="bg-[#0A0A0A]/10 backdrop-blur-sm rounded-2xl p-5 mb-5 border border-[#0A0A0A]/10">
-                  <div className="flex items-baseline justify-center gap-1 mb-1">
-                    <span className="text-[#0A0A0A] text-4xl sm:text-5xl font-black">{getFormationPriceFormatted("wyoming")}</span>
-                  </div>
-                  <p className="text-[#0A0A0A]/60 text-xs font-medium text-center">{t("services.formation.year1")}</p>
-                  <div className="flex items-center justify-center gap-2 mt-3 pt-3 border-t border-[#0A0A0A]/10">
-                    <div className="w-2 h-2 rounded-full bg-[#0A0A0A] animate-pulse" />
-                    <span className="text-[#0A0A0A]/70 text-[10px] font-bold uppercase tracking-wider">{t("services.formation.stateFeesIncluded")}</span>
-                  </div>
+                <div className="flex items-baseline justify-center gap-1 mb-1">
+                  <p className="text-3xl font-black text-primary">{getFormationPriceFormatted("wyoming")}</p>
+                  <span className="text-muted-foreground text-[10px] font-medium">{t("services.formation.year1")}</span>
                 </div>
-                <div className="space-y-3 mb-5">
-                  {nmWyFeatures.map((f, idx) => (
-                    <div key={f} className="flex items-start gap-3 text-[#0A0A0A]/80">
-                      <div className="w-5 h-5 rounded-full bg-[#0A0A0A]/20 flex items-center justify-center flex-shrink-0 mt-0.5">
-                        <Check className="text-[#0A0A0A] w-3 h-3" />
-                      </div>
-                      <span className="text-sm leading-tight">{f}</span>
+                <div className="text-muted-foreground text-[9px] font-black tracking-widest mb-3 flex items-center justify-center gap-1">
+                  <div className="w-1.5 h-1.5 rounded-full bg-accent" />
+                  {t("services.formation.stateFeesIncluded")}
+                </div>
+                <div className="space-y-1.5 text-sm mb-3 border-t border-accent/10 pt-3">
+                  {nmWyFeatures.map((f) => (
+                    <div key={f} className="flex items-start justify-start gap-1.5 text-primary/80 font-bold text-left leading-tight">
+                      <Check className="text-accent w-4 h-4 mt-0.5 flex-shrink-0" /> 
+                      <span className="text-[11px] sm:text-xs">{f}</span>
                     </div>
                   ))}
                 </div>
               </div>
-              <div className="p-6 sm:p-8 pt-0 relative z-10">
+              <div className="p-4 sm:p-5 pt-0">
                 <Button 
                   onClick={() => handleSelectProduct("Wyoming")}
-                  className="w-full bg-[#0A0A0A] hover:bg-[#1A1A1A] text-accent font-black text-sm rounded-xl py-6 h-12 shadow-lg shadow-black/25 transition-all"
+                  className="w-full bg-accent text-primary font-black text-xs rounded-full py-2.5 border-0 shadow-md hover:bg-accent/90 transition-colors h-9"
                 >
                   {t("services.formation.choose")} Wyoming
-                  <ArrowRight className="w-4 h-4 ml-2" />
                 </Button>
               </div>
-              <div className="bg-[#0A0A0A]/10 backdrop-blur-sm px-6 py-3 border-t border-[#0A0A0A]/10 text-center">
+              <div className="bg-accent/5 px-4 py-2 border-t border-accent/10 mt-auto text-center">
                 <Button 
                   variant="link"
                   onClick={() => setLocation(`/contacto?subject=${encodeURIComponent("Mantenimiento Wyoming")}`)}
-                  className="font-bold text-[10px] tracking-wider text-[#0A0A0A]/50 hover:text-[#0A0A0A] p-0 h-auto transition-colors"
+                  className="font-black text-[9px] tracking-widest text-primary/70 p-0 h-auto"
                   data-testid="button-maintenance-wy"
                 >
                   {t("services.formation.maintenanceYear2")}: {getMaintenancePriceFormatted("wyoming")}
                 </Button>
               </div>
-            </motion.div>
+            </div>
 
-            {/* Delaware - For Startups */}
-            <motion.div 
-              className="relative rounded-3xl overflow-hidden bg-gradient-to-br from-[#1a1a2e] to-[#16213e] dark:from-[#0d1117] dark:to-[#161b22] shadow-2xl flex flex-col h-full group mx-auto w-full"
-              variants={cardVariants}
-              initial="hidden"
-              whileInView="visible"
-              viewport={viewportOnce}
-              transition={{ delay: 0.2 }}
-            >
-              <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500" />
-              <div className="absolute -top-20 -left-20 w-40 h-40 bg-purple-500/10 rounded-full blur-3xl" />
-              <div className="p-6 sm:p-8 flex-grow relative z-10">
-                <div className="flex items-center justify-between mb-5">
-                  <div className="flex items-center gap-3">
-                    <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-blue-500/20 to-purple-500/20 flex items-center justify-center">
-                      <svg className="w-6 h-6 text-purple-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 00-2.91-.09z" />
-                        <path d="M12 15l-3-3a22 22 0 012-3.95A12.88 12.88 0 0122 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 01-4 2z" />
-                        <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0" />
-                        <path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5" />
-                      </svg>
-                    </div>
-                    <div>
-                      <h3 className="text-xl sm:text-2xl font-black text-white tracking-tight">Delaware</h3>
-                      <p className="text-purple-400 text-xs font-bold">{t("services.formation.startups")}</p>
-                    </div>
-                  </div>
+            {/* Delaware */}
+            <div className="border-[2px] border-accent rounded-2xl overflow-hidden relative bg-background shadow-lg flex flex-col h-full group mx-auto w-full sm:max-w-none">
+              <div className="p-4 sm:p-5 flex-grow text-center">
+                <div className="flex items-center justify-between mb-3 gap-2 sm:flex-col sm:items-center sm:justify-center">
+                  <h3 className="text-lg sm:text-xl font-black text-primary tracking-tight">Delaware</h3>
+                  <span className="bg-accent text-primary text-[10px] font-black px-2.5 py-0.5 rounded-full">{t("services.formation.startups")}</span>
                 </div>
-                <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-5 mb-5 border border-white/10">
-                  <div className="flex items-baseline justify-center gap-1 mb-1">
-                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400 text-4xl sm:text-5xl font-black">{getFormationPriceFormatted("delaware")}</span>
-                  </div>
-                  <p className="text-white/60 text-xs font-medium text-center">{t("services.formation.year1")}</p>
-                  <div className="flex items-center justify-center gap-2 mt-3 pt-3 border-t border-white/10">
-                    <div className="w-2 h-2 rounded-full bg-purple-400 animate-pulse" />
-                    <span className="text-white/70 text-[10px] font-bold uppercase tracking-wider">{t("services.formation.stateFeesIncluded")}</span>
-                  </div>
+                <div className="flex items-baseline justify-center gap-1 mb-1">
+                  <p className="text-3xl font-black text-primary">{getFormationPriceFormatted("delaware")}</p>
+                  <span className="text-muted-foreground text-[10px] font-medium">{t("services.formation.year1")}</span>
                 </div>
-                <div className="space-y-3 mb-5">
-                  {deFeatures.map((f, idx) => (
-                    <div key={f} className="flex items-start gap-3 text-white/80">
-                      <div className="w-5 h-5 rounded-full bg-purple-500/20 flex items-center justify-center flex-shrink-0 mt-0.5">
-                        <Check className="text-purple-400 w-3 h-3" />
-                      </div>
-                      <span className="text-sm leading-tight">{f}</span>
+                <div className="text-muted-foreground text-[9px] font-black tracking-widest mb-3 flex items-center justify-center gap-1">
+                  <div className="w-1.5 h-1.5 rounded-full bg-accent" />
+                  {t("services.formation.stateFeesIncluded")}
+                </div>
+                <div className="space-y-1.5 text-sm mb-3 border-t border-accent/10 pt-3">
+                  {deFeatures.map((f) => (
+                    <div key={f} className="flex items-start justify-start gap-1.5 text-primary/80 font-bold text-left leading-tight">
+                      <Check className="text-accent w-4 h-4 mt-0.5 flex-shrink-0" /> 
+                      <span className="text-[11px] sm:text-xs">{f}</span>
                     </div>
                   ))}
                 </div>
               </div>
-              <div className="p-6 sm:p-8 pt-0 relative z-10">
+              <div className="p-4 sm:p-5 pt-0">
                 <Button 
                   onClick={() => handleSelectProduct("Delaware")}
-                  className="w-full bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white font-black text-sm rounded-xl py-6 h-12 shadow-lg shadow-purple-500/25 transition-all"
+                  className="w-full bg-accent text-primary font-black text-xs rounded-full py-2.5 border-0 shadow-md hover:bg-accent/90 transition-colors h-9"
                 >
                   {t("services.formation.choose")} Delaware
-                  <ArrowRight className="w-4 h-4 ml-2" />
                 </Button>
               </div>
-              <div className="bg-white/5 backdrop-blur-sm px-6 py-3 border-t border-white/10 text-center">
+              <div className="bg-accent/5 px-4 py-2 border-t border-accent/10 mt-auto text-center">
                 <Button 
                   variant="link"
                   onClick={() => setLocation(`/contacto?subject=${encodeURIComponent("Mantenimiento Delaware")}`)}
-                  className="font-bold text-[10px] tracking-wider text-white/50 hover:text-purple-400 p-0 h-auto transition-colors"
+                  className="font-black text-[9px] tracking-widest text-primary/70 p-0 h-auto"
                   data-testid="button-maintenance-de"
                 >
                   {t("services.formation.maintenanceYear2")}: {getMaintenancePriceFormatted("delaware")}
                 </Button>
               </div>
-            </motion.div>
+            </div>
           </div>
           
           <div className="mt-12 sm:mt-16 flex justify-center">
