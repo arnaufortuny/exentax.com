@@ -12,6 +12,12 @@ I want to be communicated with in a clear and concise manner. I prefer explanati
 - Si hay un problema, PROPONER la solución y esperar aprobación antes de implementar
 - Esta regla tiene máxima prioridad
 
+## Recent Changes (February 2026)
+- **DashboardIcon Component:** Created reusable SVG icon component (`client/src/components/ui/dashboard-icon.tsx`) that adapts to light/dark themes using `currentColor` with proper foreground color defaults for consistent rendering.
+- **Consultation Booking:** Replaced Dialog-based consultation booking with accessible Collapsible panel UI component with proper accessibility (CollapsibleTrigger with aria-label).
+- **Dark Mode Form Styling:** Unified dark mode styling across all form components (inputs, textareas, selects) using consistent colors (`dark:bg-[#1A1A1A]`, `dark:border-[#2A2A2A]`, `dark:text-white`).
+- **Dashboard Icons:** Updated all dashboard icon references to use the new DashboardIcon component for proper theme adaptation.
+
 ## System Architecture
 The application features a modern UI/UX with a consistent design system (Primary Green, Carbon Black, Off White, Soft Gray, Text Gray) and Inter typography, with UI animations powered by Framer Motion.
 
