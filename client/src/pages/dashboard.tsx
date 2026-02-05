@@ -2125,10 +2125,10 @@ export default function Dashboard() {
                         )}
                       </div>
                       <div className="flex flex-col sm:flex-row gap-2 pt-4 border-t mt-4">
-                        <Button onClick={() => editingUser.id && updateUserMutation.mutate({ id: editingUser.id, ...editingUser })} disabled={updateUserMutation.isPending} className="flex-1 bg-accent text-accent-foreground font-semibold rounded-full" data-testid="button-save-user">
+                        <Button type="button" onClick={(e) => { e.preventDefault(); editingUser.id && updateUserMutation.mutate({ id: editingUser.id, ...editingUser }); }} disabled={updateUserMutation.isPending} className="flex-1 bg-accent text-accent-foreground font-semibold rounded-full" data-testid="button-save-user">
                           {updateUserMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Guardar Cambios'}
                         </Button>
-                        <Button variant="outline" onClick={() => setEditingUser(null)} className="flex-1 rounded-full">Cancelar</Button>
+                        <Button type="button" variant="outline" onClick={(e) => { e.preventDefault(); setEditingUser(null); }} className="flex-1 rounded-full">Cancelar</Button>
                       </div>
                     </Card>
                   )}
