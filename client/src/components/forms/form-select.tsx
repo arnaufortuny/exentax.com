@@ -40,7 +40,7 @@ export function FormSelect<T extends FieldValues>({
               value={field.value || ""} 
               onValueChange={field.onChange}
               placeholder={placeholder}
-              className="rounded-full h-11 md:h-12 px-5 border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-muted transition-all font-medium text-foreground text-base"
+              className="rounded-full h-11 md:h-12 px-5 border-2 border-gray-200 dark:border-[#2A2A2A] focus:border-accent bg-white dark:bg-[#1A1A1A] transition-all font-medium text-foreground dark:text-white text-base"
             >
               {normalizedOptions.map(opt => (
                 <NativeSelectItem key={opt.value} value={opt.value}>

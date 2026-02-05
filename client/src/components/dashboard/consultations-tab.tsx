@@ -4,15 +4,15 @@ import { queryClient, apiRequest } from "@/lib/queryClient";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Calendar, Clock, Video, XCircle, ExternalLink, MessageSquare } from "lucide-react";
+import { Calendar, Clock, Video, XCircle, MessageSquare, ChevronDown, ChevronUp } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { ConsultationType, ConsultationBooking, getConsultationStatusLabel, Tab } from "./types";
 import { useState } from "react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { NativeSelect, NativeSelectItem } from "@/components/ui/native-select";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 
 interface ConsultationsTabProps {
   setActiveTab: (tab: Tab) => void;
@@ -21,7 +21,7 @@ interface ConsultationsTabProps {
 export function ConsultationsTab({ setActiveTab }: ConsultationsTabProps) {
   const { t, i18n } = useTranslation();
   const { toast } = useToast();
-  const [showBookingDialog, setShowBookingDialog] = useState(false);
+  const [showBookingPanel, setShowBookingPanel] = useState(false);
   const [selectedType, setSelectedType] = useState<ConsultationType | null>(null);
   const [selectedDate, setSelectedDate] = useState("");
   const [selectedTime, setSelectedTime] = useState("");
@@ -58,7 +58,7 @@ export function ConsultationsTab({ setActiveTab }: ConsultationsTabProps) {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/consultations/my"] });
       toast({ title: t("consultations.bookingSuccess"), description: t("consultations.bookingSuccessDesc") });
-      setShowBookingDialog(false);
+      setShowBookingPanel(false);
       resetForm();
     },
     onError: (err: any) => {
@@ -98,13 +98,6 @@ export function ConsultationsTab({ setActiveTab }: ConsultationsTabProps) {
     if (lang === 'es') return type.nameEs;
     if (lang === 'ca') return type.nameCa;
     return type.nameEn;
-  };
-
-  const getLocalizedDescription = (type: ConsultationType) => {
-    const lang = i18n.language;
-    if (lang === 'es') return type.descriptionEs;
-    if (lang === 'ca') return type.descriptionCa;
-    return type.descriptionEn;
   };
 
   const handleBook = () => {
@@ -158,14 +151,199 @@ export function ConsultationsTab({ setActiveTab }: ConsultationsTabProps) {
           </p>
         </div>
         <Button 
-          onClick={() => setShowBookingDialog(true)}
+          onClick={() => setShowBookingPanel(!showBookingPanel)}
           className="bg-accent text-primary font-black rounded-full"
           data-testid="button-book-consultation"
         >
           <Calendar className="w-4 h-4 mr-2" />
           {t("consultations.bookNew")}
+          {showBookingPanel ? <ChevronUp className="w-4 h-4 ml-2" /> : <ChevronDown className="w-4 h-4 ml-2" />}
         </Button>
       </div>
+
+      <Collapsible open={showBookingPanel} onOpenChange={setShowBookingPanel}>
+        <CollapsibleTrigger asChild className="sr-only">
+          <button aria-label={t("consultations.bookNew")} />
+        </CollapsibleTrigger>
+        <CollapsibleContent>
+          <Card className="border-2 border-accent/20 bg-accent/5 dark:bg-accent/10">
+            <CardHeader className="pb-2">
+              <CardTitle className="text-lg font-black">{t("consultations.bookNew")}</CardTitle>
+              <p className="text-sm text-muted-foreground">{t("consultations.bookingDescription")}</p>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="space-y-2">
+                <Label className="font-bold text-sm">{t("consultations.selectType")}</Label>
+                <div className="grid gap-2 sm:grid-cols-2">
+                  {consultationTypes.map(type => (
+                    <Button
+                      key={type.id}
+                      variant={selectedType?.id === type.id ? "default" : "outline"}
+                      className={`justify-start h-auto py-3 px-4 rounded-xl ${selectedType?.id === type.id ? 'bg-accent text-primary border-accent' : 'bg-white dark:bg-card'}`}
+                      onClick={() => setSelectedType(type)}
+                      data-testid={`button-select-type-${type.id}`}
+                    >
+                      <div className="text-left">
+                        <div className="font-bold">{getLocalizedName(type)}</div>
+                        <div className="text-xs opacity-75">{type.duration} min</div>
+                      </div>
+                    </Button>
+                  ))}
+                </div>
+              </div>
+
+              {selectedType && (
+                <>
+                  <div className="grid gap-4 sm:grid-cols-2">
+                    <div className="space-y-2">
+                      <Label className="font-bold text-sm">{t("consultations.selectDate")}</Label>
+                      <Input
+                        type="date"
+                        min={getTomorrowDate()}
+                        value={selectedDate}
+                        onChange={(e) => {
+                          setSelectedDate(e.target.value);
+                          setSelectedTime("");
+                        }}
+                        className="bg-white dark:bg-card"
+                        data-testid="input-consultation-date"
+                      />
+                    </div>
+
+                    {selectedDate && availability && (
+                      <div className="space-y-2">
+                        <Label className="font-bold text-sm">{t("consultations.selectTime")}</Label>
+                        {availability.slots.length > 0 ? (
+                          <div className="grid grid-cols-3 gap-2">
+                            {availability.slots.map(slot => (
+                              <Button
+                                key={slot.startTime}
+                                variant={selectedTime === slot.startTime ? "default" : "outline"}
+                                size="sm"
+                                className={`rounded-lg ${selectedTime === slot.startTime ? 'bg-accent text-primary' : 'bg-white dark:bg-card'}`}
+                                onClick={() => setSelectedTime(slot.startTime)}
+                                data-testid={`button-time-${slot.startTime}`}
+                              >
+                                {slot.startTime}
+                              </Button>
+                            ))}
+                          </div>
+                        ) : (
+                          <p className="text-sm text-muted-foreground py-2">{t("consultations.noAvailability")}</p>
+                        )}
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="border-t border-border pt-4 space-y-4">
+                    <h4 className="font-bold text-sm">{t("consultations.questionnaire")}</h4>
+                    
+                    <div className="grid gap-4 sm:grid-cols-2">
+                      <div className="space-y-2">
+                        <Label className="text-sm">{t("consultations.form.hasLlc")}</Label>
+                        <NativeSelect
+                          value={formData.hasLlc}
+                          onChange={(e) => setFormData({ ...formData, hasLlc: e.target.value })}
+                          className="bg-white dark:bg-card"
+                        >
+                          <NativeSelectItem value="">{t("consultations.form.select")}</NativeSelectItem>
+                          <NativeSelectItem value="yes">{t("common.yes")}</NativeSelectItem>
+                          <NativeSelectItem value="no">{t("common.no")}</NativeSelectItem>
+                        </NativeSelect>
+                      </div>
+
+                      {formData.hasLlc === 'yes' && (
+                        <div className="space-y-2">
+                          <Label className="text-sm">{t("consultations.form.llcState")}</Label>
+                          <NativeSelect
+                            value={formData.llcState}
+                            onChange={(e) => setFormData({ ...formData, llcState: e.target.value })}
+                            className="bg-white dark:bg-card"
+                          >
+                            <NativeSelectItem value="">{t("consultations.form.select")}</NativeSelectItem>
+                            <NativeSelectItem value="New Mexico">New Mexico</NativeSelectItem>
+                            <NativeSelectItem value="Wyoming">Wyoming</NativeSelectItem>
+                            <NativeSelectItem value="Delaware">Delaware</NativeSelectItem>
+                            <NativeSelectItem value="Other">{t("consultations.form.other")}</NativeSelectItem>
+                          </NativeSelect>
+                        </div>
+                      )}
+
+                      <div className="space-y-2">
+                        <Label className="text-sm">{t("consultations.form.estimatedRevenue")}</Label>
+                        <NativeSelect
+                          value={formData.estimatedRevenue}
+                          onChange={(e) => setFormData({ ...formData, estimatedRevenue: e.target.value })}
+                          className="bg-white dark:bg-card"
+                        >
+                          <NativeSelectItem value="">{t("consultations.form.select")}</NativeSelectItem>
+                          <NativeSelectItem value="0-50k">$0 - $50,000</NativeSelectItem>
+                          <NativeSelectItem value="50k-100k">$50,000 - $100,000</NativeSelectItem>
+                          <NativeSelectItem value="100k-500k">$100,000 - $500,000</NativeSelectItem>
+                          <NativeSelectItem value="500k+">$500,000+</NativeSelectItem>
+                        </NativeSelect>
+                      </div>
+
+                      <div className="space-y-2">
+                        <Label className="text-sm">{t("consultations.form.countryOfResidence")}</Label>
+                        <Input
+                          value={formData.countryOfResidence}
+                          onChange={(e) => setFormData({ ...formData, countryOfResidence: e.target.value })}
+                          placeholder={t("consultations.form.countryPlaceholder")}
+                          className="bg-white dark:bg-card"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label className="text-sm">{t("consultations.form.mainTopic")}</Label>
+                      <Textarea
+                        value={formData.mainTopic}
+                        onChange={(e) => setFormData({ ...formData, mainTopic: e.target.value })}
+                        placeholder={t("consultations.form.topicPlaceholder")}
+                        rows={2}
+                        className="bg-white dark:bg-card"
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label className="text-sm">{t("consultations.form.additionalNotes")}</Label>
+                      <Textarea
+                        value={formData.additionalNotes}
+                        onChange={(e) => setFormData({ ...formData, additionalNotes: e.target.value })}
+                        placeholder={t("consultations.form.notesPlaceholder")}
+                        rows={2}
+                        className="bg-white dark:bg-card"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="flex flex-col sm:flex-row gap-3 pt-2">
+                    <Button 
+                      variant="outline" 
+                      onClick={() => {
+                        setShowBookingPanel(false);
+                        resetForm();
+                      }}
+                      className="rounded-full"
+                    >
+                      {t("common.cancel")}
+                    </Button>
+                    <Button 
+                      onClick={handleBook}
+                      disabled={!selectedType || !selectedDate || !selectedTime || bookMutation.isPending}
+                      className="bg-accent text-primary font-black rounded-full flex-1 sm:flex-none"
+                      data-testid="button-confirm-booking"
+                    >
+                      {bookMutation.isPending ? t("common.loading") : t("consultations.confirmBooking")}
+                    </Button>
+                  </div>
+                </>
+              )}
+            </CardContent>
+          </Card>
+        </CollapsibleContent>
+      </Collapsible>
 
       {upcomingBookings.length > 0 && (
         <div className="space-y-4">
@@ -262,14 +440,14 @@ export function ConsultationsTab({ setActiveTab }: ConsultationsTabProps) {
         </div>
       )}
 
-      {myBookings.length === 0 && (
+      {myBookings.length === 0 && !showBookingPanel && (
         <Card className="text-center py-12">
           <CardContent>
             <MessageSquare className="w-12 h-12 mx-auto text-muted-foreground mb-4" />
             <h3 className="font-bold text-lg mb-2">{t("consultations.noBookings")}</h3>
             <p className="text-muted-foreground mb-4">{t("consultations.noBookingsDesc")}</p>
             <Button 
-              onClick={() => setShowBookingDialog(true)}
+              onClick={() => setShowBookingPanel(true)}
               className="bg-accent text-primary font-black rounded-full"
             >
               {t("consultations.bookFirst")}
@@ -277,168 +455,6 @@ export function ConsultationsTab({ setActiveTab }: ConsultationsTabProps) {
           </CardContent>
         </Card>
       )}
-
-      <Dialog open={showBookingDialog} onOpenChange={setShowBookingDialog}>
-        <DialogContent className="max-w-lg max-h-[90vh] overflow-y-auto">
-          <DialogHeader>
-            <DialogTitle className="font-black">{t("consultations.bookNew")}</DialogTitle>
-            <DialogDescription>{t("consultations.bookingDescription")}</DialogDescription>
-          </DialogHeader>
-          
-          <div className="space-y-4 py-4">
-            <div className="space-y-2">
-              <Label className="font-bold">{t("consultations.selectType")}</Label>
-              <div className="grid gap-2">
-                {consultationTypes.map(type => (
-                  <Button
-                    key={type.id}
-                    variant={selectedType?.id === type.id ? "default" : "outline"}
-                    className={`justify-start h-auto py-3 px-4 ${selectedType?.id === type.id ? 'bg-accent text-primary' : ''}`}
-                    onClick={() => setSelectedType(type)}
-                    data-testid={`button-select-type-${type.id}`}
-                  >
-                    <div className="text-left">
-                      <div className="font-bold">{getLocalizedName(type)}</div>
-                      <div className="text-xs opacity-75">{type.duration} min</div>
-                    </div>
-                  </Button>
-                ))}
-              </div>
-            </div>
-
-            {selectedType && (
-              <>
-                <div className="space-y-2">
-                  <Label className="font-bold">{t("consultations.selectDate")}</Label>
-                  <Input
-                    type="date"
-                    min={getTomorrowDate()}
-                    value={selectedDate}
-                    onChange={(e) => {
-                      setSelectedDate(e.target.value);
-                      setSelectedTime("");
-                    }}
-                    data-testid="input-consultation-date"
-                  />
-                </div>
-
-                {selectedDate && availability && (
-                  <div className="space-y-2">
-                    <Label className="font-bold">{t("consultations.selectTime")}</Label>
-                    {availability.slots.length > 0 ? (
-                      <div className="grid grid-cols-3 gap-2">
-                        {availability.slots.map(slot => (
-                          <Button
-                            key={slot.startTime}
-                            variant={selectedTime === slot.startTime ? "default" : "outline"}
-                            size="sm"
-                            className={selectedTime === slot.startTime ? 'bg-accent text-primary' : ''}
-                            onClick={() => setSelectedTime(slot.startTime)}
-                            data-testid={`button-time-${slot.startTime}`}
-                          >
-                            {slot.startTime}
-                          </Button>
-                        ))}
-                      </div>
-                    ) : (
-                      <p className="text-sm text-muted-foreground">{t("consultations.noAvailability")}</p>
-                    )}
-                  </div>
-                )}
-
-                <div className="border-t pt-4 space-y-4">
-                  <h4 className="font-bold">{t("consultations.questionnaire")}</h4>
-                  
-                  <div className="space-y-2">
-                    <Label>{t("consultations.form.hasLlc")}</Label>
-                    <NativeSelect
-                      value={formData.hasLlc}
-                      onChange={(e) => setFormData({ ...formData, hasLlc: e.target.value })}
-                    >
-                      <NativeSelectItem value="">{t("consultations.form.select")}</NativeSelectItem>
-                      <NativeSelectItem value="yes">{t("common.yes")}</NativeSelectItem>
-                      <NativeSelectItem value="no">{t("common.no")}</NativeSelectItem>
-                    </NativeSelect>
-                  </div>
-
-                  {formData.hasLlc === 'yes' && (
-                    <div className="space-y-2">
-                      <Label>{t("consultations.form.llcState")}</Label>
-                      <NativeSelect
-                        value={formData.llcState}
-                        onChange={(e) => setFormData({ ...formData, llcState: e.target.value })}
-                      >
-                        <NativeSelectItem value="">{t("consultations.form.select")}</NativeSelectItem>
-                        <NativeSelectItem value="New Mexico">New Mexico</NativeSelectItem>
-                        <NativeSelectItem value="Wyoming">Wyoming</NativeSelectItem>
-                        <NativeSelectItem value="Delaware">Delaware</NativeSelectItem>
-                        <NativeSelectItem value="Other">{t("consultations.form.other")}</NativeSelectItem>
-                      </NativeSelect>
-                    </div>
-                  )}
-
-                  <div className="space-y-2">
-                    <Label>{t("consultations.form.estimatedRevenue")}</Label>
-                    <NativeSelect
-                      value={formData.estimatedRevenue}
-                      onChange={(e) => setFormData({ ...formData, estimatedRevenue: e.target.value })}
-                    >
-                      <NativeSelectItem value="">{t("consultations.form.select")}</NativeSelectItem>
-                      <NativeSelectItem value="0-50k">$0 - $50,000</NativeSelectItem>
-                      <NativeSelectItem value="50k-100k">$50,000 - $100,000</NativeSelectItem>
-                      <NativeSelectItem value="100k-500k">$100,000 - $500,000</NativeSelectItem>
-                      <NativeSelectItem value="500k+">$500,000+</NativeSelectItem>
-                    </NativeSelect>
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label>{t("consultations.form.countryOfResidence")}</Label>
-                    <Input
-                      value={formData.countryOfResidence}
-                      onChange={(e) => setFormData({ ...formData, countryOfResidence: e.target.value })}
-                      placeholder={t("consultations.form.countryPlaceholder")}
-                    />
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label>{t("consultations.form.mainTopic")}</Label>
-                    <Textarea
-                      value={formData.mainTopic}
-                      onChange={(e) => setFormData({ ...formData, mainTopic: e.target.value })}
-                      placeholder={t("consultations.form.topicPlaceholder")}
-                      rows={2}
-                    />
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label>{t("consultations.form.additionalNotes")}</Label>
-                    <Textarea
-                      value={formData.additionalNotes}
-                      onChange={(e) => setFormData({ ...formData, additionalNotes: e.target.value })}
-                      placeholder={t("consultations.form.notesPlaceholder")}
-                      rows={2}
-                    />
-                  </div>
-                </div>
-              </>
-            )}
-          </div>
-
-          <DialogFooter className="gap-2">
-            <Button variant="outline" onClick={() => setShowBookingDialog(false)}>
-              {t("common.cancel")}
-            </Button>
-            <Button 
-              onClick={handleBook}
-              disabled={!selectedType || !selectedDate || !selectedTime || bookMutation.isPending}
-              className="bg-accent text-primary font-black"
-              data-testid="button-confirm-booking"
-            >
-              {bookMutation.isPending ? t("common.loading") : t("consultations.confirmBooking")}
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
     </div>
   );
 }

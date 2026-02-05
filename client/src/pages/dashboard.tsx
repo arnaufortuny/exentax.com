@@ -6,15 +6,7 @@ import { useTranslation } from "react-i18next";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { queryClient, apiRequest } from "@/lib/queryClient";
 import { Building2, FileText, Clock, ChevronRight, User as UserIcon, Settings, Package, CreditCard, PlusCircle, Download, ExternalLink, Mail, BellRing, CheckCircle2, AlertCircle, MessageSquare, Send, Shield, Users, Power, Edit, Edit2, Trash2, FileUp, Newspaper, Loader2, CheckCircle, Receipt, Plus, Calendar, DollarSign, TrendingUp, BarChart3, UserCheck, UserX, Star, Eye, FileCheck, Upload, XCircle, Tag, Percent, X, Calculator, Archive, Key, Search } from "lucide-react";
-import calendarIconPath from "@/assets/icons/calendar-icon.svg";
-import moneyIconPath from "@/assets/icons/money-icon.svg";
-import trackingIconPath from "@/assets/icons/tracking-icon.svg";
-import tramitesIconPath from "@/assets/icons/tramites-icon.svg";
-import notificationsIconPath from "@/assets/icons/notifications-icon.svg";
-import soporteIconPath from "@/assets/icons/soporte-icon.svg";
-import pagosIconPath from "@/assets/icons/pagos-icon.svg";
-import facturasIconPath from "@/assets/icons/facturas-icon.svg";
-import calculadoraIconPath from "@/assets/icons/calculadora-icon.svg";
+import { DashboardIcon } from "@/components/ui/dashboard-icon";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { useEffect, useState, useMemo, useCallback } from "react";
@@ -917,7 +909,7 @@ export default function Dashboard() {
                   </div>
                 ) : (
                   <div className="text-center py-8">
-                    <img src={notificationsIconPath} alt="Notificaciones" className="w-10 h-10 mx-auto mb-2 opacity-30" />
+                    <DashboardIcon name="notifications" size={40} className="w-10 h-10 mx-auto mb-2 opacity-30 text-muted-foreground" />
                     <p className="text-sm text-muted-foreground">{t("dashboard.notifications.empty")}</p>
                   </div>
                 )}
@@ -1345,7 +1337,7 @@ export default function Dashboard() {
                     {(!orders || orders.length === 0) ? (
                       <Card className="rounded-2xl border-0 shadow-sm bg-white dark:bg-card p-6 md:p-8 text-center" data-testid="widget-payments-empty">
                         <div className="flex flex-col items-center gap-3 md:gap-4">
-                          <img src={pagosIconPath} alt="Pagos" className="w-12 h-12 md:w-16 md:h-16" />
+                          <DashboardIcon name="pagos" size={48} className="w-12 h-12 md:w-16 md:h-16 text-accent" />
                           <div>
                             <h3 className="text-base md:text-lg font-semibold text-foreground mb-1 md:mb-2 text-center">{t('dashboard.payments.empty')}</h3>
                             <p className="text-xs md:text-sm text-muted-foreground mb-4 md:mb-6 text-center">{t('dashboard.payments.emptyDesc')}</p>
@@ -1489,7 +1481,7 @@ export default function Dashboard() {
                                 </div>
                               ) : (
                                 <div className="text-center py-6 md:py-8">
-                                  <img src={calendarIconPath} alt="Calendar" className="w-10 h-10 md:w-12 md:h-12 mx-auto opacity-30 mb-2 md:mb-3" />
+                                  <DashboardIcon name="calendar" size={40} className="w-10 h-10 md:w-12 md:h-12 mx-auto opacity-30 mb-2 md:mb-3 text-muted-foreground" />
                                   <p className="text-xs md:text-sm text-muted-foreground">{t('dashboard.calendar.pendingDates')}</p>
                                 </div>
                               )}
@@ -1501,7 +1493,7 @@ export default function Dashboard() {
                   ) : (
                     <Card className="rounded-2xl border-0 shadow-sm bg-white dark:bg-card p-6 md:p-8 text-center" data-testid="widget-calendar-empty">
                       <div className="flex flex-col items-center gap-3 md:gap-4">
-                        <img src={calendarIconPath} alt="Calendar" className="w-10 h-10 md:w-12 md:h-12" />
+                        <DashboardIcon name="calendar" size={40} className="w-10 h-10 md:w-12 md:h-12 text-accent" />
                         <div>
                           <h3 className="text-base md:text-lg font-semibold text-foreground mb-1 md:mb-2 text-center">{t('dashboard.calendar.title')}</h3>
                           <p className="text-xs md:text-sm text-muted-foreground mb-4 md:mb-6 text-center">{t('dashboard.calendar.emptyDescription')}</p>
@@ -1527,7 +1519,7 @@ export default function Dashboard() {
                     <Card className="rounded-2xl border-0 shadow-sm p-6 bg-white dark:bg-card hover:shadow-md transition-shadow">
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 mb-1">
-                          <img src={facturasIconPath} alt="Facturas" className="w-6 h-6" />
+                          <DashboardIcon name="facturas" size={24} className="w-6 h-6 text-accent" />
                           <h3 className="font-bold text-foreground">{t('dashboard.clientTools.invoiceGenerator')}</h3>
                         </div>
                         <p className="text-sm text-muted-foreground mb-4">{t('dashboard.clientTools.invoiceDescription')}</p>
@@ -1542,7 +1534,7 @@ export default function Dashboard() {
                     <Card className="rounded-2xl border-0 shadow-sm p-6 bg-white dark:bg-card hover:shadow-md transition-shadow">
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 mb-1">
-                          <img src={calculadoraIconPath} alt="Calculadora" className="w-6 h-6" />
+                          <DashboardIcon name="calculadora" size={24} className="w-6 h-6 text-blue-500" />
                           <h3 className="font-bold text-foreground">{t('dashboard.tools.priceCalculator')}</h3>
                         </div>
                         <p className="text-sm text-muted-foreground mb-4">Calcula precios con márgenes y costos para tus productos o servicios.</p>
@@ -1557,7 +1549,7 @@ export default function Dashboard() {
                     <Card className="rounded-2xl border-0 shadow-sm p-6 bg-white dark:bg-card hover:shadow-md transition-shadow">
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 mb-1">
-                          <img src={tramitesIconPath} alt="Operating Agreement" className="w-6 h-6" />
+                          <DashboardIcon name="tramites" size={24} className="w-6 h-6 text-purple-500" />
                           <h3 className="font-bold text-foreground">{t('dashboard.tools.operatingAgreement')}</h3>
                         </div>
                         <p className="text-sm text-muted-foreground mb-4">{t('tools.operatingAgreement.subtitle')}</p>
@@ -2717,7 +2709,7 @@ export default function Dashboard() {
                     )}
                   </>
                 ) : (
-                  <div className="text-center py-4"><img src={tramitesIconPath} alt="Trámites" className="w-8 h-8 mx-auto mb-2 opacity-30" /><p className="text-xs text-muted-foreground">No hay trámites en curso</p><p className="text-[10px] text-muted-foreground/70 mt-1">Cuando contrates un servicio, aquí podrás seguir todo el proceso.</p></div>
+                  <div className="text-center py-4"><DashboardIcon name="tramites" size={32} className="w-8 h-8 mx-auto mb-2 opacity-30 text-muted-foreground" /><p className="text-xs text-muted-foreground">No hay trámites en curso</p><p className="text-[10px] text-muted-foreground/70 mt-1">Cuando contrates un servicio, aquí podrás seguir todo el proceso.</p></div>
                 )}
               </div>
             </section>
