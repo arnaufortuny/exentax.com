@@ -18,7 +18,7 @@ import { usePageTitle } from "@/hooks/use-page-title";
 import { fadeInUp, lineExpand, cardVariants, heroTitle, heroSubtitle, viewportOnce, transitions } from "@/lib/animations";
 import trustpilotLogo from "@/assets/trustpilot-logo.png";
 import mercuryCardImg from "@assets/B883568F-4E2F-4619-8F88-C933BC8BFEDF_1770405636773.PNG";
-import relayCardImg from "@assets/relay-card.png";
+import relayCardImg from "@assets/8AEBDBD6-AEB3-456C-BC93-696EEAEB20AB_1770405694520.PNG";
 
 const FormationIcon = ({ className }: { className?: string }) => (
   <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
