@@ -4,6 +4,7 @@ import { useState, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { SiWhatsapp } from "react-icons/si";
 import { Button } from "@/components/ui/button";
+import { getWhatsAppUrl } from "@/lib/whatsapp";
 import { usePageTitle } from "@/hooks/use-page-title";
 
 export default function FAQ() {
@@ -191,7 +192,7 @@ export default function FAQ() {
                 data-testid="button-whatsapp-help"
               >
                 <a 
-                  href="https://wa.me/34614916910?text=Hola!%20He%20estado%20revisando%20las%20FAQ%20pero%20tengo%20una%20duda%20que%20no%20encuentro.%20%C2%BFPodemos%20hablar%3F" 
+                  href={getWhatsAppUrl("faq")} 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2"

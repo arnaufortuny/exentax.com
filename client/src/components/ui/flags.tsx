@@ -117,6 +117,44 @@ export const FranceFlag = ({ className = "w-6 h-6" }: { className?: string }) =>
   );
 };
 
+export const ItalyFlag = ({ className = "w-6 h-6" }: { className?: string }) => {
+  const id = useId();
+  return (
+    <svg viewBox="0 0 36 36" className={className}>
+      <defs>
+        <clipPath id={`italy-${id}`}>
+          <circle cx="18" cy="18" r="18"/>
+        </clipPath>
+      </defs>
+      <g clipPath={`url(#italy-${id})`}>
+        <rect fill="#009246" width="12" height="36"/>
+        <rect fill="#FFFFFF" x="12" width="12" height="36"/>
+        <rect fill="#CE2B37" x="24" width="12" height="36"/>
+      </g>
+    </svg>
+  );
+};
+
+export const PortugalFlag = ({ className = "w-6 h-6" }: { className?: string }) => {
+  const id = useId();
+  return (
+    <svg viewBox="0 0 36 36" className={className}>
+      <defs>
+        <clipPath id={`portugal-${id}`}>
+          <circle cx="18" cy="18" r="18"/>
+        </clipPath>
+      </defs>
+      <g clipPath={`url(#portugal-${id})`}>
+        <rect fill="#006600" width="14" height="36"/>
+        <rect fill="#FF0000" x="14" width="22" height="36"/>
+        <circle cx="14" cy="18" r="6" fill="#FFCC00"/>
+        <circle cx="14" cy="18" r="4.5" fill="#FF0000"/>
+        <rect fill="#FFFFFF" x="12" y="14" width="4" height="8" rx="0.5"/>
+      </g>
+    </svg>
+  );
+};
+
 export const BulgariaFlag = ({ className = "w-6 h-6" }: { className?: string }) => {
   const id = useId();
   return (

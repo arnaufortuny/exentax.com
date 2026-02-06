@@ -1,6 +1,7 @@
 import { Instagram, Package, Briefcase, HelpCircle, Share2, ArrowRight, Clock, Check, TrendingDown, ChevronDown, ChevronUp } from "@/components/icons";
 import { FaWhatsapp } from "react-icons/fa";
 import { Button } from "@/components/ui/button";
+import { getWhatsAppUrl } from "@/lib/whatsapp";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { useEffect, useState, useMemo } from "react";
@@ -76,14 +77,10 @@ function calculateSpanishTaxes(grossIncome: number): TaxBreakdown {
   };
 }
 
-const WHATSAPP_NUMBER = "34614916910";
-const WHATSAPP_MESSAGE = encodeURIComponent("Hola! Os contacto desde vuestro Linktree. Quiero crear mi LLC en Estados Unidos y me gustaría que me asesoréis. ¿Podemos hablar?");
-const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}?text=${WHATSAPP_MESSAGE}`;
-
 const links = [
   {
     label: "Empezar ahora",
-    href: WHATSAPP_URL,
+    href: "whatsapp:linktree",
     icon: FaWhatsapp,
     external: true,
     primary: true
@@ -279,7 +276,7 @@ export default function LinktreePage() {
             {links.map((link, index) => (
               <a
                 key={index}
-                href={link.href}
+                href={link.href.startsWith("whatsapp:") ? getWhatsAppUrl(link.href.split(":")[1] as any) : link.href}
                 target={link.external ? "_blank" : undefined}
                 rel={link.external ? "noopener noreferrer" : undefined}
                 className="block w-full"

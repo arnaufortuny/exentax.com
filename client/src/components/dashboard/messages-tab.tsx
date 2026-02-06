@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { useTranslation } from "react-i18next";
+import { getWhatsAppUrl } from "@/lib/whatsapp";
 
 interface MessagesTabProps {
   messagesData: any[] | undefined;
@@ -32,7 +33,7 @@ export function MessagesTab({
             <h2 className="text-xl md:text-2xl font-black text-foreground tracking-tight">{t('dashboard.support.title')}</h2>
             <p className="text-base text-muted-foreground mt-1">{t('dashboard.support.subtitle')}</p>
           </div>
-          <a href="https://wa.me/34614916910?text=Hola!%20Soy%20cliente%20de%20Easy%20US%20LLC%20y%20tengo%20una%20consulta%20sobre%20mi%20cuenta.%20%C2%BFPodr%C3%ADais%20ayudarme%3F" target="_blank" rel="noopener noreferrer">
+          <a href={getWhatsAppUrl("dashboardSupport")} target="_blank" rel="noopener noreferrer">
             <Button className="bg-accent text-accent-foreground font-black rounded-full text-xs">{t('dashboard.support.newQuery')}</Button>
           </a>
         </div>
@@ -46,7 +47,7 @@ export function MessagesTab({
                 <h3 className="text-base md:text-lg font-black text-foreground mb-1 md:mb-2 text-center tracking-tight">{t('dashboard.support.empty')}</h3>
                 <p className="text-xs md:text-sm text-muted-foreground mb-4 md:mb-6 text-center">{t('dashboard.support.emptyDescription')}</p>
               </div>
-              <a href="https://wa.me/34614916910?text=Hola!%20Soy%20cliente%20de%20Easy%20US%20LLC%20y%20tengo%20una%20consulta%20sobre%20mi%20cuenta.%20%C2%BFPodr%C3%ADais%20ayudarme%3F" target="_blank" rel="noopener noreferrer">
+              <a href={getWhatsAppUrl("dashboardSupport")} target="_blank" rel="noopener noreferrer">
                 <Button className="bg-accent text-accent-foreground font-black rounded-full px-6 md:px-8 py-2.5 md:py-3 text-sm md:text-base" data-testid="button-support-whatsapp">
                   <MessageSquare className="w-4 h-4 mr-2" /> {t('dashboard.support.newQuery')}
                 </Button>

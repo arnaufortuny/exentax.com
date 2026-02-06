@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useTranslation } from "react-i18next";
+import { getWhatsAppUrl } from "@/lib/whatsapp";
 import { usePageTitle } from "@/hooks/use-page-title";
 
 import { Loader2, Mail } from "@/components/icons";
@@ -289,7 +290,7 @@ export default function Contacto() {
                 </Button>
               </Link>
               <a 
-                href="https://wa.me/34614916910?text=Hola!%20Acabo%20de%20enviar%20un%20formulario%20de%20contacto%20y%20me%20gustar%C3%ADa%20hablar%20directamente%20con%20vosotros%20sobre%20crear%20mi%20LLC.%20%C2%BFTen%C3%A9is%20un%20momento%3F" 
+                href={getWhatsAppUrl("contactForm")} 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="w-full sm:w-auto"
@@ -637,7 +638,7 @@ export default function Contacto() {
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-2xl mx-auto">
             <a 
-              href="https://wa.me/34614916910?text=Hola!%20Estoy%20en%20la%20p%C3%A1gina%20de%20contacto%20y%20prefiero%20hablar%20directamente.%20%C2%BFPodemos%20conversar%20sobre%20c%C3%B3mo%20crear%20mi%20LLC%3F" 
+              href={getWhatsAppUrl("contactDirect")} 
               target="_blank" 
               rel="noopener noreferrer"
               className="flex items-center justify-center gap-4 p-5 rounded-full hover:bg-accent/5 transition-all group"

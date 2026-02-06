@@ -4,6 +4,8 @@ import enTranslations from '../locales/en.json';
 import caTranslations from '../locales/ca.json';
 import frTranslations from '../locales/fr.json';
 import deTranslations from '../locales/de.json';
+import itTranslations from '../locales/it.json';
+import ptTranslations from '../locales/pt.json';
 
 const allTranslations = {
   es: esTranslations,
@@ -11,6 +13,8 @@ const allTranslations = {
   ca: caTranslations,
   fr: frTranslations,
   de: deTranslations,
+  it: itTranslations,
+  pt: ptTranslations,
 };
 
 function getKeys(obj: Record<string, unknown>, prefix = ''): string[] {
@@ -27,7 +31,7 @@ function getKeys(obj: Record<string, unknown>, prefix = ''): string[] {
 }
 
 describe('Internationalization (i18n)', () => {
-  const langs = ['es', 'en', 'ca', 'fr', 'de'] as const;
+  const langs = ['es', 'en', 'ca', 'fr', 'de', 'it', 'pt'] as const;
 
   langs.forEach(lang => {
     it(`should have ${lang} translations with required sections`, () => {
@@ -40,20 +44,20 @@ describe('Internationalization (i18n)', () => {
   });
 
   it('should have matching top-level keys across all languages', () => {
-    const enKeys = Object.keys(enTranslations).sort();
+    const esKeys = Object.keys(esTranslations).sort();
     langs.forEach(lang => {
-      if (lang === 'en') return;
+      if (lang === 'es') return;
       const langKeys = Object.keys(allTranslations[lang]).sort();
-      expect(langKeys).toEqual(enKeys);
+      expect(langKeys).toEqual(esKeys);
     });
   });
 
   it('should have matching key count across all languages', () => {
-    const enKeyCount = getKeys(enTranslations as Record<string, unknown>).length;
+    const esKeyCount = getKeys(esTranslations as Record<string, unknown>).length;
     langs.forEach(lang => {
-      if (lang === 'en') return;
+      if (lang === 'es') return;
       const langKeyCount = getKeys(allTranslations[lang] as Record<string, unknown>).length;
-      expect(langKeyCount).toBe(enKeyCount);
+      expect(langKeyCount).toBe(esKeyCount);
     });
   });
 
@@ -83,6 +87,16 @@ describe('Internationalization (i18n)', () => {
     langs.forEach(lang => {
       statusKeys.forEach(key => {
         expect((allTranslations[lang].dashboard.orders.status as Record<string, string>)[key]).toBeDefined();
+      });
+    });
+  });
+
+  it('should have WhatsApp message translations in all languages', () => {
+    const waKeys = ['dashboardSupport', 'dashboardLlc', 'footer', 'navbar', 'linktree', 'services', 'faq', 'contactForm', 'contactDirect', 'llcFormation'];
+    
+    langs.forEach(lang => {
+      waKeys.forEach(key => {
+        expect((allTranslations[lang].whatsapp as Record<string, string>)[key]).toBeDefined();
       });
     });
   });

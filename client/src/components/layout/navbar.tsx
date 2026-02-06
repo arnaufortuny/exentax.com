@@ -8,6 +8,7 @@ import { usePrefetch } from "@/hooks/use-prefetch";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { LanguageToggle } from "@/components/ui/language-toggle";
 import { useTranslation } from "react-i18next";
+import { getWhatsAppUrl } from "@/lib/whatsapp";
 
 export function Navbar() {
   const [location, setLocation] = useLocation();
@@ -283,7 +284,7 @@ export function Navbar() {
                   </Button>
                 )}
                 <a 
-                  href="https://wa.me/34614916910?text=Hola!%20Estoy%20interesado%2Fa%20en%20formar%20una%20LLC%20en%20Estados%20Unidos%20y%20me%20gustar%C3%ADa%20que%20me%20asesorarais.%20%C2%BFPodemos%20hablar%3F" 
+                  href={getWhatsAppUrl("navbar")} 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="w-full"

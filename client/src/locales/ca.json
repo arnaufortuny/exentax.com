@@ -2768,5 +2768,17 @@
       "meetingLink": "Enllaç de reunió",
       "meetingLinkPlaceholder": "https://meet.google.com/..."
     }
+  },
+  "whatsapp": {
+    "dashboardSupport": "Hola! Soc client d'Easy US LLC i tinc una consulta sobre el meu compte. Podríeu ajudar-me?",
+    "dashboardLlc": "Hola! Soc client d'Easy US LLC i tinc un dubte sobre l'estat de la meva LLC o documentació. Podríeu ajudar-me?",
+    "footer": "Hola! Us escric des de la vostra web. M'interessa saber més sobre com crear una LLC als Estats Units. Podem parlar?",
+    "navbar": "Hola! Estic interessat/da en formar una LLC als Estats Units i m'agradaria que m'assessoréssiu. Podem parlar?",
+    "linktree": "Hola! Us contacto des del vostre Linktree. Vull crear la meva LLC als Estats Units i m'agradaria que m'assessoréssiu. Podem parlar?",
+    "services": "Hola! He revisat els vostres serveis i preus. M'agradaria resoldre alguns dubtes abans de decidir-me. Podem parlar?",
+    "faq": "Hola! He estat revisant les FAQ però tinc un dubte que no trobo. Podem parlar?",
+    "contactForm": "Hola! Acabo d'enviar un formulari de contacte i m'agradaria parlar directament amb vosaltres sobre crear la meva LLC. Teniu un moment?",
+    "contactDirect": "Hola! Estic a la pàgina de contacte i prefereixo parlar directament. Podem conversar sobre com crear la meva LLC?",
+    "llcFormation": "Hola! Estic al formulari de creació de LLC i necessito una LLC amb diversos socis. Podem parlar sobre les opcions?"
   }
 }

@@ -25,7 +25,7 @@ The application features a modern, responsive UI/UX with a consistent design sys
 - **Admin Panel:** Integrated within the client dashboard, offering comprehensive control over orders, users, and messages.
 - **Performance Optimizations:** Includes Gzip compression, advanced cache headers, lazy loading, non-blocking font loading, PWA support, in-memory cache, an email queue system, and optimized Vite build processes.
 - **Security:** Employs enhanced rate limiting, comprehensive security headers (HSTS, COOP, CORP, CSP), CSRF protection, secure API endpoints with validation, HTML sanitization, audit logging, protected file serving, advanced fraud detection, OTP for sensitive changes, LLC data locking, AES-256-CBC encryption for sensitive data, SHA-256 file integrity verification, and document access logging. Password requirements include minimum 8 characters, uppercase, lowercase, number, and symbol.
-- **Internationalization (i18n):** Full trilingual support (Spanish/English/Catalan) via react-i18next with over 1400 translation keys.
+- **Internationalization (i18n):** Full 7-language support (Spanish/English/Catalan/French/German/Italian/Portuguese) via react-i18next with over 2200 translation keys per language. WhatsApp pre-filled messages are internationalized via a centralized `whatsapp.ts` helper with per-context translation keys.
 - **PDF Generation:** Supports both client-side and server-side PDF generation for documents like invoices and operating agreements.
 - **Testing:** Utilizes Vitest for an automated test suite covering validation, i18n, theme, and PDF generation.
 - **SEO Optimization:** Includes targeted keywords, structured data (JSON-LD), server-side SEO headers, optimized robots.txt, dual sitemaps, and meta tags.

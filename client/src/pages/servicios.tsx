@@ -11,6 +11,7 @@ import { useState, useEffect } from "react";
 import { useLocation } from "wouter";
 import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
+import { openWhatsApp } from "@/lib/whatsapp";
 import { motion } from "framer-motion";
 import { apiRequest } from "@/lib/queryClient";
 import { ChevronDown, Check, ArrowRight } from "@/components/icons";
@@ -471,7 +472,7 @@ export default function Servicios() {
           <div className="mt-12 sm:mt-16 flex justify-center">
             <Button 
               onClick={() => {
-                window.open("https://wa.me/34614916910?text=" + encodeURIComponent("Hola! He revisado vuestros servicios y precios. Me gustaría resolver algunas dudas antes de decidirme. ¿Podemos hablar?"), "_blank");
+                openWhatsApp("services");
               }}
               className="group bg-accent text-primary font-black text-sm sm:text-base rounded-full px-5 sm:px-8 h-10 sm:h-11 shadow-lg shadow-accent/20 transition-all transform active:scale-95"
             >

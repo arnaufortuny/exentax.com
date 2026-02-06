@@ -7,20 +7,24 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useTranslation } from "react-i18next";
-import { SpainFlag, USAFlag, CatalanFlag, FranceFlag, GermanyFlag } from "@/components/ui/flags";
+import { SpainFlag, USAFlag, CatalanFlag, FranceFlag, GermanyFlag, ItalyFlag, PortugalFlag } from "@/components/ui/flags";
 
 const SpainFlagSmall = () => <SpainFlag className="w-5 h-5" />;
 const USAFlagSmall = () => <USAFlag className="w-5 h-5" />;
 const CatalanFlagSmall = () => <CatalanFlag className="w-5 h-5" />;
 const FranceFlagSmall = () => <FranceFlag className="w-5 h-5" />;
 const GermanyFlagSmall = () => <GermanyFlag className="w-5 h-5" />;
+const ItalyFlagSmall = () => <ItalyFlag className="w-5 h-5" />;
+const PortugalFlagSmall = () => <PortugalFlag className="w-5 h-5" />;
 
 const languages = [
   { code: "es", label: "Español", Flag: SpainFlagSmall },
   { code: "en", label: "English", Flag: USAFlagSmall },
   { code: "ca", label: "Català", Flag: CatalanFlagSmall },
   { code: "fr", label: "Français", Flag: FranceFlagSmall },
-  { code: "de", label: "Deutsch", Flag: GermanyFlagSmall }
+  { code: "de", label: "Deutsch", Flag: GermanyFlagSmall },
+  { code: "it", label: "Italiano", Flag: ItalyFlagSmall },
+  { code: "pt", label: "Português", Flag: PortugalFlagSmall }
 ];
 
 export function LanguageToggle() {

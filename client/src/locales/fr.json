@@ -2746,5 +2746,17 @@
       "meetingLink": "Lien de réunion",
       "meetingLinkPlaceholder": "https://meet.google.com/..."
     }
+  },
+  "whatsapp": {
+    "dashboardSupport": "Bonjour ! Je suis client d'Easy US LLC et j'ai une question concernant mon compte. Pourriez-vous m'aider ?",
+    "dashboardLlc": "Bonjour ! Je suis client d'Easy US LLC et j'ai une question sur l'état de ma LLC ou ma documentation. Pourriez-vous m'aider ?",
+    "footer": "Bonjour ! Je vous écris depuis votre site web. Je souhaite en savoir plus sur la création d'une LLC aux États-Unis. Pouvons-nous en discuter ?",
+    "navbar": "Bonjour ! Je suis intéressé(e) par la création d'une LLC aux États-Unis et j'aimerais bénéficier de vos conseils. Pouvons-nous en parler ?",
+    "linktree": "Bonjour ! Je vous contacte depuis votre Linktree. Je souhaite créer ma LLC aux États-Unis et j'aimerais vos conseils. Pouvons-nous en parler ?",
+    "services": "Bonjour ! J'ai consulté vos services et tarifs. J'aimerais éclaircir quelques points avant de me décider. Pouvons-nous en discuter ?",
+    "faq": "Bonjour ! J'ai consulté la FAQ mais j'ai une question que je ne trouve pas. Pouvons-nous en parler ?",
+    "contactForm": "Bonjour ! Je viens d'envoyer un formulaire de contact et j'aimerais vous parler directement de la création de ma LLC. Avez-vous un moment ?",
+    "contactDirect": "Bonjour ! Je suis sur la page de contact et je préfère discuter directement. Pouvons-nous parler de la création de ma LLC ?",
+    "llcFormation": "Bonjour ! Je suis sur le formulaire de création de LLC et j'ai besoin d'une LLC avec plusieurs associés. Pouvons-nous discuter des options ?"
   }
 }

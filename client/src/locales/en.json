@@ -2768,5 +2768,17 @@
       "meetingLink": "Meeting link",
       "meetingLinkPlaceholder": "https://meet.google.com/..."
     }
+  },
+  "whatsapp": {
+    "dashboardSupport": "Hi! I'm a client of Easy US LLC and I have a question about my account. Could you help me?",
+    "dashboardLlc": "Hi! I'm a client of Easy US LLC and I have a question about the status of my LLC or documentation. Could you help me?",
+    "footer": "Hi! I'm writing from your website. I'm interested in learning more about forming an LLC in the United States. Can we talk?",
+    "navbar": "Hi! I'm interested in forming an LLC in the United States and would like your guidance. Can we talk?",
+    "linktree": "Hi! I'm reaching out from your Linktree. I want to create my LLC in the United States and would like your advice. Can we talk?",
+    "services": "Hi! I've reviewed your services and pricing. I'd like to resolve some questions before deciding. Can we talk?",
+    "faq": "Hi! I've been reviewing the FAQ but I have a question I can't find. Can we talk?",
+    "contactForm": "Hi! I just submitted a contact form and would like to speak directly with you about creating my LLC. Do you have a moment?",
+    "contactDirect": "Hi! I'm on the contact page and prefer to talk directly. Can we discuss how to create my LLC?",
+    "llcFormation": "Hi! I'm on the LLC creation form and I need an LLC with multiple partners. Can we talk about the options?"
   }
 }

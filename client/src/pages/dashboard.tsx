@@ -3,6 +3,7 @@ import { Footer } from "@/components/layout/footer";
 import { useAuth } from "@/hooks/use-auth";
 import { usePageTitle } from "@/hooks/use-page-title";
 import { useTranslation } from "react-i18next";
+import { getWhatsAppUrl } from "@/lib/whatsapp";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { queryClient, apiRequest, getCsrfToken } from "@/lib/queryClient";
 import { Building2, FileText, Clock, ChevronRight, User as UserIcon, Package, CreditCard, PlusCircle, Download, Mail, BellRing, CheckCircle2, AlertCircle, MessageSquare, Send, Shield, Users, Edit, Edit2, Trash2, FileUp, Newspaper, Loader2, CheckCircle, Receipt, Plus, Calendar, DollarSign, BarChart3, UserCheck, Eye, Upload, XCircle, Tag, X, Calculator, Archive, Key, Search, LogOut, ShieldAlert, ClipboardList, Bell, Wallet, Globe } from "@/components/icons";
@@ -4225,7 +4226,7 @@ export default function Dashboard() {
             <section className="bg-accent/10 p-6 md:p-8 rounded-[2rem] border-2 border-accent/20 mt-8 mb-16 md:mb-12">
               <h3 className="text-base font-black text-foreground tracking-tight mb-2">{t('dashboard.support.haveQuestion')}</h3>
               <p className="text-xs text-primary/70 mb-5 leading-relaxed">{t('dashboard.support.hereToHelp')}</p>
-              <a href="https://wa.me/34614916910?text=Hola!%20Soy%20cliente%20de%20Easy%20US%20LLC%20y%20tengo%20una%20duda%20sobre%20el%20estado%20de%20mi%20LLC%20o%20documentaci%C3%B3n.%20%C2%BFPodr%C3%ADais%20ayudarme%3F" target="_blank" rel="noopener noreferrer">
+              <a href={getWhatsAppUrl("dashboardLlc")} target="_blank" rel="noopener noreferrer">
                 <Button className="w-full bg-accent text-accent-foreground font-black rounded-full py-5">{t('dashboard.support.talkToSupport')}</Button>
               </a>
             </section>
