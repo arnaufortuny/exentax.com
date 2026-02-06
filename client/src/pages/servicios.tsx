@@ -645,12 +645,12 @@ export default function Servicios() {
             whileInView="visible"
             viewport={viewportOnce}
           >
-            <p className="text-foreground font-bold text-base sm:text-lg max-w-2xl mx-auto mb-2">
+            <h3 className="text-xl sm:text-2xl font-black text-foreground tracking-tight max-w-2xl mx-auto mb-3">
               {t("services.maintenancePack.finalText")}
-            </p>
-            <p className="text-muted-foreground text-sm max-w-xl mx-auto">
+            </h3>
+            <h4 className="text-lg sm:text-xl font-black text-foreground tracking-tight max-w-xl mx-auto">
               {t("services.maintenancePack.helpText")}
-            </p>
+            </h4>
           </motion.div>
 
           {/* Maintenance Packs Title */}
