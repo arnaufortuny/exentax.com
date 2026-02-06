@@ -1,4 +1,5 @@
 import { useState, useCallback } from "react";
+import { useTranslation } from "react-i18next";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -26,11 +27,15 @@ export function ConfirmDialog({
   onOpenChange,
   title,
   description,
-  confirmText = "Confirmar",
-  cancelText = "Cancelar",
+  confirmText,
+  cancelText,
   onConfirm,
   variant = "destructive",
 }: ConfirmDialogProps) {
+  const { t } = useTranslation();
+  const resolvedConfirmText = confirmText || t('common.confirm', 'Confirmar');
+  const resolvedCancelText = cancelText || t('common.cancel', 'Cancelar');
+
   return (
     <AlertDialog open={open} onOpenChange={onOpenChange}>
       <AlertDialogContent>
@@ -39,13 +44,13 @@ export function ConfirmDialog({
           <AlertDialogDescription>{description}</AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel data-testid="button-confirm-cancel">{cancelText}</AlertDialogCancel>
+          <AlertDialogCancel data-testid="button-confirm-cancel">{resolvedCancelText}</AlertDialogCancel>
           <AlertDialogAction
             data-testid="button-confirm-action"
             onClick={onConfirm}
-            className={variant === "destructive" ? "bg-red-600 hover:bg-red-700 text-white" : ""}
+            className={variant === "destructive" ? "bg-destructive text-destructive-foreground" : ""}
           >
-            {confirmText}
+            {resolvedConfirmText}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
