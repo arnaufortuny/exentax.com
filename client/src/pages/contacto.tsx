@@ -246,7 +246,7 @@ export default function Contacto() {
 
             {(submittedMessageId || urlTicketId || urlOrderId) && (
               <div className="bg-white dark:bg-card border-2 border-accent px-4 py-3 sm:px-6 sm:py-4 rounded-xl inline-block">
-                <span className="text-[10px] sm:text-xs font-black text-gray-500 tracking-widest uppercase">
+                <span className="text-[10px] sm:text-xs font-black text-muted-foreground tracking-widest uppercase">
                   {urlOrderId ? t("contact.order") : t("contact.ticket")}
                 </span>
                 <p className="text-xl sm:text-2xl font-black text-black dark:text-white">

@@ -3885,7 +3885,7 @@ export default function Dashboard() {
                     {selectedOrderEvents && selectedOrderEvents.length > 0 ? (
                     selectedOrderEvents.map((event: any, idx: number) => (
                       <div key={event.id} className="flex gap-4 relative">
-                        {idx < selectedOrderEvents.length - 1 && <div className="absolute left-3 top-6 w-0.5 h-8 bg-gray-100" />}
+                        {idx < selectedOrderEvents.length - 1 && <div className="absolute left-3 top-6 w-0.5 h-8 bg-muted" />}
                         <div className="w-6 h-6 rounded-full flex items-center justify-center shrink-0 z-10 bg-accent text-primary"><CheckCircle2 className="w-3 h-3" /></div>
                         <div className="min-w-0 flex-1">
                           <div className="flex items-center gap-2 flex-wrap">
@@ -3903,7 +3903,7 @@ export default function Dashboard() {
                     ) : (
                       <div className="space-y-4">
                         <div className="flex gap-4"><div className="w-6 h-6 rounded-full bg-accent flex items-center justify-center"><CheckCircle2 className="w-3 h-3" /></div><p className="text-xs font-black">{t('dashboard.tracking.orderReceived')}</p></div>
-                        <div className="flex gap-4"><div className="w-6 h-6 rounded-full bg-gray-100" /><p className="text-xs text-gray-400">{t('dashboard.tracking.dataVerification')}</p></div>
+                        <div className="flex gap-4"><div className="w-6 h-6 rounded-full bg-muted" /><p className="text-xs text-muted-foreground">{t('dashboard.tracking.dataVerification')}</p></div>
                       </div>
                     )}
                   </>

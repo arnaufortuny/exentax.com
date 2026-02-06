@@ -603,7 +603,7 @@ export default function OperatingAgreementGenerator() {
                           {t("tools.operatingAgreement.llcDetails")}
                         </h4>
                         
-                        <div className="grid grid-cols-2 gap-4 text-sm">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
                           <div>
                             <span className="text-muted-foreground">{t("tools.operatingAgreement.companyName")}:</span>
                             <p className="font-medium text-foreground">{selectedLLC.companyName} {selectedLLC.designator || 'LLC'}</p>
@@ -646,7 +646,7 @@ export default function OperatingAgreementGenerator() {
                           />
                         </div>
                         
-                        <div className="grid grid-cols-2 gap-4">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                           <div>
                             <Label className="text-sm font-medium text-foreground mb-2 flex items-center gap-2">
                               <Phone className="w-4 h-4 text-muted-foreground" />
