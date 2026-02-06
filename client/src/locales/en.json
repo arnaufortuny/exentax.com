@@ -121,7 +121,8 @@
     "verifying": "Verifying...",
     "yourEmail": "YOUR EMAIL",
     "change": "Change",
-    "saving": "Saving..."
+    "saving": "Saving...",
+    "confirmAction": "Confirm action"
   },
   "helpSection": {
     "title": "HAVE A",

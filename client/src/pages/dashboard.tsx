@@ -33,6 +33,7 @@ import { ProfileTab } from "@/components/dashboard/profile-tab";
 import { ConsultationsTab } from "@/components/dashboard/consultations-tab";
 import { AdminConsultationsPanel } from "@/components/dashboard/admin-consultations-panel";
 import { AdminAccountingPanel } from "@/components/dashboard/admin-accounting-panel";
+import { ConfirmDialog, useConfirmDialog } from "@/components/ui/confirm-dialog";
 
 function _NewsletterToggleLegacy() {
   const { t } = useTranslation();
@@ -84,6 +85,7 @@ export default function Dashboard() {
     birthDate: ''
   });
   const [formMessage, setFormMessage] = useState<{ type: 'error' | 'success' | 'info', text: string } | null>(null);
+  const { confirm: showConfirm, dialogProps: confirmDialogProps } = useConfirmDialog();
 
   useEffect(() => {
     if (formMessage) {
@@ -3035,14 +3037,19 @@ export default function Dashboard() {
                                   size="icon"
                                   variant="ghost"
                                   className="h-7 w-7 text-destructive shrink-0"
-                                  onClick={async () => {
-                                    if (!confirm(t('dashboard.admin.guestSection.confirmDelete'))) return;
-                                    try {
-                                      await apiRequest("DELETE", `/api/admin/guests/${guest.id}`);
-                                      refetchGuests();
-                                    } catch (e) {
-                                      setFormMessage({ type: 'error', text: t("common.error") });
-                                    }
+                                  onClick={() => {
+                                    showConfirm({
+                                      title: t('common.confirmAction', 'Confirmar'),
+                                      description: t('dashboard.admin.guestSection.confirmDelete'),
+                                      onConfirm: async () => {
+                                        try {
+                                          await apiRequest("DELETE", `/api/admin/guests/${guest.id}`);
+                                          refetchGuests();
+                                        } catch (e) {
+                                          setFormMessage({ type: 'error', text: t("common.error") });
+                                        }
+                                      },
+                                    });
                                   }}
                                   data-testid={`button-delete-guest-${guest.id}`}
                                 >
@@ -3247,15 +3254,19 @@ export default function Dashboard() {
                                       size="icon" 
                                       variant="ghost" 
                                       className="h-6 w-6 md:h-7 md:w-7 text-red-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20" 
-                                      onClick={async (e) => {
+                                      onClick={(e) => {
                                         e.stopPropagation();
-                                        if (confirm(t('dashboard.admin.inboxSection.confirmDeleteMsg'))) {
-                                          try {
-                                            await apiRequest("DELETE", `/api/admin/messages/${msg.id}`);
-                                            queryClient.invalidateQueries({ queryKey: ["/api/admin/messages"] });
-                                            setFormMessage({ type: 'success', text: t("dashboard.toasts.messageDeleted") });
-                                          } catch { setFormMessage({ type: 'error', text: t("common.error") }); }
-                                        }
+                                        showConfirm({
+                                          title: t('common.confirmAction', 'Confirmar'),
+                                          description: t('dashboard.admin.inboxSection.confirmDeleteMsg'),
+                                          onConfirm: async () => {
+                                            try {
+                                              await apiRequest("DELETE", `/api/admin/messages/${msg.id}`);
+                                              queryClient.invalidateQueries({ queryKey: ["/api/admin/messages"] });
+                                              setFormMessage({ type: 'success', text: t("dashboard.toasts.messageDeleted") });
+                                            } catch { setFormMessage({ type: 'error', text: t("common.error") }); }
+                                          },
+                                        });
                                       }}
                                       data-testid={`btn-delete-msg-${msg.id}`}
                                     >
@@ -3493,15 +3504,20 @@ export default function Dashboard() {
                                     size="icon" 
                                     variant="ghost" 
                                     className="h-7 w-7 text-red-500 hover:text-red-600 hover:bg-red-50 shrink-0"
-                                    onClick={async () => {
-                                      if (!confirm(t('dashboard.admin.newsletterSection.confirmDelete') + ` ${sub.email}?`)) return;
-                                      try {
-                                        await apiRequest("DELETE", `/api/admin/newsletter/${sub.id}`);
-                                        refetchNewsletterSubs();
-                                        setFormMessage({ type: 'success', text: t("dashboard.toasts.subscriberDeleted") });
-                                      } catch (e) {
-                                        setFormMessage({ type: 'error', text: t("common.error") });
-                                      }
+                                    onClick={() => {
+                                      showConfirm({
+                                        title: t('common.confirmAction', 'Confirmar'),
+                                        description: t('dashboard.admin.newsletterSection.confirmDelete') + ` ${sub.email}?`,
+                                        onConfirm: async () => {
+                                          try {
+                                            await apiRequest("DELETE", `/api/admin/newsletter/${sub.id}`);
+                                            refetchNewsletterSubs();
+                                            setFormMessage({ type: 'success', text: t("dashboard.toasts.subscriberDeleted") });
+                                          } catch (e) {
+                                            setFormMessage({ type: 'error', text: t("common.error") });
+                                          }
+                                        },
+                                      });
                                     }}
                                     data-testid={`button-delete-subscriber-${sub.id}`}
                                   >
@@ -3650,22 +3666,26 @@ export default function Dashboard() {
                                   size="sm"
                                   variant="outline"
                                   className="rounded-full text-xs text-red-600 border-red-200 hover:bg-red-50"
-                                  onClick={async () => {
-                                    if (!confirm(t('dashboard.calendar.clearCalendarConfirm'))) return;
-                                    try {
-                                      // Clear all dates
-                                      await Promise.all([
-                                        apiRequest("PATCH", `/api/admin/llc/${app.id}/dates`, { field: 'llcCreatedDate', value: null }),
-                                        apiRequest("PATCH", `/api/admin/llc/${app.id}/dates`, { field: 'agentRenewalDate', value: null }),
-                                        apiRequest("PATCH", `/api/admin/llc/${app.id}/dates`, { field: 'irs1120DueDate', value: null }),
-                                        apiRequest("PATCH", `/api/admin/llc/${app.id}/dates`, { field: 'irs5472DueDate', value: null }),
-                                        apiRequest("PATCH", `/api/admin/llc/${app.id}/dates`, { field: 'annualReportDueDate', value: null }),
-                                      ]);
-                                      queryClient.invalidateQueries({ queryKey: ["/api/admin/orders"] });
-                                      setFormMessage({ type: 'success', text: t("dashboard.toasts.calendarCleared") + ". " + t("dashboard.toasts.calendarClearedDesc") });
-                                    } catch {
-                                      setFormMessage({ type: 'error', text: t("common.error") });
-                                    }
+                                  onClick={() => {
+                                    showConfirm({
+                                      title: t('common.confirmAction', 'Confirmar'),
+                                      description: t('dashboard.calendar.clearCalendarConfirm'),
+                                      onConfirm: async () => {
+                                        try {
+                                          await Promise.all([
+                                            apiRequest("PATCH", `/api/admin/llc/${app.id}/dates`, { field: 'llcCreatedDate', value: null }),
+                                            apiRequest("PATCH", `/api/admin/llc/${app.id}/dates`, { field: 'agentRenewalDate', value: null }),
+                                            apiRequest("PATCH", `/api/admin/llc/${app.id}/dates`, { field: 'irs1120DueDate', value: null }),
+                                            apiRequest("PATCH", `/api/admin/llc/${app.id}/dates`, { field: 'irs5472DueDate', value: null }),
+                                            apiRequest("PATCH", `/api/admin/llc/${app.id}/dates`, { field: 'annualReportDueDate', value: null }),
+                                          ]);
+                                          queryClient.invalidateQueries({ queryKey: ["/api/admin/orders"] });
+                                          setFormMessage({ type: 'success', text: t("dashboard.toasts.calendarCleared") + ". " + t("dashboard.toasts.calendarClearedDesc") });
+                                        } catch {
+                                          setFormMessage({ type: 'error', text: t("common.error") });
+                                        }
+                                      },
+                                    });
                                   }}
                                   data-testid={`button-clear-calendar-${app.id}`}
                                 >
@@ -3784,14 +3804,18 @@ export default function Dashboard() {
                                 size="icon" 
                                 variant="outline" 
                                 className="h-7 w-7 rounded-full text-red-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20" 
-                                onClick={async () => {
-                                  if (confirm(t('dashboard.admin.documents.confirmDelete'))) {
-                                    try {
-                                      await apiRequest("DELETE", `/api/admin/documents/${doc.id}`);
-                                      queryClient.invalidateQueries({ queryKey: ["/api/admin/documents"] });
-                                      setFormMessage({ type: 'success', text: t("dashboard.toasts.documentDeleted") });
-                                    } catch { setFormMessage({ type: 'error', text: t("common.error") }); }
-                                  }
+                                onClick={() => {
+                                  showConfirm({
+                                    title: t('common.confirmAction', 'Confirmar'),
+                                    description: t('dashboard.admin.documents.confirmDelete'),
+                                    onConfirm: async () => {
+                                      try {
+                                        await apiRequest("DELETE", `/api/admin/documents/${doc.id}`);
+                                        queryClient.invalidateQueries({ queryKey: ["/api/admin/documents"] });
+                                        setFormMessage({ type: 'success', text: t("dashboard.toasts.documentDeleted") });
+                                      } catch { setFormMessage({ type: 'error', text: t("common.error") }); }
+                                    },
+                                  });
                                 }}
                                 data-testid={`btn-delete-doc-${doc.id}`}
                               >
@@ -3905,15 +3929,20 @@ export default function Dashboard() {
                                       variant="outline" 
                                       size="sm" 
                                       className="rounded-full text-xs text-red-600 border-red-200 hover:bg-red-50"
-                                      onClick={async () => {
-                                        if (!confirm(t('dashboard.admin.invoicesSection.confirmDeleteInvoice'))) return;
-                                        try {
-                                          await apiRequest("DELETE", `/api/admin/invoices/${inv.id}`);
-                                          queryClient.invalidateQueries({ queryKey: ["/api/admin/invoices"] });
-                                          setFormMessage({ type: 'success', text: t("dashboard.toasts.invoiceDeleted") });
-                                        } catch {
-                                          setFormMessage({ type: 'error', text: t("common.error") });
-                                        }
+                                      onClick={() => {
+                                        showConfirm({
+                                          title: t('common.confirmAction', 'Confirmar'),
+                                          description: t('dashboard.admin.invoicesSection.confirmDeleteInvoice'),
+                                          onConfirm: async () => {
+                                            try {
+                                              await apiRequest("DELETE", `/api/admin/invoices/${inv.id}`);
+                                              queryClient.invalidateQueries({ queryKey: ["/api/admin/invoices"] });
+                                              setFormMessage({ type: 'success', text: t("dashboard.toasts.invoiceDeleted") });
+                                            } catch {
+                                              setFormMessage({ type: 'error', text: t("common.error") });
+                                            }
+                                          },
+                                        });
                                       }}
                                       data-testid={`button-delete-invoice-${inv.id}`}
                                     >
@@ -4027,15 +4056,20 @@ export default function Dashboard() {
                                   variant="outline" 
                                   size="sm" 
                                   className="rounded-lg text-xs h-8 w-8 p-0 text-red-600 border-red-200 hover:bg-red-50"
-                                  onClick={async () => {
-                                    if (!confirm(`${t('dashboard.admin.discountsSection.confirmDeleteCode')} ${dc.code}?`)) return;
-                                    try {
-                                      await apiRequest("DELETE", `/api/admin/discount-codes/${dc.id}`);
-                                      refetchDiscountCodes();
-                                      setFormMessage({ type: 'success', text: t("dashboard.toasts.discountCodeDeleted") });
-                                    } catch (e) {
-                                      setFormMessage({ type: 'error', text: t("common.error") });
-                                    }
+                                  onClick={() => {
+                                    showConfirm({
+                                      title: t('common.confirmAction', 'Confirmar'),
+                                      description: `${t('dashboard.admin.discountsSection.confirmDeleteCode')} ${dc.code}?`,
+                                      onConfirm: async () => {
+                                        try {
+                                          await apiRequest("DELETE", `/api/admin/discount-codes/${dc.id}`);
+                                          refetchDiscountCodes();
+                                          setFormMessage({ type: 'success', text: t("dashboard.toasts.discountCodeDeleted") });
+                                        } catch (e) {
+                                          setFormMessage({ type: 'error', text: t("common.error") });
+                                        }
+                                      },
+                                    });
                                   }}
                                   data-testid={`button-delete-discount-${dc.code}`}
                                 >
@@ -4202,6 +4236,7 @@ export default function Dashboard() {
       </main>
 
       <Footer />
+      <ConfirmDialog {...confirmDialogProps} />
     </div>
   );
 }

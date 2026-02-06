@@ -12,6 +12,7 @@ import { NativeSelect, NativeSelectItem } from "@/components/ui/native-select";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { Plus, Download, TrendingUp, TrendingDown, DollarSign, Edit, Trash2, Loader2, X } from "lucide-react";
 import type { AccountingTransaction } from "@shared/schema";
+import { ConfirmDialog, useConfirmDialog } from "@/components/ui/confirm-dialog";
 
 const INCOME_CATEGORIES = ['llc_formation', 'maintenance', 'consultation', 'other_income'];
 const EXPENSE_CATEGORIES = ['state_fees', 'registered_agent', 'bank_fees', 'marketing', 'software', 'other_expense'];
@@ -19,6 +20,7 @@ const EXPENSE_CATEGORIES = ['state_fees', 'registered_agent', 'bank_fees', 'mark
 export function AdminAccountingPanel() {
   const { t } = useTranslation();
   const [formMessage, setFormMessage] = useState<{ type: 'error' | 'success' | 'info', text: string } | null>(null);
+  const { confirm: showConfirm, dialogProps: confirmDialogProps } = useConfirmDialog();
 
   useEffect(() => {
     if (formMessage) {
@@ -346,9 +348,13 @@ export function AdminAccountingPanel() {
                     size="icon"
                     className="h-8 w-8 rounded-lg text-red-600"
                     onClick={() => {
-                      if (confirm(t('dashboard.admin.deleteTransaction') + '?')) {
-                        deleteMutation.mutate(tx.id);
-                      }
+                      showConfirm({
+                        title: t('common.confirmAction', 'Confirmar'),
+                        description: t('dashboard.admin.deleteTransaction') + '?',
+                        onConfirm: () => {
+                          deleteMutation.mutate(tx.id);
+                        },
+                      });
                     }}
                   >
                     <Trash2 className="w-3 h-3" />
@@ -474,6 +480,7 @@ export function AdminAccountingPanel() {
           </Card>
         </CollapsibleContent>
       </Collapsible>
+      <ConfirmDialog {...confirmDialogProps} />
     </div>
   );
 }
