@@ -229,7 +229,7 @@ export default function PriceCalculator() {
                               step="0.01"
                               value={cost.cost || ""}
                               onChange={(e) => updateCost(cost.id, 'cost', parseFloat(e.target.value) || 0)}
-                              className="h-9 rounded-lg pl-6 text-sm"
+                              className="h-9 rounded-full pl-6 text-sm"
                               placeholder="0.00"
                               data-testid={`input-cost-amount-${index}`}
                             />
@@ -237,7 +237,7 @@ export default function PriceCalculator() {
                           <NativeSelect
                             value={cost.type}
                             onChange={(e) => updateCost(cost.id, 'type', e.target.value as 'fixed' | 'variable')}
-                            className="h-9 rounded-lg text-sm"
+                            className="h-9 rounded-full text-sm"
                             data-testid={`select-cost-type-${index}`}
                           >
                             <option value="fixed">{t('tools.priceCalculator.fixed')}</option>
@@ -300,7 +300,7 @@ export default function PriceCalculator() {
                   </div>
                 </div>
                 
-                <div className="mt-4 p-3 bg-accent/10 rounded-full">
+                <div className="mt-4 p-3 bg-accent/10 rounded-xl">
                   <div className="flex items-center gap-2 text-sm">
                     <span className="text-foreground font-medium">{t('tools.priceCalculator.commonMargins')}</span>
                   </div>
@@ -397,7 +397,7 @@ export default function PriceCalculator() {
                       </div>
                     )}
                     
-                    <div className="flex justify-between pt-2 border-t border-accent/30 bg-accent/5 -mx-5 px-5 py-2 rounded-full mt-2">
+                    <div className="flex justify-between pt-2 border-t border-accent/30 bg-accent/5 -mx-5 px-5 py-2 rounded-xl mt-2">
                       <span className="font-bold text-foreground">{t('tools.priceCalculator.finalPrice')}</span>
                       <span className="font-bold text-accent">{currencySymbol}{formatNumber(calculations.finalPrice)}</span>
                     </div>

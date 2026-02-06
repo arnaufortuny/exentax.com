@@ -124,6 +124,9 @@ export default function Dashboard() {
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [passwordOtp, setPasswordOtp] = useState("");
+  const [profileOtpStep, setProfileOtpStep] = useState<'idle' | 'otp'>('idle');
+  const [profileOtp, setProfileOtp] = useState("");
+  const [pendingProfileData, setPendingProfileData] = useState<typeof profileData | null>(null);
   const [discountCodeDialog, setDiscountCodeDialog] = useState<{ open: boolean; code: DiscountCode | null }>({ open: false, code: null });
   const [paymentLinkDialog, setPaymentLinkDialog] = useState<{ open: boolean; user: AdminUserData | null }>({ open: false, user: null });
   const [paymentLinkUrl, setPaymentLinkUrl] = useState("");
@@ -174,11 +177,10 @@ export default function Dashboard() {
   }, [user]);
 
   const updateProfile = useMutation({
-    mutationFn: async (data: typeof profileData) => {
+    mutationFn: async (data: typeof profileData & { otpCode?: string }) => {
       if (!canEdit) {
         throw new Error(t("dashboard.toasts.cannotModifyAccountState"));
       }
-      // Age validation - must be at least 18 years old
       if (data.birthDate) {
         const birthDate = new Date(data.birthDate);
         const today = new Date();
@@ -194,12 +196,45 @@ export default function Dashboard() {
       const res = await apiRequest("PATCH", "/api/user/profile", data);
       if (!res.ok) {
         const err = await res.json().catch(() => ({}));
+        if (err.code === "OTP_REQUIRED") {
+          setPendingProfileData(data);
+          const otpRes = await apiRequest("POST", "/api/user/profile/send-otp");
+          if (otpRes.ok) {
+            setProfileOtpStep('otp');
+            toast({ title: t("profile.otpSentTitle", "Código enviado"), description: t("profile.otpSentDesc", "Hemos enviado un código de verificación a tu email.") });
+          }
+          return;
+        }
+        throw new Error(err.message || t("dashboard.toasts.couldNotSave"));
+      }
+    },
+    onSuccess: () => {
+      if (profileOtpStep === 'idle') {
+        queryClient.invalidateQueries({ queryKey: ["/api/auth/user"] });
+        setIsEditing(false);
+        toast({ title: t("dashboard.toasts.changesSaved"), description: t("dashboard.toasts.changesSavedDesc") });
+      }
+    },
+    onError: (error: any) => {
+      toast({ title: t("common.error"), description: error.message, variant: "destructive" });
+    }
+  });
+
+  const confirmProfileWithOtp = useMutation({
+    mutationFn: async () => {
+      if (!pendingProfileData || !profileOtp) return;
+      const res = await apiRequest("PATCH", "/api/user/profile", { ...pendingProfileData, otpCode: profileOtp });
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
         throw new Error(err.message || t("dashboard.toasts.couldNotSave"));
       }
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/auth/user"] });
       setIsEditing(false);
+      setProfileOtpStep('idle');
+      setProfileOtp("");
+      setPendingProfileData(null);
       toast({ title: t("dashboard.toasts.changesSaved"), description: t("dashboard.toasts.changesSavedDesc") });
     },
     onError: (error: any) => {
@@ -1634,6 +1669,11 @@ export default function Dashboard() {
                   changePasswordMutation={changePasswordMutation}
                   setShowEmailVerification={setShowEmailVerification}
                   setDeleteOwnAccountDialog={setDeleteOwnAccountDialog}
+                  profileOtpStep={profileOtpStep}
+                  setProfileOtpStep={setProfileOtpStep}
+                  profileOtp={profileOtp}
+                  setProfileOtp={setProfileOtp}
+                  confirmProfileWithOtp={confirmProfileWithOtp}
                 />
                 
                 {/* Inline Email Verification Panel */}

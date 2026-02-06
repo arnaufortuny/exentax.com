@@ -78,7 +78,12 @@
     "language": {
       "title": "Idioma preferido",
       "description": "Selecciona el idioma de la plataforma y documentos."
-    }
+    },
+    "clientId": "ID Cliente",
+    "otpSentTitle": "Código enviado",
+    "otpSentDesc": "Hemos enviado un código de verificación a tu email para confirmar los cambios.",
+    "otpRequired": "Verificación requerida",
+    "otpRequiredDesc": "Hemos enviado un código de 6 dígitos a tu email para confirmar los cambios."
   },
   "notFound": {
     "title": "Página No Encontrada",

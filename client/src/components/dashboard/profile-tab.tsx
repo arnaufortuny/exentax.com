@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { NativeSelect, NativeSelectItem } from "@/components/ui/native-select";
-import { CheckCircle2, Trash2, Mail, Copy, Check, Globe } from "lucide-react";
+import { CheckCircle2, Trash2, Mail, Copy, Check, Globe, ShieldCheck } from "lucide-react";
 import { useState } from "react";
 import { NewsletterToggle } from "./";
 import { SocialLogin } from "@/components/auth/social-login";
@@ -37,6 +37,11 @@ interface ProfileTabProps {
   changePasswordMutation: UseMutationResult<any, Error, { currentPassword: string; newPassword: string; otp: string }>;
   setShowEmailVerification: (show: boolean) => void;
   setDeleteOwnAccountDialog: (show: boolean) => void;
+  profileOtpStep: 'idle' | 'otp';
+  setProfileOtpStep: (step: 'idle' | 'otp') => void;
+  profileOtp: string;
+  setProfileOtp: (otp: string) => void;
+  confirmProfileWithOtp: UseMutationResult<any, Error, void>;
 }
 
 export function ProfileTab({
@@ -63,6 +68,11 @@ export function ProfileTab({
   changePasswordMutation,
   setShowEmailVerification,
   setDeleteOwnAccountDialog,
+  profileOtpStep,
+  setProfileOtpStep,
+  profileOtp,
+  setProfileOtp,
+  confirmProfileWithOtp,
 }: ProfileTabProps) {
   const [copiedId, setCopiedId] = useState(false);
   const { t, i18n } = useTranslation();
@@ -93,91 +103,148 @@ export function ProfileTab({
     setTimeout(() => setCopiedId(false), 2000);
   };
 
+  const inputClass = "rounded-full h-11 px-5 border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-muted transition-colors font-medium text-foreground text-sm";
+  const selectClass = "rounded-full h-11 px-5 border-2 border-gray-200 dark:border-border bg-white dark:bg-muted";
+  const readOnlyClass = "p-2.5 bg-gray-50 dark:bg-muted rounded-lg text-sm";
+
   return (
-    <div key="profile" className="space-y-6">
-      <div className="mb-4 md:mb-6">
+    <div key="profile" className="space-y-4">
+      <div className="mb-2 md:mb-4">
         <h2 className="text-xl md:text-2xl font-bold text-foreground tracking-tight">{t('profile.title', 'Mi Perfil')}</h2>
         <p className="text-sm text-muted-foreground mt-1">{t('profile.subtitle', 'Tus datos personales y configuración de cuenta')}</p>
       </div>
-      <Card className="rounded-[1.5rem] md:rounded-[2rem] border-0 shadow-sm p-6 md:p-8 bg-white dark:bg-card">
-        <div className="flex justify-between items-center mb-4">
-          <h3 className="text-lg md:text-xl font-semibold text-foreground">{t('profile.personalData', 'Datos Personales')}</h3>
+
+      {profileOtpStep === 'otp' && (
+        <Card className="rounded-2xl border-accent/30 shadow-md p-5 md:p-6 bg-white dark:bg-card animate-in slide-in-from-top-2 duration-300">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center shrink-0">
+              <ShieldCheck className="w-5 h-5 text-accent" />
+            </div>
+            <div>
+              <h3 className="font-bold text-foreground">{t('profile.otpRequired', 'Verificación requerida')}</h3>
+              <p className="text-xs text-muted-foreground">{t('profile.otpRequiredDesc', 'Hemos enviado un código de 6 dígitos a tu email para confirmar los cambios.')}</p>
+            </div>
+          </div>
+          <div className="space-y-3">
+            <div>
+              <Label className="text-xs font-bold text-muted-foreground mb-1 block">{t('dashboard.profile.verificationCode', 'Código de verificación')}</Label>
+              <Input 
+                type="text" 
+                value={profileOtp} 
+                onChange={e => setProfileOtp(e.target.value.replace(/\D/g, '').slice(0, 6))} 
+                className="text-center text-lg tracking-[0.3em] font-mono"
+                maxLength={6}
+                inputMode="numeric"
+                placeholder="------"
+                data-testid="input-profile-otp" 
+              />
+            </div>
+            <div className="flex gap-2">
+              <Button 
+                variant="outline" 
+                className="rounded-full flex-1" 
+                onClick={() => { setProfileOtpStep('idle'); setProfileOtp(""); }}
+                data-testid="button-cancel-profile-otp"
+              >
+                {t('common.cancel', 'Cancelar')}
+              </Button>
+              <Button 
+                className="bg-accent text-accent-foreground font-semibold rounded-full flex-1"
+                onClick={() => confirmProfileWithOtp.mutate()}
+                disabled={profileOtp.length !== 6 || confirmProfileWithOtp.isPending}
+                data-testid="button-confirm-profile-otp"
+              >
+                {confirmProfileWithOtp.isPending ? t('common.saving', 'Guardando...') : t('common.confirm', 'Confirmar')}
+              </Button>
+            </div>
+          </div>
+        </Card>
+      )}
+
+      <Card className="rounded-[1.5rem] md:rounded-[2rem] border-0 shadow-sm p-5 md:p-6 bg-white dark:bg-card">
+        <div className="flex justify-between items-center mb-3">
+          <h3 className="text-base md:text-lg font-semibold text-foreground">{t('profile.personalData', 'Datos Personales')}</h3>
           {canEdit && (
-            <Button variant="ghost" size="sm" className="rounded-full" onClick={() => setIsEditing(!isEditing)} data-testid="button-toggle-edit">{isEditing ? t('common.cancel', 'Cancelar') : t('common.edit', 'Editar')}</Button>
+            <Button variant="ghost" size="sm" className="rounded-full" onClick={() => { setIsEditing(!isEditing); if (isEditing) setProfileOtpStep('idle'); }} data-testid="button-toggle-edit">{isEditing ? t('common.cancel', 'Cancelar') : t('common.edit', 'Editar')}</Button>
           )}
         </div>
-        <p className="text-sm text-muted-foreground mb-6">{t('profile.infoDescription', 'Esta información nos permite acompañarte mejor y cumplir con los requisitos legales cuando sea necesario.')}</p>
+        <p className="text-xs text-muted-foreground mb-4">{t('profile.infoDescription', 'Esta información nos permite acompañarte mejor y cumplir con los requisitos legales cuando sea necesario.')}</p>
         {!canEdit && (
-          <div className={`mb-4 p-3 rounded-lg ${user?.accountStatus === 'pending' ? 'bg-orange-50 border border-orange-200' : 'bg-red-50 border border-red-200'}`}>
-            <p className={`text-sm ${user?.accountStatus === 'pending' ? 'text-orange-700' : 'text-red-700'}`}>
+          <div className={`mb-4 p-3 rounded-lg ${user?.accountStatus === 'pending' ? 'bg-orange-50 dark:bg-orange-900/20 border border-orange-200 dark:border-orange-800' : 'bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800'}`}>
+            <p className={`text-sm ${user?.accountStatus === 'pending' ? 'text-orange-700 dark:text-orange-400' : 'text-red-700 dark:text-red-400'}`}>
               {user?.accountStatus === 'pending' 
                 ? t('dashboard.accountStatus.pendingReview.message', 'Tu cuenta está en revisión. No puedes modificar tu perfil hasta que sea verificada.')
                 : t('dashboard.accountStatus.deactivated.message', 'Tu cuenta ha sido desactivada. No puedes modificar tu perfil ni enviar solicitudes.')}
             </p>
           </div>
         )}
-        <div className="space-y-4">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
-            <div className="p-4 bg-accent/5 rounded-xl border border-accent/10">
-              <p className="text-[10px] font-black uppercase text-muted-foreground mb-1">ID Cliente</p>
+        <div className="space-y-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div className="p-3 bg-accent/5 rounded-xl border border-accent/10">
+              <p className="text-[10px] font-black uppercase text-muted-foreground mb-0.5">{t('profile.clientId', 'ID Cliente')}</p>
               <div className="flex items-center gap-2">
-                <p className="text-lg font-black font-mono">{user?.clientId || user?.id?.slice(0, 8).toUpperCase()}</p>
+                <p className="text-base font-black font-mono">{user?.clientId || user?.id?.slice(0, 8).toUpperCase()}</p>
                 <Button 
                   variant="ghost" 
                   size="sm" 
-                  className="h-7 w-7 p-0 rounded-full" 
+                  className="h-6 w-6 p-0 rounded-full" 
                   onClick={copyIdToClipboard}
                   data-testid="button-copy-client-id"
-                  title="Copiar ID"
+                  title={t('common.copy', 'Copiar')}
                 >
-                  {copiedId ? <Check className="h-4 w-4 text-green-600" /> : <Copy className="h-4 w-4" />}
+                  {copiedId ? <Check className="h-3.5 w-3.5 text-green-600" /> : <Copy className="h-3.5 w-3.5" />}
                 </Button>
               </div>
             </div>
-            <div className="p-4 bg-accent/5 rounded-xl border border-accent/10">
-              <p className="text-[10px] font-black uppercase text-muted-foreground mb-1">{t('profile.status', 'Estado')}</p>
-              <p className={`text-lg font-black ${user?.accountStatus === 'active' ? 'text-green-600' : user?.accountStatus === 'pending' ? 'text-orange-500' : user?.accountStatus === 'deactivated' ? 'text-red-600' : user?.accountStatus === 'vip' ? 'text-yellow-600' : 'text-green-600'}`}>
+            <div className="p-3 bg-accent/5 rounded-xl border border-accent/10">
+              <p className="text-[10px] font-black uppercase text-muted-foreground mb-0.5">{t('profile.status', 'Estado')}</p>
+              <p className={`text-base font-black ${user?.accountStatus === 'active' ? 'text-green-600' : user?.accountStatus === 'pending' ? 'text-orange-500' : user?.accountStatus === 'deactivated' ? 'text-red-600' : user?.accountStatus === 'vip' ? 'text-yellow-600' : 'text-green-600'}`}>
                 {user?.accountStatus === 'active' ? t('profile.statusValues.verified', 'Verificado') : user?.accountStatus === 'pending' ? t('profile.statusValues.pending', 'En revisión') : user?.accountStatus === 'deactivated' ? t('profile.statusValues.deactivated', 'Desactivada') : user?.accountStatus === 'vip' ? t('profile.statusValues.vip', 'VIP') : t('profile.statusValues.verified', 'Verificado')}
               </p>
             </div>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
             <div className="space-y-1">
               <Label className="text-xs font-bold text-muted-foreground">{t('profile.fields.firstName', 'Nombre')}</Label>
-              {isEditing && canEdit ? <Input value={profileData.firstName} onChange={e => setProfileData({...profileData, firstName: e.target.value})} placeholder={t('profile.placeholders.firstName', 'Tu nombre real')} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-muted transition-all font-medium text-foreground text-base" data-testid="input-firstname" /> : <div className="p-3 bg-gray-50 dark:bg-muted rounded-lg text-sm">{user?.firstName || '-'}</div>}
+              {isEditing && canEdit ? <Input value={profileData.firstName} onChange={e => setProfileData({...profileData, firstName: e.target.value})} placeholder={t('profile.placeholders.firstName', 'Tu nombre real')} className={inputClass} data-testid="input-firstname" /> : <div className={readOnlyClass}>{user?.firstName || '-'}</div>}
             </div>
             <div className="space-y-1">
               <Label className="text-xs font-bold text-muted-foreground">{t('profile.fields.lastName', 'Apellidos')}</Label>
-              {isEditing && canEdit ? <Input value={profileData.lastName} onChange={e => setProfileData({...profileData, lastName: e.target.value})} placeholder={t('profile.placeholders.lastName', 'Tal y como aparecen en tu documento')} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-muted transition-all font-medium text-foreground text-base" data-testid="input-lastname" /> : <div className="p-3 bg-gray-50 dark:bg-muted rounded-lg text-sm">{user?.lastName || '-'}</div>}
+              {isEditing && canEdit ? <Input value={profileData.lastName} onChange={e => setProfileData({...profileData, lastName: e.target.value})} placeholder={t('profile.placeholders.lastName', 'Tal y como aparecen en tu documento')} className={inputClass} data-testid="input-lastname" /> : <div className={readOnlyClass}>{user?.lastName || '-'}</div>}
             </div>
           </div>
-          <div className="space-y-1">
-            <Label>Email</Label>
-            <div className="p-3 bg-gray-50 dark:bg-muted rounded-lg flex justify-between items-center text-sm">
-              <span>{user?.email}</span>
-              {user?.emailVerified ? (
-                <CheckCircle2 className="w-4 h-4 text-green-500" />
-              ) : (
-                <Button
-                  variant="link"
-                  size="sm"
-                  className="text-accent p-0 h-auto text-xs font-black"
-                  onClick={() => setShowEmailVerification(true)}
-                  data-testid="button-verify-email"
-                >
-                  {t('profile.verifyEmail', 'Verificar email')}
-                </Button>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+            <div className="space-y-1">
+              <Label className="text-xs font-bold text-muted-foreground">Email</Label>
+              <div className="p-2.5 bg-gray-50 dark:bg-muted rounded-lg flex justify-between items-center text-sm">
+                <span className="truncate">{user?.email}</span>
+                {user?.emailVerified ? (
+                  <CheckCircle2 className="w-4 h-4 text-green-500 shrink-0" />
+                ) : (
+                  <Button
+                    variant="link"
+                    size="sm"
+                    className="text-accent p-0 h-auto text-xs font-black shrink-0"
+                    onClick={() => setShowEmailVerification(true)}
+                    data-testid="button-verify-email"
+                  >
+                    {t('profile.verifyEmail', 'Verificar')}
+                  </Button>
+                )}
+              </div>
+              {!user?.emailVerified && (
+                <p className="text-[10px] text-orange-600 dark:text-orange-400">{t('dashboard.accountStatus.pendingReview.description', 'Tu cuenta está en revisión hasta que verifiques tu email.')}</p>
               )}
             </div>
-            {!user?.emailVerified && (
-              <p className="text-xs text-orange-600 mt-1">{t('dashboard.accountStatus.pendingReview.description', 'Tu cuenta está en revisión hasta que verifiques tu email.')}</p>
-            )}
+            <div className="space-y-1">
+              <Label className="text-xs font-bold text-muted-foreground">{t('profile.fields.phone', 'Teléfono')}</Label>
+              {isEditing && canEdit ? <Input value={profileData.phone} onChange={e => setProfileData({...profileData, phone: e.target.value})} placeholder={t('profile.placeholders.phone', 'Para contactarte si es necesario')} className={inputClass} data-testid="input-phone" /> : <div className={readOnlyClass}>{user?.phone || t('profile.notProvided', 'No proporcionado')}</div>}
+            </div>
           </div>
-          <div className="space-y-1">
-            <Label className="text-xs font-bold text-muted-foreground">{t('profile.fields.phone', 'Teléfono')}</Label>
-            {isEditing && canEdit ? <Input value={profileData.phone} onChange={e => setProfileData({...profileData, phone: e.target.value})} placeholder={t('profile.placeholders.phone', 'Para contactarte si es necesario')} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-muted transition-all font-medium text-foreground text-base" data-testid="input-phone" /> : <div className="p-3 bg-gray-50 dark:bg-muted rounded-lg text-sm">{user?.phone || t('profile.notProvided', 'No proporcionado')}</div>}
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
             <div className="space-y-1">
               <Label className="text-xs font-bold text-muted-foreground">{t('profile.fields.idType', 'Tipo de documento')}</Label>
               {isEditing && canEdit ? (
@@ -185,48 +252,52 @@ export function ProfileTab({
                   value={profileData.idType} 
                   onValueChange={val => setProfileData({...profileData, idType: val})}
                   placeholder={t('profile.placeholders.idType', 'DNI · NIE · Pasaporte')}
-                  className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-border bg-white dark:bg-muted"
+                  className={selectClass}
                   data-testid="select-idtype"
                 >
                   <NativeSelectItem value="dni">DNI</NativeSelectItem>
                   <NativeSelectItem value="nie">NIE</NativeSelectItem>
                   <NativeSelectItem value="passport">{t('profile.idTypes.passport', 'Pasaporte')}</NativeSelectItem>
                 </NativeSelect>
-              ) : <div className="p-3 bg-gray-50 dark:bg-muted rounded-lg text-sm">{user?.idType === 'dni' ? 'DNI' : user?.idType === 'nie' ? 'NIE' : user?.idType === 'passport' ? t('profile.idTypes.passport', 'Pasaporte') : t('profile.notProvided', 'No proporcionado')}</div>}
+              ) : <div className={readOnlyClass}>{user?.idType === 'dni' ? 'DNI' : user?.idType === 'nie' ? 'NIE' : user?.idType === 'passport' ? t('profile.idTypes.passport', 'Pasaporte') : t('profile.notProvided', 'No proporcionado')}</div>}
             </div>
             <div className="space-y-1">
               <Label className="text-xs font-bold text-muted-foreground">{t('profile.fields.idNumber', 'Número de documento')}</Label>
-              {isEditing && canEdit ? <Input value={profileData.idNumber} onChange={e => setProfileData({...profileData, idNumber: e.target.value})} placeholder={t('profile.placeholders.idNumber', 'Documento de identificación')} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-muted transition-all font-medium text-foreground text-base" data-testid="input-idnumber" /> : <div className="p-3 bg-gray-50 dark:bg-muted rounded-lg text-sm">{user?.idNumber || t('profile.notProvided', 'No proporcionado')}</div>}
+              {isEditing && canEdit ? <Input value={profileData.idNumber} onChange={e => setProfileData({...profileData, idNumber: e.target.value})} placeholder={t('profile.placeholders.idNumber', 'Documento de identificación')} className={inputClass} data-testid="input-idnumber" /> : <div className={readOnlyClass}>{user?.idNumber || t('profile.notProvided', 'No proporcionado')}</div>}
+            </div>
+            <div className="space-y-1">
+              <Label className="text-xs font-bold text-muted-foreground">{t('profile.fields.birthDate', 'Fecha de nacimiento')}</Label>
+              {isEditing && canEdit ? <Input type="date" value={profileData.birthDate} onChange={e => setProfileData({...profileData, birthDate: e.target.value})} className={inputClass} data-testid="input-birthdate" /> : <div className={readOnlyClass}>{user?.birthDate || t('profile.notProvided', 'No proporcionado')}</div>}
             </div>
           </div>
-          <div className="space-y-1 max-w-[200px]">
-            <Label className="text-xs font-bold text-muted-foreground">{t('profile.fields.birthDate', 'Fecha de nacimiento')}</Label>
-            {isEditing && canEdit ? <Input type="date" value={profileData.birthDate} onChange={e => setProfileData({...profileData, birthDate: e.target.value})} className="rounded-full h-10 px-4 border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-muted transition-all font-medium text-foreground text-sm" data-testid="input-birthdate" /> : <div className="p-3 bg-gray-50 dark:bg-muted rounded-lg text-sm">{user?.birthDate || t('profile.notProvided', 'No proporcionado')}</div>}
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+            <div className="space-y-1">
+              <Label className="text-xs font-bold text-muted-foreground">{t('profile.fields.businessActivity', 'Actividad profesional')}</Label>
+              {isEditing && canEdit ? (
+                <NativeSelect 
+                  value={profileData.businessActivity} 
+                  onValueChange={val => setProfileData({...profileData, businessActivity: val})}
+                  placeholder={t('profile.placeholders.businessActivity', 'A qué te dedicas')}
+                  className={selectClass}
+                  data-testid="select-activity"
+                >
+                  <NativeSelectItem value="ecommerce">{t('auth.register.businessActivities.ecommerce', 'E-commerce')}</NativeSelectItem>
+                  <NativeSelectItem value="dropshipping">{t('auth.register.businessActivities.dropshipping', 'Dropshipping')}</NativeSelectItem>
+                  <NativeSelectItem value="consulting">{t('auth.register.businessActivities.consulting', 'Consultoría')}</NativeSelectItem>
+                  <NativeSelectItem value="marketing">{t('auth.register.businessActivities.marketing', 'Marketing Digital')}</NativeSelectItem>
+                  <NativeSelectItem value="software">{t('auth.register.businessActivities.software', 'Desarrollo de Software')}</NativeSelectItem>
+                  <NativeSelectItem value="trading">{t('auth.register.businessActivities.investments', 'Trading / Inversiones')}</NativeSelectItem>
+                  <NativeSelectItem value="freelance">{t('auth.register.businessActivities.freelance', 'Freelance')}</NativeSelectItem>
+                  <NativeSelectItem value="other">{t('auth.register.businessActivities.other', 'Otra')}</NativeSelectItem>
+                </NativeSelect>
+              ) : <div className={readOnlyClass}>{user?.businessActivity || t('profile.notProvided', 'No proporcionado')}</div>}
+            </div>
           </div>
-          <div className="space-y-1">
-            <Label className="text-xs font-bold text-muted-foreground">{t('profile.fields.businessActivity', 'Actividad profesional')}</Label>
-            {isEditing && canEdit ? (
-              <NativeSelect 
-                value={profileData.businessActivity} 
-                onValueChange={val => setProfileData({...profileData, businessActivity: val})}
-                placeholder={t('profile.placeholders.businessActivity', 'A qué te dedicas')}
-                className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-border bg-white dark:bg-muted"
-                data-testid="select-activity"
-              >
-                <NativeSelectItem value="ecommerce">{t('auth.register.businessActivities.ecommerce', 'E-commerce')}</NativeSelectItem>
-                <NativeSelectItem value="dropshipping">{t('auth.register.businessActivities.dropshipping', 'Dropshipping')}</NativeSelectItem>
-                <NativeSelectItem value="consulting">{t('auth.register.businessActivities.consulting', 'Consultoría')}</NativeSelectItem>
-                <NativeSelectItem value="marketing">{t('auth.register.businessActivities.marketing', 'Marketing Digital')}</NativeSelectItem>
-                <NativeSelectItem value="software">{t('auth.register.businessActivities.software', 'Desarrollo de Software')}</NativeSelectItem>
-                <NativeSelectItem value="trading">{t('auth.register.businessActivities.investments', 'Trading / Inversiones')}</NativeSelectItem>
-                <NativeSelectItem value="freelance">{t('auth.register.businessActivities.freelance', 'Freelance')}</NativeSelectItem>
-                <NativeSelectItem value="other">{t('auth.register.businessActivities.other', 'Otra')}</NativeSelectItem>
-              </NativeSelect>
-            ) : <div className="p-3 bg-gray-50 dark:bg-muted rounded-lg text-sm">{user?.businessActivity || t('profile.notProvided', 'No proporcionado')}</div>}
-          </div>
-          <div className="pt-4 border-t border-border">
-            <h4 className="font-bold text-sm mb-3">{t('profile.sections.residenceAddress', 'Dirección de residencia')}</h4>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+          <div className="pt-3 border-t border-border">
+            <h4 className="font-bold text-sm mb-2">{t('profile.sections.residenceAddress', 'Dirección de residencia')}</h4>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               <div className="space-y-1">
                 <Label className="text-xs font-bold text-muted-foreground">{t('profile.fields.streetType', 'Tipo de vía')}</Label>
                 {isEditing && canEdit ? (
@@ -234,7 +305,7 @@ export function ProfileTab({
                     value={profileData.streetType} 
                     onValueChange={val => setProfileData({...profileData, streetType: val})}
                     placeholder={t('profile.placeholders.streetType', 'Calle · Avenida · Paseo · Plaza')}
-                    className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-border bg-white dark:bg-muted"
+                    className={selectClass}
                     data-testid="select-street-type"
                   >
                     <NativeSelectItem value="calle">{t('profile.streetTypes.street', 'Calle')}</NativeSelectItem>
@@ -242,183 +313,192 @@ export function ProfileTab({
                     <NativeSelectItem value="paseo">{t('profile.streetTypes.promenade', 'Paseo')}</NativeSelectItem>
                     <NativeSelectItem value="plaza">{t('profile.streetTypes.square', 'Plaza')}</NativeSelectItem>
                   </NativeSelect>
-                ) : <div className="p-3 bg-gray-50 dark:bg-muted rounded-lg text-sm">{user?.streetType || '-'}</div>}
+                ) : <div className={readOnlyClass}>{user?.streetType || '-'}</div>}
               </div>
               <div className="space-y-1">
                 <Label className="text-xs font-bold text-muted-foreground">{t('profile.fields.address', 'Dirección')}</Label>
-                {isEditing && canEdit ? <Input value={profileData.address} onChange={e => setProfileData({...profileData, address: e.target.value})} placeholder={t('profile.placeholders.address', 'Calle y número')} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-muted transition-all font-medium text-foreground text-base" /> : <div className="p-3 bg-gray-50 dark:bg-muted rounded-lg text-sm">{user?.address || '-'}</div>}
+                {isEditing && canEdit ? <Input value={profileData.address} onChange={e => setProfileData({...profileData, address: e.target.value})} placeholder={t('profile.placeholders.address', 'Calle y número')} className={inputClass} /> : <div className={readOnlyClass}>{user?.address || '-'}</div>}
               </div>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 mt-4">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-3">
               <div className="space-y-1">
                 <Label className="text-xs font-bold text-muted-foreground">{t('profile.fields.city', 'Ciudad')}</Label>
-                {isEditing && canEdit ? <Input value={profileData.city} onChange={e => setProfileData({...profileData, city: e.target.value})} placeholder={t('profile.placeholders.city', 'Ciudad de residencia')} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-muted transition-all font-medium text-foreground text-base" /> : <div className="p-3 bg-gray-50 dark:bg-muted rounded-lg text-sm">{user?.city || '-'}</div>}
+                {isEditing && canEdit ? <Input value={profileData.city} onChange={e => setProfileData({...profileData, city: e.target.value})} placeholder={t('profile.placeholders.city', 'Ciudad')} className={inputClass} /> : <div className={readOnlyClass}>{user?.city || '-'}</div>}
               </div>
               <div className="space-y-1">
                 <Label className="text-xs font-bold text-muted-foreground">{t('profile.fields.province', 'Provincia')}</Label>
-                {isEditing && canEdit ? <Input value={profileData.province} onChange={e => setProfileData({...profileData, province: e.target.value})} placeholder={t('profile.placeholders.province', 'Provincia o región')} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-muted transition-all font-medium text-foreground text-base" /> : <div className="p-3 bg-gray-50 dark:bg-muted rounded-lg text-sm">{user?.province || '-'}</div>}
+                {isEditing && canEdit ? <Input value={profileData.province} onChange={e => setProfileData({...profileData, province: e.target.value})} placeholder={t('profile.placeholders.province', 'Provincia')} className={inputClass} /> : <div className={readOnlyClass}>{user?.province || '-'}</div>}
               </div>
               <div className="space-y-1">
                 <Label className="text-xs font-bold text-muted-foreground">{t('profile.fields.postalCode', 'C.P.')}</Label>
-                {isEditing && canEdit ? <Input value={profileData.postalCode} onChange={e => setProfileData({...profileData, postalCode: e.target.value})} placeholder={t('profile.placeholders.postalCode', 'Código postal')} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-muted transition-all font-medium text-foreground text-base" /> : <div className="p-3 bg-gray-50 dark:bg-muted rounded-lg text-sm">{user?.postalCode || '-'}</div>}
+                {isEditing && canEdit ? <Input value={profileData.postalCode} onChange={e => setProfileData({...profileData, postalCode: e.target.value})} placeholder={t('profile.placeholders.postalCode', 'C.P.')} className={inputClass} /> : <div className={readOnlyClass}>{user?.postalCode || '-'}</div>}
               </div>
               <div className="space-y-1">
                 <Label className="text-xs font-bold text-muted-foreground">{t('profile.fields.country', 'País')}</Label>
-                {isEditing && canEdit ? <Input value={profileData.country} onChange={e => setProfileData({...profileData, country: e.target.value})} placeholder={t('profile.placeholders.country', 'País de residencia')} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-muted transition-all font-medium text-foreground text-base" /> : <div className="p-3 bg-gray-50 dark:bg-muted rounded-lg text-sm">{user?.country || '-'}</div>}
+                {isEditing && canEdit ? <Input value={profileData.country} onChange={e => setProfileData({...profileData, country: e.target.value})} placeholder={t('profile.placeholders.country', 'País')} className={inputClass} /> : <div className={readOnlyClass}>{user?.country || '-'}</div>}
               </div>
             </div>
           </div>
           {isEditing && canEdit && (
-            <div className="mt-6 space-y-3">
-              <Button onClick={() => { updateProfile.mutate(profileData); setIsEditing(false); }} className="w-full bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all" disabled={updateProfile.isPending} data-testid="button-save-profile">{t('profile.saveChanges', 'Guardar cambios')}</Button>
-              <p className="text-xs text-center text-muted-foreground">{t('profile.reviewNote', 'Nuestro equipo revisará cualquier cambio antes de avanzar para asegurarnos de que todo esté correcto.')}</p>
+            <div className="mt-4 space-y-2">
+              <Button onClick={() => updateProfile.mutate(profileData)} className="w-full bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-11 transition-colors" disabled={updateProfile.isPending} data-testid="button-save-profile">{updateProfile.isPending ? t('common.saving', 'Guardando...') : t('profile.saveChanges', 'Guardar cambios')}</Button>
+              <p className="text-[10px] text-center text-muted-foreground">{t('profile.reviewNote', 'Nuestro equipo revisará cualquier cambio antes de avanzar para asegurarnos de que todo esté correcto.')}</p>
             </div>
           )}
         </div>
-        <div className="mt-8 pt-8 border-t">
+      </Card>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <Card className="rounded-2xl border-0 shadow-sm p-5 bg-white dark:bg-card">
           <div className="flex items-center justify-between">
             <div>
-              <h4 className="font-semibold text-foreground">{t('profile.newsletter.title', 'Suscripción Newsletter')}</h4>
-              <p className="text-xs text-muted-foreground">{t('profile.newsletter.description', 'Recibe noticias y consejos para tu LLC.')}</p>
+              <h4 className="font-semibold text-sm text-foreground">{t('profile.newsletter.title', 'Suscripción Newsletter')}</h4>
+              <p className="text-[10px] text-muted-foreground">{t('profile.newsletter.description', 'Recibe noticias y consejos para tu LLC.')}</p>
             </div>
             <NewsletterToggle />
           </div>
-        </div>
-        <div className="mt-8 pt-8 border-t">
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        </Card>
+
+        <Card className="rounded-2xl border-0 shadow-sm p-5 bg-white dark:bg-card">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
             <div>
-              <h4 className="font-semibold text-foreground flex items-center gap-2">
-                <Globe className="w-4 h-4" />
+              <h4 className="font-semibold text-sm text-foreground flex items-center gap-1.5">
+                <Globe className="w-3.5 h-3.5" />
                 {t('profile.language.title', 'Idioma preferido')}
               </h4>
-              <p className="text-xs text-muted-foreground">{t('profile.language.description', 'Selecciona el idioma de la plataforma y documentos.')}</p>
+              <p className="text-[10px] text-muted-foreground">{t('profile.language.description', 'Selecciona el idioma de la plataforma y documentos.')}</p>
             </div>
-            <div className="flex gap-2">
+            <div className="flex gap-1.5">
               {languages.map((lang) => (
                 <Button
                   key={lang.code}
                   variant={currentLangCode === lang.code ? "default" : "outline"}
                   size="sm"
-                  className={`rounded-full h-10 px-4 flex items-center gap-2 transition-all ${
+                  className={`rounded-full h-9 px-3 flex items-center gap-1.5 transition-colors ${
                     currentLangCode === lang.code 
                       ? 'bg-accent text-primary shadow-md ring-2 ring-accent/50' 
-                      : 'bg-white dark:bg-muted border border-border hover:border-accent/50'
+                      : 'bg-white dark:bg-muted border border-border'
                   }`}
                   onClick={() => handleLanguageChange(lang.code)}
                   data-testid={`button-language-${lang.code}`}
                 >
-                  <lang.Flag className="w-5 h-5" />
-                  <span className="hidden sm:inline font-medium">{lang.label}</span>
+                  <lang.Flag className="w-4 h-4" />
+                  <span className="hidden sm:inline text-xs font-medium">{lang.label}</span>
                 </Button>
               ))}
             </div>
           </div>
-        </div>
-        <div className="mt-8 pt-8 border-t">
-          <div className="flex items-center justify-between mb-4">
-            <div>
-              <h4 className="font-semibold text-foreground">{t('profile.changePassword.title', 'Cambiar Contraseña')}</h4>
-              <p className="text-xs text-muted-foreground">{t('profile.changePassword.description', 'Actualiza tu contraseña de acceso.')}</p>
-            </div>
-            {!showPasswordForm && (
-              <Button variant="outline" className="rounded-full" onClick={() => setShowPasswordForm(true)} data-testid="button-show-password-form">
-                {t('common.change', 'Cambiar')}
-              </Button>
-            )}
+        </Card>
+      </div>
+
+      <Card className="rounded-2xl border-0 shadow-sm p-5 bg-white dark:bg-card">
+        <div className="flex items-center justify-between mb-3">
+          <div>
+            <h4 className="font-semibold text-sm text-foreground">{t('profile.changePassword.title', 'Cambiar Contraseña')}</h4>
+            <p className="text-[10px] text-muted-foreground">{t('profile.changePassword.description', 'Actualiza tu contraseña de acceso.')}</p>
           </div>
-          {showPasswordForm && (
-            <div className="space-y-3 p-4 bg-gray-50 dark:bg-muted rounded-xl">
-              {passwordStep === 'form' && (
-                <>
+          {!showPasswordForm && (
+            <Button variant="outline" size="sm" className="rounded-full" onClick={() => setShowPasswordForm(true)} data-testid="button-show-password-form">
+              {t('common.change', 'Cambiar')}
+            </Button>
+          )}
+        </div>
+        {showPasswordForm && (
+          <div className="space-y-3 p-4 bg-gray-50 dark:bg-muted rounded-xl">
+            {passwordStep === 'form' && (
+              <>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                   <div className="space-y-1">
                     <Label className="text-xs">{t('profile.currentPassword', 'Contraseña actual')}</Label>
-                    <Input type="password" value={currentPassword} onChange={e => setCurrentPassword(e.target.value)} data-testid="input-current-password" />
+                    <Input type="password" value={currentPassword} onChange={e => setCurrentPassword(e.target.value)} className="rounded-full" data-testid="input-current-password" />
                   </div>
                   <div className="space-y-1">
                     <Label className="text-xs">{t('profile.newPassword', 'Nueva contraseña')}</Label>
-                    <Input type="password" value={newPassword} onChange={e => setNewPassword(e.target.value)} data-testid="input-new-password" />
+                    <Input type="password" value={newPassword} onChange={e => setNewPassword(e.target.value)} className="rounded-full" data-testid="input-new-password" />
                   </div>
                   <div className="space-y-1">
                     <Label className="text-xs">{t('profile.confirmNewPassword', 'Confirmar nueva contraseña')}</Label>
-                    <Input type="password" value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} data-testid="input-confirm-password" />
+                    <Input type="password" value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} className="rounded-full" data-testid="input-confirm-password" />
                   </div>
-                  {newPassword && confirmPassword && newPassword !== confirmPassword && (
-                    <p className="text-xs text-red-500">{t('profile.passwordMismatch', 'Las contraseñas no coinciden')}</p>
-                  )}
-                  <div className="flex gap-2 pt-2">
-                    <Button variant="outline" className="rounded-full flex-1" onClick={() => { setShowPasswordForm(false); setCurrentPassword(""); setNewPassword(""); setConfirmPassword(""); }}>{t('common.cancel', 'Cancelar')}</Button>
-                    <Button 
-                      className="bg-accent text-accent-foreground font-semibold rounded-full flex-1"
-                      onClick={() => requestPasswordOtpMutation.mutate()}
-                      disabled={!currentPassword || !newPassword || newPassword !== confirmPassword || newPassword.length < 8 || requestPasswordOtpMutation.isPending}
-                      data-testid="button-request-otp"
-                    >
-                      {requestPasswordOtpMutation.isPending ? t('common.sending', 'Enviando...') : t('profile.sendCode', 'Enviar código')}
-                    </Button>
-                  </div>
-                </>
-              )}
-              {passwordStep === 'otp' && (
-                <>
-                  <div className="text-center pb-2">
-                    <Mail className="w-8 h-8 mx-auto text-accent mb-2" />
-                    <p className="text-sm text-muted-foreground">{t('profile.enterCode', 'Ingresa el código de 6 dígitos enviado a tu email')}</p>
-                  </div>
-                  <div className="space-y-1">
-                    <Label className="text-xs">{t('dashboard.profile.verificationCode', 'Código de verificación')}</Label>
-                    <Input 
-                      type="text" 
-                      value={passwordOtp} 
-                      onChange={e => setPasswordOtp(e.target.value.replace(/\D/g, '').slice(0, 6))} 
-                      className="text-center text-2xl tracking-[0.5em] font-mono"
-                      maxLength={6}
-                      inputMode="numeric"
-                      data-testid="input-password-otp" 
-                    />
-                  </div>
-                  <div className="flex gap-2 pt-2">
-                    <Button variant="outline" className="rounded-full flex-1" onClick={() => { setPasswordStep('form'); setPasswordOtp(""); }}>{t('common.back', 'Volver')}</Button>
-                    <Button 
-                      className="bg-accent text-accent-foreground font-semibold rounded-full flex-1"
-                      onClick={() => changePasswordMutation.mutate({ currentPassword, newPassword, otp: passwordOtp })}
-                      disabled={passwordOtp.length !== 6 || changePasswordMutation.isPending}
-                      data-testid="button-save-password"
-                    >
-                      {changePasswordMutation.isPending ? t('common.saving', 'Guardando...') : t('common.confirm', 'Confirmar')}
-                    </Button>
-                  </div>
-                </>
-              )}
-            </div>
-          )}
-        </div>
-        <div className="mt-8 pt-8 border-t">
-          <div className="flex items-center justify-between mb-4">
-            <div>
-              <h4 className="font-semibold text-foreground">{t('profile.connectedAccounts.title', 'Cuentas Conectadas')}</h4>
-              <p className="text-xs text-muted-foreground">{t('profile.connectedAccounts.description', 'Vincula tus cuentas sociales para iniciar sesión más rápido.')}</p>
-            </div>
+                </div>
+                {newPassword && confirmPassword && newPassword !== confirmPassword && (
+                  <p className="text-xs text-red-500">{t('profile.passwordMismatch', 'Las contraseñas no coinciden')}</p>
+                )}
+                <div className="flex gap-2 pt-1">
+                  <Button variant="outline" className="rounded-full flex-1" onClick={() => { setShowPasswordForm(false); setCurrentPassword(""); setNewPassword(""); setConfirmPassword(""); }}>{t('common.cancel', 'Cancelar')}</Button>
+                  <Button 
+                    className="bg-accent text-accent-foreground font-semibold rounded-full flex-1"
+                    onClick={() => requestPasswordOtpMutation.mutate()}
+                    disabled={!currentPassword || !newPassword || newPassword !== confirmPassword || newPassword.length < 8 || requestPasswordOtpMutation.isPending}
+                    data-testid="button-request-otp"
+                  >
+                    {requestPasswordOtpMutation.isPending ? t('common.sending', 'Enviando...') : t('profile.sendCode', 'Enviar código')}
+                  </Button>
+                </div>
+              </>
+            )}
+            {passwordStep === 'otp' && (
+              <>
+                <div className="text-center pb-2">
+                  <Mail className="w-8 h-8 mx-auto text-accent mb-2" />
+                  <p className="text-sm text-muted-foreground">{t('profile.enterCode', 'Ingresa el código de 6 dígitos enviado a tu email')}</p>
+                </div>
+                <div className="space-y-1">
+                  <Label className="text-xs">{t('dashboard.profile.verificationCode', 'Código de verificación')}</Label>
+                  <Input 
+                    type="text" 
+                    value={passwordOtp} 
+                    onChange={e => setPasswordOtp(e.target.value.replace(/\D/g, '').slice(0, 6))} 
+                    className="text-center text-lg tracking-[0.3em] font-mono"
+                    maxLength={6}
+                    inputMode="numeric"
+                    data-testid="input-password-otp" 
+                  />
+                </div>
+                <div className="flex gap-2 pt-1">
+                  <Button variant="outline" className="rounded-full flex-1" onClick={() => { setPasswordStep('form'); setPasswordOtp(""); }}>{t('common.back', 'Volver')}</Button>
+                  <Button 
+                    className="bg-accent text-accent-foreground font-semibold rounded-full flex-1"
+                    onClick={() => changePasswordMutation.mutate({ currentPassword, newPassword, otp: passwordOtp })}
+                    disabled={passwordOtp.length !== 6 || changePasswordMutation.isPending}
+                    data-testid="button-save-password"
+                  >
+                    {changePasswordMutation.isPending ? t('common.saving', 'Guardando...') : t('common.confirm', 'Confirmar')}
+                  </Button>
+                </div>
+              </>
+            )}
+          </div>
+        )}
+      </Card>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <Card className="rounded-2xl border-0 shadow-sm p-5 bg-white dark:bg-card">
+          <div className="mb-3">
+            <h4 className="font-semibold text-sm text-foreground">{t('profile.connectedAccounts.title', 'Cuentas Conectadas')}</h4>
+            <p className="text-[10px] text-muted-foreground">{t('profile.connectedAccounts.description', 'Vincula tus cuentas sociales para iniciar sesión más rápido.')}</p>
           </div>
           <SocialLogin 
             mode="connect" 
             googleConnected={!!(user as any)?.googleId}
             onSuccess={() => queryClient.refetchQueries({ queryKey: ["/api/auth/user"] })}
           />
-        </div>
+        </Card>
+
         {canEdit && (
-          <div className="mt-8 pt-8 border-t">
-            <div className="flex items-center justify-between gap-4">
+          <Card className="rounded-2xl border-0 shadow-sm p-5 bg-white dark:bg-card">
+            <div className="flex items-center justify-between gap-3">
               <div>
-                <h4 className="font-black text-red-600 text-sm">{t('dashboard.profile.deleteAccount', 'Eliminar Cuenta')}</h4>
-                <p className="text-[10px] md:text-xs text-muted-foreground">{t('profile.deleteAccountDesc', 'Esta acción es irreversible. Se eliminarán todos tus datos.')}</p>
+                <h4 className="font-black text-red-600 dark:text-red-400 text-sm">{t('dashboard.profile.deleteAccount', 'Eliminar Cuenta')}</h4>
+                <p className="text-[10px] text-muted-foreground">{t('profile.deleteAccountDesc', 'Esta acción es irreversible. Se eliminarán todos tus datos.')}</p>
               </div>
-              <Button variant="outline" size="sm" className="border-red-200 text-red-600 rounded-full shrink-0" onClick={() => setDeleteOwnAccountDialog(true)} data-testid="button-delete-own-account">
-                <Trash2 className="w-3 h-3 md:w-4 md:h-4 mr-1 md:mr-2" /> <span className="hidden sm:inline">{t('common.delete', 'Eliminar')}</span>
+              <Button variant="outline" size="sm" className="border-red-200 dark:border-red-800 text-red-600 dark:text-red-400 rounded-full shrink-0" onClick={() => setDeleteOwnAccountDialog(true)} data-testid="button-delete-own-account">
+                <Trash2 className="w-3.5 h-3.5 mr-1" /> <span className="hidden sm:inline">{t('common.delete', 'Eliminar')}</span>
               </Button>
             </div>
-          </div>
+          </Card>
         )}
-      </Card>
+      </div>
     </div>
   );
 }
