@@ -344,7 +344,7 @@ export function TaxComparator() {
                     {t("taxComparator.annualIncome")}
                   </label>
                 </div>
-                <div className="relative w-full max-w-xs">
+                <div className="relative w-full max-w-xs sm:max-w-md">
                   <input
                     type="text"
                     inputMode="numeric"
@@ -370,7 +370,7 @@ export function TaxComparator() {
                   transition={{ duration: 0.2, ease: "easeOut" }}
                   className="p-6 sm:p-8 bg-background will-change-transform flex items-center justify-center min-h-[280px] w-full"
                 >
-                  <div className="max-w-sm w-full mx-auto text-center flex flex-col items-center">
+                  <div className="max-w-sm sm:max-w-md w-full mx-auto text-center flex flex-col items-center">
                     <GrowthChartIcon className="w-16 h-16 mb-4" />
                     <h3 className="text-lg sm:text-xl font-black text-foreground mb-1 text-center w-full">
                       {t("taxComparator.emailTitle")}
