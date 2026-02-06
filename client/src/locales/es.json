@@ -625,6 +625,8 @@
       "errorDesc": "Por favor, verifica tus credenciales",
       "invalidCredentials": "Email o contraseña incorrectos",
       "userNotFound": "Usuario no encontrado",
+      "noAccountFound": "No encontramos una cuenta con este email",
+      "redirectToRegister": "Te redirigimos para crear tu cuenta...",
       "genericError": "Ha ocurrido un error inesperado",
       "welcomeBack": "¡Bienvenido!",
       "welcomeBackDesc": "Has iniciado sesión correctamente",

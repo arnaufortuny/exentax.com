@@ -53,11 +53,41 @@ export default function Login() {
     setIsLoading(true);
     setLoginError(null);
     try {
-      const res = await apiRequest("POST", "/api/auth/login", {
-        ...data,
-        securityOtp: requiresSecurityOtp ? securityOtp : undefined
+      const token = await (await import("@/lib/queryClient")).getCsrfToken();
+      const headers: Record<string, string> = { "Content-Type": "application/json" };
+      if (token) headers["X-CSRF-Token"] = token;
+      
+      const res = await fetch("/api/auth/login", {
+        method: "POST",
+        headers,
+        body: JSON.stringify({
+          ...data,
+          securityOtp: requiresSecurityOtp ? securityOtp : undefined
+        }),
+        credentials: "include",
       });
+      
       const result = await res.json();
+      
+      if (!res.ok) {
+        if (res.status === 403) {
+          setIsAccountDeactivated(true);
+          return;
+        }
+        if (res.status === 401 && result.hint === "no_account") {
+          toast({
+            title: t("auth.login.noAccountFound"),
+            description: t("auth.login.redirectToRegister"),
+          });
+          setTimeout(() => {
+            setLocation(`/auth/register?email=${encodeURIComponent(data.email)}`);
+          }, 1500);
+          return;
+        }
+        setLoginError(t("auth.login.invalidCredentials"));
+        toast({ title: t("auth.login.errorTitle"), description: t("auth.login.errorDesc"), variant: "destructive" });
+        return;
+      }
       
       if (result.requiresSecurityOtp) {
         setRequiresSecurityOtp(true);
@@ -75,19 +105,7 @@ export default function Login() {
         setLocation("/dashboard");
       }
     } catch (err: any) {
-      if (err.message?.includes("desactivada") || err.message?.includes("deactivated") || err.message?.includes("403")) {
-        setIsAccountDeactivated(true);
-        return;
-      }
-      let errorMsg = t("auth.login.genericError");
-      if (err.message?.includes("401")) {
-        errorMsg = t("auth.login.invalidCredentials");
-      } else if (err.message?.includes("404")) {
-        errorMsg = t("auth.login.userNotFound");
-      } else if (err.message) {
-        errorMsg = err.message;
-      }
-      setLoginError(errorMsg);
+      setLoginError(t("auth.login.genericError"));
       toast({ 
         title: t("auth.login.errorTitle"), 
         description: t("auth.login.errorDesc"), 

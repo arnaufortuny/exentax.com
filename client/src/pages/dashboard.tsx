@@ -1818,35 +1818,35 @@ export default function Dashboard() {
 
               {activeTab === 'admin' && user?.isAdmin && (
                 <div key="admin" className="space-y-6">
-                  <div className="grid grid-cols-3 sm:grid-cols-5 gap-2 mb-4 md:mb-6">
+                  <div className="flex overflow-x-auto pb-3 gap-2 mb-4 md:mb-6 no-scrollbar -mx-1 px-1" style={{ WebkitOverflowScrolling: 'touch' }}>
                     {[
-                      { id: 'dashboard', label: t('dashboard.admin.tabs.metrics'), mobileLabel: t('dashboard.admin.tabs.metrics'), icon: BarChart3 },
-                      { id: 'orders', label: t('dashboard.admin.tabs.orders'), mobileLabel: t('dashboard.admin.tabs.orders'), icon: Package },
-                      { id: 'consultations', label: t('dashboard.admin.tabs.consultations'), mobileLabel: t('dashboard.admin.tabs.consultations'), icon: MessageSquare },
-                      { id: 'incomplete', label: t('dashboard.admin.tabs.incomplete'), mobileLabel: t('dashboard.admin.tabs.incomplete'), icon: AlertCircle },
-                      { id: 'users', label: t('dashboard.admin.tabs.clients'), mobileLabel: t('dashboard.admin.tabs.clients'), icon: Users },
-                      { id: 'facturas', label: t('dashboard.admin.tabs.invoices'), mobileLabel: t('dashboard.admin.tabs.invoices'), icon: Receipt },
-                      { id: 'accounting', label: t('dashboard.admin.tabs.accounting'), mobileLabel: t('dashboard.admin.tabs.accounting'), icon: Calculator },
-                      { id: 'calendar', label: t('dashboard.calendar.dates'), mobileLabel: t('dashboard.calendar.dates'), icon: Calendar },
-                      { id: 'docs', label: 'Docs', mobileLabel: 'Docs', icon: FileText },
-                      { id: 'newsletter', label: 'News', mobileLabel: 'News', icon: Mail },
-                      { id: 'inbox', label: 'Inbox', mobileLabel: 'Inbox', icon: MessageSquare },
-                      { id: 'descuentos', label: t('dashboard.admin.tabs.discounts'), mobileLabel: t('dashboard.admin.tabs.discounts'), icon: Tag },
+                      { id: 'dashboard', label: t('dashboard.admin.tabs.metrics'), icon: BarChart3 },
+                      { id: 'orders', label: t('dashboard.admin.tabs.orders'), icon: Package },
+                      { id: 'consultations', label: t('dashboard.admin.tabs.consultations'), icon: MessageSquare },
+                      { id: 'incomplete', label: t('dashboard.admin.tabs.incomplete'), icon: AlertCircle },
+                      { id: 'users', label: t('dashboard.admin.tabs.clients'), icon: Users },
+                      { id: 'facturas', label: t('dashboard.admin.tabs.invoices'), icon: Receipt },
+                      { id: 'accounting', label: t('dashboard.admin.tabs.accounting'), icon: Calculator },
+                      { id: 'calendar', label: t('dashboard.calendar.dates'), icon: Calendar },
+                      { id: 'docs', label: 'Docs', icon: FileText },
+                      { id: 'newsletter', label: 'News', icon: Mail },
+                      { id: 'inbox', label: 'Inbox', icon: MessageSquare },
+                      { id: 'descuentos', label: t('dashboard.admin.tabs.discounts'), icon: Tag },
                     ].map((item) => (
                       <Button
                         key={item.id}
                         variant={adminSubTab === item.id ? "default" : "outline"}
                         onClick={() => setAdminSubTab(item.id)}
                         size="sm"
-                        className={`flex items-center justify-center gap-1.5 rounded-full font-bold text-[10px] sm:text-xs h-9 px-3 ${
+                        className={`flex items-center justify-center gap-1.5 rounded-full font-bold text-[10px] sm:text-xs h-9 px-3 shrink-0 whitespace-nowrap ${
                           adminSubTab === item.id 
-                          ? 'bg-accent text-primary shadow-md' 
-                          : 'bg-white dark:bg-card text-muted-foreground border border-border hover:border-accent/50'
+                          ? 'bg-accent text-accent-foreground shadow-md border-accent' 
+                          : 'bg-card text-muted-foreground border border-border/60'
                         }`}
                         data-testid={`button-admin-tab-${item.id}`}
                       >
                         <item.icon className="w-3.5 h-3.5 shrink-0" />
-                        <span className="truncate">{item.mobileLabel}</span>
+                        <span>{item.label}</span>
                       </Button>
                     ))}
                   </div>
@@ -2832,95 +2832,159 @@ export default function Dashboard() {
                   )}
                   
                   {adminSubTab === 'dashboard' && (
-                    <div className="space-y-4 md:space-y-6" data-testid="admin-dashboard-metrics">
-                      {/* Ventas */}
+                    <div className="space-y-5 md:space-y-7" data-testid="admin-dashboard-metrics">
                       <div data-testid="section-sales">
-                        <h3 className="text-sm font-bold mb-3" data-testid="heading-sales">{t('dashboard.admin.metrics.sales')}</h3>
-                        <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-3">
-                          <Card className="p-3 md:p-4 rounded-xl border-0 shadow-sm bg-gradient-to-br from-green-50 to-white dark:from-green-950/20 dark:to-background">
-                            <p className="text-[10px] md:text-xs text-muted-foreground">{t('dashboard.admin.metrics.totalSales')}</p>
-                            <p className="text-lg md:text-2xl font-black text-green-600 dark:text-green-500" data-testid="stat-total-sales">{((adminStats?.totalSales || 0) / 100).toLocaleString('es-ES', { style: 'currency', currency: 'EUR' })}</p>
+                        <div className="flex items-center gap-2 mb-3">
+                          <div className="w-7 h-7 rounded-lg bg-green-100 dark:bg-green-900/30 flex items-center justify-center flex-shrink-0">
+                            <DollarSign className="w-4 h-4 text-green-600 dark:text-green-400" />
+                          </div>
+                          <h3 className="text-sm font-bold tracking-tight" data-testid="heading-sales">{t('dashboard.admin.metrics.sales')}</h3>
+                        </div>
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                          <Card className="p-4 rounded-xl border border-border/50 shadow-sm bg-card">
+                            <div className="flex items-center justify-between mb-2">
+                              <p className="text-[11px] md:text-xs text-muted-foreground font-medium leading-tight">{t('dashboard.admin.metrics.totalSales')}</p>
+                              <Wallet className="w-3.5 h-3.5 text-green-500 flex-shrink-0" />
+                            </div>
+                            <p className="text-lg md:text-2xl font-black text-foreground truncate" data-testid="stat-total-sales">{((adminStats?.totalSales || 0) / 100).toLocaleString('es-ES', { style: 'currency', currency: 'EUR' })}</p>
                           </Card>
-                          <Card className="p-3 md:p-4 rounded-xl border-0 shadow-sm bg-gradient-to-br from-green-50 to-white dark:from-green-950/20 dark:to-background">
-                            <p className="text-[10px] md:text-xs text-muted-foreground">{t('dashboard.admin.metrics.pendingCollection')}</p>
-                            <p className="text-lg md:text-2xl font-black text-green-600 dark:text-green-500" data-testid="stat-pending-sales">{((adminStats?.pendingSales || 0) / 100).toLocaleString('es-ES', { style: 'currency', currency: 'EUR' })}</p>
+                          <Card className="p-4 rounded-xl border border-border/50 shadow-sm bg-card">
+                            <div className="flex items-center justify-between mb-2">
+                              <p className="text-[11px] md:text-xs text-muted-foreground font-medium leading-tight">{t('dashboard.admin.metrics.pendingCollection')}</p>
+                              <Clock className="w-3.5 h-3.5 text-amber-500 flex-shrink-0" />
+                            </div>
+                            <p className="text-lg md:text-2xl font-black text-foreground truncate" data-testid="stat-pending-sales">{((adminStats?.pendingSales || 0) / 100).toLocaleString('es-ES', { style: 'currency', currency: 'EUR' })}</p>
                           </Card>
-                          <Card className="p-3 md:p-4 rounded-xl border-0 shadow-sm bg-gradient-to-br from-green-50 to-white dark:from-green-950/20 dark:to-background">
-                            <p className="text-[10px] md:text-xs text-muted-foreground">{t('dashboard.admin.metrics.totalOrders')}</p>
-                            <p className="text-lg md:text-2xl font-black text-green-600 dark:text-green-500" data-testid="stat-total-orders">{adminStats?.orderCount || 0}</p>
+                          <Card className="p-4 rounded-xl border border-border/50 shadow-sm bg-card">
+                            <div className="flex items-center justify-between mb-2">
+                              <p className="text-[11px] md:text-xs text-muted-foreground font-medium leading-tight">{t('dashboard.admin.metrics.totalOrders')}</p>
+                              <Package className="w-3.5 h-3.5 text-green-500 flex-shrink-0" />
+                            </div>
+                            <p className="text-lg md:text-2xl font-black text-foreground" data-testid="stat-total-orders">{adminStats?.orderCount || 0}</p>
                           </Card>
-                          <Card className="p-3 md:p-4 rounded-xl border-0 shadow-sm bg-gradient-to-br from-green-50 to-white dark:from-green-950/20 dark:to-background">
-                            <p className="text-[10px] md:text-xs text-muted-foreground">{t('dashboard.admin.metrics.conversion')}</p>
-                            <p className="text-lg md:text-2xl font-black text-green-600 dark:text-green-500" data-testid="stat-conversion">{adminStats?.conversionRate || 0}%</p>
+                          <Card className="p-4 rounded-xl border border-border/50 shadow-sm bg-card">
+                            <div className="flex items-center justify-between mb-2">
+                              <p className="text-[11px] md:text-xs text-muted-foreground font-medium leading-tight">{t('dashboard.admin.metrics.conversion')}</p>
+                              <BarChart3 className="w-3.5 h-3.5 text-green-500 flex-shrink-0" />
+                            </div>
+                            <p className="text-lg md:text-2xl font-black text-foreground" data-testid="stat-conversion">{adminStats?.conversionRate || 0}%</p>
                           </Card>
                         </div>
                       </div>
 
-                      {/* Estado Pedidos */}
                       <div data-testid="section-orders">
-                        <h3 className="text-sm font-bold mb-3" data-testid="heading-orders">{t('dashboard.admin.metrics.orderStatus')}</h3>
-                        <div className="grid grid-cols-3 gap-2 md:gap-3">
-                          <Card className="p-3 md:p-4 rounded-xl border-0 shadow-sm bg-gradient-to-br from-green-50 to-white dark:from-green-950/20 dark:to-background">
-                            <p className="text-[10px] md:text-xs text-muted-foreground">{t('dashboard.admin.metrics.pending')}</p>
-                            <p className="text-xl md:text-3xl font-black text-green-600 dark:text-green-500" data-testid="stat-pending-orders">{adminStats?.pendingOrders || 0}</p>
+                        <div className="flex items-center gap-2 mb-3">
+                          <div className="w-7 h-7 rounded-lg bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center flex-shrink-0">
+                            <ClipboardList className="w-4 h-4 text-blue-600 dark:text-blue-400" />
+                          </div>
+                          <h3 className="text-sm font-bold tracking-tight" data-testid="heading-orders">{t('dashboard.admin.metrics.orderStatus')}</h3>
+                        </div>
+                        <div className="grid grid-cols-3 gap-3">
+                          <Card className="p-4 rounded-xl border border-border/50 shadow-sm bg-card">
+                            <div className="flex items-center justify-between mb-2">
+                              <p className="text-[11px] md:text-xs text-muted-foreground font-medium">{t('dashboard.admin.metrics.pending')}</p>
+                              <Clock className="w-3.5 h-3.5 text-amber-500 flex-shrink-0" />
+                            </div>
+                            <p className="text-xl md:text-3xl font-black text-foreground" data-testid="stat-pending-orders">{adminStats?.pendingOrders || 0}</p>
                           </Card>
-                          <Card className="p-3 md:p-4 rounded-xl border-0 shadow-sm bg-gradient-to-br from-green-50 to-white dark:from-green-950/20 dark:to-background">
-                            <p className="text-[10px] md:text-xs text-muted-foreground">{t('dashboard.admin.metrics.inProcess')}</p>
-                            <p className="text-xl md:text-3xl font-black text-green-600 dark:text-green-500" data-testid="stat-processing-orders">{adminStats?.processingOrders || 0}</p>
+                          <Card className="p-4 rounded-xl border border-border/50 shadow-sm bg-card">
+                            <div className="flex items-center justify-between mb-2">
+                              <p className="text-[11px] md:text-xs text-muted-foreground font-medium">{t('dashboard.admin.metrics.inProcess')}</p>
+                              <Loader2 className="w-3.5 h-3.5 text-blue-500 flex-shrink-0" />
+                            </div>
+                            <p className="text-xl md:text-3xl font-black text-foreground" data-testid="stat-processing-orders">{adminStats?.processingOrders || 0}</p>
                           </Card>
-                          <Card className="p-3 md:p-4 rounded-xl border-0 shadow-sm bg-gradient-to-br from-green-50 to-white dark:from-green-950/20 dark:to-background">
-                            <p className="text-[10px] md:text-xs text-muted-foreground">{t('dashboard.admin.metrics.completed')}</p>
-                            <p className="text-xl md:text-3xl font-black text-green-600 dark:text-green-500" data-testid="stat-completed-orders">{adminStats?.completedOrders || 0}</p>
+                          <Card className="p-4 rounded-xl border border-border/50 shadow-sm bg-card">
+                            <div className="flex items-center justify-between mb-2">
+                              <p className="text-[11px] md:text-xs text-muted-foreground font-medium">{t('dashboard.admin.metrics.completed')}</p>
+                              <CheckCircle2 className="w-3.5 h-3.5 text-green-500 flex-shrink-0" />
+                            </div>
+                            <p className="text-xl md:text-3xl font-black text-foreground" data-testid="stat-completed-orders">{adminStats?.completedOrders || 0}</p>
                           </Card>
                         </div>
                       </div>
 
-                      {/* Usuarios */}
                       <div data-testid="section-crm">
-                        <h3 className="text-sm font-bold mb-3" data-testid="heading-crm">{t('dashboard.admin.metrics.clients')}</h3>
-                        <div className="grid grid-cols-2 md:grid-cols-5 gap-2 md:gap-3">
-                          <Card className="p-3 md:p-4 rounded-xl border-0 shadow-sm bg-gradient-to-br from-green-50 to-white dark:from-green-950/20 dark:to-background">
-                            <p className="text-[10px] md:text-xs text-muted-foreground">{t('dashboard.admin.metrics.totalUsers')}</p>
-                            <p className="text-xl md:text-3xl font-black text-green-600 dark:text-green-500" data-testid="stat-total-users">{adminStats?.userCount || 0}</p>
+                        <div className="flex items-center gap-2 mb-3">
+                          <div className="w-7 h-7 rounded-lg bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center flex-shrink-0">
+                            <Users className="w-4 h-4 text-purple-600 dark:text-purple-400" />
+                          </div>
+                          <h3 className="text-sm font-bold tracking-tight" data-testid="heading-crm">{t('dashboard.admin.metrics.clients')}</h3>
+                        </div>
+                        <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
+                          <Card className="p-4 rounded-xl border border-border/50 shadow-sm bg-card">
+                            <div className="flex items-center justify-between mb-2">
+                              <p className="text-[11px] md:text-xs text-muted-foreground font-medium">{t('dashboard.admin.metrics.totalUsers')}</p>
+                              <Users className="w-3.5 h-3.5 text-purple-500 flex-shrink-0" />
+                            </div>
+                            <p className="text-xl md:text-3xl font-black text-foreground" data-testid="stat-total-users">{adminStats?.userCount || 0}</p>
                           </Card>
-                          <Card className="p-3 md:p-4 rounded-xl border-0 shadow-sm bg-gradient-to-br from-green-50 to-white dark:from-green-950/20 dark:to-background">
-                            <p className="text-[10px] md:text-xs text-muted-foreground">{t('dashboard.admin.metrics.active')}</p>
-                            <p className="text-xl md:text-3xl font-black text-green-600 dark:text-green-500" data-testid="stat-active-users">{adminStats?.activeAccounts || 0}</p>
+                          <Card className="p-4 rounded-xl border border-border/50 shadow-sm bg-card">
+                            <div className="flex items-center justify-between mb-2">
+                              <p className="text-[11px] md:text-xs text-muted-foreground font-medium">{t('dashboard.admin.metrics.active')}</p>
+                              <UserCheck className="w-3.5 h-3.5 text-green-500 flex-shrink-0" />
+                            </div>
+                            <p className="text-xl md:text-3xl font-black text-foreground" data-testid="stat-active-users">{adminStats?.activeAccounts || 0}</p>
                           </Card>
-                          <Card className="p-3 md:p-4 rounded-xl border-0 shadow-sm bg-gradient-to-br from-green-50 to-white dark:from-green-950/20 dark:to-background">
-                            <p className="text-[10px] md:text-xs text-muted-foreground">VIP</p>
-                            <p className="text-xl md:text-3xl font-black text-green-600 dark:text-green-500" data-testid="stat-vip-users">{adminStats?.vipAccounts || 0}</p>
+                          <Card className="p-4 rounded-xl border border-border/50 shadow-sm bg-card">
+                            <div className="flex items-center justify-between mb-2">
+                              <p className="text-[11px] md:text-xs text-muted-foreground font-medium">VIP</p>
+                              <Shield className="w-3.5 h-3.5 text-amber-500 flex-shrink-0" />
+                            </div>
+                            <p className="text-xl md:text-3xl font-black text-foreground" data-testid="stat-vip-users">{adminStats?.vipAccounts || 0}</p>
                           </Card>
-                          <Card className="p-3 md:p-4 rounded-xl border-0 shadow-sm bg-gradient-to-br from-green-50 to-white dark:from-green-950/20 dark:to-background">
-                            <p className="text-[10px] md:text-xs text-muted-foreground">{t('dashboard.admin.metrics.inReview')}</p>
-                            <p className="text-xl md:text-3xl font-black text-green-600 dark:text-green-500" data-testid="stat-pending-accounts">{adminStats?.pendingAccounts || 0}</p>
+                          <Card className="p-4 rounded-xl border border-border/50 shadow-sm bg-card">
+                            <div className="flex items-center justify-between mb-2">
+                              <p className="text-[11px] md:text-xs text-muted-foreground font-medium">{t('dashboard.admin.metrics.inReview')}</p>
+                              <Eye className="w-3.5 h-3.5 text-blue-500 flex-shrink-0" />
+                            </div>
+                            <p className="text-xl md:text-3xl font-black text-foreground" data-testid="stat-pending-accounts">{adminStats?.pendingAccounts || 0}</p>
                           </Card>
-                          <Card className="p-3 md:p-4 rounded-xl border-0 shadow-sm bg-gradient-to-br from-green-50 to-white dark:from-green-950/20 dark:to-background">
-                            <p className="text-[10px] md:text-xs text-muted-foreground">{t('dashboard.admin.metrics.deactivated')}</p>
-                            <p className="text-xl md:text-3xl font-black text-green-600 dark:text-green-500" data-testid="stat-deactivated-users">{adminStats?.deactivatedAccounts || 0}</p>
+                          <Card className="p-4 rounded-xl border border-border/50 shadow-sm bg-card">
+                            <div className="flex items-center justify-between mb-2">
+                              <p className="text-[11px] md:text-xs text-muted-foreground font-medium">{t('dashboard.admin.metrics.deactivated')}</p>
+                              <XCircle className="w-3.5 h-3.5 text-red-500 flex-shrink-0" />
+                            </div>
+                            <p className="text-xl md:text-3xl font-black text-foreground" data-testid="stat-deactivated-users">{adminStats?.deactivatedAccounts || 0}</p>
                           </Card>
                         </div>
                       </div>
 
-                      {/* Comunicaciones y Documentos */}
                       <div data-testid="section-communications">
-                        <h3 className="text-sm font-bold mb-3" data-testid="heading-communications">{t('dashboard.admin.metrics.communications')}</h3>
-                        <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-3">
-                          <Card className="p-3 md:p-4 rounded-xl border-0 shadow-sm bg-gradient-to-br from-green-50 to-white dark:from-green-950/20 dark:to-background">
-                            <p className="text-[10px] md:text-xs text-muted-foreground">{t('dashboard.admin.metrics.newsletterSubs')}</p>
-                            <p className="text-xl md:text-3xl font-black text-green-600 dark:text-green-500" data-testid="stat-subscribers">{adminStats?.subscriberCount || 0}</p>
+                        <div className="flex items-center gap-2 mb-3">
+                          <div className="w-7 h-7 rounded-lg bg-orange-100 dark:bg-orange-900/30 flex items-center justify-center flex-shrink-0">
+                            <Mail className="w-4 h-4 text-orange-600 dark:text-orange-400" />
+                          </div>
+                          <h3 className="text-sm font-bold tracking-tight" data-testid="heading-communications">{t('dashboard.admin.metrics.communications')}</h3>
+                        </div>
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                          <Card className="p-4 rounded-xl border border-border/50 shadow-sm bg-card">
+                            <div className="flex items-center justify-between mb-2">
+                              <p className="text-[11px] md:text-xs text-muted-foreground font-medium">{t('dashboard.admin.metrics.newsletterSubs')}</p>
+                              <Newspaper className="w-3.5 h-3.5 text-green-500 flex-shrink-0" />
+                            </div>
+                            <p className="text-xl md:text-3xl font-black text-foreground" data-testid="stat-subscribers">{adminStats?.subscriberCount || 0}</p>
                           </Card>
-                          <Card className="p-3 md:p-4 rounded-xl border-0 shadow-sm bg-gradient-to-br from-green-50 to-white dark:from-green-950/20 dark:to-background">
-                            <p className="text-[10px] md:text-xs text-muted-foreground">{t('dashboard.admin.metrics.totalMessages')}</p>
-                            <p className="text-xl md:text-3xl font-black text-green-600 dark:text-green-500" data-testid="stat-total-messages">{adminStats?.totalMessages || 0}</p>
+                          <Card className="p-4 rounded-xl border border-border/50 shadow-sm bg-card">
+                            <div className="flex items-center justify-between mb-2">
+                              <p className="text-[11px] md:text-xs text-muted-foreground font-medium">{t('dashboard.admin.metrics.totalMessages')}</p>
+                              <MessageSquare className="w-3.5 h-3.5 text-blue-500 flex-shrink-0" />
+                            </div>
+                            <p className="text-xl md:text-3xl font-black text-foreground" data-testid="stat-total-messages">{adminStats?.totalMessages || 0}</p>
                           </Card>
-                          <Card className="p-3 md:p-4 rounded-xl border-0 shadow-sm bg-gradient-to-br from-green-50 to-white dark:from-green-950/20 dark:to-background">
-                            <p className="text-[10px] md:text-xs text-muted-foreground">{t('dashboard.admin.metrics.pendingMessages')}</p>
-                            <p className="text-xl md:text-3xl font-black text-green-600 dark:text-green-500" data-testid="stat-pending-messages">{adminStats?.pendingMessages || 0}</p>
+                          <Card className="p-4 rounded-xl border border-border/50 shadow-sm bg-card">
+                            <div className="flex items-center justify-between mb-2">
+                              <p className="text-[11px] md:text-xs text-muted-foreground font-medium">{t('dashboard.admin.metrics.pendingMessages')}</p>
+                              <AlertCircle className="w-3.5 h-3.5 text-amber-500 flex-shrink-0" />
+                            </div>
+                            <p className="text-xl md:text-3xl font-black text-foreground" data-testid="stat-pending-messages">{adminStats?.pendingMessages || 0}</p>
                           </Card>
-                          <Card className="p-3 md:p-4 rounded-xl border-0 shadow-sm bg-gradient-to-br from-green-50 to-white dark:from-green-950/20 dark:to-background">
-                            <p className="text-[10px] md:text-xs text-muted-foreground">{t('dashboard.admin.metrics.pendingDocs')}</p>
-                            <p className="text-xl md:text-3xl font-black text-green-600 dark:text-green-500" data-testid="stat-pending-docs">{adminStats?.pendingDocs || 0}</p>
+                          <Card className="p-4 rounded-xl border border-border/50 shadow-sm bg-card">
+                            <div className="flex items-center justify-between mb-2">
+                              <p className="text-[11px] md:text-xs text-muted-foreground font-medium">{t('dashboard.admin.metrics.pendingDocs')}</p>
+                              <FileUp className="w-3.5 h-3.5 text-orange-500 flex-shrink-0" />
+                            </div>
+                            <p className="text-xl md:text-3xl font-black text-foreground" data-testid="stat-pending-docs">{adminStats?.pendingDocs || 0}</p>
                           </Card>
                         </div>
                       </div>

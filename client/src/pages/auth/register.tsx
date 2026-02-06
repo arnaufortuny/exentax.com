@@ -97,6 +97,11 @@ export default function Register() {
     { key: "other", label: t("auth.register.businessActivities.other") },
   ], [t]);
 
+  const urlEmail = useMemo(() => {
+    const params = new URLSearchParams(window.location.search);
+    return params.get('email') || "";
+  }, []);
+
   const form = useForm<RegisterFormValues>({
     resolver: zodResolver(registerSchema),
     mode: 'onSubmit',
@@ -104,13 +109,19 @@ export default function Register() {
     defaultValues: {
       firstName: "",
       lastName: "",
-      email: "",
+      email: urlEmail,
       phone: "",
       businessActivity: "",
       password: "",
       confirmPassword: "",
     },
   });
+
+  useEffect(() => {
+    if (urlEmail) {
+      form.setValue("email", urlEmail);
+    }
+  }, [urlEmail]);
 
   const stepsValidation: Record<number, (keyof RegisterFormValues)[]> = {
     0: ["firstName", "lastName"],

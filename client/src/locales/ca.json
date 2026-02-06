@@ -625,6 +625,8 @@
       "errorDesc": "Si us plau, verifica les teves credencials",
       "invalidCredentials": "Email o contrasenya incorrectes",
       "userNotFound": "Usuari no trobat",
+      "noAccountFound": "No hem trobat cap compte amb aquest email",
+      "redirectToRegister": "Et redirigim per crear el teu compte...",
       "genericError": "S'ha produït un error inesperat",
       "welcomeBack": "Benvingut!",
       "welcomeBackDesc": "Has iniciat sessió correctament",

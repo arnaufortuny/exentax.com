@@ -628,6 +628,8 @@
       "errorDesc": "Check your email or password",
       "invalidCredentials": "Invalid email or password",
       "userNotFound": "User not found",
+      "noAccountFound": "No account found with this email",
+      "redirectToRegister": "Redirecting you to create your account...",
       "genericError": "Error signing in",
       "signIn": "Sign in",
       "securityOtpSent": "Verification code sent",

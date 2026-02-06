@@ -165,8 +165,12 @@ export function setupCustomAuth(app: Express) {
         const user = await loginUser(email, password);
 
         if (!user) {
+          const [existingUser] = await db.select({ id: users.id }).from(users).where(eq(users.email, email.toLowerCase().trim())).limit(1);
           logAudit({ action: 'user_login', ip, details: { email, success: false } });
-          return res.status(401).json({ message: "Email o contraseña incorrectos" });
+          return res.status(401).json({ 
+            message: "Email o contraseña incorrectos",
+            hint: existingUser ? undefined : "no_account"
+          });
         }
 
         if (user.accountStatus === 'deactivated') {
