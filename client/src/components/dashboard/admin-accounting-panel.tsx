@@ -11,7 +11,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { NativeSelect, NativeSelectItem } from "@/components/ui/native-select";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
-import { Plus, Download, TrendingUp, TrendingDown, DollarSign, Edit, Trash2, Loader2, X, ChevronDown } from "lucide-react";
+import { Plus, Download, TrendingUp, TrendingDown, DollarSign, Edit, Trash2, Loader2, X } from "lucide-react";
 import type { AccountingTransaction } from "@shared/schema";
 
 const INCOME_CATEGORIES = ['llc_formation', 'maintenance', 'consultation', 'other_income'];

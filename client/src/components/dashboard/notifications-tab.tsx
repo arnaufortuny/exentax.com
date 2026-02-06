@@ -1,9 +1,8 @@
-import { BellRing, Upload, X } from "lucide-react";
+import { Upload, X, Bell } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import type { Tab } from "./types";
 import { useTranslation } from "react-i18next";
-import { Bell } from "lucide-react";
 
 interface NotificationsTabProps {
   notifications: any[] | undefined;
