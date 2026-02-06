@@ -12,7 +12,6 @@ import { Footer } from "@/components/layout/footer";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, FormDescription } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useToast } from "@/hooks/use-toast";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { SocialLogin } from "@/components/auth/social-login";
 import { StepProgress } from "@/components/ui/step-progress";
@@ -26,11 +25,8 @@ const createRegisterSchema = (t: (key: string) => string) => z.object({
     .min(1, t("validation.required"))
     .refine(
       (val) => {
-        // Must start with +
         if (!val.startsWith('+')) return false;
-        // No letters allowed
         if (/[a-zA-Z]/.test(val)) return false;
-        // Must have at least 6 digits after the +
         const digitsOnly = val.replace(/\D/g, '');
         return digitsOnly.length >= 6;
       },
@@ -68,7 +64,7 @@ export default function Register() {
   const [selectedLanguage, setSelectedLanguage] = useState(i18n.language?.split('-')[0] || 'es');
   const [isAccountDeactivated, setIsAccountDeactivated] = useState(false);
   const [isCheckingEmail, setIsCheckingEmail] = useState(false);
-  const { toast } = useToast();
+  const [formMessage, setFormMessage] = useState<{ type: 'error' | 'success' | 'info', text: string } | null>(null);
 
   const languages = [
     { code: 'es', label: 'Español', Flag: SpainFlag },
@@ -128,6 +124,13 @@ export default function Register() {
     }
   }, [urlEmail]);
 
+  useEffect(() => {
+    if (formMessage) {
+      const timer = setTimeout(() => setFormMessage(null), 6000);
+      return () => clearTimeout(timer);
+    }
+  }, [formMessage]);
+
   const stepsValidation: Record<number, (keyof RegisterFormValues)[]> = {
     0: ["firstName", "lastName"],
     1: ["email"],
@@ -161,7 +164,6 @@ export default function Register() {
               return;
             }
           } catch {
-            // Error message is not JSON, ignore parsing
           }
         } finally {
           setIsCheckingEmail(false);
@@ -190,6 +192,7 @@ export default function Register() {
 
   const onSubmit = async (data: RegisterFormValues) => {
     setIsLoading(true);
+    setFormMessage(null);
     try {
       const res = await apiRequest("POST", "/api/auth/register", {
         firstName: data.firstName,
@@ -205,22 +208,19 @@ export default function Register() {
       if (result.success) {
         await queryClient.refetchQueries({ queryKey: ["/api/auth/user"] });
         setIsRegistered(true);
-        toast({ title: t("auth.register.accountCreated"), description: t("auth.register.accountCreatedDesc") });
+        setFormMessage({ type: 'success', text: t("auth.register.accountCreated") });
       }
     } catch (err: any) {
-      toast({ 
-        title: t("auth.register.errorTitle"), 
-        description: err.message || t("auth.register.errorDesc"), 
-        variant: "destructive" 
-      });
+      setFormMessage({ type: 'error', text: err.message || t("auth.register.errorDesc") });
     } finally {
       setIsLoading(false);
     }
   };
 
   const verifyEmail = async () => {
+    setFormMessage(null);
     if (!verificationCode || verificationCode.length < 6) {
-      toast({ title: t("auth.verify.codeMissing"), description: t("auth.verify.codeMissingDesc"), variant: "destructive" });
+      setFormMessage({ type: 'error', text: t("auth.verify.codeMissing") + ': ' + t("auth.verify.codeMissingDesc") });
       return;
     }
     
@@ -231,15 +231,10 @@ export default function Register() {
       
       if (result.success) {
         await queryClient.refetchQueries({ queryKey: ["/api/auth/user"] });
-        toast({ title: t("auth.verify.verified"), description: t("auth.verify.verifiedDesc") });
         setLocation("/dashboard");
       }
     } catch (err: any) {
-      toast({ 
-        title: t("auth.verify.codeInvalid"), 
-        description: t("auth.verify.codeInvalidDesc"), 
-        variant: "destructive" 
-      });
+      setFormMessage({ type: 'error', text: t("auth.verify.codeInvalidDesc") });
     } finally {
       setIsVerifying(false);
     }
@@ -247,11 +242,12 @@ export default function Register() {
 
   const resendCode = async () => {
     setIsResending(true);
+    setFormMessage(null);
     try {
       await apiRequest("POST", "/api/auth/resend-verification");
-      toast({ title: t("auth.verify.codeSent"), description: t("auth.verify.codeSentDesc") });
+      setFormMessage({ type: 'success', text: t("auth.verify.codeSent") + ': ' + t("auth.verify.codeSentDesc") });
     } catch (err) {
-      toast({ title: t("auth.verify.sendError"), description: t("auth.verify.sendErrorDesc"), variant: "destructive" });
+      setFormMessage({ type: 'error', text: t("auth.verify.sendErrorDesc") });
     } finally {
       setIsResending(false);
     }
@@ -301,6 +297,18 @@ export default function Register() {
               </h1>
               <p className="text-muted-foreground mt-2 text-center">{t("auth.verify.subtitleDesc")}</p>
             </div>
+
+            {formMessage && (
+              <div className={`mb-4 p-3 rounded-xl text-center text-sm font-medium ${
+                formMessage.type === 'error' 
+                  ? 'bg-destructive/10 border border-destructive/20 text-destructive' 
+                  : formMessage.type === 'success'
+                  ? 'bg-accent/10 border border-accent/20 text-accent'
+                  : 'bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-800 text-blue-700 dark:text-blue-300'
+              }`} data-testid="form-message">
+                {formMessage.text}
+              </div>
+            )}
 
             <div className="bg-white dark:bg-card rounded-2xl p-5 border border-border shadow-sm mb-6">
               <div className="space-y-2 text-sm text-foreground">
@@ -387,6 +395,18 @@ export default function Register() {
 
           {step > 0 && (
             <StepProgress currentStep={step} totalSteps={TOTAL_STEPS} className="mb-6" />
+          )}
+
+          {formMessage && (
+            <div className={`mb-4 p-3 rounded-xl text-center text-sm font-medium ${
+              formMessage.type === 'error' 
+                ? 'bg-destructive/10 border border-destructive/20 text-destructive' 
+                : formMessage.type === 'success'
+                ? 'bg-accent/10 border border-accent/20 text-accent'
+                : 'bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-800 text-blue-700 dark:text-blue-300'
+            }`} data-testid="form-message">
+              {formMessage.text}
+            </div>
           )}
 
           <div className="bg-white dark:bg-card rounded-2xl md:rounded-3xl p-5 md:p-8 border border-border shadow-sm">

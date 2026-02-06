@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -11,7 +11,6 @@ import { Footer } from "@/components/layout/footer";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
 import { FormInput } from "@/components/forms";
 import { PasswordStrength } from "@/components/ui/password-strength";
@@ -37,7 +36,7 @@ export default function ForgotPassword() {
   const [email, setEmail] = useState("");
   const [otp, setOtp] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const { toast } = useToast();
+  const [formMessage, setFormMessage] = useState<{ type: 'error' | 'success' | 'info', text: string } | null>(null);
 
   const emailSchema = createEmailSchema(t);
   const resetSchema = createResetSchema(t);
@@ -55,28 +54,37 @@ export default function ForgotPassword() {
     defaultValues: { password: "", confirmPassword: "" },
   });
 
+  useEffect(() => {
+    if (formMessage) {
+      const timer = setTimeout(() => setFormMessage(null), 6000);
+      return () => clearTimeout(timer);
+    }
+  }, [formMessage]);
+
   const handleSendOtp = async (data: { email: string }) => {
     setIsLoading(true);
+    setFormMessage(null);
     try {
       const res = await apiRequest("POST", "/api/password-reset/send-otp", data);
       if (res.ok) {
         setEmail(data.email);
         setStep('otp');
-        toast({ title: t("auth.forgotPassword.codeSentTitle"), description: t("auth.forgotPassword.codeSentDesc") });
+        setFormMessage({ type: 'success', text: t("auth.forgotPassword.codeSentDesc") });
       } else {
         const result = await res.json();
-        toast({ title: t("auth.forgotPassword.errorTitle"), description: result.message || t("auth.forgotPassword.errorSendCode"), variant: "destructive" });
+        setFormMessage({ type: 'error', text: result.message || t("auth.forgotPassword.errorSendCode") });
       }
     } catch (err) {
-      toast({ title: t("auth.forgotPassword.errorTitle"), description: t("auth.forgotPassword.errorSendCode"), variant: "destructive" });
+      setFormMessage({ type: 'error', text: t("auth.forgotPassword.errorSendCode") });
     } finally {
       setIsLoading(false);
     }
   };
 
   const handleVerifyOtp = async () => {
+    setFormMessage(null);
     if (otp.length !== 6) {
-      toast({ title: t("auth.forgotPassword.errorTitle"), description: t("auth.forgotPassword.errorEnterCode"), variant: "destructive" });
+      setFormMessage({ type: 'error', text: t("auth.forgotPassword.errorEnterCode") });
       return;
     }
     setStep('password');
@@ -84,6 +92,7 @@ export default function ForgotPassword() {
 
   const handleResetPassword = async (data: { password: string; confirmPassword: string }) => {
     setIsLoading(true);
+    setFormMessage(null);
     try {
       const res = await apiRequest("POST", "/api/password-reset/confirm", {
         email,
@@ -94,10 +103,10 @@ export default function ForgotPassword() {
       if (res.ok && result.success) {
         setStep('success');
       } else {
-        toast({ title: t("auth.forgotPassword.errorTitle"), description: result.message || t("auth.forgotPassword.errorInvalidCode"), variant: "destructive" });
+        setFormMessage({ type: 'error', text: result.message || t("auth.forgotPassword.errorInvalidCode") });
       }
     } catch (err: any) {
-      toast({ title: t("auth.forgotPassword.errorTitle"), description: err.message || t("auth.forgotPassword.errorResetPassword"), variant: "destructive" });
+      setFormMessage({ type: 'error', text: err.message || t("auth.forgotPassword.errorResetPassword") });
     } finally {
       setIsLoading(false);
     }
@@ -105,15 +114,16 @@ export default function ForgotPassword() {
 
   const handleResendOtp = async () => {
     setIsLoading(true);
+    setFormMessage(null);
     try {
       const res = await apiRequest("POST", "/api/password-reset/send-otp", { email });
       if (res.ok) {
-        toast({ title: t("auth.forgotPassword.codeResentTitle"), description: t("auth.forgotPassword.codeResentDesc") });
+        setFormMessage({ type: 'success', text: t("auth.forgotPassword.codeResentDesc") });
       } else {
-        toast({ title: t("auth.forgotPassword.errorTitle"), description: t("auth.forgotPassword.errorSendCode"), variant: "destructive" });
+        setFormMessage({ type: 'error', text: t("auth.forgotPassword.errorSendCode") });
       }
     } catch (err) {
-      toast({ title: t("auth.forgotPassword.errorTitle"), description: t("auth.forgotPassword.errorSendCode"), variant: "destructive" });
+      setFormMessage({ type: 'error', text: t("auth.forgotPassword.errorSendCode") });
     } finally {
       setIsLoading(false);
     }
@@ -173,6 +183,18 @@ export default function ForgotPassword() {
           </div>
 
           <div className="bg-card p-6 md:p-8 rounded-3xl border border-border shadow-sm">
+            {formMessage && (
+              <div className={`mb-5 p-3 rounded-xl text-center text-sm font-medium ${
+                formMessage.type === 'error' 
+                  ? 'bg-destructive/10 border border-destructive/20 text-destructive' 
+                  : formMessage.type === 'success'
+                  ? 'bg-accent/10 border border-accent/20 text-accent'
+                  : 'bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-800 text-blue-700 dark:text-blue-300'
+              }`} data-testid="form-message">
+                {formMessage.text}
+              </div>
+            )}
+
             {step === 'email' && (
               <Form {...emailForm}>
                 <form onSubmit={emailForm.handleSubmit(handleSendOtp)} className="space-y-6">

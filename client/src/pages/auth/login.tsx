@@ -12,7 +12,6 @@ import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
-import { useToast } from "@/hooks/use-toast";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { FormInput } from "@/components/forms";
 import { SocialLogin } from "@/components/auth/social-login";
@@ -29,11 +28,10 @@ export default function Login() {
   const [, setLocation] = useLocation();
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const [loginError, setLoginError] = useState<string | null>(null);
+  const [formMessage, setFormMessage] = useState<{ type: 'error' | 'success' | 'info', text: string } | null>(null);
   const [requiresSecurityOtp, setRequiresSecurityOtp] = useState(false);
   const [securityOtp, setSecurityOtp] = useState("");
   const [isAccountDeactivated, setIsAccountDeactivated] = useState(false);
-  const { toast } = useToast();
 
   const loginSchema = useMemo(() => createLoginSchema(t), [t]);
 
@@ -43,15 +41,15 @@ export default function Login() {
   });
 
   useEffect(() => {
-    if (loginError) {
-      const timer = setTimeout(() => setLoginError(null), 5000);
+    if (formMessage) {
+      const timer = setTimeout(() => setFormMessage(null), 6000);
       return () => clearTimeout(timer);
     }
-  }, [loginError]);
+  }, [formMessage]);
 
   const onSubmit = async (data: LoginFormValues) => {
     setIsLoading(true);
-    setLoginError(null);
+    setFormMessage(null);
     try {
       const token = await (await import("@/lib/queryClient")).getCsrfToken();
       const headers: Record<string, string> = { "Content-Type": "application/json" };
@@ -75,23 +73,19 @@ export default function Login() {
           return;
         }
         if (res.status === 401 && result.hint === "no_account") {
-          toast({
-            title: t("auth.login.noAccountFound"),
-            description: t("auth.login.redirectToRegister"),
-          });
+          setFormMessage({ type: 'info', text: t("auth.login.noAccountFound") + '. ' + t("auth.login.redirectToRegister") });
           setTimeout(() => {
             setLocation(`/auth/register?email=${encodeURIComponent(data.email)}`);
           }, 1500);
           return;
         }
-        setLoginError(t("auth.login.invalidCredentials"));
-        toast({ title: t("auth.login.errorTitle"), description: t("auth.login.errorDesc"), variant: "destructive" });
+        setFormMessage({ type: 'error', text: t("auth.login.invalidCredentials") });
         return;
       }
       
       if (result.requiresSecurityOtp) {
         setRequiresSecurityOtp(true);
-        toast({ title: t("auth.login.securityOtpSent"), description: t("auth.login.securityOtpDesc") });
+        setFormMessage({ type: 'info', text: t("auth.login.securityOtpSent") + ': ' + t("auth.login.securityOtpDesc") });
         return;
       }
       
@@ -101,16 +95,10 @@ export default function Login() {
           localStorage.setItem('i18nextLng', result.user.preferredLanguage);
         }
         await queryClient.refetchQueries({ queryKey: ["/api/auth/user"] });
-        toast({ title: t("auth.login.welcomeBack"), description: t("auth.login.welcomeBackDesc") });
         setLocation("/dashboard");
       }
     } catch (err: any) {
-      setLoginError(t("auth.login.genericError"));
-      toast({ 
-        title: t("auth.login.errorTitle"), 
-        description: t("auth.login.errorDesc"), 
-        variant: "destructive" 
-      });
+      setFormMessage({ type: 'error', text: t("auth.login.genericError") });
     } finally {
       setIsLoading(false);
     }
@@ -154,9 +142,19 @@ export default function Login() {
             <p className="text-muted-foreground mt-2 text-sm md:text-base text-center max-w-xs md:max-w-sm">{t("auth.login.subtitle")}</p>
           </div>
 
-          {loginError && (
-            <div className="mb-4 md:mb-6 p-3 md:p-4 bg-destructive/10 border border-destructive/20 rounded-xl text-center">
-              <p className="text-destructive font-medium text-xs md:text-sm">{loginError}</p>
+          {formMessage && (
+            <div className={`mb-4 md:mb-6 p-3 md:p-4 rounded-xl text-center ${
+              formMessage.type === 'error' 
+                ? 'bg-destructive/10 border border-destructive/20' 
+                : formMessage.type === 'success'
+                ? 'bg-accent/10 border border-accent/20'
+                : 'bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-800'
+            }`} data-testid="form-message">
+              <p className={`font-medium text-xs md:text-sm ${
+                formMessage.type === 'error' ? 'text-destructive' 
+                : formMessage.type === 'success' ? 'text-accent'
+                : 'text-blue-700 dark:text-blue-300'
+              }`}>{formMessage.text}</p>
             </div>
           )}
 
