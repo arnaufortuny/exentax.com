@@ -37,8 +37,8 @@ export default function Home() {
     <div className="min-h-screen font-sans text-left bg-background w-full relative animate-page-in">
       <Navbar />
       <HeroSection 
-        className="flex flex-col items-center justify-center text-center min-h-[400px] sm:min-h-[70vh] w-full"
-        mobilePaddingTop="pt-20 sm:pt-16 lg:pt-20"
+        className="flex flex-col items-center justify-center text-center min-h-[350px] sm:min-h-[70vh] w-full"
+        mobilePaddingTop="pt-10 sm:pt-16 lg:pt-20"
         showOverlay={false}
         title={
           <div className="flex flex-col items-center w-full">
@@ -173,11 +173,11 @@ function BenefitsCards() {
       {benefits.map((card, i) => (
         <div key={i} className="bg-background rounded-2xl shadow-md overflow-hidden border border-foreground/5 sm:border-foreground/5 border-accent/20 flex flex-col text-left">
           {card.image && (
-            <div className="w-full h-44 overflow-hidden bg-accent/10">
+            <div className="w-full aspect-[16/9] overflow-hidden bg-accent/10">
               <img 
                 src={card.image} 
                 alt="" 
-                className="w-full h-44 object-cover"
+                className="w-full h-full object-cover"
                 loading="eager"
                 decoding="async"
               />
@@ -219,17 +219,17 @@ function HowWeWorkSection() {
               className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-center leading-[1.1]" 
               style={{ fontWeight: 900 }} 
               dangerouslySetInnerHTML={{ __html: t("howWeWork.title") }}
-              initial={{ opacity: 0, y: 15 }}
+              initial={{ opacity: 0, y: 10 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.3 }}
-              transition={{ duration: 0.35, ease: [0.25, 0.1, 0.25, 1] }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: 0.6, ease: [0.4, 0, 0.2, 1] }}
             />
             <motion.p
               className="text-base sm:text-lg text-muted-foreground mt-4 max-w-2xl"
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
-              viewport={{ once: true, amount: 0.3 }}
-              transition={{ duration: 0.3, delay: 0.05, ease: [0.25, 0.1, 0.25, 1] }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: 0.5, delay: 0.1, ease: [0.4, 0, 0.2, 1] }}
             >
               {t("howWeWork.subtitle")}
             </motion.p>
@@ -237,8 +237,8 @@ function HowWeWorkSection() {
               className="w-24 h-1 bg-accent mt-6 rounded-full"
               initial={{ scaleX: 0 }}
               whileInView={{ scaleX: 1 }}
-              viewport={{ once: true, amount: 0.3 }}
-              transition={{ duration: 0.3, delay: 0.1, ease: [0.25, 0.1, 0.25, 1] }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: 0.5, delay: 0.15, ease: [0.4, 0, 0.2, 1] }}
             />
           </div>
           
@@ -277,17 +277,17 @@ function HowWeWorkSection() {
               className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-center leading-[1.1]" 
               style={{ fontWeight: 900 }} 
               dangerouslySetInnerHTML={{ __html: t("timing.title") }}
-              initial={{ opacity: 0, y: 15 }}
+              initial={{ opacity: 0, y: 10 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.3 }}
-              transition={{ duration: 0.35, ease: [0.25, 0.1, 0.25, 1] }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: 0.6, ease: [0.4, 0, 0.2, 1] }}
             />
             <motion.div 
               className="w-24 h-1 bg-foreground mt-6 rounded-full"
               initial={{ scaleX: 0 }}
               whileInView={{ scaleX: 1 }}
-              viewport={{ once: true, amount: 0.3 }}
-              transition={{ duration: 0.3, delay: 0.1, ease: [0.25, 0.1, 0.25, 1] }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: 0.5, delay: 0.15, ease: [0.4, 0, 0.2, 1] }}
             />
           </div>
 
@@ -378,17 +378,17 @@ function PorQueEasyUSLLC() {
             className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-center leading-[1.1]" 
             style={{ fontWeight: 900 }} 
             dangerouslySetInnerHTML={{ __html: t("whyUs.sectionTitle") }}
-            initial={{ opacity: 0, y: 15 }}
+            initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.35, ease: [0.25, 0.1, 0.25, 1] }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.6, ease: [0.4, 0, 0.2, 1] }}
           />
           <motion.div 
             className="w-24 h-1 bg-accent mt-6 rounded-full"
             initial={{ scaleX: 0 }}
             whileInView={{ scaleX: 1 }}
-            viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.3, delay: 0.1, ease: [0.25, 0.1, 0.25, 1] }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.5, delay: 0.15, ease: [0.4, 0, 0.2, 1] }}
           />
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 max-w-5xl mx-auto">
@@ -411,13 +411,15 @@ function PorQueEasyUSLLC() {
             return (
               <CardWrapper key={i}>
                 {'image' in feature && feature.image && (
-                  <img 
-                    src={feature.image} 
-                    alt="" 
-                    className="w-full h-44 object-cover"
-                    loading="eager"
-                    decoding="async"
-                  />
+                  <div className="w-full aspect-[16/9] overflow-hidden bg-accent/10">
+                    <img 
+                      src={feature.image} 
+                      alt="" 
+                      className="w-full h-full object-cover"
+                      loading="eager"
+                      decoding="async"
+                    />
+                  </div>
                 )}
                 <div className="p-6 flex-grow text-left">
                   <span className="inline-block px-4 py-2 rounded-full bg-accent text-accent-foreground font-black text-sm shadow-sm mb-4 text-left">{feature.badge}</span>

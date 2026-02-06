@@ -407,76 +407,76 @@ button {
   }
 }
 
-/* Optimized animation classes - GPU accelerated, snappy durations */
+/* Optimized animation classes - smooth, gentle durations */
 .animate-fade-in {
-  animation: fadeIn 0.2s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+  animation: fadeIn 0.4s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
   transform: translateZ(0);
   backface-visibility: hidden;
 }
 
 .animate-fade-in-up {
-  animation: fadeInUp 0.25s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+  animation: fadeInUp 0.5s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
   transform: translateZ(0);
   backface-visibility: hidden;
 }
 
 .animate-fade-in-down {
-  animation: fadeInDown 0.25s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+  animation: fadeInDown 0.5s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
   transform: translateZ(0);
   backface-visibility: hidden;
 }
 
 .animate-scale-in {
-  animation: scaleIn 0.2s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+  animation: scaleIn 0.4s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
   transform: translateZ(0);
   backface-visibility: hidden;
 }
 
 .animate-slide-left {
-  animation: slideInLeft 0.25s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+  animation: slideInLeft 0.5s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
   transform: translateZ(0);
   backface-visibility: hidden;
 }
 
 .animate-slide-right {
-  animation: slideInRight 0.25s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+  animation: slideInRight 0.5s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
   transform: translateZ(0);
   backface-visibility: hidden;
 }
 
-/* Staggered animation delays - tighter timing */
-.animate-delay-1 { animation-delay: 0.03s; opacity: 0; }
-.animate-delay-2 { animation-delay: 0.06s; opacity: 0; }
-.animate-delay-3 { animation-delay: 0.09s; opacity: 0; }
-.animate-delay-4 { animation-delay: 0.12s; opacity: 0; }
-.animate-delay-5 { animation-delay: 0.15s; opacity: 0; }
-.animate-delay-6 { animation-delay: 0.18s; opacity: 0; }
+/* Staggered animation delays */
+.animate-delay-1 { animation-delay: 0.06s; opacity: 0; }
+.animate-delay-2 { animation-delay: 0.12s; opacity: 0; }
+.animate-delay-3 { animation-delay: 0.18s; opacity: 0; }
+.animate-delay-4 { animation-delay: 0.24s; opacity: 0; }
+.animate-delay-5 { animation-delay: 0.30s; opacity: 0; }
+.animate-delay-6 { animation-delay: 0.36s; opacity: 0; }
 
 /* Card entrance animation - GPU accelerated */
 .animate-card-in {
-  animation: fadeInUp 0.22s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+  animation: fadeInUp 0.45s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
   transform: translateZ(0);
   backface-visibility: hidden;
 }
 
 /* Button press animation - instant response */
 .animate-press {
-  transition: transform 0.06s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform 0.1s cubic-bezier(0.4, 0, 0.2, 1);
   transform: translateZ(0);
   backface-visibility: hidden;
 }
 
 .animate-press:active {
-  transform: scale3d(0.97, 0.97, 1) translateZ(0);
+  transform: scale3d(0.98, 0.98, 1) translateZ(0);
 }
 
 /* Page transitions - smooth fade */
 .animate-page-in {
-  animation: fadeIn 0.4s ease-out forwards;
+  animation: fadeIn 0.5s ease-out forwards;
 }
 
 .animate-section-in {
-  animation: fadeIn 0.45s ease-out forwards;
+  animation: fadeIn 0.55s ease-out forwards;
 }
 
 /* GPU acceleration utility - minimal */

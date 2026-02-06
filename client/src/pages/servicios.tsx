@@ -168,8 +168,8 @@ export default function Servicios() {
       <Navbar />
       
       <HeroSection 
-        className="flex flex-col items-center justify-center text-center min-h-[450px] sm:min-h-[auto] w-full"
-        mobilePaddingTop="pt-24 sm:pt-20 lg:pt-24"
+        className="flex flex-col items-center justify-center text-center min-h-[350px] sm:min-h-[auto] w-full"
+        mobilePaddingTop="pt-10 sm:pt-16 lg:pt-20"
         showGradient={false}
         title={
           <>
@@ -466,7 +466,7 @@ export default function Servicios() {
           </div>
           <div className="flex items-center justify-center gap-2 mt-4 md:hidden">
             <span className="text-accent font-black text-sm">{t("common.swipeHint", "Desliza para ver más")}</span>
-            <ArrowRight className="w-4 h-4 text-accent animate-pulse" />
+            <ArrowRight className="w-4 h-4 text-accent" />
           </div>
           
           <div className="mt-12 sm:mt-16 flex justify-center">
@@ -633,7 +633,7 @@ export default function Servicios() {
           </div>
           <div className="flex items-center justify-center gap-2 mt-2 mb-10 md:hidden">
             <span className="text-accent font-black text-sm">{t("common.swipeHint", "Desliza para ver más")}</span>
-            <ArrowRight className="w-4 h-4 text-accent animate-pulse" />
+            <ArrowRight className="w-4 h-4 text-accent" />
           </div>
 
           {/* Emotional Block */}

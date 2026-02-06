@@ -55,28 +55,32 @@ export function Navbar() {
     const [path, hash] = hasHash ? href.split('#') : [href, null];
     
     setTimeout(() => {
-      if (!hasHash) {
-        window.scrollTo(0, 0);
-      }
       setLocation(path || href);
       
       if (hash) {
-        setTimeout(() => {
+        const scrollToHash = () => {
           const element = document.getElementById(hash);
           if (element) {
             element.scrollIntoView({ behavior: 'smooth', block: 'start' });
           }
-        }, 300);
+        };
+        if (location === path) {
+          scrollToHash();
+        } else {
+          setTimeout(scrollToHash, 500);
+        }
+      } else {
+        window.scrollTo(0, 0);
       }
     }, 10);
   };
 
   return (
-    <header className="sticky top-0 z-[100] bg-background border-b border-border shadow-sm transition-shadow h-20 sm:h-24 flex items-center w-full" data-mobile-menu-open={isOpen}>
+    <header className="sticky top-0 z-[100] bg-background border-b border-border shadow-sm transition-shadow h-16 sm:h-20 flex items-center w-full" data-mobile-menu-open={isOpen}>
       <div className="w-full px-5 sm:px-8">
         <div className="flex items-center justify-between w-full">
           <Link href="/" className="flex items-center gap-3 shrink-0 relative z-[110]" onClick={() => { setIsOpen(false); resetScrollLock(); window.scrollTo(0, 0); }}>
-            <img src={logoIcon} alt="Easy US LLC" className="w-14 h-14 sm:w-16 sm:h-16 object-contain drop-shadow-sm" loading="eager" />
+            <img src={logoIcon} alt="Easy US LLC" className="w-10 h-10 sm:w-14 sm:h-14 object-contain drop-shadow-sm" loading="eager" />
           </Link>
           
           <nav className="hidden md:flex items-center gap-1 lg:gap-2 bg-accent/10 dark:bg-accent/20 rounded-full px-2 lg:px-3 h-11 border border-accent/30">
@@ -200,8 +204,8 @@ export function Navbar() {
       </div>
 
       {isOpen && (
-        <div className="md:hidden fixed inset-0 bg-background z-[60] flex flex-col pt-20 overflow-hidden">
-          <div className="flex flex-col bg-background p-6 justify-between items-stretch overflow-y-auto overscroll-contain flex-1" style={{ maxHeight: 'calc(100dvh - 5rem)' }}>
+        <div className="md:hidden fixed inset-0 bg-background z-[60] flex flex-col pt-16 overflow-hidden">
+          <div className="flex flex-col bg-background p-6 justify-between items-stretch overflow-y-auto overscroll-contain flex-1" style={{ maxHeight: 'calc(100dvh - 4rem)' }}>
               <div className="flex flex-col gap-0.5 items-stretch text-left">
                 <button
                   onClick={() => handleNavClick("/")}

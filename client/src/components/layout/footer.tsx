@@ -17,7 +17,9 @@ export function Footer() {
     const sectionId = href.split('#')[1];
     if (!sectionId) return;
 
-    if (location === '/servicios' || location === '/') {
+    const basePath = href.split('#')[0] || '/servicios';
+
+    if (location === basePath) {
       const element = document.getElementById(sectionId);
       if (element) {
         element.scrollIntoView({ behavior: 'smooth' });
@@ -25,11 +27,13 @@ export function Footer() {
       }
     }
     
-    // Redirect to services and scroll to pricing
-    setLocation('/servicios#pricing');
+    setLocation(`${basePath}#${sectionId}`);
     setTimeout(() => {
-      document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' });
-    }, 100);
+      const element = document.getElementById(sectionId);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    }, 400);
   };
 
   return (
