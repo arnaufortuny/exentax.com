@@ -4,7 +4,7 @@ import { queryClient, apiRequest } from "@/lib/queryClient";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Calendar, Clock, Video, XCircle, MessageSquare, ChevronDown, ChevronUp } from "lucide-react";
+import { Calendar, Clock, Video, XCircle, MessageSquare, ChevronDown, ChevronUp } from "@/components/icons";
 import { ConsultationType, ConsultationBooking, getConsultationStatusLabel, Tab } from "./types";
 import { useState, useEffect } from "react";
 import { Input } from "@/components/ui/input";

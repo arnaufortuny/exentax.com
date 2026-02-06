@@ -5,7 +5,7 @@ import * as z from "zod";
 import { useTranslation } from "react-i18next";
 import { usePageTitle } from "@/hooks/use-page-title";
 
-import { Loader2, Mail } from "lucide-react";
+import { Loader2, Mail } from "@/components/icons";
 import { SocialLogin } from "@/components/auth/social-login";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";

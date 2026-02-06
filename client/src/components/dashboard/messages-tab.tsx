@@ -1,9 +1,8 @@
 import { Link } from "wouter";
-import { MessageSquare, Loader2, Eye } from "lucide-react";
+import { MessageSquare, Loader2, Eye, MessageCircle } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
-import { MessageCircle } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
 interface MessagesTabProps {

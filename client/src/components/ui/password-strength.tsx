@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { Check, X } from "lucide-react";
+import { Check, X } from "@/components/icons";
 
 interface PasswordStrengthProps {
   password: string;

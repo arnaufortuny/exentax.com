@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { Link } from "wouter";
-import { Loader2, Eye, EyeOff, CheckCircle2, ArrowLeft } from "lucide-react";
+import { Loader2, Eye, EyeOff, CheckCircle2, ArrowLeft } from "@/components/icons";
 import { useTranslation } from "react-i18next";
 
 import { Navbar } from "@/components/layout/navbar";

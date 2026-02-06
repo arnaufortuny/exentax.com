@@ -2,7 +2,7 @@ import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
-import { Home } from "lucide-react";
+import { Home } from "@/components/icons";
 import { useTranslation } from "react-i18next";
 
 export default function NotFound() {

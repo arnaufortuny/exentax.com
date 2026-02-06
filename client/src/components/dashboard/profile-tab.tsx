@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { NativeSelect, NativeSelectItem } from "@/components/ui/native-select";
-import { CheckCircle2, Trash2, Mail, Copy, Check, Globe, ShieldCheck } from "lucide-react";
+import { CheckCircle2, Trash2, Mail, Copy, Check, Globe, ShieldCheck } from "@/components/icons";
 import { useState } from "react";
 import { NewsletterToggle } from "./";
 import { SocialLogin } from "@/components/auth/social-login";

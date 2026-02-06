@@ -1,4 +1,4 @@
-import { Instagram, Package, Briefcase, HelpCircle, Share2, ArrowRight, Clock, Check, TrendingDown, ChevronDown, ChevronUp } from "lucide-react";
+import { Instagram, Package, Briefcase, HelpCircle, Share2, ArrowRight, Clock, Check, TrendingDown, ChevronDown, ChevronUp } from "@/components/icons";
 import { FaWhatsapp } from "react-icons/fa";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";

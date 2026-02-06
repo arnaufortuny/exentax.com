@@ -1,7 +1,7 @@
 import { useState, useMemo, ComponentType } from "react";
 import { useTranslation } from "react-i18next";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronDown, ChevronUp, TrendingUp, Calculator } from "lucide-react";
+import { ChevronDown, ChevronUp, TrendingUp, Calculator } from "@/components/icons";
 import { GrowthChartIcon } from "@/components/ui/flags";
 import { Button } from "@/components/ui/button";
 import { useLocation } from "wouter";

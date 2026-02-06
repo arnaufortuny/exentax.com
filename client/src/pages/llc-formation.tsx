@@ -7,7 +7,7 @@ import { useTranslation } from "react-i18next";
 import { usePageTitle } from "@/hooks/use-page-title";
 import { PRICING, getFormationPriceFormatted } from "@shared/config/pricing";
 
-import { Check, Loader2, Eye, EyeOff, CheckCircle2 } from "lucide-react";
+import { Check, Loader2, Eye, EyeOff, CheckCircle2 } from "@/components/icons";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { Button } from "@/components/ui/button";

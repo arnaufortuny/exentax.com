@@ -1,4 +1,4 @@
-import { Upload, X, Bell } from "lucide-react";
+import { Upload, X, Bell } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import type { Tab } from "./types";

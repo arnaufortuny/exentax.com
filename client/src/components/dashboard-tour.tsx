@@ -1,7 +1,7 @@
 import { useEffect, useState, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { X, ChevronRight, ChevronLeft, Package, Calendar, MessageSquare, User, Sparkles, Heart } from "lucide-react";
+import { X, ChevronRight, ChevronLeft, Package, Calendar, MessageSquare, User, Sparkles, Heart } from "@/components/icons";
 
 interface TourStep {
   target?: string;

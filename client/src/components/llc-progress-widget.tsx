@@ -1,4 +1,4 @@
-import { CheckCircle2, Circle, Clock, FileText, Building2, CreditCard, Wrench } from "lucide-react";
+import { CheckCircle2, Circle, Clock, FileText, Building2, CreditCard, Wrench } from "@/components/icons";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { useTranslation } from "react-i18next";

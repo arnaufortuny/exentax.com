@@ -6,7 +6,7 @@ import * as z from "zod";
 import { useTranslation } from "react-i18next";
 import { PRICING } from "@shared/config/pricing";
 
-import { Check, Loader2, Eye, EyeOff, CheckCircle2 } from "lucide-react";
+import { Check, Loader2, Eye, EyeOff, CheckCircle2 } from "@/components/icons";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { Button } from "@/components/ui/button";

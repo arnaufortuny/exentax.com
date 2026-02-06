@@ -1,4 +1,4 @@
-import { Check } from "lucide-react";
+import { Check } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,

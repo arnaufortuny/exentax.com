@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { Link, useLocation } from "wouter";
-import { Loader2, Eye, EyeOff, ArrowLeft, ArrowRight, Globe } from "lucide-react";
+import { Loader2, Eye, EyeOff, ArrowLeft, ArrowRight, Globe } from "@/components/icons";
 import { useTranslation } from "react-i18next";
 import { SpainFlag, USAFlag, CatalanFlag } from "@/components/ui/flags";
 

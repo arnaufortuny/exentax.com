@@ -13,7 +13,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
 import { apiRequest } from "@/lib/queryClient";
-import { ChevronDown, Check, ArrowRight } from "lucide-react";
+import { ChevronDown, Check, ArrowRight } from "@/components/icons";
 import { usePageTitle } from "@/hooks/use-page-title";
 import { fadeInUp, lineExpand, cardVariants, heroTitle, heroSubtitle, viewportOnce, transitions } from "@/lib/animations";
 import trustpilotLogo from "@/assets/trustpilot-logo.png";

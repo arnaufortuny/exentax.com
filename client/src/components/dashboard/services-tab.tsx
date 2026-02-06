@@ -1,12 +1,11 @@
 import { Link } from "wouter";
 import { useTranslation } from "react-i18next";
-import { AlertCircle, ChevronRight, Calendar, FileText, CheckCircle2, Clock, AlertTriangle, Building2, MapPin, Users, Shield } from "lucide-react";
+import { AlertCircle, ChevronRight, Calendar, FileText, CheckCircle2, Clock, AlertTriangle, Building2, MapPin, Users, Shield, Package } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { LLCProgressWidget } from "@/components/llc-progress-widget";
 import { getOrderStatusLabel } from "./types";
-import { Package } from "lucide-react";
 
 interface ServicesTabProps {
   orders: any[] | undefined;

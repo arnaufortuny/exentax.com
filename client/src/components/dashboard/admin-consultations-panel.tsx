@@ -10,7 +10,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { NativeSelect, NativeSelectItem } from "@/components/ui/native-select";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
-import { Calendar, CheckCircle, XCircle, Plus, Edit, Trash2, User, ChevronUp, X } from "lucide-react";
+import { Calendar, CheckCircle, XCircle, Plus, Edit, Trash2, User, ChevronUp, X } from "@/components/icons";
 import { ConsultationType, ConsultationBooking, getConsultationStatusLabel } from "./types";
 
 interface BookingWithDetails {

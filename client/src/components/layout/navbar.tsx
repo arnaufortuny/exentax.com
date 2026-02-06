@@ -1,7 +1,7 @@
 import { Link, useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
-import { Menu as MenuIcon, X as XIcon, User as UserIcon, LogOut } from "lucide-react";
+import { Menu as MenuIcon, X as XIcon, User as UserIcon, LogOut } from "@/components/icons";
 import logoIcon from "@/assets/logo-icon.png";
 import { useAuth } from "@/hooks/use-auth";
 import { usePrefetch } from "@/hooks/use-prefetch";

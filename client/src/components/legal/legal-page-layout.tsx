@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
-import { Download, FileText, Calendar } from "lucide-react";
+import { Download, FileText, Calendar } from "@/components/icons";
 
 interface LegalPageLayoutProps {
   title: string;

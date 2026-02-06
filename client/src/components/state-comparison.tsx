@@ -1,4 +1,4 @@
-import { Check, AlertCircle, Lightbulb, ArrowRight } from "lucide-react";
+import { Check, AlertCircle, Lightbulb, ArrowRight } from "@/components/icons";
 import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
 import { fadeInUp, viewportOnce, transitions } from "@/lib/animations";
