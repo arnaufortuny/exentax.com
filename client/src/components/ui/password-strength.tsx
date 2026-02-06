@@ -8,20 +8,21 @@ interface PasswordStrengthProps {
 }
 
 interface PasswordRequirement {
-  label: string;
+  key: string;
   met: boolean;
 }
 
-function getPasswordStrength(password: string): { score: number; requirements: PasswordRequirement[] } {
+function getPasswordRequirements(password: string): { score: number; requirements: PasswordRequirement[] } {
   const requirements: PasswordRequirement[] = [
-    { label: "minLength", met: password.length >= 8 },
+    { key: "minLength", met: password.length >= 8 },
+    { key: "hasUppercase", met: /[A-Z]/.test(password) },
+    { key: "hasLowercase", met: /[a-z]/.test(password) },
+    { key: "hasNumber", met: /[0-9]/.test(password) },
+    { key: "hasSymbol", met: /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password) },
   ];
 
-  let score = 0;
-  if (password.length >= 8) score = 2;
-  if (password.length >= 10) score = 3;
-  if (password.length >= 12) score = 4;
-  if (password.length >= 14) score = 5;
+  const metCount = requirements.filter(r => r.met).length;
+  const score = metCount;
   
   return { score, requirements };
 }
@@ -29,7 +30,7 @@ function getPasswordStrength(password: string): { score: number; requirements: P
 export function PasswordStrength({ password, className = "" }: PasswordStrengthProps) {
   const { t } = useTranslation();
   
-  const { score, requirements } = useMemo(() => getPasswordStrength(password), [password]);
+  const { score, requirements } = useMemo(() => getPasswordRequirements(password), [password]);
   
   const strengthLabel = useMemo(() => {
     if (password.length === 0) return "";
@@ -60,6 +61,10 @@ export function PasswordStrength({ password, className = "" }: PasswordStrengthP
 
   const requirementLabels: Record<string, string> = {
     minLength: t("auth.passwordStrength.minLength"),
+    hasUppercase: t("auth.passwordStrength.hasUppercase"),
+    hasLowercase: t("auth.passwordStrength.hasLowercase"),
+    hasNumber: t("auth.passwordStrength.hasNumber"),
+    hasSymbol: t("auth.passwordStrength.hasSymbol"),
   };
 
   if (password.length === 0) {
@@ -84,20 +89,20 @@ export function PasswordStrength({ password, className = "" }: PasswordStrengthP
       <div className="grid grid-cols-1 xs:grid-cols-2 gap-x-3 gap-y-0.5">
         {requirements.map((req) => (
           <div 
-            key={req.label} 
+            key={req.key} 
             className={`flex items-center gap-1.5 text-xs transition-colors ${
               req.met 
                 ? "text-green-600 dark:text-green-400" 
                 : "text-muted-foreground"
             }`}
-            data-testid={`password-requirement-${req.label}`}
+            data-testid={`password-requirement-${req.key}`}
           >
             {req.met ? (
               <Check className="w-3 h-3 flex-shrink-0" />
             ) : (
               <X className="w-3 h-3 flex-shrink-0" />
             )}
-            <span className="truncate">{requirementLabels[req.label]}</span>
+            <span className="truncate">{requirementLabels[req.key]}</span>
           </div>
         ))}
       </div>

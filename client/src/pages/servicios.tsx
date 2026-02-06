@@ -522,20 +522,16 @@ export default function Servicios() {
             {bankItems.map((item, i) => {
               const IconComponent = item.icon;
               return (
-                <motion.div 
+                <div 
                   key={i} 
-                  className="group relative bg-card rounded-2xl border border-border p-6 sm:p-8 text-left hover:shadow-lg hover:border-accent/40 transition-all duration-300 will-change-[transform,opacity]"
-                  variants={cardVariants}
-                  initial="hidden"
-                  whileInView="visible"
-                  viewport={viewportOnce}
+                  className="bg-card rounded-2xl border border-border p-6 sm:p-8 text-left"
                 >
                   <div className="flex items-start gap-4">
-                    <div className="flex-shrink-0 w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-accent/10 flex items-center justify-center group-hover:bg-accent/20 transition-colors">
+                    <div className="flex-shrink-0 w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-accent/10 flex items-center justify-center">
                       <IconComponent className="w-6 h-6 sm:w-7 sm:h-7 text-accent" />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <h3 className="font-bold text-lg sm:text-xl text-foreground mb-2 group-hover:text-accent transition-colors">
+                      <h3 className="font-bold text-lg sm:text-xl text-foreground mb-2">
                         {t(`services.banks.${item.key}.title`)}
                       </h3>
                       <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
@@ -543,8 +539,7 @@ export default function Servicios() {
                       </p>
                     </div>
                   </div>
-                  <div className="absolute top-4 right-4 w-2 h-2 rounded-full bg-accent/50 group-hover:bg-accent transition-colors" />
-                </motion.div>
+                </div>
               );
             })}
           </div>

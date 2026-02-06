@@ -37,7 +37,12 @@ const createRegisterSchema = (t: (key: string) => string) => z.object({
       { message: t("validation.phoneFormat") }
     ),
   businessActivity: z.string().optional(),
-  password: z.string().min(8, t("validation.minPassword")),
+  password: z.string()
+    .min(8, t("validation.minPassword"))
+    .refine((val) => /[A-Z]/.test(val), { message: t("auth.passwordStrength.hasUppercase") })
+    .refine((val) => /[a-z]/.test(val), { message: t("auth.passwordStrength.hasLowercase") })
+    .refine((val) => /[0-9]/.test(val), { message: t("auth.passwordStrength.hasNumber") })
+    .refine((val) => /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(val), { message: t("auth.passwordStrength.hasSymbol") }),
   confirmPassword: z.string(),
 }).refine(data => data.password === data.confirmPassword, {
   message: t("validation.passwordMismatch"),
@@ -639,7 +644,7 @@ export default function Register() {
                       <select
                         value={selectedLanguage}
                         onChange={(e) => handleLanguageChange(e.target.value)}
-                        className="w-full p-3 rounded-xl border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-accent"
+                        className="w-full p-3 rounded-full border-2 border-gray-200 dark:border-border bg-white dark:bg-[#1A1A1A] text-foreground focus:outline-none focus:ring-2 focus:ring-accent focus:border-accent h-11 md:h-12 px-5"
                         data-testid="select-language"
                       >
                         {languages.map((lang) => (

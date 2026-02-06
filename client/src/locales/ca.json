@@ -804,7 +804,7 @@
     "invalidEmail": "Email invàlid",
     "email": "Email invàlid",
     "emailInvalid": "Email invàlid",
-    "invalidPhone": "Telèfon invàlid",
+    "invalidPhone": "Telèfon invàlid (ha de començar amb +)",
     "minLength": "Mínim {{min}} caràcters",
     "maxLength": "Màxim {{max}} caràcters",
     "passwordMismatch": "Les contrasenyes no coincideixen",
@@ -818,7 +818,7 @@
     "acceptTerms": "Has d'acceptar els termes",
     "whatsappRequired": "Camp obligatori si vols contacte per WhatsApp",
     "ageMinimum": "Has de tenir almenys 18 anys per crear una LLC",
-    "phoneFormat": "Telèfon invàlid"
+    "phoneFormat": "El telèfon ha de començar amb + (ex: +34612345678)"
   },
   "application": {
     "title": "Constituir la meva LLC",
@@ -950,14 +950,14 @@
       "multipleOwners": "Varios propietarios (multi-member)"
     },
     "validation": {
-      "required": "Este campo es obligatorio",
-      "invalidEmail": "Email inválido",
-      "invalidPhone": "Teléfono inválido",
-      "minLength": "Mínimo {{min}} caracteres",
-      "maxLength": "Máximo {{max}} caracteres",
-      "passwordMismatch": "Las contraseñas no coinciden",
-      "passwordTooShort": "Contraseña demasiado corta",
-      "passwordMinChars": "Debe tener al menos 8 caracteres"
+      "required": "Aquest camp és obligatori",
+      "invalidEmail": "Email invàlid",
+      "invalidPhone": "Telèfon invàlid (ha de començar amb +)",
+      "minLength": "Mínim {{min}} caràcters",
+      "maxLength": "Màxim {{max}} caràcters",
+      "passwordMismatch": "Les contrasenyes no coincideixen",
+      "passwordTooShort": "Contrasenya massa curta",
+      "passwordMinChars": "Ha de tenir almenys 8 caràcters"
     },
     "messages": {
       "dataLoaded": "Datos cargados",

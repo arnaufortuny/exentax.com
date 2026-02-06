@@ -804,7 +804,7 @@
     "invalidEmail": "Email inválido",
     "email": "Email inválido",
     "emailInvalid": "Email inválido",
-    "invalidPhone": "Teléfono inválido",
+    "invalidPhone": "Teléfono inválido (debe empezar con +)",
     "minLength": "Mínimo {{min}} caracteres",
     "maxLength": "Máximo {{max}} caracteres",
     "passwordMismatch": "Las contraseñas no coinciden",
@@ -818,7 +818,7 @@
     "acceptTerms": "Debes aceptar los términos",
     "whatsappRequired": "Campo obligatorio si quieres contacto por WhatsApp",
     "ageMinimum": "Debes tener al menos 18 años para crear una LLC",
-    "phoneFormat": "Teléfono inválido"
+    "phoneFormat": "El teléfono debe empezar con + (ej: +34612345678)"
   },
   "application": {
     "title": "Constituir mi LLC",
@@ -952,7 +952,7 @@
     "validation": {
       "required": "Este campo es obligatorio",
       "invalidEmail": "Email inválido",
-      "invalidPhone": "Teléfono inválido",
+      "invalidPhone": "Teléfono inválido (debe empezar con +)",
       "minLength": "Mínimo {{min}} caracteres",
       "maxLength": "Máximo {{max}} caracteres",
       "passwordMismatch": "Las contraseñas no coinciden",
