@@ -549,13 +549,13 @@ export default function Servicios() {
               <span className="text-accent">{t("services.maintenancePack.sectionTitleLine4")}</span>
             </motion.h2>
             <motion.p
-              className="text-base sm:text-lg text-muted-foreground mt-4 max-w-3xl"
+              className="text-xl sm:text-2xl font-black tracking-tight mt-6 max-w-3xl leading-snug"
               variants={fadeInUp}
               initial="hidden"
               whileInView="visible"
               viewport={viewportOnce}
             >
-              {t("services.maintenancePack.sectionSubtitle")}
+              <span className="text-foreground">{t("services.maintenancePack.sectionSubtitle")}</span>
             </motion.p>
             <motion.div 
               className="w-24 h-1 bg-accent mt-6 rounded-full will-change-transform"
@@ -604,19 +604,23 @@ export default function Servicios() {
 
           {/* Benefits List */}
           <motion.div 
-            className="max-w-3xl mx-auto mb-10 px-4"
+            className="max-w-4xl mx-auto mb-10 px-4"
             variants={fadeInUp}
             initial="hidden"
             whileInView="visible"
             viewport={viewportOnce}
           >
-            <div className="flex flex-wrap justify-start gap-x-6 gap-y-3 text-left">
-              {(t("services.maintenancePack.benefits", { returnObjects: true }) as string[]).map((benefit, i) => (
-                <div key={i} className="flex items-center gap-2 text-foreground">
-                  <Check className="w-5 h-5 text-accent flex-shrink-0" />
-                  <span className="text-sm font-bold">{benefit}</span>
-                </div>
-              ))}
+            <div className="bg-card rounded-2xl border border-border p-6 sm:p-8">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {(t("services.maintenancePack.benefits", { returnObjects: true }) as string[]).map((benefit, i) => (
+                  <div key={i} className="flex items-center gap-3 text-foreground" data-testid={`text-maintenance-benefit-${i}`}>
+                    <div className="w-6 h-6 rounded-full bg-accent/10 flex items-center justify-center flex-shrink-0">
+                      <Check className="w-3.5 h-3.5 text-accent" />
+                    </div>
+                    <span className="text-base font-black tracking-tight">{benefit}</span>
+                  </div>
+                ))}
+              </div>
             </div>
           </motion.div>
 
