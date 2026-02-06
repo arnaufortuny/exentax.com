@@ -337,22 +337,22 @@ export default function Servicios() {
             <div className="border-[2px] border-accent rounded-2xl overflow-hidden relative bg-background shadow-lg flex flex-col h-full group min-w-[280px] w-[85vw] md:w-auto md:min-w-0 flex-shrink-0 md:flex-shrink snap-center">
               <div className="p-4 sm:p-5 flex-grow text-center">
                 <div className="flex items-center justify-between mb-3 gap-2 sm:flex-col sm:items-center sm:justify-center">
-                  <h3 className="text-lg sm:text-xl font-black text-primary tracking-tight">New Mexico</h3>
-                  <span className="bg-accent/20 text-primary text-[10px] font-black px-2.5 py-0.5 rounded-full">{t("services.formation.popular")}</span>
+                  <h3 className="text-xl sm:text-2xl font-black text-primary tracking-tight">New Mexico</h3>
+                  <span className="bg-accent/20 text-primary text-xs font-black px-2.5 py-0.5 rounded-full">{t("services.formation.popular")}</span>
                 </div>
                 <div className="flex items-baseline justify-center gap-1 mb-1">
-                  <p className="text-3xl font-black text-primary">{getFormationPriceFormatted("newMexico")}</p>
-                  <span className="text-muted-foreground text-[10px] font-medium">{t("services.formation.year1")}</span>
+                  <p className="text-3xl sm:text-4xl font-black text-primary">{getFormationPriceFormatted("newMexico")}</p>
+                  <span className="text-muted-foreground text-xs font-medium">{t("services.formation.year1")}</span>
                 </div>
-                <div className="text-muted-foreground text-[9px] font-black tracking-widest mb-3 flex items-center justify-center gap-1">
+                <div className="text-muted-foreground text-[10px] sm:text-xs font-black tracking-widest mb-3 flex items-center justify-center gap-1">
                   <div className="w-1.5 h-1.5 rounded-full bg-accent" />
                   {t("services.formation.stateFeesIncluded")}
                 </div>
-                <div className="space-y-1.5 text-sm mb-3 border-t border-accent/10 pt-3">
+                <div className="space-y-2 text-sm mb-3 border-t border-accent/10 pt-3">
                   {nmWyFeatures.map((f) => (
                     <div key={f} className="flex items-start justify-start gap-1.5 text-primary/80 font-bold text-left leading-tight">
                       <Check className="text-accent w-4 h-4 mt-0.5 flex-shrink-0" /> 
-                      <span className="text-[11px] sm:text-xs">{f}</span>
+                      <span className="text-xs sm:text-sm">{f}</span>
                     </div>
                   ))}
                 </div>
@@ -360,7 +360,7 @@ export default function Servicios() {
               <div className="p-4 sm:p-5 pt-0">
                 <Button 
                   onClick={() => handleSelectProduct("New Mexico")}
-                  className="w-full bg-accent text-primary font-black text-xs rounded-full py-2.5 border-0 shadow-md hover:bg-accent/90 transition-colors h-9"
+                  className="w-full bg-accent text-primary font-black text-sm rounded-full py-2.5 border-0 shadow-md hover:bg-accent/90 transition-colors h-9"
                 >
                   {t("services.formation.choose")} New Mexico
                 </Button>
@@ -369,7 +369,7 @@ export default function Servicios() {
                 <Button 
                   variant="link"
                   onClick={() => setLocation(`/contacto?subject=${encodeURIComponent("Mantenimiento New Mexico")}`)}
-                  className="font-black text-[9px] tracking-widest text-primary/70 p-0 h-auto"
+                  className="font-black text-[10px] sm:text-xs tracking-widest text-primary/70 p-0 h-auto"
                   data-testid="button-maintenance-nm"
                 >
                   {t("services.formation.maintenanceYear2")}: {getMaintenancePriceFormatted("newMexico")}
@@ -381,22 +381,22 @@ export default function Servicios() {
             <div className="border-[2px] border-accent rounded-2xl overflow-hidden relative bg-background shadow-lg flex flex-col h-full group min-w-[280px] w-[85vw] md:w-auto md:min-w-0 flex-shrink-0 md:flex-shrink snap-center">
               <div className="p-4 sm:p-5 flex-grow text-center">
                 <div className="flex items-center justify-between mb-3 gap-2 sm:flex-col sm:items-center sm:justify-center">
-                  <h3 className="text-lg sm:text-xl font-black text-primary tracking-tight">Wyoming</h3>
-                  <span className="bg-accent text-primary-foreground text-[10px] font-black px-2.5 py-0.5 rounded-full">{t("services.formation.premium")}</span>
+                  <h3 className="text-xl sm:text-2xl font-black text-primary tracking-tight">Wyoming</h3>
+                  <span className="bg-accent text-primary-foreground text-xs font-black px-2.5 py-0.5 rounded-full">{t("services.formation.premium")}</span>
                 </div>
                 <div className="flex items-baseline justify-center gap-1 mb-1">
-                  <p className="text-3xl font-black text-primary">{getFormationPriceFormatted("wyoming")}</p>
-                  <span className="text-muted-foreground text-[10px] font-medium">{t("services.formation.year1")}</span>
+                  <p className="text-3xl sm:text-4xl font-black text-primary">{getFormationPriceFormatted("wyoming")}</p>
+                  <span className="text-muted-foreground text-xs font-medium">{t("services.formation.year1")}</span>
                 </div>
-                <div className="text-muted-foreground text-[9px] font-black tracking-widest mb-3 flex items-center justify-center gap-1">
+                <div className="text-muted-foreground text-[10px] sm:text-xs font-black tracking-widest mb-3 flex items-center justify-center gap-1">
                   <div className="w-1.5 h-1.5 rounded-full bg-accent" />
                   {t("services.formation.stateFeesIncluded")}
                 </div>
-                <div className="space-y-1.5 text-sm mb-3 border-t border-accent/10 pt-3">
+                <div className="space-y-2 text-sm mb-3 border-t border-accent/10 pt-3">
                   {nmWyFeatures.map((f) => (
                     <div key={f} className="flex items-start justify-start gap-1.5 text-primary/80 font-bold text-left leading-tight">
                       <Check className="text-accent w-4 h-4 mt-0.5 flex-shrink-0" /> 
-                      <span className="text-[11px] sm:text-xs">{f}</span>
+                      <span className="text-xs sm:text-sm">{f}</span>
                     </div>
                   ))}
                 </div>
@@ -404,7 +404,7 @@ export default function Servicios() {
               <div className="p-4 sm:p-5 pt-0">
                 <Button 
                   onClick={() => handleSelectProduct("Wyoming")}
-                  className="w-full bg-accent text-primary font-black text-xs rounded-full py-2.5 border-0 shadow-md hover:bg-accent/90 transition-colors h-9"
+                  className="w-full bg-accent text-primary font-black text-sm rounded-full py-2.5 border-0 shadow-md hover:bg-accent/90 transition-colors h-9"
                 >
                   {t("services.formation.choose")} Wyoming
                 </Button>
@@ -413,7 +413,7 @@ export default function Servicios() {
                 <Button 
                   variant="link"
                   onClick={() => setLocation(`/contacto?subject=${encodeURIComponent("Mantenimiento Wyoming")}`)}
-                  className="font-black text-[9px] tracking-widest text-primary/70 p-0 h-auto"
+                  className="font-black text-[10px] sm:text-xs tracking-widest text-primary/70 p-0 h-auto"
                   data-testid="button-maintenance-wy"
                 >
                   {t("services.formation.maintenanceYear2")}: {getMaintenancePriceFormatted("wyoming")}
@@ -425,22 +425,22 @@ export default function Servicios() {
             <div className="border-[2px] border-accent rounded-2xl overflow-hidden relative bg-background shadow-lg flex flex-col h-full group min-w-[280px] w-[85vw] md:w-auto md:min-w-0 flex-shrink-0 md:flex-shrink snap-center">
               <div className="p-4 sm:p-5 flex-grow text-center">
                 <div className="flex items-center justify-between mb-3 gap-2 sm:flex-col sm:items-center sm:justify-center">
-                  <h3 className="text-lg sm:text-xl font-black text-primary tracking-tight">Delaware</h3>
-                  <span className="bg-accent text-primary text-[10px] font-black px-2.5 py-0.5 rounded-full">{t("services.formation.startups")}</span>
+                  <h3 className="text-xl sm:text-2xl font-black text-primary tracking-tight">Delaware</h3>
+                  <span className="bg-accent text-primary text-xs font-black px-2.5 py-0.5 rounded-full">{t("services.formation.startups")}</span>
                 </div>
                 <div className="flex items-baseline justify-center gap-1 mb-1">
-                  <p className="text-3xl font-black text-primary">{getFormationPriceFormatted("delaware")}</p>
-                  <span className="text-muted-foreground text-[10px] font-medium">{t("services.formation.year1")}</span>
+                  <p className="text-3xl sm:text-4xl font-black text-primary">{getFormationPriceFormatted("delaware")}</p>
+                  <span className="text-muted-foreground text-xs font-medium">{t("services.formation.year1")}</span>
                 </div>
-                <div className="text-muted-foreground text-[9px] font-black tracking-widest mb-3 flex items-center justify-center gap-1">
+                <div className="text-muted-foreground text-[10px] sm:text-xs font-black tracking-widest mb-3 flex items-center justify-center gap-1">
                   <div className="w-1.5 h-1.5 rounded-full bg-accent" />
                   {t("services.formation.stateFeesIncluded")}
                 </div>
-                <div className="space-y-1.5 text-sm mb-3 border-t border-accent/10 pt-3">
+                <div className="space-y-2 text-sm mb-3 border-t border-accent/10 pt-3">
                   {deFeatures.map((f) => (
                     <div key={f} className="flex items-start justify-start gap-1.5 text-primary/80 font-bold text-left leading-tight">
                       <Check className="text-accent w-4 h-4 mt-0.5 flex-shrink-0" /> 
-                      <span className="text-[11px] sm:text-xs">{f}</span>
+                      <span className="text-xs sm:text-sm">{f}</span>
                     </div>
                   ))}
                 </div>
@@ -448,7 +448,7 @@ export default function Servicios() {
               <div className="p-4 sm:p-5 pt-0">
                 <Button 
                   onClick={() => handleSelectProduct("Delaware")}
-                  className="w-full bg-accent text-primary font-black text-xs rounded-full py-2.5 border-0 shadow-md hover:bg-accent/90 transition-colors h-9"
+                  className="w-full bg-accent text-primary font-black text-sm rounded-full py-2.5 border-0 shadow-md hover:bg-accent/90 transition-colors h-9"
                 >
                   {t("services.formation.choose")} Delaware
                 </Button>
@@ -457,7 +457,7 @@ export default function Servicios() {
                 <Button 
                   variant="link"
                   onClick={() => setLocation(`/contacto?subject=${encodeURIComponent("Mantenimiento Delaware")}`)}
-                  className="font-black text-[9px] tracking-widest text-primary/70 p-0 h-auto"
+                  className="font-black text-[10px] sm:text-xs tracking-widest text-primary/70 p-0 h-auto"
                   data-testid="button-maintenance-de"
                 >
                   {t("services.formation.maintenanceYear2")}: {getMaintenancePriceFormatted("delaware")}
@@ -687,18 +687,18 @@ export default function Servicios() {
               <div key={i} className="border-[2px] border-accent rounded-xl overflow-hidden relative bg-background shadow-lg flex flex-col h-full group text-center min-w-[280px] w-[85vw] md:w-auto md:min-w-0 flex-shrink-0 md:flex-shrink snap-center">
                 <div className="p-4 sm:p-5 flex-grow text-center">
                   <div className="flex flex-col items-center justify-center mb-3 gap-1">
-                    <h3 className="text-lg sm:text-xl font-black text-primary tracking-tight">{item.state}</h3>
-                    <span className="bg-accent/20 text-primary text-[10px] font-black px-2 py-0.5 rounded-full">{t("services.maintenance.title")}</span>
+                    <h3 className="text-xl sm:text-2xl font-black text-primary tracking-tight">{item.state}</h3>
+                    <span className="bg-accent/20 text-primary text-xs font-black px-2 py-0.5 rounded-full">{t("services.maintenance.title")}</span>
                   </div>
                   <div className="flex items-baseline justify-center gap-1 mb-2">
-                    <p className="text-2xl sm:text-3xl font-black text-primary">{item.price}</p>
-                    <span className="text-muted-foreground text-[10px] sm:text-xs font-medium">{t("services.formation.year")}</span>
+                    <p className="text-3xl sm:text-4xl font-black text-primary">{item.price}</p>
+                    <span className="text-muted-foreground text-xs font-medium">{t("services.formation.year")}</span>
                   </div>
-                  <div className="space-y-1.5 text-left mt-3 border-t border-accent/10 pt-3">
+                  <div className="space-y-2 text-left mt-3 border-t border-accent/10 pt-3">
                     {maintenanceFeatures.map((f, idx) => (
                       <div key={idx} className="flex items-start gap-1.5 text-primary/80 font-bold leading-tight text-left">
                         <Check className="text-accent w-4 h-4 mt-0.5 flex-shrink-0" /> 
-                        <span className="text-[10px] sm:text-[11px]">{f}</span>
+                        <span className="text-xs sm:text-sm">{f}</span>
                       </div>
                     ))}
                   </div>
@@ -706,7 +706,7 @@ export default function Servicios() {
                 <div className="p-4 sm:p-5 pt-0 mt-auto">
                   <Button 
                     onClick={() => handleSelectMaintenance(item.state)}
-                    className="w-full bg-accent text-primary font-black text-xs sm:text-sm rounded-full border-0 shadow-md hover:bg-accent/90 transition-colors h-9 sm:h-10"
+                    className="w-full bg-accent text-primary font-black text-sm rounded-full border-0 shadow-md hover:bg-accent/90 transition-colors h-9 sm:h-10"
                   >
                     {t("services.maintenancePack.choosePack")} {item.state}
                   </Button>
