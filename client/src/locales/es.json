@@ -424,8 +424,11 @@
     "banks": {
       "badge": "BANCOS",
       "title": "Asistencia Bancaria",
-      "sectionTitle": "NOS OCUPAMOS DE LOS BANCOS PARA QUE TÚ",
-      "sectionTitleHighlight": "TE OCUPES DE TU NEGOCIO",
+      "sectionTitle": "NOS OCUPAMOS",
+      "sectionTitleLine2": "DE LOS BANCOS",
+      "sectionTitleLine3": "PARA QUE TÚ",
+      "sectionTitleHighlight": "TE OCUPES",
+      "sectionTitleLine5": "DE TU NEGOCIO",
       "subtitle": "Preparamos tu solicitud, revisamos la documentación y te guiamos hasta que tu cuenta esté operativa.",
       "mercury": {
         "title": "Mercury",

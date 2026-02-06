@@ -424,8 +424,11 @@
     "banks": {
       "badge": "BANKS",
       "title": "Banking Assistance",
-      "sectionTitle": "WE HANDLE THE BANKS",
-      "sectionTitleHighlight": "SO YOU CAN FOCUS ON YOUR BUSINESS",
+      "sectionTitle": "WE HANDLE",
+      "sectionTitleLine2": "THE BANKS",
+      "sectionTitleLine3": "SO YOU CAN",
+      "sectionTitleHighlight": "FOCUS ON",
+      "sectionTitleLine5": "YOUR BUSINESS",
       "subtitle": "We prepare your application, review documentation and guide you until your account is operational.",
       "mercury": {
         "title": "Mercury",

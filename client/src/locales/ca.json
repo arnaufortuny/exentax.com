@@ -424,8 +424,11 @@
     "banks": {
       "badge": "BANCS",
       "title": "Assistència Bancària",
-      "sectionTitle": "ENS OCUPEM DELS BANCS",
-      "sectionTitleHighlight": "PERQUÈ TU T'OCUPIS DEL TEU NEGOCI",
+      "sectionTitle": "ENS OCUPEM",
+      "sectionTitleLine2": "DELS BANCS",
+      "sectionTitleLine3": "PERQUÈ TU",
+      "sectionTitleHighlight": "T'OCUPIS",
+      "sectionTitleLine5": "DEL TEU NEGOCI",
       "subtitle": "Preparem la teva sol·licitud, revisem la documentació i et guiem fins que el teu compte estigui operatiu.",
       "mercury": {
         "title": "Mercury",

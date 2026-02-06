@@ -495,8 +495,11 @@ export default function Servicios() {
               whileInView="visible"
               viewport={viewportOnce}
             >
-              <span className="text-foreground">{t("services.banks.sectionTitle")}</span>{" "}
-              <span className="text-accent">{t("services.banks.sectionTitleHighlight")}</span>
+              <span className="text-foreground">{t("services.banks.sectionTitle")}</span><br/>
+              <span className="text-foreground">{t("services.banks.sectionTitleLine2")}</span><br/>
+              <span className="text-foreground">{t("services.banks.sectionTitleLine3")}</span><br/>
+              <span className="text-accent">{t("services.banks.sectionTitleHighlight")}</span><br/>
+              <span className="text-accent">{t("services.banks.sectionTitleLine5")}</span>
             </motion.h2>
             <motion.p 
               className="text-muted-foreground text-base sm:text-lg mt-4 text-center max-w-2xl will-change-opacity"
