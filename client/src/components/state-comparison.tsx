@@ -126,24 +126,6 @@ export function StateComparison() {
               exit={{ opacity: 0, y: -12 }}
               transition={{ duration: 0.25, ease: "easeOut" }}
             >
-              <div className="grid grid-cols-3 gap-3 sm:gap-4 mb-5">
-                <div className="bg-accent/5 dark:bg-accent/10 border border-accent/15 rounded-2xl p-3 sm:p-4 flex flex-col items-center text-center gap-1" data-testid={`card-formation-price-${active.key}`}>
-                  <p className="text-[10px] sm:text-xs text-muted-foreground uppercase tracking-wider font-bold">{t("stateComparison.features.formationPrice")}</p>
-                  <p className="text-xl sm:text-2xl font-black text-accent tracking-tight">{active.formationPrice}</p>
-                </div>
-
-                <div className="bg-accent/5 dark:bg-accent/10 border border-accent/15 rounded-2xl p-3 sm:p-4 flex flex-col items-center text-center gap-1" data-testid={`card-maintenance-price-${active.key}`}>
-                  <p className="text-[10px] sm:text-xs text-muted-foreground uppercase tracking-wider font-bold">{t("stateComparison.features.maintenancePrice")}</p>
-                  <p className="text-xl sm:text-2xl font-black text-foreground tracking-tight">{active.maintenancePrice}</p>
-                  <p className="text-[10px] text-muted-foreground">/ {t("stateComparison.perYear", "año")}</p>
-                </div>
-
-                <div className="bg-accent/5 dark:bg-accent/10 border border-accent/15 rounded-2xl p-3 sm:p-4 flex flex-col items-center text-center gap-1" data-testid={`card-processing-time-${active.key}`}>
-                  <p className="text-[10px] sm:text-xs text-muted-foreground uppercase tracking-wider font-bold">{t("stateComparison.features.processingTime")}</p>
-                  <p className="text-xl sm:text-2xl font-black text-foreground tracking-tight">{active.processingTime}</p>
-                </div>
-              </div>
-
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-5">
                 <div className="border border-accent/15 rounded-2xl p-5 text-left" data-testid={`card-advantages-${active.key}`}>
                   <h4 className="font-black text-base text-foreground tracking-tight mb-3">{t("stateComparison.pros")}</h4>
