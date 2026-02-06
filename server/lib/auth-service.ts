@@ -5,6 +5,8 @@ import { users, passwordResetTokens, emailVerificationTokens, messages as messag
 import { eq, and, gt, sql } from "drizzle-orm";
 import { sendEmail, getRegistrationOtpTemplate, getAdminNewRegistrationTemplate, getAccountLockedTemplate, getOtpEmailTemplate } from "./email";
 import { validatePassword } from "./security";
+import { generateUniqueClientId } from "./id-generator";
+export { generateUniqueClientId };
 
 const SALT_ROUNDS = 12;
 const OTP_EXPIRY_MINUTES = 15;
@@ -34,26 +36,6 @@ export function generateOtp(): string {
 
 export function generateToken(): string {
   return crypto.randomBytes(32).toString("hex");
-}
-
-export function generateClientId(): string {
-  return Math.floor(10000000 + Math.random() * 90000000).toString();
-}
-
-export async function generateUniqueClientId(): Promise<string> {
-  let attempts = 0;
-  const maxAttempts = 10;
-  
-  while (attempts < maxAttempts) {
-    const clientId = generateClientId();
-    const existing = await db.select({ id: users.id }).from(users).where(eq(users.clientId, clientId)).limit(1);
-    if (existing.length === 0) {
-      return clientId;
-    }
-    attempts++;
-  }
-  
-  return Date.now().toString().slice(-8);
 }
 
 export async function createUser(data: {

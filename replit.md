@@ -13,6 +13,7 @@ I want to be communicated with in a clear and concise manner. I prefer explanati
 - Esta regla tiene máxima prioridad
 
 ## Recent Changes (February 2026)
+- **Critical Auth & Cleanup Fixes (Feb 6):** Fixed 3 auth route bugs (login/logout endpoints), unified ID generation into id-generator.ts, removed unused Replit Auth integration folder, deleted 3 unused files (ObjectUploader.tsx, help-section.tsx, sensitive-data-service.ts), fixed notification cache invalidation. All 22 tests passing.
 - **Codebase Cleanup (Feb 6):** Removed 15 unused files (9 UI components, 4 hooks, 1 utility, 1 server module) after verifying zero imports. Build and all 22 tests pass clean.
 - **Comprehensive System Review (Feb 5):** Verified all 26 database tables match schema definitions, fixed broken navigation links, confirmed no LSP errors.
 - **Navigation Fix:** Fixed broken `/recuperar` link in maintenance.tsx → now correctly points to `/auth/forgot-password`.

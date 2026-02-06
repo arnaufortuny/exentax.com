@@ -3235,7 +3235,8 @@ export async function registerRoutes(
         }
         
         // Create new user with verified email and password
-        const { hashPassword, generateUniqueClientId } = await import("./lib/auth-service");
+        const { hashPassword } = await import("./lib/auth-service");
+        const { generateUniqueClientId } = await import("./lib/id-generator");
         const passwordHash = await hashPassword(password);
         const clientId = await generateUniqueClientId();
         const nameParts = ownerFullName?.split(' ') || ['Cliente'];
@@ -3478,7 +3479,8 @@ export async function registerRoutes(
       }
       
       // Create new user with verified email and copy address fields from application
-      const { hashPassword, generateUniqueClientId } = await import("./lib/auth-service");
+      const { hashPassword } = await import("./lib/auth-service");
+      const { generateUniqueClientId } = await import("./lib/id-generator");
       const passwordHash = await hashPassword(password);
       const clientId = await generateUniqueClientId();
       const nameParts = ownerFullName?.split(' ') || ['Cliente'];
@@ -3589,7 +3591,8 @@ export async function registerRoutes(
       }
       
       // Create new user with verified email
-      const { hashPassword, generateUniqueClientId } = await import("./lib/auth-service");
+      const { hashPassword } = await import("./lib/auth-service");
+      const { generateUniqueClientId } = await import("./lib/id-generator");
       const passwordHash = await hashPassword(password);
       const clientId = await generateUniqueClientId();
       const nameParts = ownerFullName?.split(' ') || ['Cliente'];
@@ -4220,7 +4223,8 @@ export async function registerRoutes(
         const isEmailVerified = !!otpRecord;
         const accountStatus = isEmailVerified ? 'active' : 'pending';
         
-        const { hashPassword, generateUniqueClientId } = await import("./lib/auth-service");
+        const { hashPassword } = await import("./lib/auth-service");
+        const { generateUniqueClientId } = await import("./lib/id-generator");
         const passwordHash = await hashPassword(password);
         const clientId = await generateUniqueClientId();
         const nameParts = ownerFullName?.split(' ') || ['Cliente'];
