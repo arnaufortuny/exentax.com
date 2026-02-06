@@ -334,9 +334,9 @@ export default function Servicios() {
             />
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 max-w-5xl mx-auto px-6 sm:px-0">
+          <div className="flex md:grid md:grid-cols-3 gap-6 sm:gap-8 max-w-5xl mx-auto px-6 sm:px-0 overflow-x-auto md:overflow-x-visible snap-x snap-mandatory scroll-smooth pb-4 md:pb-0 no-scrollbar">
             {/* New Mexico */}
-            <div className="border-[2px] border-accent rounded-2xl overflow-hidden relative bg-background shadow-lg flex flex-col h-full group mx-auto w-full sm:max-w-none">
+            <div className="border-[2px] border-accent rounded-2xl overflow-hidden relative bg-background shadow-lg flex flex-col h-full group min-w-[280px] w-[85vw] md:w-auto md:min-w-0 flex-shrink-0 md:flex-shrink snap-center">
               <div className="p-4 sm:p-5 flex-grow text-center">
                 <div className="flex items-center justify-between mb-3 gap-2 sm:flex-col sm:items-center sm:justify-center">
                   <h3 className="text-lg sm:text-xl font-black text-primary tracking-tight">New Mexico</h3>
@@ -380,7 +380,7 @@ export default function Servicios() {
             </div>
 
             {/* Wyoming */}
-            <div className="border-[2px] border-accent rounded-2xl overflow-hidden relative bg-background shadow-lg flex flex-col h-full group mx-auto w-full sm:max-w-none">
+            <div className="border-[2px] border-accent rounded-2xl overflow-hidden relative bg-background shadow-lg flex flex-col h-full group min-w-[280px] w-[85vw] md:w-auto md:min-w-0 flex-shrink-0 md:flex-shrink snap-center">
               <div className="p-4 sm:p-5 flex-grow text-center">
                 <div className="flex items-center justify-between mb-3 gap-2 sm:flex-col sm:items-center sm:justify-center">
                   <h3 className="text-lg sm:text-xl font-black text-primary tracking-tight">Wyoming</h3>
@@ -424,7 +424,7 @@ export default function Servicios() {
             </div>
 
             {/* Delaware */}
-            <div className="border-[2px] border-accent rounded-2xl overflow-hidden relative bg-background shadow-lg flex flex-col h-full group mx-auto w-full sm:max-w-none">
+            <div className="border-[2px] border-accent rounded-2xl overflow-hidden relative bg-background shadow-lg flex flex-col h-full group min-w-[280px] w-[85vw] md:w-auto md:min-w-0 flex-shrink-0 md:flex-shrink snap-center">
               <div className="p-4 sm:p-5 flex-grow text-center">
                 <div className="flex items-center justify-between mb-3 gap-2 sm:flex-col sm:items-center sm:justify-center">
                   <h3 className="text-lg sm:text-xl font-black text-primary tracking-tight">Delaware</h3>
@@ -678,13 +678,13 @@ export default function Servicios() {
               viewport={viewportOnce}
             />
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 max-w-5xl mx-auto px-4 sm:px-0 mb-12">
+          <div className="flex md:grid md:grid-cols-3 gap-4 sm:gap-6 max-w-5xl mx-auto px-6 sm:px-0 mb-12 overflow-x-auto md:overflow-x-visible snap-x snap-mandatory scroll-smooth pb-4 md:pb-0 -mx-2 md:mx-auto no-scrollbar">
             {[
               { state: "New Mexico", price: getMaintenancePriceFormatted("newMexico"), annual: true },
               { state: "Wyoming", price: getMaintenancePriceFormatted("wyoming"), annual: true },
               { state: "Delaware", price: getMaintenancePriceFormatted("delaware"), annual: true }
             ].map((item, i) => (
-              <div key={i} className="border-[2px] border-accent rounded-xl overflow-hidden relative bg-background shadow-lg flex flex-col h-full group text-center mx-auto w-full sm:max-w-none">
+              <div key={i} className="border-[2px] border-accent rounded-xl overflow-hidden relative bg-background shadow-lg flex flex-col h-full group text-center min-w-[280px] w-[85vw] md:w-auto md:min-w-0 flex-shrink-0 md:flex-shrink snap-center">
                 <div className="p-4 sm:p-5 flex-grow text-center">
                   <div className="flex flex-col items-center justify-center mb-3 gap-1">
                     <h3 className="text-lg sm:text-xl font-black text-primary tracking-tight">{item.state}</h3>
