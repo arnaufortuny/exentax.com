@@ -274,7 +274,7 @@ export default function Servicios() {
               return (
                 <motion.div 
                   key={i} 
-                  className="group p-5 sm:p-6 bg-card rounded-2xl border border-border hover:border-accent/40 text-left transition-all duration-200 will-change-[transform,opacity] hover:shadow-lg"
+                  className="group p-5 sm:p-6 bg-card rounded-2xl border border-border hover:border-accent/40 text-left transition-[border-color,box-shadow] duration-200 will-change-[transform,opacity]"
                   variants={cardVariants}
                   initial="hidden"
                   whileInView="visible"

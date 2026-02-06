@@ -30,11 +30,11 @@ export const fadeIn: Variants = {
 };
 
 export const fadeInUp: Variants = {
-  hidden: { opacity: 0, y: 20 },
+  hidden: { opacity: 0, y: 14 },
   visible: { 
     opacity: 1, 
     y: 0,
-    transition: transitions.normal,
+    transition: { duration: 0.4, ease: easing.elegant },
   },
 };
 
@@ -118,30 +118,31 @@ export const staggerContainerFast: Variants = {
 
 // Card animations for grid items - smooth reveal
 export const cardVariants: Variants = {
-  hidden: { opacity: 0, y: 30 },
+  hidden: { opacity: 0, y: 12, scale: 0.98 },
   visible: { 
     opacity: 1, 
     y: 0,
-    transition: transitions.normal,
+    scale: 1,
+    transition: { duration: 0.4, ease: easing.elegant },
   },
 };
 
 // Hero text animations - cinematic entrance
 export const heroTitle: Variants = {
-  hidden: { opacity: 0, y: 24 },
+  hidden: { opacity: 0, y: 16 },
   visible: { 
     opacity: 1, 
     y: 0,
-    transition: { duration: 0.7, ease: easing.elegant },
+    transition: { duration: 0.5, ease: easing.elegant },
   },
 };
 
 export const heroSubtitle: Variants = {
-  hidden: { opacity: 0, y: 16 },
+  hidden: { opacity: 0, y: 10 },
   visible: { 
     opacity: 1,
     y: 0,
-    transition: { duration: 0.6, delay: 0.2, ease: easing.elegant },
+    transition: { duration: 0.45, delay: 0.15, ease: easing.elegant },
   },
 };
 
@@ -177,7 +178,7 @@ export const buttonTap = {
 };
 
 // Viewport settings - trigger for smooth reveal
-export const viewportOnce = { once: true, amount: 0.15, margin: "-80px" };
+export const viewportOnce = { once: true, amount: 0.1, margin: "-40px" };
 export const viewportRepeat = { once: false, amount: 0.2 };
 
 // Utility function for staggered delays
