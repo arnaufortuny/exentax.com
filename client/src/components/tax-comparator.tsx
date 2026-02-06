@@ -313,17 +313,17 @@ export function TaxComparator() {
           <div className="bg-background rounded-3xl border-2 border-accent/20 shadow-2xl shadow-accent/10 overflow-hidden">
             {/* Country Selection */}
             <div className="p-6 sm:p-8 border-b border-accent/10">
-              <h3 className="text-lg sm:text-xl font-black text-foreground mb-4 text-center">
+              <h3 className="text-xl sm:text-2xl font-black text-foreground mb-4 text-center">
                 {t("taxComparator.selectCountry")}
               </h3>
-              <div className="flex flex-wrap justify-center gap-2 sm:gap-3">
+              <div className="flex flex-wrap justify-center gap-2">
                 {countries.map((country) => (
                   <button
                     key={country.id}
                     onClick={() => setSelectedCountry(country.id)}
-                    className={`px-4 sm:px-5 py-2.5 sm:py-3 rounded-full text-sm sm:text-base font-black transition-all transform active:scale-95 flex items-center gap-2 ${
+                    className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-bold transition-colors flex items-center gap-1.5 ${
                       selectedCountry === country.id
-                        ? 'bg-accent text-primary shadow-lg shadow-accent/30'
+                        ? 'bg-accent text-primary shadow-md shadow-accent/30'
                         : 'bg-background text-foreground border-2 border-accent/20 hover:border-accent/40 hover:bg-accent/5'
                     }`}
                     data-testid={`button-country-${country.id}`}
