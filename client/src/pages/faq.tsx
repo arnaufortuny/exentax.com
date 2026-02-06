@@ -95,11 +95,11 @@ export default function FAQ() {
       <section className="pt-16 sm:pt-24 lg:pt-28 pb-4 sm:py-20 bg-background">
         <div className="container max-w-7xl mx-auto px-5 sm:px-8">
           <div className="text-center mb-8 sm:mb-12 flex flex-col items-center justify-center">
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-center">
+            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-center leading-[1.1]">
               <span className="text-foreground">{t("faq.title")}</span>{" "}
               <span className="text-accent">{t("faq.titleHighlight")}</span>
             </h2>
-            <p className="text-foreground/80 text-sm sm:text-base mt-3 sm:mt-4 text-center max-w-2xl font-medium">{t("faq.subtitle")}</p>
+            <p className="text-base sm:text-lg text-muted-foreground mt-4 text-center max-w-2xl">{t("faq.subtitle")}</p>
             <div className="w-24 h-1 bg-accent mt-6" />
           </div>
 
@@ -124,7 +124,7 @@ export default function FAQ() {
               {filteredCategories.length > 0 ? (
                 filteredCategories.map((category) => (
                   <div key={category.key} className="space-y-4 sm:space-y-6">
-                    <h2 className="text-xl sm:text-2xl font-black text-primary tracking-tight flex items-center gap-3 sm:gap-4">
+                    <h2 className="text-xl sm:text-2xl font-black text-foreground tracking-tighter flex items-center gap-3 sm:gap-4">
                       <span className="w-1.5 sm:w-2 h-8 sm:h-10 bg-accent rounded-full shrink-0" />
                       {category.title}
                     </h2>
@@ -144,7 +144,7 @@ export default function FAQ() {
                             className="w-full px-4 sm:px-6 py-4 sm:py-6 text-left flex items-center justify-between gap-3 sm:gap-4 touch-manipulation"
                             data-testid={`button-faq-toggle-${category.key}-${i}`}
                           >
-                            <span className="font-black text-primary text-sm sm:text-lg leading-tight tracking-tight">
+                            <span className="font-black text-foreground text-sm sm:text-lg leading-tight tracking-tighter">
                               {item.q}
                             </span>
                             <span className={`text-xl sm:text-2xl transition-transform duration-200 shrink-0 ${
@@ -154,7 +154,7 @@ export default function FAQ() {
                             </span>
                           </button>
                           {(openItems[category.key] === i || searchQuery !== "") && (
-                            <div className="px-4 sm:px-6 pb-4 sm:pb-6 text-primary/90 text-xs sm:text-base leading-relaxed border-t border-accent/20 pt-3 sm:pt-4 animate-in fade-in slide-in-from-top-2 font-medium bg-accent/5">
+                            <div className="px-4 sm:px-6 pb-4 sm:pb-6 text-muted-foreground text-sm sm:text-base leading-relaxed border-t border-accent/20 pt-3 sm:pt-4 animate-in fade-in slide-in-from-top-2 font-medium bg-accent/5">
                               {item.a}
                             </div>
                           )}

@@ -629,7 +629,7 @@ export default function Contacto() {
 
         <div className="mt-24 pt-16">
           <div className="text-center mb-10 flex flex-col items-center justify-center">
-            <h2 className="text-2xl sm:text-4xl lg:text-5xl font-black text-primary tracking-tight text-center">
+            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black text-foreground tracking-tight text-center leading-[1.1]">
               <span className="text-accent tracking-widest text-xs sm:text-sm font-black block mb-0 text-center">{t("contact.otherWays")}</span>
               {t("contact.writeUs")}
             </h2>

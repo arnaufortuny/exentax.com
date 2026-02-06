@@ -60,10 +60,10 @@ export function NewsletterSection() {
       <div className="w-full px-5 sm:px-8 relative z-10 flex flex-col items-center justify-center">
         <div className="text-center space-y-4 md:space-y-8 w-full flex flex-col items-center">
           <div className="space-y-2 md:space-y-4 w-full text-center">
-            <h2 className="text-xl md:text-4xl font-black tracking-tighter text-foreground leading-none text-center">
+            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-foreground leading-[1.1] text-center">
               {t("newsletter.joinOur")} <span className="text-primary-foreground bg-accent px-2 inline-block">{t("newsletter.newsletter")}</span>
             </h2>
-            <p className="text-muted-foreground text-xs md:text-sm font-medium max-w-lg mx-auto leading-relaxed text-center px-2">
+            <p className="text-base sm:text-lg text-muted-foreground max-w-lg mx-auto leading-relaxed text-center px-2">
               {t("newsletter.taxTips")}
               <span className="block mt-1">{t("newsletter.businessNews")}</span>
             </p>
