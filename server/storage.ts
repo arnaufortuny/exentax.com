@@ -2,8 +2,9 @@ import { db } from "./db";
 import { sql } from "drizzle-orm";
 import {
   products, orders, llcApplications, applicationDocuments, newsletterSubscribers,
-  maintenanceApplications, messages as messagesTable, users,
+  maintenanceApplications, messages as messagesTable, users, guestVisitors,
   type Product, type Order, type LlcApplication, type ApplicationDocument,
+  type GuestVisitor, type InsertGuestVisitor,
   insertLlcApplicationSchema, insertApplicationDocumentSchema, insertOrderSchema
 } from "@shared/schema";
 import { eq, desc } from "drizzle-orm";
@@ -240,6 +241,34 @@ export class DatabaseStorage implements IStorage {
       .where(eq(messagesTable.id, id))
       .returning();
     return updated;
+  }
+
+  async createGuestVisitor(visitor: InsertGuestVisitor): Promise<GuestVisitor> {
+    const [newVisitor] = await db.insert(guestVisitors).values(visitor).returning();
+    return newVisitor;
+  }
+
+  async getAllGuestVisitors(): Promise<GuestVisitor[]> {
+    return await db.select().from(guestVisitors).orderBy(desc(guestVisitors.createdAt));
+  }
+
+  async deleteGuestVisitor(id: number): Promise<void> {
+    await db.delete(guestVisitors).where(eq(guestVisitors.id, id));
+  }
+
+  async deleteGuestVisitorsByEmail(email: string): Promise<number> {
+    const deleted = await db.delete(guestVisitors).where(eq(guestVisitors.email, email)).returning();
+    return deleted.length;
+  }
+
+  async getGuestVisitorStats(): Promise<{ total: number; withEmail: number; sources: Record<string, number> }> {
+    const all = await db.select().from(guestVisitors);
+    const withEmail = all.filter(v => v.email).length;
+    const sources: Record<string, number> = {};
+    for (const v of all) {
+      sources[v.source] = (sources[v.source] || 0) + 1;
+    }
+    return { total: all.length, withEmail, sources };
   }
 }
 

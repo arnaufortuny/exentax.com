@@ -5,7 +5,7 @@ import { usePageTitle } from "@/hooks/use-page-title";
 import { useTranslation } from "react-i18next";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { queryClient, apiRequest, getCsrfToken } from "@/lib/queryClient";
-import { Building2, FileText, Clock, ChevronRight, User as UserIcon, Package, CreditCard, PlusCircle, Download, Mail, BellRing, CheckCircle2, AlertCircle, MessageSquare, Send, Shield, Users, Edit, Edit2, Trash2, FileUp, Newspaper, Loader2, CheckCircle, Receipt, Plus, Calendar, DollarSign, BarChart3, UserCheck, Eye, Upload, XCircle, Tag, X, Calculator, Archive, Key, Search, LogOut, ShieldAlert, ClipboardList, Bell, Wallet } from "lucide-react";
+import { Building2, FileText, Clock, ChevronRight, User as UserIcon, Package, CreditCard, PlusCircle, Download, Mail, BellRing, CheckCircle2, AlertCircle, MessageSquare, Send, Shield, Users, Edit, Edit2, Trash2, FileUp, Newspaper, Loader2, CheckCircle, Receipt, Plus, Calendar, DollarSign, BarChart3, UserCheck, Eye, Upload, XCircle, Tag, X, Calculator, Archive, Key, Search, LogOut, ShieldAlert, ClipboardList, Bell, Wallet, Globe } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { useEffect, useState, useMemo, useCallback } from "react";
@@ -64,7 +64,7 @@ function _NewsletterToggleLegacy() {
 export default function Dashboard() {
   const [, setLocation] = useLocation();
   const { user, isAuthenticated, isLoading: authLoading } = useAuth();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   usePageTitle();
   const [activeTab, setActiveTab] = useState<Tab>('services');
   const [isEditing, setIsEditing] = useState(false);
@@ -112,6 +112,9 @@ export default function Dashboard() {
   const [invoiceAmount, setInvoiceAmount] = useState("");
   const [invoiceCurrency, setInvoiceCurrency] = useState("EUR");
   const [adminSubTab, setAdminSubTab] = useState("dashboard");
+  const [commSubTab, setCommSubTab] = useState<'inbox' | 'agenda'>('inbox');
+  const [usersSubTab, setUsersSubTab] = useState<'users' | 'newsletter'>('users');
+  const [billingSubTab, setBillingSubTab] = useState<'invoices' | 'accounting'>('invoices');
   const [adminSearchQuery, setAdminSearchQuery] = useState("");
   const [adminSearchFilter, setAdminSearchFilter] = useState<'all' | 'name' | 'email' | 'date' | 'invoiceId'>('all');
   const [createUserDialog, setCreateUserDialog] = useState(false);
@@ -418,6 +421,11 @@ export default function Dashboard() {
 
   const { data: discountCodes, refetch: refetchDiscountCodes } = useQuery<DiscountCode[]>({
     queryKey: ["/api/admin/discount-codes"],
+    enabled: !!user?.isAdmin,
+  });
+
+  const { data: guestVisitors, refetch: refetchGuests } = useQuery({
+    queryKey: ['/api/admin/guests'],
     enabled: !!user?.isAdmin,
   });
 
@@ -1858,15 +1866,12 @@ export default function Dashboard() {
                     {[
                       { id: 'dashboard', label: t('dashboard.admin.tabs.metrics'), icon: BarChart3 },
                       { id: 'orders', label: t('dashboard.admin.tabs.orders'), icon: Package },
-                      { id: 'consultations', label: t('dashboard.admin.tabs.consultations'), icon: MessageSquare },
+                      { id: 'communications', label: t('dashboard.admin.tabs.communications'), icon: MessageSquare },
                       { id: 'incomplete', label: t('dashboard.admin.tabs.incomplete'), icon: AlertCircle },
                       { id: 'users', label: t('dashboard.admin.tabs.clients'), icon: Users },
-                      { id: 'facturas', label: t('dashboard.admin.tabs.invoices'), icon: Receipt },
-                      { id: 'accounting', label: t('dashboard.admin.tabs.accounting'), icon: Calculator },
+                      { id: 'billing', label: t('dashboard.admin.tabs.billing'), icon: Receipt },
                       { id: 'calendar', label: t('dashboard.calendar.dates'), icon: Calendar },
                       { id: 'docs', label: 'Docs', icon: FileText },
-                      { id: 'newsletter', label: 'News', icon: Mail },
-                      { id: 'inbox', label: 'Inbox', icon: MessageSquare },
                       { id: 'descuentos', label: t('dashboard.admin.tabs.discounts'), icon: Tag },
                     ].map((item) => (
                       <Button
@@ -2986,6 +2991,72 @@ export default function Dashboard() {
                         </div>
                       </div>
 
+                      <div data-testid="section-guests">
+                        <div className="flex items-center gap-2 mb-3">
+                          <div className="w-7 h-7 rounded-lg bg-teal-100 dark:bg-teal-900/30 flex items-center justify-center flex-shrink-0">
+                            <Eye className="w-4 h-4 text-teal-600 dark:text-teal-400" />
+                          </div>
+                          <h3 className="text-sm font-bold tracking-tight" data-testid="heading-guests">{t('dashboard.admin.guestSection.guests')}</h3>
+                        </div>
+                        <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                          <Card className="p-4 rounded-xl border border-border/50 shadow-sm bg-card">
+                            <div className="flex items-center justify-between mb-2">
+                              <p className="text-[11px] md:text-xs text-muted-foreground font-medium">{t('dashboard.admin.guestSection.totalVisitors')}</p>
+                              <Globe className="w-3.5 h-3.5 text-teal-500 flex-shrink-0" />
+                            </div>
+                            <p className="text-xl md:text-3xl font-black text-foreground" data-testid="stat-total-guests">{(guestVisitors as any[])?.length || 0}</p>
+                          </Card>
+                          <Card className="p-4 rounded-xl border border-border/50 shadow-sm bg-card">
+                            <div className="flex items-center justify-between mb-2">
+                              <p className="text-[11px] md:text-xs text-muted-foreground font-medium">{t('dashboard.admin.guestSection.withEmail')}</p>
+                              <Mail className="w-3.5 h-3.5 text-green-500 flex-shrink-0" />
+                            </div>
+                            <p className="text-xl md:text-3xl font-black text-foreground" data-testid="stat-guests-with-email">{(guestVisitors as any[])?.filter((g: any) => g.email)?.length || 0}</p>
+                          </Card>
+                          <Card className="p-4 rounded-xl border border-border/50 shadow-sm bg-card">
+                            <div className="flex items-center justify-between mb-2">
+                              <p className="text-[11px] md:text-xs text-muted-foreground font-medium">{t('dashboard.admin.guestSection.calculator')}</p>
+                              <Calculator className="w-3.5 h-3.5 text-purple-500 flex-shrink-0" />
+                            </div>
+                            <p className="text-xl md:text-3xl font-black text-foreground" data-testid="stat-calculator-guests">{(guestVisitors as any[])?.filter((g: any) => g.source === 'calculator')?.length || 0}</p>
+                          </Card>
+                        </div>
+                        <Card className="rounded-xl border border-border/50 shadow-sm mt-3 p-0 overflow-hidden">
+                          <div className="divide-y max-h-60 overflow-y-auto">
+                            {(guestVisitors as any[])?.slice(0, 20)?.map((guest: any) => (
+                              <div key={guest.id} className="px-4 py-2.5 flex items-center justify-between gap-2">
+                                <div className="min-w-0 flex-1">
+                                  <p className="text-xs font-bold truncate">{guest.email || '-'}</p>
+                                  <p className="text-[10px] text-muted-foreground">
+                                    {t(`dashboard.admin.guestSection.${guest.source}`, guest.source)} · {guest.page || '-'} · {guest.createdAt ? new Date(guest.createdAt).toLocaleDateString(i18n.language === 'en' ? 'en-US' : i18n.language === 'ca' ? 'ca-ES' : 'es-ES') : ''}
+                                  </p>
+                                </div>
+                                <Button
+                                  size="icon"
+                                  variant="ghost"
+                                  className="h-7 w-7 text-destructive shrink-0"
+                                  onClick={async () => {
+                                    if (!confirm(t('dashboard.admin.guestSection.confirmDelete'))) return;
+                                    try {
+                                      await apiRequest("DELETE", `/api/admin/guests/${guest.id}`);
+                                      refetchGuests();
+                                    } catch (e) {
+                                      setFormMessage({ type: 'error', text: t("common.error") });
+                                    }
+                                  }}
+                                  data-testid={`button-delete-guest-${guest.id}`}
+                                >
+                                  <Trash2 className="w-3 h-3" />
+                                </Button>
+                              </div>
+                            ))}
+                            {(!guestVisitors || (guestVisitors as any[]).length === 0) && (
+                              <p className="text-sm text-muted-foreground py-4 text-center">{t('dashboard.admin.guestSection.noGuests')}</p>
+                            )}
+                          </div>
+                        </Card>
+                      </div>
+
                       <div data-testid="section-communications">
                         <div className="flex items-center gap-2 mb-3">
                           <div className="w-7 h-7 rounded-lg bg-orange-100 dark:bg-orange-900/30 flex items-center justify-center flex-shrink-0">
@@ -3113,8 +3184,138 @@ export default function Dashboard() {
                       </div>
                     </Card>
                   )}
-                  {adminSubTab === 'consultations' && (
-                    <AdminConsultationsPanel />
+                  {adminSubTab === 'communications' && (
+                    <div className="space-y-4">
+                      <div className="flex gap-2 mb-4">
+                        <Button
+                          variant={commSubTab === 'inbox' ? 'default' : 'outline'}
+                          size="sm"
+                          className={`rounded-full text-xs font-bold ${commSubTab === 'inbox' ? 'bg-accent text-accent-foreground' : ''}`}
+                          onClick={() => setCommSubTab('inbox')}
+                          data-testid="button-comm-inbox"
+                        >
+                          {t('dashboard.admin.communicationsSubTabs.inbox')}
+                        </Button>
+                        <Button
+                          variant={commSubTab === 'agenda' ? 'default' : 'outline'}
+                          size="sm"
+                          className={`rounded-full text-xs font-bold ${commSubTab === 'agenda' ? 'bg-accent text-accent-foreground' : ''}`}
+                          onClick={() => setCommSubTab('agenda')}
+                          data-testid="button-comm-agenda"
+                        >
+                          {t('dashboard.admin.communicationsSubTabs.agenda')}
+                        </Button>
+                      </div>
+                      {commSubTab === 'inbox' && (
+                        <Card className="rounded-2xl border-0 shadow-sm p-0 overflow-hidden">
+                          <div className="divide-y">
+                            {adminMessages?.map((msg: any) => (
+                              <div 
+                                key={msg.id} 
+                                className="p-4 space-y-2 hover:bg-accent/5 cursor-pointer transition-colors"
+                                onClick={() => setSelectedMessage(selectedMessage?.id === msg.id ? null : msg)}
+                                data-testid={`inbox-message-${msg.id}`}
+                              >
+                                <div className="flex justify-between items-start gap-2">
+                                  <div className="min-w-0 flex-1">
+                                    <p className="font-black text-xs md:text-sm">{msg.firstName} {msg.lastName}</p>
+                                    <p className="text-[10px] md:text-xs text-muted-foreground truncate">{msg.email}</p>
+                                  </div>
+                                  <div className="flex items-center gap-1 shrink-0">
+                                    <Badge variant="outline" className="text-[8px] md:text-[10px] hidden md:inline-flex">{msg.messageId || msg.id}</Badge>
+                                    <Badge variant={msg.status === 'archived' ? 'secondary' : 'default'} className="text-[8px] md:text-[10px]">{msg.status === 'archived' ? t('dashboard.admin.inboxSection.archived') : msg.status || t('dashboard.admin.inboxSection.pendingStatus')}</Badge>
+                                    {msg.status !== 'archived' && (
+                                      <Button 
+                                        size="icon" 
+                                        variant="ghost" 
+                                        className="h-6 w-6 md:h-7 md:w-7 text-muted-foreground hover:text-foreground" 
+                                        onClick={async (e) => {
+                                          e.stopPropagation();
+                                          try {
+                                            await apiRequest("PATCH", `/api/admin/messages/${msg.id}/archive`);
+                                            queryClient.invalidateQueries({ queryKey: ["/api/admin/messages"] });
+                                            setFormMessage({ type: 'success', text: t("dashboard.toasts.messageArchived") });
+                                          } catch { setFormMessage({ type: 'error', text: t("common.error") }); }
+                                        }}
+                                        data-testid={`btn-archive-msg-${msg.id}`}
+                                        title="Archivar"
+                                      >
+                                        <Archive className="w-3 h-3 md:w-3.5 md:h-3.5" />
+                                      </Button>
+                                    )}
+                                    <Button 
+                                      size="icon" 
+                                      variant="ghost" 
+                                      className="h-6 w-6 md:h-7 md:w-7 text-red-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20" 
+                                      onClick={async (e) => {
+                                        e.stopPropagation();
+                                        if (confirm(t('dashboard.admin.inboxSection.confirmDeleteMsg'))) {
+                                          try {
+                                            await apiRequest("DELETE", `/api/admin/messages/${msg.id}`);
+                                            queryClient.invalidateQueries({ queryKey: ["/api/admin/messages"] });
+                                            setFormMessage({ type: 'success', text: t("dashboard.toasts.messageDeleted") });
+                                          } catch { setFormMessage({ type: 'error', text: t("common.error") }); }
+                                        }
+                                      }}
+                                      data-testid={`btn-delete-msg-${msg.id}`}
+                                    >
+                                      <Trash2 className="w-3 h-3 md:w-3.5 md:h-3.5" />
+                                    </Button>
+                                  </div>
+                                </div>
+                                <p className="text-xs font-medium">{msg.subject}</p>
+                                <p className="text-xs text-muted-foreground">{msg.message}</p>
+                                
+                                {msg.replies && msg.replies.length > 0 && (
+                                  <div className="pl-4 border-l-2 border-accent/30 space-y-2 mt-3">
+                                    {msg.replies.map((reply: any) => (
+                                      <div key={reply.id} className="text-xs">
+                                        <span className={`font-semibold ${reply.isAdmin ? 'text-accent' : 'text-muted-foreground'}`}>
+                                          {reply.isAdmin ? t('dashboard.admin.inboxSection.adminLabel') : t('dashboard.admin.inboxSection.clientLabel')}:
+                                        </span>
+                                        <span className="ml-2">{reply.content}</span>
+                                        <span className="text-[10px] text-muted-foreground ml-2">
+                                          {reply.createdAt && new Date(reply.createdAt).toLocaleString('es-ES')}
+                                        </span>
+                                      </div>
+                                    ))}
+                                  </div>
+                                )}
+                                
+                                <p className="text-[10px] text-muted-foreground">{msg.createdAt ? new Date(msg.createdAt).toLocaleString('es-ES') : ''}</p>
+                                
+                                {selectedMessage?.id === msg.id && (
+                                  <div className="space-y-2 pt-3 border-t mt-2" onClick={(e) => e.stopPropagation()}>
+                                    <Textarea 
+                                      value={replyContent} 
+                                      onChange={(e) => setReplyContent(e.target.value)} 
+                                      placeholder={t('dashboard.admin.inboxSection.replyPlaceholder')} 
+                                      className="rounded-xl min-h-[80px] text-sm"
+                                      data-testid="input-admin-reply"
+                                    />
+                                    <Button 
+                                      onClick={() => sendReplyMutation.mutate(msg.id)} 
+                                      disabled={!replyContent.trim() || sendReplyMutation.isPending} 
+                                      className="bg-accent text-accent-foreground font-semibold rounded-full px-6"
+                                      data-testid="button-send-admin-reply"
+                                    >
+                                      {sendReplyMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4 mr-2" />}
+                                      {t('dashboard.admin.inboxSection.sendReply')}
+                                    </Button>
+                                  </div>
+                                )}
+                              </div>
+                            ))}
+                            {(!adminMessages || adminMessages.length === 0) && (
+                              <div className="text-center py-8 text-muted-foreground text-sm">{t('dashboard.admin.inboxSection.noMessages')}</div>
+                            )}
+                          </div>
+                        </Card>
+                      )}
+                      {commSubTab === 'agenda' && (
+                        <AdminConsultationsPanel />
+                      )}
+                    </div>
                   )}
                   {adminSubTab === 'incomplete' && (
                     <Card className="rounded-2xl border-0 shadow-sm p-0 overflow-hidden">
@@ -3180,82 +3381,142 @@ export default function Dashboard() {
                     </Card>
                   )}
                   {adminSubTab === 'users' && (
-                    <Card className="rounded-2xl border-0 shadow-sm p-0 overflow-hidden">
-                      <div className="divide-y">
-                        {filteredAdminUsers?.map(u => (
-                          <div key={u.id} className="p-3 md:p-4 space-y-3">
-                            <div className="flex flex-col gap-2">
-                              <div className="flex items-center gap-2 flex-wrap">
-                                <p className="font-black text-sm">{u.firstName} {u.lastName}</p>
-                                <Badge variant={u.accountStatus === 'active' ? 'default' : u.accountStatus === 'vip' ? 'default' : 'secondary'} className={`text-[9px] ${u.accountStatus === 'deactivated' ? 'bg-red-100 text-red-700' : u.accountStatus === 'vip' ? 'bg-yellow-100 text-yellow-700' : u.accountStatus === 'pending' ? 'bg-orange-100 text-orange-700' : ''}`}>
-                                  {u.accountStatus === 'active' ? t('dashboard.admin.users.verified') : u.accountStatus === 'pending' ? t('dashboard.admin.users.inReview') : u.accountStatus === 'deactivated' ? t('dashboard.admin.users.deactivated') : u.accountStatus === 'vip' ? 'VIP' : t('dashboard.admin.users.verified')}
-                                </Badge>
-                                {u.isAdmin && <Badge className="text-[9px] bg-purple-100 text-purple-700">ADMIN</Badge>}
+                    <div className="space-y-4">
+                      <div className="flex gap-2 mb-4">
+                        <Button
+                          variant={usersSubTab === 'users' ? 'default' : 'outline'}
+                          size="sm"
+                          className={`rounded-full text-xs font-bold ${usersSubTab === 'users' ? 'bg-accent text-accent-foreground' : ''}`}
+                          onClick={() => setUsersSubTab('users')}
+                          data-testid="button-users-subtab-users"
+                        >
+                          {t('dashboard.admin.tabs.clients')}
+                        </Button>
+                        <Button
+                          variant={usersSubTab === 'newsletter' ? 'default' : 'outline'}
+                          size="sm"
+                          className={`rounded-full text-xs font-bold ${usersSubTab === 'newsletter' ? 'bg-accent text-accent-foreground' : ''}`}
+                          onClick={() => setUsersSubTab('newsletter')}
+                          data-testid="button-users-subtab-newsletter"
+                        >
+                          Newsletter
+                        </Button>
+                      </div>
+                      {usersSubTab === 'users' && (
+                        <Card className="rounded-2xl border-0 shadow-sm p-0 overflow-hidden">
+                          <div className="divide-y">
+                            {filteredAdminUsers?.map(u => (
+                              <div key={u.id} className="p-3 md:p-4 space-y-3">
+                                <div className="flex flex-col gap-2">
+                                  <div className="flex items-center gap-2 flex-wrap">
+                                    <p className="font-black text-sm">{u.firstName} {u.lastName}</p>
+                                    <Badge variant={u.accountStatus === 'active' ? 'default' : u.accountStatus === 'vip' ? 'default' : 'secondary'} className={`text-[9px] ${u.accountStatus === 'deactivated' ? 'bg-red-100 text-red-700' : u.accountStatus === 'vip' ? 'bg-yellow-100 text-yellow-700' : u.accountStatus === 'pending' ? 'bg-orange-100 text-orange-700' : ''}`}>
+                                      {u.accountStatus === 'active' ? t('dashboard.admin.users.verified') : u.accountStatus === 'pending' ? t('dashboard.admin.users.inReview') : u.accountStatus === 'deactivated' ? t('dashboard.admin.users.deactivated') : u.accountStatus === 'vip' ? 'VIP' : t('dashboard.admin.users.verified')}
+                                    </Badge>
+                                    {u.isAdmin && <Badge className="text-[9px] bg-purple-100 text-purple-700">ADMIN</Badge>}
+                                  </div>
+                                  <p className="text-xs text-muted-foreground">{u.email}</p>
+                                  <p className="text-[10px] text-muted-foreground">
+                                    {u.phone && <span className="mr-2">{u.phone}</span>}
+                                    {u.businessActivity && <span className="mr-2">• {u.businessActivity}</span>}
+                                    {u.city && <span>• {u.city}</span>}
+                                  </p>
+                                  <div className="flex flex-wrap items-center gap-2 text-[10px] text-muted-foreground">
+                                    {u.lastLoginIp && (
+                                      <span className="flex items-center gap-1 bg-muted/50 px-2 py-0.5 rounded-full">
+                                        <span className="font-medium">IP:</span> {u.lastLoginIp}
+                                      </span>
+                                    )}
+                                    {typeof u.loginCount === 'number' && (
+                                      <span className="flex items-center gap-1 bg-muted/50 px-2 py-0.5 rounded-full">
+                                        <span className="font-medium">Logins:</span> {u.loginCount}
+                                      </span>
+                                    )}
+                                    {u.securityOtpRequired && (
+                                      <span className="flex items-center gap-1 bg-orange-100 text-orange-700 px-2 py-0.5 rounded-full">
+                                        {t('dashboard.admin.users.otpRequired')}
+                                      </span>
+                                    )}
+                                  </div>
+                                  <div className="w-full">
+                                    <Label className="text-[10px] text-muted-foreground mb-1 block">{t('dashboard.admin.users.accountStatus')}</Label>
+                                    <NativeSelect 
+                                      value={u.accountStatus || 'active'} 
+                                      onValueChange={val => u.id && updateUserMutation.mutate({ id: u.id, accountStatus: val as any })}
+                                      className="w-full h-9 rounded-full text-xs bg-white dark:bg-card border shadow-sm px-3"
+                                    >
+                                      <NativeSelectItem value="active">{t('dashboard.admin.users.verifiedStatus')}</NativeSelectItem>
+                                      <NativeSelectItem value="pending">{t('dashboard.admin.users.inReviewStatus')}</NativeSelectItem>
+                                      <NativeSelectItem value="deactivated">{t('dashboard.admin.users.deactivatedStatus')}</NativeSelectItem>
+                                      <NativeSelectItem value="vip">VIP</NativeSelectItem>
+                                    </NativeSelect>
+                                  </div>
+                                </div>
+                                <div className="flex flex-wrap gap-2">
+                                  <Button size="sm" variant="outline" className="rounded-full text-xs" onClick={() => setEditingUser(u)} data-testid={`button-edit-user-${u.id}`}>
+                                    {t('dashboard.admin.users.edit')}
+                                  </Button>
+                                  <Button size="sm" variant="outline" className="rounded-full text-xs" onClick={() => setResetPasswordDialog({ open: true, user: u })} data-testid={`button-reset-pwd-${u.id}`}>
+                                    <Key className="w-3 h-3 mr-1" />{t('dashboard.admin.users.passwordBtn')}
+                                  </Button>
+                                  <Button size="sm" variant="outline" className="rounded-full text-xs" onClick={() => setNoteDialog({ open: true, user: u })} data-testid={`button-note-user-${u.id}`}>
+                                    {t('dashboard.admin.users.messageBtn')}
+                                  </Button>
+                                  <Button size="sm" variant="outline" className="rounded-full text-xs" onClick={() => setDocDialog({ open: true, user: u })} data-testid={`button-doc-user-${u.id}`}>
+                                    Docs
+                                  </Button>
+                                  <Button size="sm" variant="outline" className="rounded-full text-xs" onClick={() => setInvoiceDialog({ open: true, user: u })} data-testid={`button-invoice-user-${u.id}`}>
+                                    {t('dashboard.admin.users.invoiceBtn')}
+                                  </Button>
+                                  <Button size="sm" className="rounded-full text-xs bg-accent hover:bg-accent/90 text-black" onClick={() => setPaymentLinkDialog({ open: true, user: u })} data-testid={`button-payment-link-${u.id}`}>
+                                    {t('dashboard.admin.users.paymentBtn')}
+                                  </Button>
+                                  <Button size="sm" variant="outline" className="rounded-full text-xs text-red-600 border-red-200" onClick={() => setDeleteConfirm({ open: true, user: u })} data-testid={`button-delete-user-${u.id}`}>
+                                    {t('dashboard.admin.users.deleteBtn')}
+                                  </Button>
+                                </div>
                               </div>
-                              <p className="text-xs text-muted-foreground">{u.email}</p>
-                              <p className="text-[10px] text-muted-foreground">
-                                {u.phone && <span className="mr-2">{u.phone}</span>}
-                                {u.businessActivity && <span className="mr-2">• {u.businessActivity}</span>}
-                                {u.city && <span>• {u.city}</span>}
-                              </p>
-                              <div className="flex flex-wrap items-center gap-2 text-[10px] text-muted-foreground">
-                                {u.lastLoginIp && (
-                                  <span className="flex items-center gap-1 bg-muted/50 px-2 py-0.5 rounded-full">
-                                    <span className="font-medium">IP:</span> {u.lastLoginIp}
-                                  </span>
-                                )}
-                                {typeof u.loginCount === 'number' && (
-                                  <span className="flex items-center gap-1 bg-muted/50 px-2 py-0.5 rounded-full">
-                                    <span className="font-medium">Logins:</span> {u.loginCount}
-                                  </span>
-                                )}
-                                {u.securityOtpRequired && (
-                                  <span className="flex items-center gap-1 bg-orange-100 text-orange-700 px-2 py-0.5 rounded-full">
-                                    {t('dashboard.admin.users.otpRequired')}
-                                  </span>
-                                )}
-                              </div>
-                              <div className="w-full">
-                                <Label className="text-[10px] text-muted-foreground mb-1 block">{t('dashboard.admin.users.accountStatus')}</Label>
-                                <NativeSelect 
-                                  value={u.accountStatus || 'active'} 
-                                  onValueChange={val => u.id && updateUserMutation.mutate({ id: u.id, accountStatus: val as any })}
-                                  className="w-full h-9 rounded-full text-xs bg-white dark:bg-card border shadow-sm px-3"
-                                >
-                                  <NativeSelectItem value="active">{t('dashboard.admin.users.verifiedStatus')}</NativeSelectItem>
-                                  <NativeSelectItem value="pending">{t('dashboard.admin.users.inReviewStatus')}</NativeSelectItem>
-                                  <NativeSelectItem value="deactivated">{t('dashboard.admin.users.deactivatedStatus')}</NativeSelectItem>
-                                  <NativeSelectItem value="vip">VIP</NativeSelectItem>
-                                </NativeSelect>
-                              </div>
-                            </div>
-                            <div className="flex flex-wrap gap-2">
-                              <Button size="sm" variant="outline" className="rounded-full text-xs" onClick={() => setEditingUser(u)} data-testid={`button-edit-user-${u.id}`}>
-                                {t('dashboard.admin.users.edit')}
-                              </Button>
-                              <Button size="sm" variant="outline" className="rounded-full text-xs" onClick={() => setResetPasswordDialog({ open: true, user: u })} data-testid={`button-reset-pwd-${u.id}`}>
-                                <Key className="w-3 h-3 mr-1" />{t('dashboard.admin.users.passwordBtn')}
-                              </Button>
-                              <Button size="sm" variant="outline" className="rounded-full text-xs" onClick={() => setNoteDialog({ open: true, user: u })} data-testid={`button-note-user-${u.id}`}>
-                                {t('dashboard.admin.users.messageBtn')}
-                              </Button>
-                              <Button size="sm" variant="outline" className="rounded-full text-xs" onClick={() => setDocDialog({ open: true, user: u })} data-testid={`button-doc-user-${u.id}`}>
-                                Docs
-                              </Button>
-                              <Button size="sm" variant="outline" className="rounded-full text-xs" onClick={() => setInvoiceDialog({ open: true, user: u })} data-testid={`button-invoice-user-${u.id}`}>
-                                {t('dashboard.admin.users.invoiceBtn')}
-                              </Button>
-                              <Button size="sm" className="rounded-full text-xs bg-accent hover:bg-accent/90 text-black" onClick={() => setPaymentLinkDialog({ open: true, user: u })} data-testid={`button-payment-link-${u.id}`}>
-                                {t('dashboard.admin.users.paymentBtn')}
-                              </Button>
-                              <Button size="sm" variant="outline" className="rounded-full text-xs text-red-600 border-red-200" onClick={() => setDeleteConfirm({ open: true, user: u })} data-testid={`button-delete-user-${u.id}`}>
-                                {t('dashboard.admin.users.deleteBtn')}
-                              </Button>
+                            ))}
+                          </div>
+                        </Card>
+                      )}
+                      {usersSubTab === 'newsletter' && (
+                        <Card className="rounded-2xl border-0 shadow-sm p-4 md:p-6">
+                          <div className="space-y-6">
+                            <h4 className="font-black text-sm mb-3">{t('dashboard.admin.newsletterSection.title')} ({adminNewsletterSubs?.length || 0})</h4>
+                            <div className="divide-y max-h-80 overflow-y-auto">
+                              {adminNewsletterSubs?.map((sub: any) => (
+                                <div key={sub.id} className="py-2 flex justify-between items-center gap-2">
+                                  <span className="text-sm truncate flex-1">{sub.email}</span>
+                                  <span className="text-[10px] text-muted-foreground shrink-0">{sub.subscribedAt ? new Date(sub.subscribedAt).toLocaleDateString('es-ES') : ''}</span>
+                                  <Button 
+                                    size="icon" 
+                                    variant="ghost" 
+                                    className="h-7 w-7 text-red-500 hover:text-red-600 hover:bg-red-50 shrink-0"
+                                    onClick={async () => {
+                                      if (!confirm(t('dashboard.admin.newsletterSection.confirmDelete') + ` ${sub.email}?`)) return;
+                                      try {
+                                        await apiRequest("DELETE", `/api/admin/newsletter/${sub.id}`);
+                                        refetchNewsletterSubs();
+                                        setFormMessage({ type: 'success', text: t("dashboard.toasts.subscriberDeleted") });
+                                      } catch (e) {
+                                        setFormMessage({ type: 'error', text: t("common.error") });
+                                      }
+                                    }}
+                                    data-testid={`button-delete-subscriber-${sub.id}`}
+                                  >
+                                    <Trash2 className="w-3 h-3" />
+                                  </Button>
+                                </div>
+                              ))}
+                              {(!adminNewsletterSubs || adminNewsletterSubs.length === 0) && (
+                                <p className="text-sm text-muted-foreground py-4 text-center">{t('dashboard.admin.newsletterSection.noSubscribers')}</p>
+                              )}
                             </div>
                           </div>
-                        ))}
-                      </div>
-                    </Card>
+                        </Card>
+                      )}
+                    </div>
                   )}
                   {adminSubTab === 'calendar' && (
                     <Card className="rounded-2xl border-0 shadow-sm p-4 md:p-6 overflow-hidden">
@@ -3548,246 +3809,127 @@ export default function Dashboard() {
                       </div>
                     </Card>
                   )}
-                  {adminSubTab === 'newsletter' && (
-                    <Card className="rounded-2xl border-0 shadow-sm p-4 md:p-6">
-                      <div className="space-y-6">
-                        <h4 className="font-black text-sm mb-3">{t('dashboard.admin.newsletterSection.title')} ({adminNewsletterSubs?.length || 0})</h4>
-                        <div className="divide-y max-h-80 overflow-y-auto">
-                          {adminNewsletterSubs?.map((sub: any) => (
-                            <div key={sub.id} className="py-2 flex justify-between items-center gap-2">
-                              <span className="text-sm truncate flex-1">{sub.email}</span>
-                              <span className="text-[10px] text-muted-foreground shrink-0">{sub.subscribedAt ? new Date(sub.subscribedAt).toLocaleDateString('es-ES') : ''}</span>
-                              <Button 
-                                size="icon" 
-                                variant="ghost" 
-                                className="h-7 w-7 text-red-500 hover:text-red-600 hover:bg-red-50 shrink-0"
-                                onClick={async () => {
-                                  if (!confirm(t('dashboard.admin.newsletterSection.confirmDelete') + ` ${sub.email}?`)) return;
-                                  try {
-                                    await apiRequest("DELETE", `/api/admin/newsletter/${sub.id}`);
-                                    refetchNewsletterSubs();
-                                    setFormMessage({ type: 'success', text: t("dashboard.toasts.subscriberDeleted") });
-                                  } catch (e) {
-                                    setFormMessage({ type: 'error', text: t("common.error") });
-                                  }
-                                }}
-                                data-testid={`button-delete-subscriber-${sub.id}`}
-                              >
-                                <Trash2 className="w-3 h-3" />
-                              </Button>
-                            </div>
-                          ))}
-                          {(!adminNewsletterSubs || adminNewsletterSubs.length === 0) && (
-                            <p className="text-sm text-muted-foreground py-4 text-center">{t('dashboard.admin.newsletterSection.noSubscribers')}</p>
-                          )}
-                        </div>
+                  {adminSubTab === 'billing' && (
+                    <div className="space-y-4">
+                      <div className="flex gap-2 mb-4">
+                        <Button
+                          variant={billingSubTab === 'invoices' ? 'default' : 'outline'}
+                          size="sm"
+                          className={`rounded-full text-xs font-bold ${billingSubTab === 'invoices' ? 'bg-accent text-accent-foreground' : ''}`}
+                          onClick={() => setBillingSubTab('invoices')}
+                          data-testid="button-billing-subtab-invoices"
+                        >
+                          {t('dashboard.admin.tabs.invoices')}
+                        </Button>
+                        <Button
+                          variant={billingSubTab === 'accounting' ? 'default' : 'outline'}
+                          size="sm"
+                          className={`rounded-full text-xs font-bold ${billingSubTab === 'accounting' ? 'bg-accent text-accent-foreground' : ''}`}
+                          onClick={() => setBillingSubTab('accounting')}
+                          data-testid="button-billing-subtab-accounting"
+                        >
+                          {t('dashboard.admin.tabs.accounting')}
+                        </Button>
                       </div>
-                    </Card>
-                  )}
-                  {adminSubTab === 'inbox' && (
-                    <Card className="rounded-2xl border-0 shadow-sm p-0 overflow-hidden">
-                      <div className="divide-y">
-                        {adminMessages?.map((msg: any) => (
-                          <div 
-                            key={msg.id} 
-                            className="p-4 space-y-2 hover:bg-accent/5 cursor-pointer transition-colors"
-                            onClick={() => setSelectedMessage(selectedMessage?.id === msg.id ? null : msg)}
-                            data-testid={`inbox-message-${msg.id}`}
-                          >
-                            <div className="flex justify-between items-start gap-2">
-                              <div className="min-w-0 flex-1">
-                                <p className="font-black text-xs md:text-sm">{msg.firstName} {msg.lastName}</p>
-                                <p className="text-[10px] md:text-xs text-muted-foreground truncate">{msg.email}</p>
-                              </div>
-                              <div className="flex items-center gap-1 shrink-0">
-                                <Badge variant="outline" className="text-[8px] md:text-[10px] hidden md:inline-flex">{msg.messageId || msg.id}</Badge>
-                                <Badge variant={msg.status === 'archived' ? 'secondary' : 'default'} className="text-[8px] md:text-[10px]">{msg.status === 'archived' ? t('dashboard.admin.inboxSection.archived') : msg.status || t('dashboard.admin.inboxSection.pendingStatus')}</Badge>
-                                {msg.status !== 'archived' && (
-                                  <Button 
-                                    size="icon" 
-                                    variant="ghost" 
-                                    className="h-6 w-6 md:h-7 md:w-7 text-muted-foreground hover:text-foreground" 
-                                    onClick={async (e) => {
-                                      e.stopPropagation();
-                                      try {
-                                        await apiRequest("PATCH", `/api/admin/messages/${msg.id}/archive`);
-                                        queryClient.invalidateQueries({ queryKey: ["/api/admin/messages"] });
-                                        setFormMessage({ type: 'success', text: t("dashboard.toasts.messageArchived") });
-                                      } catch { setFormMessage({ type: 'error', text: t("common.error") }); }
-                                    }}
-                                    data-testid={`btn-archive-msg-${msg.id}`}
-                                    title="Archivar"
-                                  >
-                                    <Archive className="w-3 h-3 md:w-3.5 md:h-3.5" />
-                                  </Button>
-                                )}
-                                <Button 
-                                  size="icon" 
-                                  variant="ghost" 
-                                  className="h-6 w-6 md:h-7 md:w-7 text-red-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20" 
-                                  onClick={async (e) => {
-                                    e.stopPropagation();
-                                    if (confirm(t('dashboard.admin.inboxSection.confirmDeleteMsg'))) {
-                                      try {
-                                        await apiRequest("DELETE", `/api/admin/messages/${msg.id}`);
-                                        queryClient.invalidateQueries({ queryKey: ["/api/admin/messages"] });
-                                        setFormMessage({ type: 'success', text: t("dashboard.toasts.messageDeleted") });
-                                      } catch { setFormMessage({ type: 'error', text: t("common.error") }); }
-                                    }
-                                  }}
-                                  data-testid={`btn-delete-msg-${msg.id}`}
-                                >
-                                  <Trash2 className="w-3 h-3 md:w-3.5 md:h-3.5" />
-                                </Button>
-                              </div>
-                            </div>
-                            <p className="text-xs font-medium">{msg.subject}</p>
-                            <p className="text-xs text-muted-foreground">{msg.message}</p>
-                            
-                            {msg.replies && msg.replies.length > 0 && (
-                              <div className="pl-4 border-l-2 border-accent/30 space-y-2 mt-3">
-                                {msg.replies.map((reply: any) => (
-                                  <div key={reply.id} className="text-xs">
-                                    <span className={`font-semibold ${reply.isAdmin ? 'text-accent' : 'text-muted-foreground'}`}>
-                                      {reply.isAdmin ? t('dashboard.admin.inboxSection.adminLabel') : t('dashboard.admin.inboxSection.clientLabel')}:
-                                    </span>
-                                    <span className="ml-2">{reply.content}</span>
-                                    <span className="text-[10px] text-muted-foreground ml-2">
-                                      {reply.createdAt && new Date(reply.createdAt).toLocaleString('es-ES')}
-                                    </span>
-                                  </div>
-                                ))}
-                              </div>
-                            )}
-                            
-                            <p className="text-[10px] text-muted-foreground">{msg.createdAt ? new Date(msg.createdAt).toLocaleString('es-ES') : ''}</p>
-                            
-                            {selectedMessage?.id === msg.id && (
-                              <div className="space-y-2 pt-3 border-t mt-2" onClick={(e) => e.stopPropagation()}>
-                                <Textarea 
-                                  value={replyContent} 
-                                  onChange={(e) => setReplyContent(e.target.value)} 
-                                  placeholder={t('dashboard.admin.inboxSection.replyPlaceholder')} 
-                                  className="rounded-xl min-h-[80px] text-sm"
-                                  data-testid="input-admin-reply"
-                                />
-                                <Button 
-                                  onClick={() => sendReplyMutation.mutate(msg.id)} 
-                                  disabled={!replyContent.trim() || sendReplyMutation.isPending} 
-                                  className="bg-accent text-accent-foreground font-semibold rounded-full px-6"
-                                  data-testid="button-send-admin-reply"
-                                >
-                                  {sendReplyMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4 mr-2" />}
-                                  {t('dashboard.admin.inboxSection.sendReply')}
-                                </Button>
-                              </div>
-                            )}
+                      {billingSubTab === 'invoices' && (
+                        <div className="space-y-4" data-testid="admin-facturas-section">
+                          <div className="flex justify-between items-center">
+                            <h3 className="text-sm font-bold">{t('dashboard.admin.invoicesSection.title')}</h3>
                           </div>
-                        ))}
-                        {(!adminMessages || adminMessages.length === 0) && (
-                          <div className="text-center py-8 text-muted-foreground text-sm">{t('dashboard.admin.inboxSection.noMessages')}</div>
-                        )}
-                      </div>
-                    </Card>
-                  )}
-                  {adminSubTab === 'facturas' && (
-                    <div className="space-y-4" data-testid="admin-facturas-section">
-                      <div className="flex justify-between items-center">
-                        <h3 className="text-sm font-bold">{t('dashboard.admin.invoicesSection.title')}</h3>
-                      </div>
-                      <Card className="rounded-2xl border-0 shadow-sm overflow-hidden">
-                        <div className="divide-y max-h-[60vh] overflow-y-auto">
-                          {adminInvoices?.length === 0 && (
-                            <p className="p-4 text-sm text-muted-foreground text-center">{t('dashboard.admin.invoicesSection.noInvoices')}</p>
-                          )}
-                          {adminInvoices?.map((inv: any) => (
-                            <div key={inv.id} className="p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3" data-testid={`invoice-row-${inv.id}`}>
-                              <div className="space-y-1">
-                                <div className="flex items-center gap-2 flex-wrap">
-                                  <span className="font-black text-sm">{inv.fileName || `${t('dashboard.admin.invoicesSection.invoiceLabel')} ${inv.order?.invoiceNumber}`}</span>
-                                  <Badge variant={inv.order?.status === 'paid' || inv.order?.status === 'completed' ? "default" : "secondary"} className="text-[10px]">
-                                    {inv.order?.status === 'paid' ? t('dashboard.admin.invoicesSection.paid') : inv.order?.status === 'completed' ? t('dashboard.admin.invoicesSection.completedStatus') : inv.order?.status === 'pending' ? t('dashboard.admin.invoicesSection.pendingStatus') : inv.order?.status || 'N/A'}
-                                  </Badge>
+                          <Card className="rounded-2xl border-0 shadow-sm overflow-hidden">
+                            <div className="divide-y max-h-[60vh] overflow-y-auto">
+                              {adminInvoices?.length === 0 && (
+                                <p className="p-4 text-sm text-muted-foreground text-center">{t('dashboard.admin.invoicesSection.noInvoices')}</p>
+                              )}
+                              {adminInvoices?.map((inv: any) => (
+                                <div key={inv.id} className="p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3" data-testid={`invoice-row-${inv.id}`}>
+                                  <div className="space-y-1">
+                                    <div className="flex items-center gap-2 flex-wrap">
+                                      <span className="font-black text-sm">{inv.fileName || `${t('dashboard.admin.invoicesSection.invoiceLabel')} ${inv.order?.invoiceNumber}`}</span>
+                                      <Badge variant={inv.order?.status === 'paid' || inv.order?.status === 'completed' ? "default" : "secondary"} className="text-[10px]">
+                                        {inv.order?.status === 'paid' ? t('dashboard.admin.invoicesSection.paid') : inv.order?.status === 'completed' ? t('dashboard.admin.invoicesSection.completedStatus') : inv.order?.status === 'pending' ? t('dashboard.admin.invoicesSection.pendingStatus') : inv.order?.status || 'N/A'}
+                                      </Badge>
+                                    </div>
+                                    <p className="text-xs text-muted-foreground">
+                                      {inv.user?.firstName} {inv.user?.lastName} ({inv.user?.email})
+                                    </p>
+                                    <p className="text-xs text-muted-foreground">
+                                      {t('dashboard.admin.invoicesSection.amountLabel')}: {inv.order?.amount ? ((inv.order.amount / 100).toFixed(2) + (inv.order.currency === 'USD' ? ' $' : ' €')) : 'N/A'} | 
+                                      {t('dashboard.admin.invoicesSection.date')}: {inv.createdAt ? new Date(inv.createdAt).toLocaleDateString('es-ES') : 'N/A'}
+                                    </p>
+                                  </div>
+                                  <div className="flex gap-2 flex-wrap">
+                                    <NativeSelect
+                                      value={inv.order?.status || 'pending'}
+                                      onValueChange={async (newStatus) => {
+                                        try {
+                                          await apiRequest("PATCH", `/api/admin/invoices/${inv.id}/status`, { status: newStatus });
+                                          queryClient.invalidateQueries({ queryKey: ["/api/admin/invoices"] });
+                                          setFormMessage({ type: 'success', text: t("dashboard.toasts.statusUpdated") });
+                                        } catch {
+                                          setFormMessage({ type: 'error', text: t("common.error") });
+                                        }
+                                      }}
+                                      className="h-8 text-[10px] rounded-full px-2 min-w-[90px]"
+                                    >
+                                      <option value="pending">{t('dashboard.admin.invoicesSection.pendingStatus')}</option>
+                                      <option value="paid">{t('dashboard.admin.invoicesSection.paid')}</option>
+                                      <option value="completed">{t('dashboard.admin.invoicesSection.completedStatus')}</option>
+                                      <option value="cancelled">{t('dashboard.admin.invoicesSection.cancelledStatus')}</option>
+                                      <option value="refunded">{t('dashboard.admin.invoicesSection.refundedStatus')}</option>
+                                    </NativeSelect>
+                                    <Button 
+                                      variant="outline" 
+                                      size="sm" 
+                                      className="rounded-full text-xs"
+                                      onClick={() => window.open(inv.fileUrl || `/api/orders/${inv.orderId}/invoice`, '_blank')}
+                                      data-testid={`button-view-invoice-${inv.id}`}
+                                    >
+                                      <Eye className="w-3 h-3 mr-1" /> {t('dashboard.admin.invoicesSection.view')}
+                                    </Button>
+                                    <Button 
+                                      variant="outline" 
+                                      size="sm" 
+                                      className="rounded-full text-xs"
+                                      onClick={() => {
+                                        const link = document.createElement('a');
+                                        link.href = inv.fileUrl || `/api/orders/${inv.orderId}/invoice`;
+                                        link.download = `Factura-${inv.order?.invoiceNumber || inv.id}.pdf`;
+                                        link.click();
+                                      }}
+                                      data-testid={`button-download-invoice-${inv.id}`}
+                                    >
+                                      <Download className="w-3 h-3 mr-1" /> {t('dashboard.admin.invoicesSection.download')}
+                                    </Button>
+                                    <Button 
+                                      variant="outline" 
+                                      size="sm" 
+                                      className="rounded-full text-xs text-red-600 border-red-200 hover:bg-red-50"
+                                      onClick={async () => {
+                                        if (!confirm(t('dashboard.admin.invoicesSection.confirmDeleteInvoice'))) return;
+                                        try {
+                                          await apiRequest("DELETE", `/api/admin/invoices/${inv.id}`);
+                                          queryClient.invalidateQueries({ queryKey: ["/api/admin/invoices"] });
+                                          setFormMessage({ type: 'success', text: t("dashboard.toasts.invoiceDeleted") });
+                                        } catch {
+                                          setFormMessage({ type: 'error', text: t("common.error") });
+                                        }
+                                      }}
+                                      data-testid={`button-delete-invoice-${inv.id}`}
+                                    >
+                                      <Trash2 className="w-3 h-3" />
+                                    </Button>
+                                  </div>
                                 </div>
-                                <p className="text-xs text-muted-foreground">
-                                  {inv.user?.firstName} {inv.user?.lastName} ({inv.user?.email})
-                                </p>
-                                <p className="text-xs text-muted-foreground">
-                                  {t('dashboard.admin.invoicesSection.amountLabel')}: {inv.order?.amount ? ((inv.order.amount / 100).toFixed(2) + (inv.order.currency === 'USD' ? ' $' : ' €')) : 'N/A'} | 
-                                  {t('dashboard.admin.invoicesSection.date')}: {inv.createdAt ? new Date(inv.createdAt).toLocaleDateString('es-ES') : 'N/A'}
-                                </p>
-                              </div>
-                              <div className="flex gap-2 flex-wrap">
-                                <NativeSelect
-                                  value={inv.order?.status || 'pending'}
-                                  onValueChange={async (newStatus) => {
-                                    try {
-                                      await apiRequest("PATCH", `/api/admin/invoices/${inv.id}/status`, { status: newStatus });
-                                      queryClient.invalidateQueries({ queryKey: ["/api/admin/invoices"] });
-                                      setFormMessage({ type: 'success', text: t("dashboard.toasts.statusUpdated") });
-                                    } catch {
-                                      setFormMessage({ type: 'error', text: t("common.error") });
-                                    }
-                                  }}
-                                  className="h-8 text-[10px] rounded-full px-2 min-w-[90px]"
-                                >
-                                  <option value="pending">{t('dashboard.admin.invoicesSection.pendingStatus')}</option>
-                                  <option value="paid">{t('dashboard.admin.invoicesSection.paid')}</option>
-                                  <option value="completed">{t('dashboard.admin.invoicesSection.completedStatus')}</option>
-                                  <option value="cancelled">{t('dashboard.admin.invoicesSection.cancelledStatus')}</option>
-                                  <option value="refunded">{t('dashboard.admin.invoicesSection.refundedStatus')}</option>
-                                </NativeSelect>
-                                <Button 
-                                  variant="outline" 
-                                  size="sm" 
-                                  className="rounded-full text-xs"
-                                  onClick={() => window.open(inv.fileUrl || `/api/orders/${inv.orderId}/invoice`, '_blank')}
-                                  data-testid={`button-view-invoice-${inv.id}`}
-                                >
-                                  <Eye className="w-3 h-3 mr-1" /> {t('dashboard.admin.invoicesSection.view')}
-                                </Button>
-                                <Button 
-                                  variant="outline" 
-                                  size="sm" 
-                                  className="rounded-full text-xs"
-                                  onClick={() => {
-                                    const link = document.createElement('a');
-                                    link.href = inv.fileUrl || `/api/orders/${inv.orderId}/invoice`;
-                                    link.download = `Factura-${inv.order?.invoiceNumber || inv.id}.pdf`;
-                                    link.click();
-                                  }}
-                                  data-testid={`button-download-invoice-${inv.id}`}
-                                >
-                                  <Download className="w-3 h-3 mr-1" /> {t('dashboard.admin.invoicesSection.download')}
-                                </Button>
-                                <Button 
-                                  variant="outline" 
-                                  size="sm" 
-                                  className="rounded-full text-xs text-red-600 border-red-200 hover:bg-red-50"
-                                  onClick={async () => {
-                                    if (!confirm(t('dashboard.admin.invoicesSection.confirmDeleteInvoice'))) return;
-                                    try {
-                                      await apiRequest("DELETE", `/api/admin/invoices/${inv.id}`);
-                                      queryClient.invalidateQueries({ queryKey: ["/api/admin/invoices"] });
-                                      setFormMessage({ type: 'success', text: t("dashboard.toasts.invoiceDeleted") });
-                                    } catch {
-                                      setFormMessage({ type: 'error', text: t("common.error") });
-                                    }
-                                  }}
-                                  data-testid={`button-delete-invoice-${inv.id}`}
-                                >
-                                  <Trash2 className="w-3 h-3" />
-                                </Button>
-                              </div>
+                              ))}
                             </div>
-                          ))}
+                          </Card>
                         </div>
-                      </Card>
+                      )}
+                      {billingSubTab === 'accounting' && (
+                        <AdminAccountingPanel />
+                      )}
                     </div>
-                  )}
-
-                  {adminSubTab === 'accounting' && (
-                    <AdminAccountingPanel />
                   )}
 
                   {adminSubTab === 'descuentos' && (

@@ -8,7 +8,7 @@ import { insertLlcApplicationSchema, insertApplicationDocumentSchema } from "@sh
 import type { Request, Response } from "express";
 import { db } from "./db";
 import { sendEmail, sendTrustpilotEmail, getOtpEmailTemplate, getConfirmationEmailTemplate, getWelcomeEmailTemplate, getNewsletterWelcomeTemplate, getAutoReplyTemplate, getEmailFooter, getEmailHeader, getOrderUpdateTemplate, getNoteReceivedTemplate, getAccountDeactivatedTemplate, getAccountUnderReviewTemplate, getOrderCompletedTemplate, getAccountVipTemplate, getAccountReactivatedTemplate, getAdminNoteTemplate, getPaymentRequestTemplate, getDocumentRequestTemplate, getDocumentUploadedTemplate, getMessageReplyTemplate, getPasswordChangeOtpTemplate, getOrderEventTemplate, getAdminLLCOrderTemplate, getAdminMaintenanceOrderTemplate, getAccountPendingVerificationTemplate, getAdminPasswordResetTemplate } from "./lib/email";
-import { contactOtps, products as productsTable, users as usersTable, maintenanceApplications, newsletterSubscribers, messages as messagesTable, orderEvents, messageReplies, userNotifications, orders as ordersTable, llcApplications as llcApplicationsTable, applicationDocuments as applicationDocumentsTable, discountCodes, calculatorConsultations, consultationTypes, consultationAvailability, consultationBlockedDates, consultationBookings, accountingTransactions } from "@shared/schema";
+import { contactOtps, products as productsTable, users as usersTable, maintenanceApplications, newsletterSubscribers, messages as messagesTable, orderEvents, messageReplies, userNotifications, orders as ordersTable, llcApplications as llcApplicationsTable, applicationDocuments as applicationDocumentsTable, discountCodes, calculatorConsultations, consultationTypes, consultationAvailability, consultationBlockedDates, consultationBookings, accountingTransactions, guestVisitors } from "@shared/schema";
 import { and, eq, gt, desc, sql, isNotNull, inArray } from "drizzle-orm";
 import { checkRateLimit, sanitizeHtml, logAudit, getSystemHealth, getClientIp, getRecentAuditLogs, validatePassword } from "./lib/security";
 import { generateOrderInvoice, type InvoiceData } from "./lib/pdf-generator";
@@ -1596,7 +1596,7 @@ export async function registerRoutes(
     }
   });
 
-  // Calculator consultations - Save consultation
+  // Calculator consultations - Save consultation + guest record
   app.post("/api/calculator/consultation", async (req, res) => {
     try {
       const { email, income, country, savings } = z.object({
@@ -1612,6 +1612,17 @@ export async function registerRoutes(
         country,
         savings: savings || 0,
         isRead: false
+      });
+
+      await storage.createGuestVisitor({
+        email,
+        source: 'calculator',
+        ip: getClientIp(req),
+        userAgent: req.headers['user-agent'] || null,
+        language: req.headers['accept-language']?.split(',')[0] || null,
+        page: '/tools/price-calculator',
+        referrer: req.headers['referer'] || null,
+        metadata: JSON.stringify({ income, country, savings: savings || 0 }),
       });
 
       res.json({ success: true });
@@ -1639,6 +1650,70 @@ export async function registerRoutes(
       res.json({ success: true });
     } catch (error) {
       res.status(500).json({ message: "Error al marcar como leída" });
+    }
+  });
+
+  // ============== GUEST VISITOR TRACKING ==============
+
+  app.post("/api/guest/track", async (req, res) => {
+    try {
+      const data = z.object({
+        email: z.string().email().optional(),
+        source: z.string().min(1),
+        page: z.string().optional(),
+        metadata: z.string().optional(),
+      }).parse(req.body);
+
+      await storage.createGuestVisitor({
+        email: data.email || null,
+        source: data.source,
+        ip: getClientIp(req),
+        userAgent: req.headers['user-agent'] || null,
+        language: req.headers['accept-language']?.split(',')[0] || null,
+        page: data.page || null,
+        referrer: req.headers['referer'] || null,
+        metadata: data.metadata || null,
+      });
+
+      res.json({ success: true });
+    } catch (error) {
+      res.status(400).json({ message: "Invalid tracking data" });
+    }
+  });
+
+  app.get("/api/admin/guests", isAdmin, async (req, res) => {
+    try {
+      const guests = await storage.getAllGuestVisitors();
+      res.json(guests);
+    } catch (error) {
+      res.status(500).json({ message: "Error fetching guests" });
+    }
+  });
+
+  app.get("/api/admin/guests/stats", isAdmin, async (req, res) => {
+    try {
+      const stats = await storage.getGuestVisitorStats();
+      res.json(stats);
+    } catch (error) {
+      res.status(500).json({ message: "Error fetching guest stats" });
+    }
+  });
+
+  app.delete("/api/admin/guests/:id", isAdmin, async (req, res) => {
+    try {
+      await storage.deleteGuestVisitor(parseInt(req.params.id));
+      res.json({ success: true });
+    } catch (error) {
+      res.status(500).json({ message: "Error deleting guest" });
+    }
+  });
+
+  app.delete("/api/admin/guests/email/:email", isAdmin, async (req, res) => {
+    try {
+      const count = await storage.deleteGuestVisitorsByEmail(decodeURIComponent(req.params.email));
+      res.json({ success: true, deleted: count });
+    } catch (error) {
+      res.status(500).json({ message: "Error deleting guest records" });
     }
   });
 
@@ -4446,6 +4521,17 @@ export async function registerRoutes(
 
       await storage.subscribeToNewsletter(targetEmail);
 
+      await storage.createGuestVisitor({
+        email: targetEmail,
+        source: 'newsletter',
+        ip: getClientIp(req),
+        userAgent: req.headers['user-agent'] || null,
+        language: req.headers['accept-language']?.split(',')[0] || null,
+        page: req.headers['referer'] || null,
+        referrer: null,
+        metadata: null,
+      }).catch(() => {});
+
       // NOTIFICATION: Newsletter subscription
       const [user] = await db.select().from(usersTable).where(eq(usersTable.email, targetEmail)).limit(1);
       if (user) {
@@ -4895,6 +4981,17 @@ export async function registerRoutes(
         subject: `Hemos recibido tu mensaje - Ticket #${ticketId}`,
         html: getAutoReplyTemplate(ticketId, sanitizedData.nombre),
       });
+
+      await storage.createGuestVisitor({
+        email: contactData.email,
+        source: 'contact',
+        ip: clientIp,
+        userAgent: req.headers['user-agent'] || null,
+        language: req.headers['accept-language']?.split(',')[0] || null,
+        page: '/contacto',
+        referrer: req.headers['referer'] || null,
+        metadata: JSON.stringify({ name: `${sanitizedData.nombre} ${sanitizedData.apellido}`, subject: sanitizedData.subject }),
+      }).catch(() => {});
 
       logAudit({ action: 'order_created', ip: clientIp, details: { ticketId, type: 'contact' } });
       res.json({ success: true, ticketId });

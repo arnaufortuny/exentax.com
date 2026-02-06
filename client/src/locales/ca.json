@@ -1494,14 +1494,11 @@
       "tabs": {
         "metrics": "Mètriques",
         "orders": "Comandes",
-        "consultations": "Consultes",
+        "communications": "Comunicacions",
         "incomplete": "Incompletes",
         "clients": "Clients",
-        "invoices": "Factures",
-        "accounting": "Comptabilitat",
+        "billing": "Facturació",
         "docs": "Docs",
-        "newsletter": "News",
-        "inbox": "Inbox",
         "discounts": "Descomptes"
       },
       "newOrder": "Nova Comanda",
@@ -1699,6 +1696,37 @@
         "reject": "Rebutjar",
         "confirmDelete": "Eliminar aquest document permanentment?",
         "noDocs": "No hi ha documents pujats per clients"
+      },
+      "guestSection": {
+        "title": "Visitants",
+        "guests": "Visitants",
+        "totalVisitors": "Total visitants",
+        "withEmail": "Amb email",
+        "sources": "Fonts",
+        "calculator": "Calculadora",
+        "contact": "Contacte",
+        "newsletter": "Newsletter",
+        "noGuests": "No hi ha visitants registrats",
+        "confirmDelete": "Eliminar aquest registre de visitant?",
+        "confirmDeleteAll": "Eliminar tots els registres d'aquest email?",
+        "deleteAll": "Eliminar tots",
+        "source": "Font",
+        "date": "Data",
+        "page": "Pàgina",
+        "ip": "IP",
+        "details": "Detalls"
+      },
+      "communicationsSubTabs": {
+        "inbox": "Safata",
+        "agenda": "Agenda"
+      },
+      "clientsSubTabs": {
+        "users": "Usuaris",
+        "newsletter": "Butlletí"
+      },
+      "billingSubTabs": {
+        "invoices": "Factures",
+        "accounting": "Comptabilitat"
       },
       "newsletterSection": {
         "title": "Llista de Subscriptors",

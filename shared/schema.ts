@@ -525,3 +525,23 @@ export const accountingTransactions = pgTable("accounting_transactions", {
 export const insertAccountingTransactionSchema = createInsertSchema(accountingTransactions).omit({ id: true, createdAt: true, updatedAt: true });
 export type AccountingTransaction = typeof accountingTransactions.$inferSelect;
 export type InsertAccountingTransaction = z.infer<typeof insertAccountingTransactionSchema>;
+
+export const guestVisitors = pgTable("guest_visitors", {
+  id: serial("id").primaryKey(),
+  email: text("email"),
+  source: text("source").notNull(),
+  ip: text("ip"),
+  userAgent: text("user_agent"),
+  language: text("language"),
+  page: text("page"),
+  referrer: text("referrer"),
+  metadata: text("metadata"),
+  createdAt: timestamp("created_at").defaultNow(),
+}, (table) => ({
+  emailIdx: index("guest_visitors_email_idx").on(table.email),
+  sourceIdx: index("guest_visitors_source_idx").on(table.source),
+}));
+
+export const insertGuestVisitorSchema = createInsertSchema(guestVisitors).omit({ id: true, createdAt: true });
+export type GuestVisitor = typeof guestVisitors.$inferSelect;
+export type InsertGuestVisitor = z.infer<typeof insertGuestVisitorSchema>;

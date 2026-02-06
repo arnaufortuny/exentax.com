@@ -1494,14 +1494,11 @@
       "tabs": {
         "metrics": "Metrics",
         "orders": "Orders",
-        "consultations": "Consultations",
+        "communications": "Communications",
         "incomplete": "Incomplete",
         "clients": "Clients",
-        "invoices": "Invoices",
-        "accounting": "Accounting",
+        "billing": "Billing",
         "docs": "Docs",
-        "newsletter": "News",
-        "inbox": "Inbox",
         "discounts": "Discounts"
       },
       "newOrder": "New Order",
@@ -1699,6 +1696,37 @@
         "reject": "Reject",
         "confirmDelete": "Delete this document permanently?",
         "noDocs": "No documents uploaded by clients"
+      },
+      "guestSection": {
+        "title": "Visitors",
+        "guests": "Visitors",
+        "totalVisitors": "Total visitors",
+        "withEmail": "With email",
+        "sources": "Sources",
+        "calculator": "Calculator",
+        "contact": "Contact",
+        "newsletter": "Newsletter",
+        "noGuests": "No visitors recorded",
+        "confirmDelete": "Delete this visitor record?",
+        "confirmDeleteAll": "Delete all records for this email?",
+        "deleteAll": "Delete all",
+        "source": "Source",
+        "date": "Date",
+        "page": "Page",
+        "ip": "IP",
+        "details": "Details"
+      },
+      "communicationsSubTabs": {
+        "inbox": "Inbox",
+        "agenda": "Agenda"
+      },
+      "clientsSubTabs": {
+        "users": "Users",
+        "newsletter": "Newsletter"
+      },
+      "billingSubTabs": {
+        "invoices": "Invoices",
+        "accounting": "Accounting"
       },
       "newsletterSection": {
         "title": "Subscriber List",
