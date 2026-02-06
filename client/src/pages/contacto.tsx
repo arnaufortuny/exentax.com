@@ -340,13 +340,9 @@ export default function Contacto() {
                     {!isAuthenticated && (
                       <div className="pt-4">
                         <SocialLogin mode="login" />
-                        <p className="text-center text-sm mt-3">
-                          <Link href="/auth/login">
-                            <span className="text-accent font-bold hover:underline cursor-pointer">
-                              o Inicia sesión con email para ir más rápido
-                            </span>
-                          </Link>
-                        </p>
+                        <Link href="/auth/login" className="block text-center text-xs text-accent font-bold underline mt-3" data-testid="link-login-email-contact">
+                          {t("application.orLoginWithEmail")}
+                        </Link>
                       </div>
                     )}
                   </div>
