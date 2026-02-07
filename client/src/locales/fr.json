@@ -528,6 +528,23 @@
       "name": "SANS QUE VOUS",
       "nameLine2": "AYEZ À VOUS SOUCIER",
       "subtitle": "Votre société n'est pas seulement créée, elle est maintenue. Et nous sommes là pour nous assurer que tout continue à fonctionner correctement année après année."
+    },
+    "additionalServices": {
+      "title": "SERVICES SUPPLÉMENTAIRES",
+      "subtitle": "Complétez votre expérience LLC avec des conseils d'experts",
+      "consultation": {
+        "title": "Consultation Personnalisée",
+        "description": "Appel vidéo privé de 30 minutes avec un expert en création d'entreprises aux USA",
+        "duration": "30 min",
+        "features": ["Conseil fiscal personnalisé", "Stratégie de création LLC", "Résolution de questions spécifiques"],
+        "cta": "Réserver une consultation"
+      },
+      "dissolution": {
+        "title": "Dissolution de LLC",
+        "description": "Fermeture complète et ordonnée de votre LLC incluant toutes les démarches étatiques et fédérales",
+        "features": ["Dissolution étatique complète", "Annulation de l'EIN", "Notification à l'IRS", "Documentation officielle"],
+        "cta": "Demander la dissolution"
+      }
     }
   },
   "stateComparison": {

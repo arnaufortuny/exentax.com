@@ -528,6 +528,23 @@
       "name": "SENSE QUE T'HAGIS",
       "nameLine2": "DE PREOCUPAR",
       "subtitle": "La teva empresa no només es crea, es manté. I som aquí per assegurar-nos que tot segueixi funcionant correctament any rere any."
+    },
+    "additionalServices": {
+      "title": "SERVEIS ADDICIONALS",
+      "subtitle": "Completa la teva experiència LLC amb assessorament expert",
+      "consultation": {
+        "title": "Consulta Personalitzada",
+        "description": "Videotrucada privada de 30 minuts amb un expert en formació d'empreses als EUA",
+        "duration": "30 min",
+        "features": ["Assessorament fiscal personalitzat", "Estratègia de formació LLC", "Resolució de dubtes específics"],
+        "cta": "Programar consulta"
+      },
+      "dissolution": {
+        "title": "Dissolució de LLC",
+        "description": "Tancament complet i ordenat de la teva LLC incloent tots els tràmits estatals i federals",
+        "features": ["Dissolució estatal completa", "Cancel·lació de l'EIN", "Notificació a l'IRS", "Documentació oficial"],
+        "cta": "Sol·licitar dissolució"
+      }
     }
   },
   "stateComparison": {

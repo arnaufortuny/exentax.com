@@ -528,6 +528,23 @@
       "name": "SENZA CHE TU DEBBA",
       "nameLine2": "PREOCCUPARTI",
       "subtitle": "La tua impresa non si crea soltanto, si mantiene. E noi siamo qui per assicurarci che tutto continui a funzionare correttamente anno dopo anno."
+    },
+    "additionalServices": {
+      "title": "SERVIZI AGGIUNTIVI",
+      "subtitle": "Completa la tua esperienza LLC con la consulenza di esperti",
+      "consultation": {
+        "title": "Consulenza Personalizzata",
+        "description": "Videochiamata privata di 30 minuti con un esperto di costituzione aziendale negli USA",
+        "duration": "30 min",
+        "features": ["Consulenza fiscale personalizzata", "Strategia di costituzione LLC", "Risoluzione di dubbi specifici"],
+        "cta": "Prenota consulenza"
+      },
+      "dissolution": {
+        "title": "Dissoluzione LLC",
+        "description": "Chiusura completa e ordinata della tua LLC comprese tutte le procedure statali e federali",
+        "features": ["Dissoluzione statale completa", "Cancellazione EIN", "Notifica all'IRS", "Documentazione ufficiale"],
+        "cta": "Richiedi dissoluzione"
+      }
     }
   },
   "stateComparison": {

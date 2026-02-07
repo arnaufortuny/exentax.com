@@ -127,7 +127,7 @@ export default function Dashboard() {
   const [adminSubTab, setAdminSubTab] = useState(user?.isSupport && !user?.isAdmin ? "orders" : "dashboard");
   const [commSubTab, setCommSubTab] = useState<'inbox' | 'agenda'>('inbox');
   const [usersSubTab, setUsersSubTab] = useState<'users' | 'newsletter'>('users');
-  const [billingSubTab, setBillingSubTab] = useState<'invoices' | 'accounting'>('invoices');
+  const [billingSubTab, setBillingSubTab] = useState<'invoices' | 'accounting' | 'payment-methods'>('invoices');
   const [adminSearchQuery, setAdminSearchQuery] = useState("");
   const [adminSearchFilter, setAdminSearchFilter] = useState<'all' | 'name' | 'email' | 'date' | 'invoiceId'>('all');
   const [createUserDialog, setCreateUserDialog] = useState(false);
@@ -806,7 +806,6 @@ export default function Dashboard() {
       { id: 'admin-billing', subTab: 'billing', label: t('dashboard.admin.tabs.billing'), icon: Receipt, mobileLabel: t('dashboard.admin.tabs.billing'), adminOnly: true },
       { id: 'admin-calendar', subTab: 'calendar', label: t('dashboard.calendar.dates'), icon: Calendar, mobileLabel: t('dashboard.calendar.dates'), adminOnly: false },
       { id: 'admin-docs', subTab: 'docs', label: t('dashboard.admin.tabs.docs'), icon: FileText, mobileLabel: t('dashboard.admin.tabs.docs'), adminOnly: false },
-      { id: 'admin-payments-config', subTab: 'payment-accounts', label: t('dashboard.admin.tabs.paymentAccounts', 'Métodos de pago'), icon: CreditCard, mobileLabel: t('dashboard.admin.tabs.paymentAccounts', 'Métodos de pago'), adminOnly: true },
       { id: 'admin-discounts', subTab: 'descuentos', label: t('dashboard.admin.tabs.discounts'), icon: Tag, mobileLabel: t('dashboard.admin.tabs.discounts'), adminOnly: true },
       { id: 'admin-activity', subTab: 'activity', label: t('dashboard.admin.tabs.activity', 'Activity Log'), icon: ClipboardList, mobileLabel: t('dashboard.admin.tabs.activity', 'Activity'), adminOnly: true },
     ];
@@ -4070,6 +4069,15 @@ export default function Dashboard() {
                         >
                           {t('dashboard.admin.tabs.accounting')}
                         </Button>
+                        <Button
+                          variant={billingSubTab === 'payment-methods' ? 'default' : 'outline'}
+                          size="sm"
+                          className={`rounded-full text-xs font-black ${billingSubTab === 'payment-methods' ? 'bg-accent text-accent-foreground' : ''}`}
+                          onClick={() => setBillingSubTab('payment-methods')}
+                          data-testid="button-billing-subtab-payment-methods"
+                        >
+                          {t('dashboard.admin.tabs.paymentAccounts')}
+                        </Button>
                       </div>
                       {billingSubTab === 'invoices' && (
                         <div className="space-y-4" data-testid="admin-facturas-section">
@@ -4174,200 +4182,177 @@ export default function Dashboard() {
                       {billingSubTab === 'accounting' && (
                         <AdminAccountingPanel />
                       )}
-                    </div>
-                  )}
-
-                  {adminSubTab === 'payment-accounts' && (
-                    <div className="space-y-4">
-                      <div className="flex justify-between items-center flex-wrap gap-2">
-                        <h3 className="text-sm font-black">{t('dashboard.admin.tabs.paymentAccounts', 'Métodos de pago')}</h3>
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          className="rounded-full text-xs font-black"
-                          onClick={() => {
-                            setPaymentAccountForm({
-                              label: '', holder: 'Fortuny Consulting LLC', bankName: '', accountType: 'checking',
-                              accountNumber: '', routingNumber: '', iban: '', swift: '', address: '', isActive: true, sortOrder: 0,
-                            });
-                            setPaymentAccountDialog({ open: true, account: null });
-                          }}
-                          data-testid="button-create-payment-account"
-                        >
-                          <Plus className="w-3 h-3 mr-1" /> {t('dashboard.admin.paymentAccounts.newAccount')}
-                        </Button>
-                      </div>
-                      <Card className="rounded-2xl border-0 shadow-sm overflow-hidden">
-                        <div className="divide-y">
-                          {paymentAccountsList?.map((acct: any) => (
-                            <div key={acct.id} className="p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3" data-testid={`payment-account-${acct.id}`}>
-                              <div className="space-y-1 flex-1 min-w-0">
-                                <div className="flex items-center gap-2 flex-wrap">
-                                  <span className="font-black text-sm">{acct.label}</span>
-                                  <Badge variant={acct.isActive ? "default" : "secondary"} className="text-[10px]">
-                                    {acct.isActive ? t('dashboard.admin.paymentAccounts.active') : t('dashboard.admin.paymentAccounts.inactive')}
-                                  </Badge>
-                                  <Badge variant="outline" className="text-[10px]">{acct.accountType}</Badge>
+                      {billingSubTab === 'payment-methods' && (
+                        <div className="space-y-4">
+                          <div className="flex justify-between items-center flex-wrap gap-2">
+                            <h3 className="text-sm font-black">{t('dashboard.admin.tabs.paymentAccounts', 'Métodos de pago')}</h3>
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              className="rounded-full text-xs font-black"
+                              onClick={() => {
+                                setPaymentAccountForm({
+                                  label: '', holder: 'Fortuny Consulting LLC', bankName: '', accountType: 'checking',
+                                  accountNumber: '', routingNumber: '', iban: '', swift: '', address: '', isActive: true, sortOrder: 0,
+                                });
+                                setPaymentAccountDialog({ open: true, account: null });
+                              }}
+                              data-testid="button-create-payment-account-billing"
+                            >
+                              <Plus className="w-3 h-3 mr-1" /> {t('dashboard.admin.paymentAccounts.newAccount')}
+                            </Button>
+                          </div>
+                          <Card className="rounded-2xl border-0 shadow-sm overflow-hidden">
+                            <div className="divide-y">
+                              {paymentAccountsList?.map((acct: any) => (
+                                <div key={acct.id} className="p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3" data-testid={`billing-payment-account-${acct.id}`}>
+                                  <div className="space-y-1 flex-1 min-w-0">
+                                    <div className="flex items-center gap-2 flex-wrap">
+                                      <span className="font-black text-sm">{acct.label}</span>
+                                      <Badge variant={acct.isActive ? "default" : "secondary"} className="text-[10px]">
+                                        {acct.isActive ? t('dashboard.admin.paymentAccounts.active') : t('dashboard.admin.paymentAccounts.inactive')}
+                                      </Badge>
+                                      <Badge variant="outline" className="text-[10px]">{acct.accountType}</Badge>
+                                    </div>
+                                    <p className="text-xs text-muted-foreground">{acct.bankName} — {acct.holder}</p>
+                                    {acct.accountNumber && <p className="text-[10px] text-muted-foreground">{t('dashboard.admin.paymentAccounts.accountLabel')}: ****{acct.accountNumber.slice(-4)}</p>}
+                                    {acct.iban && <p className="text-[10px] text-muted-foreground">IBAN: ****{acct.iban.slice(-4)}</p>}
+                                  </div>
+                                  <div className="flex gap-2">
+                                    <Button
+                                      variant="outline"
+                                      size="icon"
+                                      className="rounded-lg"
+                                      onClick={() => {
+                                        setPaymentAccountForm({
+                                          label: acct.label, holder: acct.holder, bankName: acct.bankName,
+                                          accountType: acct.accountType, accountNumber: acct.accountNumber || '',
+                                          routingNumber: acct.routingNumber || '', iban: acct.iban || '',
+                                          swift: acct.swift || '', address: acct.address || '',
+                                          isActive: acct.isActive, sortOrder: acct.sortOrder || 0,
+                                        });
+                                        setPaymentAccountDialog({ open: true, account: acct });
+                                      }}
+                                      data-testid={`button-edit-payment-billing-${acct.id}`}
+                                    >
+                                      <Edit className="w-3 h-3" />
+                                    </Button>
+                                    <Button
+                                      variant="outline"
+                                      size="icon"
+                                      className={`rounded-lg ${acct.isActive ? 'text-orange-600' : 'text-green-600'}`}
+                                      onClick={async () => {
+                                        try {
+                                          await apiRequest("PATCH", `/api/admin/payment-accounts/${acct.id}`, { isActive: !acct.isActive });
+                                          refetchPaymentAccounts();
+                                          setFormMessage({ type: 'success', text: acct.isActive ? t('dashboard.admin.paymentAccounts.accountDeactivated') : t('dashboard.admin.paymentAccounts.accountActivated') });
+                                        } catch (e) {
+                                          setFormMessage({ type: 'error', text: t("common.error") });
+                                        }
+                                      }}
+                                      data-testid={`button-toggle-payment-billing-${acct.id}`}
+                                    >
+                                      {acct.isActive ? <XCircle className="w-3 h-3" /> : <CheckCircle2 className="w-3 h-3" />}
+                                    </Button>
+                                  </div>
                                 </div>
-                                <p className="text-xs text-muted-foreground">{acct.bankName} — {acct.holder}</p>
-                                {acct.accountNumber && <p className="text-[10px] text-muted-foreground">{t('dashboard.admin.paymentAccounts.accountLabel')}: ****{acct.accountNumber.slice(-4)}</p>}
-                                {acct.iban && <p className="text-[10px] text-muted-foreground">IBAN: ****{acct.iban.slice(-4)}</p>}
+                              ))}
+                              {(!paymentAccountsList || paymentAccountsList.length === 0) && (
+                                <p className="p-4 text-sm text-muted-foreground text-center">{t('dashboard.admin.paymentAccounts.noAccounts', 'No hay métodos de pago configurados')}</p>
+                              )}
+                            </div>
+                          </Card>
+
+                          {paymentAccountDialog.open && (
+                            <Card className="rounded-2xl p-6 space-y-4">
+                              <div className="flex items-center justify-between">
+                                <h4 className="text-sm font-black">{paymentAccountDialog.account ? t('dashboard.admin.paymentAccounts.editAccount') : t('dashboard.admin.paymentAccounts.newBankAccount')}</h4>
+                                <Button variant="ghost" size="icon" onClick={() => setPaymentAccountDialog({ open: false, account: null })} className="rounded-full">
+                                  <X className="w-4 h-4" />
+                                </Button>
                               </div>
-                              <div className="flex gap-2">
-                                <Button
-                                  variant="outline"
-                                  size="icon"
-                                  className="rounded-lg"
-                                  onClick={() => {
-                                    setPaymentAccountForm({
-                                      label: acct.label, holder: acct.holder, bankName: acct.bankName,
-                                      accountType: acct.accountType, accountNumber: acct.accountNumber || '',
-                                      routingNumber: acct.routingNumber || '', iban: acct.iban || '',
-                                      swift: acct.swift || '', address: acct.address || '',
-                                      isActive: acct.isActive, sortOrder: acct.sortOrder || 0,
-                                    });
-                                    setPaymentAccountDialog({ open: true, account: acct });
-                                  }}
-                                  data-testid={`button-edit-payment-${acct.id}`}
-                                >
-                                  <Edit className="w-3 h-3" />
+                              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                <div>
+                                  <label className="text-xs font-bold text-muted-foreground mb-1 block">{t('dashboard.admin.paymentAccounts.label')} *</label>
+                                  <Input value={paymentAccountForm.label} onChange={e => setPaymentAccountForm(f => ({...f, label: e.target.value}))} className="rounded-xl text-sm" />
+                                </div>
+                                <div>
+                                  <label className="text-xs font-bold text-muted-foreground mb-1 block">{t('dashboard.admin.paymentAccounts.holder')} *</label>
+                                  <Input value={paymentAccountForm.holder} onChange={e => setPaymentAccountForm(f => ({...f, holder: e.target.value}))} className="rounded-xl text-sm" />
+                                </div>
+                                <div>
+                                  <label className="text-xs font-bold text-muted-foreground mb-1 block">{t('dashboard.admin.paymentAccounts.bank')} *</label>
+                                  <Input value={paymentAccountForm.bankName} onChange={e => setPaymentAccountForm(f => ({...f, bankName: e.target.value}))} className="rounded-xl text-sm" />
+                                </div>
+                                <div>
+                                  <label className="text-xs font-bold text-muted-foreground mb-1 block">{t('dashboard.admin.paymentAccounts.accountType')}</label>
+                                  <NativeSelect value={paymentAccountForm.accountType} onValueChange={v => setPaymentAccountForm(f => ({...f, accountType: v}))}>
+                                    <option value="checking">Checking</option>
+                                    <option value="savings">Savings</option>
+                                    <option value="iban">IBAN</option>
+                                  </NativeSelect>
+                                </div>
+                                <div>
+                                  <label className="text-xs font-bold text-muted-foreground mb-1 block">{t('dashboard.admin.paymentAccounts.accountNumber')}</label>
+                                  <Input value={paymentAccountForm.accountNumber} onChange={e => setPaymentAccountForm(f => ({...f, accountNumber: e.target.value}))} className="rounded-xl text-sm" />
+                                </div>
+                                <div>
+                                  <label className="text-xs font-bold text-muted-foreground mb-1 block">Routing Number</label>
+                                  <Input value={paymentAccountForm.routingNumber} onChange={e => setPaymentAccountForm(f => ({...f, routingNumber: e.target.value}))} className="rounded-xl text-sm" />
+                                </div>
+                                <div>
+                                  <label className="text-xs font-bold text-muted-foreground mb-1 block">IBAN</label>
+                                  <Input value={paymentAccountForm.iban} onChange={e => setPaymentAccountForm(f => ({...f, iban: e.target.value}))} className="rounded-xl text-sm" />
+                                </div>
+                                <div>
+                                  <label className="text-xs font-bold text-muted-foreground mb-1 block">SWIFT/BIC</label>
+                                  <Input value={paymentAccountForm.swift} onChange={e => setPaymentAccountForm(f => ({...f, swift: e.target.value}))} className="rounded-xl text-sm" />
+                                </div>
+                                <div className="sm:col-span-2">
+                                  <label className="text-xs font-bold text-muted-foreground mb-1 block">{t('dashboard.admin.paymentAccounts.address')}</label>
+                                  <Input value={paymentAccountForm.address} onChange={e => setPaymentAccountForm(f => ({...f, address: e.target.value}))} className="rounded-xl text-sm" />
+                                </div>
+                                <div>
+                                  <label className="text-xs font-bold text-muted-foreground mb-1 block">{t('dashboard.admin.paymentAccounts.sortOrder')}</label>
+                                  <Input type="number" value={paymentAccountForm.sortOrder} onChange={e => setPaymentAccountForm(f => ({...f, sortOrder: parseInt(e.target.value) || 0}))} className="rounded-xl text-sm" />
+                                </div>
+                              </div>
+                              <div className="flex justify-end gap-2 pt-2">
+                                <Button variant="outline" size="sm" className="rounded-full" onClick={() => setPaymentAccountDialog({ open: false, account: null })}>
+                                  {t('common.cancel')}
                                 </Button>
                                 <Button
-                                  variant="outline"
-                                  size="icon"
-                                  className={`rounded-lg ${acct.isActive ? 'text-orange-600' : 'text-green-600'}`}
+                                  size="sm"
+                                  className="rounded-full"
+                                  disabled={!paymentAccountForm.label || !paymentAccountForm.holder || !paymentAccountForm.bankName}
                                   onClick={async () => {
                                     try {
-                                      await apiRequest("PATCH", `/api/admin/payment-accounts/${acct.id}`, { isActive: !acct.isActive });
+                                      const body = { ...paymentAccountForm };
+                                      if (paymentAccountDialog.account) {
+                                        await apiRequest("PATCH", `/api/admin/payment-accounts/${paymentAccountDialog.account.id}`, body);
+                                        setFormMessage({ type: 'success', text: t('dashboard.admin.paymentAccounts.accountUpdated') });
+                                      } else {
+                                        await apiRequest("POST", "/api/admin/payment-accounts", body);
+                                        setFormMessage({ type: 'success', text: t('dashboard.admin.paymentAccounts.accountCreated') });
+                                      }
                                       refetchPaymentAccounts();
-                                      setFormMessage({ type: 'success', text: acct.isActive ? t('dashboard.admin.paymentAccounts.accountDeactivated') : t('dashboard.admin.paymentAccounts.accountActivated') });
+                                      setPaymentAccountDialog({ open: false, account: null });
                                     } catch (e) {
                                       setFormMessage({ type: 'error', text: t("common.error") });
                                     }
                                   }}
-                                  data-testid={`button-toggle-payment-${acct.id}`}
+                                  data-testid="button-save-payment-account-billing"
                                 >
-                                  {acct.isActive ? <XCircle className="w-3 h-3" /> : <CheckCircle className="w-3 h-3" />}
-                                </Button>
-                                <Button
-                                  variant="outline"
-                                  size="icon"
-                                  className="rounded-lg text-red-600 border-red-200"
-                                  onClick={() => {
-                                    showConfirm({
-                                      title: t('common.confirmAction', 'Confirmar'),
-                                      description: `${t('dashboard.admin.paymentAccounts.confirmDelete')} "${acct.label}"?`,
-                                      onConfirm: async () => {
-                                        try {
-                                          await apiRequest("DELETE", `/api/admin/payment-accounts/${acct.id}`);
-                                          refetchPaymentAccounts();
-                                          setFormMessage({ type: 'success', text: t('dashboard.admin.paymentAccounts.accountDeleted') });
-                                        } catch (e) {
-                                          setFormMessage({ type: 'error', text: t("common.error") });
-                                        }
-                                      },
-                                    });
-                                  }}
-                                  data-testid={`button-delete-payment-${acct.id}`}
-                                >
-                                  <Trash2 className="w-3 h-3" />
+                                  {paymentAccountDialog.account ? t('common.save') : t('dashboard.admin.paymentAccounts.createAccount')}
                                 </Button>
                               </div>
-                            </div>
-                          ))}
-                          {(!paymentAccountsList || paymentAccountsList.length === 0) && (
-                            <div className="text-center py-8 text-muted-foreground text-sm">{t('dashboard.admin.paymentAccounts.noAccounts')}</div>
+                            </Card>
                           )}
                         </div>
-                      </Card>
-
-                      {paymentAccountDialog.open && (
-                        <Card className="rounded-2xl p-6 space-y-4">
-                          <div className="flex items-center justify-between">
-                            <h4 className="text-sm font-black">{paymentAccountDialog.account ? t('dashboard.admin.paymentAccounts.editAccount') : t('dashboard.admin.paymentAccounts.newBankAccount')}</h4>
-                            <Button variant="ghost" size="icon" onClick={() => setPaymentAccountDialog({ open: false, account: null })} className="rounded-full">
-                              <X className="w-4 h-4" />
-                            </Button>
-                          </div>
-                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                            <div>
-                              <label className="text-xs font-bold text-muted-foreground mb-1 block">{t('dashboard.admin.paymentAccounts.label')} *</label>
-                              <Input value={paymentAccountForm.label} onChange={e => setPaymentAccountForm(f => ({...f, label: e.target.value}))} placeholder="Thread Bank CHECKING" className="rounded-xl text-sm" />
-                            </div>
-                            <div>
-                              <label className="text-xs font-bold text-muted-foreground mb-1 block">{t('dashboard.admin.paymentAccounts.holder')} *</label>
-                              <Input value={paymentAccountForm.holder} onChange={e => setPaymentAccountForm(f => ({...f, holder: e.target.value}))} placeholder="Fortuny Consulting LLC" className="rounded-xl text-sm" />
-                            </div>
-                            <div>
-                              <label className="text-xs font-bold text-muted-foreground mb-1 block">{t('dashboard.admin.paymentAccounts.bank')} *</label>
-                              <Input value={paymentAccountForm.bankName} onChange={e => setPaymentAccountForm(f => ({...f, bankName: e.target.value}))} placeholder="Thread Bank" className="rounded-xl text-sm" />
-                            </div>
-                            <div>
-                              <label className="text-xs font-bold text-muted-foreground mb-1 block">{t('dashboard.admin.paymentAccounts.accountType')}</label>
-                              <NativeSelect value={paymentAccountForm.accountType} onValueChange={v => setPaymentAccountForm(f => ({...f, accountType: v}))}>
-                                <option value="checking">Checking</option>
-                                <option value="savings">Savings</option>
-                                <option value="iban">IBAN</option>
-                              </NativeSelect>
-                            </div>
-                            <div>
-                              <label className="text-xs font-bold text-muted-foreground mb-1 block">{t('dashboard.admin.paymentAccounts.accountNumber')}</label>
-                              <Input value={paymentAccountForm.accountNumber} onChange={e => setPaymentAccountForm(f => ({...f, accountNumber: e.target.value}))} placeholder="200002330558" className="rounded-xl text-sm" />
-                            </div>
-                            <div>
-                              <label className="text-xs font-bold text-muted-foreground mb-1 block">Routing Number</label>
-                              <Input value={paymentAccountForm.routingNumber} onChange={e => setPaymentAccountForm(f => ({...f, routingNumber: e.target.value}))} placeholder="064209588" className="rounded-xl text-sm" />
-                            </div>
-                            <div>
-                              <label className="text-xs font-bold text-muted-foreground mb-1 block">IBAN</label>
-                              <Input value={paymentAccountForm.iban} onChange={e => setPaymentAccountForm(f => ({...f, iban: e.target.value}))} placeholder="DK2489000045271938" className="rounded-xl text-sm" />
-                            </div>
-                            <div>
-                              <label className="text-xs font-bold text-muted-foreground mb-1 block">SWIFT/BIC</label>
-                              <Input value={paymentAccountForm.swift} onChange={e => setPaymentAccountForm(f => ({...f, swift: e.target.value}))} placeholder="SAXODKKK" className="rounded-xl text-sm" />
-                            </div>
-                            <div className="sm:col-span-2">
-                              <label className="text-xs font-bold text-muted-foreground mb-1 block">{t('dashboard.admin.paymentAccounts.address')}</label>
-                              <Input value={paymentAccountForm.address} onChange={e => setPaymentAccountForm(f => ({...f, address: e.target.value}))} placeholder="New York, NY, USA" className="rounded-xl text-sm" />
-                            </div>
-                            <div>
-                              <label className="text-xs font-bold text-muted-foreground mb-1 block">{t('dashboard.admin.paymentAccounts.sortOrder')}</label>
-                              <Input type="number" value={paymentAccountForm.sortOrder} onChange={e => setPaymentAccountForm(f => ({...f, sortOrder: parseInt(e.target.value) || 0}))} className="rounded-xl text-sm" />
-                            </div>
-                          </div>
-                          <div className="flex justify-end gap-2 pt-2">
-                            <Button variant="outline" size="sm" className="rounded-full" onClick={() => setPaymentAccountDialog({ open: false, account: null })}>
-                              {t('common.cancel')}
-                            </Button>
-                            <Button
-                              size="sm"
-                              className="rounded-full"
-                              disabled={!paymentAccountForm.label || !paymentAccountForm.holder || !paymentAccountForm.bankName}
-                              onClick={async () => {
-                                try {
-                                  const body = { ...paymentAccountForm };
-                                  if (paymentAccountDialog.account) {
-                                    await apiRequest("PATCH", `/api/admin/payment-accounts/${paymentAccountDialog.account.id}`, body);
-                                    setFormMessage({ type: 'success', text: t('dashboard.admin.paymentAccounts.accountUpdated') });
-                                  } else {
-                                    await apiRequest("POST", "/api/admin/payment-accounts", body);
-                                    setFormMessage({ type: 'success', text: t('dashboard.admin.paymentAccounts.accountCreated') });
-                                  }
-                                  refetchPaymentAccounts();
-                                  setPaymentAccountDialog({ open: false, account: null });
-                                } catch (e) {
-                                  setFormMessage({ type: 'error', text: t("common.error") });
-                                }
-                              }}
-                              data-testid="button-save-payment-account"
-                            >
-                              {paymentAccountDialog.account ? t('common.save') : t('dashboard.admin.paymentAccounts.createAccount')}
-                            </Button>
-                          </div>
-                        </Card>
                       )}
                     </div>
                   )}
+
 
                   {adminSubTab === 'activity' && (
                     <ActivityLogPanel />

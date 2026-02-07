@@ -36,10 +36,22 @@ export const PRICING = {
       state: "Delaware",
     },
   },
+  additionalServices: {
+    consultation: {
+      price: 120,
+      currency: "EUR",
+      duration: 30,
+    },
+    dissolution: {
+      price: 350,
+      currency: "EUR",
+    },
+  },
 } as const;
 
 export type FormationState = keyof typeof PRICING.formation;
 export type MaintenanceState = keyof typeof PRICING.maintenance;
+export type AdditionalService = keyof typeof PRICING.additionalServices;
 
 export function formatPrice(price: number, currency: string = "EUR"): string {
   if (currency === "EUR") {
@@ -63,5 +75,14 @@ export function getFormationPriceFormatted(state: FormationState): string {
 
 export function getMaintenancePriceFormatted(state: MaintenanceState): string {
   const { price, currency } = PRICING.maintenance[state];
+  return formatPrice(price, currency);
+}
+
+export function getAdditionalServicePrice(service: AdditionalService): number {
+  return PRICING.additionalServices[service].price;
+}
+
+export function getAdditionalServicePriceFormatted(service: AdditionalService): string {
+  const { price, currency } = PRICING.additionalServices[service];
   return formatPrice(price, currency);
 }

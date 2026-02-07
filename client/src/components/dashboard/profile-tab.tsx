@@ -88,7 +88,6 @@ export function ProfileTab({
   ];
   
   const currentLangCode = i18n.language?.split('-')[0] || 'es';
-  const currentLang = languages.find(l => l.code === currentLangCode) || languages[0];
 
   const handleLanguageChange = async (langCode: string) => {
     i18n.changeLanguage(langCode);

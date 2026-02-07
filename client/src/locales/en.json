@@ -528,6 +528,23 @@
       "name": "WITHOUT YOU",
       "nameLine2": "HAVING TO WORRY",
       "subtitle": "Your company is not just created, it's maintained. And we're here to make sure everything keeps working correctly year after year."
+    },
+    "additionalServices": {
+      "title": "ADDITIONAL SERVICES",
+      "subtitle": "Complete your LLC experience with expert guidance",
+      "consultation": {
+        "title": "Personalized Consultation",
+        "description": "Private 30-minute video call with a US business formation expert",
+        "duration": "30 min",
+        "features": ["Personalized tax advice", "LLC formation strategy", "Specific questions resolved"],
+        "cta": "Book consultation"
+      },
+      "dissolution": {
+        "title": "LLC Dissolution",
+        "description": "Complete and orderly closure of your LLC including all state and federal procedures",
+        "features": ["Full state dissolution", "EIN cancellation", "IRS notification", "Official documentation"],
+        "cta": "Request dissolution"
+      }
     }
   },
   "stateComparison": {

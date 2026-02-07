@@ -528,6 +528,23 @@
       "name": "OHNE DASS SIE",
       "nameLine2": "SICH SORGEN MACHEN MÜSSEN",
       "subtitle": "Ihr Unternehmen wird nicht nur gegründet, es wird gepflegt. Und wir sind hier, um sicherzustellen, dass alles Jahr für Jahr korrekt funktioniert."
+    },
+    "additionalServices": {
+      "title": "ZUSÄTZLICHE DIENSTE",
+      "subtitle": "Vervollständigen Sie Ihre LLC-Erfahrung mit Expertenberatung",
+      "consultation": {
+        "title": "Persönliche Beratung",
+        "description": "Privater 30-minütiger Videoanruf mit einem US-Unternehmensgründungsexperten",
+        "duration": "30 Min",
+        "features": ["Persönliche Steuerberatung", "LLC-Gründungsstrategie", "Klärung spezifischer Fragen"],
+        "cta": "Beratung buchen"
+      },
+      "dissolution": {
+        "title": "LLC-Auflösung",
+        "description": "Vollständige und ordnungsgemäße Schließung Ihrer LLC einschließlich aller staatlichen und föderalen Verfahren",
+        "features": ["Vollständige staatliche Auflösung", "EIN-Stornierung", "IRS-Benachrichtigung", "Offizielle Dokumentation"],
+        "cta": "Auflösung beantragen"
+      }
     }
   },
   "stateComparison": {

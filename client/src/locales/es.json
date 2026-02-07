@@ -528,6 +528,23 @@
       "name": "SIN QUE TENGAS",
       "nameLine2": "QUE PREOCUPARTE",
       "subtitle": "Tu empresa no solo se crea, se mantiene. Y estamos aquí para asegurarnos de que todo siga funcionando correctamente año tras año."
+    },
+    "additionalServices": {
+      "title": "SERVICIOS ADICIONALES",
+      "subtitle": "Completa tu experiencia LLC con asesoramiento experto",
+      "consultation": {
+        "title": "Consulta Personalizada",
+        "description": "Videollamada privada de 30 minutos con un experto en formación de empresas en USA",
+        "duration": "30 min",
+        "features": ["Asesoramiento fiscal personalizado", "Estrategia de formación LLC", "Resolución de dudas específicas"],
+        "cta": "Agendar consulta"
+      },
+      "dissolution": {
+        "title": "Disolución de LLC",
+        "description": "Cierre completo y ordenado de tu LLC incluyendo todos los trámites estatales y federales",
+        "features": ["Disolución estatal completa", "Cancelación del EIN", "Notificación al IRS", "Documentación oficial"],
+        "cta": "Solicitar disolución"
+      }
     }
   },
   "stateComparison": {

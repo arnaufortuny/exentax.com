@@ -5,7 +5,7 @@ import { HeroSection } from "@/components/layout/hero-section";
 import { TaxComparator } from "@/components/tax-comparator";
 import { StateComparison } from "@/components/state-comparison";
 import type { Product } from "@shared/schema";
-import { getFormationPriceFormatted, getMaintenancePriceFormatted } from "@shared/config/pricing";
+import { getFormationPriceFormatted, getMaintenancePriceFormatted, getAdditionalServicePriceFormatted } from "@shared/config/pricing";
 
 import { useState, useEffect } from "react";
 import { useLocation, Link } from "wouter";
@@ -14,7 +14,7 @@ import { useTranslation } from "react-i18next";
 import { openWhatsApp, getWhatsAppUrl } from "@/lib/whatsapp";
 import { motion } from "framer-motion";
 import { apiRequest } from "@/lib/queryClient";
-import { ChevronDown, Check, ArrowRight } from "@/components/icons";
+import { ChevronDown, Check, ArrowRight, Video, XCircle } from "@/components/icons";
 import { SiWhatsapp } from "react-icons/si";
 import { usePageTitle } from "@/hooks/use-page-title";
 import { fadeInUp, lineExpand, cardVariants, heroTitle, heroSubtitle, viewportOnce, transitions } from "@/lib/animations";
@@ -513,6 +513,119 @@ export default function Servicios() {
             >
               {t("services.questions")} →
             </Button>
+          </div>
+        </div>
+      </section>
+
+      <section className="py-16 sm:py-20 bg-background">
+        <div className="w-full px-4 sm:px-8">
+          <div className="text-center mb-10 sm:mb-14 flex flex-col items-center justify-center">
+            <motion.h2 
+              className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-center leading-[1.1] will-change-[transform,opacity]" 
+              style={{ fontWeight: 900 }}
+              variants={fadeInUp}
+              initial="hidden"
+              whileInView="visible"
+              viewport={viewportOnce}
+            >
+              <span className="text-foreground">{t("services.additionalServices.title")}</span>
+            </motion.h2>
+            <motion.p
+              className="text-base sm:text-lg text-muted-foreground mt-4 max-w-2xl"
+              variants={fadeInUp}
+              initial="hidden"
+              whileInView="visible"
+              viewport={viewportOnce}
+            >
+              {t("services.additionalServices.subtitle")}
+            </motion.p>
+            <motion.div 
+              className="w-24 h-1 bg-accent mt-6 rounded-full will-change-transform"
+              variants={lineExpand}
+              initial="hidden"
+              whileInView="visible"
+              viewport={viewportOnce}
+            />
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 max-w-4xl mx-auto">
+            <motion.div 
+              className="border-[2px] border-accent/30 rounded-2xl overflow-hidden bg-background shadow-sm flex flex-col"
+              variants={cardVariants}
+              initial="hidden"
+              whileInView="visible"
+              viewport={viewportOnce}
+            >
+              <div className="p-5 sm:p-6 flex-grow">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center">
+                    <Video className="w-5 h-5 text-accent" />
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-black text-foreground tracking-tight">{t("services.additionalServices.consultation.title")}</h3>
+                    <span className="text-xs text-muted-foreground">{t("services.additionalServices.consultation.duration")}</span>
+                  </div>
+                </div>
+                <p className="text-sm text-muted-foreground mb-4">{t("services.additionalServices.consultation.description")}</p>
+                <div className="space-y-2 mb-4">
+                  {(t("services.additionalServices.consultation.features", { returnObjects: true }) as string[]).map((f: string) => (
+                    <div key={f} className="flex items-start gap-1.5 text-sm">
+                      <Check className="text-accent w-4 h-4 mt-0.5 flex-shrink-0" />
+                      <span className="text-foreground/80 font-medium text-xs">{f}</span>
+                    </div>
+                  ))}
+                </div>
+                <div className="flex items-baseline gap-1 mb-1">
+                  <span className="text-2xl sm:text-3xl font-black text-foreground">{getAdditionalServicePriceFormatted("consultation")}</span>
+                  <span className="text-muted-foreground text-xs">/ {t("services.additionalServices.consultation.duration")}</span>
+                </div>
+              </div>
+              <div className="p-5 sm:p-6 pt-0">
+                <Link href="/dashboard?tab=consultations">
+                  <Button className="w-full bg-accent text-accent-foreground font-black text-sm rounded-full h-9" data-testid="button-book-consultation">
+                    {t("services.additionalServices.consultation.cta")} →
+                  </Button>
+                </Link>
+              </div>
+            </motion.div>
+
+            <motion.div 
+              className="border-[2px] border-accent/30 rounded-2xl overflow-hidden bg-background shadow-sm flex flex-col"
+              variants={cardVariants}
+              initial="hidden"
+              whileInView="visible"
+              viewport={viewportOnce}
+            >
+              <div className="p-5 sm:p-6 flex-grow">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center">
+                    <XCircle className="w-5 h-5 text-accent" />
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-black text-foreground tracking-tight">{t("services.additionalServices.dissolution.title")}</h3>
+                  </div>
+                </div>
+                <p className="text-sm text-muted-foreground mb-4">{t("services.additionalServices.dissolution.description")}</p>
+                <div className="space-y-2 mb-4">
+                  {(t("services.additionalServices.dissolution.features", { returnObjects: true }) as string[]).map((f: string) => (
+                    <div key={f} className="flex items-start gap-1.5 text-sm">
+                      <Check className="text-accent w-4 h-4 mt-0.5 flex-shrink-0" />
+                      <span className="text-foreground/80 font-medium text-xs">{f}</span>
+                    </div>
+                  ))}
+                </div>
+                <div className="flex items-baseline gap-1 mb-1">
+                  <span className="text-2xl sm:text-3xl font-black text-foreground">{getAdditionalServicePriceFormatted("dissolution")}</span>
+                </div>
+              </div>
+              <div className="p-5 sm:p-6 pt-0">
+                <Link href="/contacto?subject=Disoluci%C3%B3n%20LLC">
+                  <Button className="w-full bg-accent text-accent-foreground font-black text-sm rounded-full h-9" data-testid="button-request-dissolution">
+                    {t("services.additionalServices.dissolution.cta")} →
+                  </Button>
+                </Link>
+              </div>
+            </motion.div>
           </div>
         </div>
       </section>
