@@ -149,8 +149,8 @@ export default function Login() {
             <p className="text-muted-foreground mt-2 text-sm md:text-base text-center max-w-xs md:max-w-sm">{t("auth.login.subtitle")}</p>
           </div>
 
-          <div className="lg:grid lg:grid-cols-2 lg:gap-10 lg:items-stretch">
-            <div className="lg:flex lg:flex-col">
+          <div className="lg:grid lg:grid-cols-2 lg:gap-10 lg:items-start">
+            <div>
               <div className="hidden lg:block mb-5">
                 <h1 className="text-2xl xl:text-3xl font-black tracking-tight">
                   <span className="text-foreground">{t("auth.login.title")}</span> <span className="text-accent">{t("auth.login.titleHighlight")}</span>
@@ -265,8 +265,8 @@ export default function Login() {
           </div>
             </div>
 
-            <div className="hidden lg:flex lg:flex-col">
-              <div className="flex-1 flex flex-col justify-center">
+            <div className="hidden lg:block">
+              <div>
                 <div className="mb-5">
                   <h2 className="text-2xl xl:text-3xl font-black tracking-tight">
                     <span className="text-foreground">{t("auth.login.infoCard.title").split(' ').slice(0, -1).join(' ')}</span> <span className="text-accent">{t("auth.login.infoCard.title").split(' ').slice(-1)[0]}</span>
