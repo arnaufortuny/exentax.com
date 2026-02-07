@@ -238,25 +238,31 @@ export function setupOAuth(app: Express) {
         return res.status(403).json({ message: "Account deactivated" });
       }
 
-      req.login(user, (err) => {
-        if (err) {
-          console.error("Error en login de Google:", err);
-          return res.status(500).json({ message: "Error logging in" });
-        }
-        return res.json({
-          message: "Login successful",
-          user: {
-            id: user.id,
-            email: user.email,
-            firstName: user.firstName,
-            lastName: user.lastName,
-            profileImageUrl: user.profileImageUrl,
-            clientId: user.clientId,
-            isAdmin: user.isAdmin,
-            emailVerified: user.emailVerified,
-            googleId: user.googleId ? true : false,
-          }
+      req.session.userId = user.id;
+      req.session.email = user.email;
+      req.session.isAdmin = user.isAdmin || false;
+      req.session.isSupport = (user as any).isSupport || false;
+      
+      await new Promise<void>((resolve, reject) => {
+        req.session.save((err) => {
+          if (err) reject(err);
+          else resolve();
         });
+      });
+
+      return res.json({
+        message: "Login successful",
+        user: {
+          id: user.id,
+          email: user.email,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          profileImageUrl: user.profileImageUrl,
+          clientId: user.clientId,
+          isAdmin: user.isAdmin,
+          emailVerified: user.emailVerified,
+          googleId: user.googleId ? true : false,
+        }
       });
     } catch (error) {
       console.error("Error en autenticacion de Google:", error);
@@ -266,7 +272,7 @@ export function setupOAuth(app: Express) {
 
   app.post("/api/auth/connect/google", async (req: Request, res: Response) => {
     try {
-      if (!req.isAuthenticated() || !req.user) {
+      if (!req.session.userId) {
         return res.status(401).json({ message: "Not authenticated" });
       }
 
@@ -286,14 +292,14 @@ export function setupOAuth(app: Express) {
       }
 
       const existingUser = await db.select().from(users).where(eq(users.googleId, payload.sub)).limit(1);
-      if (existingUser.length > 0 && existingUser[0].id !== (req.user as any).id) {
+      if (existingUser.length > 0 && existingUser[0].id !== req.session.userId) {
         return res.status(409).json({ message: "This Google account is already linked to another user" });
       }
 
       await db.update(users).set({ 
         googleId: payload.sub,
         updatedAt: new Date()
-      }).where(eq(users.id, (req.user as any).id));
+      }).where(eq(users.id, req.session.userId));
 
       return res.json({ message: "Google account linked successfully" });
     } catch (error) {
@@ -304,11 +310,11 @@ export function setupOAuth(app: Express) {
 
   app.post("/api/auth/disconnect/google", async (req: Request, res: Response) => {
     try {
-      if (!req.isAuthenticated() || !req.user) {
+      if (!req.session.userId) {
         return res.status(401).json({ message: "Not authenticated" });
       }
 
-      const userId = (req.user as any).id;
+      const userId = req.session.userId;
       const user = await db.select().from(users).where(eq(users.id, userId)).limit(1);
 
       if (user.length === 0) {
