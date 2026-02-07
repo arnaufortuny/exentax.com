@@ -209,11 +209,11 @@ export function setupOAuth(app: Express) {
       const { credential } = req.body;
 
       if (!credential) {
-        return res.status(400).json({ message: "Credencial de Google requerida" });
+        return res.status(400).json({ message: "Google credential required" });
       }
 
       if (!googleClient || !GOOGLE_CLIENT_ID) {
-        return res.status(503).json({ message: "Google OAuth no esta configurado" });
+        return res.status(503).json({ message: "Google OAuth is not configured" });
       }
 
       const ticket = await googleClient.verifyIdToken({
@@ -223,7 +223,7 @@ export function setupOAuth(app: Express) {
 
       const payload = ticket.getPayload();
       if (!payload || !payload.email) {
-        return res.status(400).json({ message: "Token de Google invalido" });
+        return res.status(400).json({ message: "Invalid Google token" });
       }
 
       const user = await findOrCreateUserByGoogle({
@@ -235,16 +235,16 @@ export function setupOAuth(app: Express) {
       });
 
       if (!user.isActive || user.accountStatus === "deactivated") {
-        return res.status(403).json({ message: "Cuenta desactivada" });
+        return res.status(403).json({ message: "Account deactivated" });
       }
 
       req.login(user, (err) => {
         if (err) {
           console.error("Error en login de Google:", err);
-          return res.status(500).json({ message: "Error al iniciar sesion" });
+          return res.status(500).json({ message: "Error logging in" });
         }
         return res.json({
-          message: "Inicio de sesion exitoso",
+          message: "Login successful",
           user: {
             id: user.id,
             email: user.email,
@@ -260,19 +260,19 @@ export function setupOAuth(app: Express) {
       });
     } catch (error) {
       console.error("Error en autenticacion de Google:", error);
-      return res.status(401).json({ message: "Error al verificar credencial de Google" });
+      return res.status(401).json({ message: "Error verifying Google credential" });
     }
   });
 
   app.post("/api/auth/connect/google", async (req: Request, res: Response) => {
     try {
       if (!req.isAuthenticated() || !req.user) {
-        return res.status(401).json({ message: "No autenticado" });
+        return res.status(401).json({ message: "Not authenticated" });
       }
 
       const { credential } = req.body;
       if (!credential || !googleClient || !GOOGLE_CLIENT_ID) {
-        return res.status(400).json({ message: "Credencial de Google requerida" });
+        return res.status(400).json({ message: "Google credential required" });
       }
 
       const ticket = await googleClient.verifyIdToken({
@@ -282,12 +282,12 @@ export function setupOAuth(app: Express) {
 
       const payload = ticket.getPayload();
       if (!payload) {
-        return res.status(400).json({ message: "Token invalido" });
+        return res.status(400).json({ message: "Invalid token" });
       }
 
       const existingUser = await db.select().from(users).where(eq(users.googleId, payload.sub)).limit(1);
       if (existingUser.length > 0 && existingUser[0].id !== (req.user as any).id) {
-        return res.status(409).json({ message: "Esta cuenta de Google ya esta vinculada a otro usuario" });
+        return res.status(409).json({ message: "This Google account is already linked to another user" });
       }
 
       await db.update(users).set({ 
@@ -295,29 +295,29 @@ export function setupOAuth(app: Express) {
         updatedAt: new Date()
       }).where(eq(users.id, (req.user as any).id));
 
-      return res.json({ message: "Cuenta de Google vinculada exitosamente" });
+      return res.json({ message: "Google account linked successfully" });
     } catch (error) {
       console.error("Error conectando Google:", error);
-      return res.status(500).json({ message: "Error al vincular cuenta de Google" });
+      return res.status(500).json({ message: "Error linking Google account" });
     }
   });
 
   app.post("/api/auth/disconnect/google", async (req: Request, res: Response) => {
     try {
       if (!req.isAuthenticated() || !req.user) {
-        return res.status(401).json({ message: "No autenticado" });
+        return res.status(401).json({ message: "Not authenticated" });
       }
 
       const userId = (req.user as any).id;
       const user = await db.select().from(users).where(eq(users.id, userId)).limit(1);
 
       if (user.length === 0) {
-        return res.status(404).json({ message: "Usuario no encontrado" });
+        return res.status(404).json({ message: "User not found" });
       }
 
       if (!user[0].passwordHash) {
         return res.status(400).json({ 
-          message: "Debes tener una contrasena configurada antes de desvincular Google" 
+          message: "You must have a password configured before unlinking Google" 
         });
       }
 
@@ -326,10 +326,10 @@ export function setupOAuth(app: Express) {
         updatedAt: new Date()
       }).where(eq(users.id, userId));
 
-      return res.json({ message: "Cuenta de Google desvinculada exitosamente" });
+      return res.json({ message: "Google account unlinked successfully" });
     } catch (error) {
       console.error("Error desconectando Google:", error);
-      return res.status(500).json({ message: "Error al desvincular cuenta de Google" });
+      return res.status(500).json({ message: "Error unlinking Google account" });
     }
   });
 }

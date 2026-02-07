@@ -30,12 +30,12 @@ interface CountryInfo {
   corporateTaxRate: number;
 }
 
-const countries: CountryInfo[] = [
-  { id: "spain", name: "España", FlagComponent: SpainFlag, vatRate: 21, corporateTaxRate: 25 },
-  { id: "uk", name: "Reino Unido", FlagComponent: UKFlag, vatRate: 20, corporateTaxRate: 25 },
-  { id: "germany", name: "Alemania", FlagComponent: GermanyFlag, vatRate: 19, corporateTaxRate: 30 },
-  { id: "france", name: "Francia", FlagComponent: FranceFlag, vatRate: 20, corporateTaxRate: 25 },
-  { id: "bulgaria", name: "Bulgaria", FlagComponent: BulgariaFlag, vatRate: 20, corporateTaxRate: 10 },
+const countryData: Omit<CountryInfo, 'name'>[] = [
+  { id: "spain", FlagComponent: SpainFlag, vatRate: 21, corporateTaxRate: 25 },
+  { id: "uk", FlagComponent: UKFlag, vatRate: 20, corporateTaxRate: 25 },
+  { id: "germany", FlagComponent: GermanyFlag, vatRate: 19, corporateTaxRate: 30 },
+  { id: "france", FlagComponent: FranceFlag, vatRate: 20, corporateTaxRate: 25 },
+  { id: "bulgaria", FlagComponent: BulgariaFlag, vatRate: 20, corporateTaxRate: 10 },
 ];
 
 function calculateTaxes(grossIncome: number, country: Country): TaxBreakdown {
@@ -204,6 +204,11 @@ export function TaxComparator() {
   const [isCalculating, setIsCalculating] = useState(false);
   const [showResults, setShowResults] = useState(false);
   const [emailError, setEmailError] = useState("");
+  
+  const countries: CountryInfo[] = useMemo(() => 
+    countryData.map(c => ({ ...c, name: t(`taxComparator.countries.${c.id}.title`) })),
+    [t]
+  );
   
   const countryTaxes = useMemo(() => calculateTaxes(income, selectedCountry), [income, selectedCountry]);
   const usLLCTaxes = useMemo(() => calculateUSLLCTaxes(income), [income]);

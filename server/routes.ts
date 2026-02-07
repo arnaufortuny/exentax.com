@@ -68,7 +68,7 @@ export async function registerRoutes(
     const rateCheck = await checkApiRateLimit('api', ip);
     if (!rateCheck.allowed) {
       res.setHeader('Retry-After', String(rateCheck.retryAfter || 60));
-      return res.status(429).json({ message: "Demasiadas peticiones. Por favor, espera un minuto." });
+      return res.status(429).json({ message: "Too many requests. Please wait a minute." });
     }
     
     next();
@@ -384,7 +384,7 @@ export async function registerRoutes(
       .returning();
 
     if (!updatedOrder) {
-      return res.status(404).json({ message: "Pedido no encontrado" });
+      return res.status(404).json({ message: "Order not found" });
     }
 
     logAudit({
@@ -404,7 +404,7 @@ export async function registerRoutes(
     // Get order details before deletion for logging
     const order = await storage.getOrder(orderId);
     if (!order) {
-      return res.status(404).json({ message: "Pedido no encontrado" });
+      return res.status(404).json({ message: "Order not found" });
     }
     
     // Use transaction for safe cascade deletion
@@ -434,7 +434,7 @@ export async function registerRoutes(
       await tx.delete(ordersTable).where(eq(ordersTable.id, orderId));
     });
     
-    res.json({ success: true, message: "Pedido eliminado correctamente" });
+    res.json({ success: true, message: "Order deleted successfully" });
   }));
 
   // Get incomplete/draft applications for admin
@@ -497,7 +497,7 @@ export async function registerRoutes(
         .where(and(eq(llcApplicationsTable.id, appId), eq(llcApplicationsTable.status, "draft")));
       
       if (!app) {
-        return res.status(404).json({ message: "Solicitud no encontrada" });
+        return res.status(404).json({ message: "Request not found" });
       }
       
       // Cascade delete: documents, notifications, events, application, order
@@ -511,7 +511,7 @@ export async function registerRoutes(
         .where(and(eq(maintenanceApplications.id, appId), eq(maintenanceApplications.status, "draft")));
       
       if (!app) {
-        return res.status(404).json({ message: "Solicitud no encontrada" });
+        return res.status(404).json({ message: "Request not found" });
       }
       
       // Cascade delete: documents, notifications, events, application, order
@@ -520,10 +520,10 @@ export async function registerRoutes(
       await db.delete(maintenanceApplications).where(eq(maintenanceApplications.id, appId));
       await db.delete(ordersTable).where(eq(ordersTable.id, app.orderId));
     } else {
-      return res.status(400).json({ message: "Tipo de solicitud no válido" });
+      return res.status(400).json({ message: "Invalid request type" });
     }
     
-    res.json({ success: true, message: "Solicitud incompleta eliminada" });
+    res.json({ success: true, message: "Incomplete request deleted" });
   }));
 
   // Update LLC important dates with automatic calculation
@@ -631,7 +631,7 @@ export async function registerRoutes(
       .limit(1);
     
     if (!app) {
-      return res.status(404).json({ message: "Aplicación no encontrada" });
+      return res.status(404).json({ message: "Application not found" });
     }
     
     // Update extension flag
@@ -701,7 +701,7 @@ export async function registerRoutes(
     if (data.isAdmin !== undefined) {
       const [currentAdmin] = await db.select().from(usersTable).where(eq(usersTable.id, req.session?.userId || '')).limit(1);
       if (!currentAdmin || currentAdmin.email !== SUPER_ADMIN_EMAIL) {
-        return res.status(403).json({ message: "Solo el administrador principal puede asignar privilegios de administrador" });
+        return res.status(403).json({ message: "Only the main administrator can assign admin privileges" });
       }
     }
     
@@ -847,7 +847,7 @@ export async function registerRoutes(
       res.json({ success: true });
     } catch (error) {
       console.error("Error deleting user:", error);
-      res.status(500).json({ message: "Error al eliminar usuario" });
+      res.status(500).json({ message: "Error deleting user" });
     }
   });
 
@@ -863,7 +863,7 @@ export async function registerRoutes(
     
     const existing = await db.select().from(usersTable).where(eq(usersTable.email, email)).limit(1);
     if (existing.length > 0) {
-      return res.status(400).json({ message: "El email ya está registrado" });
+      return res.status(400).json({ message: "Email is already registered" });
     }
     
     const bcrypt = await import("bcrypt");
@@ -888,7 +888,7 @@ export async function registerRoutes(
     const { newPassword } = req.body;
     
     if (!newPassword) {
-      return res.status(400).json({ message: "La contraseña es obligatoria" });
+      return res.status(400).json({ message: "Password is required" });
     }
     
     const passwordValidation = validatePassword(newPassword);
@@ -898,7 +898,7 @@ export async function registerRoutes(
     
     const [user] = await db.select().from(usersTable).where(eq(usersTable.id, userId)).limit(1);
     if (!user) {
-      return res.status(404).json({ message: "Usuario no encontrado" });
+      return res.status(404).json({ message: "User not found" });
     }
     
     const bcrypt = await import("bcrypt");
@@ -938,7 +938,7 @@ export async function registerRoutes(
     // Get user info
     const [user] = await db.select().from(usersTable).where(eq(usersTable.id, userId)).limit(1);
     if (!user) {
-      return res.status(404).json({ message: "Usuario no encontrado" });
+      return res.status(404).json({ message: "User not found" });
     }
     
     // Get all documents for this user
@@ -947,7 +947,7 @@ export async function registerRoutes(
       .where(eq(applicationDocumentsTable.userId, userId));
     
     if (documents.length === 0) {
-      return res.status(404).json({ message: "No hay documentos para este usuario" });
+      return res.status(404).json({ message: "No documents found for this user" });
     }
     
     // Create ZIP archive
@@ -980,13 +980,13 @@ export async function registerRoutes(
     const schema = z.object({
       userId: z.string().uuid(),
       state: z.enum(validStates),
-      amount: z.string().or(z.number()).refine(val => Number(val) > 0, { message: "El importe debe ser mayor que 0" })
+      amount: z.string().or(z.number()).refine(val => Number(val) > 0, { message: "Amount must be greater than 0" })
     });
     const { userId, state, amount } = schema.parse(req.body);
     
     const [user] = await db.select().from(usersTable).where(eq(usersTable.id, userId)).limit(1);
     if (!user) {
-      return res.status(404).json({ message: "Usuario no encontrado" });
+      return res.status(404).json({ message: "User not found" });
     }
     
     const productMap: Record<string, { id: number; name: string }> = {
@@ -1044,13 +1044,13 @@ export async function registerRoutes(
     const schema = z.object({
       userId: z.string().uuid(),
       state: z.enum(validStates),
-      amount: z.string().or(z.number()).refine(val => Number(val) > 0, { message: "El importe debe ser mayor que 0" })
+      amount: z.string().or(z.number()).refine(val => Number(val) > 0, { message: "Amount must be greater than 0" })
     });
     const { userId, state, amount } = schema.parse(req.body);
     
     const [user] = await db.select().from(usersTable).where(eq(usersTable.id, userId)).limit(1);
     if (!user) {
-      return res.status(404).json({ message: "Usuario no encontrado" });
+      return res.status(404).json({ message: "User not found" });
     }
     
     // Maintenance product IDs: NM=4, WY=5, DE=6
@@ -1248,7 +1248,7 @@ export async function registerRoutes(
       res.json(clients);
     } catch (error) {
       console.error("Error fetching renewal clients:", error);
-      res.status(500).json({ message: "Error al obtener clientes pendientes de renovación" });
+      res.status(500).json({ message: "Error fetching clients pending renewal" });
     }
   });
 
@@ -1260,7 +1260,7 @@ export async function registerRoutes(
       res.json(expiredClients);
     } catch (error) {
       console.error("Error fetching expired renewals:", error);
-      res.status(500).json({ message: "Error al obtener renovaciones vencidas" });
+      res.status(500).json({ message: "Error fetching expired renewals" });
     }
   });
 
@@ -1271,22 +1271,22 @@ export async function registerRoutes(
     
     // Require explicit confirmation
     if (!confirmDeactivation) {
-      return res.status(400).json({ message: "Se requiere confirmación explícita (confirmDeactivation: true)" });
+      return res.status(400).json({ message: "Explicit confirmation required (confirmDeactivation: true)" });
     }
     
     const [user] = await db.select().from(usersTable).where(eq(usersTable.id, userId)).limit(1);
     if (!user) {
-      return res.status(404).json({ message: "Usuario no encontrado" });
+      return res.status(404).json({ message: "User not found" });
     }
     
     // Cannot deactivate admin users
     if (user.isAdmin) {
-      return res.status(403).json({ message: "No se puede desactivar a un administrador" });
+      return res.status(403).json({ message: "Cannot deactivate an administrator" });
     }
     
     // Check if user is already deactivated
     if (user.accountStatus === 'deactivated') {
-      return res.status(400).json({ message: "El usuario ya está desactivado" });
+      return res.status(400).json({ message: "User is already deactivated" });
     }
     
     // Check for any recent paid orders (within last 30 days)
@@ -1299,7 +1299,7 @@ export async function registerRoutes(
     
     if (recentOrders.length > 0) {
       return res.status(400).json({ 
-        message: "No se puede desactivar: el usuario tiene un pago reciente en los últimos 30 días" 
+        message: "Cannot deactivate: user has a recent payment in the last 30 days" 
       });
     }
     
@@ -1322,7 +1322,7 @@ export async function registerRoutes(
       "Admin": (req as any).session?.userId
     });
     
-    res.json({ success: true, message: "Usuario desactivado correctamente" });
+    res.json({ success: true, message: "User deactivated successfully" });
   }));
   
   // Reactivate user account
@@ -1332,11 +1332,11 @@ export async function registerRoutes(
     
     const [user] = await db.select().from(usersTable).where(eq(usersTable.id, userId)).limit(1);
     if (!user) {
-      return res.status(404).json({ message: "Usuario no encontrado" });
+      return res.status(404).json({ message: "User not found" });
     }
     
     if (user.accountStatus !== 'deactivated') {
-      return res.status(400).json({ message: "El usuario no está desactivado" });
+      return res.status(400).json({ message: "User is not deactivated" });
     }
     
     const sanitizedReason = reason ? String(reason).slice(0, 500) : 'Reactivado por admin';
@@ -1355,7 +1355,7 @@ export async function registerRoutes(
       "Razón": sanitizedReason
     });
     
-    res.json({ success: true, message: "Usuario reactivado correctamente" });
+    res.json({ success: true, message: "User reactivated successfully" });
   }));
 
   // ============== DISCOUNT CODES ==============
@@ -1376,12 +1376,12 @@ export async function registerRoutes(
       const { code, description, discountType, discountValue, minOrderAmount, maxUses, validFrom, validUntil, isActive } = req.body;
       
       if (!code || !discountValue) {
-        return res.status(400).json({ message: "Código y valor de descuento son requeridos" });
+        return res.status(400).json({ message: "Discount code and value are required" });
       }
 
       const [existing] = await db.select().from(discountCodes).where(eq(discountCodes.code, code.toUpperCase())).limit(1);
       if (existing) {
-        return res.status(400).json({ message: "Este código ya existe" });
+        return res.status(400).json({ message: "This code already exists" });
       }
 
       const [newCode] = await db.insert(discountCodes).values({
@@ -1443,33 +1443,33 @@ export async function registerRoutes(
       const { code, orderAmount } = req.body;
       
       if (!code) {
-        return res.status(400).json({ valid: false, message: "Código requerido" });
+        return res.status(400).json({ valid: false, message: "Code required" });
       }
 
       const [discountCode] = await db.select().from(discountCodes).where(eq(discountCodes.code, code.toUpperCase())).limit(1);
       
       if (!discountCode) {
-        return res.status(404).json({ valid: false, message: "Código no encontrado" });
+        return res.status(404).json({ valid: false, message: "Code not found" });
       }
 
       if (!discountCode.isActive) {
-        return res.status(400).json({ valid: false, message: "Código inactivo" });
+        return res.status(400).json({ valid: false, message: "Code inactive" });
       }
 
       const now = new Date();
       if (discountCode.validFrom && new Date(discountCode.validFrom) > now) {
-        return res.status(400).json({ valid: false, message: "Código aún no válido" });
+        return res.status(400).json({ valid: false, message: "Code not yet valid" });
       }
       if (discountCode.validUntil && new Date(discountCode.validUntil) < now) {
-        return res.status(400).json({ valid: false, message: "Código expirado" });
+        return res.status(400).json({ valid: false, message: "Code expired" });
       }
 
       if (discountCode.maxUses && discountCode.usedCount >= discountCode.maxUses) {
-        return res.status(400).json({ valid: false, message: "Código agotado" });
+        return res.status(400).json({ valid: false, message: "Code exhausted" });
       }
 
       if (discountCode.minOrderAmount && orderAmount && orderAmount < discountCode.minOrderAmount) {
-        return res.status(400).json({ valid: false, message: `Pedido mínimo: ${(discountCode.minOrderAmount / 100).toFixed(2)}€` });
+        return res.status(400).json({ valid: false, message: `Minimum order: ${(discountCode.minOrderAmount / 100).toFixed(2)}€` });
       }
 
       // Calculate discount
@@ -1527,7 +1527,7 @@ export async function registerRoutes(
       res.json(invoices);
     } catch (error) {
       console.error("Error fetching invoices:", error);
-      res.status(500).json({ message: "Error al obtener facturas" });
+      res.status(500).json({ message: "Error fetching invoices" });
     }
   });
 
@@ -1541,10 +1541,10 @@ export async function registerRoutes(
           eq(applicationDocumentsTable.documentType, "invoice")
         )
       );
-      res.json({ success: true, message: "Factura eliminada" });
+      res.json({ success: true, message: "Invoice deleted" });
     } catch (error) {
       console.error("Error deleting invoice:", error);
-      res.status(500).json({ message: "Error al eliminar factura" });
+      res.status(500).json({ message: "Error deleting invoice" });
     }
   });
 
@@ -1562,16 +1562,16 @@ export async function registerRoutes(
         .limit(1);
       
       if (!invoice?.orderId) {
-        return res.status(404).json({ message: "Factura o pedido no encontrado" });
+        return res.status(404).json({ message: "Invoice or order not found" });
       }
       
       await db.update(ordersTable).set({ status })
         .where(eq(ordersTable.id, invoice.orderId));
       
-      res.json({ success: true, message: "Estado actualizado" });
+      res.json({ success: true, message: "Status updated" });
     } catch (error) {
       console.error("Error updating invoice status:", error);
-      res.status(500).json({ message: "Error al actualizar estado" });
+      res.status(500).json({ message: "Error updating status" });
     }
   });
 
@@ -1592,7 +1592,7 @@ export async function registerRoutes(
       await db.delete(newsletterSubscribers).where(eq(newsletterSubscribers.id, parseInt(id)));
       res.json({ success: true });
     } catch (error) {
-      res.status(500).json({ message: "Error al eliminar suscriptor" });
+      res.status(500).json({ message: "Error deleting subscriber" });
     }
   });
 
@@ -1628,7 +1628,7 @@ export async function registerRoutes(
       res.json({ success: true });
     } catch (error) {
       console.error("Calculator consultation error:", error);
-      res.status(500).json({ message: "Error al guardar consulta" });
+      res.status(500).json({ message: "Error saving consultation" });
     }
   });
 
@@ -1638,7 +1638,7 @@ export async function registerRoutes(
       const consultations = await db.select().from(calculatorConsultations).orderBy(desc(calculatorConsultations.createdAt));
       res.json(consultations);
     } catch (error) {
-      res.status(500).json({ message: "Error al obtener consultas" });
+      res.status(500).json({ message: "Error fetching consultations" });
     }
   });
 
@@ -1649,7 +1649,7 @@ export async function registerRoutes(
       await db.update(calculatorConsultations).set({ isRead: true }).where(eq(calculatorConsultations.id, parseInt(id)));
       res.json({ success: true });
     } catch (error) {
-      res.status(500).json({ message: "Error al marcar como leída" });
+      res.status(500).json({ message: "Error marking as read" });
     }
   });
 
@@ -1724,7 +1724,7 @@ export async function registerRoutes(
       await db.delete(calculatorConsultations).where(eq(calculatorConsultations.id, parseInt(id)));
       res.json({ success: true });
     } catch (error) {
-      res.status(500).json({ message: "Error al eliminar consulta" });
+      res.status(500).json({ message: "Error deleting consultation" });
     }
   });
 
@@ -1786,7 +1786,7 @@ export async function registerRoutes(
       const updated = await storage.updateMessageStatus(Number(req.params.id), 'archived');
       res.json(updated);
     } catch (error) {
-      res.status(500).json({ message: "Error al archivar mensaje" });
+      res.status(500).json({ message: "Error archiving message" });
     }
   });
 
@@ -1797,7 +1797,7 @@ export async function registerRoutes(
       await db.delete(messagesTable).where(eq(messagesTable.id, msgId));
       res.json({ success: true });
     } catch (error) {
-      res.status(500).json({ message: "Error al eliminar mensaje" });
+      res.status(500).json({ message: "Error deleting message" });
     }
   });
 
@@ -1861,23 +1861,23 @@ export async function registerRoutes(
 
       bb.on('finish', async () => {
         if (fileTruncated) {
-          return res.status(413).json({ message: `El archivo excede el límite de ${MAX_FILE_SIZE_MB}MB` });
+          return res.status(413).json({ message: `File exceeds the ${MAX_FILE_SIZE_MB}MB size limit` });
         }
         
         // Need either orderId or userId
         if (!fileBuffer || (!orderId && !targetUserId)) {
-          return res.status(400).json({ message: "Faltan datos requeridos (orderId o userId)" });
+          return res.status(400).json({ message: "Missing required data (orderId or userId)" });
         }
         
         // Validate file extension
         const extCheck = fileName.toLowerCase().split('.').pop() || '';
         if (!ALLOWED_EXTENSIONS.includes(extCheck)) {
-          return res.status(400).json({ message: "Tipo de archivo no permitido. Solo se aceptan: PDF, JPG, JPEG, PNG" });
+          return res.status(400).json({ message: "File type not allowed. Only accepted: PDF, JPG, JPEG, PNG" });
         }
         
         // Validate MIME type
         if (!ALLOWED_MIMES.includes(detectedMime)) {
-          return res.status(400).json({ message: "Formato de archivo no válido" });
+          return res.status(400).json({ message: "Invalid file format" });
         }
 
         const fs = await import('fs/promises');
@@ -2040,7 +2040,7 @@ export async function registerRoutes(
       const { llcApplicationId, pdfBase64, fileName } = req.body;
       
       if (!llcApplicationId || !pdfBase64 || !fileName) {
-        return res.status(400).json({ message: "Datos incompletos" });
+        return res.status(400).json({ message: "Incomplete data" });
       }
       
       // Verify user owns this LLC application
@@ -2050,18 +2050,18 @@ export async function registerRoutes(
         .limit(1);
       
       if (!llcApp) {
-        return res.status(404).json({ message: "Aplicación no encontrada" });
+        return res.status(404).json({ message: "Application not found" });
       }
       
       // Check ownership via order
       const [order] = await db.select().from(ordersTable).where(eq(ordersTable.id, llcApp.orderId)).limit(1);
       if (!order || order.userId !== userId) {
-        return res.status(403).json({ message: "Acceso denegado" });
+        return res.status(403).json({ message: "Access denied" });
       }
       
       // Verify EIN is assigned (required for Operating Agreement)
       if (!llcApp.ein) {
-        return res.status(400).json({ message: "No se puede generar sin EIN asignado" });
+        return res.status(400).json({ message: "Cannot generate without assigned EIN" });
       }
       
       // Save to Document Center
@@ -2079,7 +2079,7 @@ export async function registerRoutes(
       res.json({ success: true, documentId: doc.id });
     } catch (error) {
       console.error("Error saving Operating Agreement:", error);
-      res.status(500).json({ message: "Error al guardar documento" });
+      res.status(500).json({ message: "Error saving document" });
     }
   });
 
@@ -2135,7 +2135,7 @@ export async function registerRoutes(
       
       const [user] = await db.select().from(usersTable).where(eq(usersTable.id, userId)).limit(1);
       if (!user || user.accountStatus === 'pending') {
-        return res.status(403).json({ message: "Tu cuenta está en un estado que no permite esta acción. Contacta a nuestro equipo." });
+        return res.status(403).json({ message: "Your account is in a status that does not allow this action. Contact our team." });
       }
       
       // Check if document belongs to user via order OR direct assignment
@@ -2153,14 +2153,14 @@ export async function registerRoutes(
         ));
       
       if (!orderDocs.length && !directDocs.length) {
-        return res.status(404).json({ message: "Documento no encontrado" });
+        return res.status(404).json({ message: "Document not found" });
       }
       
       await db.delete(applicationDocumentsTable).where(eq(applicationDocumentsTable.id, docId));
       res.json({ success: true });
     } catch (error) {
       console.error("Error deleting document:", error);
-      res.status(500).json({ message: "Error al eliminar documento" });
+      res.status(500).json({ message: "Error deleting document" });
     }
   });
 
@@ -2195,7 +2195,7 @@ export async function registerRoutes(
 
       res.json(doc);
     } catch (error) {
-      res.status(500).json({ message: "Error al subir documento" });
+      res.status(500).json({ message: "Error uploading document" });
     }
   });
 
@@ -2206,7 +2206,7 @@ export async function registerRoutes(
       
       // Security: Prevent path traversal attacks
       if (filename.includes('..') || filename.includes('/') || filename.includes('\\')) {
-        return res.status(400).json({ message: "Nombre de archivo inválido" });
+        return res.status(400).json({ message: "Invalid filename" });
       }
       
       const fileUrl = `/uploads/admin-docs/${filename}`;
@@ -2215,7 +2215,7 @@ export async function registerRoutes(
       if (!req.session.isAdmin) {
         const [user] = await db.select().from(usersTable).where(eq(usersTable.id, req.session.userId)).limit(1);
         if (user && user.accountStatus === 'pending') {
-          return res.status(403).json({ message: "Tu cuenta está en un estado que no permite esta acción. Contacta a nuestro equipo." });
+          return res.status(403).json({ message: "Your account is in a status that does not allow this action. Contact our team." });
         }
       }
       
@@ -2224,7 +2224,7 @@ export async function registerRoutes(
         .where(eq(applicationDocumentsTable.fileUrl, fileUrl)).limit(1);
       
       if (!doc) {
-        return res.status(404).json({ message: "Documento no encontrado" });
+        return res.status(404).json({ message: "Document not found" });
       }
       
       // Check ownership: via orderId or direct userId assignment
@@ -2243,7 +2243,7 @@ export async function registerRoutes(
       }
       
       if (!hasAccess) {
-        return res.status(403).json({ message: "Acceso denegado" });
+        return res.status(403).json({ message: "Access denied" });
       }
       
       const path = await import('path');
@@ -2251,7 +2251,7 @@ export async function registerRoutes(
       const filePath = path.join(process.cwd(), 'uploads', 'admin-docs', filename);
       
       if (!fs.existsSync(filePath)) {
-        return res.status(404).json({ message: "Archivo no encontrado" });
+        return res.status(404).json({ message: "File not found" });
       }
       
       // Security headers for file downloads
@@ -2262,7 +2262,7 @@ export async function registerRoutes(
       res.sendFile(filePath);
     } catch (error) {
       console.error("Error serving admin doc:", error);
-      res.status(500).json({ message: "Error al servir archivo" });
+      res.status(500).json({ message: "Error serving file" });
     }
   });
 
@@ -2273,7 +2273,7 @@ export async function registerRoutes(
       
       // Security: Prevent path traversal attacks
       if (filename.includes('..') || filename.includes('/') || filename.includes('\\')) {
-        return res.status(400).json({ message: "Nombre de archivo inválido" });
+        return res.status(400).json({ message: "Invalid filename" });
       }
       
       const fileUrl = `/uploads/client-docs/${filename}`;
@@ -2282,7 +2282,7 @@ export async function registerRoutes(
       if (!req.session.isAdmin) {
         const [user] = await db.select().from(usersTable).where(eq(usersTable.id, req.session.userId)).limit(1);
         if (user && user.accountStatus === 'pending') {
-          return res.status(403).json({ message: "Tu cuenta está en un estado que no permite esta acción. Contacta a nuestro equipo." });
+          return res.status(403).json({ message: "Your account is in a status that does not allow this action. Contact our team." });
         }
       }
       
@@ -2291,7 +2291,7 @@ export async function registerRoutes(
         .where(eq(applicationDocumentsTable.fileUrl, fileUrl)).limit(1);
       
       if (!doc) {
-        return res.status(404).json({ message: "Documento no encontrado" });
+        return res.status(404).json({ message: "Document not found" });
       }
       
       // Check ownership: via orderId or direct userId assignment
@@ -2310,7 +2310,7 @@ export async function registerRoutes(
       }
       
       if (!hasAccess) {
-        return res.status(403).json({ message: "Acceso denegado" });
+        return res.status(403).json({ message: "Access denied" });
       }
       
       const path = await import('path');
@@ -2318,7 +2318,7 @@ export async function registerRoutes(
       const filePath = path.join(process.cwd(), 'uploads', 'client-docs', filename);
       
       if (!fs.existsSync(filePath)) {
-        return res.status(404).json({ message: "Archivo no encontrado" });
+        return res.status(404).json({ message: "File not found" });
       }
       
       // Security headers for file downloads
@@ -2329,13 +2329,13 @@ export async function registerRoutes(
       res.sendFile(filePath);
     } catch (error) {
       console.error("Error serving client doc:", error);
-      res.status(500).json({ message: "Error al servir archivo" });
+      res.status(500).json({ message: "Error serving file" });
     }
   });
 
   // Catch-all for /uploads - deny access to any uncovered paths
   app.get("/uploads/*", (_req, res) => {
-    res.status(403).json({ message: "Acceso denegado" });
+    res.status(403).json({ message: "Access denied" });
   });
 
   app.get("/api/products", async (req, res) => {
@@ -2351,14 +2351,14 @@ export async function registerRoutes(
       
       const [existingUser] = await db.select().from(usersTable).where(eq(usersTable.email, adminEmail)).limit(1);
       if (!existingUser) {
-        return res.status(404).json({ message: "Usuario no encontrado." });
+        return res.status(404).json({ message: "User not found." });
       }
       
       await db.update(usersTable).set({ isAdmin: true, accountStatus: 'active' }).where(eq(usersTable.email, adminEmail));
-      res.json({ success: true, message: "Rol de administrador asignado correctamente" });
+      res.json({ success: true, message: "Admin role assigned successfully" });
     } catch (error) {
       console.error("Seed admin error:", error);
-      res.status(500).json({ message: "Error al asignar rol de administrador" });
+      res.status(500).json({ message: "Error assigning admin role" });
     }
   });
 
@@ -2382,10 +2382,10 @@ export async function registerRoutes(
       }
 
       req.session.destroy(() => {});
-      res.json({ success: true, message: "Cuenta procesada correctamente" });
+      res.json({ success: true, message: "Account processed successfully" });
     } catch (error) {
       console.error("Delete account error:", error);
-      res.status(500).json({ message: "Error al procesar la eliminación de cuenta" });
+      res.status(500).json({ message: "Error processing account deletion" });
     }
   });
 
@@ -2415,7 +2415,7 @@ export async function registerRoutes(
       // Get current user data to detect changes
       const [currentUser] = await db.select().from(usersTable).where(eq(usersTable.id, userId)).limit(1);
       if (!currentUser || !currentUser.email) {
-        return res.status(404).json({ message: "Usuario no encontrado" });
+        return res.status(404).json({ message: "User not found" });
       }
       
       const currentUserEmail = currentUser.email;
@@ -2439,7 +2439,7 @@ export async function registerRoutes(
       if (changedFields.length > 0) {
         if (!otpCode) {
           return res.status(400).json({ 
-            message: "Se requiere verificación OTP para cambios sensibles",
+            message: "OTP verification required for sensitive changes",
             code: "OTP_REQUIRED",
             changedFields: changedFields.map(f => f.field)
           });
@@ -2461,7 +2461,7 @@ export async function registerRoutes(
           .limit(1);
         
         if (!otpRecord) {
-          return res.status(400).json({ message: "Código OTP inválido o expirado" });
+          return res.status(400).json({ message: "Invalid or expired OTP code" });
         }
         
         // Mark OTP as used
@@ -2522,13 +2522,13 @@ export async function registerRoutes(
       const [user] = await db.select().from(usersTable).where(eq(usersTable.id, userId)).limit(1);
       
       if (!user || !user.email) {
-        return res.status(404).json({ message: "Usuario no encontrado" });
+        return res.status(404).json({ message: "User not found" });
       }
       
       const ip = getClientIp(req);
       const rateCheck = checkRateLimit('otp', ip);
       if (!rateCheck.allowed) {
-        return res.status(429).json({ message: `Demasiados intentos. Espera ${rateCheck.retryAfter} segundos.` });
+        return res.status(429).json({ message: `Too many attempts. Wait ${rateCheck.retryAfter} seconds.` });
       }
       
       // Generate OTP
@@ -2551,10 +2551,10 @@ export async function registerRoutes(
         html: getOtpEmailTemplate(otp, user.firstName || "Cliente")
       }).catch(console.error);
       
-      res.json({ success: true, message: "Código OTP enviado a tu email" });
+      res.json({ success: true, message: "OTP code sent to your email" });
     } catch (error) {
       console.error("Send profile OTP error:", error);
-      res.status(500).json({ message: "Error al enviar OTP" });
+      res.status(500).json({ message: "Error sending OTP" });
     }
   });
   
@@ -2566,11 +2566,11 @@ export async function registerRoutes(
       
       const [user] = await db.select().from(usersTable).where(eq(usersTable.id, userId)).limit(1);
       if (!user || !user.email) {
-        return res.status(404).json({ message: "Usuario no encontrado" });
+        return res.status(404).json({ message: "User not found" });
       }
       
       if (user.emailVerified) {
-        return res.json({ success: true, message: "Email ya verificado" });
+        return res.json({ success: true, message: "Email already verified" });
       }
       
       const userEmail = user.email;
@@ -2590,7 +2590,7 @@ export async function registerRoutes(
         .limit(1);
       
       if (!otpRecord) {
-        return res.status(400).json({ message: "Código OTP inválido o expirado" });
+        return res.status(400).json({ message: "Invalid or expired OTP code" });
       }
       
       // Mark OTP as used and activate account
@@ -2610,10 +2610,10 @@ export async function registerRoutes(
         html: getWelcomeEmailTemplate(user.firstName || "Cliente")
       }).catch(console.error);
       
-      res.json({ success: true, message: "Email verificado correctamente. Tu cuenta está activa." });
+      res.json({ success: true, message: "Email verified successfully. Your account is active." });
     } catch (error) {
       console.error("Verify email error:", error);
-      res.status(500).json({ message: "Error al verificar email" });
+      res.status(500).json({ message: "Error verifying email" });
     }
   });
   
@@ -2624,17 +2624,17 @@ export async function registerRoutes(
       const [user] = await db.select().from(usersTable).where(eq(usersTable.id, userId)).limit(1);
       
       if (!user || !user.email) {
-        return res.status(404).json({ message: "Usuario no encontrado" });
+        return res.status(404).json({ message: "User not found" });
       }
       
       if (user.emailVerified) {
-        return res.json({ success: true, message: "Email ya verificado" });
+        return res.json({ success: true, message: "Email already verified" });
       }
       
       const ip = getClientIp(req);
       const rateCheck = checkRateLimit('otp', ip);
       if (!rateCheck.allowed) {
-        return res.status(429).json({ message: `Demasiados intentos. Espera ${rateCheck.retryAfter} segundos.` });
+        return res.status(429).json({ message: `Too many attempts. Wait ${rateCheck.retryAfter} seconds.` });
       }
       
       const otp = Math.floor(100000 + Math.random() * 900000).toString();
@@ -2655,10 +2655,10 @@ export async function registerRoutes(
         html: getOtpEmailTemplate(otp, user.firstName || "Cliente")
       }).catch(console.error);
       
-      res.json({ success: true, message: "Código OTP enviado a tu email" });
+      res.json({ success: true, message: "OTP code sent to your email" });
     } catch (error) {
       console.error("Send verification OTP error:", error);
-      res.status(500).json({ message: "Error al enviar OTP" });
+      res.status(500).json({ message: "Error sending OTP" });
     }
   });
 
@@ -2684,7 +2684,7 @@ export async function registerRoutes(
       res.json(deadlines);
     } catch (error) {
       console.error("Error fetching deadlines:", error);
-      res.status(500).json({ message: "Error al obtener fechas de cumplimiento" });
+      res.status(500).json({ message: "Error fetching compliance dates" });
     }
   });
 
@@ -2699,7 +2699,7 @@ export async function registerRoutes(
 
       const [app] = await db.select().from(llcApplicationsTable).where(eq(llcApplicationsTable.id, applicationId)).limit(1);
       if (!app) {
-        return res.status(404).json({ message: "Aplicación no encontrada" });
+        return res.status(404).json({ message: "Application not found" });
       }
 
       const deadlines = await updateApplicationDeadlines(
@@ -2716,7 +2716,7 @@ export async function registerRoutes(
       });
     } catch (error) {
       console.error("Error setting formation date:", error);
-      res.status(500).json({ message: "Error al establecer fecha de constitución" });
+      res.status(500).json({ message: "Error setting formation date" });
     }
   });
 
@@ -2725,13 +2725,13 @@ export async function registerRoutes(
     try {
       const { userId, title, message, type } = z.object({
         userId: z.string(),
-        title: z.string().min(1, "Título requerido"),
+        title: z.string().min(1, "Title required"),
         message: z.string().min(1, "Mensaje requerido"),
         type: z.enum(['update', 'info', 'action_required'])
       }).parse(req.body);
 
       const [user] = await db.select().from(usersTable).where(eq(usersTable.id, userId)).limit(1);
-      if (!user) return res.status(404).json({ message: "Usuario no encontrado" });
+      if (!user) return res.status(404).json({ message: "User not found" });
 
       // Generate unique ticket ID (8-digit numeric format)
       const { generateUniqueTicketId } = await import("./lib/id-generator");
@@ -2759,7 +2759,7 @@ export async function registerRoutes(
       res.json({ success: true, emailSent: !!user.email, ticketId });
     } catch (error) {
       console.error("Error sending note:", error);
-      res.status(500).json({ message: "Error al enviar nota" });
+      res.status(500).json({ message: "Error sending note" });
     }
   });
 
@@ -2774,7 +2774,7 @@ export async function registerRoutes(
       }).parse(req.body);
 
       const [user] = await db.select().from(usersTable).where(eq(usersTable.id, userId)).limit(1);
-      if (!user || !user.email) return res.status(404).json({ message: "Usuario o email no encontrado" });
+      if (!user || !user.email) return res.status(404).json({ message: "User or email not found" });
 
       await sendEmail({
         to: user.email,
@@ -2794,7 +2794,7 @@ export async function registerRoutes(
       res.json({ success: true });
     } catch (error) {
       console.error("Send payment link error:", error);
-      res.status(500).json({ message: "Error al enviar enlace de pago" });
+      res.status(500).json({ message: "Error sending payment link" });
     }
   });
 
@@ -2805,11 +2805,11 @@ export async function registerRoutes(
       const order = await storage.getOrder(orderId);
       
       if (!order || order.userId !== req.session.userId) {
-        return res.status(403).json({ message: "No autorizado" });
+        return res.status(403).json({ message: "Not authorized" });
       }
 
       if (order.status !== 'pending') {
-        return res.status(400).json({ message: "El pedido ya está en trámite y no puede modificarse." });
+        return res.status(400).json({ message: "The order is already in progress and cannot be modified." });
       }
 
       const updateSchema = z.object({
@@ -2828,7 +2828,7 @@ export async function registerRoutes(
 
       res.json({ success: true });
     } catch (error) {
-      res.status(500).json({ message: "Error al actualizar pedido" });
+      res.status(500).json({ message: "Error updating order" });
     }
   });
 
@@ -2866,7 +2866,7 @@ export async function registerRoutes(
         .where(and(eq(userNotifications.id, req.params.id), eq(userNotifications.userId, req.session.userId)));
       res.json({ success: true });
     } catch (error) {
-      res.status(500).json({ message: "Error al eliminar notificación" });
+      res.status(500).json({ message: "Error deleting notification" });
     }
   });
 
@@ -2875,7 +2875,7 @@ export async function registerRoutes(
     try {
       const [user] = await db.select().from(usersTable).where(eq(usersTable.id, req.session.userId));
       if (!user?.email) {
-        return res.status(400).json({ message: "Usuario no encontrado" });
+        return res.status(400).json({ message: "User not found" });
       }
       
       const otp = Math.floor(100000 + Math.random() * 900000).toString();
@@ -2899,7 +2899,7 @@ export async function registerRoutes(
       res.json({ success: true });
     } catch (error) {
       console.error("Request password OTP error:", error);
-      res.status(500).json({ message: "Error al enviar código" });
+      res.status(500).json({ message: "Error sending code" });
     }
   });
 
@@ -2914,7 +2914,7 @@ export async function registerRoutes(
       
       const [user] = await db.select().from(usersTable).where(eq(usersTable.id, req.session.userId));
       if (!user?.email || !user?.passwordHash) {
-        return res.status(400).json({ message: "No se puede cambiar la contraseña" });
+        return res.status(400).json({ message: "Cannot change password" });
       }
       
       // Verify OTP from database
@@ -2928,7 +2928,7 @@ export async function registerRoutes(
         ));
       
       if (!otpRecord) {
-        return res.status(400).json({ message: "Código de verificación inválido o expirado" });
+        return res.status(400).json({ message: "Invalid or expired verification code" });
       }
       
       // Delete used OTP
@@ -2937,7 +2937,7 @@ export async function registerRoutes(
       const { verifyPassword, hashPassword } = await import("./lib/auth-service");
       const isValid = await verifyPassword(currentPassword, user.passwordHash);
       if (!isValid) {
-        return res.status(400).json({ message: "Contraseña actual incorrecta" });
+        return res.status(400).json({ message: "Incorrect current password" });
       }
       
       const newHash = await hashPassword(newPassword);
@@ -2946,10 +2946,10 @@ export async function registerRoutes(
       res.json({ success: true });
     } catch (error) {
       if (error instanceof z.ZodError) {
-        return res.status(400).json({ message: "Datos inválidos" });
+        return res.status(400).json({ message: "Invalid data" });
       }
       console.error("Change password error:", error);
-      res.status(500).json({ message: "Error al cambiar contraseña" });
+      res.status(500).json({ message: "Error changing password" });
     }
   });
 
@@ -3006,7 +3006,7 @@ export async function registerRoutes(
       res.json({ success: true, messageId: msgId });
     } catch (error) {
       console.error("Request doc error:", error);
-      res.status(500).json({ message: "Error al solicitar documento" });
+      res.status(500).json({ message: "Error requesting document" });
     }
   });
 
@@ -3026,7 +3026,7 @@ export async function registerRoutes(
       const order = await storage.getOrder(orderId);
       
       if (!order || (order.userId !== req.session.userId && !req.session.isAdmin)) {
-        return res.status(403).json({ message: "No autorizado" });
+        return res.status(403).json({ message: "Not authorized" });
       }
 
       const [llcApp] = await db.select().from(llcApplicationsTable).where(eq(llcApplicationsTable.orderId, orderId)).limit(1);
@@ -3065,7 +3065,7 @@ export async function registerRoutes(
       res.send(pdfBuffer);
     } catch (error) {
       console.error("Invoice Error:", error);
-      res.status(500).send("Error al generar factura");
+      res.status(500).send("Error generating invoice");
     }
   });
   app.post("/api/admin/orders/:id/generate-invoice", isAdmin, async (req, res) => {
@@ -3075,7 +3075,7 @@ export async function registerRoutes(
       // Get existing order data
       const [order] = await db.select().from(ordersTable).where(eq(ordersTable.id, orderId)).limit(1);
       if (!order) {
-        return res.status(404).json({ message: "Pedido no encontrado" });
+        return res.status(404).json({ message: "Order not found" });
       }
       
       // Optional: update amount/currency if provided
@@ -3130,7 +3130,7 @@ export async function registerRoutes(
 
     const [user] = await db.select().from(usersTable).where(eq(usersTable.id, userId)).limit(1);
     if (!user) {
-      return res.status(404).json({ message: "Usuario no encontrado" });
+      return res.status(404).json({ message: "User not found" });
     }
 
     const { generateUniqueInvoiceNumber } = await import("./lib/id-generator");
@@ -3257,7 +3257,7 @@ export async function registerRoutes(
       if (ipCheck.blocked) {
         logAudit({ action: 'ip_order_blocked', details: { ip: clientIp, ordersCount: ipCheck.ordersCount } });
         return res.status(429).json({ 
-          message: "Se ha alcanzado el límite de solicitudes desde esta conexión. Por favor, intenta más tarde o contacta con soporte.",
+          message: "Request limit reached from this connection. Please try again later or contact support.",
           code: "IP_ORDER_LIMIT"
         });
       }
@@ -3272,23 +3272,23 @@ export async function registerRoutes(
         // User already authenticated
         const [currentUser] = await db.select().from(usersTable).where(eq(usersTable.id, req.session.userId)).limit(1);
         if (currentUser && (currentUser.accountStatus === 'pending' || currentUser.accountStatus === 'deactivated')) {
-          return res.status(403).json({ message: "Tu cuenta está en revisión o desactivada. No puedes realizar nuevos pedidos en este momento." });
+          return res.status(403).json({ message: "Your account is under review or deactivated. You cannot place new orders at this time." });
         }
         userId = req.session.userId;
       } else {
         // Require email, password and OTP verification for new users
         if (!email || !password) {
-          return res.status(400).json({ message: "Se requiere email y contraseña para realizar un pedido." });
+          return res.status(400).json({ message: "Email and password are required to place an order." });
         }
         
         if (password.length < 8) {
-          return res.status(400).json({ message: "La contraseña debe tener al menos 8 caracteres." });
+          return res.status(400).json({ message: "Password must be at least 8 characters." });
         }
         
         // Check if email already exists
         const [existingUser] = await db.select().from(usersTable).where(eq(usersTable.email, email)).limit(1);
         if (existingUser) {
-          return res.status(400).json({ message: "Este email ya está registrado. Por favor inicia sesión." });
+          return res.status(400).json({ message: "This email is already registered. Please log in." });
         }
         
         // Verify that email has been verified via OTP
@@ -3306,7 +3306,7 @@ export async function registerRoutes(
           .limit(1);
         
         if (!otpRecord) {
-          return res.status(400).json({ message: "Por favor verifica tu email antes de continuar." });
+          return res.status(400).json({ message: "Please verify your email before continuing." });
         }
         
         // Create new user with verified email and password
@@ -3456,11 +3456,11 @@ export async function registerRoutes(
       if (userId) {
         const [currentUser] = await db.select().from(usersTable).where(eq(usersTable.id, userId)).limit(1);
         if (currentUser?.accountStatus === 'deactivated') {
-          return res.status(403).json({ message: "Tu cuenta está desactivada. No puedes enviar mensajes." });
+          return res.status(403).json({ message: "Your account is deactivated. You cannot send messages." });
         }
         if (currentUser?.accountStatus === 'pending') {
           return res.status(403).json({ 
-            message: "Tu cuenta está en revisión. Nuestro equipo está realizando comprobaciones de seguridad.",
+            message: "Your account is under review. Our team is performing security checks.",
             code: "ACCOUNT_UNDER_REVIEW"
           });
         }
@@ -3509,11 +3509,11 @@ export async function registerRoutes(
       const { applicationId, email, password, ownerFullName, paymentMethod, discountCode, discountAmount } = req.body;
       
       if (!applicationId || !email || !password) {
-        return res.status(400).json({ message: "Se requiere email y contraseña." });
+        return res.status(400).json({ message: "Email and password are required." });
       }
       
       if (password.length < 8) {
-        return res.status(400).json({ message: "La contraseña debe tener al menos 8 caracteres." });
+        return res.status(400).json({ message: "Password must be at least 8 characters." });
       }
       
       // Check if email already exists
@@ -3522,11 +3522,11 @@ export async function registerRoutes(
         // Check if account is deactivated
         if (existingUser.isActive === false || existingUser.accountStatus === 'deactivated') {
           return res.status(403).json({ 
-            message: "Tu cuenta ha sido desactivada. Contacta con nuestro equipo de soporte para más información.",
+            message: "Your account has been deactivated. Contact our support team for more information.",
             code: "ACCOUNT_DEACTIVATED"
           });
         }
-        return res.status(400).json({ message: "Este email ya está registrado. Por favor inicia sesión." });
+        return res.status(400).json({ message: "This email is already registered. Please log in." });
       }
       
       // Verify that email has been verified via OTP
@@ -3544,13 +3544,13 @@ export async function registerRoutes(
         .limit(1);
       
       if (!otpRecord) {
-        return res.status(400).json({ message: "Por favor verifica tu email antes de continuar." });
+        return res.status(400).json({ message: "Please verify your email before continuing." });
       }
       
       // Get the application to find the order
       const application = await storage.getLlcApplication(applicationId);
       if (!application) {
-        return res.status(404).json({ message: "Solicitud no encontrada." });
+        return res.status(404).json({ message: "Request not found." });
       }
       
       // Create new user with verified email and copy address fields from application
@@ -3611,7 +3611,7 @@ export async function registerRoutes(
       res.json({ success: true, userId: newUser.id });
     } catch (error) {
       console.error("Error claiming order:", error);
-      res.status(500).json({ message: "Error al crear la cuenta." });
+      res.status(500).json({ message: "Error creating account." });
     }
   });
 
@@ -3621,11 +3621,11 @@ export async function registerRoutes(
       const { applicationId, email, password, ownerFullName, paymentMethod, discountCode, discountAmount } = req.body;
       
       if (!applicationId || !email || !password) {
-        return res.status(400).json({ message: "Se requiere email y contraseña." });
+        return res.status(400).json({ message: "Email and password are required." });
       }
       
       if (password.length < 8) {
-        return res.status(400).json({ message: "La contraseña debe tener al menos 8 caracteres." });
+        return res.status(400).json({ message: "Password must be at least 8 characters." });
       }
       
       // Check if email already exists
@@ -3634,11 +3634,11 @@ export async function registerRoutes(
         // Check if account is deactivated
         if (existingUser.isActive === false || existingUser.accountStatus === 'deactivated') {
           return res.status(403).json({ 
-            message: "Tu cuenta ha sido desactivada. Contacta con nuestro equipo de soporte para más información.",
+            message: "Your account has been deactivated. Contact our support team for more information.",
             code: "ACCOUNT_DEACTIVATED"
           });
         }
-        return res.status(400).json({ message: "Este email ya está registrado. Por favor inicia sesión." });
+        return res.status(400).json({ message: "This email is already registered. Please log in." });
       }
       
       // Verify that email has been verified via OTP
@@ -3656,13 +3656,13 @@ export async function registerRoutes(
         .limit(1);
       
       if (!otpRecord) {
-        return res.status(400).json({ message: "Por favor verifica tu email antes de continuar." });
+        return res.status(400).json({ message: "Please verify your email before continuing." });
       }
       
       // Get the maintenance application to find the order
       const [application] = await db.select().from(maintenanceApplications).where(eq(maintenanceApplications.id, applicationId)).limit(1);
       if (!application) {
-        return res.status(404).json({ message: "Solicitud no encontrada." });
+        return res.status(404).json({ message: "Request not found." });
       }
       
       // Create new user with verified email
@@ -3716,7 +3716,7 @@ export async function registerRoutes(
       res.json({ success: true, userId: newUser.id });
     } catch (error) {
       console.error("Error claiming maintenance order:", error);
-      res.status(500).json({ message: "Error al crear la cuenta." });
+      res.status(500).json({ message: "Error creating account." });
     }
   });
 
@@ -3733,19 +3733,19 @@ export async function registerRoutes(
         .limit(1);
       
       if (!existingApp) {
-        return res.status(404).json({ message: "Aplicación no encontrada" });
+        return res.status(404).json({ message: "Application not found" });
       }
       
       // If EIN is assigned, only admin can modify
       if (existingApp.ein && !req.session.isAdmin) {
-        return res.status(403).json({ message: "Los datos no pueden modificarse después de asignar el EIN. Contacta con soporte." });
+        return res.status(403).json({ message: "Data cannot be modified after EIN assignment. Contact support." });
       }
       
       // Verify ownership for non-admin users
       if (existingApp.orderId && !req.session.isAdmin) {
         const [order] = await db.select().from(ordersTable).where(eq(ordersTable.id, existingApp.orderId)).limit(1);
         if (order && order.userId !== req.session.userId) {
-          return res.status(403).json({ message: "Acceso denegado" });
+          return res.status(403).json({ message: "Access denied" });
         }
       }
       
@@ -3872,7 +3872,7 @@ export async function registerRoutes(
     
     const application = await storage.getLlcApplicationByRequestCode(code);
     if (!application) {
-      return res.status(404).json({ message: "Solicitud no encontrada. Verifica el código ingresado." });
+      return res.status(404).json({ message: "Request not found. Verify the code entered." });
     }
 
     // Security: Only allow owner or admin to view
@@ -4026,7 +4026,7 @@ export async function registerRoutes(
     try {
       const userId = req.session.userId;
       if (!userId) {
-        return res.status(401).json({ message: "No autorizado" });
+        return res.status(401).json({ message: "Not authorized" });
       }
 
       // Get user's orders to attach document (if any)
@@ -4077,22 +4077,22 @@ export async function registerRoutes(
 
       bb.on('finish', async () => {
         if (fileTruncated) {
-          return res.status(413).json({ message: `El archivo excede el límite de ${MAX_FILE_SIZE_MB}MB` });
+          return res.status(413).json({ message: `File exceeds the ${MAX_FILE_SIZE_MB}MB size limit` });
         }
         
         if (!fileBuffer) {
-          return res.status(400).json({ message: "No se recibió ningún archivo" });
+          return res.status(400).json({ message: "No file received" });
         }
         
         // Validate file extension
         const ext = fileName.toLowerCase().split('.').pop() || '';
         if (!ALLOWED_EXTENSIONS.includes(ext)) {
-          return res.status(400).json({ message: "Tipo de archivo no permitido. Solo se aceptan: PDF, JPG, JPEG, PNG" });
+          return res.status(400).json({ message: "File type not allowed. Only accepted: PDF, JPG, JPEG, PNG" });
         }
         
         // Validate MIME type
         if (!ALLOWED_MIMES.includes(detectedMime)) {
-          return res.status(400).json({ message: "Formato de archivo no válido" });
+          return res.status(400).json({ message: "Invalid file format" });
         }
 
         // Save file (in production, use cloud storage)
@@ -4186,7 +4186,7 @@ export async function registerRoutes(
       req.pipe(bb);
     } catch (error: any) {
       console.error("Client upload error:", error);
-      res.status(500).json({ message: "Error al subir documento" });
+      res.status(500).json({ message: "Error uploading document" });
     }
   });
 
@@ -4241,7 +4241,7 @@ export async function registerRoutes(
       if (ipCheck.blocked) {
         logAudit({ action: 'ip_order_blocked', details: { ip: clientIp, ordersCount: ipCheck.ordersCount } });
         return res.status(429).json({ 
-          message: "Se ha alcanzado el límite de solicitudes desde esta conexión. Por favor, intenta más tarde o contacta con soporte.",
+          message: "Request limit reached from this connection. Please try again later or contact support.",
           code: "IP_ORDER_LIMIT"
         });
       }
@@ -4252,7 +4252,7 @@ export async function registerRoutes(
       if (req.session?.userId) {
         const [currentUser] = await db.select().from(usersTable).where(eq(usersTable.id, req.session.userId)).limit(1);
         if (currentUser && (currentUser.accountStatus === 'pending' || currentUser.accountStatus === 'deactivated')) {
-          return res.status(403).json({ message: "Tu cuenta está en revisión o desactivada. No puedes realizar nuevos pedidos en este momento." });
+          return res.status(403).json({ message: "Your account is under review or deactivated. You cannot place new orders at this time." });
         }
         
         // Check for suspicious order creation activity
@@ -4260,7 +4260,7 @@ export async function registerRoutes(
         if (suspiciousCheck.suspicious) {
           await flagAccountForReview(req.session.userId, suspiciousCheck.reason || 'Suspicious order activity');
           return res.status(403).json({ 
-            message: "Tu cuenta ha sido puesta en revisión debido a actividad inusual. Nuestro equipo la revisará pronto.",
+            message: "Your account has been placed under review due to unusual activity. Our team will review it soon.",
             code: "ACCOUNT_UNDER_REVIEW"
           });
         }
@@ -4268,16 +4268,16 @@ export async function registerRoutes(
         userId = req.session.userId;
       } else {
         if (!email || !password) {
-          return res.status(400).json({ message: "Se requiere email y contraseña para realizar un pedido." });
+          return res.status(400).json({ message: "Email and password are required to place an order." });
         }
         
         if (password.length < 8) {
-          return res.status(400).json({ message: "La contraseña debe tener al menos 8 caracteres." });
+          return res.status(400).json({ message: "Password must be at least 8 characters." });
         }
         
         const [existingUser] = await db.select().from(usersTable).where(eq(usersTable.email, email)).limit(1);
         if (existingUser) {
-          return res.status(400).json({ message: "Este email ya está registrado. Por favor inicia sesión." });
+          return res.status(400).json({ message: "This email is already registered. Please log in." });
         }
         
         // Check if email was verified via OTP
@@ -4419,14 +4419,14 @@ export async function registerRoutes(
       const [existingApp] = await db.select().from(maintenanceApplications).where(eq(maintenanceApplications.id, appId)).limit(1);
       
       if (!existingApp) {
-        return res.status(404).json({ message: "Solicitud no encontrada" });
+        return res.status(404).json({ message: "Request not found" });
       }
       
       // Verify ownership through the order
       if (existingApp.orderId) {
         const [order] = await db.select().from(ordersTable).where(eq(ordersTable.id, existingApp.orderId)).limit(1);
         if (order && order.userId && order.userId !== req.session.userId && !req.session.isAdmin) {
-          return res.status(403).json({ message: "No autorizado" });
+          return res.status(403).json({ message: "Not authorized" });
         }
       }
       
@@ -4436,7 +4436,7 @@ export async function registerRoutes(
         .returning();
       
       if (!updatedApp) {
-        return res.status(404).json({ message: "Solicitud no encontrada" });
+        return res.status(404).json({ message: "Request not found" });
       }
       
       if (updates.status === "submitted") {
@@ -4486,7 +4486,7 @@ export async function registerRoutes(
       
       res.json(updatedApp);
     } catch (error) {
-      res.status(500).json({ message: "Error al actualizar la solicitud" });
+      res.status(500).json({ message: "Error updating request" });
     }
   });
 
@@ -4510,13 +4510,13 @@ export async function registerRoutes(
       const targetEmail = email || req.session?.email || null;
       
       if (!targetEmail) {
-        return res.status(400).json({ message: "Se requiere un email" });
+        return res.status(400).json({ message: "Email is required" });
       }
 
       const isSubscribed = await storage.isSubscribedToNewsletter(targetEmail);
       if (isSubscribed) {
         // Silent success for already subscribed via dashboard toggle
-        return res.json({ success: true, message: "Ya estás suscrito" });
+        return res.json({ success: true, message: "Already subscribed" });
       }
 
       await storage.subscribeToNewsletter(targetEmail);
@@ -4553,9 +4553,9 @@ export async function registerRoutes(
       res.json({ success: true });
     } catch (err) {
       if (err instanceof z.ZodError) {
-        return res.status(400).json({ message: "Email inválido" });
+        return res.status(400).json({ message: "Invalid email" });
       }
-      res.status(500).json({ message: "Error al suscribirse" });
+      res.status(500).json({ message: "Error subscribing" });
     }
   });
 
@@ -4575,9 +4575,9 @@ export async function registerRoutes(
       const orderId = Number(req.params.id);
       const order = await storage.getOrder(orderId);
       
-      if (!order) return res.status(404).json({ message: "Pedido no encontrado" });
+      if (!order) return res.status(404).json({ message: "Order not found" });
       if (order.userId !== req.session.userId && !req.session.isAdmin) {
-        return res.status(403).json({ message: "Acceso denegado" });
+        return res.status(403).json({ message: "Access denied" });
       }
       
       const events = await db.select().from(orderEvents)
@@ -4587,7 +4587,7 @@ export async function registerRoutes(
       res.json(events);
     } catch (error) {
       console.error("Error fetching order events:", error);
-      res.status(500).json({ message: "Error al obtener eventos" });
+      res.status(500).json({ message: "Error fetching events" });
     }
   });
 
@@ -4620,7 +4620,7 @@ export async function registerRoutes(
       res.json(event);
     } catch (error) {
       console.error("Error creating order event:", error);
-      res.status(500).json({ message: "Error al crear evento" });
+      res.status(500).json({ message: "Error creating event" });
     }
   });
 
@@ -4632,10 +4632,10 @@ export async function registerRoutes(
       // Verify message belongs to user or user is admin
       const [message] = await db.select().from(messagesTable).where(eq(messagesTable.id, messageId)).limit(1);
       if (!message) {
-        return res.status(404).json({ message: "Mensaje no encontrado" });
+        return res.status(404).json({ message: "Message not found" });
       }
       if (message.userId !== req.session.userId && !req.session.isAdmin) {
-        return res.status(403).json({ message: "Acceso denegado" });
+        return res.status(403).json({ message: "Access denied" });
       }
       
       const replies = await db.select().from(messageReplies)
@@ -4645,7 +4645,7 @@ export async function registerRoutes(
       res.json(replies);
     } catch (error) {
       console.error("Error fetching message replies:", error);
-      res.status(500).json({ message: "Error al obtener respuestas" });
+      res.status(500).json({ message: "Error fetching replies" });
     }
   });
 
@@ -4658,10 +4658,10 @@ export async function registerRoutes(
       // Verify message belongs to user or user is admin
       const [existingMessage] = await db.select().from(messagesTable).where(eq(messagesTable.id, messageId)).limit(1);
       if (!existingMessage) {
-        return res.status(404).json({ message: "Mensaje no encontrado" });
+        return res.status(404).json({ message: "Message not found" });
       }
       if (existingMessage.userId !== req.session.userId && !req.session.isAdmin) {
-        return res.status(403).json({ message: "Acceso denegado" });
+        return res.status(403).json({ message: "Access denied" });
       }
       
       if (!content || typeof content !== 'string' || !content.trim()) {
@@ -4701,7 +4701,7 @@ export async function registerRoutes(
       res.json(reply);
     } catch (error) {
       console.error("Error creating reply:", error);
-      res.status(500).json({ message: "Error al crear respuesta" });
+      res.status(500).json({ message: "Error creating reply" });
     }
   });
 
@@ -4868,7 +4868,7 @@ export async function registerRoutes(
       const rateCheck = checkRateLimit('contact', ip);
       if (!rateCheck.allowed) {
         return res.status(429).json({ 
-          message: `Demasiados intentos. Espera ${rateCheck.retryAfter} segundos.` 
+          message: `Too many attempts. Wait ${rateCheck.retryAfter} seconds.` 
         });
       }
 
@@ -4891,7 +4891,7 @@ export async function registerRoutes(
       res.json({ success: true });
     } catch (err) {
       console.error("Error sending contact OTP:", err);
-      res.status(400).json({ message: "Error al enviar el código de verificación. Por favor, inténtalo de nuevo en unos minutos." });
+      res.status(400).json({ message: "Error sending verification code. Please try again in a few minutes." });
     }
   });
 
@@ -4911,7 +4911,7 @@ export async function registerRoutes(
         .limit(1);
 
       if (!record) {
-        return res.status(400).json({ message: "El código ha expirado o no es correcto. Por favor, solicita uno nuevo." });
+        return res.status(400).json({ message: "The code has expired or is incorrect. Please request a new one." });
       }
 
       await db.update(contactOtps)
@@ -4921,7 +4921,7 @@ export async function registerRoutes(
       res.json({ success: true });
     } catch (err) {
       console.error("Error verifying contact OTP:", err);
-      res.status(400).json({ message: "No se pudo verificar el código. Inténtalo de nuevo." });
+      res.status(400).json({ message: "Could not verify the code. Please try again." });
     }
   });
 
@@ -4997,7 +4997,7 @@ export async function registerRoutes(
       res.json({ success: true, ticketId });
     } catch (err) {
       console.error("Error processing contact form:", err);
-      res.status(400).json({ message: "Error al procesar el mensaje" });
+      res.status(400).json({ message: "Error processing message" });
     }
   });
 
@@ -5020,7 +5020,7 @@ export async function registerRoutes(
         firstName: existingUser?.firstName || null
       });
     } catch (err) {
-      res.status(400).json({ message: "Email inválido" });
+      res.status(400).json({ message: "Invalid email" });
     }
   });
   
@@ -5031,7 +5031,7 @@ export async function registerRoutes(
       const rateCheck = checkRateLimit('register', ip);
       if (!rateCheck.allowed) {
         return res.status(429).json({ 
-          message: `Demasiados intentos. Espera ${rateCheck.retryAfter} segundos.` 
+          message: `Too many attempts. Wait ${rateCheck.retryAfter} seconds.` 
         });
       }
 
@@ -5043,11 +5043,11 @@ export async function registerRoutes(
         // Check if account is deactivated
         if (existingUser.isActive === false || existingUser.accountStatus === 'deactivated') {
           return res.status(403).json({ 
-            message: "Tu cuenta ha sido desactivada. Contacta con nuestro equipo de soporte para más información.",
+            message: "Your account has been deactivated. Contact our support team for more information.",
             code: "ACCOUNT_DEACTIVATED"
           });
         }
-        return res.status(400).json({ message: "Este email ya está registrado. Por favor inicia sesión." });
+        return res.status(400).json({ message: "This email is already registered. Please log in." });
       }
       
       const otp = Math.floor(100000 + Math.random() * 900000).toString();
@@ -5070,7 +5070,7 @@ export async function registerRoutes(
       res.json({ success: true });
     } catch (err) {
       console.error("Error sending registration OTP:", err);
-      res.status(400).json({ message: "Error al enviar el código de verificación." });
+      res.status(400).json({ message: "Error sending verification code." });
     }
   });
 
@@ -5092,7 +5092,7 @@ export async function registerRoutes(
         .limit(1);
 
       if (!record) {
-        return res.status(400).json({ message: "El código ha expirado o no es correcto. Por favor, solicita uno nuevo." });
+        return res.status(400).json({ message: "The code has expired or is incorrect. Please request a new one." });
       }
 
       await db.update(contactOtps)
@@ -5102,7 +5102,7 @@ export async function registerRoutes(
       res.json({ success: true });
     } catch (err) {
       console.error("Error verifying registration OTP:", err);
-      res.status(400).json({ message: "No se pudo verificar el código. Inténtalo de nuevo." });
+      res.status(400).json({ message: "Could not verify the code. Please try again." });
     }
   });
 
@@ -5113,7 +5113,7 @@ export async function registerRoutes(
       const rateCheck = checkRateLimit('passwordReset', ip);
       if (!rateCheck.allowed) {
         return res.status(429).json({ 
-          message: `Demasiados intentos. Espera ${rateCheck.retryAfter} segundos.` 
+          message: `Too many attempts. Wait ${rateCheck.retryAfter} seconds.` 
         });
       }
 
@@ -5147,7 +5147,7 @@ export async function registerRoutes(
       res.json({ success: true });
     } catch (err) {
       console.error("Error sending password reset OTP:", err);
-      res.status(400).json({ message: "Error al enviar el código de verificación." });
+      res.status(400).json({ message: "Error sending verification code." });
     }
   });
 
@@ -5157,7 +5157,7 @@ export async function registerRoutes(
       const { email, otp, newPassword } = z.object({ 
         email: z.string().email(), 
         otp: z.string(),
-        newPassword: z.string().min(8, "La contraseña debe tener al menos 8 caracteres")
+        newPassword: z.string().min(8, "Password must be at least 8 characters")
       }).parse(req.body);
       
       const [record] = await db.select()
@@ -5174,13 +5174,13 @@ export async function registerRoutes(
         .limit(1);
 
       if (!record) {
-        return res.status(400).json({ message: "El código ha expirado o no es correcto. Por favor, solicita uno nuevo." });
+        return res.status(400).json({ message: "The code has expired or is incorrect. Please request a new one." });
       }
 
       // Find the user
       const [user] = await db.select().from(usersTable).where(eq(usersTable.email, email)).limit(1);
       if (!user) {
-        return res.status(400).json({ message: "Usuario no encontrado" });
+        return res.status(400).json({ message: "User not found" });
       }
 
       // Hash new password and update
@@ -5196,13 +5196,13 @@ export async function registerRoutes(
         .set({ verified: true })
         .where(eq(contactOtps.id, record.id));
 
-      res.json({ success: true, message: "Contraseña actualizada correctamente" });
+      res.json({ success: true, message: "Password updated successfully" });
     } catch (err: any) {
       console.error("Error resetting password:", err);
       if (err.errors) {
-        return res.status(400).json({ message: err.errors[0]?.message || "Error al restablecer la contraseña" });
+        return res.status(400).json({ message: err.errors[0]?.message || "Error resetting password" });
       }
-      res.status(400).json({ message: "Error al restablecer la contraseña" });
+      res.status(400).json({ message: "Error resetting password" });
     }
   });
 
@@ -5217,7 +5217,7 @@ export async function registerRoutes(
       res.json(types);
     } catch (err) {
       console.error("Error fetching consultation types:", err);
-      res.status(500).json({ message: "Error al obtener tipos de consulta" });
+      res.status(500).json({ message: "Error fetching consultation types" });
     }
   });
   
@@ -5264,7 +5264,7 @@ export async function registerRoutes(
       });
     } catch (err) {
       console.error("Error fetching availability:", err);
-      res.status(500).json({ message: "Error al obtener disponibilidad" });
+      res.status(500).json({ message: "Error fetching availability" });
     }
   });
   
@@ -5275,7 +5275,7 @@ export async function registerRoutes(
       
       // Check account status
       if (user.accountStatus === 'deactivated') {
-        return res.status(403).json({ message: "Tu cuenta está desactivada" });
+        return res.status(403).json({ message: "Your account is deactivated" });
       }
       
       const schema = z.object({
@@ -5297,7 +5297,7 @@ export async function registerRoutes(
         .where(eq(consultationTypes.id, data.consultationTypeId));
       
       if (!consultationType || !consultationType.isActive) {
-        return res.status(400).json({ message: "Tipo de consulta no válido" });
+        return res.status(400).json({ message: "Invalid consultation type" });
       }
       
       // Check slot availability
@@ -5312,7 +5312,7 @@ export async function registerRoutes(
         ));
       
       if (!slot) {
-        return res.status(400).json({ message: "Horario no disponible" });
+        return res.status(400).json({ message: "Schedule not available" });
       }
       
       // Check for existing booking at this time
@@ -5324,7 +5324,7 @@ export async function registerRoutes(
         ));
       
       if (existingBooking) {
-        return res.status(400).json({ message: "Este horario ya está reservado" });
+        return res.status(400).json({ message: "This schedule is already booked" });
       }
       
       // Generate booking code
@@ -5366,9 +5366,9 @@ export async function registerRoutes(
     } catch (err: any) {
       console.error("Error creating booking:", err);
       if (err.errors) {
-        return res.status(400).json({ message: err.errors[0]?.message || "Error al crear reserva" });
+        return res.status(400).json({ message: err.errors[0]?.message || "Error creating booking" });
       }
-      res.status(500).json({ message: "Error al crear la reserva" });
+      res.status(500).json({ message: "Error creating the booking" });
     }
   });
   
@@ -5388,7 +5388,7 @@ export async function registerRoutes(
       res.json(bookings);
     } catch (err) {
       console.error("Error fetching user consultations:", err);
-      res.status(500).json({ message: "Error al obtener consultas" });
+      res.status(500).json({ message: "Error fetching consultations" });
     }
   });
   
@@ -5405,11 +5405,11 @@ export async function registerRoutes(
         ));
       
       if (!booking) {
-        return res.status(404).json({ message: "Reserva no encontrada" });
+        return res.status(404).json({ message: "Booking not found" });
       }
       
       if (!['pending', 'confirmed'].includes(booking.status)) {
-        return res.status(400).json({ message: "No se puede cancelar esta reserva" });
+        return res.status(400).json({ message: "Cannot cancel this booking" });
       }
       
       await db.update(consultationBookings)
@@ -5433,7 +5433,7 @@ export async function registerRoutes(
       res.json({ success: true });
     } catch (err) {
       console.error("Error cancelling booking:", err);
-      res.status(500).json({ message: "Error al cancelar reserva" });
+      res.status(500).json({ message: "Error canceling booking" });
     }
   });
   
@@ -5446,7 +5446,7 @@ export async function registerRoutes(
       res.json(types);
     } catch (err) {
       console.error("Error fetching consultation types:", err);
-      res.status(500).json({ message: "Error al obtener tipos de consulta" });
+      res.status(500).json({ message: "Error fetching consultation types" });
     }
   });
   
@@ -5483,7 +5483,7 @@ export async function registerRoutes(
       res.json(type);
     } catch (err: any) {
       console.error("Error creating consultation type:", err);
-      res.status(400).json({ message: err.errors?.[0]?.message || "Error al crear tipo de consulta" });
+      res.status(400).json({ message: err.errors?.[0]?.message || "Error creating consultation type" });
     }
   });
   
@@ -5498,13 +5498,13 @@ export async function registerRoutes(
         .returning();
       
       if (!updated) {
-        return res.status(404).json({ message: "Tipo no encontrado" });
+        return res.status(404).json({ message: "Type not found" });
       }
       
       res.json(updated);
     } catch (err) {
       console.error("Error updating consultation type:", err);
-      res.status(500).json({ message: "Error al actualizar tipo" });
+      res.status(500).json({ message: "Error updating type" });
     }
   });
   
@@ -5516,7 +5516,7 @@ export async function registerRoutes(
       res.json({ success: true });
     } catch (err) {
       console.error("Error deleting consultation type:", err);
-      res.status(500).json({ message: "Error al eliminar tipo" });
+      res.status(500).json({ message: "Error deleting type" });
     }
   });
   
@@ -5527,7 +5527,7 @@ export async function registerRoutes(
       res.json(slots);
     } catch (err) {
       console.error("Error fetching availability:", err);
-      res.status(500).json({ message: "Error al obtener disponibilidad" });
+      res.status(500).json({ message: "Error fetching availability" });
     }
   });
   
@@ -5547,7 +5547,7 @@ export async function registerRoutes(
       res.json(slot);
     } catch (err: any) {
       console.error("Error creating availability slot:", err);
-      res.status(400).json({ message: err.errors?.[0]?.message || "Error al crear horario" });
+      res.status(400).json({ message: err.errors?.[0]?.message || "Error creating schedule" });
     }
   });
   
@@ -5564,7 +5564,7 @@ export async function registerRoutes(
       res.json(updated);
     } catch (err) {
       console.error("Error updating availability:", err);
-      res.status(500).json({ message: "Error al actualizar horario" });
+      res.status(500).json({ message: "Error updating schedule" });
     }
   });
   
@@ -5576,7 +5576,7 @@ export async function registerRoutes(
       res.json({ success: true });
     } catch (err) {
       console.error("Error deleting availability:", err);
-      res.status(500).json({ message: "Error al eliminar horario" });
+      res.status(500).json({ message: "Error deleting schedule" });
     }
   });
   
@@ -5587,7 +5587,7 @@ export async function registerRoutes(
       res.json(dates);
     } catch (err) {
       console.error("Error fetching blocked dates:", err);
-      res.status(500).json({ message: "Error al obtener fechas bloqueadas" });
+      res.status(500).json({ message: "Error fetching blocked dates" });
     }
   });
   
@@ -5609,7 +5609,7 @@ export async function registerRoutes(
       res.json(blocked);
     } catch (err: any) {
       console.error("Error creating blocked date:", err);
-      res.status(400).json({ message: err.errors?.[0]?.message || "Error al bloquear fecha" });
+      res.status(400).json({ message: err.errors?.[0]?.message || "Error blocking date" });
     }
   });
   
@@ -5621,7 +5621,7 @@ export async function registerRoutes(
       res.json({ success: true });
     } catch (err) {
       console.error("Error deleting blocked date:", err);
-      res.status(500).json({ message: "Error al eliminar fecha bloqueada" });
+      res.status(500).json({ message: "Error deleting blocked date" });
     }
   });
   
@@ -5649,7 +5649,7 @@ export async function registerRoutes(
       res.json(bookings);
     } catch (err) {
       console.error("Error fetching bookings:", err);
-      res.status(500).json({ message: "Error al obtener reservas" });
+      res.status(500).json({ message: "Error fetching bookings" });
     }
   });
   
@@ -5676,7 +5676,7 @@ export async function registerRoutes(
         .returning();
       
       if (!updated) {
-        return res.status(404).json({ message: "Reserva no encontrada" });
+        return res.status(404).json({ message: "Booking not found" });
       }
       
       logAudit({
@@ -5691,7 +5691,7 @@ export async function registerRoutes(
       res.json(updated);
     } catch (err) {
       console.error("Error updating booking:", err);
-      res.status(500).json({ message: "Error al actualizar reserva" });
+      res.status(500).json({ message: "Error updating booking" });
     }
   });
   
@@ -5711,7 +5711,7 @@ export async function registerRoutes(
         ));
       
       if (existingBooking && existingBooking.id !== bookingId) {
-        return res.status(400).json({ message: "Este horario ya está reservado" });
+        return res.status(400).json({ message: "This schedule is already booked" });
       }
       
       const [updated] = await db.update(consultationBookings)
@@ -5736,7 +5736,7 @@ export async function registerRoutes(
       res.json(updated);
     } catch (err) {
       console.error("Error rescheduling booking:", err);
-      res.status(500).json({ message: "Error al reagendar reserva" });
+      res.status(500).json({ message: "Error rescheduling booking" });
     }
   });
   
@@ -5757,7 +5757,7 @@ export async function registerRoutes(
       });
     } catch (err) {
       console.error("Error fetching consultation stats:", err);
-      res.status(500).json({ message: "Error al obtener estadísticas" });
+      res.status(500).json({ message: "Error fetching statistics" });
     }
   });
 
@@ -5792,7 +5792,7 @@ export async function registerRoutes(
       res.json(transactions);
     } catch (err) {
       console.error("Error fetching accounting transactions:", err);
-      res.status(500).json({ message: "Error al obtener transacciones" });
+      res.status(500).json({ message: "Error fetching transactions" });
     }
   });
   
@@ -5843,7 +5843,7 @@ export async function registerRoutes(
       });
     } catch (err) {
       console.error("Error fetching accounting summary:", err);
-      res.status(500).json({ message: "Error al obtener resumen contable" });
+      res.status(500).json({ message: "Error fetching accounting summary" });
     }
   });
   
@@ -5853,7 +5853,7 @@ export async function registerRoutes(
       const { type, category, amount, currency, description, orderId, userId, reference, transactionDate, notes } = req.body;
       
       if (!type || !category || amount === undefined) {
-        return res.status(400).json({ message: "Faltan datos requeridos" });
+        return res.status(400).json({ message: "Missing required data" });
       }
       
       const amountCents = Math.round(Number(amount) * 100);
@@ -5882,7 +5882,7 @@ export async function registerRoutes(
       res.json(transaction);
     } catch (err) {
       console.error("Error creating transaction:", err);
-      res.status(500).json({ message: "Error al crear transacción" });
+      res.status(500).json({ message: "Error creating transaction" });
     }
   });
   
@@ -5920,7 +5920,7 @@ export async function registerRoutes(
       res.json(updated);
     } catch (err) {
       console.error("Error updating transaction:", err);
-      res.status(500).json({ message: "Error al actualizar transacción" });
+      res.status(500).json({ message: "Error updating transaction" });
     }
   });
   
@@ -5940,7 +5940,7 @@ export async function registerRoutes(
       res.json({ success: true });
     } catch (err) {
       console.error("Error deleting transaction:", err);
-      res.status(500).json({ message: "Error al eliminar transacción" });
+      res.status(500).json({ message: "Error deleting transaction" });
     }
   });
   
@@ -5988,7 +5988,7 @@ export async function registerRoutes(
       res.send('\uFEFF' + csvContent); // BOM for Excel UTF-8
     } catch (err) {
       console.error("Error exporting CSV:", err);
-      res.status(500).json({ message: "Error al exportar CSV" });
+      res.status(500).json({ message: "Error exporting CSV" });
     }
   });
   

@@ -78,11 +78,11 @@ export function setupCustomAuth(app: Express) {
       const { email, password, firstName, lastName, phone, birthDate, businessActivity, preferredLanguage } = req.body;
 
       if (!email || !password || !firstName || !lastName || !phone) {
-        return res.status(400).json({ message: "Todos los campos son obligatorios" });
+        return res.status(400).json({ message: "All fields are required" });
       }
 
       if (password.length < 8) {
-        return res.status(400).json({ message: "La contraseña debe tener al menos 8 caracteres" });
+        return res.status(400).json({ message: "Password must be at least 8 characters" });
       }
 
       const clientId = await generateUniqueClientId();
@@ -124,7 +124,7 @@ export function setupCustomAuth(app: Express) {
       req.session.save((err) => {
         if (err) {
           console.error("Session save error:", err);
-          return res.status(500).json({ message: "Error al guardar la sesión" });
+          return res.status(500).json({ message: "Error saving session" });
         }
         
         res.json({
@@ -136,12 +136,12 @@ export function setupCustomAuth(app: Express) {
             lastName: user.lastName,
             emailVerified: user.emailVerified,
           },
-          message: "Cuenta creada. Revisa tu email para verificar tu cuenta.",
+          message: "Account created. Check your email to verify your account.",
         });
       });
     } catch (error: any) {
       console.error("Registration error:", error);
-      res.status(400).json({ message: error.message || "Error al crear la cuenta" });
+      res.status(400).json({ message: error.message || "Error creating account" });
     }
   });
 
@@ -152,14 +152,14 @@ export function setupCustomAuth(app: Express) {
         const rateCheck = checkRateLimit('login', ip);
         if (!rateCheck.allowed) {
           return res.status(429).json({ 
-            message: `Demasiados intentos. Espera ${rateCheck.retryAfter} segundos.` 
+            message: `Too many attempts. Wait ${rateCheck.retryAfter} seconds.` 
           });
         }
 
         const { email, password, securityOtp } = req.body;
 
         if (!email || !password) {
-          return res.status(400).json({ message: "Email y contraseña son obligatorios" });
+          return res.status(400).json({ message: "Email and password are required" });
         }
 
         const user = await loginUser(email, password);
@@ -168,13 +168,13 @@ export function setupCustomAuth(app: Express) {
           const [existingUser] = await db.select({ id: users.id }).from(users).where(eq(users.email, email.toLowerCase().trim())).limit(1);
           logAudit({ action: 'user_login', ip, details: { email, success: false } });
           return res.status(401).json({ 
-            message: "Email o contraseña incorrectos",
+            message: "Incorrect email or password",
             hint: existingUser ? undefined : "no_account"
           });
         }
 
         if (user.accountStatus === 'deactivated') {
-          return res.status(403).json({ message: "Tu cuenta ha sido desactivada. Contacta a nuestro servicio de atención al cliente para más información." });
+          return res.status(403).json({ message: "Your account has been deactivated. Contact our customer service for more information." });
         }
 
         // Check if user has organization docs (skip security OTP if they do)
@@ -232,7 +232,7 @@ export function setupCustomAuth(app: Express) {
           
           return res.status(200).json({ 
             requiresSecurityOtp: true,
-            message: "Por seguridad, hemos enviado un código de verificación a tu email."
+            message: "For security, we have sent a verification code to your email."
           });
         }
         
@@ -253,7 +253,7 @@ export function setupCustomAuth(app: Express) {
             .limit(1);
           
           if (!otpRecord) {
-            return res.status(400).json({ message: "Código de verificación incorrecto o expirado." });
+            return res.status(400).json({ message: "Incorrect or expired verification code." });
           }
           
           // Mark OTP as used
@@ -279,7 +279,7 @@ export function setupCustomAuth(app: Express) {
         req.session.save((err) => {
           if (err) {
             console.error("Session save error:", err);
-            return res.status(500).json({ message: "Error al guardar la sesión" });
+            return res.status(500).json({ message: "Error saving session" });
           }
           
           logAudit({ action: 'user_login', userId: user.id, ip, details: { email, success: true, loginCount: newLoginCount } });
@@ -304,7 +304,7 @@ export function setupCustomAuth(app: Express) {
           return res.status(403).json({ message: error.message });
         }
         console.error("Login error:", error);
-        res.status(500).json({ message: "Error al iniciar sesión" });
+        res.status(500).json({ message: "Error logging in" });
       }
   });
 
@@ -313,7 +313,7 @@ export function setupCustomAuth(app: Express) {
     req.session.destroy((err) => {
       if (err) {
         console.error("Logout error:", err);
-        return res.status(500).json({ message: "Error al cerrar sesión" });
+        return res.status(500).json({ message: "Error logging out" });
       }
       res.clearCookie("connect.sid");
       res.json({ success: true });
@@ -335,19 +335,19 @@ export function setupCustomAuth(app: Express) {
       const userId = req.session.userId;
 
       if (!userId) {
-        return res.status(401).json({ message: "No autenticado" });
+        return res.status(401).json({ message: "Not authenticated" });
       }
 
       const success = await verifyEmailToken(userId, code);
 
       if (!success) {
-        return res.status(400).json({ message: "Código inválido o expirado" });
+        return res.status(400).json({ message: "Invalid or expired code" });
       }
 
-      res.json({ success: true, message: "Email verificado correctamente" });
+      res.json({ success: true, message: "Email verified successfully" });
     } catch (error) {
       // Email error silenced
-      res.status(500).json({ message: "Error al verificar el email" });
+      res.status(500).json({ message: "Error verifying email" });
     }
   });
 
@@ -357,19 +357,19 @@ export function setupCustomAuth(app: Express) {
       const userId = req.session.userId;
 
       if (!userId) {
-        return res.status(401).json({ message: "No autenticado" });
+        return res.status(401).json({ message: "Not authenticated" });
       }
 
       const success = await resendVerificationEmail(userId);
 
       if (!success) {
-        return res.status(400).json({ message: "Error al enviar el código" });
+        return res.status(400).json({ message: "Error sending code" });
       }
 
-      res.json({ success: true, message: "Código enviado" });
+      res.json({ success: true, message: "Code sent" });
     } catch (error) {
       console.error("Resend verification error:", error);
-      res.status(500).json({ message: "Error al enviar el código" });
+      res.status(500).json({ message: "Error sending code" });
     }
   });
 
@@ -379,7 +379,7 @@ export function setupCustomAuth(app: Express) {
       const { email } = req.body;
 
       if (!email) {
-        return res.status(400).json({ message: "Email es obligatorio" });
+        return res.status(400).json({ message: "Email is required" });
       }
 
       await createPasswordResetOtp(email);
@@ -387,10 +387,10 @@ export function setupCustomAuth(app: Express) {
       // Always return success to prevent email enumeration
       res.json({
         success: true,
-        message: "Si el email existe en nuestro sistema, recibirás un código de verificación",
+        message: "If the email exists in our system, you will receive a verification code",
       });
     } catch (error) {
-      res.status(500).json({ message: "Error al procesar la solicitud" });
+      res.status(500).json({ message: "Error processing request" });
     }
   });
 
@@ -400,18 +400,18 @@ export function setupCustomAuth(app: Express) {
       const { email, otp } = req.body;
 
       if (!email || !otp) {
-        return res.status(400).json({ message: "Email y código son obligatorios" });
+        return res.status(400).json({ message: "Email and code are required" });
       }
 
       const isValid = await verifyPasswordResetOtp(email, otp);
 
       if (!isValid) {
-        return res.status(400).json({ message: "Código inválido o expirado" });
+        return res.status(400).json({ message: "Invalid or expired code" });
       }
 
       res.json({ success: true });
     } catch (error) {
-      res.status(500).json({ message: "Error al verificar el código" });
+      res.status(500).json({ message: "Error verifying code" });
     }
   });
 
@@ -421,22 +421,22 @@ export function setupCustomAuth(app: Express) {
       const { email, otp, password } = req.body;
 
       if (!email || !otp || !password) {
-        return res.status(400).json({ message: "Email, código y contraseña son obligatorios" });
+        return res.status(400).json({ message: "Email, code and password are required" });
       }
 
       if (password.length < 8) {
-        return res.status(400).json({ message: "La contraseña debe tener al menos 8 caracteres" });
+        return res.status(400).json({ message: "Password must be at least 8 characters" });
       }
 
       const success = await resetPasswordWithOtp(email, otp, password);
 
       if (!success) {
-        return res.status(400).json({ message: "Código inválido o expirado" });
+        return res.status(400).json({ message: "Invalid or expired code" });
       }
 
-      res.json({ success: true, message: "Contraseña actualizada correctamente" });
+      res.json({ success: true, message: "Password updated successfully" });
     } catch (error) {
-      res.status(500).json({ message: "Error al actualizar la contraseña" });
+      res.status(500).json({ message: "Error updating password" });
     }
   });
 
@@ -446,14 +446,14 @@ export function setupCustomAuth(app: Express) {
       const userId = req.session.userId;
 
       if (!userId) {
-        return res.status(401).json({ message: "No autenticado" });
+        return res.status(401).json({ message: "Not authenticated" });
       }
 
       const [user] = await db.select().from(users).where(eq(users.id, userId)).limit(1);
 
       if (!user) {
         req.session.destroy(() => {});
-        return res.status(401).json({ message: "Usuario no encontrado" });
+        return res.status(401).json({ message: "User not found" });
       }
 
       res.json({
@@ -482,7 +482,7 @@ export function setupCustomAuth(app: Express) {
       });
     } catch (error) {
       console.error("Get user error:", error);
-      res.status(500).json({ message: "Error al obtener el usuario" });
+      res.status(500).json({ message: "Error fetching user" });
     }
   });
 
@@ -492,7 +492,7 @@ export function setupCustomAuth(app: Express) {
       const userId = req.session.userId;
 
       if (!userId) {
-        return res.status(401).json({ message: "No autenticado" });
+        return res.status(401).json({ message: "Not authenticated" });
       }
 
       const { firstName, lastName, phone, address, streetType, city, province, postalCode, country, idNumber, idType, businessActivity, preferredLanguage } = req.body;
@@ -500,7 +500,7 @@ export function setupCustomAuth(app: Express) {
       // Get current user to check for significant changes
       const [currentUser] = await db.select().from(users).where(eq(users.id, userId)).limit(1);
       if (!currentUser) {
-        return res.status(404).json({ message: "Usuario no encontrado" });
+        return res.status(404).json({ message: "User not found" });
       }
       
       // Count significant field changes (sensitive fields that require review)
@@ -582,7 +582,7 @@ export function setupCustomAuth(app: Express) {
       });
     } catch (error) {
       console.error("Update user error:", error);
-      res.status(500).json({ message: "Error al actualizar el perfil" });
+      res.status(500).json({ message: "Error updating profile" });
     }
   });
 }
@@ -590,21 +590,21 @@ export function setupCustomAuth(app: Express) {
 // Middleware to check if account is under review or deactivated (restricts most actions)
 export const isNotUnderReview: RequestHandler = async (req, res, next) => {
   if (!req.session.userId) {
-    return res.status(401).json({ message: "No autenticado" });
+    return res.status(401).json({ message: "Not authenticated" });
   }
   
   const [user] = await db.select().from(users).where(eq(users.id, req.session.userId)).limit(1);
   
   if (user?.accountStatus === 'pending') {
     return res.status(403).json({ 
-      message: "Tu cuenta está en revisión. Nuestro equipo está realizando comprobaciones de seguridad.",
+      message: "Your account is under review. Our team is performing security checks.",
       code: "ACCOUNT_UNDER_REVIEW"
     });
   }
   
   if (user?.accountStatus === 'deactivated') {
     return res.status(403).json({ 
-      message: "Tu cuenta ha sido desactivada. Contacta a nuestro equipo de soporte para más información.",
+      message: "Your account has been deactivated. Contact our support team for more information.",
       code: "ACCOUNT_DEACTIVATED"
     });
   }
@@ -614,20 +614,20 @@ export const isNotUnderReview: RequestHandler = async (req, res, next) => {
 
 export const isAuthenticated: RequestHandler = (req, res, next) => {
   if (!req.session.userId) {
-    return res.status(401).json({ message: "No autenticado" });
+    return res.status(401).json({ message: "Not authenticated" });
   }
   next();
 };
 
 export const isAdmin: RequestHandler = async (req, res, next) => {
   if (!req.session.userId) {
-    return res.status(401).json({ message: "No autenticado" });
+    return res.status(401).json({ message: "Not authenticated" });
   }
 
   const [user] = await db.select().from(users).where(eq(users.id, req.session.userId)).limit(1);
 
   if (!user || !user.isAdmin) {
-    return res.status(403).json({ message: "No autorizado" });
+    return res.status(403).json({ message: "Not authorized" });
   }
 
   next();
