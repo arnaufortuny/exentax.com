@@ -2,7 +2,7 @@ import type { Express, Request, Response, NextFunction } from "express";
 import { db } from "../db";
 import { storage } from "../storage";
 import { orders as ordersTable, users as usersTable } from "@shared/schema";
-import { and, eq, gt } from "drizzle-orm";
+import { and, eq, gt, sql } from "drizzle-orm";
 import { logAudit, getClientIp } from "../lib/security";
 import { isAuthenticated, isAdmin, isAdminOrSupport, isNotUnderReview } from "../lib/custom-auth";
 
@@ -80,8 +80,6 @@ export async function detectSuspiciousOrderActivity(userId: string): Promise<{ s
   
   return { suspicious: false };
 }
-
-import { sql } from "drizzle-orm";
 
 export async function flagAccountForReview(userId: string, reason: string): Promise<void> {
   await db.update(usersTable)

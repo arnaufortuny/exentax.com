@@ -2,7 +2,7 @@ import type { Express } from "express";
 import type { Request, Response } from "express";
 import { z } from "zod";
 import { and, eq, desc, sql } from "drizzle-orm";
-import { asyncHandler, db, storage, isAdmin, isAdminOrSupport, logAudit } from "../routes/shared";
+import { asyncHandler, db, storage, isAdmin, isAdminOrSupport, logAudit } from "./shared";
 import { orders as ordersTable, users as usersTable, maintenanceApplications, orderEvents, userNotifications, llcApplications as llcApplicationsTable, applicationDocuments as applicationDocumentsTable } from "@shared/schema";
 import { sendEmail, sendTrustpilotEmail, getOrderUpdateTemplate } from "../lib/email";
 import { updateApplicationDeadlines } from "../calendar-service";

@@ -2,7 +2,7 @@ import type { Express } from "express";
 import type { Request, Response } from "express";
 import { z } from "zod";
 import { and, or, eq, desc, sql } from "drizzle-orm";
-import { asyncHandler, db, storage, isAdmin, logAudit, getCachedData, setCachedData } from "../routes/shared";
+import { asyncHandler, db, storage, isAdmin, logAudit, getCachedData, setCachedData } from "./shared";
 import { users as usersTable, maintenanceApplications, newsletterSubscribers, messages as messagesTable, orderEvents, userNotifications, orders as ordersTable, llcApplications as llcApplicationsTable, applicationDocuments as applicationDocumentsTable, discountCodes, accountingTransactions, auditLogs } from "@shared/schema";
 
 export function registerAdminBillingRoutes(app: Express) {

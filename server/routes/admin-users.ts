@@ -2,7 +2,7 @@ import type { Express } from "express";
 import type { Request, Response } from "express";
 import { z } from "zod";
 import { eq, desc, inArray, and, sql } from "drizzle-orm";
-import { asyncHandler, db, isAdmin, isAdminOrSupport, logAudit, logActivity } from "../routes/shared";
+import { asyncHandler, db, isAdmin, isAdminOrSupport, logAudit, logActivity } from "./shared";
 import { users as usersTable, orders as ordersTable, llcApplications as llcApplicationsTable, maintenanceApplications, applicationDocuments as applicationDocumentsTable, orderEvents, userNotifications, messages as messagesTable, messageReplies } from "@shared/schema";
 import { sendEmail, getAccountDeactivatedTemplate, getAccountVipTemplate, getAccountReactivatedTemplate, getAdminPasswordResetTemplate } from "../lib/email";
 import { validatePassword } from "../lib/security";
