@@ -2127,9 +2127,9 @@
     "loginFaster": "or log in with email to go faster"
   },
   "faq": {
-    "title": "FREQUENTLY",
-    "titleHighlight": "ASKED QUESTIONS",
-    "subtitle": "Let's clarify the key points about your LLC in the United States.",
+    "title": "Clear all your doubts about your LLC",
+    "titleHighlight": "in minutes",
+    "subtitle": "We explain taxation, banking, and real operations so you can move forward with confidence and no uncertainty.",
     "searchPlaceholder": "Search your question...",
     "noResults": "We couldn't find anything",
     "noResultsHint": "Try another word or contact us directly.",
@@ -2925,8 +2925,9 @@
     }
   },
   "homeFaq": {
-    "titlePart1": "FREQUENTLY",
-    "titlePart2": "ASKED QUESTIONS",
+    "titlePart1": "Learn how an LLC can help you",
+    "titlePart2": "optimize your business",
+    "subtitle": "Legal, transparent, and explained so you truly understand it.",
     "ctaText": "Want to know if an LLC fits your business?",
     "ctaPart1": "Want to know",
     "ctaPart2": "if an LLC",

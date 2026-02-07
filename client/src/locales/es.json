@@ -2127,9 +2127,9 @@
     "loginFaster": "o inicia sesión con email para ir más rápido"
   },
   "faq": {
-    "title": "PREGUNTAS",
-    "titleHighlight": "FRECUENTES",
-    "subtitle": "Aclaremos los puntos clave sobre tu LLC en Estados Unidos.",
+    "title": "Aclara todas tus dudas sobre tu LLC",
+    "titleHighlight": "en minutos",
+    "subtitle": "Te explicamos fiscalidad, banca y funcionamiento real para que puedas avanzar con confianza y sin incertidumbre.",
     "searchPlaceholder": "Busca tu duda...",
     "noResults": "No hemos encontrado nada",
     "noResultsHint": "Prueba con otra palabra o contáctanos directamente.",
@@ -2925,8 +2925,9 @@
     }
   },
   "homeFaq": {
-    "titlePart1": "PREGUNTAS",
-    "titlePart2": "FRECUENTES",
+    "titlePart1": "Aclara cómo una LLC puede ayudarte",
+    "titlePart2": "a optimizar tu negocio",
+    "subtitle": "Legal, transparente y explicado para que lo entiendas de verdad.",
     "ctaText": "¿Quieres saber si una LLC encaja con tu negocio?",
     "ctaPart1": "¿Quieres saber",
     "ctaPart2": "si una LLC",

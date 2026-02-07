@@ -503,7 +503,7 @@ function HomeFAQ() {
       <div className="w-full max-w-3xl mx-auto px-5 sm:px-8">
         <div className="text-center mb-10 sm:mb-14 flex flex-col items-center justify-center">
           <motion.h2
-            className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-center leading-[1.1] will-change-[transform,opacity]"
+            className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-center leading-[1.1] max-w-3xl will-change-[transform,opacity]"
             style={{ fontWeight: 900 }}
             variants={fadeInUp}
             initial="hidden"
@@ -513,6 +513,15 @@ function HomeFAQ() {
             <span className="text-foreground">{t("homeFaq.titlePart1")}</span><br/>
             <span className="text-accent">{t("homeFaq.titlePart2")}</span>
           </motion.h2>
+          <motion.p
+            className="text-base sm:text-lg text-muted-foreground mt-4 text-center max-w-2xl will-change-[transform,opacity]"
+            variants={fadeInUp}
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewportOnce}
+          >
+            {t("homeFaq.subtitle")}
+          </motion.p>
           <motion.div
             className="w-24 h-1 bg-accent mt-6 rounded-full will-change-transform"
             variants={lineExpand}
