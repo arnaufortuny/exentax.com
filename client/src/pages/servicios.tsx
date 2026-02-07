@@ -656,17 +656,17 @@ export default function Servicios() {
 
           {/* Benefits List */}
           <motion.div 
-            className="max-w-4xl mx-auto mb-8 px-4"
+            className="max-w-4xl mx-auto my-14 sm:my-16 px-4"
             variants={fadeInUp}
             initial="hidden"
             whileInView="visible"
             viewport={viewportOnce}
           >
-            <ul className="space-y-4 text-left max-w-2xl mx-auto">
+            <ul className="space-y-5 sm:space-y-6 text-left max-w-2xl mx-auto">
               {(t("services.maintenancePack.benefits", { returnObjects: true }) as string[]).map((benefit, i) => (
-                <li key={i} className="flex items-start gap-3 text-foreground" data-testid={`text-maintenance-benefit-${i}`}>
-                  <Check className="w-5 h-5 text-accent flex-shrink-0 mt-0.5" />
-                  <span className="text-lg font-black tracking-tight">{benefit}</span>
+                <li key={i} className="flex items-start gap-3 sm:gap-4 text-foreground" data-testid={`text-maintenance-benefit-${i}`}>
+                  <Check className="w-6 h-6 sm:w-7 sm:h-7 text-accent flex-shrink-0 mt-0.5" />
+                  <span className="text-xl sm:text-2xl font-black tracking-tight">{benefit}</span>
                 </li>
               ))}
             </ul>
