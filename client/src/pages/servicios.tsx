@@ -537,9 +537,6 @@ export default function Servicios() {
                       />
                     </div>
                   )}
-                  <h3 className="text-xl sm:text-2xl font-black tracking-tighter text-foreground mb-3 leading-tight">
-                    {t(`services.banks.${item.key}.title`)}
-                  </h3>
                   <p className="text-muted-foreground text-base sm:text-lg leading-relaxed max-w-md">
                     {t(`services.banks.${item.key}.desc`)}
                   </p>
