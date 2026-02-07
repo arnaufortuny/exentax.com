@@ -140,7 +140,7 @@ export default function Login() {
   return (
     <div className="min-h-screen bg-background font-sans">
       <Navbar />
-      <main className="pt-20 md:pt-24 lg:pt-20 pb-12 md:pb-16 px-4 sm:px-6 flex flex-col items-center justify-center min-h-[80vh] lg:min-h-0">
+      <main className="pt-20 md:pt-24 lg:pt-[5.5rem] pb-12 md:pb-16 px-4 sm:px-6 flex flex-col items-center justify-center min-h-[80vh] lg:min-h-0">
         <div className="w-full max-w-sm md:max-w-md lg:max-w-5xl">
           <div className="text-center mb-6 md:mb-8 flex flex-col items-center justify-center w-full lg:hidden">
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight text-center w-full">
