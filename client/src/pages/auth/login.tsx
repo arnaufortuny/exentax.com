@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { Link, useLocation } from "wouter";
-import { Loader2, Eye, EyeOff, Package, FileText, MessageSquare, Calendar } from "@/components/icons";
+import { Loader2, Eye, EyeOff } from "@/components/icons";
 import { Input } from "@/components/ui/input";
 import { useTranslation } from "react-i18next";
 import i18n from "@/lib/i18n";
@@ -130,18 +130,18 @@ export default function Login() {
     );
   }
 
-  const infoFeatures = [
-    { icon: Package, titleKey: "auth.login.infoCard.feature1.title", descKey: "auth.login.infoCard.feature1.desc" },
-    { icon: FileText, titleKey: "auth.login.infoCard.feature2.title", descKey: "auth.login.infoCard.feature2.desc" },
-    { icon: MessageSquare, titleKey: "auth.login.infoCard.feature3.title", descKey: "auth.login.infoCard.feature3.desc" },
-    { icon: Calendar, titleKey: "auth.login.infoCard.feature4.title", descKey: "auth.login.infoCard.feature4.desc" },
+  const infoFeatureKeys = [
+    { titleKey: "auth.login.infoCard.feature1.title", descKey: "auth.login.infoCard.feature1.desc" },
+    { titleKey: "auth.login.infoCard.feature2.title", descKey: "auth.login.infoCard.feature2.desc" },
+    { titleKey: "auth.login.infoCard.feature3.title", descKey: "auth.login.infoCard.feature3.desc" },
+    { titleKey: "auth.login.infoCard.feature4.title", descKey: "auth.login.infoCard.feature4.desc" },
   ];
 
   return (
     <div className="min-h-screen bg-background font-sans">
       <Navbar />
-      <main className="pt-20 md:pt-24 pb-12 md:pb-16 px-4 sm:px-6 flex flex-col items-center justify-center min-h-[80vh]">
-        <div className="w-full max-w-sm md:max-w-md lg:max-w-4xl">
+      <main className="pt-20 md:pt-24 pb-12 md:pb-16 px-4 sm:px-6 flex flex-col items-center lg:items-start justify-center min-h-[80vh] lg:px-16 xl:px-24">
+        <div className="w-full max-w-sm md:max-w-md lg:max-w-5xl">
           <div className="text-center mb-6 md:mb-8 flex flex-col items-center justify-center w-full lg:hidden">
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight text-center w-full">
               <span className="text-foreground">{t("auth.login.title")}</span> <span className="text-accent">{t("auth.login.titleHighlight")}</span>
@@ -267,38 +267,23 @@ export default function Login() {
 
             <div className="hidden lg:flex lg:flex-col">
               <div className="bg-accent/5 dark:bg-accent/10 border border-accent/20 rounded-2xl p-7 xl:p-8 flex-1 flex flex-col justify-center">
-                <div className="mb-6">
-                  <h2 className="text-xl xl:text-2xl font-black text-foreground tracking-tight">
+                <div className="mb-5">
+                  <h2 className="text-2xl xl:text-3xl font-black text-foreground tracking-tight">
                     {t("auth.login.infoCard.title")}
                   </h2>
-                  <p className="text-muted-foreground mt-1.5 text-xs">
+                  <p className="text-muted-foreground mt-2 text-xs leading-relaxed">
                     {t("auth.login.infoCard.subtitle")}
                   </p>
                 </div>
 
-                <div className="space-y-4">
-                  {infoFeatures.map((feature, idx) => (
-                    <div key={idx} className="flex items-start gap-3" data-testid={`info-feature-${idx}`}>
-                      <div className="w-9 h-9 rounded-lg bg-accent/15 dark:bg-accent/20 flex items-center justify-center shrink-0">
-                        <feature.icon className="w-4 h-4 text-accent" />
-                      </div>
-                      <div className="min-w-0">
-                        <p className="text-sm font-bold text-foreground leading-tight">{t(feature.titleKey)}</p>
-                        <p className="text-xs text-muted-foreground mt-0.5 leading-relaxed">{t(feature.descKey)}</p>
-                      </div>
+                <div className="space-y-0">
+                  {infoFeatureKeys.map((feature, idx) => (
+                    <div key={idx} data-testid={`info-feature-${idx}`}>
+                      {idx > 0 && <div className="border-t border-accent/15 my-3" />}
+                      <p className="text-sm font-bold text-foreground leading-tight">{t(feature.titleKey)}</p>
+                      <p className="text-[11px] text-muted-foreground mt-1 leading-relaxed">{t(feature.descKey)}</p>
                     </div>
                   ))}
-                </div>
-
-                <div className="mt-6 pt-5 border-t border-accent/20">
-                  <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-full bg-accent/20 border-2 border-white dark:border-card flex items-center justify-center shrink-0">
-                      <span className="text-accent font-black text-[10px]">+1K</span>
-                    </div>
-                    <p className="text-xs text-muted-foreground">
-                      {t("auth.login.welcomeBackDesc")}
-                    </p>
-                  </div>
                 </div>
               </div>
             </div>

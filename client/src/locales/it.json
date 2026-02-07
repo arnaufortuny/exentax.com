@@ -641,23 +641,23 @@
       "securityVerificationDesc": "Abbiamo inviato un codice di 6 cifre alla tua email. Inseriscilo per continuare.",
       "securityCode": "Codice di verifica",
       "infoCard": {
-        "title": "Il tuo spazio personale",
-        "subtitle": "Accedi a tutti gli strumenti per gestire la tua LLC",
+        "title": "Centro di Controllo Privato",
+        "subtitle": "Gestisci la tua LLC con chiarezza, sicurezza e supervisione fiscale strategica da una piattaforma centralizzata progettata per imprenditori globali.",
         "feature1": {
-          "title": "Pannello di controllo",
-          "desc": "Visualizza lo stato dei tuoi servizi e ordini in tempo reale"
+          "title": "Dashboard Intelligente",
+          "desc": "Monitora lo stato della tua formazione, servizi, conformità e ordini in tempo reale. Saprai sempre dove si trova la tua azienda."
         },
         "feature2": {
-          "title": "Documenti sicuri",
-          "desc": "Accedi ai tuoi documenti legali in modo sicuro in qualsiasi momento"
+          "title": "Cassaforte Documenti Sicura",
+          "desc": "Accedi ai tuoi documenti legali, fiscali e aziendali in qualsiasi momento con sicurezza di livello aziendale."
         },
         "feature3": {
-          "title": "Supporto diretto",
-          "desc": "Comunica con il nostro team tramite messaggi e consulenze"
+          "title": "Supporto Esperto Diretto",
+          "desc": "Parla direttamente con il nostro team tramite messaggi e consulenze. Risposte chiare, guida strategica e supporto umano reale."
         },
         "feature4": {
-          "title": "Calendario fiscale",
-          "desc": "Rimani aggiornato sui tuoi obblighi fiscali e scadenze importanti"
+          "title": "Calendario Fiscale e di Conformità",
+          "desc": "Anticipa scadenze, dichiarazioni e obblighi. Ti aiutiamo a mantenere la conformità ottimizzando la tua struttura fiscale internazionale."
         }
       }
     },

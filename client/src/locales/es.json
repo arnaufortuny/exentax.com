@@ -641,23 +641,23 @@
       "securityVerificationDesc": "Hemos enviado un código de 6 dígitos a tu email. Introdúcelo para continuar.",
       "securityCode": "Código de verificación",
       "infoCard": {
-        "title": "Tu espacio personal",
-        "subtitle": "Accede a todas las herramientas para gestionar tu LLC",
+        "title": "Centro de Control Privado",
+        "subtitle": "Gestiona tu LLC con claridad, seguridad y supervisión fiscal estratégica desde una plataforma centralizada diseñada para emprendedores globales.",
         "feature1": {
-          "title": "Panel de control",
-          "desc": "Visualiza el estado de tus servicios y pedidos en tiempo real"
+          "title": "Panel Inteligente",
+          "desc": "Monitoriza el estado de tu formación, servicios, cumplimiento y pedidos en tiempo real. Siempre sabrás dónde está tu empresa y qué viene después."
         },
         "feature2": {
-          "title": "Documentos seguros",
-          "desc": "Accede a tus documentos legales de forma segura en cualquier momento"
+          "title": "Bóveda de Documentos Segura",
+          "desc": "Accede a tus documentos legales, fiscales y corporativos en cualquier momento con seguridad de nivel empresarial. Todo organizado, protegido y listo cuando lo necesites."
         },
         "feature3": {
-          "title": "Soporte directo",
-          "desc": "Comunícate con nuestro equipo a través de mensajes y consultas"
+          "title": "Soporte Experto Directo",
+          "desc": "Habla directamente con nuestro equipo a través de mensajes y consultas. Respuestas claras, orientación estratégica y soporte humano real cuando lo necesites."
         },
         "feature4": {
-          "title": "Calendario fiscal",
-          "desc": "Mantente al día con tus obligaciones fiscales y plazos importantes"
+          "title": "Calendario Fiscal y de Cumplimiento",
+          "desc": "Adelántate a los plazos, declaraciones y obligaciones. Te ayudamos a mantener el cumplimiento mientras optimizas tu estructura fiscal internacional."
         }
       }
     },

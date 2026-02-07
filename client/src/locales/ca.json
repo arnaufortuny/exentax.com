@@ -641,23 +641,23 @@
       "securityVerificationDesc": "Hem enviat un codi de 6 dígits al teu email. Introdueix-lo per continuar.",
       "securityCode": "Codi de verificació",
       "infoCard": {
-        "title": "El teu espai personal",
-        "subtitle": "Accedeix a totes les eines per gestionar la teva LLC",
+        "title": "Centre de Control Privat",
+        "subtitle": "Gestiona la teva LLC amb claredat, seguretat i supervisió fiscal estratègica des d'una plataforma centralitzada dissenyada per a emprenedors globals.",
         "feature1": {
-          "title": "Tauler de control",
-          "desc": "Visualitza l'estat dels teus serveis i comandes en temps real"
+          "title": "Tauler Intel·ligent",
+          "desc": "Monitoritza l'estat de la teva formació, serveis, compliment i comandes en temps real. Sempre sabràs on es troba la teva empresa."
         },
         "feature2": {
-          "title": "Documents segurs",
-          "desc": "Accedeix als teus documents legals de forma segura en qualsevol moment"
+          "title": "Cambra de Documents Segura",
+          "desc": "Accedeix als teus documents legals, fiscals i corporatius en qualsevol moment amb seguretat de nivell empresarial."
         },
         "feature3": {
-          "title": "Suport directe",
-          "desc": "Comunica't amb el nostre equip a través de missatges i consultes"
+          "title": "Suport Expert Directe",
+          "desc": "Parla directament amb el nostre equip a través de missatges i consultes. Respostes clares, orientació estratègica i suport humà real."
         },
         "feature4": {
-          "title": "Calendari fiscal",
-          "desc": "Mantingues-te al dia amb les teves obligacions fiscals i terminis importants"
+          "title": "Calendari Fiscal i de Compliment",
+          "desc": "Avança't als terminis, declaracions i obligacions. T'ajudem a mantenir el compliment mentre optimitzes la teva estructura fiscal internacional."
         }
       }
     },

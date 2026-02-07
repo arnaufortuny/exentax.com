@@ -641,23 +641,23 @@
       "securityVerificationDesc": "We've sent a 6-digit code to your email. Enter it to continue.",
       "securityCode": "Verification code",
       "infoCard": {
-        "title": "Your personal space",
-        "subtitle": "Access all the tools to manage your LLC",
+        "title": "Private Control Center",
+        "subtitle": "Manage your LLC with clarity, security, and strategic fiscal oversight from one centralized platform designed for global entrepreneurs.",
         "feature1": {
-          "title": "Dashboard",
-          "desc": "View the status of your services and orders in real time"
+          "title": "Smart Dashboard",
+          "desc": "Monitor the status of your formation, services, compliance, and orders in real time. Always know where your company stands and what comes next."
         },
         "feature2": {
-          "title": "Secure documents",
-          "desc": "Access your legal documents securely at any time"
+          "title": "Secure Document Vault",
+          "desc": "Access your legal, fiscal, and corporate documents anytime with enterprise-grade security. Everything organized, protected, and ready when you need it."
         },
         "feature3": {
-          "title": "Direct support",
-          "desc": "Communicate with our team through messages and consultations"
+          "title": "Direct Expert Support",
+          "desc": "Talk directly with our team through messages and consultations. Clear answers, strategic guidance, and real human support whenever you need it."
         },
         "feature4": {
-          "title": "Tax calendar",
-          "desc": "Stay up to date with your tax obligations and important deadlines"
+          "title": "Tax & Compliance Calendar",
+          "desc": "Stay ahead of deadlines, filings, and obligations. We help you maintain compliance while optimizing your international tax structure."
         }
       }
     },

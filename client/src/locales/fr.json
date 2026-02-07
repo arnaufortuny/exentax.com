@@ -641,23 +641,23 @@
       "securityVerificationDesc": "Nous avons envoyé un code à 6 chiffres à votre email. Saisissez-le pour continuer.",
       "securityCode": "Code de vérification",
       "infoCard": {
-        "title": "Votre espace personnel",
-        "subtitle": "Accédez à tous les outils pour gérer votre LLC",
+        "title": "Centre de Contrôle Privé",
+        "subtitle": "Gérez votre LLC avec clarté, sécurité et supervision fiscale stratégique depuis une plateforme centralisée conçue pour les entrepreneurs internationaux.",
         "feature1": {
-          "title": "Tableau de bord",
-          "desc": "Visualisez l'état de vos services et commandes en temps réel"
+          "title": "Tableau de Bord Intelligent",
+          "desc": "Surveillez le statut de votre formation, services, conformité et commandes en temps réel. Sachez toujours où en est votre entreprise."
         },
         "feature2": {
-          "title": "Documents sécurisés",
-          "desc": "Accédez à vos documents juridiques en toute sécurité à tout moment"
+          "title": "Coffre-fort de Documents Sécurisé",
+          "desc": "Accédez à vos documents juridiques, fiscaux et corporatifs à tout moment avec une sécurité de niveau entreprise."
         },
         "feature3": {
-          "title": "Support direct",
-          "desc": "Communiquez avec notre équipe par messages et consultations"
+          "title": "Support Expert Direct",
+          "desc": "Parlez directement avec notre équipe par messages et consultations. Réponses claires, orientation stratégique et support humain réel."
         },
         "feature4": {
-          "title": "Calendrier fiscal",
-          "desc": "Restez à jour avec vos obligations fiscales et délais importants"
+          "title": "Calendrier Fiscal et de Conformité",
+          "desc": "Gardez une longueur d'avance sur les délais, déclarations et obligations. Nous vous aidons à maintenir la conformité tout en optimisant votre structure fiscale internationale."
         }
       }
     },
