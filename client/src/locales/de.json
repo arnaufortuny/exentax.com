@@ -388,7 +388,11 @@
         "Echte Unterstützung haben, wenn Sie sie brauchen"
       ],
       "finalText": "Ihr Unternehmen wird nicht nur gegründet, es wird gepflegt. Und wir sind hier, um sicherzustellen, dass alles Jahr für Jahr korrekt funktioniert.",
-      "helpText": "Wenn Sie Fragen haben, machen Sie sich keine Sorgen. Wir sind hier, um zu helfen und alles einfach zu erklären, ohne Fachbegriffe oder komplizierte Prozesse."
+      "finalTextPart1": "Ihr Unternehmen wird nicht nur gegründet, es wird gepflegt.",
+      "finalTextPart2": "Und wir sind hier, um sicherzustellen, dass alles Jahr für Jahr korrekt funktioniert.",
+      "helpText": "Wenn Sie Fragen haben, machen Sie sich keine Sorgen. Wir sind hier, um zu helfen und alles einfach zu erklären, ohne Fachbegriffe oder komplizierte Prozesse.",
+      "helpTextPart1": "Wenn Sie Fragen haben, machen Sie sich keine Sorgen.",
+      "helpTextPart2": "Wir sind hier, um zu helfen und alles einfach zu erklären, ohne Fachbegriffe oder komplizierte Prozesse."
     },
     "whatWeDo": {
       "badge": "DIENSTLEISTUNGEN",

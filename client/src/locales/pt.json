@@ -388,7 +388,11 @@
         "Tens acompanhamento real quando precisares"
       ],
       "finalText": "A tua empresa não se limita a ser criada, é mantida. E estamos aqui para garantir que tudo continua a funcionar corretamente ano após ano.",
-      "helpText": "Se tens dúvidas, não te preocupes. Estamos aqui para te ajudar e explicar tudo de forma simples, sem tecnicismos nem processos complicados."
+      "finalTextPart1": "A tua empresa não se limita a ser criada, é mantida.",
+      "finalTextPart2": "E estamos aqui para garantir que tudo continua a funcionar corretamente ano após ano.",
+      "helpText": "Se tens dúvidas, não te preocupes. Estamos aqui para te ajudar e explicar tudo de forma simples, sem tecnicismos nem processos complicados.",
+      "helpTextPart1": "Se tens dúvidas, não te preocupes.",
+      "helpTextPart2": "Estamos aqui para te ajudar e explicar tudo de forma simples, sem tecnicismos nem processos complicados."
     },
     "whatWeDo": {
       "badge": "SERVIÇOS",

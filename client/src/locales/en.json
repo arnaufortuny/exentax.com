@@ -388,7 +388,11 @@
         "Have real support when you need it"
       ],
       "finalText": "Your company is not just created, it's maintained. And we're here to make sure everything keeps working correctly year after year.",
-      "helpText": "If you have questions, don't worry. We're here to help and explain everything simply, without technicalities or complicated processes."
+      "finalTextPart1": "Your company is not just created, it's maintained.",
+      "finalTextPart2": "And we're here to make sure everything keeps working correctly year after year.",
+      "helpText": "If you have questions, don't worry. We're here to help and explain everything simply, without technicalities or complicated processes.",
+      "helpTextPart1": "If you have questions, don't worry.",
+      "helpTextPart2": "We're here to help and explain everything simply, without technicalities or complicated processes."
     },
     "whatWeDo": {
       "badge": "SERVICES",

@@ -388,7 +388,11 @@
         "Bénéficiez d'un vrai support quand vous en avez besoin"
       ],
       "finalText": "Votre société n'est pas seulement créée, elle est maintenue. Et nous sommes là pour nous assurer que tout continue à fonctionner correctement année après année.",
-      "helpText": "Si vous avez des questions, ne vous inquiétez pas. Nous sommes là pour vous aider et tout vous expliquer simplement, sans jargon ni processus compliqués."
+      "finalTextPart1": "Votre société n'est pas seulement créée, elle est maintenue.",
+      "finalTextPart2": "Et nous sommes là pour nous assurer que tout continue à fonctionner correctement année après année.",
+      "helpText": "Si vous avez des questions, ne vous inquiétez pas. Nous sommes là pour vous aider et tout vous expliquer simplement, sans jargon ni processus compliqués.",
+      "helpTextPart1": "Si vous avez des questions, ne vous inquiétez pas.",
+      "helpTextPart2": "Nous sommes là pour vous aider et tout vous expliquer simplement, sans jargon ni processus compliqués."
     },
     "whatWeDo": {
       "badge": "SERVICES",

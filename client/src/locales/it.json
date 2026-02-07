@@ -388,7 +388,11 @@
         "Hai un accompagnamento reale quando ne hai bisogno"
       ],
       "finalText": "La tua impresa non si crea soltanto, si mantiene. E noi siamo qui per assicurarci che tutto continui a funzionare correttamente anno dopo anno.",
-      "helpText": "Se hai dubbi, non preoccuparti. Siamo qui per aiutarti e spiegarti tutto in modo semplice, senza tecnicismi né processi complicati."
+      "finalTextPart1": "La tua impresa non si crea soltanto, si mantiene.",
+      "finalTextPart2": "E noi siamo qui per assicurarci che tutto continui a funzionare correttamente anno dopo anno.",
+      "helpText": "Se hai dubbi, non preoccuparti. Siamo qui per aiutarti e spiegarti tutto in modo semplice, senza tecnicismi né processi complicati.",
+      "helpTextPart1": "Se hai dubbi, non preoccuparti.",
+      "helpTextPart2": "Siamo qui per aiutarti e spiegarti tutto in modo semplice, senza tecnicismi né processi complicati."
     },
     "whatWeDo": {
       "badge": "SERVIZI",

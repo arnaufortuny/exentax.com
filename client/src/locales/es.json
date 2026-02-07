@@ -388,7 +388,11 @@
         "Tienes acompañamiento real cuando lo necesites"
       ],
       "finalText": "Tu empresa no solo se crea, se mantiene. Y estamos aquí para asegurarnos de que todo siga funcionando correctamente año tras año.",
-      "helpText": "Si tienes dudas, no te preocupes. Estamos aquí para ayudarte y explicarte todo de forma sencilla, sin tecnicismos ni procesos complicados."
+      "finalTextPart1": "Tu empresa no solo se crea, se mantiene.",
+      "finalTextPart2": "Y estamos aquí para asegurarnos de que todo siga funcionando correctamente año tras año.",
+      "helpText": "Si tienes dudas, no te preocupes. Estamos aquí para ayudarte y explicarte todo de forma sencilla, sin tecnicismos ni procesos complicados.",
+      "helpTextPart1": "Si tienes dudas, no te preocupes.",
+      "helpTextPart2": "Estamos aquí para ayudarte y explicarte todo de forma sencilla, sin tecnicismos ni procesos complicados."
     },
     "whatWeDo": {
       "badge": "SERVICIOS",

@@ -388,7 +388,11 @@
         "Tens acompanyament real quan ho necessitis"
       ],
       "finalText": "La teva empresa no només es crea, es manté. I som aquí per assegurar-nos que tot segueixi funcionant correctament any rere any.",
-      "helpText": "Si tens dubtes, no et preocupis. Som aquí per ajudar-te i explicar-te tot de forma senzilla, sense tecnicismes ni processos complicats."
+      "finalTextPart1": "La teva empresa no només es crea, es manté.",
+      "finalTextPart2": "I som aquí per assegurar-nos que tot segueixi funcionant correctament any rere any.",
+      "helpText": "Si tens dubtes, no et preocupis. Som aquí per ajudar-te i explicar-te tot de forma senzilla, sense tecnicismes ni processos complicats.",
+      "helpTextPart1": "Si tens dubtes, no et preocupis.",
+      "helpTextPart2": "Som aquí per ajudar-te i explicar-te tot de forma senzilla, sense tecnicismes ni processos complicats."
     },
     "whatWeDo": {
       "badge": "SERVEIS",
