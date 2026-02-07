@@ -216,7 +216,7 @@ function HowWeWorkSection() {
   return (
     <>
       <section className="py-16 sm:py-20 bg-background">
-        <div className="w-full max-w-4xl mx-auto px-5 sm:px-8">
+        <div className="w-full max-w-5xl mx-auto px-5 sm:px-8">
           <div className="text-center mb-10 sm:mb-14 flex flex-col items-center justify-center">
             <motion.h2 
               className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-center leading-[1.1]" 
@@ -245,7 +245,7 @@ function HowWeWorkSection() {
             />
           </div>
           
-          <div className="space-y-6 md:max-w-lg md:mx-auto">
+          <div className="space-y-6 md:hidden">
             {steps.map((step, i) => (
               <div 
                 key={step.key} 
@@ -264,6 +264,29 @@ function HowWeWorkSection() {
                     {t(`howWeWork.steps.${step.key}.title`)}
                   </h3>
                   <p className="text-muted-foreground text-sm sm:text-base leading-relaxed">
+                    {t(`howWeWork.steps.${step.key}.text`)}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="hidden md:grid md:grid-cols-2 gap-x-10 gap-y-6">
+            {steps.map((step) => (
+              <div 
+                key={step.key} 
+                className="flex gap-5"
+              >
+                <div className="flex-shrink-0">
+                  <div className="w-11 h-11 rounded-full bg-accent text-accent-foreground flex items-center justify-center font-black text-lg">
+                    {t(`howWeWork.steps.${step.key}.number`)}
+                  </div>
+                </div>
+                <div>
+                  <h3 className="font-black text-lg text-foreground mb-1.5">
+                    {t(`howWeWork.steps.${step.key}.title`)}
+                  </h3>
+                  <p className="text-muted-foreground text-sm leading-relaxed">
                     {t(`howWeWork.steps.${step.key}.text`)}
                   </p>
                 </div>
