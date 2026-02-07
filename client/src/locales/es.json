@@ -275,17 +275,20 @@
     "transparency": {
       "badge": "TRANSPARENCIA",
       "title": "Precio claro desde el inicio",
-      "text": "Todo está incluido desde el primer momento, sin costes ocultos ni sorpresas posteriores. Lo que ves es lo que pagas. Creemos que la confianza empieza por la claridad y la honestidad en los números."
+      "text": "Todo está incluido desde el primer momento, sin costes ocultos ni sorpresas posteriores. Lo que ves es lo que pagas. Creemos que la confianza empieza por la claridad y la honestidad en los números.",
+      "button": "Nuestros precios"
     },
     "specialists": {
       "badge": "ESPECIALISTAS",
       "title": "Especialistas en negocios",
-      "text": "No somos intermediarios genéricos. Trabajamos a diario con freelancers y negocios internacionales, entendiendo sus necesidades reales y anticipando problemas para ponértelo fácil desde el primer día."
+      "text": "No somos intermediarios genéricos. Trabajamos a diario con freelancers y negocios internacionales, entendiendo sus necesidades reales y anticipando problemas para ponértelo fácil desde el primer día.",
+      "button": "Sobre Easy US LLC"
     },
     "support": {
       "badge": "SOPORTE HUMANO",
       "title": "Atención cercana, en tu idioma",
-      "text": "Hablamos contigo de persona a persona, por WhatsApp y email, cuando lo necesites. Sin tickets eternos ni respuestas automáticas. Estamos para acompañarte antes, durante y después del proceso."
+      "text": "Hablamos contigo de persona a persona, por WhatsApp y email, cuando lo necesites. Sin tickets eternos ni respuestas automáticas. Estamos para acompañarte antes, durante y después del proceso.",
+      "button": "Conócenos"
     }
   },
   "services": {
@@ -2316,7 +2319,8 @@
     "contactForm": "Hola! Acabo de enviar un formulario de contacto y me gustaría hablar directamente con vosotros sobre crear mi LLC. ¿Tenéis un momento?",
     "contactDirect": "Hola! Estoy en la página de contacto y prefiero hablar directamente. ¿Podemos conversar sobre cómo crear mi LLC?",
     "llcFormation": "Hola! Estoy en el formulario de creación de LLC y necesito una LLC con varios socios. ¿Podemos hablar sobre las opciones?",
-    "homeFaq": "Hola! Quiero evaluar mi caso y ver si una LLC encaja con mi negocio. ¿Podemos hablar?"
+    "homeFaq": "Hola! Quiero evaluar mi caso y ver si una LLC encaja con mi negocio. ¿Podemos hablar?",
+    "whyUsSupport": "Hola! Me gustaría conoceros mejor y saber cómo podéis ayudarme con mi LLC. ¿Podemos hablar?"
   },
   "taxComparator": {
     "badge": "CALCULADORA DE AHORRO",

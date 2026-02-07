@@ -385,23 +385,32 @@ function PorQueEasyUSLLC() {
   
   const whyUsFeatures = [
     { 
+      key: "transparency",
       badge: t("whyUs.transparency.badge"), 
       title: t("whyUs.transparency.title"), 
       text: t("whyUs.transparency.text"),
       image: "/clear-pricing.png",
-      link: "/servicios#pricing"
+      buttonLabel: t("whyUs.transparency.button"),
+      buttonHref: "/servicios#pricing"
     },
     { 
+      key: "specialists",
       badge: t("whyUs.specialists.badge"), 
       title: t("whyUs.specialists.title"), 
       text: t("whyUs.specialists.text"),
-      image: "/business-specialists.png"
+      image: "/business-specialists.png",
+      buttonLabel: t("whyUs.specialists.button"),
+      buttonHref: "/servicios"
     },
     { 
+      key: "support",
       badge: t("whyUs.support.badge"), 
       title: t("whyUs.support.title"), 
       text: t("whyUs.support.text"),
-      image: "/personal-support.png"
+      image: "/personal-support.png",
+      buttonLabel: t("whyUs.support.button"),
+      buttonHref: getWhatsAppUrl("whyUsSupport"),
+      isExternal: true
     },
   ];
 
@@ -427,43 +436,47 @@ function PorQueEasyUSLLC() {
           />
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 max-w-5xl mx-auto">
-          {whyUsFeatures.map((feature, i) => {
-            const CardWrapper = ({ children }: { children: React.ReactNode }) => {
-              if ('link' in feature && feature.link) {
-                return (
-                  <a href={feature.link} className="bg-background rounded-2xl shadow-md overflow-hidden border border-foreground/5 sm:border-foreground/5 border-accent/20 flex flex-col text-left hover:shadow-lg transition-shadow cursor-pointer">
-                    {children}
+          {whyUsFeatures.map((feature) => (
+            <div key={feature.key} className="bg-background rounded-2xl shadow-md overflow-hidden border border-foreground/5 sm:border-foreground/5 border-accent/20 flex flex-col text-left">
+              {feature.image && (
+                <div className="w-full aspect-[16/9] overflow-hidden bg-accent/10">
+                  <img 
+                    src={feature.image} 
+                    alt="" 
+                    className="w-full h-full object-cover"
+                    loading="eager"
+                    decoding="async"
+                  />
+                </div>
+              )}
+              <div className="p-6 flex-grow text-left">
+                <span className="inline-block px-4 py-2 rounded-full bg-accent text-accent-foreground font-black text-sm shadow-sm mb-4 text-left">{feature.badge}</span>
+                <h3 className="text-xl sm:text-2xl font-black tracking-tighter text-foreground mb-3 leading-tight text-left">{feature.title}</h3>
+                <p className="text-muted-foreground text-base sm:text-lg leading-relaxed text-left mb-4">{feature.text}</p>
+                {feature.isExternal ? (
+                  <a
+                    href={feature.buttonHref}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 text-accent font-bold text-sm hover:underline"
+                    data-testid={`button-whyus-${feature.key}`}
+                  >
+                    {feature.buttonLabel}
+                    <ArrowRight className="w-4 h-4" />
                   </a>
-                );
-              }
-              return (
-                <div className="bg-background rounded-2xl shadow-md overflow-hidden border border-foreground/5 sm:border-foreground/5 border-accent/20 flex flex-col text-left">
-                  {children}
-                </div>
-              );
-            };
-            
-            return (
-              <CardWrapper key={i}>
-                {'image' in feature && feature.image && (
-                  <div className="w-full aspect-[16/9] overflow-hidden bg-accent/10">
-                    <img 
-                      src={feature.image} 
-                      alt="" 
-                      className="w-full h-full object-cover"
-                      loading="eager"
-                      decoding="async"
-                    />
-                  </div>
+                ) : (
+                  <Link
+                    href={feature.buttonHref}
+                    className="inline-flex items-center gap-2 text-accent font-bold text-sm hover:underline"
+                    data-testid={`button-whyus-${feature.key}`}
+                  >
+                    {feature.buttonLabel}
+                    <ArrowRight className="w-4 h-4" />
+                  </Link>
                 )}
-                <div className="p-6 flex-grow text-left">
-                  <span className="inline-block px-4 py-2 rounded-full bg-accent text-accent-foreground font-black text-sm shadow-sm mb-4 text-left">{feature.badge}</span>
-                  <h3 className="text-xl sm:text-2xl font-black tracking-tighter text-foreground mb-3 leading-tight text-left">{feature.title}</h3>
-                  <p className="text-muted-foreground text-base sm:text-lg leading-relaxed text-left">{feature.text}</p>
-                </div>
-              </CardWrapper>
-            );
-          })}
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </section>

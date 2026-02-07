@@ -275,17 +275,20 @@
     "transparency": {
       "badge": "TRASPARENZA",
       "title": "Prezzo chiaro fin dall'inizio",
-      "text": "Tutto è incluso fin dal primo momento, senza costi nascosti né sorprese successive. Quello che vedi è quello che paghi. Crediamo che la fiducia inizi dalla chiarezza e dall'onestà nei numeri."
+      "text": "Tutto è incluso fin dal primo momento, senza costi nascosti né sorprese successive. Quello che vedi è quello che paghi. Crediamo che la fiducia inizi dalla chiarezza e dall'onestà nei numeri.",
+      "button": "I nostri prezzi"
     },
     "specialists": {
       "badge": "SPECIALISTI",
       "title": "Specialisti nel business",
-      "text": "Non siamo intermediari generici. Lavoriamo ogni giorno con freelancer e business internazionali, comprendendo le loro reali esigenze e anticipando i problemi per semplificarti tutto fin dal primo giorno."
+      "text": "Non siamo intermediari generici. Lavoriamo ogni giorno con freelancer e business internazionali, comprendendo le loro reali esigenze e anticipando i problemi per semplificarti tutto fin dal primo giorno.",
+      "button": "Su Easy US LLC"
     },
     "support": {
       "badge": "SUPPORTO UMANO",
       "title": "Assistenza personalizzata, nella tua lingua",
-      "text": "Parliamo con te da persona a persona, via WhatsApp ed email, quando ne hai bisogno. Senza ticket infiniti né risposte automatiche. Siamo qui per accompagnarti prima, durante e dopo il processo."
+      "text": "Parliamo con te da persona a persona, via WhatsApp ed email, quando ne hai bisogno. Senza ticket infiniti né risposte automatiche. Siamo qui per accompagnarti prima, durante e dopo il processo.",
+      "button": "Conoscici"
     }
   },
   "services": {
@@ -2316,7 +2319,8 @@
     "contactForm": "Ciao! Ho appena inviato un modulo di contatto e vorrei parlare direttamente con voi della creazione della mia LLC. Avete un momento?",
     "contactDirect": "Ciao! Sono nella pagina dei contatti e preferisco parlare direttamente. Possiamo discutere della creazione della mia LLC?",
     "llcFormation": "Ciao! Sono nel modulo di creazione LLC e ho bisogno di una LLC con più soci. Possiamo parlare delle opzioni?",
-    "homeFaq": "Ciao! Vorrei valutare il mio caso e vedere se una LLC è adatta alla mia attività. Possiamo parlarne?"
+    "homeFaq": "Ciao! Vorrei valutare il mio caso e vedere se una LLC è adatta alla mia attività. Possiamo parlarne?",
+    "whyUsSupport": "Ciao! Mi piacerebbe conoscervi meglio e sapere come potete aiutarmi con la mia LLC. Possiamo parlarne?"
   },
   "taxComparator": {
     "badge": "CALCOLATORE DI RISPARMIO",

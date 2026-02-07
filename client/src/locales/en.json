@@ -275,17 +275,20 @@
     "transparency": {
       "badge": "TRANSPARENCY",
       "title": "Clear pricing",
-      "text": "Everything is included from the beginning, with no hidden costs or surprises. What you see is what you pay. We believe trust starts with clarity and honesty in the numbers."
+      "text": "Everything is included from the beginning, with no hidden costs or surprises. What you see is what you pay. We believe trust starts with clarity and honesty in the numbers.",
+      "button": "Our pricing"
     },
     "specialists": {
       "badge": "SPECIALISTS",
       "title": "Business specialists",
-      "text": "We're not generic intermediaries. We work daily with freelancers and international businesses, understanding their real needs and anticipating problems to make it easy for you from day one."
+      "text": "We're not generic intermediaries. We work daily with freelancers and international businesses, understanding their real needs and anticipating problems to make it easy for you from day one.",
+      "button": "About Easy US LLC"
     },
     "support": {
       "badge": "HUMAN SUPPORT",
       "title": "Personal attention",
-      "text": "We talk to you person to person, via WhatsApp and email, whenever you need. No endless tickets or automated responses. We're here to accompany you before, during and after the process."
+      "text": "We talk to you person to person, via WhatsApp and email, whenever you need. No endless tickets or automated responses. We're here to accompany you before, during and after the process.",
+      "button": "Get to know us"
     }
   },
   "services": {
@@ -2316,7 +2319,8 @@
     "contactForm": "Hi! I just submitted a contact form and would like to speak directly with you about creating my LLC. Do you have a moment?",
     "contactDirect": "Hi! I'm on the contact page and prefer to talk directly. Can we discuss how to create my LLC?",
     "llcFormation": "Hi! I'm on the LLC creation form and I need an LLC with multiple partners. Can we talk about the options?",
-    "homeFaq": "Hi! I want to evaluate my case and see if an LLC fits my business. Can we talk?"
+    "homeFaq": "Hi! I want to evaluate my case and see if an LLC fits my business. Can we talk?",
+    "whyUsSupport": "Hi! I'd like to get to know you better and learn how you can help me with my LLC. Can we talk?"
   },
   "taxComparator": {
     "badge": "SAVINGS CALCULATOR",

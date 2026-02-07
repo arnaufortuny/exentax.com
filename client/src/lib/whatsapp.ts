@@ -13,7 +13,8 @@ type WhatsAppContext =
   | "contactForm"
   | "contactDirect"
   | "llcFormation"
-  | "homeFaq";
+  | "homeFaq"
+  | "whyUsSupport";
 
 export function getWhatsAppUrl(context: WhatsAppContext): string {
   const message = i18n.t(`whatsapp.${context}`);

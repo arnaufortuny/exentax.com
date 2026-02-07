@@ -275,17 +275,20 @@
     "transparency": {
       "badge": "TRANSPARÈNCIA",
       "title": "Preu clar des de l'inici",
-      "text": "Tot està inclòs des del primer moment, sense costos ocults ni sorpreses posteriors. El que veus és el que pagues. Creiem que la confiança comença per la claredat i l'honestedat en els números."
+      "text": "Tot està inclòs des del primer moment, sense costos ocults ni sorpreses posteriors. El que veus és el que pagues. Creiem que la confiança comença per la claredat i l'honestedat en els números.",
+      "button": "Els nostres preus"
     },
     "specialists": {
       "badge": "ESPECIALISTES",
       "title": "Especialistes en negocis",
-      "text": "No som intermediaris genèrics. Treballem cada dia amb freelancers i negocis internacionals, entenent les seves necessitats reals i anticipant problemes per posar-t'ho fàcil des del primer dia."
+      "text": "No som intermediaris genèrics. Treballem cada dia amb freelancers i negocis internacionals, entenent les seves necessitats reals i anticipant problemes per posar-t'ho fàcil des del primer dia.",
+      "button": "Sobre Easy US LLC"
     },
     "support": {
       "badge": "SUPORT HUMÀ",
       "title": "Atenció propera, en el teu idioma",
-      "text": "Parlem amb tu de persona a persona, per WhatsApp i email, quan ho necessitis. Sense tickets eterns ni respostes automàtiques. Estem per acompanyar-te abans, durant i després del procés."
+      "text": "Parlem amb tu de persona a persona, per WhatsApp i email, quan ho necessitis. Sense tickets eterns ni respostes automàtiques. Estem per acompanyar-te abans, durant i després del procés.",
+      "button": "Coneix-nos"
     }
   },
   "services": {
@@ -2316,7 +2319,8 @@
     "contactForm": "Hola! Acabo d'enviar un formulari de contacte i m'agradaria parlar directament amb vosaltres sobre crear la meva LLC. Teniu un moment?",
     "contactDirect": "Hola! Estic a la pàgina de contacte i prefereixo parlar directament. Podem conversar sobre com crear la meva LLC?",
     "llcFormation": "Hola! Estic al formulari de creació de LLC i necessito una LLC amb diversos socis. Podem parlar sobre les opcions?",
-    "homeFaq": "Hola! Vull avaluar el meu cas i veure si una LLC encaixa amb el meu negoci. Podem parlar?"
+    "homeFaq": "Hola! Vull avaluar el meu cas i veure si una LLC encaixa amb el meu negoci. Podem parlar?",
+    "whyUsSupport": "Hola! M'agradaria conèixer-vos millor i saber com podeu ajudar-me amb la meva LLC. Podem parlar?"
   },
   "taxComparator": {
     "badge": "CALCULADORA D'ESTALVI",

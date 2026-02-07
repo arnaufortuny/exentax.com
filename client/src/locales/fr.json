@@ -275,17 +275,20 @@
     "transparency": {
       "badge": "TRANSPARENCE",
       "title": "Tarifs clairs",
-      "text": "Tout est inclus dès le départ, sans frais cachés ni surprises. Ce que vous voyez est ce que vous payez. Nous croyons que la confiance commence par la clarté et l'honnêteté dans les chiffres."
+      "text": "Tout est inclus dès le départ, sans frais cachés ni surprises. Ce que vous voyez est ce que vous payez. Nous croyons que la confiance commence par la clarté et l'honnêteté dans les chiffres.",
+      "button": "Nos tarifs"
     },
     "specialists": {
       "badge": "SPÉCIALISTES",
       "title": "Spécialistes en entreprise",
-      "text": "Nous ne sommes pas des intermédiaires généralistes. Nous travaillons quotidiennement avec des freelances et des entreprises internationales, comprenant leurs besoins réels et anticipant les problèmes pour vous faciliter la tâche dès le premier jour."
+      "text": "Nous ne sommes pas des intermédiaires généralistes. Nous travaillons quotidiennement avec des freelances et des entreprises internationales, comprenant leurs besoins réels et anticipant les problèmes pour vous faciliter la tâche dès le premier jour.",
+      "button": "À propos d'Easy US LLC"
     },
     "support": {
       "badge": "SUPPORT HUMAIN",
       "title": "Attention personnalisée",
-      "text": "Nous vous parlons de personne à personne, via WhatsApp et email, quand vous en avez besoin. Pas de tickets interminables ni de réponses automatisées. Nous sommes là pour vous accompagner avant, pendant et après le processus."
+      "text": "Nous vous parlons de personne à personne, via WhatsApp et email, quand vous en avez besoin. Pas de tickets interminables ni de réponses automatisées. Nous sommes là pour vous accompagner avant, pendant et après le processus.",
+      "button": "Faites notre connaissance"
     }
   },
   "services": {
@@ -2316,7 +2319,8 @@
     "contactForm": "Bonjour ! Je viens d'envoyer un formulaire de contact et j'aimerais vous parler directement de la création de ma LLC. Avez-vous un moment ?",
     "contactDirect": "Bonjour ! Je suis sur la page de contact et je préfère discuter directement. Pouvons-nous parler de la création de ma LLC ?",
     "llcFormation": "Bonjour ! Je suis sur le formulaire de création de LLC et j'ai besoin d'une LLC avec plusieurs associés. Pouvons-nous discuter des options ?",
-    "homeFaq": "Bonjour ! Je souhaite évaluer mon cas et voir si une LLC convient à mon activité. Pouvons-nous en parler ?"
+    "homeFaq": "Bonjour ! Je souhaite évaluer mon cas et voir si une LLC convient à mon activité. Pouvons-nous en parler ?",
+    "whyUsSupport": "Bonjour ! J'aimerais mieux vous connaître et savoir comment vous pouvez m'aider avec ma LLC. Pouvons-nous en parler ?"
   },
   "taxComparator": {
     "badge": "CALCULATEUR D'ÉCONOMIES",

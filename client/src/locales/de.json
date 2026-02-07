@@ -275,17 +275,20 @@
     "transparency": {
       "badge": "TRANSPARENZ",
       "title": "Klare Preise",
-      "text": "Alles ist von Anfang an enthalten, ohne versteckte Kosten oder Überraschungen. Was Sie sehen, ist was Sie bezahlen. Wir glauben, dass Vertrauen mit Klarheit und Ehrlichkeit bei den Zahlen beginnt."
+      "text": "Alles ist von Anfang an enthalten, ohne versteckte Kosten oder Überraschungen. Was Sie sehen, ist was Sie bezahlen. Wir glauben, dass Vertrauen mit Klarheit und Ehrlichkeit bei den Zahlen beginnt.",
+      "button": "Unsere Preise"
     },
     "specialists": {
       "badge": "SPEZIALISTEN",
       "title": "Unternehmensspezialisten",
-      "text": "Wir sind keine generischen Vermittler. Wir arbeiten täglich mit Freiberuflern und internationalen Unternehmen zusammen, verstehen deren echte Bedürfnisse und antizipieren Probleme, um es Ihnen vom ersten Tag an leicht zu machen."
+      "text": "Wir sind keine generischen Vermittler. Wir arbeiten täglich mit Freiberuflern und internationalen Unternehmen zusammen, verstehen deren echte Bedürfnisse und antizipieren Probleme, um es Ihnen vom ersten Tag an leicht zu machen.",
+      "button": "Über Easy US LLC"
     },
     "support": {
       "badge": "PERSÖNLICHE BETREUUNG",
       "title": "Persönliche Beratung",
-      "text": "Wir sprechen persönlich mit Ihnen, per WhatsApp und E-Mail, wann immer Sie es brauchen. Keine endlosen Tickets oder automatisierten Antworten. Wir sind für Sie da – vor, während und nach dem Prozess."
+      "text": "Wir sprechen persönlich mit Ihnen, per WhatsApp und E-Mail, wann immer Sie es brauchen. Keine endlosen Tickets oder automatisierten Antworten. Wir sind für Sie da – vor, während und nach dem Prozess.",
+      "button": "Lernen Sie uns kennen"
     }
   },
   "services": {
@@ -2316,7 +2319,8 @@
     "contactForm": "Hallo! Ich habe gerade ein Kontaktformular abgeschickt und würde gerne direkt mit Ihnen über die Gründung meiner LLC sprechen. Haben Sie einen Moment?",
     "contactDirect": "Hallo! Ich bin auf der Kontaktseite und möchte lieber direkt sprechen. Können wir über die Gründung meiner LLC reden?",
     "llcFormation": "Hallo! Ich bin auf dem LLC-Gründungsformular und brauche eine LLC mit mehreren Gesellschaftern. Können wir über die Optionen sprechen?",
-    "homeFaq": "Hallo! Ich möchte meinen Fall bewerten und sehen, ob eine LLC zu meinem Geschäft passt. Können wir sprechen?"
+    "homeFaq": "Hallo! Ich möchte meinen Fall bewerten und sehen, ob eine LLC zu meinem Geschäft passt. Können wir sprechen?",
+    "whyUsSupport": "Hallo! Ich würde Sie gerne besser kennenlernen und erfahren, wie Sie mir mit meiner LLC helfen können. Können wir sprechen?"
   },
   "taxComparator": {
     "badge": "SPARPOTENZIALRECHNER",
