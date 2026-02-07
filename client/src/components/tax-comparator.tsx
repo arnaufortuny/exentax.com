@@ -278,7 +278,7 @@ export function TaxComparator() {
       <div className="w-full px-4 sm:px-8 relative z-10">
         <div className="text-center mb-10 sm:mb-14 lg:mb-10 flex flex-col items-center justify-center">
           <motion.h2 
-            className="text-4xl sm:text-5xl lg:text-4xl font-black tracking-tight text-center leading-[1.1] will-change-transform"
+            className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-center leading-[1.1] will-change-transform"
             style={{ fontWeight: 900 }}
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
