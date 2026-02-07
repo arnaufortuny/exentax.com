@@ -103,8 +103,6 @@ export default function Home() {
         }
       />
 
-      <PorQueEasyUSLLC />
-
       <section className="bg-background py-16 sm:py-20 relative" id="ventajas">
         <div className="w-full px-6 sm:px-8">
           <div className="text-center mb-10 sm:mb-14 flex flex-col items-center justify-center relative">
@@ -129,6 +127,8 @@ export default function Home() {
           <BenefitsCards />
         </div>
       </section>
+
+      <PorQueEasyUSLLC />
 
       <HowWeWorkSection />
 
