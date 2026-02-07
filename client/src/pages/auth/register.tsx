@@ -16,6 +16,7 @@ import { apiRequest, queryClient } from "@/lib/queryClient";
 import { SocialLogin } from "@/components/auth/social-login";
 import { StepProgress } from "@/components/ui/step-progress";
 import { PasswordStrength } from "@/components/ui/password-strength";
+import { NativeSelect, NativeSelectItem } from "@/components/ui/native-select";
 
 const createRegisterSchema = (t: (key: string) => string) => z.object({
   firstName: z.string().min(1, t("validation.required")),
@@ -687,18 +688,18 @@ export default function Register() {
                         <span className="font-bold text-foreground text-sm" data-testid="text-language-title">{t('profile.language.title')}</span>
                       </div>
                       <p className="text-xs text-muted-foreground mb-3" data-testid="text-language-description">{t('profile.language.description')}</p>
-                      <select
+                      <NativeSelect
                         value={selectedLanguage}
                         onChange={(e) => handleLanguageChange(e.target.value)}
-                        className="w-full p-3 rounded-full border-2 border-gray-200 dark:border-border bg-white dark:bg-[#1A1A1A] text-foreground focus:outline-none focus:ring-2 focus:ring-accent focus:border-accent h-11 md:h-12 px-5"
+                        className="rounded-full"
                         data-testid="select-language"
                       >
                         {languages.map((lang) => (
-                          <option key={lang.code} value={lang.code}>
+                          <NativeSelectItem key={lang.code} value={lang.code}>
                             {lang.label}
-                          </option>
+                          </NativeSelectItem>
                         ))}
-                      </select>
+                      </NativeSelect>
                     </div>
 
                     <div className="space-y-3">
