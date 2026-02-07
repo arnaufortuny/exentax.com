@@ -4,7 +4,7 @@ import { queryClient, apiRequest } from "@/lib/queryClient";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Calendar, Clock, Video, XCircle, MessageSquare, ChevronDown, ChevronUp } from "@/components/icons";
+import { Calendar, Clock, MessageSquare, ChevronDown, ChevronUp } from "@/components/icons";
 import { ConsultationType, ConsultationBooking, getConsultationStatusLabel, Tab } from "./types";
 import { useState, useEffect } from "react";
 import { Input } from "@/components/ui/input";
@@ -70,19 +70,6 @@ export function ConsultationsTab({ setActiveTab }: ConsultationsTabProps) {
     },
     onError: (err: any) => {
       setFormMessage({ type: 'error', text: t("consultations.bookingError") + ". " + err.message });
-    }
-  });
-
-  const cancelMutation = useMutation({
-    mutationFn: async (bookingId: number) => {
-      return await apiRequest("PATCH", `/api/consultations/${bookingId}/cancel`, { reason: "Cancelled by user" });
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["/api/consultations/my"] });
-      setFormMessage({ type: 'success', text: t("consultations.cancelSuccess") });
-    },
-    onError: (err: any) => {
-      setFormMessage({ type: 'error', text: t("consultations.cancelError") + ". " + err.message });
     }
   });
 
@@ -385,40 +372,17 @@ export function ConsultationsTab({ setActiveTab }: ConsultationsTabProps) {
                         </div>
                         <div className="space-y-1 text-sm text-muted-foreground">
                           <div className="flex items-center gap-2">
-                            <Calendar className="w-4 h-4" />
+                            <Calendar className="w-4 h-4 text-green-600 dark:text-green-400" />
                             <span>{formatDate(booking.scheduledDate)}</span>
                           </div>
                           <div className="flex items-center gap-2">
-                            <Clock className="w-4 h-4" />
+                            <Clock className="w-4 h-4 text-green-600 dark:text-green-400" />
                             <span>{booking.scheduledTime} ({booking.duration} min)</span>
                           </div>
                           <div className="text-xs mt-2">
                             {t("consultations.code")}: <span className="font-mono font-bold">{booking.bookingCode}</span>
                           </div>
                         </div>
-                      </div>
-                      <div className="flex flex-col sm:flex-row gap-2">
-                        {booking.meetingLink && (
-                          <Button 
-                            variant="outline" 
-                            size="sm"
-                            className="rounded-full"
-                            onClick={() => window.open(booking.meetingLink!, '_blank')}
-                          >
-                            <Video className="w-4 h-4 mr-1" />
-                            {t("consultations.joinMeeting")}
-                          </Button>
-                        )}
-                        <Button 
-                          variant="outline" 
-                          size="sm"
-                          className="rounded-full text-destructive border-destructive hover:bg-destructive hover:text-destructive-foreground"
-                          onClick={() => cancelMutation.mutate(booking.id)}
-                          disabled={cancelMutation.isPending}
-                        >
-                          <XCircle className="w-4 h-4 mr-1" />
-                          {t("consultations.cancel")}
-                        </Button>
                       </div>
                     </div>
                   </CardContent>
@@ -462,7 +426,7 @@ export function ConsultationsTab({ setActiveTab }: ConsultationsTabProps) {
       {myBookings.length === 0 && !showBookingPanel && (
         <Card className="py-12">
           <CardContent className="flex flex-col items-center justify-center text-center">
-            <MessageSquare className="w-12 h-12 text-muted-foreground mb-4" />
+            <MessageSquare className="w-12 h-12 text-green-600 dark:text-green-400 mb-4" />
             <h3 className="font-black text-lg mb-2">{t("consultations.noBookings")}</h3>
             <p className="text-muted-foreground mb-4">{t("consultations.noBookingsDesc")}</p>
             <Button 

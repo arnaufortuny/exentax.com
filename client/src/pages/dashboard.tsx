@@ -1,5 +1,4 @@
 import { Navbar } from "@/components/layout/navbar";
-import { Footer } from "@/components/layout/footer";
 import { useAuth } from "@/hooks/use-auth";
 import { usePageTitle } from "@/hooks/use-page-title";
 import { useTranslation } from "react-i18next";
@@ -1081,7 +1080,7 @@ export default function Dashboard() {
       <DashboardTour />
 
       {/* Desktop Sidebar - Below navbar */}
-      <aside className="hidden lg:flex lg:flex-col fixed top-16 bottom-0 left-0 w-64 border-r border-border/50 bg-card z-40">
+      <aside className="hidden lg:flex lg:flex-col fixed top-20 sm:top-24 bottom-0 left-0 w-64 border-r border-border/50 bg-card z-40">
           <div className="flex flex-col h-full">
             {/* Logo / Brand */}
             <div className="px-5 py-5 border-b border-border/30">

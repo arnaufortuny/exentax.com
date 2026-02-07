@@ -18,6 +18,7 @@ import { NativeSelect, NativeSelectItem } from "@/components/ui/native-select";
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import { apiRequest } from "@/lib/queryClient";
+import { useQuery } from "@tanstack/react-query";
 import { insertLlcApplicationSchema } from "@shared/schema";
 import { useAuth } from "@/hooks/use-auth";
 import { StepProgress } from "@/components/ui/step-progress";
@@ -94,6 +95,20 @@ export default function LlcFormation() {
   usePageTitle();
   const { user, isAuthenticated, refetch: refetchAuth } = useAuth();
   const [location, setLocation] = useLocation();
+
+  const { data: products } = useQuery<{ id: number; name: string; price: number }[]>({
+    queryKey: ['/api/products'],
+  });
+
+  const getProductIdForState = (stateName: string): number => {
+    if (!products) {
+      const fallbackMap: Record<string, number> = { "New Mexico": 1, "Wyoming": 2, "Delaware": 3 };
+      return fallbackMap[stateName] || 1;
+    }
+    const product = products.find(p => p.name.includes(stateName));
+    return product?.id || 1;
+  };
+
   const [step, setStep] = useState(0);
   const [appId, setAppId] = useState<number | null>(null);
   const [acceptedInfo, setAcceptedInfo] = useState(false);
@@ -520,7 +535,6 @@ export default function LlcFormation() {
     setFormMessage(null);
     setIsSubmitting(true);
     try {
-      // In edit mode, save changes and redirect to dashboard
       if (isEditMode) {
         await apiRequest("PUT", `/api/llc/${appId}`, data);
         setFormMessage({ type: 'success', text: t("application.messages.changesSaved") + ". " + t("application.messages.infoUpdated") });
@@ -528,51 +542,46 @@ export default function LlcFormation() {
         setLocation("/dashboard");
         return;
       }
-      
-      // If not authenticated and password provided, create account first
-      if (!isAuthenticated && data.password) {
-        try {
-          const orderPayload: any = {
-            applicationId: appId,
-            email: data.ownerEmail,
-            password: data.password,
-            ownerFullName: `${data.ownerFirstName} ${data.ownerLastName}`.trim(),
-            paymentMethod: data.paymentMethod
-          };
-          if (discountInfo?.valid && data.discountCode) {
-            orderPayload.discountCode = data.discountCode;
-            orderPayload.discountAmount = discountInfo.discountAmount;
-          }
-          const res = await apiRequest("POST", "/api/llc/claim-order", orderPayload);
-          const result = await res.json();
-          if (result.success === false) {
-            setFormMessage({ type: 'error', text: t("application.account.errorGeneric") + ". " + (result.message || '') });
-            return;
-          }
-          setFormMessage({ type: 'success', text: t("application.account.accountCreated") });
-        } catch (err: any) {
-          setFormMessage({ type: 'error', text: err.message || t("application.account.errorCreating") });
+
+      const ownerFullName = `${data.ownerFirstName} ${data.ownerLastName}`.trim();
+      const productId = getProductIdForState(data.state);
+
+      const orderPayload: any = { productId };
+      if (!isAuthenticated) {
+        if (!data.password || data.password.length < 8) {
+          setFormMessage({ type: 'error', text: t("application.validation.passwordTooShort") + ". " + t("application.validation.passwordMinChars") });
+          setIsSubmitting(false);
           return;
         }
+        orderPayload.email = data.ownerEmail;
+        orderPayload.password = data.password;
+        orderPayload.ownerFullName = ownerFullName;
+        orderPayload.paymentMethod = data.paymentMethod || "transfer";
       }
-      
-      // Normal flow: submit and proceed to payment - combine names for API
-      const submitData: any = { ...data, ownerFullName: `${data.ownerFirstName} ${data.ownerLastName}`.trim(), status: "submitted" };
       if (discountInfo?.valid && data.discountCode) {
-        submitData.discountCode = data.discountCode;
-        submitData.discountAmount = discountInfo.discountAmount;
+        orderPayload.discountCode = data.discountCode;
+        orderPayload.discountAmount = discountInfo.discountAmount;
       }
-      await apiRequest("PUT", `/api/llc/${appId}`, submitData);
-      
-      // Update user profile with form data if authenticated
+
+      const orderRes = await apiRequest("POST", "/api/orders", orderPayload);
+      if (!orderRes.ok) {
+        const error = await orderRes.json();
+        throw new Error(error.message || t("application.messages.somethingWentWrong"));
+      }
+      const orderData = await orderRes.json();
+      const applicationId = orderData.application?.id;
+      if (!applicationId) {
+        throw new Error(t("application.messages.somethingWentWrong"));
+      }
+
+      const submitData: any = { ...data, ownerFullName, status: "submitted" };
+      await apiRequest("PUT", `/api/llc/${applicationId}`, submitData);
+
       if (isAuthenticated && user) {
         try {
-          const firstName = data.ownerFirstName || '';
-          const lastName = data.ownerLastName || '';
-          
           await apiRequest("PATCH", "/api/user/profile", {
-            firstName,
-            lastName,
+            firstName: data.ownerFirstName || '',
+            lastName: data.ownerLastName || '',
             phone: data.ownerPhone,
             streetType: data.ownerStreetType,
             address: data.ownerAddress,
@@ -584,14 +593,13 @@ export default function LlcFormation() {
             businessActivity: data.businessActivity,
           });
         } catch {
-          // Profile update failed silently - not critical
         }
       }
-      
-      setFormMessage({ type: 'success', text: t("application.messages.changesSaved") + ". " + t("application.continue") });
-      setStep(19); // Payment Step
-    } catch {
-      setFormMessage({ type: 'error', text: t("application.messages.somethingWentWrong") + ". " + t("application.messages.tryAgain") });
+
+      clearDraft();
+      setLocation("/contacto?success=true&type=llc&orderId=" + encodeURIComponent(orderData.application.requestCode || ""));
+    } catch (err: any) {
+      setFormMessage({ type: 'error', text: err.message || t("application.messages.somethingWentWrong") + ". " + t("application.messages.tryAgain") });
     } finally {
       setIsSubmitting(false);
     }
