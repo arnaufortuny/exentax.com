@@ -680,11 +680,11 @@ export default function Servicios() {
             whileInView="visible"
             viewport={viewportOnce}
           >
-            <h3 className="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight max-w-3xl mx-auto mb-4 text-center uppercase leading-[1.15]">
+            <h3 className="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight max-w-5xl mx-auto mb-4 text-center uppercase leading-[1.15]">
               <span className="text-foreground">{t("services.maintenancePack.finalTextPart1")}</span>{" "}
               <span className="text-accent">{t("services.maintenancePack.finalTextPart2")}</span>
             </h3>
-            <h3 className="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight max-w-3xl mx-auto text-center uppercase leading-[1.15]">
+            <h3 className="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight max-w-5xl mx-auto text-center uppercase leading-[1.15]">
               <span className="text-foreground">{t("services.maintenancePack.helpTextPart1")}</span>{" "}
               <span className="text-accent">{t("services.maintenancePack.helpTextPart2")}</span>
             </h3>
