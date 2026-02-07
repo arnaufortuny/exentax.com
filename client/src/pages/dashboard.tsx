@@ -28,6 +28,7 @@ import {
   NewsletterToggle 
 } from "@/components/dashboard";
 import { ServicesTab } from "@/components/dashboard/services-tab";
+import { ActivityLogPanel } from "@/components/dashboard/activity-log-panel";
 import { NotificationsTab } from "@/components/dashboard/notifications-tab";
 import { MessagesTab } from "@/components/dashboard/messages-tab";
 import { ProfileTab } from "@/components/dashboard/profile-tab";
@@ -1035,6 +1036,7 @@ export default function Dashboard() {
       { id: 'admin-docs', subTab: 'docs', label: t('dashboard.admin.tabs.docs'), icon: FileText, mobileLabel: t('dashboard.admin.tabs.docs'), adminOnly: false },
       { id: 'admin-payments-config', subTab: 'payment-accounts', label: t('dashboard.admin.tabs.paymentAccounts', 'Métodos de pago'), icon: CreditCard, mobileLabel: t('dashboard.admin.tabs.paymentAccounts', 'Métodos de pago'), adminOnly: true },
       { id: 'admin-discounts', subTab: 'descuentos', label: t('dashboard.admin.tabs.discounts'), icon: Tag, mobileLabel: t('dashboard.admin.tabs.discounts'), adminOnly: true },
+      { id: 'admin-activity', subTab: 'activity', label: t('dashboard.admin.tabs.activity', 'Activity Log'), icon: ClipboardList, mobileLabel: t('dashboard.admin.tabs.activity', 'Activity'), adminOnly: true },
     ];
     return allItems.filter(item => isAdmin || !item.adminOnly);
   }, [t, isAdmin]);
@@ -4377,6 +4379,10 @@ export default function Dashboard() {
                         </Card>
                       )}
                     </div>
+                  )}
+
+                  {adminSubTab === 'activity' && (
+                    <ActivityLogPanel />
                   )}
 
                   {adminSubTab === 'descuentos' && (

@@ -1598,7 +1598,8 @@
         "billing": "Facturation",
         "docs": "Docs",
         "discounts": "Réductions",
-        "paymentAccounts": "Méthodes de paiement"
+        "paymentAccounts": "Méthodes de paiement",
+        "activity": "Activité"
       },
       "newOrder": "Nouvelle commande",
       "supportPermissions": "Rôle de support",
@@ -1895,6 +1896,13 @@
         "min": "Min",
         "confirmDeleteCode": "Supprimer le code",
         "noDiscountCodes": "Aucun code de réduction"
+      },
+      "activityLog": {
+        "title": "Journal d'activité",
+        "searchPlaceholder": "Rechercher IP, utilisateur, détails...",
+        "allActions": "Toutes les actions",
+        "noLogs": "Aucun journal d'activité trouvé",
+        "user": "Utilisateur"
       },
       "select": "Sélectionner",
       "passport": "Passeport",

@@ -8,8 +8,8 @@ import { insertLlcApplicationSchema, insertApplicationDocumentSchema } from "@sh
 import type { Request, Response } from "express";
 import { db } from "./db";
 import { sendEmail, sendTrustpilotEmail, getOtpEmailTemplate, getConfirmationEmailTemplate, getWelcomeEmailTemplate, getNewsletterWelcomeTemplate, getAutoReplyTemplate, getEmailFooter, getEmailHeader, getOrderUpdateTemplate, getNoteReceivedTemplate, getAccountDeactivatedTemplate, getAccountUnderReviewTemplate, getOrderCompletedTemplate, getAccountVipTemplate, getAccountReactivatedTemplate, getAdminNoteTemplate, getPaymentRequestTemplate, getDocumentRequestTemplate, getDocumentUploadedTemplate, getMessageReplyTemplate, getPasswordChangeOtpTemplate, getOrderEventTemplate, getAdminLLCOrderTemplate, getAdminMaintenanceOrderTemplate, getAccountPendingVerificationTemplate, getAdminPasswordResetTemplate } from "./lib/email";
-import { contactOtps, products as productsTable, users as usersTable, maintenanceApplications, newsletterSubscribers, messages as messagesTable, orderEvents, messageReplies, userNotifications, orders as ordersTable, llcApplications as llcApplicationsTable, applicationDocuments as applicationDocumentsTable, discountCodes, calculatorConsultations, consultationTypes, consultationAvailability, consultationBlockedDates, consultationBookings, accountingTransactions, guestVisitors } from "@shared/schema";
-import { and, eq, gt, desc, sql, isNotNull, inArray } from "drizzle-orm";
+import { contactOtps, products as productsTable, users as usersTable, maintenanceApplications, newsletterSubscribers, messages as messagesTable, orderEvents, messageReplies, userNotifications, orders as ordersTable, llcApplications as llcApplicationsTable, applicationDocuments as applicationDocumentsTable, discountCodes, calculatorConsultations, consultationTypes, consultationAvailability, consultationBlockedDates, consultationBookings, accountingTransactions, guestVisitors, auditLogs } from "@shared/schema";
+import { and, or, eq, gt, desc, sql, isNotNull, inArray } from "drizzle-orm";
 import { checkRateLimit, sanitizeHtml, logAudit, getSystemHealth, getClientIp, getRecentAuditLogs, validatePassword } from "./lib/security";
 import { generateOrderInvoice, type InvoiceData } from "./lib/pdf-generator";
 import { setupOAuth } from "./oauth";
@@ -1228,11 +1228,45 @@ export async function registerRoutes(
     try {
       const limit = Math.min(parseInt(req.query.limit as string) || 100, 500);
       const offset = parseInt(req.query.offset as string) || 0;
+      const action = req.query.action as string | undefined;
+      const search = req.query.search as string | undefined;
       
-      const { getAuditLogsFromDb } = await import("./lib/security");
-      const { logs, total } = await getAuditLogsFromDb({ limit, offset });
+      const conditions: any[] = [];
       
-      res.json({ logs, total, limit, offset });
+      if (action) {
+        conditions.push(eq(auditLogs.action, action));
+      }
+      
+      if (search) {
+        conditions.push(
+          or(
+            sql`${auditLogs.ip}::text ILIKE ${'%' + search + '%'}`,
+            sql`${auditLogs.userId}::text ILIKE ${'%' + search + '%'}`,
+            sql`${auditLogs.details}::text ILIKE ${'%' + search + '%'}`
+          )
+        );
+      }
+      
+      const whereClause = conditions.length > 0 ? and(...conditions) : undefined;
+      
+      const logsQuery = db.select().from(auditLogs)
+        .orderBy(desc(auditLogs.createdAt))
+        .limit(limit)
+        .offset(offset);
+      
+      const countQuery = db.select({ count: sql<number>`count(*)` }).from(auditLogs);
+      
+      if (whereClause) {
+        logsQuery.where(whereClause);
+        countQuery.where(whereClause);
+      }
+      
+      const [logs, countResult] = await Promise.all([logsQuery, countQuery]);
+      const total = Number(countResult[0]?.count || 0);
+      
+      const distinctActions = await db.selectDistinct({ action: auditLogs.action }).from(auditLogs).orderBy(auditLogs.action);
+      
+      res.json({ logs, total, limit, offset, actions: distinctActions.map(a => a.action) });
     } catch (error) {
       console.error("Audit logs error:", error);
       res.status(500).json({ message: "Error fetching audit logs" });

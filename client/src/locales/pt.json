@@ -1598,7 +1598,8 @@
         "billing": "Faturação",
         "docs": "Documentos",
         "discounts": "Descontos",
-        "paymentAccounts": "Métodos de pagamento"
+        "paymentAccounts": "Métodos de pagamento",
+        "activity": "Atividade"
       },
       "newOrder": "Novo Pedido",
       "supportPermissions": "Função de suporte",
@@ -1895,6 +1896,13 @@
         "min": "Mín",
         "confirmDeleteCode": "Eliminar o código",
         "noDiscountCodes": "Não há códigos de desconto"
+      },
+      "activityLog": {
+        "title": "Registo de Atividade",
+        "searchPlaceholder": "Pesquisar IP, utilizador, detalhes...",
+        "allActions": "Todas as ações",
+        "noLogs": "Nenhum registo de atividade encontrado",
+        "user": "Utilizador"
       },
       "select": "Selecionar",
       "passport": "Passaporte",

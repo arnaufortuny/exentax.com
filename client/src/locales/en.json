@@ -1598,7 +1598,8 @@
         "billing": "Billing",
         "docs": "Docs",
         "discounts": "Discounts",
-        "paymentAccounts": "Payment Methods"
+        "paymentAccounts": "Payment Methods",
+        "activity": "Activity"
       },
       "newOrder": "New Order",
       "supportPermissions": "Support Role",
@@ -1895,6 +1896,13 @@
         "min": "Min",
         "confirmDeleteCode": "Delete the code",
         "noDiscountCodes": "No discount codes"
+      },
+      "activityLog": {
+        "title": "Activity Log",
+        "searchPlaceholder": "Search IP, user, details...",
+        "allActions": "All actions",
+        "noLogs": "No activity logs found",
+        "user": "User"
       },
       "select": "Select",
       "passport": "Passport",

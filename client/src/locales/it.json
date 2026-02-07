@@ -1557,7 +1557,8 @@
         "billing": "Fatturazione",
         "docs": "Documenti",
         "discounts": "Sconti",
-        "paymentAccounts": "Metodi di pagamento"
+        "paymentAccounts": "Metodi di pagamento",
+        "activity": "Attività"
       },
       "newOrder": "Nuovo Ordine",
       "supportPermissions": "Ruolo di supporto",
@@ -1854,6 +1855,13 @@
         "min": "Min",
         "confirmDeleteCode": "Eliminare il codice",
         "noDiscountCodes": "Nessun codice sconto"
+      },
+      "activityLog": {
+        "title": "Registro Attività",
+        "searchPlaceholder": "Cerca IP, utente, dettagli...",
+        "allActions": "Tutte le azioni",
+        "noLogs": "Nessun registro di attività trovato",
+        "user": "Utente"
       },
       "select": "Seleziona",
       "passport": "Passaporto",

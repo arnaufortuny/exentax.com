@@ -70,6 +70,13 @@ export async function apiRequest(
 
   if (res.status === 403) {
     csrfToken = null;
+    try {
+      const cloned = res.clone();
+      const body = await cloned.json();
+      if (body.code === 'ACCOUNT_UNDER_REVIEW' || body.code === 'ACCOUNT_DEACTIVATED') {
+        queryClient.invalidateQueries({ queryKey: ["/api/auth/user"] });
+      }
+    } catch {}
   }
 
   await throwIfResNotOk(res);

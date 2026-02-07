@@ -532,9 +532,6 @@ export function setupCustomAuth(app: Express) {
         }
       }
       
-      // If 3 or more sensitive fields changed, put account under review
-      const needsReview = significantChanges >= 3 && currentUser.accountStatus === 'active';
-      
       const updateData: any = {
         firstName,
         lastName,
@@ -551,10 +548,6 @@ export function setupCustomAuth(app: Express) {
         preferredLanguage,
         updatedAt: new Date(),
       };
-      
-      if (needsReview) {
-        updateData.accountStatus = 'pending';
-      }
 
       await db.update(users)
         .set(updateData)
@@ -582,7 +575,7 @@ export function setupCustomAuth(app: Express) {
           emailVerified: updatedUser.emailVerified,
           accountStatus: updatedUser.accountStatus,
         },
-        accountUnderReview: needsReview,
+        accountUnderReview: false,
       });
     } catch (error) {
       console.error("Update user error:", error);

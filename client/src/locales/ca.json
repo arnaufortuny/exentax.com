@@ -1598,7 +1598,8 @@
         "billing": "Facturació",
         "docs": "Documents",
         "discounts": "Descomptes",
-        "paymentAccounts": "Mètodes de pagament"
+        "paymentAccounts": "Mètodes de pagament",
+        "activity": "Registre"
       },
       "newOrder": "Nova Comanda",
       "supportPermissions": "Rol de Suport",
@@ -1895,6 +1896,13 @@
         "min": "Mín",
         "confirmDeleteCode": "Eliminar el codi",
         "noDiscountCodes": "No hi ha codis de descompte"
+      },
+      "activityLog": {
+        "title": "Registre d'Activitat",
+        "searchPlaceholder": "Cercar IP, usuari, detalls...",
+        "allActions": "Totes les accions",
+        "noLogs": "No s'han trobat registres",
+        "user": "Usuari"
       },
       "select": "Seleccionar",
       "passport": "Passaport",
