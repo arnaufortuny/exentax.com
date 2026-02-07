@@ -553,7 +553,7 @@ export default function Servicios() {
               viewport={viewportOnce}
             />
           </div>
-          <div className="grid md:grid-cols-2 gap-5 sm:gap-6 mb-16 sm:mb-24 max-w-4xl mx-auto">
+          <div className="grid md:grid-cols-2 gap-5 sm:gap-6 max-w-4xl mx-auto">
             {bankItems.map((item, i) => {
               const isMercury = item.key === "mercury";
               const isRelay = item.key === "relay";
@@ -580,9 +580,12 @@ export default function Servicios() {
               );
             })}
           </div>
+        </div>
+      </section>
 
-          {/* Maintenance Section Header */}
-          <div className="text-center mb-8 sm:mb-10 flex flex-col items-center justify-center relative" id="mantenimiento">
+      <section className="py-16 sm:py-20 bg-background relative" id="mantenimiento">
+        <div className="w-full px-5 sm:px-8">
+          <div className="text-center mb-8 sm:mb-10 flex flex-col items-center justify-center relative">
             <motion.h2 
               className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-center leading-[1.1] will-change-[transform,opacity]" 
               style={{ fontWeight: 900 }}
