@@ -1009,7 +1009,7 @@ export function registerUserProfileRoutes(app: Express) {
       await sendEmail({
         to: user.email,
         subject: "Código de verificación - Cambio de contraseña",
-        html: getPasswordChangeOtpTemplate(user.firstName || 'Cliente', otp)
+        html: getPasswordChangeOtpTemplate(user.firstName || 'Cliente', otp, (user.preferredLanguage as any) || 'es')
       });
       
       res.json({ success: true });

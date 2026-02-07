@@ -215,285 +215,329 @@ export function getAccountReactivatedTemplate(name?: string, lang: EmailLanguage
 }
 
 // 4. Confirmación de Solicitud (LLC / Mantenimiento)
-export function getConfirmationEmailTemplate(name: string, requestCode: string, details?: { companyName?: string; state?: string; serviceType?: string }) {
+export function getConfirmationEmailTemplate(name: string, requestCode: string, details?: { companyName?: string; state?: string; serviceType?: string }, lang: EmailLanguage = 'es') {
+  const t = getEmailTranslations(lang);
   const content = `
-    <p style="line-height: 1.7; font-size: 15px; color: #444; margin: 0 0 25px 0;">Hola ${name},</p>
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin: 0 0 25px 0;">${t.common.greeting} ${name},</p>
     
-    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">¡Excelente noticia! Hemos recibido correctamente tu solicitud y ya estamos trabajando en ella. A partir de ahora, nuestro equipo se encargará de todo.</p>
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 25px;">${t.confirmation.greatNews}</p>
     
     <div style="background: linear-gradient(135deg, #F0FDF4 0%, #ECFDF5 100%); padding: 25px; border-radius: 16px; margin: 25px 0; border: 2px solid #6EDC8A;">
-      <p style="margin: 0 0 15px 0; font-size: 14px; font-weight: 700; color: #059669; text-transform: uppercase; letter-spacing: 1px;">Detalles de tu Solicitud</p>
+      <p style="margin: 0 0 15px 0; font-size: 14px; font-weight: 700; color: #059669; text-transform: uppercase; letter-spacing: 1px;">${t.confirmation.details}</p>
       <table style="width: 100%; font-size: 14px; border-collapse: collapse;">
         <tr>
-          <td style="padding: 8px 0; color: #6B7280;">Referencia:</td>
-          <td style="padding: 8px 0; font-weight: 700; text-align: right; color: #0A0A0A;">#${requestCode}</td>
+          <td style="padding: 8px 0; color: #6B7280;">${t.confirmation.reference}</td>
+          <td style="padding: 8px 0; font-weight: 700; text-align: right; color: #0A0A0A;">${requestCode}</td>
         </tr>
-        ${details?.serviceType ? `<tr><td style="padding: 8px 0; color: #6B7280;">Servicio:</td><td style="padding: 8px 0; font-weight: 700; text-align: right; color: #0A0A0A;">${details.serviceType}</td></tr>` : ''}
-        ${details?.companyName ? `<tr><td style="padding: 8px 0; color: #6B7280;">Empresa:</td><td style="padding: 8px 0; font-weight: 700; text-align: right; color: #0A0A0A;">${details.companyName}</td></tr>` : ''}
-        ${details?.state ? `<tr><td style="padding: 8px 0; color: #6B7280;">Estado:</td><td style="padding: 8px 0; font-weight: 700; text-align: right; color: #0A0A0A;">${details.state}</td></tr>` : ''}
+        ${details?.serviceType ? `
         <tr>
-          <td style="padding: 8px 0; color: #6B7280;">Estado actual:</td>
-          <td style="padding: 8px 0; font-weight: 700; text-align: right; color: #059669;">En revisión</td>
+          <td style="padding: 8px 0; color: #6B7280;">${t.confirmation.service}</td>
+          <td style="padding: 8px 0; font-weight: 700; text-align: right; color: #0A0A0A;">${details.serviceType}</td>
+        </tr>` : ''}
+        ${details?.companyName ? `
+        <tr>
+          <td style="padding: 8px 0; color: #6B7280;">${t.confirmation.company}</td>
+          <td style="padding: 8px 0; font-weight: 700; text-align: right; color: #0A0A0A;">${details.companyName}</td>
+        </tr>` : ''}
+        ${details?.state ? `
+        <tr>
+          <td style="padding: 8px 0; color: #6B7280;">${t.confirmation.state}</td>
+          <td style="padding: 8px 0; font-weight: 700; text-align: right; color: #0A0A0A;">${details.state}</td>
+        </tr>` : ''}
+        <tr>
+          <td style="padding: 8px 0; color: #6B7280;">${t.confirmation.currentStatus}</td>
+          <td style="padding: 8px 0; font-weight: 700; text-align: right; color: #059669;">${t.confirmation.inReview}</td>
         </tr>
       </table>
     </div>
     
-    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 15px;"><strong>¿Qué pasa ahora?</strong></p>
-    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">Nuestro equipo está validando toda la información que nos proporcionaste. En las próximas horas recibirás actualizaciones sobre el progreso de tu solicitud directamente en tu correo. También podrás seguir el estado en tiempo real desde tu Área Cliente.</p>
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 15px;"><strong>${t.confirmation.whatNow}</strong></p>
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 25px;">${t.confirmation.validatingInfo}</p>
     
     <div style="text-align: center; margin: 30px 0;">
-      <a href="https://${domain}/dashboard" style="display: inline-block; background: #6EDC8A; color: #0A0A0A; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">Ver Estado de mi Solicitud</a>
+      <a href="https://${domain}/dashboard" style="display: inline-block; background: #6EDC8A; color: #0A0A0A; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">${t.confirmation.trackButton}</a>
     </div>
     
-    <p style="line-height: 1.6; font-size: 14px; color: #6B7280;">¿Tienes alguna pregunta? Simplemente responde a este correo mencionando tu referencia #${requestCode} y te ayudaremos encantados.</p>
+    <p style="line-height: 1.6; font-size: 14px; color: #6B7280;">${t.confirmation.questionRef}</p>
   `;
-  return getEmailWrapper(content);
+  return getEmailWrapper(content, lang);
 }
 
-// 5. Auto-respuesta de Contacto
-export function getAutoReplyTemplate(ticketId: string, name: string = "Cliente") {
+// 5. Auto-respuesta de contacto
+export function getAutoReplyTemplate(name: string, ticketId: string, lang: EmailLanguage = 'es') {
+  const t = getEmailTranslations(lang);
   const content = `
-    <p style="line-height: 1.7; font-size: 15px; color: #444; margin: 0 0 25px 0;">Tu mensaje ha sido recibido correctamente.</p>
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin: 0 0 25px 0;">${t.common.greeting} ${name},</p>
     
-    <div style="background: linear-gradient(135deg, #F0FDF4 0%, #ECFDF5 100%); padding: 25px; border-radius: 16px; margin: 25px 0; border: 2px solid #6EDC8A; text-align: center;">
-      <p style="margin: 0 0 8px 0; font-size: 12px; color: #6B7280; text-transform: uppercase; letter-spacing: 1px;">Número de ticket</p>
-      <p style="margin: 0; font-size: 24px; font-weight: 900; color: #0A0A0A;">#${ticketId}</p>
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">${t.autoReply.receivedMessage}</p>
+    
+    <div style="background: linear-gradient(135deg, #F0FDF4 0%, #ECFDF5 100%); padding: 20px 25px; border-radius: 16px; margin: 25px 0; border: 2px solid #6EDC8A; text-align: center;">
+      <p style="margin: 0 0 8px 0; font-size: 13px; color: #6B7280; text-transform: uppercase;">${t.autoReply.ticketNumber}</p>
+      <p style="margin: 0; font-size: 24px; font-weight: 900; color: #0A0A0A; letter-spacing: 2px;">#${ticketId}</p>
     </div>
     
-    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">Tiempo estimado de respuesta: <strong>24-48 horas laborables</strong></p>
+    <p style="line-height: 1.6; font-size: 14px; color: #6B7280; margin-bottom: 15px;">${t.autoReply.estimatedResponse}</p>
     
-    <p style="line-height: 1.6; font-size: 14px; color: #6B7280;">Nuestro equipo revisará tu consulta y te responderá lo antes posible. Si necesitas añadir información adicional, responde directamente a este correo.</p>
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 25px;">${t.autoReply.responding}</p>
+    
+    <div style="text-align: center; margin: 30px 0;">
+      <a href="https://${domain}/dashboard" style="display: inline-block; background: #6EDC8A; color: #0A0A0A; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">${t.autoReply.seeMessages}</a>
+    </div>
   `;
-  return getEmailWrapper(content);
+  return getEmailWrapper(content, lang);
 }
 
-// 6. Actualización de Pedido
-export function getOrderUpdateTemplate(name: string, orderNumber: string, newStatus: string, statusDescription: string) {
+// 8a. Actualización de estado de pedido
+export function getOrderUpdateTemplate(name: string, orderId: string, status: string, description?: string, lang: EmailLanguage = 'es') {
+  const t = getEmailTranslations(lang);
   const statusLabels: Record<string, string> = {
-    pending: "Pendiente",
-    processing: "En proceso",
-    paid: "Pagado",
-    filed: "Presentado",
-    documents_ready: "Documentos listos",
-    completed: "Completado",
-    cancelled: "Cancelado"
+    pending: t.orderUpdate.statusPending,
+    processing: t.orderUpdate.statusProcessing,
+    paid: t.orderUpdate.statusPaid,
+    filed: t.orderUpdate.statusFiled,
+    documents_ready: t.orderUpdate.statusDocumentsReady,
+    completed: t.orderUpdate.statusCompleted,
+    cancelled: t.orderUpdate.statusCancelled,
   };
-  const statusLabel = statusLabels[newStatus] || newStatus.replace(/_/g, " ");
-  
-  const content = `
-    <p style="line-height: 1.7; font-size: 15px; color: #444; margin: 0 0 25px 0;">El estado de tu pedido ha sido actualizado.</p>
-    
-    <div style="background: #F9FAFB; padding: 25px; border-radius: 16px; margin: 25px 0; border-left: 4px solid #6EDC8A;">
-      <table style="width: 100%; font-size: 14px; border-collapse: collapse;">
-        <tr>
-          <td style="padding: 8px 0; color: #6B7280;">Pedido:</td>
-          <td style="padding: 8px 0; font-weight: 700; text-align: right; color: #0A0A0A;">#${orderNumber}</td>
-        </tr>
-        <tr>
-          <td style="padding: 8px 0; color: #6B7280;">Nuevo estado:</td>
-          <td style="padding: 8px 0; font-weight: 700; text-align: right; color: #059669;">${statusLabel}</td>
-        </tr>
-      </table>
-    </div>
-    
-    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">${statusDescription}</p>
-    
-    <p style="line-height: 1.6; font-size: 14px; color: #6B7280;">Para cualquier aclaración sobre esta actualización, responde directamente a este correo.</p>
-  `;
-  return getEmailWrapper(content);
-}
+  const translatedStatus = statusLabels[status] || status;
 
-// 7. Pedido Completado + Trustpilot
-export function getOrderCompletedTemplate(name: string, orderNumber: string) {
+  const statusColors: Record<string, string> = {
+    pending: "#F59E0B",
+    processing: "#3B82F6",
+    paid: "#10B981",
+    filed: "#8B5CF6",
+    documents_ready: "#059669",
+    completed: "#059669",
+    cancelled: "#EF4444",
+  };
+  const statusColor = statusColors[status] || "#6EDC8A";
+
   const content = `
-    <p style="line-height: 1.7; font-size: 15px; color: #444; margin: 0 0 25px 0;">Hola ${name},</p>
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin: 0 0 25px 0;">${t.common.greeting} ${name},</p>
     
-    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">¡Felicidades! Tu pedido <strong>#${orderNumber}</strong> ha sido completado con éxito. Todo está listo para que puedas empezar a operar con tu empresa en Estados Unidos.</p>
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">${t.orderUpdate.statusChanged}</p>
     
-    <div style="background: linear-gradient(135deg, #F0FDF4 0%, #ECFDF5 100%); padding: 25px; border-radius: 16px; margin: 25px 0; border: 2px solid #6EDC8A;">
-      <p style="margin: 0 0 15px 0; font-size: 14px; font-weight: 700; color: #059669; text-transform: uppercase; letter-spacing: 1px;">Tu documentación está lista</p>
-      <p style="margin: 0; font-size: 15px; color: #0A0A0A; line-height: 1.6;">Ya puedes acceder y descargar todos los documentos de tu empresa desde tu Centro de Documentación.</p>
+    <div style="background: #F9FAFB; padding: 25px; border-radius: 16px; margin: 25px 0; border-left: 4px solid ${statusColor};">
+      <p style="margin: 0 0 10px 0; font-size: 13px; color: #6B7280; text-transform: uppercase;">${t.orderUpdate.orderLabel} <strong>#${orderId}</strong></p>
+      <p style="margin: 0; font-size: 16px; font-weight: 700; color: ${statusColor};">${t.orderUpdate.newStatus} ${translatedStatus}</p>
     </div>
     
-    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 15px;"><strong>¿Qué encontrarás?</strong></p>
-    <ul style="margin: 0 0 25px 0; padding-left: 20px; color: #444; font-size: 14px; line-height: 1.8;">
-      <li>Articles of Organization (documento de constitución)</li>
-      <li>Carta del EIN del IRS</li>
-      <li>Información del agente registrado</li>
-      <li>Guías y documentos adicionales según tu servicio</li>
-    </ul>
+    <p style="line-height: 1.6; font-size: 14px; color: #6B7280; margin-bottom: 25px;">${t.orderUpdate.clarification}</p>
     
     <div style="text-align: center; margin: 30px 0;">
-      <a href="https://${domain}/dashboard" style="display: inline-block; background: #6EDC8A; color: #0A0A0A; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">Ver Mis Documentos</a>
+      <a href="https://${domain}/dashboard" style="display: inline-block; background: #6EDC8A; color: #0A0A0A; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">${t.orderUpdate.trackButton}</a>
     </div>
-    
-    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">Recuerda que seguimos aquí para ayudarte en todo lo que necesites. Si tienes dudas sobre los siguientes pasos, como abrir una cuenta bancaria o configurar tu pasarela de pagos, no dudes en escribirnos.</p>
-    
-    <p style="line-height: 1.6; font-size: 14px; color: #6B7280;">Tu experiencia es muy importante para nosotros. Si tienes un momento, nos encantaría conocer tu opinión sobre nuestro servicio.</p>
   `;
-  return getEmailWrapper(content);
+  return getEmailWrapper(content, lang);
 }
 
-// 8. Nuevo Mensaje (admin a cliente)
-export function getNoteReceivedTemplate(name: string, noteContent: string, orderNumber?: string) {
+// 8b. Pedido completado (documentos listos)
+export function getOrderCompletedTemplate(name: string, orderCode: string, lang: EmailLanguage = 'es') {
+  const t = getEmailTranslations(lang);
   const content = `
-    <p style="line-height: 1.7; font-size: 15px; color: #444; margin: 0 0 25px 0;">Hola ${name},</p>
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin: 0 0 25px 0;">${t.common.greeting} ${name},</p>
     
-    <p style="line-height: 1.7; font-size: 15px; color: #444; margin: 0 0 25px 0;">Tienes un nuevo mensaje de nuestro equipo${orderNumber ? ` relacionado con tu pedido <strong>#${orderNumber}</strong>` : ''}.</p>
+    <div style="background: linear-gradient(135deg, #F0FDF4 0%, #ECFDF5 100%); padding: 25px; border-radius: 16px; margin: 0 0 25px 0; text-align: center; border: 2px solid #6EDC8A;">
+      <p style="margin: 0; font-size: 20px; font-weight: 800; color: #059669;">${t.orderCompleted.llcReady}</p>
+    </div>
+    
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">${t.orderCompleted.congratulations}</p>
+    
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 15px;"><strong>${t.orderCompleted.docsReady}</strong></p>
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">${t.orderCompleted.accessDocuments}</p>
     
     <div style="background: #F9FAFB; padding: 25px; border-radius: 16px; margin: 25px 0; border-left: 4px solid #6EDC8A;">
-      <p style="margin: 0; font-size: 15px; color: #0A0A0A; line-height: 1.7; white-space: pre-wrap;">${noteContent}</p>
+      <p style="margin: 0 0 15px 0; font-size: 14px; font-weight: 700; color: #0A0A0A; text-transform: uppercase;">${t.orderCompleted.whatYouFind}</p>
+      <ul style="margin: 0; padding-left: 18px; color: #444; font-size: 14px; line-height: 1.8;">
+        <li>${t.orderCompleted.articlesOrg}</li>
+        <li>${t.orderCompleted.einLetter}</li>
+        <li>${t.orderCompleted.registeredAgent}</li>
+        <li>${t.orderCompleted.additionalGuides}</li>
+      </ul>
     </div>
     
     <div style="text-align: center; margin: 30px 0;">
-      <a href="https://${domain}/dashboard" style="display: inline-block; background: #6EDC8A; color: #0A0A0A; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">Ver Mi Área Cliente</a>
+      <a href="https://${domain}/dashboard" style="display: inline-block; background: #6EDC8A; color: #0A0A0A; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">${t.orderCompleted.viewDocuments}</a>
     </div>
+    
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">${t.orderCompleted.hereForYou}</p>
+    
+    <p style="line-height: 1.6; font-size: 14px; color: #6B7280;">${t.orderCompleted.feedbackRequest}</p>
   `;
-  return getEmailWrapper(content);
+  return getEmailWrapper(content, lang);
 }
 
-// 8b. Nota con ticket (admin a cliente)
-export function getAdminNoteTemplate(name: string, title: string, message: string, ticketId: string) {
+// 8c1. Nota de equipo recibida
+export function getNoteReceivedTemplate(name: string, note: string, orderId: string, lang: EmailLanguage = 'es') {
+  const t = getEmailTranslations(lang);
   const content = `
-    <p style="line-height: 1.7; font-size: 15px; color: #444; margin: 0 0 25px 0;">Hola ${name},</p>
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin: 0 0 25px 0;">${t.common.greeting} ${name},</p>
     
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-      <h2 style="margin: 0; font-size: 18px; font-weight: 700; color: #0A0A0A;">${title}</h2>
-      <span style="font-size: 12px; color: #6B7280; background: #F3F4F6; padding: 6px 12px; border-radius: 20px;">Ticket: ${ticketId}</span>
-    </div>
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">${t.noteReceived.teamNote} ${t.noteReceived.relatedToOrder} <strong>#${orderId}</strong>:</p>
     
     <div style="background: #F9FAFB; padding: 25px; border-radius: 16px; margin: 25px 0; border-left: 4px solid #6EDC8A;">
-      <p style="margin: 0; font-size: 15px; color: #0A0A0A; line-height: 1.7; white-space: pre-wrap;">${message}</p>
+      <p style="margin: 0; font-size: 15px; color: #0A0A0A; line-height: 1.7;">${note}</p>
     </div>
+    
+    <p style="line-height: 1.6; font-size: 14px; color: #6B7280; margin-bottom: 25px;">${t.noteReceived.respondNote}</p>
     
     <div style="text-align: center; margin: 30px 0;">
-      <a href="https://${domain}/dashboard" style="display: inline-block; background: #6EDC8A; color: #0A0A0A; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">Ver Mi Área Cliente</a>
+      <a href="https://${domain}/dashboard" style="display: inline-block; background: #6EDC8A; color: #0A0A0A; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">${t.noteReceived.viewClientArea}</a>
     </div>
   `;
-  return getEmailWrapper(content);
+  return getEmailWrapper(content, lang);
 }
 
-// 8c. Solicitud de Pago
-export function getPaymentRequestTemplate(name: string, message: string, paymentLink: string, amount?: string) {
+// 8c2. Nota administrativa
+export function getAdminNoteTemplate(name: string, message: string, ticketId: string, lang: EmailLanguage = 'es') {
+  const t = getEmailTranslations(lang);
   const content = `
-    <p style="line-height: 1.7; font-size: 15px; color: #444; margin: 0 0 25px 0;">Hola ${name},</p>
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin: 0 0 25px 0;">${t.common.greeting} ${name},</p>
     
-    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">Se ha generado una solicitud de pago para continuar con tu trámite${amount ? ` por un valor de <strong>${amount}</strong>` : ''}.</p>
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">${t.adminNote.messageAbout}</p>
     
     <div style="background: #F9FAFB; padding: 25px; border-radius: 16px; margin: 25px 0; border-left: 4px solid #6EDC8A;">
-      <p style="margin: 0 0 8px 0; font-size: 13px; font-weight: 700; color: #6B7280; text-transform: uppercase;">Mensaje:</p>
+      <p style="margin: 0 0 10px 0; font-size: 13px; font-weight: 700; color: #6B7280; text-transform: uppercase;">${t.adminNote.viewTicket} #${ticketId}</p>
       <p style="margin: 0; font-size: 15px; color: #0A0A0A; line-height: 1.7;">${message}</p>
     </div>
     
-    <div style="text-align: center; margin: 35px 0;">
-      <a href="${paymentLink}" style="display: inline-block; background: #6EDC8A; color: #0A0A0A; text-decoration: none; font-weight: 800; font-size: 14px; text-transform: uppercase; padding: 16px 45px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">Realizar Pago</a>
+    <div style="text-align: center; margin: 30px 0;">
+      <a href="https://${domain}/dashboard" style="display: inline-block; background: #6EDC8A; color: #0A0A0A; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">${t.adminNote.viewClientArea}</a>
+    </div>
+  `;
+  return getEmailWrapper(content, lang);
+}
+
+// 8c3. Solicitud de pago
+export function getPaymentRequestTemplate(name: string, amount: string, paymentLink: string, message: string, lang: EmailLanguage = 'es') {
+  const t = getEmailTranslations(lang);
+  const content = `
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin: 0 0 25px 0;">${t.common.greeting} ${name},</p>
+    
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">${t.paymentRequest.paymentRequired} ${t.paymentRequest.amount} <strong>$${amount}</strong>.</p>
+    
+    <div style="background: #F9FAFB; padding: 25px; border-radius: 16px; margin: 25px 0; border-left: 4px solid #6EDC8A;">
+      <p style="margin: 0 0 8px 0; font-size: 13px; font-weight: 700; color: #6B7280; text-transform: uppercase;">${t.paymentRequest.messageLabel}</p>
+      <p style="margin: 0; font-size: 15px; color: #0A0A0A; line-height: 1.7;">${message}</p>
     </div>
     
-    <p style="line-height: 1.5; font-size: 12px; color: #9CA3AF; text-align: center; margin-top: 20px;">Si el botón no funciona, copia y pega este enlace:<br><a href="${paymentLink}" style="color: #6EDC8A; word-break: break-all;">${paymentLink}</a></p>
+    <div style="text-align: center; margin: 30px 0;">
+      <a href="${paymentLink}" style="display: inline-block; background: #6EDC8A; color: #0A0A0A; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">${t.paymentRequest.payNow}</a>
+    </div>
+    
+    <p style="line-height: 1.5; font-size: 12px; color: #9CA3AF; word-break: break-all;">${t.paymentRequest.buttonFallback} ${paymentLink}</p>
+    
+    <p style="line-height: 1.6; font-size: 13px; color: #6B7280; margin-top: 20px;">${t.paymentRequest.securePayment}</p>
   `;
-  return getEmailWrapper(content);
+  return getEmailWrapper(content, lang);
 }
 
 // 8d. Solicitud de Documentación
-export function getDocumentRequestTemplate(name: string, documentType: string, message: string, ticketId: string) {
+export function getDocumentRequestTemplate(name: string, documentType: string, message: string, ticketId: string, lang: EmailLanguage = 'es') {
+  const t = getEmailTranslations(lang);
   const content = `
-    <p style="line-height: 1.7; font-size: 15px; color: #444; margin: 0 0 25px 0;">Hola ${name},</p>
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin: 0 0 25px 0;">${t.common.greeting} ${name},</p>
     
-    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">Nuestro equipo requiere que subas el siguiente documento:</p>
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">${t.documentRequest.needDocument}</p>
     
     <div style="background: linear-gradient(135deg, #FEF3C7 0%, #FEF9C3 100%); padding: 20px 25px; border-radius: 16px; margin: 25px 0; border: 2px solid #F59E0B; text-align: center;">
       <p style="margin: 0; font-size: 16px; font-weight: 700; color: #92400E;">${documentType}</p>
     </div>
     
     <div style="background: #F9FAFB; padding: 25px; border-radius: 16px; margin: 25px 0; border-left: 4px solid #6EDC8A;">
-      <p style="margin: 0 0 8px 0; font-size: 13px; font-weight: 700; color: #6B7280; text-transform: uppercase;">Mensaje:</p>
+      <p style="margin: 0 0 8px 0; font-size: 13px; font-weight: 700; color: #6B7280; text-transform: uppercase;">${t.documentRequest.messageLabel}</p>
       <p style="margin: 0; font-size: 15px; color: #0A0A0A; line-height: 1.7;">${message}</p>
     </div>
     
-    <p style="line-height: 1.6; font-size: 13px; color: #6B7280; margin-bottom: 25px;">Ticket de referencia: <strong>#${ticketId}</strong></p>
+    <p style="line-height: 1.6; font-size: 13px; color: #6B7280; margin-bottom: 25px;">${t.documentRequest.referenceTicket} <strong>#${ticketId}</strong></p>
     
     <div style="text-align: center; margin: 30px 0;">
-      <a href="https://${domain}/dashboard" style="display: inline-block; background: #6EDC8A; color: #0A0A0A; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">Subir Documento</a>
+      <a href="https://${domain}/dashboard" style="display: inline-block; background: #6EDC8A; color: #0A0A0A; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">${t.documentRequest.uploadButton}</a>
     </div>
   `;
-  return getEmailWrapper(content);
+  return getEmailWrapper(content, lang);
 }
 
 // 8e. Documento Subido por Admin
-export function getDocumentUploadedTemplate(name: string, documentType: string, orderCode: string) {
+export function getDocumentUploadedTemplate(name: string, documentType: string, orderCode: string, lang: EmailLanguage = 'es') {
+  const t = getEmailTranslations(lang);
   const content = `
-    <p style="line-height: 1.7; font-size: 15px; color: #444; margin: 0 0 25px 0;">Hola ${name},</p>
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin: 0 0 25px 0;">${t.common.greeting} ${name},</p>
     
-    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">Hemos añadido un nuevo documento a tu expediente:</p>
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">${t.documentUploaded.documentReceived}</p>
     
     <div style="background: linear-gradient(135deg, #D1FAE5 0%, #ECFDF5 100%); padding: 20px 25px; border-radius: 16px; margin: 25px 0; border: 2px solid #10B981; text-align: center;">
       <p style="margin: 0; font-size: 16px; font-weight: 700; color: #065F46;">${documentType}</p>
-      <p style="margin: 10px 0 0 0; font-size: 13px; color: #047857;">Pedido: ${orderCode}</p>
+      <p style="margin: 10px 0 0 0; font-size: 13px; color: #047857;">${t.documentUploaded.forOrder} ${orderCode}</p>
     </div>
     
-    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">Puedes acceder y descargar este documento desde tu Área Cliente.</p>
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">${t.documentUploaded.accessDownload}</p>
     
     <div style="text-align: center; margin: 30px 0;">
-      <a href="https://${domain}/dashboard" style="display: inline-block; background: #6EDC8A; color: #0A0A0A; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">Ver Mis Documentos</a>
+      <a href="https://${domain}/dashboard" style="display: inline-block; background: #6EDC8A; color: #0A0A0A; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">${t.documentUploaded.viewDocuments}</a>
     </div>
   `;
-  return getEmailWrapper(content);
+  return getEmailWrapper(content, lang);
 }
 
 // 8f. Respuesta a consulta (admin a cliente)
-export function getMessageReplyTemplate(name: string, content: string, ticketId: string) {
+export function getMessageReplyTemplate(name: string, content: string, ticketId: string, lang: EmailLanguage = 'es') {
+  const t = getEmailTranslations(lang);
   const emailContent = `
-    <p style="line-height: 1.7; font-size: 15px; color: #444; margin: 0 0 25px 0;">Hola ${name},</p>
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin: 0 0 25px 0;">${t.common.greeting} ${name},</p>
     
-    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">Hemos respondido a tu consulta (Ticket: <strong>#${ticketId}</strong>):</p>
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">${t.messageReply.repliedToQuery} (${t.messageReply.ticket} <strong>#${ticketId}</strong>):</p>
     
     <div style="background: #F9FAFB; padding: 25px; border-radius: 16px; margin: 25px 0; border-left: 4px solid #6EDC8A;">
       <p style="margin: 0; font-size: 15px; color: #0A0A0A; line-height: 1.7; white-space: pre-wrap;">${content}</p>
     </div>
     
     <div style="text-align: center; margin: 30px 0;">
-      <a href="https://${domain}/dashboard" style="display: inline-block; background: #6EDC8A; color: #0A0A0A; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">Ver Mi Área Cliente</a>
+      <a href="https://${domain}/dashboard" style="display: inline-block; background: #6EDC8A; color: #0A0A0A; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">${t.messageReply.viewClientArea}</a>
     </div>
   `;
-  return getEmailWrapper(emailContent);
+  return getEmailWrapper(emailContent, lang);
 }
 
 // 8f. Código para cambio de contraseña
-export function getPasswordChangeOtpTemplate(name: string, otp: string) {
+export function getPasswordChangeOtpTemplate(name: string, otp: string, lang: EmailLanguage = 'es') {
+  const t = getEmailTranslations(lang);
   const content = `
-    <p style="line-height: 1.7; font-size: 15px; color: #444; margin: 0 0 25px 0;">Hola ${name},</p>
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin: 0 0 25px 0;">${t.common.greeting} ${name},</p>
     
-    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">Has solicitado cambiar tu contraseña. Usa este código para verificar tu identidad:</p>
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">${t.passwordChangeOtp.passwordChangeRequest}</p>
     
     <div style="background: linear-gradient(135deg, #F0FDF4 0%, #ECFDF5 100%); padding: 30px; border-radius: 16px; margin: 25px 0; text-align: center; border: 2px solid #6EDC8A;">
       <p style="margin: 0; font-size: 42px; font-weight: 900; color: #0A0A0A; letter-spacing: 12px; font-family: 'SF Mono', 'Consolas', monospace;">${otp}</p>
     </div>
     
-    <p style="line-height: 1.6; font-size: 14px; color: #6B7280;">Este código expira en <strong>10 minutos</strong>.</p>
-    <p style="line-height: 1.6; font-size: 14px; color: #6B7280;">Si no solicitaste este cambio, ignora este mensaje.</p>
+    <p style="line-height: 1.6; font-size: 14px; color: #6B7280;">${t.passwordChangeOtp.validFor}</p>
+    <p style="line-height: 1.6; font-size: 14px; color: #6B7280;">${t.passwordChangeOtp.notRequested}</p>
   `;
-  return getEmailWrapper(content);
+  return getEmailWrapper(content, lang);
 }
 
 // 8g. Evento de timeline de pedido
-export function getOrderEventTemplate(name: string, orderId: string, eventType: string, description: string) {
+export function getOrderEventTemplate(name: string, orderId: string, eventType: string, description: string, lang: EmailLanguage = 'es') {
+  const t = getEmailTranslations(lang);
+  const locale = lang === 'en' ? 'en-US' : lang === 'ca' ? 'ca-ES' : 'es-ES';
   const content = `
-    <p style="line-height: 1.7; font-size: 15px; color: #444; margin: 0 0 25px 0;">Hola ${name},</p>
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin: 0 0 25px 0;">${t.common.greeting} ${name},</p>
     
-    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">Tu pedido <strong>#${orderId}</strong> tiene una actualización:</p>
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">${t.orderEvent.update} <strong>#${orderId}</strong></p>
     
     <div style="background: #F9FAFB; padding: 25px; border-radius: 16px; margin: 25px 0; border-left: 4px solid #6EDC8A;">
       <p style="margin: 0 0 10px 0; font-size: 16px; font-weight: 700; color: #0A0A0A;">${eventType}</p>
       <p style="margin: 0; font-size: 14px; color: #6B7280; line-height: 1.6;">${description}</p>
     </div>
     
-    <p style="line-height: 1.5; font-size: 13px; color: #9CA3AF;">Fecha: ${new Date().toLocaleString('es-ES')}</p>
+    <p style="line-height: 1.5; font-size: 13px; color: #9CA3AF;">${t.orderEvent.date} ${new Date().toLocaleString(locale)}</p>
     
     <div style="text-align: center; margin: 30px 0;">
-      <a href="https://${domain}/dashboard" style="display: inline-block; background: #6EDC8A; color: #0A0A0A; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">Ver Detalles</a>
+      <a href="https://${domain}/dashboard" style="display: inline-block; background: #6EDC8A; color: #0A0A0A; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">${t.orderEvent.viewDetails}</a>
     </div>
   `;
-  return getEmailWrapper(content);
+  return getEmailWrapper(content, lang);
 }
 
 // 9. Cuenta Desactivada
@@ -515,15 +559,16 @@ export function getAccountDeactivatedTemplate(name?: string, lang: EmailLanguage
 }
 
 // 10. Newsletter Bienvenida
-export function getNewsletterWelcomeTemplate() {
+export function getNewsletterWelcomeTemplate(lang: EmailLanguage = 'es') {
+  const t = getEmailTranslations(lang);
   const content = `
-    <p style="line-height: 1.7; font-size: 15px; color: #444; margin: 0 0 25px 0;">Tu suscripción ha sido confirmada correctamente.</p>
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin: 0 0 25px 0;">${t.newsletter.confirmed}</p>
     
-    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 25px;">Recibirás información relevante sobre servicios, actualizaciones y novedades relacionadas con Easy US LLC.</p>
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 25px;">${t.newsletter.willReceive}</p>
     
-    <p style="line-height: 1.6; font-size: 14px; color: #6B7280;">Puedes darte de baja en cualquier momento desde el enlace incluido en nuestros correos.</p>
+    <p style="line-height: 1.6; font-size: 14px; color: #6B7280;">${t.newsletter.unsubscribe}</p>
   `;
-  return getEmailWrapper(content);
+  return getEmailWrapper(content, lang);
 }
 
 // 11. Recordatorio de Renovación (plantilla única para 60/30/7 días)
@@ -532,53 +577,57 @@ export function getRenewalReminderTemplate(
   companyName: string, 
   daysRemaining: string, 
   renewalDate: string,
-  state: string
+  state: string,
+  lang: EmailLanguage = 'es'
 ) {
-  const urgencyColor = daysRemaining === "una semana" ? "#EF4444" : "#F59E0B";
-  const urgencyBg = daysRemaining === "una semana" ? "#FEE2E2" : "#FEF3C7";
+  const t = getEmailTranslations(lang);
+  const isUrgent = daysRemaining === "una semana" || daysRemaining === "one week" || daysRemaining === "una setmana";
+  const urgencyColor = isUrgent ? "#EF4444" : "#F59E0B";
+  const urgencyBg = isUrgent ? "#FEE2E2" : "#FEF3C7";
   
   const content = `
-    <p style="line-height: 1.7; font-size: 15px; color: #444; margin: 0 0 25px 0;">Hola ${name},</p>
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin: 0 0 25px 0;">${t.common.greeting} ${name},</p>
     
-    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">Te recordamos que el pack de mantenimiento de tu LLC <strong>${companyName}</strong> (${state}) vence pronto.</p>
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">${t.renewalReminder.reminderText} <strong>${companyName}</strong> (${state}) vence pronto.</p>
     
     <div style="background: ${urgencyBg}; padding: 25px; border-radius: 16px; margin: 25px 0; border-left: 4px solid ${urgencyColor};">
-      <p style="margin: 0 0 10px 0; font-size: 14px; font-weight: 700; color: ${urgencyColor}; text-transform: uppercase;">Vence en ${daysRemaining}</p>
-      <p style="margin: 0; font-size: 16px; font-weight: 600; color: #0A0A0A;">Fecha de vencimiento: ${renewalDate}</p>
+      <p style="margin: 0 0 10px 0; font-size: 14px; font-weight: 700; color: ${urgencyColor}; text-transform: uppercase;">${t.renewalReminder.expiresIn} ${daysRemaining}</p>
+      <p style="margin: 0; font-size: 16px; font-weight: 600; color: #0A0A0A;">${t.renewalReminder.dueDate} ${renewalDate}</p>
     </div>
     
-    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">Sin el pack de mantenimiento activo, tu LLC puede perder su buen estado legal. Esto incluye:</p>
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">${t.renewalReminder.withoutMaintenance}</p>
     
     <ul style="margin: 0 0 25px 0; padding-left: 20px; color: #444; font-size: 14px; line-height: 1.8;">
-      <li>Agente registrado activo</li>
-      <li>Presentación de informes anuales</li>
-      <li>Cumplimiento fiscal (IRS 1120/5472)</li>
-      <li>Domicilio legal en Estados Unidos</li>
+      <li>${t.renewalReminder.registeredAgentActive}</li>
+      <li>${t.renewalReminder.annualReports}</li>
+      <li>${t.renewalReminder.taxCompliance}</li>
+      <li>${t.renewalReminder.legalAddress}</li>
     </ul>
     
     <div style="text-align: center; margin: 30px 0;">
-      <a href="https://${domain}/llc/maintenance" style="display: inline-block; background: #6EDC8A; color: #0A0A0A; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">Renovar Ahora</a>
+      <a href="https://${domain}/llc/maintenance" style="display: inline-block; background: #6EDC8A; color: #0A0A0A; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">${t.renewalReminder.renewNow}</a>
     </div>
   `;
-  return getEmailWrapper(content);
+  return getEmailWrapper(content, lang);
 }
 
 // 17. Registro con código de verificación
-export function getRegistrationOtpTemplate(name: string, otp: string, clientId: string, expiryMinutes: number = 15) {
+export function getRegistrationOtpTemplate(name: string, otp: string, clientId: string, expiryMinutes: number = 15, lang: EmailLanguage = 'es') {
+  const t = getEmailTranslations(lang);
   const content = `
-    <p style="line-height: 1.7; font-size: 15px; color: #444; margin: 0 0 25px 0;">Hola ${name},</p>
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin: 0 0 25px 0;">${t.common.greeting} ${name},</p>
     
-    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 25px;">Gracias por registrarte en Easy US LLC. Tu código de verificación es:</p>
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 25px;">${t.registrationOtp.almostDone}</p>
     
     <div style="background-color: #0A0A0A; padding: 25px; text-align: center; border-radius: 16px; margin: 25px 0;">
       <span style="color: #6EDC8A; font-size: 36px; font-weight: 900; letter-spacing: 8px; font-family: monospace;">${otp}</span>
     </div>
     
-    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 25px;">Este código expira en ${expiryMinutes} minutos.</p>
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 25px;">${t.registrationOtp.validFor} ${expiryMinutes} ${lang === 'en' ? 'minutes' : lang === 'ca' ? 'minuts' : 'minutos'}.</p>
     
-    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 25px;">Tu ID de cliente es: <strong>${clientId}</strong></p>
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 25px;">${t.registrationOtp.clientIdLabel} <strong>${clientId}</strong></p>
   `;
-  return getEmailWrapper(content);
+  return getEmailWrapper(content, lang);
 }
 
 // 18. Notificación admin de nuevo registro
@@ -597,29 +646,30 @@ export function getAdminNewRegistrationTemplate(clientId: string, firstName: str
 }
 
 // 19. Cuenta bloqueada por seguridad
-export function getAccountLockedTemplate(name: string, ticketId: string) {
+export function getAccountLockedTemplate(name: string, ticketId: string, lang: EmailLanguage = 'es') {
+  const t = getEmailTranslations(lang);
   const baseUrl = process.env.BASE_URL || `https://${domain}`;
   const content = `
-    <p style="line-height: 1.7; font-size: 15px; color: #444; margin: 0 0 25px 0;">Hola ${name},</p>
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin: 0 0 25px 0;">${t.common.greeting} ${name},</p>
     
-    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 25px;">Por su seguridad, su cuenta ha sido temporalmente bloqueada tras detectar múltiples intentos de acceso fallidos.</p>
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 25px;">${t.accountLocked.locked}</p>
     
-    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 25px;">Para desbloquear su cuenta y verificar su identidad, necesitamos que nos envíe:</p>
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 25px;">${t.accountLocked.verifyIdentity}</p>
     
     <div style="background-color: #FFF3E0; padding: 20px; border-radius: 16px; border-left: 4px solid #FF9800; margin: 25px 0;">
       <ul style="margin: 0; padding-left: 20px; color: #444;">
-        <li style="margin-bottom: 8px;">Imagen del DNI/Pasaporte de alta resolución (ambas caras)</li>
-        <li>Su fecha de nacimiento confirmada</li>
+        <li style="margin-bottom: 8px;">${t.accountLocked.idRequirement}</li>
+        <li>${t.accountLocked.birthDateConfirm}</li>
       </ul>
     </div>
     
-    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 25px;">Su Ticket ID de referencia es: <strong>#${ticketId}</strong></p>
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 25px;">${t.accountLocked.referenceTicket} <strong>#${ticketId}</strong></p>
     
     <div style="text-align: center; margin: 35px 0;">
-      <a href="${baseUrl}/forgot-password" style="background-color: #6EDC8A; color: #0A0A0A; font-weight: 700; font-size: 15px; padding: 16px 40px; border-radius: 50px; text-decoration: none; display: inline-block; box-shadow: 0 4px 15px rgba(110, 220, 138, 0.3);">Restablecer contraseña</a>
+      <a href="${baseUrl}/forgot-password" style="background-color: #6EDC8A; color: #0A0A0A; font-weight: 700; font-size: 15px; padding: 16px 40px; border-radius: 50px; text-decoration: none; display: inline-block; box-shadow: 0 4px 15px rgba(110, 220, 138, 0.3);">${t.accountLocked.resetPassword}</a>
     </div>
   `;
-  return getEmailWrapper(content);
+  return getEmailWrapper(content, lang);
 }
 
 // 20. Notificación admin de pedido LLC completado
@@ -795,50 +845,52 @@ export function getCalculatorResultsTemplate(
   llcTax: string,
   savings: string,
   annualIncome: string,
-  expenses: string
+  expenses: string,
+  lang: EmailLanguage = 'es'
 ) {
+  const t = getEmailTranslations(lang);
   const content = `
-    <p style="line-height: 1.7; font-size: 15px; color: #444; margin: 0 0 25px 0;">Hola ${name},</p>
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin: 0 0 25px 0;">${t.common.greeting} ${name},</p>
     
-    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">Aquí tienes el resumen de tu comparación fiscal que solicitaste. Hemos analizado los números y queremos que tengas toda la información para tomar la mejor decisión para tu negocio.</p>
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">${t.calculatorResults.introText}</p>
     
     <div style="background: linear-gradient(135deg, #F0FDF4 0%, #ECFDF5 100%); padding: 25px; border-radius: 16px; margin: 25px 0; border: 2px solid #6EDC8A;">
-      <p style="margin: 0 0 15px 0; font-size: 14px; font-weight: 700; color: #059669; text-transform: uppercase; letter-spacing: 1px;">Resumen de tu Análisis</p>
+      <p style="margin: 0 0 15px 0; font-size: 14px; font-weight: 700; color: #059669; text-transform: uppercase; letter-spacing: 1px;">${t.calculatorResults.summary}</p>
       <table style="width: 100%; font-size: 14px; border-collapse: collapse;">
         <tr>
-          <td style="padding: 10px 0; color: #6B7280; border-bottom: 1px solid #D1FAE5;">Ingresos anuales:</td>
+          <td style="padding: 10px 0; color: #6B7280; border-bottom: 1px solid #D1FAE5;">${t.calculatorResults.income}</td>
           <td style="padding: 10px 0; font-weight: 700; text-align: right; color: #0A0A0A; border-bottom: 1px solid #D1FAE5;">${annualIncome}€</td>
         </tr>
         <tr>
-          <td style="padding: 10px 0; color: #6B7280; border-bottom: 1px solid #D1FAE5;">Gastos deducibles:</td>
+          <td style="padding: 10px 0; color: #6B7280; border-bottom: 1px solid #D1FAE5;">${t.calculatorResults.expenses}</td>
           <td style="padding: 10px 0; font-weight: 700; text-align: right; color: #0A0A0A; border-bottom: 1px solid #D1FAE5;">${expenses}€</td>
         </tr>
         <tr>
-          <td style="padding: 10px 0; color: #6B7280; border-bottom: 1px solid #D1FAE5;">Impuestos como autónomo:</td>
+          <td style="padding: 10px 0; color: #6B7280; border-bottom: 1px solid #D1FAE5;">${t.calculatorResults.autonomoTax}</td>
           <td style="padding: 10px 0; font-weight: 700; text-align: right; color: #EF4444; border-bottom: 1px solid #D1FAE5;">${freelancerTax}€</td>
         </tr>
         <tr>
-          <td style="padding: 10px 0; color: #6B7280; border-bottom: 1px solid #D1FAE5;">Impuestos con LLC:</td>
+          <td style="padding: 10px 0; color: #6B7280; border-bottom: 1px solid #D1FAE5;">${t.calculatorResults.llcTax}</td>
           <td style="padding: 10px 0; font-weight: 700; text-align: right; color: #059669; border-bottom: 1px solid #D1FAE5;">${llcTax}€</td>
         </tr>
         <tr>
-          <td style="padding: 12px 0; color: #059669; font-weight: 700; font-size: 15px;">Tu ahorro potencial:</td>
-          <td style="padding: 12px 0; font-weight: 900; text-align: right; color: #059669; font-size: 18px;">${savings}€/año</td>
+          <td style="padding: 12px 0; color: #059669; font-weight: 700; font-size: 15px;">${t.calculatorResults.potentialSavings}</td>
+          <td style="padding: 12px 0; font-weight: 900; text-align: right; color: #059669; font-size: 18px;">${savings}€/${lang === 'en' ? 'year' : 'año'}</td>
         </tr>
       </table>
     </div>
     
-    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">Con una LLC en Estados Unidos, podrías optimizar significativamente tu carga fiscal mientras operas de forma completamente legal. Este ahorro se mantiene año tras año, lo que puede suponer una diferencia importante para tu negocio a largo plazo.</p>
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">${t.calculatorResults.withLLC}</p>
     
-    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 25px;">¿Te gustaría saber más sobre cómo funciona? Estaremos encantados de resolver todas tus dudas sin ningún compromiso.</p>
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 25px;">${t.calculatorResults.learnMore}</p>
     
     <div style="text-align: center; margin: 30px 0;">
-      <a href="https://${domain}/servicios" style="display: inline-block; background: #6EDC8A; color: #0A0A0A; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">Ver Nuestros Servicios</a>
+      <a href="https://${domain}/servicios" style="display: inline-block; background: #6EDC8A; color: #0A0A0A; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">${t.calculatorResults.viewServices}</a>
     </div>
     
-    <p style="line-height: 1.6; font-size: 14px; color: #6B7280; margin-top: 25px;">Este cálculo es orientativo y se basa en los datos que proporcionaste. Para un análisis personalizado de tu situación, no dudes en contactarnos.</p>
+    <p style="line-height: 1.6; font-size: 14px; color: #6B7280; margin-top: 25px;">${t.calculatorResults.disclaimer}</p>
   `;
-  return getEmailWrapper(content);
+  return getEmailWrapper(content, lang);
 }
 
 // 23. Operating Agreement listo - Para clientes con EIN asignado
@@ -846,48 +898,50 @@ export function getOperatingAgreementReadyTemplate(
   name: string,
   companyName: string,
   ein: string,
-  state: string
+  state: string,
+  lang: EmailLanguage = 'es'
 ) {
+  const t = getEmailTranslations(lang);
   const content = `
-    <p style="line-height: 1.7; font-size: 15px; color: #444; margin: 0 0 25px 0;">Hola ${name},</p>
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin: 0 0 25px 0;">${t.common.greeting} ${name},</p>
     
-    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">Tenemos excelentes noticias para ti. Tu LLC <strong>${companyName}</strong> ya cuenta con su EIN (Número de Identificación del Empleador) asignado por el IRS, lo que significa que puedes generar tu Operating Agreement oficial.</p>
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">${t.operatingAgreementReady.generated} ${t.operatingAgreementReady.ready}</p>
     
     <div style="background: linear-gradient(135deg, #F0FDF4 0%, #ECFDF5 100%); padding: 25px; border-radius: 16px; margin: 25px 0; border: 2px solid #6EDC8A;">
-      <p style="margin: 0 0 15px 0; font-size: 14px; font-weight: 700; color: #059669; text-transform: uppercase; letter-spacing: 1px;">Datos de tu LLC</p>
+      <p style="margin: 0 0 15px 0; font-size: 14px; font-weight: 700; color: #059669; text-transform: uppercase; letter-spacing: 1px;">${t.operatingAgreementReady.llcData}</p>
       <table style="width: 100%; font-size: 14px; border-collapse: collapse;">
         <tr>
-          <td style="padding: 8px 0; color: #6B7280;">Empresa:</td>
+          <td style="padding: 8px 0; color: #6B7280;">${t.operatingAgreementReady.companyLabel}</td>
           <td style="padding: 8px 0; font-weight: 700; text-align: right; color: #0A0A0A;">${companyName}</td>
         </tr>
         <tr>
-          <td style="padding: 8px 0; color: #6B7280;">Estado:</td>
+          <td style="padding: 8px 0; color: #6B7280;">${t.operatingAgreementReady.stateLabel}</td>
           <td style="padding: 8px 0; font-weight: 700; text-align: right; color: #0A0A0A;">${state}</td>
         </tr>
         <tr>
-          <td style="padding: 8px 0; color: #6B7280;">EIN:</td>
+          <td style="padding: 8px 0; color: #6B7280;">${t.operatingAgreementReady.einLabel}</td>
           <td style="padding: 8px 0; font-weight: 700; text-align: right; color: #059669;">${ein}</td>
         </tr>
       </table>
     </div>
     
-    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 15px;"><strong>¿Qué es el Operating Agreement?</strong></p>
-    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">Es el documento legal fundamental de tu LLC. Define cómo se gestiona tu empresa, las responsabilidades del propietario y las reglas de operación. Aunque en algunos estados no es obligatorio, es altamente recomendable tenerlo porque:</p>
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 15px;"><strong>${t.operatingAgreementReady.whatIs}</strong></p>
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">${t.operatingAgreementReady.fullExplanation}</p>
     
     <ul style="margin: 0 0 25px 0; padding-left: 20px; color: #444; font-size: 14px; line-height: 1.8;">
-      <li>Refuerza la separación entre tus finanzas personales y las de la empresa</li>
-      <li>Es requerido por bancos y procesadores de pago como Stripe</li>
-      <li>Proporciona protección legal adicional para ti como propietario</li>
-      <li>Documenta oficialmente la estructura de tu negocio</li>
+      <li>${t.operatingAgreementReady.reason1}</li>
+      <li>${t.operatingAgreementReady.reason2}</li>
+      <li>${t.operatingAgreementReady.reason3}</li>
+      <li>${t.operatingAgreementReady.reason4}</li>
     </ul>
     
     <div style="text-align: center; margin: 30px 0;">
-      <a href="https://${domain}/tools/operating-agreement" style="display: inline-block; background: #8B5CF6; color: #FFFFFF; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(139,92,246,0.35);">Generar mi Operating Agreement</a>
+      <a href="https://${domain}/tools/operating-agreement" style="display: inline-block; background: #8B5CF6; color: #FFFFFF; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(139,92,246,0.35);">${t.operatingAgreementReady.generateButton}</a>
     </div>
     
-    <p style="line-height: 1.6; font-size: 14px; color: #6B7280; margin-top: 25px;">El documento se generará automáticamente con los datos de tu LLC y se guardará en tu Centro de Documentación para que puedas descargarlo cuando lo necesites.</p>
+    <p style="line-height: 1.6; font-size: 14px; color: #6B7280; margin-top: 25px;">${t.operatingAgreementReady.autoGenerated}</p>
   `;
-  return getEmailWrapper(content);
+  return getEmailWrapper(content, lang);
 }
 
 // 24. Carrito abandonado - Aplicación incompleta
@@ -895,47 +949,49 @@ export function getAbandonedApplicationTemplate(
   name: string,
   serviceType: string,
   state?: string,
-  hoursRemaining?: number
+  hoursRemaining?: number,
+  lang: EmailLanguage = 'es'
 ) {
+  const t = getEmailTranslations(lang);
   const urgency = hoursRemaining && hoursRemaining <= 12 ? true : false;
   const urgencyColor = urgency ? "#EF4444" : "#F59E0B";
   const urgencyBg = urgency ? "#FEE2E2" : "#FEF3C7";
   
   const content = `
-    <p style="line-height: 1.7; font-size: 15px; color: #444; margin: 0 0 25px 0;">Hola ${name},</p>
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin: 0 0 25px 0;">${t.common.greeting} ${name},</p>
     
-    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">Hemos notado que empezaste a completar tu solicitud de <strong>${serviceType}</strong>${state ? ` en ${state}` : ''}, pero no llegaste a finalizarla. No te preocupes, hemos guardado todo tu progreso para que puedas continuar exactamente donde lo dejaste.</p>
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">${t.abandonedApplication.noticeText} <strong>${serviceType}</strong>${state ? ` ${lang === 'en' ? 'in' : 'en'} ${state}` : ''}. ${t.abandonedApplication.savedDraft}</p>
     
     ${hoursRemaining ? `
     <div style="background: ${urgencyBg}; padding: 20px 25px; border-radius: 16px; margin: 25px 0; border-left: 4px solid ${urgencyColor};">
       <p style="margin: 0; font-size: 14px; color: ${urgency ? '#B91C1C' : '#92400E'}; line-height: 1.7;">
-        <strong>Nota importante:</strong> Tu borrador se eliminará automáticamente en ${hoursRemaining} horas si no lo completas. Por motivos de seguridad y protección de datos, no podemos mantener solicitudes incompletas indefinidamente.
+        <strong>${t.abandonedApplication.importantNote}</strong> ${t.abandonedApplication.draftDeletion}
       </p>
     </div>
     ` : ''}
     
-    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 15px;">Entendemos que dar el paso de crear una LLC puede generar algunas dudas. Queremos que sepas que estamos aquí para ayudarte en cada paso del proceso.</p>
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 15px;">${t.abandonedApplication.understandDoubts}</p>
     
-    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 25px;">Si tienes alguna pregunta o necesitas asistencia para completar tu solicitud, simplemente responde a este correo y te ayudaremos encantados.</p>
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 25px;">${t.abandonedApplication.questionsHelp}</p>
     
     <div style="text-align: center; margin: 30px 0;">
-      <a href="https://${domain}/dashboard" style="display: inline-block; background: #6EDC8A; color: #0A0A0A; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">Continuar mi Solicitud</a>
+      <a href="https://${domain}/dashboard" style="display: inline-block; background: #6EDC8A; color: #0A0A0A; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">${t.abandonedApplication.continueButton}</a>
     </div>
     
     <div style="background: #F9FAFB; padding: 25px; border-radius: 16px; margin: 25px 0; border-left: 4px solid #6EDC8A;">
-      <p style="margin: 0 0 12px 0; font-size: 13px; font-weight: 800; color: #0A0A0A; text-transform: uppercase;">¿Por qué elegir Easy US LLC?</p>
+      <p style="margin: 0 0 12px 0; font-size: 13px; font-weight: 800; color: #0A0A0A; text-transform: uppercase;">${t.abandonedApplication.whyChoose}</p>
       <ul style="margin: 0; padding-left: 18px; color: #444; font-size: 14px; line-height: 1.8;">
-        <li>Formación completa en 48-72 horas</li>
-        <li>Asistencia en español durante todo el proceso</li>
-        <li>Obtención del EIN incluida</li>
-        <li>Ayuda con apertura de cuenta bancaria</li>
-        <li>Soporte continuo post-formación</li>
+        <li>${t.abandonedApplication.reason1}</li>
+        <li>${t.abandonedApplication.reason2}</li>
+        <li>${t.abandonedApplication.reason3}</li>
+        <li>${t.abandonedApplication.reason4}</li>
+        <li>${t.abandonedApplication.reason5}</li>
       </ul>
     </div>
     
-    <p style="line-height: 1.6; font-size: 14px; color: #6B7280;">Si finalmente decides no continuar, no te enviaremos más recordatorios sobre esta solicitud. Tu privacidad es importante para nosotros.</p>
+    <p style="line-height: 1.6; font-size: 14px; color: #6B7280;">${t.abandonedApplication.noMoreReminders}</p>
   `;
-  return getEmailWrapper(content);
+  return getEmailWrapper(content, lang);
 }
 
 // Legacy exports for compatibility
@@ -1132,33 +1188,35 @@ export function getAbandonedApplicationReminderTemplate(
   name: string,
   applicationType: 'llc' | 'maintenance',
   state: string,
-  hoursRemaining: number
+  hoursRemaining: number,
+  lang: EmailLanguage = 'es'
 ) {
+  const t = getEmailTranslations(lang);
   const emailDomain = process.env.REPLIT_DEV_DOMAIN || domain;
-  const serviceLabel = applicationType === 'llc' ? 'constitución de tu LLC' : 'paquete de mantenimiento';
+  const serviceLabel = applicationType === 'llc' ? t.abandonedApplication.llcFormation : t.abandonedApplication.maintenancePack;
   const urgencyColor = hoursRemaining <= 12 ? '#EF4444' : '#F59E0B';
-  const urgencyText = hoursRemaining <= 12 ? 'últimas horas' : `${Math.round(hoursRemaining)} horas`;
+  const urgencyText = hoursRemaining <= 12 ? t.abandonedApplication.lastHours : `${Math.round(hoursRemaining)} ${lang === 'en' ? 'hours' : lang === 'ca' ? 'hores' : 'horas'}`;
   
   const content = `
-    <p style="line-height: 1.7; font-size: 15px; color: #444; margin: 0 0 25px 0;">Hola ${name},</p>
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin: 0 0 25px 0;">${t.common.greeting} ${name},</p>
     
-    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 25px;">Notamos que comenzaste la solicitud de ${serviceLabel} en ${state} pero no la has completado.</p>
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 25px;">${t.abandonedApplication.noticeText} ${serviceLabel} ${lang === 'en' ? 'in' : 'a'} ${state}.</p>
     
     <div style="background: ${urgencyColor}15; padding: 20px 25px; border-radius: 16px; margin: 25px 0; border-left: 4px solid ${urgencyColor};">
       <p style="margin: 0; font-size: 14px; color: ${urgencyColor}; line-height: 1.7; font-weight: 600;">
-        Tu solicitud se eliminará automáticamente en ${urgencyText} si no la completas.
+        ${t.abandonedApplication.autoDeleteWarning} (${urgencyText})
       </p>
     </div>
     
-    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 25px;">No pierdas tu progreso. Retoma tu solicitud ahora y completa el proceso en pocos minutos.</p>
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 25px;">${t.abandonedApplication.dontLoseProgress}</p>
     
     <div style="text-align: center; margin: 30px 0;">
-      <a href="https://${emailDomain}/dashboard" style="display: inline-block; background: #6EDC8A; color: #0A0A0A; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">Continuar mi solicitud</a>
+      <a href="https://${emailDomain}/dashboard" style="display: inline-block; background: #6EDC8A; color: #0A0A0A; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">${t.abandonedApplication.continueButton}</a>
     </div>
     
-    <p style="line-height: 1.6; font-size: 14px; color: #6B7280;">Si tienes alguna pregunta o necesitas ayuda, responde a este correo y te asistiremos.</p>
+    <p style="line-height: 1.6; font-size: 14px; color: #6B7280;">${t.abandonedApplication.questionsHelp}</p>
   `;
-  return getEmailWrapper(content);
+  return getEmailWrapper(content, lang);
 }
 
 export async function sendTrustpilotEmail({ to, name, orderNumber }: { to: string; name: string; orderNumber: string }) {

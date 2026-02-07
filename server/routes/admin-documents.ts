@@ -169,7 +169,7 @@ export function registerAdminDocumentsRoutes(app: Express) {
             sendEmail({
               to: user.email,
               subject: `Nuevo documento disponible${orderCode ? ` - ${orderCode}` : ''}`,
-              html: getDocumentUploadedTemplate(user.firstName || 'Cliente', docLabel, orderCode || 'tu cuenta')
+              html: getDocumentUploadedTemplate(user.firstName || 'Cliente', docLabel, orderCode || 'tu cuenta', (user.preferredLanguage as any) || 'es')
             }).catch(() => {});
           }
         }
@@ -378,7 +378,7 @@ export function registerAdminDocumentsRoutes(app: Express) {
         await sendEmail({
           to: user.email,
           subject: `${title} - Ticket #${ticketId}`,
-          html: getAdminNoteTemplate(user.firstName || 'Cliente', title, message, ticketId)
+          html: getAdminNoteTemplate(user.firstName || 'Cliente', `${title}: ${message}`, ticketId, (user.preferredLanguage as any) || 'es')
         });
       }
 
@@ -405,7 +405,7 @@ export function registerAdminDocumentsRoutes(app: Express) {
       await sendEmail({
         to: user.email,
         subject: "Pago pendiente - Easy US LLC",
-        html: getPaymentRequestTemplate(user.firstName || 'Cliente', message, paymentLink, amount)
+        html: getPaymentRequestTemplate(user.firstName || 'Cliente', amount, paymentLink, message, (user.preferredLanguage as any) || 'es')
       });
 
       // Create internal notification
@@ -512,7 +512,7 @@ export function registerAdminDocumentsRoutes(app: Express) {
           sendEmail({
             to: user.email,
             subject: "Actualización de tu pedido",
-            html: getOrderEventTemplate(user.firstName || 'Cliente', String(orderId), eventType, description)
+            html: getOrderEventTemplate(user.firstName || 'Cliente', String(orderId), eventType, description, (user.preferredLanguage as any) || 'es')
           }).catch(() => {});
         }
       }

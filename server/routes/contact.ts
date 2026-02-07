@@ -195,7 +195,7 @@ export function registerContactRoutes(app: Express) {
       await sendEmail({
         to: contactData.email,
         subject: `Hemos recibido tu mensaje - Ticket #${ticketId}`,
-        html: getAutoReplyTemplate(ticketId, sanitizedData.nombre),
+        html: getAutoReplyTemplate(sanitizedData.nombre, ticketId),
       });
 
       await storage.createGuestVisitor({

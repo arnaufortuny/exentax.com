@@ -109,7 +109,8 @@ export function registerAdminOrderRoutes(app: Express) {
           order.user.firstName || "Cliente",
           order.invoiceNumber || `#${order.id}`,
           status,
-          `Tu pedido ha pasado a estado: ${statusLabels[status] || status}. Puedes ver los detalles en tu panel de control.`
+          `Tu pedido ha pasado a estado: ${statusLabels[status] || status}. Puedes ver los detalles en tu panel de control.`,
+          (order.user.preferredLanguage as any) || 'es'
         )
       }).catch(() => {});
     }

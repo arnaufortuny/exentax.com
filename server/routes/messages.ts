@@ -51,7 +51,7 @@ export function registerMessageRoutes(app: Express) {
       sendEmail({
         to: email,
         subject: `Recibimos tu mensaje - Ticket #${ticketId}`,
-        html: getAutoReplyTemplate(ticketId, name || "Cliente"),
+        html: getAutoReplyTemplate(name || "Cliente", ticketId),
       }).catch(() => {});
 
       // Notify admin with WhatsApp preference
