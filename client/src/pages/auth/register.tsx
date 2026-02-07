@@ -5,7 +5,7 @@ import * as z from "zod";
 import { Link, useLocation } from "wouter";
 import { Loader2, Eye, EyeOff, ArrowLeft, ArrowRight, Globe } from "@/components/icons";
 import { useTranslation } from "react-i18next";
-import { SpainFlag, USAFlag, CatalanFlag } from "@/components/ui/flags";
+import { SpainFlag, USAFlag, CatalanFlag, GermanyFlag, FranceFlag, ItalyFlag, PortugalFlag } from "@/components/ui/flags";
 
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
@@ -69,7 +69,11 @@ export default function Register() {
   const languages = [
     { code: 'es', label: 'Español', Flag: SpainFlag },
     { code: 'en', label: 'English', Flag: USAFlag },
-    { code: 'ca', label: 'Català', Flag: CatalanFlag }
+    { code: 'ca', label: 'Català', Flag: CatalanFlag },
+    { code: 'de', label: 'Deutsch', Flag: GermanyFlag },
+    { code: 'fr', label: 'Français', Flag: FranceFlag },
+    { code: 'it', label: 'Italiano', Flag: ItalyFlag },
+    { code: 'pt', label: 'Português', Flag: PortugalFlag }
   ];
 
   const registerSchema = useMemo(() => createRegisterSchema(t), [t]);
@@ -705,7 +709,7 @@ export default function Register() {
                           type="checkbox"
                           checked={acceptedTerms}
                           onChange={(e) => setAcceptedTerms(e.target.checked)}
-                          className="w-5 h-5 mt-0.5 rounded border-2 border-accent text-accent focus:ring-accent shrink-0"
+                          className="w-5 h-5 mt-0.5 rounded-full border-2 border-accent text-accent focus:ring-accent shrink-0"
                           data-testid="checkbox-terms"
                         />
                         <span className="text-sm text-foreground leading-relaxed">
@@ -731,7 +735,7 @@ export default function Register() {
                           type="checkbox"
                           checked={acceptedAge}
                           onChange={(e) => setAcceptedAge(e.target.checked)}
-                          className="w-5 h-5 mt-0.5 rounded border-2 border-accent text-accent focus:ring-accent shrink-0"
+                          className="w-5 h-5 mt-0.5 rounded-full border-2 border-accent text-accent focus:ring-accent shrink-0"
                           data-testid="checkbox-age"
                         />
                         <span className="text-sm text-foreground leading-relaxed">
