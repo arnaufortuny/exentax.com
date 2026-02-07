@@ -143,7 +143,8 @@
     "register": "Constitueix ara la teva LLC",
     "dashboard": "Panell de control",
     "openMenu": "Obrir menú",
-    "closeMenu": "Tancar menú"
+    "closeMenu": "Tancar menú",
+    "logout": "Tancar sessió"
   },
   "hero": {
     "title": "OPTIMITZA L'ESTRUCTURA FISCAL DEL TEU NEGOCI DIGITAL",
@@ -916,6 +917,19 @@
     "stateLabel": "Estat",
     "paymentMethodLabel": "Mètode de pagament",
     "totalLabel": "Total a pagar",
+    "paymentMethodTitle": "Mètode de Pagament",
+    "selectPaymentMethod": "Selecciona com vols realitzar el pagament de la teva LLC.",
+    "totalToPay": "Total a pagar",
+    "includesStateFees": "Inclou taxes estatals de {{state}}",
+    "discountApplied": "Descompte aplicat: -{{amount}}€",
+    "apply": "Aplicar",
+    "beneficiary": "Beneficiari",
+    "accountNumber": "Número de compte",
+    "routingNumber": "Número de ruta",
+    "bank": "Banc",
+    "concept": "Concepte",
+    "yourOrderNumber": "El teu número de comanda",
+    "paymentLinkDesc": "Rebràs un enllaç de pagament segur per email per completar la transacció.",
     "bankTransfer": "Transferència Bancària",
     "paymentLink": "Link de Pagament",
     "confirmInfo": "Confirmo que la informació proporcionada és correcta i autoritzo a Easy US LLC a processar la meva sol·licitud.",
@@ -1260,6 +1274,8 @@
       "calendarMobile": "Dates",
       "tools": "Eines",
       "toolsMobile": "Eines",
+      "notifications": "Notificacions",
+      "notificationsMobile": "Notif.",
       "profile": "El Meu Perfil",
       "profileMobile": "Perfil"
     },

@@ -78,7 +78,7 @@ const createFormSchema = (t: (key: string) => string) => z.object({
   wantsMaintenancePack: z.string().min(1, t("validation.required")),
   notes: z.string().optional(),
   idDocumentUrl: z.string().optional(),
-  password: z.string().min(8, t("validation.minLength")).optional(),
+  password: z.string().optional().refine((val) => !val || val.length >= 8, { message: t("validation.minLength") }),
   confirmPassword: z.string().optional(),
   paymentMethod: z.string().optional(),
   discountCode: z.string().optional(),
@@ -1280,7 +1280,7 @@ export default function LlcFormation() {
                     className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-colors disabled:opacity-50"
                     data-testid="button-next-step-18"
                   >
-                    Continuar
+                    {t("application.continue")}
                   </Button>
                 </div>
               </div>
@@ -1288,11 +1288,11 @@ export default function LlcFormation() {
 
             {step === 15 && (
               <div key={"step-" + step} className="space-y-8 text-left">
-                <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight">Método de Pago</h2>
-                <p className="text-sm text-muted-foreground">Selecciona cómo deseas realizar el pago de tu LLC.</p>
+                <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight">{t("application.paymentMethodTitle")}</h2>
+                <p className="text-sm text-muted-foreground">{t("application.selectPaymentMethod")}</p>
                 
                 <div className="bg-accent text-primary p-6 rounded-[2rem] text-center mb-6">
-                  <p className="text-[10px] font-black tracking-widest opacity-50 mb-1">Total a pagar</p>
+                  <p className="text-[10px] font-black tracking-widest opacity-50 mb-1">{t("application.totalToPay")}</p>
                   <p className="text-3xl font-black">
                     {discountInfo?.valid 
                       ? `${((formationPrice - discountInfo.discountAmount) / 100).toFixed(2)} €` 
@@ -1301,11 +1301,11 @@ export default function LlcFormation() {
                   {discountInfo?.valid && (
                     <p className="text-xs line-through opacity-60">{(formationPrice / 100).toFixed(2)} €</p>
                   )}
-                  <p className="text-[10px] opacity-80">Incluye tasas estatales de {form.getValues("state")}</p>
+                  <p className="text-[10px] opacity-80">{t("application.includesStateFees", { state: form.getValues("state") })}</p>
                 </div>
 
                 <div className="space-y-3 p-5 rounded-2xl border-2 border-border bg-white dark:bg-card mb-6">
-                  <label className="font-bold text-foreground text-sm block">Código de descuento</label>
+                  <label className="font-bold text-foreground text-sm block">{t("application.discountCode")}</label>
                   <div className="flex gap-2">
                     <FormField control={form.control} name="discountCode" render={({ field }) => (
                       <FormItem className="flex-1">
@@ -1330,13 +1330,13 @@ export default function LlcFormation() {
                       className="rounded-full h-11 px-6 font-black border-border"
                       data-testid="button-validate-discount"
                     >
-                      {isValidatingDiscount ? <Loader2 className="w-4 h-4 animate-spin" /> : "Aplicar"}
+                      {isValidatingDiscount ? <Loader2 className="w-4 h-4 animate-spin" /> : t("application.apply")}
                     </Button>
                   </div>
                   {discountInfo && (
                     <div className={`text-sm p-3 rounded-xl ${discountInfo.valid ? 'bg-green-50 text-green-700 dark:bg-green-900/20 dark:text-green-400' : 'bg-red-50 text-red-700 dark:bg-red-900/20 dark:text-red-400'}`}>
                       {discountInfo.valid 
-                        ? `Descuento aplicado: -${(discountInfo.discountAmount / 100).toFixed(2)}€` 
+                        ? t("application.discountApplied", { amount: (discountInfo.discountAmount / 100).toFixed(2) })
                         : discountInfo.message}
                     </div>
                   )}
@@ -1348,22 +1348,22 @@ export default function LlcFormation() {
                       <label className={`flex items-start gap-4 p-5 rounded-2xl border-2 cursor-pointer transition-colors ${field.value === 'transfer' ? 'border-accent bg-accent/5' : 'border-border bg-white dark:bg-card hover:border-accent/50'}`}>
                         <input type="radio" {...field} value="transfer" checked={field.value === 'transfer'} className="w-5 h-5 accent-accent mt-1" />
                         <div className="flex-1">
-                          <span className="font-black text-primary text-sm block mb-2">Transferencia Bancaria</span>
+                          <span className="font-black text-primary text-sm block mb-2">{t("application.bankTransfer")}</span>
                           <div className="bg-gray-50 dark:bg-[#1A1A1A] rounded-xl p-4 text-xs space-y-1">
-                            <p><span className="opacity-60">Beneficiario:</span> <span className="font-bold">Fortuny Consulting LLC</span></p>
-                            <p><span className="opacity-60">Número de cuenta:</span> <span className="font-bold font-mono">141432778929495</span></p>
-                            <p><span className="opacity-60">Número de ruta:</span> <span className="font-bold font-mono">121145433</span></p>
-                            <p><span className="opacity-60">Banco:</span> <span className="font-bold">Column N.A.</span></p>
+                            <p><span className="opacity-60">{t("application.beneficiary")}:</span> <span className="font-bold">Fortuny Consulting LLC</span></p>
+                            <p><span className="opacity-60">{t("application.accountNumber")}:</span> <span className="font-bold font-mono">141432778929495</span></p>
+                            <p><span className="opacity-60">{t("application.routingNumber")}:</span> <span className="font-bold font-mono">121145433</span></p>
+                            <p><span className="opacity-60">{t("application.bank")}:</span> <span className="font-bold">Column N.A.</span></p>
                             <p className="opacity-60 text-[10px] pt-2">1 Letterman Drive, Building A, Suite A4-700, San Francisco, CA 94129</p>
-                            <p className="pt-2 text-accent font-bold">Concepto: {form.getValues("state") ? `${form.getValues("state")?.substring(0, 2).toUpperCase() || "XX"}-${Date.now().toString().slice(-8)}` : "Tu número de pedido"}</p>
+                            <p className="pt-2 text-accent font-bold">{t("application.concept")}: {form.getValues("state") ? `${form.getValues("state")?.substring(0, 2).toUpperCase() || "XX"}-${Date.now().toString().slice(-8)}` : t("application.yourOrderNumber")}</p>
                           </div>
                         </div>
                       </label>
                       <label className={`flex items-start gap-4 p-5 rounded-2xl border-2 cursor-pointer transition-colors ${field.value === 'link' ? 'border-accent bg-accent/5' : 'border-border bg-white dark:bg-card hover:border-accent/50'}`}>
                         <input type="radio" {...field} value="link" checked={field.value === 'link'} className="w-5 h-5 accent-accent mt-1" />
                         <div className="flex-1">
-                          <span className="font-black text-primary text-sm block mb-1">Link de Pago</span>
-                          <p className="text-xs text-muted-foreground">Recibirás un enlace de pago seguro por email para completar la transacción.</p>
+                          <span className="font-black text-primary text-sm block mb-1">{t("application.paymentLink")}</span>
+                          <p className="text-xs text-muted-foreground">{t("application.paymentLinkDesc")}</p>
                         </div>
                       </label>
                     </div>

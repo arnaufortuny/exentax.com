@@ -763,7 +763,7 @@ export default function Dashboard() {
   if (user?.accountStatus === 'deactivated') {
     return (
       <div className="min-h-screen bg-background font-sans flex flex-col">
-        <div className="lg:hidden"><Navbar /></div>
+        <Navbar />
         <main className="flex-1 flex items-center justify-center px-4 py-8 sm:py-12">
           <div className="max-w-md w-full">
             <Card className="rounded-2xl sm:rounded-[2rem] border-0 shadow-2xl overflow-hidden bg-white dark:bg-card">
@@ -793,7 +793,6 @@ export default function Dashboard() {
             </Card>
           </div>
         </main>
-        <Footer />
       </div>
     );
   }
@@ -802,7 +801,7 @@ export default function Dashboard() {
   if (user?.accountStatus === 'pending') {
     return (
       <div className="min-h-screen bg-background font-sans flex flex-col overflow-y-auto">
-        <div className="lg:hidden"><Navbar /></div>
+        <Navbar />
         <main className="flex-1 pt-16 sm:pt-20 pb-20 px-4 md:px-8 max-w-4xl mx-auto w-full overflow-y-auto">
           <header className="mb-6 md:mb-8">
             <p className="text-accent font-black tracking-wide text-xs md:text-sm mb-1 uppercase">{t("dashboard.clientArea")}</p>
@@ -979,7 +978,6 @@ export default function Dashboard() {
             </Button>
           </div>
         </main>
-        <Footer />
       </div>
     );
   }
@@ -1079,14 +1077,11 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen bg-background font-sans animate-page-in">
-      {/* Mobile: show Navbar, Desktop: hide it (sidebar replaces it) */}
-      <div className="lg:hidden">
-        <Navbar />
-      </div>
+      <Navbar />
       <DashboardTour />
 
-      {/* Desktop Sidebar - Full height, fixed to left */}
-      <aside className="hidden lg:flex lg:flex-col fixed inset-y-0 left-0 w-64 border-r border-border/50 bg-card z-40">
+      {/* Desktop Sidebar - Below navbar */}
+      <aside className="hidden lg:flex lg:flex-col fixed top-16 bottom-0 left-0 w-64 border-r border-border/50 bg-card z-40">
           <div className="flex flex-col h-full">
             {/* Logo / Brand */}
             <div className="px-5 py-5 border-b border-border/30">
@@ -1181,7 +1176,7 @@ export default function Dashboard() {
 
         {/* Main content area */}
         <div className="flex-1 lg:ml-64">
-      <main className="pt-16 sm:pt-20 lg:pt-6 pb-20 px-4 md:px-8 max-w-7xl mx-auto lg:mx-0 lg:max-w-none lg:px-10">
+      <main className="pt-16 sm:pt-20 pb-20 px-4 md:px-8 max-w-7xl mx-auto lg:mx-0 lg:max-w-none lg:px-10">
         <header className="mb-6 md:mb-10 animate-fade-in-up">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 md:gap-6">
             <div>
@@ -4323,7 +4318,6 @@ export default function Dashboard() {
         </div>
         </div>
       </main>
-      <Footer />
       </div>
       <ConfirmDialog {...confirmDialogProps} />
     </div>

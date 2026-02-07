@@ -143,7 +143,8 @@
     "register": "Créez votre LLC maintenant",
     "dashboard": "Dashboard",
     "openMenu": "Ouvrir le menu",
-    "closeMenu": "Fermer le menu"
+    "closeMenu": "Fermer le menu",
+    "logout": "Se déconnecter"
   },
   "hero": {
     "title": "OPTIMISEZ LA STRUCTURE FISCALE DE VOTRE ACTIVITÉ NUMÉRIQUE",
@@ -916,6 +917,19 @@
     "stateLabel": "État",
     "paymentMethodLabel": "Mode de paiement",
     "totalLabel": "Total à payer",
+    "paymentMethodTitle": "Mode de Paiement",
+    "selectPaymentMethod": "Sélectionnez comment vous souhaitez payer votre LLC.",
+    "totalToPay": "Total à payer",
+    "includesStateFees": "Inclut les frais de l'État de {{state}}",
+    "discountApplied": "Remise appliquée : -{{amount}}€",
+    "apply": "Appliquer",
+    "beneficiary": "Bénéficiaire",
+    "accountNumber": "Numéro de compte",
+    "routingNumber": "Numéro de routage",
+    "bank": "Banque",
+    "concept": "Objet",
+    "yourOrderNumber": "Votre numéro de commande",
+    "paymentLinkDesc": "Vous recevrez un lien de paiement sécurisé par email pour finaliser la transaction.",
     "bankTransfer": "Virement bancaire",
     "paymentLink": "Lien de paiement",
     "confirmInfo": "Je confirme que les informations fournies sont correctes et j'autorise Easy US LLC à traiter ma demande.",
@@ -1260,6 +1274,8 @@
       "calendarMobile": "Dates",
       "tools": "Outils",
       "toolsMobile": "Outils",
+      "notifications": "Notifications",
+      "notificationsMobile": "Notif.",
       "profile": "Mon Profil",
       "profileMobile": "Profil"
     },

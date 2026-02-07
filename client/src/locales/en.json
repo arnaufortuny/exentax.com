@@ -143,7 +143,8 @@
     "register": "Form your LLC now",
     "dashboard": "Dashboard",
     "openMenu": "Open menu",
-    "closeMenu": "Close menu"
+    "closeMenu": "Close menu",
+    "logout": "Log out"
   },
   "hero": {
     "title": "OPTIMIZE THE TAX STRUCTURE OF YOUR DIGITAL BUSINESS",
@@ -916,6 +917,19 @@
     "stateLabel": "State",
     "paymentMethodLabel": "Payment method",
     "totalLabel": "Total to pay",
+    "paymentMethodTitle": "Payment Method",
+    "selectPaymentMethod": "Select how you would like to pay for your LLC.",
+    "totalToPay": "Total to pay",
+    "includesStateFees": "Includes state fees for {{state}}",
+    "discountApplied": "Discount applied: -{{amount}}€",
+    "apply": "Apply",
+    "beneficiary": "Beneficiary",
+    "accountNumber": "Account number",
+    "routingNumber": "Routing number",
+    "bank": "Bank",
+    "concept": "Concept",
+    "yourOrderNumber": "Your order number",
+    "paymentLinkDesc": "You will receive a secure payment link by email to complete the transaction.",
     "bankTransfer": "Bank Transfer",
     "paymentLink": "Payment Link",
     "confirmInfo": "I confirm that the information provided is correct and I authorize Easy US LLC to process my request.",
@@ -1260,6 +1274,8 @@
       "calendarMobile": "Dates",
       "tools": "Tools",
       "toolsMobile": "Tools",
+      "notifications": "Notifications",
+      "notificationsMobile": "Notif.",
       "profile": "My Profile",
       "profileMobile": "Profile"
     },
