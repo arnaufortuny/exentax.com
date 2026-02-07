@@ -763,7 +763,7 @@ export default function Dashboard() {
   if (user?.accountStatus === 'deactivated') {
     return (
       <div className="min-h-screen bg-background font-sans flex flex-col">
-        <Navbar />
+        <div className="lg:hidden"><Navbar /></div>
         <main className="flex-1 flex items-center justify-center px-4 py-8 sm:py-12">
           <div className="max-w-md w-full">
             <Card className="rounded-2xl sm:rounded-[2rem] border-0 shadow-2xl overflow-hidden bg-white dark:bg-card">
@@ -802,7 +802,7 @@ export default function Dashboard() {
   if (user?.accountStatus === 'pending') {
     return (
       <div className="min-h-screen bg-background font-sans flex flex-col overflow-y-auto">
-        <Navbar />
+        <div className="lg:hidden"><Navbar /></div>
         <main className="flex-1 pt-16 sm:pt-20 pb-20 px-4 md:px-8 max-w-4xl mx-auto w-full overflow-y-auto">
           <header className="mb-6 md:mb-8">
             <p className="text-accent font-black tracking-wide text-xs md:text-sm mb-1 uppercase">{t("dashboard.clientArea")}</p>
@@ -1007,6 +1007,12 @@ export default function Dashboard() {
     { id: 'profile', label: t('dashboard.tabs.profile'), icon: UserIcon, mobileLabel: t('dashboard.tabs.profileMobile'), tour: 'profile' },
   ], [t]);
 
+  const sidebarMainItems = useMemo(() => menuItems.filter(item => item.id !== 'profile'), [menuItems]);
+  
+  const handleLogout = useCallback(() => {
+    apiRequest("POST", "/api/auth/logout").then(() => window.location.href = "/");
+  }, []);
+
   const matchesFilter = (fields: Record<string, string>, query: string, filter: typeof adminSearchFilter) => {
     if (filter === 'all') return Object.values(fields).some(v => v.includes(query));
     if (filter === 'name') return (fields.name || '').includes(query);
@@ -1073,9 +1079,109 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen bg-background font-sans animate-page-in">
-      <Navbar />
+      {/* Mobile: show Navbar, Desktop: hide it (sidebar replaces it) */}
+      <div className="lg:hidden">
+        <Navbar />
+      </div>
       <DashboardTour />
-      <main className="pt-16 sm:pt-20 pb-20 px-4 md:px-8 max-w-7xl mx-auto">
+
+      {/* Desktop Sidebar - Full height, fixed to left */}
+      <aside className="hidden lg:flex lg:flex-col fixed inset-y-0 left-0 w-64 border-r border-border/50 bg-card z-40">
+          <div className="flex flex-col h-full">
+            {/* Logo / Brand */}
+            <div className="px-5 py-5 border-b border-border/30">
+              <Link href="/">
+                <div className="flex items-center gap-2 cursor-pointer" data-testid="link-sidebar-home">
+                  <img src="/logo-icon.png" alt="Easy US LLC" className="w-8 h-8" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }} />
+                  <span className="text-lg font-black text-foreground tracking-tight">Easy US LLC</span>
+                </div>
+              </Link>
+            </div>
+
+            {/* Main navigation */}
+            <nav className="flex-1 overflow-y-auto px-3 py-4 space-y-1">
+              {sidebarMainItems.map((item) => (
+                <button
+                  key={item.id}
+                  onClick={() => setActiveTab(item.id as Tab)}
+                  className={`w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-bold transition-colors ${
+                    activeTab === item.id 
+                    ? 'bg-accent text-accent-foreground shadow-sm' 
+                    : 'text-muted-foreground hover:text-foreground hover:bg-secondary/50'
+                  }`}
+                  data-testid={`button-sidebar-${item.id}`}
+                  {...('tour' in item && item.tour ? { 'data-tour': item.tour } : {})}
+                >
+                  <item.icon className={`w-5 h-5 shrink-0 ${activeTab === item.id ? 'text-accent-foreground' : 'text-accent'}`} />
+                  <span>{item.label}</span>
+                </button>
+              ))}
+              
+              {isAdmin && (
+                <>
+                  <div className="pt-2 pb-1 px-4">
+                    <div className="border-t border-border/30" />
+                  </div>
+                  <button
+                    onClick={() => setActiveTab('admin' as Tab)}
+                    className={`w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-bold transition-colors ${
+                      activeTab === 'admin' 
+                      ? 'bg-accent text-accent-foreground shadow-sm' 
+                      : 'text-accent hover:bg-accent/10'
+                    }`}
+                    data-testid="button-sidebar-admin"
+                  >
+                    <Shield className={`w-5 h-5 shrink-0 ${activeTab === 'admin' ? 'text-accent-foreground' : 'text-accent'}`} />
+                    <span>{t('dashboard.menu.admin')}</span>
+                  </button>
+                </>
+              )}
+            </nav>
+
+            {/* Bottom section: Profile + Settings + Logout */}
+            <div className="border-t border-border/30 px-3 py-3 space-y-1">
+              <button
+                onClick={() => setActiveTab('profile' as Tab)}
+                className={`w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-bold transition-colors ${
+                  activeTab === 'profile' 
+                  ? 'bg-accent text-accent-foreground shadow-sm' 
+                  : 'text-muted-foreground hover:text-foreground hover:bg-secondary/50'
+                }`}
+                data-testid="button-sidebar-profile"
+                data-tour="profile"
+              >
+                <UserIcon className={`w-5 h-5 shrink-0 ${activeTab === 'profile' ? 'text-accent-foreground' : 'text-accent'}`} />
+                <span>{t('dashboard.tabs.profile')}</span>
+              </button>
+
+              <button
+                onClick={handleLogout}
+                className="w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-bold text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-colors"
+                data-testid="button-sidebar-logout"
+              >
+                <LogOut className="w-5 h-5 shrink-0" />
+                <span>{t("nav.logout")}</span>
+              </button>
+
+              {/* User info */}
+              <div className="flex items-center gap-3 px-4 py-3 mt-1 rounded-xl bg-secondary/30">
+                <div className="w-8 h-8 rounded-full bg-accent/20 flex items-center justify-center shrink-0">
+                  <span className="text-accent font-black text-sm">
+                    {(user?.firstName || '?').charAt(0).toUpperCase()}
+                  </span>
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-bold text-foreground truncate">{user?.firstName} {user?.lastName}</p>
+                  <p className="text-[11px] text-muted-foreground truncate">{user?.email}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </aside>
+
+        {/* Main content area */}
+        <div className="flex-1 lg:ml-64">
+      <main className="pt-16 sm:pt-20 lg:pt-6 pb-20 px-4 md:px-8 max-w-7xl mx-auto lg:mx-0 lg:max-w-none lg:px-10">
         <header className="mb-6 md:mb-10 animate-fade-in-up">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 md:gap-6">
             <div>
@@ -1161,57 +1267,8 @@ export default function Dashboard() {
           )}
         </div>
 
-        {/* Desktop Layout with Sidebar */}
-        <div className="flex gap-8">
-          {/* Desktop Sidebar - Hidden on mobile/tablet */}
-          <aside className="hidden lg:block w-56 shrink-0">
-            <nav className="sticky top-24 space-y-1">
-              <div className="bg-card border border-border/50 rounded-2xl p-3 space-y-1 shadow-sm">
-                {menuItems.map((item) => (
-                  <button
-                    key={item.id}
-                    onClick={() => setActiveTab(item.id as Tab)}
-                    className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-black transition-colors ${
-                      activeTab === item.id 
-                      ? 'bg-accent text-accent-foreground shadow-sm' 
-                      : 'text-muted-foreground hover:text-foreground hover:bg-secondary/50'
-                    }`}
-                    data-testid={`button-sidebar-${item.id}`}
-                    {...('tour' in item && item.tour ? { 'data-tour': item.tour } : {})}
-                  >
-                    <item.icon className={`w-5 h-5 ${activeTab === item.id ? 'text-accent-foreground' : 'text-accent'}`} />
-                    <span>{item.label}</span>
-                    {activeTab === item.id && (
-                      <div className="ml-auto w-1.5 h-1.5 rounded-full bg-accent-foreground" />
-                    )}
-                  </button>
-                ))}
-              </div>
-              
-              {isAdmin && (
-                <div className="bg-accent/5 dark:bg-accent/10 border border-accent/20 rounded-2xl p-3 mt-3">
-                  <button
-                    onClick={() => setActiveTab('admin' as Tab)}
-                    className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-black transition-colors ${
-                      activeTab === 'admin' 
-                      ? 'bg-accent text-accent-foreground shadow-sm' 
-                      : 'text-accent hover:bg-accent/10'
-                    }`}
-                    data-testid="button-sidebar-admin"
-                  >
-                    <Shield className={`w-5 h-5 ${activeTab === 'admin' ? 'text-accent-foreground' : 'text-accent'}`} />
-                    <span>{t('dashboard.menu.admin')}</span>
-                    {activeTab === 'admin' && (
-                      <div className="ml-auto w-1.5 h-1.5 rounded-full bg-accent-foreground" />
-                    )}
-                  </button>
-                </div>
-              )}
-            </nav>
-          </aside>
-
-          {/* Main Content Area */}
-          <div className="flex-1 min-w-0">
+        {/* Main Content Area */}
+        <div>
             {formMessage && (
               <div className={`mb-4 p-3 rounded-xl text-center text-sm font-medium ${
                 formMessage.type === 'error' 
@@ -4263,12 +4320,11 @@ export default function Dashboard() {
               </a>
             </section>
           </div>
-            </div>
-          </div>
+        </div>
         </div>
       </main>
-
       <Footer />
+      </div>
       <ConfirmDialog {...confirmDialogProps} />
     </div>
   );
