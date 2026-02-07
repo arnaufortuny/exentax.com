@@ -196,7 +196,7 @@ export function ConsultationsTab({ setActiveTab }: ConsultationsTabProps) {
                         </div>
                         {type.price > 0 && (
                           <div className="text-right flex-shrink-0">
-                            <div className="font-black text-sm">{type.price}€</div>
+                            <div className="font-black text-sm">{(type.price / 100).toFixed(0)}€</div>
                           </div>
                         )}
                       </div>

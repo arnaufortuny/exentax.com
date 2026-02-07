@@ -5324,9 +5324,10 @@ export async function registerRoutes(
   });
   
   // Get availability for a specific date
-  app.get("/api/consultations/availability/:date", async (req, res) => {
+  app.get("/api/consultations/availability", async (req, res) => {
     try {
-      const { date } = req.params;
+      const date = req.query.date as string;
+      if (!date) return res.status(400).json({ message: "Date parameter required" });
       const targetDate = new Date(date);
       const dayOfWeek = targetDate.getDay();
       
@@ -5373,7 +5374,8 @@ export async function registerRoutes(
   // Create a consultation booking (requires authentication)
   app.post("/api/consultations/book", isAuthenticated, async (req, res) => {
     try {
-      const user = req.user as any;
+      const [user] = await db.select().from(usersTable).where(eq(usersTable.id, req.session.userId!)).limit(1);
+      if (!user) return res.status(401).json({ message: "User not found" });
       
       // Check account status
       if (user.accountStatus === 'deactivated') {
@@ -5477,14 +5479,14 @@ export async function registerRoutes(
   // Get user's consultations
   app.get("/api/consultations/my", isAuthenticated, async (req, res) => {
     try {
-      const user = req.user as any;
+      const userId = req.session.userId!;
       
       const bookings = await db.select({
         booking: consultationBookings,
         consultationType: consultationTypes
       }).from(consultationBookings)
         .innerJoin(consultationTypes, eq(consultationBookings.consultationTypeId, consultationTypes.id))
-        .where(eq(consultationBookings.userId, user.id))
+        .where(eq(consultationBookings.userId, userId))
         .orderBy(desc(consultationBookings.scheduledDate));
       
       res.json(bookings);
@@ -5497,13 +5499,13 @@ export async function registerRoutes(
   // Cancel a consultation (user)
   app.patch("/api/consultations/:id/cancel", isAuthenticated, async (req, res) => {
     try {
-      const user = req.user as any;
+      const userId = req.session.userId!;
       const bookingId = parseInt(req.params.id);
       
       const [booking] = await db.select().from(consultationBookings)
         .where(and(
           eq(consultationBookings.id, bookingId),
-          eq(consultationBookings.userId, user.id)
+          eq(consultationBookings.userId, userId)
         ));
       
       if (!booking) {
@@ -5525,7 +5527,7 @@ export async function registerRoutes(
       
       logAudit({
         action: 'consultation_cancelled',
-        userId: user.id,
+        userId: userId,
         targetId: bookingId.toString(),
         ip: getClientIp(req),
         userAgent: req.headers['user-agent'],
@@ -5575,7 +5577,7 @@ export async function registerRoutes(
       
       logAudit({
         action: 'consultation_type_created',
-        userId: (req.user as any).id,
+        userId: req.session.userId!,
         targetId: type.id.toString(),
         ip: getClientIp(req),
         userAgent: req.headers['user-agent'],
@@ -5783,7 +5785,7 @@ export async function registerRoutes(
       
       logAudit({
         action: 'consultation_updated',
-        userId: (req.user as any).id,
+        userId: req.session.userId!,
         targetId: bookingId.toString(),
         ip: getClientIp(req),
         userAgent: req.headers['user-agent'],
@@ -5828,7 +5830,7 @@ export async function registerRoutes(
       
       logAudit({
         action: 'consultation_rescheduled',
-        userId: (req.user as any).id,
+        userId: req.session.userId!,
         targetId: bookingId.toString(),
         ip: getClientIp(req),
         userAgent: req.headers['user-agent'],
