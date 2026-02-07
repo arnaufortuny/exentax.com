@@ -639,7 +639,27 @@
       "securityOtpDesc": "Por segurança, enviámos um código para o teu email",
       "securityVerification": "Verificação de segurança",
       "securityVerificationDesc": "Enviámos um código de 6 dígitos para o teu email. Introduz-o para continuar.",
-      "securityCode": "Código de verificação"
+      "securityCode": "Código de verificação",
+      "infoCard": {
+        "title": "Seu espaço pessoal",
+        "subtitle": "Acesse todas as ferramentas para gerenciar sua LLC",
+        "feature1": {
+          "title": "Painel de controle",
+          "desc": "Visualize o status dos seus serviços e pedidos em tempo real"
+        },
+        "feature2": {
+          "title": "Documentos seguros",
+          "desc": "Acesse seus documentos legais de forma segura a qualquer momento"
+        },
+        "feature3": {
+          "title": "Suporte direto",
+          "desc": "Comunique-se com nossa equipe através de mensagens e consultas"
+        },
+        "feature4": {
+          "title": "Calendário fiscal",
+          "desc": "Mantenha-se atualizado com suas obrigações fiscais e prazos importantes"
+        }
+      }
     },
     "register": {
       "title": "Cria a tua",
@@ -2246,9 +2266,16 @@
     "connectionError": "Erro de conexão."
   },
   "whatsapp": {
-    "defaultMessage": "Olá, gostaria de obter mais informação sobre as LLC nos Estados Unidos",
-    "ariaLabel": "Contactar por WhatsApp",
-    "tooltip": "Dúvidas? Escreve-nos!"
+    "dashboardSupport": "Olá! Sou cliente da Easy US LLC e tenho uma pergunta sobre a minha conta. Poderiam ajudar-me?",
+    "dashboardLlc": "Olá! Sou cliente da Easy US LLC e tenho uma dúvida sobre o estado da minha LLC ou documentação. Poderiam ajudar-me?",
+    "footer": "Olá! Escrevo-vos a partir do vosso site. Estou interessado em saber mais sobre como criar uma LLC nos Estados Unidos. Podemos conversar?",
+    "navbar": "Olá! Estou interessado/a em constituir uma LLC nos Estados Unidos e gostaria da vossa orientação. Podemos conversar?",
+    "linktree": "Olá! Contacto-vos a partir do vosso Linktree. Quero criar a minha LLC nos Estados Unidos e gostaria da vossa orientação. Podemos conversar?",
+    "services": "Olá! Revi os vossos serviços e preços. Gostaria de esclarecer algumas dúvidas antes de me decidir. Podemos conversar?",
+    "faq": "Olá! Estive a consultar as FAQ mas tenho uma pergunta que não encontro. Podemos conversar?",
+    "contactForm": "Olá! Acabei de enviar um formulário de contacto e gostaria de falar diretamente convosco sobre a criação da minha LLC. Têm um momento?",
+    "contactDirect": "Olá! Estou na página de contacto e prefiro falar diretamente. Podemos conversar sobre como criar a minha LLC?",
+    "llcFormation": "Olá! Estou no formulário de criação de LLC e preciso de uma LLC com vários sócios. Podemos falar sobre as opções?"
   },
   "taxComparator": {
     "badge": "CALCULADORA DE POUPANÇA",
@@ -2751,17 +2778,5 @@
       "meetingLink": "Link de reunião",
       "meetingLinkPlaceholder": "https://meet.google.com/..."
     }
-  },
-  "whatsapp": {
-    "dashboardSupport": "Olá! Sou cliente da Easy US LLC e tenho uma pergunta sobre a minha conta. Poderiam ajudar-me?",
-    "dashboardLlc": "Olá! Sou cliente da Easy US LLC e tenho uma dúvida sobre o estado da minha LLC ou documentação. Poderiam ajudar-me?",
-    "footer": "Olá! Escrevo-vos a partir do vosso site. Estou interessado em saber mais sobre como criar uma LLC nos Estados Unidos. Podemos conversar?",
-    "navbar": "Olá! Estou interessado/a em constituir uma LLC nos Estados Unidos e gostaria da vossa orientação. Podemos conversar?",
-    "linktree": "Olá! Contacto-vos a partir do vosso Linktree. Quero criar a minha LLC nos Estados Unidos e gostaria da vossa orientação. Podemos conversar?",
-    "services": "Olá! Revi os vossos serviços e preços. Gostaria de esclarecer algumas dúvidas antes de me decidir. Podemos conversar?",
-    "faq": "Olá! Estive a consultar as FAQ mas tenho uma pergunta que não encontro. Podemos conversar?",
-    "contactForm": "Olá! Acabei de enviar um formulário de contacto e gostaria de falar diretamente convosco sobre a criação da minha LLC. Têm um momento?",
-    "contactDirect": "Olá! Estou na página de contacto e prefiro falar diretamente. Podemos conversar sobre como criar a minha LLC?",
-    "llcFormation": "Olá! Estou no formulário de criação de LLC e preciso de uma LLC com vários sócios. Podemos falar sobre as opções?"
   }
 }

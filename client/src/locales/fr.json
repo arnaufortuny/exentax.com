@@ -639,7 +639,27 @@
       "securityOtpDesc": "Par sécurité, nous avons envoyé un code à votre email",
       "securityVerification": "Vérification de sécurité",
       "securityVerificationDesc": "Nous avons envoyé un code à 6 chiffres à votre email. Saisissez-le pour continuer.",
-      "securityCode": "Code de vérification"
+      "securityCode": "Code de vérification",
+      "infoCard": {
+        "title": "Votre espace personnel",
+        "subtitle": "Accédez à tous les outils pour gérer votre LLC",
+        "feature1": {
+          "title": "Tableau de bord",
+          "desc": "Visualisez l'état de vos services et commandes en temps réel"
+        },
+        "feature2": {
+          "title": "Documents sécurisés",
+          "desc": "Accédez à vos documents juridiques en toute sécurité à tout moment"
+        },
+        "feature3": {
+          "title": "Support direct",
+          "desc": "Communiquez avec notre équipe par messages et consultations"
+        },
+        "feature4": {
+          "title": "Calendrier fiscal",
+          "desc": "Restez à jour avec vos obligations fiscales et délais importants"
+        }
+      }
     },
     "register": {
       "title": "Créez votre",
@@ -2246,9 +2266,16 @@
     "connectionError": "Erreur de connexion."
   },
   "whatsapp": {
-    "defaultMessage": "Bonjour, je souhaiterais obtenir plus d'informations sur les LLC aux États-Unis",
-    "ariaLabel": "Contacter via WhatsApp",
-    "tooltip": "Des questions ? Écrivez-nous !"
+    "dashboardSupport": "Bonjour ! Je suis client d'Easy US LLC et j'ai une question concernant mon compte. Pourriez-vous m'aider ?",
+    "dashboardLlc": "Bonjour ! Je suis client d'Easy US LLC et j'ai une question sur l'état de ma LLC ou ma documentation. Pourriez-vous m'aider ?",
+    "footer": "Bonjour ! Je vous écris depuis votre site web. Je souhaite en savoir plus sur la création d'une LLC aux États-Unis. Pouvons-nous en discuter ?",
+    "navbar": "Bonjour ! Je suis intéressé(e) par la création d'une LLC aux États-Unis et j'aimerais bénéficier de vos conseils. Pouvons-nous en parler ?",
+    "linktree": "Bonjour ! Je vous contacte depuis votre Linktree. Je souhaite créer ma LLC aux États-Unis et j'aimerais vos conseils. Pouvons-nous en parler ?",
+    "services": "Bonjour ! J'ai consulté vos services et tarifs. J'aimerais éclaircir quelques points avant de me décider. Pouvons-nous en discuter ?",
+    "faq": "Bonjour ! J'ai consulté la FAQ mais j'ai une question que je ne trouve pas. Pouvons-nous en parler ?",
+    "contactForm": "Bonjour ! Je viens d'envoyer un formulaire de contact et j'aimerais vous parler directement de la création de ma LLC. Avez-vous un moment ?",
+    "contactDirect": "Bonjour ! Je suis sur la page de contact et je préfère discuter directement. Pouvons-nous parler de la création de ma LLC ?",
+    "llcFormation": "Bonjour ! Je suis sur le formulaire de création de LLC et j'ai besoin d'une LLC avec plusieurs associés. Pouvons-nous discuter des options ?"
   },
   "taxComparator": {
     "badge": "CALCULATEUR D'ÉCONOMIES",
@@ -2751,17 +2778,5 @@
       "meetingLink": "Lien de réunion",
       "meetingLinkPlaceholder": "https://meet.google.com/..."
     }
-  },
-  "whatsapp": {
-    "dashboardSupport": "Bonjour ! Je suis client d'Easy US LLC et j'ai une question concernant mon compte. Pourriez-vous m'aider ?",
-    "dashboardLlc": "Bonjour ! Je suis client d'Easy US LLC et j'ai une question sur l'état de ma LLC ou ma documentation. Pourriez-vous m'aider ?",
-    "footer": "Bonjour ! Je vous écris depuis votre site web. Je souhaite en savoir plus sur la création d'une LLC aux États-Unis. Pouvons-nous en discuter ?",
-    "navbar": "Bonjour ! Je suis intéressé(e) par la création d'une LLC aux États-Unis et j'aimerais bénéficier de vos conseils. Pouvons-nous en parler ?",
-    "linktree": "Bonjour ! Je vous contacte depuis votre Linktree. Je souhaite créer ma LLC aux États-Unis et j'aimerais vos conseils. Pouvons-nous en parler ?",
-    "services": "Bonjour ! J'ai consulté vos services et tarifs. J'aimerais éclaircir quelques points avant de me décider. Pouvons-nous en discuter ?",
-    "faq": "Bonjour ! J'ai consulté la FAQ mais j'ai une question que je ne trouve pas. Pouvons-nous en parler ?",
-    "contactForm": "Bonjour ! Je viens d'envoyer un formulaire de contact et j'aimerais vous parler directement de la création de ma LLC. Avez-vous un moment ?",
-    "contactDirect": "Bonjour ! Je suis sur la page de contact et je préfère discuter directement. Pouvons-nous parler de la création de ma LLC ?",
-    "llcFormation": "Bonjour ! Je suis sur le formulaire de création de LLC et j'ai besoin d'une LLC avec plusieurs associés. Pouvons-nous discuter des options ?"
   }
 }

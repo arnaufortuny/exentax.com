@@ -639,7 +639,27 @@
       "securityOtpDesc": "Per seguretat, hem enviat un codi al teu email",
       "securityVerification": "Verificació de seguretat",
       "securityVerificationDesc": "Hem enviat un codi de 6 dígits al teu email. Introdueix-lo per continuar.",
-      "securityCode": "Codi de verificació"
+      "securityCode": "Codi de verificació",
+      "infoCard": {
+        "title": "El teu espai personal",
+        "subtitle": "Accedeix a totes les eines per gestionar la teva LLC",
+        "feature1": {
+          "title": "Tauler de control",
+          "desc": "Visualitza l'estat dels teus serveis i comandes en temps real"
+        },
+        "feature2": {
+          "title": "Documents segurs",
+          "desc": "Accedeix als teus documents legals de forma segura en qualsevol moment"
+        },
+        "feature3": {
+          "title": "Suport directe",
+          "desc": "Comunica't amb el nostre equip a través de missatges i consultes"
+        },
+        "feature4": {
+          "title": "Calendari fiscal",
+          "desc": "Mantingues-te al dia amb les teves obligacions fiscals i terminis importants"
+        }
+      }
     },
     "register": {
       "title": "Crea el teu",
@@ -1302,25 +1322,47 @@
       "hereToHelp": "Estem aquí per ajudar-te, escriu-nos i et respondrem el més aviat possible!"
     },
     "payments": {
-      "title": "Historial de pagaments",
+      "title": "Historial de Pagaments",
+      "subtitle": "Les teves factures i rebuts",
       "empty": "Sense pagaments registrats",
-      "emptyDescription": "Quan contractis un servei, aquí tindràs totes les teves factures i rebuts."
+      "emptyDesc": "Les teves factures i rebuts apareixeran aquí.",
+      "invoice": "Factura",
+      "viewServices": "Veure serveis"
     },
     "calendar": {
-      "title": "Calendari fiscal",
-      "empty": "No hi ha dates fiscals programades",
-      "emptyDescription": "En constituir la teva LLC, veuràs aquí tots els venciments importants.",
+      "title": "El Meu Calendari Fiscal",
+      "subtitle": "Dates importants i venciments de la teva LLC",
+      "cancelled": "Cancel·lada",
+      "inReview": "En revisió",
+      "completed": "Completat",
+      "pendingDates": "Dates pendents de configuració",
+      "emptyDescription": "Els teus venciments fiscals apareixeran aquí un cop constitueixes la teva LLC.",
+      "createLlc": "Constituir la meva LLC",
+      "creation": "Creació",
+      "creationFull": "Creació de LLC",
+      "agent": "Agent",
+      "agentFull": "Renovació Agent Registrat",
+      "annual": "Anual",
+      "annualFull": "Informe Anual",
+      "irs1120": "Formulari IRS 1120",
+      "irs5472": "Formulari IRS 5472",
+      "next": "Proper",
+      "days": "dies",
+      "clearCalendar": "Netejar Calendari",
+      "clearCalendarDesc": "Eliminar totes les dates d'aquest calendari",
+      "clearCalendarConfirm": "Estàs segur que vols eliminar totes les dates d'aquest calendari?",
+      "clear": "Netejar",
+      "dates": "Dates",
       "taxExtension": {
-        "label": "Extensión Fiscal (+6 meses)",
-        "active": "Extensión activa",
-        "inactive": "Sin extensión",
-        "datesOctober": "Fechas IRS: 15 de octubre",
-        "datesApril": "Fechas IRS: 15 de abril",
-        "activated": "Extensión activada",
-        "deactivated": "Extensión desactivada",
-        "movedToOctober": "Fechas fiscales movidas al 15 de octubre",
-        "movedToApril": "Fechas fiscales restauradas al 15 de abril",
-        "withExtension": "(con extensión de 6 meses)"
+        "label": "Extensió fiscal (6 mesos)",
+        "active": "Activa",
+        "inactive": "Inactiva",
+        "activated": "Extensió activada",
+        "deactivated": "Extensió desactivada",
+        "datesApril": "Venciment: 15 d'abril",
+        "datesOctober": "Venciment: 15 d'octubre",
+        "movedToOctober": "El venciment s'ha mogut al 15 d'octubre",
+        "movedToApril": "El venciment s'ha mogut al 15 d'abril"
       }
     },
     "orders": {
@@ -1359,50 +1401,6 @@
       "otherDocument": "Altre Document",
       "download": "Descarregar",
       "maxSize": "PDF, JPG o PNG (màx. 10MB)"
-    },
-    "payments": {
-      "title": "Historial de Pagaments",
-      "subtitle": "Les teves factures i rebuts",
-      "empty": "Sense pagaments registrats",
-      "emptyDesc": "Les teves factures i rebuts apareixeran aquí.",
-      "invoice": "Factura",
-            "viewServices": "Veure serveis"
-    },
-    "calendar": {
-      "title": "El Meu Calendari Fiscal",
-      "subtitle": "Dates importants i venciments de la teva LLC",
-      "cancelled": "Cancel·lada",
-      "inReview": "En revisió",
-      "completed": "Completat",
-      "pendingDates": "Dates pendents de configuració",
-      "emptyDescription": "Els teus venciments fiscals apareixeran aquí un cop constitueixes la teva LLC.",
-      "createLlc": "Constituir la meva LLC",
-      "creation": "Creació",
-      "creationFull": "Creació de LLC",
-      "agent": "Agent",
-      "agentFull": "Renovació Agent Registrat",
-      "annual": "Anual",
-      "annualFull": "Informe Anual",
-      "irs1120": "Formulari IRS 1120",
-      "irs5472": "Formulari IRS 5472",
-      "next": "Proper",
-      "days": "dies",
-      "clearCalendar": "Netejar Calendari",
-      "clearCalendarDesc": "Eliminar totes les dates d'aquest calendari",
-      "clearCalendarConfirm": "Estàs segur que vols eliminar totes les dates d'aquest calendari?",
-      "clear": "Netejar",
-      "dates": "Dates",
-      "taxExtension": {
-        "label": "Extensió fiscal (6 mesos)",
-        "active": "Activa",
-        "inactive": "Inactiva",
-        "activated": "Extensió activada",
-        "deactivated": "Extensió desactivada",
-        "datesApril": "Venciment: 15 d'abril",
-        "datesOctober": "Venciment: 15 d'octubre",
-        "movedToOctober": "El venciment s'ha mogut al 15 d'octubre",
-        "movedToApril": "El venciment s'ha mogut al 15 d'abril"
-      }
     },
     "tools": {
       "title": "Eines",
@@ -2268,9 +2266,16 @@
     "connectionError": "Error de connexió."
   },
   "whatsapp": {
-    "defaultMessage": "Hola, m'agradaria obtenir més informació sobre les LLC als Estats Units",
-    "ariaLabel": "Contactar per WhatsApp",
-    "tooltip": "Dubtes? Escriu-nos!"
+    "dashboardSupport": "Hola! Soc client d'Easy US LLC i tinc una consulta sobre el meu compte. Podríeu ajudar-me?",
+    "dashboardLlc": "Hola! Soc client d'Easy US LLC i tinc un dubte sobre l'estat de la meva LLC o documentació. Podríeu ajudar-me?",
+    "footer": "Hola! Us escric des de la vostra web. M'interessa saber més sobre com crear una LLC als Estats Units. Podem parlar?",
+    "navbar": "Hola! Estic interessat/da en formar una LLC als Estats Units i m'agradaria que m'assessoréssiu. Podem parlar?",
+    "linktree": "Hola! Us contacto des del vostre Linktree. Vull crear la meva LLC als Estats Units i m'agradaria que m'assessoréssiu. Podem parlar?",
+    "services": "Hola! He revisat els vostres serveis i preus. M'agradaria resoldre alguns dubtes abans de decidir-me. Podem parlar?",
+    "faq": "Hola! He estat revisant les FAQ però tinc un dubte que no trobo. Podem parlar?",
+    "contactForm": "Hola! Acabo d'enviar un formulari de contacte i m'agradaria parlar directament amb vosaltres sobre crear la meva LLC. Teniu un moment?",
+    "contactDirect": "Hola! Estic a la pàgina de contacte i prefereixo parlar directament. Podem conversar sobre com crear la meva LLC?",
+    "llcFormation": "Hola! Estic al formulari de creació de LLC i necessito una LLC amb diversos socis. Podem parlar sobre les opcions?"
   },
   "taxComparator": {
     "badge": "CALCULADORA D'ESTALVI",
@@ -2773,17 +2778,5 @@
       "meetingLink": "Enllaç de reunió",
       "meetingLinkPlaceholder": "https://meet.google.com/..."
     }
-  },
-  "whatsapp": {
-    "dashboardSupport": "Hola! Soc client d'Easy US LLC i tinc una consulta sobre el meu compte. Podríeu ajudar-me?",
-    "dashboardLlc": "Hola! Soc client d'Easy US LLC i tinc un dubte sobre l'estat de la meva LLC o documentació. Podríeu ajudar-me?",
-    "footer": "Hola! Us escric des de la vostra web. M'interessa saber més sobre com crear una LLC als Estats Units. Podem parlar?",
-    "navbar": "Hola! Estic interessat/da en formar una LLC als Estats Units i m'agradaria que m'assessoréssiu. Podem parlar?",
-    "linktree": "Hola! Us contacto des del vostre Linktree. Vull crear la meva LLC als Estats Units i m'agradaria que m'assessoréssiu. Podem parlar?",
-    "services": "Hola! He revisat els vostres serveis i preus. M'agradaria resoldre alguns dubtes abans de decidir-me. Podem parlar?",
-    "faq": "Hola! He estat revisant les FAQ però tinc un dubte que no trobo. Podem parlar?",
-    "contactForm": "Hola! Acabo d'enviar un formulari de contacte i m'agradaria parlar directament amb vosaltres sobre crear la meva LLC. Teniu un moment?",
-    "contactDirect": "Hola! Estic a la pàgina de contacte i prefereixo parlar directament. Podem conversar sobre com crear la meva LLC?",
-    "llcFormation": "Hola! Estic al formulari de creació de LLC i necessito una LLC amb diversos socis. Podem parlar sobre les opcions?"
   }
 }

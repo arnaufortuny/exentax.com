@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { Link, useLocation } from "wouter";
-import { Loader2, Eye, EyeOff } from "@/components/icons";
+import { Loader2, Eye, EyeOff, Package, FileText, MessageSquare, Calendar } from "@/components/icons";
 import { Input } from "@/components/ui/input";
 import { useTranslation } from "react-i18next";
 import i18n from "@/lib/i18n";
@@ -130,17 +130,33 @@ export default function Login() {
     );
   }
 
+  const infoFeatures = [
+    { icon: Package, titleKey: "auth.login.infoCard.feature1.title", descKey: "auth.login.infoCard.feature1.desc" },
+    { icon: FileText, titleKey: "auth.login.infoCard.feature2.title", descKey: "auth.login.infoCard.feature2.desc" },
+    { icon: MessageSquare, titleKey: "auth.login.infoCard.feature3.title", descKey: "auth.login.infoCard.feature3.desc" },
+    { icon: Calendar, titleKey: "auth.login.infoCard.feature4.title", descKey: "auth.login.infoCard.feature4.desc" },
+  ];
+
   return (
     <div className="min-h-screen bg-background font-sans">
       <Navbar />
       <main className="pt-20 md:pt-24 pb-12 md:pb-16 px-4 sm:px-6 flex flex-col items-center justify-center min-h-[80vh]">
-        <div className="w-full max-w-sm md:max-w-md">
-          <div className="text-center mb-6 md:mb-8 flex flex-col items-center justify-center w-full">
+        <div className="w-full max-w-sm md:max-w-md lg:max-w-5xl">
+          <div className="text-center mb-6 md:mb-8 flex flex-col items-center justify-center w-full lg:hidden">
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight text-center w-full">
               <span className="text-foreground">{t("auth.login.title")}</span> <span className="text-accent">{t("auth.login.titleHighlight")}</span>
             </h1>
             <p className="text-muted-foreground mt-2 text-sm md:text-base text-center max-w-xs md:max-w-sm">{t("auth.login.subtitle")}</p>
           </div>
+
+          <div className="lg:grid lg:grid-cols-2 lg:gap-12 lg:items-start">
+            <div>
+              <div className="hidden lg:block mb-8">
+                <h1 className="text-4xl xl:text-5xl font-black tracking-tight">
+                  <span className="text-foreground">{t("auth.login.title")}</span> <span className="text-accent">{t("auth.login.titleHighlight")}</span>
+                </h1>
+                <p className="text-muted-foreground mt-3 text-base">{t("auth.login.subtitle")}</p>
+              </div>
 
           {formMessage && (
             <div className={`mb-4 md:mb-6 p-3 md:p-4 rounded-xl text-center ${
@@ -250,6 +266,48 @@ export default function Login() {
                   <p className="text-accent text-[10px] md:text-xs">{t("auth.login.noAccountHelp")}</p>
                 </div>
               </Link>
+            </div>
+          </div>
+            </div>
+
+            <div className="hidden lg:block">
+              <div className="bg-accent/5 dark:bg-accent/10 border border-accent/20 rounded-3xl p-8 xl:p-10 sticky top-28">
+                <div className="mb-8">
+                  <h2 className="text-2xl xl:text-3xl font-black text-foreground tracking-tight">
+                    {t("auth.login.infoCard.title")}
+                  </h2>
+                  <p className="text-muted-foreground mt-2 text-sm">
+                    {t("auth.login.infoCard.subtitle")}
+                  </p>
+                </div>
+
+                <div className="space-y-5">
+                  {infoFeatures.map((feature, idx) => (
+                    <div key={idx} className="flex items-start gap-4" data-testid={`info-feature-${idx}`}>
+                      <div className="w-10 h-10 rounded-xl bg-accent/15 dark:bg-accent/20 flex items-center justify-center shrink-0">
+                        <feature.icon className="w-5 h-5 text-accent" />
+                      </div>
+                      <div className="min-w-0">
+                        <p className="text-sm font-bold text-foreground">{t(feature.titleKey)}</p>
+                        <p className="text-xs text-muted-foreground mt-0.5 leading-relaxed">{t(feature.descKey)}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="mt-8 pt-6 border-t border-accent/20">
+                  <div className="flex items-center gap-3">
+                    <div className="flex -space-x-2">
+                      <div className="w-8 h-8 rounded-full bg-accent/20 border-2 border-white dark:border-card flex items-center justify-center">
+                        <span className="text-accent font-black text-[10px]">+1K</span>
+                      </div>
+                    </div>
+                    <p className="text-xs text-muted-foreground">
+                      {t("auth.login.welcomeBackDesc")}
+                    </p>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>

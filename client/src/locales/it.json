@@ -639,7 +639,27 @@
       "securityOtpDesc": "Per sicurezza, abbiamo inviato un codice alla tua email",
       "securityVerification": "Verifica di sicurezza",
       "securityVerificationDesc": "Abbiamo inviato un codice di 6 cifre alla tua email. Inseriscilo per continuare.",
-      "securityCode": "Codice di verifica"
+      "securityCode": "Codice di verifica",
+      "infoCard": {
+        "title": "Il tuo spazio personale",
+        "subtitle": "Accedi a tutti gli strumenti per gestire la tua LLC",
+        "feature1": {
+          "title": "Pannello di controllo",
+          "desc": "Visualizza lo stato dei tuoi servizi e ordini in tempo reale"
+        },
+        "feature2": {
+          "title": "Documenti sicuri",
+          "desc": "Accedi ai tuoi documenti legali in modo sicuro in qualsiasi momento"
+        },
+        "feature3": {
+          "title": "Supporto diretto",
+          "desc": "Comunica con il nostro team tramite messaggi e consulenze"
+        },
+        "feature4": {
+          "title": "Calendario fiscale",
+          "desc": "Rimani aggiornato sui tuoi obblighi fiscali e scadenze importanti"
+        }
+      }
     },
     "register": {
       "title": "Crea il tuo",

@@ -639,7 +639,27 @@
       "securityOtpDesc": "For security, we've sent a code to your email",
       "securityVerification": "Security verification",
       "securityVerificationDesc": "We've sent a 6-digit code to your email. Enter it to continue.",
-      "securityCode": "Verification code"
+      "securityCode": "Verification code",
+      "infoCard": {
+        "title": "Your personal space",
+        "subtitle": "Access all the tools to manage your LLC",
+        "feature1": {
+          "title": "Dashboard",
+          "desc": "View the status of your services and orders in real time"
+        },
+        "feature2": {
+          "title": "Secure documents",
+          "desc": "Access your legal documents securely at any time"
+        },
+        "feature3": {
+          "title": "Direct support",
+          "desc": "Communicate with our team through messages and consultations"
+        },
+        "feature4": {
+          "title": "Tax calendar",
+          "desc": "Stay up to date with your tax obligations and important deadlines"
+        }
+      }
     },
     "register": {
       "title": "Create your",
@@ -1302,25 +1322,47 @@
       "hereToHelp": "We're here to help, write to us and we'll respond as soon as possible!"
     },
     "payments": {
-      "title": "Payment history",
+      "title": "Payment History",
+      "subtitle": "Your invoices and receipts",
       "empty": "No payments recorded",
-      "emptyDescription": "When you hire a service, all your invoices and receipts will appear here."
+      "emptyDesc": "Your invoices and receipts will appear here.",
+      "invoice": "Invoice",
+      "viewServices": "View services"
     },
     "calendar": {
-      "title": "Tax calendar",
-      "empty": "No tax dates scheduled",
-      "emptyDescription": "When you form your LLC, you'll see all important deadlines here.",
+      "title": "My Tax Calendar",
+      "subtitle": "Important dates and deadlines for your LLC",
+      "cancelled": "Cancelled",
+      "inReview": "In review",
+      "completed": "Completed",
+      "pendingDates": "Dates pending configuration",
+      "emptyDescription": "Your tax deadlines will appear here once you form your LLC.",
+      "createLlc": "Form my LLC",
+      "creation": "Creation",
+      "creationFull": "LLC Creation",
+      "agent": "Agent",
+      "agentFull": "Registered Agent Renewal",
+      "annual": "Annual",
+      "annualFull": "Annual Report",
+      "irs1120": "IRS Form 1120",
+      "irs5472": "IRS Form 5472",
+      "next": "Next",
+      "days": "days",
+      "clearCalendar": "Clear Calendar",
+      "clearCalendarDesc": "Delete all dates from this calendar",
+      "clearCalendarConfirm": "Are you sure you want to delete all dates from this calendar?",
+      "clear": "Clear",
+      "dates": "Dates",
       "taxExtension": {
-        "label": "Tax Extension (+6 months)",
-        "active": "Extension active",
-        "inactive": "No extension",
-        "datesOctober": "IRS dates: October 15",
-        "datesApril": "IRS dates: April 15",
+        "label": "Tax extension (6 months)",
+        "active": "Active",
+        "inactive": "Inactive",
         "activated": "Extension activated",
         "deactivated": "Extension deactivated",
-        "movedToOctober": "Tax dates moved to October 15",
-        "movedToApril": "Tax dates restored to April 15",
-        "withExtension": "(with 6-month extension)"
+        "datesApril": "Due date: April 15",
+        "datesOctober": "Due date: October 15",
+        "movedToOctober": "Due date moved to October 15",
+        "movedToApril": "Due date moved to April 15"
       }
     },
     "orders": {
@@ -1359,50 +1401,6 @@
       "otherDocument": "Other Document",
       "download": "Download",
       "maxSize": "PDF, JPG or PNG (max. 10MB)"
-    },
-    "payments": {
-      "title": "Payment History",
-      "subtitle": "Your invoices and receipts",
-      "empty": "No payments recorded",
-      "emptyDesc": "Your invoices and receipts will appear here.",
-      "invoice": "Invoice",
-            "viewServices": "View services"
-    },
-    "calendar": {
-      "title": "My Tax Calendar",
-      "subtitle": "Important dates and deadlines for your LLC",
-      "cancelled": "Cancelled",
-      "inReview": "In review",
-      "completed": "Completed",
-      "pendingDates": "Dates pending configuration",
-      "emptyDescription": "Your tax deadlines will appear here once you form your LLC.",
-      "createLlc": "Form my LLC",
-      "creation": "Creation",
-      "creationFull": "LLC Creation",
-      "agent": "Agent",
-      "agentFull": "Registered Agent Renewal",
-      "annual": "Annual",
-      "annualFull": "Annual Report",
-      "irs1120": "IRS Form 1120",
-      "irs5472": "IRS Form 5472",
-      "next": "Next",
-      "days": "days",
-      "clearCalendar": "Clear Calendar",
-      "clearCalendarDesc": "Delete all dates from this calendar",
-      "clearCalendarConfirm": "Are you sure you want to delete all dates from this calendar?",
-      "clear": "Clear",
-      "dates": "Dates",
-      "taxExtension": {
-        "label": "Tax extension (6 months)",
-        "active": "Active",
-        "inactive": "Inactive",
-        "activated": "Extension activated",
-        "deactivated": "Extension deactivated",
-        "datesApril": "Due date: April 15",
-        "datesOctober": "Due date: October 15",
-        "movedToOctober": "Due date moved to October 15",
-        "movedToApril": "Due date moved to April 15"
-      }
     },
     "tools": {
       "title": "Tools",
@@ -2268,9 +2266,16 @@
     "connectionError": "Connection error."
   },
   "whatsapp": {
-    "defaultMessage": "Hi, I would like more information about US LLCs",
-    "ariaLabel": "Contact via WhatsApp",
-    "tooltip": "Questions? Write us!"
+    "dashboardSupport": "Hi! I'm a client of Easy US LLC and I have a question about my account. Could you help me?",
+    "dashboardLlc": "Hi! I'm a client of Easy US LLC and I have a question about the status of my LLC or documentation. Could you help me?",
+    "footer": "Hi! I'm writing from your website. I'm interested in learning more about forming an LLC in the United States. Can we talk?",
+    "navbar": "Hi! I'm interested in forming an LLC in the United States and would like your guidance. Can we talk?",
+    "linktree": "Hi! I'm reaching out from your Linktree. I want to create my LLC in the United States and would like your advice. Can we talk?",
+    "services": "Hi! I've reviewed your services and pricing. I'd like to resolve some questions before deciding. Can we talk?",
+    "faq": "Hi! I've been reviewing the FAQ but I have a question I can't find. Can we talk?",
+    "contactForm": "Hi! I just submitted a contact form and would like to speak directly with you about creating my LLC. Do you have a moment?",
+    "contactDirect": "Hi! I'm on the contact page and prefer to talk directly. Can we discuss how to create my LLC?",
+    "llcFormation": "Hi! I'm on the LLC creation form and I need an LLC with multiple partners. Can we talk about the options?"
   },
   "taxComparator": {
     "badge": "SAVINGS CALCULATOR",
@@ -2773,17 +2778,5 @@
       "meetingLink": "Meeting link",
       "meetingLinkPlaceholder": "https://meet.google.com/..."
     }
-  },
-  "whatsapp": {
-    "dashboardSupport": "Hi! I'm a client of Easy US LLC and I have a question about my account. Could you help me?",
-    "dashboardLlc": "Hi! I'm a client of Easy US LLC and I have a question about the status of my LLC or documentation. Could you help me?",
-    "footer": "Hi! I'm writing from your website. I'm interested in learning more about forming an LLC in the United States. Can we talk?",
-    "navbar": "Hi! I'm interested in forming an LLC in the United States and would like your guidance. Can we talk?",
-    "linktree": "Hi! I'm reaching out from your Linktree. I want to create my LLC in the United States and would like your advice. Can we talk?",
-    "services": "Hi! I've reviewed your services and pricing. I'd like to resolve some questions before deciding. Can we talk?",
-    "faq": "Hi! I've been reviewing the FAQ but I have a question I can't find. Can we talk?",
-    "contactForm": "Hi! I just submitted a contact form and would like to speak directly with you about creating my LLC. Do you have a moment?",
-    "contactDirect": "Hi! I'm on the contact page and prefer to talk directly. Can we discuss how to create my LLC?",
-    "llcFormation": "Hi! I'm on the LLC creation form and I need an LLC with multiple partners. Can we talk about the options?"
   }
 }

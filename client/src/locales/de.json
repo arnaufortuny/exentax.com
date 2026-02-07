@@ -639,7 +639,27 @@
       "securityOtpDesc": "Aus Sicherheitsgründen haben wir einen Code an Ihre E-Mail gesendet",
       "securityVerification": "Sicherheitsüberprüfung",
       "securityVerificationDesc": "Wir haben einen 6-stelligen Code an Ihre E-Mail gesendet. Geben Sie ihn ein, um fortzufahren.",
-      "securityCode": "Bestätigungscode"
+      "securityCode": "Bestätigungscode",
+      "infoCard": {
+        "title": "Ihr persönlicher Bereich",
+        "subtitle": "Zugriff auf alle Tools zur Verwaltung Ihrer LLC",
+        "feature1": {
+          "title": "Dashboard",
+          "desc": "Sehen Sie den Status Ihrer Dienste und Bestellungen in Echtzeit"
+        },
+        "feature2": {
+          "title": "Sichere Dokumente",
+          "desc": "Greifen Sie jederzeit sicher auf Ihre Rechtsdokumente zu"
+        },
+        "feature3": {
+          "title": "Direkter Support",
+          "desc": "Kommunizieren Sie mit unserem Team über Nachrichten und Beratungen"
+        },
+        "feature4": {
+          "title": "Steuerkalender",
+          "desc": "Bleiben Sie über Ihre Steuerpflichten und wichtige Fristen informiert"
+        }
+      }
     },
     "register": {
       "title": "Erstellen Sie Ihr",
@@ -2246,9 +2266,16 @@
     "connectionError": "Verbindungsfehler."
   },
   "whatsapp": {
-    "defaultMessage": "Hallo, ich hätte gerne weitere Informationen über US LLCs",
-    "ariaLabel": "Kontakt über WhatsApp",
-    "tooltip": "Fragen? Schreiben Sie uns!"
+    "dashboardSupport": "Hallo! Ich bin Kunde von Easy US LLC und habe eine Frage zu meinem Konto. Könnten Sie mir helfen?",
+    "dashboardLlc": "Hallo! Ich bin Kunde von Easy US LLC und habe eine Frage zum Status meiner LLC oder Dokumentation. Könnten Sie mir helfen?",
+    "footer": "Hallo! Ich schreibe Ihnen von Ihrer Website. Ich möchte mehr über die Gründung einer LLC in den USA erfahren. Können wir sprechen?",
+    "navbar": "Hallo! Ich bin an der Gründung einer LLC in den USA interessiert und würde mich über Ihre Beratung freuen. Können wir sprechen?",
+    "linktree": "Hallo! Ich kontaktiere Sie über Ihren Linktree. Ich möchte meine LLC in den USA gründen und hätte gerne Ihre Beratung. Können wir sprechen?",
+    "services": "Hallo! Ich habe Ihre Dienstleistungen und Preise durchgesehen. Ich möchte einige Fragen klären, bevor ich mich entscheide. Können wir sprechen?",
+    "faq": "Hallo! Ich habe die FAQ durchgesehen, aber habe eine Frage, die ich nicht finden kann. Können wir sprechen?",
+    "contactForm": "Hallo! Ich habe gerade ein Kontaktformular abgeschickt und würde gerne direkt mit Ihnen über die Gründung meiner LLC sprechen. Haben Sie einen Moment?",
+    "contactDirect": "Hallo! Ich bin auf der Kontaktseite und möchte lieber direkt sprechen. Können wir über die Gründung meiner LLC reden?",
+    "llcFormation": "Hallo! Ich bin auf dem LLC-Gründungsformular und brauche eine LLC mit mehreren Gesellschaftern. Können wir über die Optionen sprechen?"
   },
   "taxComparator": {
     "badge": "SPARPOTENZIALRECHNER",
@@ -2751,17 +2778,5 @@
       "meetingLink": "Meeting-Link",
       "meetingLinkPlaceholder": "https://meet.google.com/..."
     }
-  },
-  "whatsapp": {
-    "dashboardSupport": "Hallo! Ich bin Kunde von Easy US LLC und habe eine Frage zu meinem Konto. Könnten Sie mir helfen?",
-    "dashboardLlc": "Hallo! Ich bin Kunde von Easy US LLC und habe eine Frage zum Status meiner LLC oder Dokumentation. Könnten Sie mir helfen?",
-    "footer": "Hallo! Ich schreibe Ihnen von Ihrer Website. Ich möchte mehr über die Gründung einer LLC in den USA erfahren. Können wir sprechen?",
-    "navbar": "Hallo! Ich bin an der Gründung einer LLC in den USA interessiert und würde mich über Ihre Beratung freuen. Können wir sprechen?",
-    "linktree": "Hallo! Ich kontaktiere Sie über Ihren Linktree. Ich möchte meine LLC in den USA gründen und hätte gerne Ihre Beratung. Können wir sprechen?",
-    "services": "Hallo! Ich habe Ihre Dienstleistungen und Preise durchgesehen. Ich möchte einige Fragen klären, bevor ich mich entscheide. Können wir sprechen?",
-    "faq": "Hallo! Ich habe die FAQ durchgesehen, aber habe eine Frage, die ich nicht finden kann. Können wir sprechen?",
-    "contactForm": "Hallo! Ich habe gerade ein Kontaktformular abgeschickt und würde gerne direkt mit Ihnen über die Gründung meiner LLC sprechen. Haben Sie einen Moment?",
-    "contactDirect": "Hallo! Ich bin auf der Kontaktseite und möchte lieber direkt sprechen. Können wir über die Gründung meiner LLC reden?",
-    "llcFormation": "Hallo! Ich bin auf dem LLC-Gründungsformular und brauche eine LLC mit mehreren Gesellschaftern. Können wir über die Optionen sprechen?"
   }
 }
