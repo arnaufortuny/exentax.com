@@ -72,6 +72,7 @@ export default function PriceCalculator() {
     setQuantity(1);
     setMarginPercent(30);
     setTaxPercent(0);
+    setCurrency("EUR");
     setAdditionalCosts([]);
   };
 
