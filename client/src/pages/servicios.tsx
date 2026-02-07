@@ -688,6 +688,17 @@ export default function Servicios() {
               <span className="text-foreground">{t("services.maintenancePack.helpTextPart1")}</span>{" "}
               <span className="text-accent">{t("services.maintenancePack.helpTextPart2")}</span>
             </h3>
+            <div className="mt-10 sm:mt-12 flex justify-center">
+              <Button 
+                onClick={() => {
+                  openWhatsApp("services");
+                }}
+                className="group bg-accent text-primary font-black text-sm sm:text-base rounded-full px-5 sm:px-8 h-10 sm:h-11 shadow-lg shadow-accent/20 transition-all transform active:scale-95"
+                data-testid="button-cta-final-whatsapp"
+              >
+                {t("ctaSection.title")} →
+              </Button>
+            </div>
           </motion.div>
         </div>
       </section>
