@@ -14,6 +14,8 @@ I want to be communicated with in a clear and concise manner. I prefer explanati
 - ONLY touch what is explicitly asked — do not modify other sections, components, or spacing unless requested
 
 ## Recent Changes
+- **2026-02-07:** Payment accounts UI fully internationalized — replaced 24+ hardcoded Spanish strings with i18n t() calls, added 22 paymentAccounts translation keys under dashboard.admin in all 7 locale files
+- **2026-02-07:** Added missing support-related translations — supportPermissions, supportPermissionsDesc, users.supportBadge added to all 7 locale files for admin dashboard support role display
 - **2026-02-07:** Admin dashboard restructured — admin users now see admin tabs directly in sidebar (Metrics, Orders, Communications, Incomplete, Users, Billing, Calendar, Docs, Payment Methods, Discounts) instead of nested user+admin structure. Support users retain limited support panel. Mobile navigation updated accordingly.
 - **2026-02-07:** Payment accounts management — new `payment_accounts` database table (28th table) with admin CRUD UI panel. Three default accounts seeded: Thread Bank CHECKING, Column N.A. CHECKING, Saxo Payments IBAN. Admin can create, edit, toggle active/inactive, and delete payment accounts.
 - **2026-02-07:** PDF invoice generator updated — now dynamically renders all active payment accounts from database instead of single hardcoded account. Falls back to default accounts when none configured.
