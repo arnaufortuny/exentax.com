@@ -151,11 +151,11 @@ export default function Login() {
 
           <div className="lg:grid lg:grid-cols-2 lg:gap-10 lg:items-stretch">
             <div className="lg:flex lg:flex-col">
-              <div className="hidden lg:block mb-6">
-                <h1 className="text-3xl xl:text-4xl font-black tracking-tight">
+              <div className="hidden lg:block mb-5">
+                <h1 className="text-2xl xl:text-3xl font-black tracking-tight">
                   <span className="text-foreground">{t("auth.login.title")}</span> <span className="text-accent">{t("auth.login.titleHighlight")}</span>
                 </h1>
-                <p className="text-muted-foreground mt-2 text-sm">{t("auth.login.subtitle")}</p>
+                <p className="text-muted-foreground mt-1.5 text-xs">{t("auth.login.subtitle")}</p>
               </div>
 
           {formMessage && (
