@@ -256,7 +256,8 @@
       "step2": {
         "title": "EIN INCLUÍDO",
         "text": "Obtemos o teu número fiscal nos EUA para que a tua empresa possa operar com total tranquilidade e respaldo legal.",
-        "duration": "48-72 HORAS"
+        "duration": "48-72 HORAS",
+        "button": "O que é o EIN"
       },
       "step3": {
         "title": "CONTA BANCÁRIA",

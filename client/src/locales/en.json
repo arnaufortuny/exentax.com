@@ -256,7 +256,8 @@
       "step2": {
         "title": "EIN INCLUDED",
         "text": "We get your US tax number so your company can operate with total peace of mind and legal backing.",
-        "duration": "48-72 HOURS"
+        "duration": "48-72 HOURS",
+        "button": "What is the EIN"
       },
       "step3": {
         "title": "BANK ACCOUNT",

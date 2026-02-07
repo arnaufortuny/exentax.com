@@ -256,7 +256,8 @@
       "step2": {
         "title": "EIN INCLUS",
         "text": "Nous obtenons votre numéro fiscal américain pour que votre société puisse opérer en toute tranquillité et avec un soutien juridique.",
-        "duration": "48-72 HEURES"
+        "duration": "48-72 HEURES",
+        "button": "Qu'est-ce que l'EIN"
       },
       "step3": {
         "title": "COMPTE BANCAIRE",

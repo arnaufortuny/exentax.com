@@ -256,7 +256,8 @@
       "step2": {
         "title": "EIN INCLÒS",
         "text": "Aconseguim el teu número fiscal als EUA perquè la teva empresa pugui operar amb total tranquil·litat i suport legal.",
-        "duration": "48-72 HORES"
+        "duration": "48-72 HORES",
+        "button": "Què és l'EIN"
       },
       "step3": {
         "title": "COMPTE BANCARI",

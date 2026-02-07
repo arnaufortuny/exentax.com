@@ -256,7 +256,8 @@
       "step2": {
         "title": "EIN INKLUSIVE",
         "text": "Wir beschaffen Ihre US-Steuernummer, damit Ihr Unternehmen mit voller Rechtssicherheit operieren kann.",
-        "duration": "48-72 STUNDEN"
+        "duration": "48-72 STUNDEN",
+        "button": "Was ist die EIN"
       },
       "step3": {
         "title": "BANKKONTO",

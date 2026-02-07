@@ -360,7 +360,15 @@ function HowWeWorkSection() {
               </div>
               <div className="p-6 sm:p-8">
                 <h3 className="text-xl font-black mb-3 text-left">{t("timing.steps.step2.title")}</h3>
-                <p className="text-muted-foreground text-sm leading-relaxed text-left">{t("timing.steps.step2.text")}</p>
+                <p className="text-muted-foreground text-sm leading-relaxed text-left mb-4">{t("timing.steps.step2.text")}</p>
+                <Link
+                  href="/faq#keyConcepts-0"
+                  className="inline-flex items-center gap-2 text-accent font-bold text-sm hover:underline"
+                  data-testid="button-timing-ein"
+                >
+                  {t("timing.steps.step2.button")}
+                  <ArrowRight className="w-4 h-4" />
+                </Link>
               </div>
             </div>
 
