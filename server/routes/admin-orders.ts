@@ -1,0 +1,417 @@
+import type { Express } from "express";
+import type { Request, Response } from "express";
+import { z } from "zod";
+import { and, eq, desc, sql } from "drizzle-orm";
+import { asyncHandler, db, storage, isAdmin, isAdminOrSupport, logAudit } from "../routes/shared";
+import { orders as ordersTable, users as usersTable, maintenanceApplications, orderEvents, userNotifications, llcApplications as llcApplicationsTable, applicationDocuments as applicationDocumentsTable } from "@shared/schema";
+import { sendEmail, sendTrustpilotEmail, getOrderUpdateTemplate } from "../lib/email";
+import { updateApplicationDeadlines } from "../calendar-service";
+
+export function registerAdminOrderRoutes(app: Express) {
+  // Admin Orders
+  app.get("/api/admin/orders", isAdminOrSupport, async (req, res) => {
+    try {
+      const allOrders = await storage.getAllOrders();
+      res.json(allOrders);
+    } catch (error) {
+      console.error("Admin orders error:", error);
+      res.status(500).json({ message: "Error fetching orders" });
+    }
+  });
+
+  app.patch("/api/admin/orders/:id/status", isAdminOrSupport, asyncHandler(async (req: Request, res: Response) => {
+    const orderId = Number(req.params.id);
+    const { status } = z.object({ status: z.string() }).parse(req.body);
+    
+    const [updatedOrder] = await db.update(ordersTable)
+      .set({ status })
+      .where(eq(ordersTable.id, orderId))
+      .returning();
+    
+    // Audit log for order status change
+    logAudit({ 
+      action: 'order_status_change', 
+      userId: req.session?.userId, 
+      targetId: String(orderId),
+      details: { newStatus: status } 
+    });
+    
+    const order = await storage.getOrder(orderId);
+    if (order?.user?.email) {
+      const statusLabels: Record<string, string> = {
+        pending: "Pendiente",
+        processing: "En proceso",
+        paid: "Pagado",
+        filed: "Presentado",
+        documents_ready: "Documentos listos",
+        completed: "Completado",
+        cancelled: "Cancelado"
+      };
+      const statusLabel = statusLabels[status] || status.replace(/_/g, " ");
+
+      // If order completed, upgrade user to VIP status and send Trustpilot email
+      if (status === 'completed' && order.userId) {
+        await db.update(usersTable)
+          .set({ accountStatus: 'vip' })
+          .where(eq(usersTable.id, order.userId));
+        
+        // Send Trustpilot review request email
+        const orderCode = order.application?.requestCode || order.maintenanceApplication?.requestCode || order.invoiceNumber || `#${order.id}`;
+        sendTrustpilotEmail({
+          to: order.user.email,
+          name: order.user.firstName || "Cliente",
+          orderNumber: orderCode
+        }).catch(() => {});
+      }
+
+      // Auto-calculate compliance deadlines when order is filed
+      if (status === 'filed' && order.application) {
+        const formationDate = new Date();
+        const state = order.application.state || "new_mexico";
+        const hasTaxExtension = order.application.hasTaxExtension || false;
+        await updateApplicationDeadlines(order.application.id, formationDate, state, hasTaxExtension);
+      }
+
+      // Clear compliance deadlines when order is cancelled
+      if (status === 'cancelled' && order.application) {
+        await db.update(llcApplicationsTable).set({
+          irs1120DueDate: null,
+          irs5472DueDate: null,
+          annualReportDueDate: null,
+          agentRenewalDate: null,
+        }).where(eq(llcApplicationsTable.id, order.application.id));
+      }
+
+      // Create Notification in Dashboard
+      const orderCode = order.application?.requestCode || order.maintenanceApplication?.requestCode || order.invoiceNumber || `#${order.id}`;
+      await db.insert(userNotifications).values({
+        userId: order.userId,
+        orderId: order.id,
+        orderCode,
+        title: `Actualización de pedido: ${statusLabel}`,
+        message: `Tu pedido ${orderCode} ha cambiado a: ${statusLabel}.${status === 'completed' ? ' ¡Enhorabuena, ahora eres cliente VIP!' : ''}`,
+        type: 'update',
+        isRead: false
+      });
+
+      // Add Order Event for Timeline
+      await db.insert(orderEvents).values({
+        orderId: order.id,
+        eventType: statusLabel,
+        description: `El estado del pedido ha sido actualizado a ${statusLabel}.`,
+        createdBy: req.session.userId
+      });
+
+      sendEmail({
+        to: order.user.email,
+        subject: `Actualización de estado - Pedido ${order.invoiceNumber || `#${order.id}`}`,
+        html: getOrderUpdateTemplate(
+          order.user.firstName || "Cliente",
+          order.invoiceNumber || `#${order.id}`,
+          status,
+          `Tu pedido ha pasado a estado: ${statusLabels[status] || status}. Puedes ver los detalles en tu panel de control.`
+        )
+      }).catch(() => {});
+    }
+    res.json(updatedOrder);
+  }));
+
+  // Update payment link on order (admin only)
+  app.patch("/api/admin/orders/:id/payment-link", isAdminOrSupport, asyncHandler(async (req: Request, res: Response) => {
+    const orderId = Number(req.params.id);
+    const { paymentLink, paymentStatus, paymentDueDate } = z.object({
+      paymentLink: z.string().url().optional().nullable(),
+      paymentStatus: z.enum(['pending', 'paid', 'overdue', 'cancelled']).optional(),
+      paymentDueDate: z.string().optional().nullable()
+    }).parse(req.body);
+
+    const updateData: Record<string, unknown> = {};
+    if (paymentLink !== undefined) updateData.paymentLink = paymentLink;
+    if (paymentStatus) updateData.paymentStatus = paymentStatus;
+    if (paymentDueDate !== undefined) updateData.paymentDueDate = paymentDueDate ? new Date(paymentDueDate) : null;
+    if (paymentStatus === 'paid') updateData.paidAt = new Date();
+
+    const [updatedOrder] = await db.update(ordersTable)
+      .set(updateData)
+      .where(eq(ordersTable.id, orderId))
+      .returning();
+
+    if (!updatedOrder) {
+      return res.status(404).json({ message: "Order not found" });
+    }
+
+    logAudit({
+      action: 'payment_link_update',
+      userId: req.session?.userId,
+      targetId: String(orderId),
+      details: { paymentLink, paymentStatus }
+    });
+
+    res.json(updatedOrder);
+  }));
+
+  // Delete order (admin only) - Full cascade deletion
+  app.delete("/api/admin/orders/:id", isAdmin, asyncHandler(async (req: Request, res: Response) => {
+    const orderId = Number(req.params.id);
+    
+    // Get order details before deletion for logging
+    const order = await storage.getOrder(orderId);
+    if (!order) {
+      return res.status(404).json({ message: "Order not found" });
+    }
+    
+    // Use transaction for safe cascade deletion
+    await db.transaction(async (tx) => {
+      // Delete order events
+      await tx.delete(orderEvents).where(eq(orderEvents.orderId, orderId));
+      
+      // Delete application documents
+      await tx.delete(applicationDocumentsTable).where(eq(applicationDocumentsTable.orderId, orderId));
+      
+      // Delete user notifications related to this order
+      if (order.userId) {
+        await tx.delete(userNotifications).where(
+          and(
+            eq(userNotifications.userId, order.userId),
+            sql`${userNotifications.message} LIKE ${'%' + (order.invoiceNumber || `#${orderId}`) + '%'}`
+          )
+        );
+      }
+      
+      // Delete the LLC application if exists
+      if (order.application?.id) {
+        await tx.delete(llcApplicationsTable).where(eq(llcApplicationsTable.id, order.application.id));
+      }
+      
+      // Finally delete the order
+      await tx.delete(ordersTable).where(eq(ordersTable.id, orderId));
+    });
+    
+    res.json({ success: true, message: "Order deleted successfully" });
+  }));
+
+  // Get incomplete/draft applications for admin
+  app.get("/api/admin/incomplete-applications", isAdminOrSupport, async (req, res) => {
+    try {
+      const llcDrafts = await db.select({
+        id: llcApplicationsTable.id,
+        orderId: llcApplicationsTable.orderId,
+        requestCode: llcApplicationsTable.requestCode,
+        ownerFullName: llcApplicationsTable.ownerFullName,
+        ownerEmail: llcApplicationsTable.ownerEmail,
+        ownerPhone: llcApplicationsTable.ownerPhone,
+        companyName: llcApplicationsTable.companyName,
+        state: llcApplicationsTable.state,
+        status: llcApplicationsTable.status,
+        abandonedAt: llcApplicationsTable.abandonedAt,
+        remindersSent: llcApplicationsTable.remindersSent,
+        lastUpdated: llcApplicationsTable.lastUpdated,
+      })
+      .from(llcApplicationsTable)
+      .where(eq(llcApplicationsTable.status, "draft"))
+      .orderBy(desc(llcApplicationsTable.lastUpdated));
+      
+      const maintDrafts = await db.select({
+        id: maintenanceApplications.id,
+        orderId: maintenanceApplications.orderId,
+        requestCode: maintenanceApplications.requestCode,
+        ownerFullName: maintenanceApplications.ownerFullName,
+        ownerEmail: maintenanceApplications.ownerEmail,
+        ownerPhone: maintenanceApplications.ownerPhone,
+        companyName: maintenanceApplications.companyName,
+        state: maintenanceApplications.state,
+        status: maintenanceApplications.status,
+        abandonedAt: maintenanceApplications.abandonedAt,
+        remindersSent: maintenanceApplications.remindersSent,
+        lastUpdated: maintenanceApplications.lastUpdated,
+      })
+      .from(maintenanceApplications)
+      .where(eq(maintenanceApplications.status, "draft"))
+      .orderBy(desc(maintenanceApplications.lastUpdated));
+      
+      res.json({
+        llc: llcDrafts.map(d => ({ ...d, type: 'llc' })),
+        maintenance: maintDrafts.map(d => ({ ...d, type: 'maintenance' })),
+      });
+    } catch (error) {
+      console.error("Error fetching incomplete applications:", error);
+      res.status(500).json({ message: "Error fetching incomplete applications" });
+    }
+  });
+
+  // Delete incomplete application (admin only) - with full cascade cleanup
+  app.delete("/api/admin/incomplete-applications/:type/:id", isAdmin, asyncHandler(async (req: Request, res: Response) => {
+    const { type, id } = req.params;
+    const appId = Number(id);
+    
+    if (type === 'llc') {
+      const [app] = await db.select({ orderId: llcApplicationsTable.orderId })
+        .from(llcApplicationsTable)
+        .where(and(eq(llcApplicationsTable.id, appId), eq(llcApplicationsTable.status, "draft")));
+      
+      if (!app) {
+        return res.status(404).json({ message: "Request not found" });
+      }
+      
+      // Cascade delete: documents, notifications, events, application, order
+      await db.delete(applicationDocumentsTable).where(eq(applicationDocumentsTable.orderId, app.orderId));
+      await db.delete(orderEvents).where(eq(orderEvents.orderId, app.orderId));
+      await db.delete(llcApplicationsTable).where(eq(llcApplicationsTable.id, appId));
+      await db.delete(ordersTable).where(eq(ordersTable.id, app.orderId));
+    } else if (type === 'maintenance') {
+      const [app] = await db.select({ orderId: maintenanceApplications.orderId })
+        .from(maintenanceApplications)
+        .where(and(eq(maintenanceApplications.id, appId), eq(maintenanceApplications.status, "draft")));
+      
+      if (!app) {
+        return res.status(404).json({ message: "Request not found" });
+      }
+      
+      // Cascade delete: documents, notifications, events, application, order
+      await db.delete(applicationDocumentsTable).where(eq(applicationDocumentsTable.orderId, app.orderId));
+      await db.delete(orderEvents).where(eq(orderEvents.orderId, app.orderId));
+      await db.delete(maintenanceApplications).where(eq(maintenanceApplications.id, appId));
+      await db.delete(ordersTable).where(eq(ordersTable.id, app.orderId));
+    } else {
+      return res.status(400).json({ message: "Invalid request type" });
+    }
+    
+    res.json({ success: true, message: "Incomplete request deleted" });
+  }));
+
+  // Update LLC important dates with automatic calculation
+  app.patch("/api/admin/llc/:appId/dates", isAdminOrSupport, asyncHandler(async (req: Request, res: Response) => {
+    const appId = Number(req.params.appId);
+    const { field, value } = z.object({ 
+      field: z.enum(['llcCreatedDate', 'agentRenewalDate', 'irs1120DueDate', 'irs5472DueDate', 'annualReportDueDate', 'ein', 'registrationNumber', 'llcAddress', 'ownerSharePercentage', 'agentStatus', 'boiStatus', 'boiFiledDate']),
+      value: z.string()
+    }).parse(req.body);
+    
+    // Handle text fields (EIN, registration number, address, share percentage, agent status, BOI status)
+    const textFields = ['ein', 'registrationNumber', 'llcAddress', 'ownerSharePercentage', 'agentStatus', 'boiStatus'];
+    if (textFields.includes(field)) {
+      const updateData: Record<string, string | null> = {};
+      updateData[field] = value || null;
+      
+      // If marking agent as renewed, update the renewal date to next year
+      if (field === 'agentStatus' && value === 'renewed') {
+        const [app] = await db.select({ agentRenewalDate: llcApplicationsTable.agentRenewalDate })
+          .from(llcApplicationsTable)
+          .where(eq(llcApplicationsTable.id, appId))
+          .limit(1);
+        
+        if (app?.agentRenewalDate) {
+          const newRenewalDate = new Date(app.agentRenewalDate);
+          newRenewalDate.setFullYear(newRenewalDate.getFullYear() + 1);
+          await db.update(llcApplicationsTable)
+            .set({ 
+              agentStatus: 'active',
+              agentRenewalDate: newRenewalDate 
+            })
+            .where(eq(llcApplicationsTable.id, appId));
+          return res.json({ success: true, newRenewalDate });
+        }
+      }
+      
+      await db.update(llcApplicationsTable)
+        .set(updateData)
+        .where(eq(llcApplicationsTable.id, appId));
+      return res.json({ success: true });
+    }
+    
+    const dateValue = value ? new Date(value) : null;
+    const updateData: Record<string, Date | null> = {};
+    updateData[field] = dateValue;
+    
+    // Auto-calculate other fiscal dates when llcCreatedDate is set
+    if (field === 'llcCreatedDate' && dateValue) {
+      const creationDate = new Date(dateValue);
+      const creationYear = creationDate.getFullYear();
+      const nextYear = creationYear + 1;
+      
+      // Agent renewal: 1 year after creation
+      const agentRenewal = new Date(creationDate);
+      agentRenewal.setFullYear(agentRenewal.getFullYear() + 1);
+      updateData.agentRenewalDate = agentRenewal;
+      
+      // IRS 1120: March 15 of next year
+      updateData.irs1120DueDate = new Date(nextYear, 2, 15);
+      
+      // IRS 5472: April 15 of next year
+      updateData.irs5472DueDate = new Date(nextYear, 3, 15);
+      
+      // Annual Report: Get the LLC state to determine date
+      const [app] = await db.select({ state: llcApplicationsTable.state })
+        .from(llcApplicationsTable)
+        .where(eq(llcApplicationsTable.id, appId))
+        .limit(1);
+      
+      if (app?.state) {
+        // Annual report dates by state
+        // New Mexico: No annual report required
+        // Wyoming: First day of anniversary month
+        // Delaware: March 1
+        if (app.state === 'Wyoming') {
+          const wyomingDate = new Date(creationDate);
+          wyomingDate.setFullYear(wyomingDate.getFullYear() + 1);
+          wyomingDate.setDate(1);
+          updateData.annualReportDueDate = wyomingDate;
+        } else if (app.state === 'Delaware') {
+          updateData.annualReportDueDate = new Date(nextYear, 2, 1); // March 1
+        }
+        // New Mexico: no annual report, leave as null
+      }
+    }
+    
+    await db.update(llcApplicationsTable)
+      .set(updateData)
+      .where(eq(llcApplicationsTable.id, appId));
+    
+    res.json({ success: true });
+  }));
+
+  // Toggle tax extension for LLC application (6 months: Apr 15 -> Oct 15)
+  app.patch("/api/admin/llc/:appId/tax-extension", isAdminOrSupport, asyncHandler(async (req: Request, res: Response) => {
+    const appId = Number(req.params.appId);
+    const { hasTaxExtension } = z.object({ 
+      hasTaxExtension: z.boolean()
+    }).parse(req.body);
+    
+    // Get current application data
+    const [app] = await db.select()
+      .from(llcApplicationsTable)
+      .where(eq(llcApplicationsTable.id, appId))
+      .limit(1);
+    
+    if (!app) {
+      return res.status(404).json({ message: "Application not found" });
+    }
+    
+    // Update extension flag
+    await db.update(llcApplicationsTable)
+      .set({ hasTaxExtension })
+      .where(eq(llcApplicationsTable.id, appId));
+    
+    // Recalculate tax deadlines if LLC has been created
+    if (app.llcCreatedDate) {
+      const creationDate = new Date(app.llcCreatedDate);
+      const creationYear = creationDate.getFullYear();
+      const nextYear = creationYear + 1;
+      
+      // Tax extension: April 15 normally, October 15 with 6-month extension
+      const taxMonth = hasTaxExtension ? 9 : 3; // October (9) with extension, April (3) without
+      
+      await db.update(llcApplicationsTable)
+        .set({
+          irs1120DueDate: new Date(nextYear, taxMonth, 15),
+          irs5472DueDate: new Date(nextYear, taxMonth, 15),
+        })
+        .where(eq(llcApplicationsTable.id, appId));
+    }
+    
+    res.json({ 
+      success: true, 
+      hasTaxExtension
+    });
+  }));
+}
