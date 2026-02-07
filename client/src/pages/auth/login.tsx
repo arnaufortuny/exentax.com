@@ -279,9 +279,9 @@ export default function Login() {
                 <div className="space-y-0">
                   {infoFeatureKeys.map((feature, idx) => (
                     <div key={idx} data-testid={`info-feature-${idx}`}>
-                      {idx > 0 && <div className="border-t border-foreground/10 my-3" />}
-                      <p className="text-sm font-bold text-foreground leading-tight">{t(feature.titleKey)}</p>
-                      <p className="text-[11px] text-muted-foreground mt-1 leading-relaxed">{t(feature.descKey)}</p>
+                      {idx > 0 && <div className="border-t border-foreground/10 my-3.5" />}
+                      <p className="text-base font-bold text-foreground leading-tight">{t(feature.titleKey)}</p>
+                      <p className="text-xs text-muted-foreground mt-1 leading-relaxed">{t(feature.descKey)}</p>
                     </div>
                   ))}
                 </div>
