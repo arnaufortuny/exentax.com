@@ -22,6 +22,7 @@ import { insertLlcApplicationSchema } from "@shared/schema";
 import { useAuth } from "@/hooks/use-auth";
 import { StepProgress } from "@/components/ui/step-progress";
 import { useFormDraft } from "@/hooks/use-form-draft";
+import { PasswordStrength } from "@/components/ui/password-strength";
 
 const TOTAL_STEPS = 17; // Single company name (no alternatives), BOI and maintenance mandatory
 
@@ -232,10 +233,10 @@ export default function LlcFormation() {
       if (data.valid) {
         setDiscountInfo({ valid: true, discountAmount: data.discountAmount });
       } else {
-        setDiscountInfo({ valid: false, discountAmount: 0, message: data.message || "Código no válido" });
+        setDiscountInfo({ valid: false, discountAmount: 0, message: data.message || t("application.codeInvalid") });
       }
     } catch (error) {
-      setDiscountInfo({ valid: false, discountAmount: 0, message: "Error al validar el código" });
+      setDiscountInfo({ valid: false, discountAmount: 0, message: t("application.codeInvalid") });
     } finally {
       setIsValidatingDiscount(false);
     }
@@ -543,14 +544,14 @@ export default function LlcFormation() {
             orderPayload.discountAmount = discountInfo.discountAmount;
           }
           const res = await apiRequest("POST", "/api/llc/claim-order", orderPayload);
-          if (!res.ok) {
-            const errorData = await res.json();
-            setFormMessage({ type: 'error', text: "Ha habido un problema. " + errorData.message });
+          const result = await res.json();
+          if (result.success === false) {
+            setFormMessage({ type: 'error', text: t("application.account.errorGeneric") + ". " + (result.message || '') });
             return;
           }
-          setFormMessage({ type: 'success', text: "Cuenta creada. Ya casi terminamos" });
-        } catch (err) {
-          setFormMessage({ type: 'error', text: "No se pudo crear la cuenta. Inténtalo de nuevo" });
+          setFormMessage({ type: 'success', text: t("application.account.accountCreated") });
+        } catch (err: any) {
+          setFormMessage({ type: 'error', text: err.message || t("application.account.errorCreating") });
           return;
         }
       }
@@ -1157,8 +1158,8 @@ export default function LlcFormation() {
 
             {step === 14 && (
               <div key={"step-" + step} className="space-y-8 text-left">
-                <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight">Crea tu cuenta</h2>
-                <p className="text-sm text-muted-foreground">Para gestionar tu pedido necesitas una cuenta. Primero verifica tu email.</p>
+                <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight">{t("application.account.title")}</h2>
+                <p className="text-sm text-muted-foreground">{t("application.account.subtitle")}</p>
                 
                 {!isAuthenticated && (
                   <div className="space-y-6">
@@ -1179,18 +1180,20 @@ export default function LlcFormation() {
                             data-testid="button-send-otp"
                           >
                             {isSendingOtp ? <Loader2 className="w-5 h-5 animate-spin mr-2" /> : null}
-                            {isSendingOtp ? "Enviando..." : "Enviar código de verificación"}
+                            {isSendingOtp ? t("application.account.sendingOtp") : t("application.account.sendOtp")}
                           </Button>
                         ) : (
                           <div className="space-y-4">
                             <div className="bg-green-50 border border-green-200 rounded-xl p-4 text-center">
-                              <span className="text-2xl font-black text-green-600 block mb-2">✓</span>
-                              <p className="text-sm font-bold text-green-700">Código enviado a tu email</p>
-                              <p className="text-xs text-green-600">Revisa tu bandeja de entrada (y spam)</p>
+                              <span className="text-2xl font-black text-green-600 block mb-2">
+                                <Check className="w-6 h-6 mx-auto" />
+                              </span>
+                              <p className="text-sm font-bold text-green-700">{t("application.account.otpSent")}</p>
+                              <p className="text-xs text-green-600">{t("application.account.otpSentHint")}</p>
                             </div>
                             
                             <div>
-                              <label className="text-xs font-black text-primary tracking-widest block mb-2">Código de verificación</label>
+                              <label className="text-xs font-black text-primary tracking-widest block mb-2">{t("application.account.otpLabel")}</label>
                               <Input 
                                 type="text" 
                                 value={otpCode}
@@ -1209,7 +1212,7 @@ export default function LlcFormation() {
                               data-testid="button-verify-otp"
                             >
                               {isVerifyingOtp ? <Loader2 className="w-5 h-5 animate-spin mr-2" /> : null}
-                              {isVerifyingOtp ? "Verificando..." : "Verificar código"}
+                              {isVerifyingOtp ? t("application.account.verifyingOtp") : t("application.account.verifyOtp")}
                             </Button>
                             
                             <button 
@@ -1217,7 +1220,7 @@ export default function LlcFormation() {
                               onClick={() => { setIsOtpSent(false); setOtpCode(""); }}
                               className="text-xs text-accent underline w-full text-center"
                             >
-                              Reenviar código
+                              {t("application.account.resendOtp")}
                             </button>
                           </div>
                         )}
@@ -1228,24 +1231,27 @@ export default function LlcFormation() {
                     {isOtpVerified && (
                       <div className="space-y-4">
                         <div className="bg-green-50 border border-green-200 rounded-xl p-4 text-center mb-4">
-                          <span className="text-2xl font-black text-green-600 block mb-2">✓</span>
-                          <p className="text-sm font-bold text-green-700">Email verificado</p>
+                          <span className="text-2xl font-black text-green-600 block mb-2">
+                            <Check className="w-6 h-6 mx-auto" />
+                          </span>
+                          <p className="text-sm font-bold text-green-700">{t("application.account.emailVerified")}</p>
                         </div>
                         
                         <FormField control={form.control} name="password" render={({ field }) => (
                           <FormItem>
-                            <FormLabel className="text-xs font-black text-primary tracking-widest">Contraseña</FormLabel>
+                            <FormLabel className="text-xs font-black text-primary tracking-widest">{t("application.account.passwordLabel")}</FormLabel>
                             <FormControl>
-                              <Input {...field} type="password"  className="rounded-full p-6 border-border focus:border-accent" data-testid="input-password" />
+                              <Input {...field} type="password" className="rounded-full h-14 px-5 border-border focus:border-accent" data-testid="input-password" />
                             </FormControl>
+                            <PasswordStrength password={form.watch("password") || ""} className="mt-2" />
                             <FormMessage />
                           </FormItem>
                         )} />
                         <FormField control={form.control} name="confirmPassword" render={({ field }) => (
                           <FormItem>
-                            <FormLabel className="text-xs font-black text-primary tracking-widest">Confirmar Contraseña</FormLabel>
+                            <FormLabel className="text-xs font-black text-primary tracking-widest">{t("application.account.confirmPasswordLabel")}</FormLabel>
                             <FormControl>
-                              <Input {...field} type="password"  className="rounded-full p-6 border-border focus:border-accent" data-testid="input-confirm-password" />
+                              <Input {...field} type="password" className="rounded-full h-14 px-5 border-border focus:border-accent" data-testid="input-confirm-password" />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
@@ -1257,9 +1263,11 @@ export default function LlcFormation() {
                 
                 {isAuthenticated && (
                   <div className="bg-green-50 border border-green-200 rounded-2xl p-6 text-center">
-                    <span className="text-3xl font-black text-green-600 block mb-2">✓</span>
-                    <p className="text-sm font-black text-green-700">Ya tienes cuenta activa</p>
-                    <p className="text-xs text-green-600">Continúa con el siguiente paso</p>
+                    <span className="text-3xl font-black text-green-600 block mb-2">
+                      <Check className="w-8 h-8 mx-auto" />
+                    </span>
+                    <p className="text-sm font-black text-green-700">{t("application.account.alreadyAuthenticated")}</p>
+                    <p className="text-xs text-green-600">{t("application.account.alreadyAuthenticatedHint")}</p>
                   </div>
                 )}
                 

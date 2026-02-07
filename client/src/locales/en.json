@@ -864,6 +864,10 @@
       "disconnect": "Disconnect",
       "connected": "Google account connected",
       "disconnected": "Google account disconnected"
+    },
+    "accountDeactivated": {
+      "title": "Account deactivated",
+      "description": "Your account has been deactivated. Contact our support team for more information."
     }
   },
   "validation": {
@@ -1063,7 +1067,27 @@
     "sendCode": "Send code",
     "verify": "Verify",
     "uploadDocument": "Upload document",
-    "dragOrClick": "Drag and drop or click to upload"
+    "dragOrClick": "Drag and drop or click to upload",
+    "account": {
+      "title": "Create your account",
+      "subtitle": "To manage your order you need an account. First verify your email.",
+      "sendOtp": "Send verification code",
+      "sendingOtp": "Sending...",
+      "otpSent": "Code sent to your email",
+      "otpSentHint": "Check your inbox (and spam)",
+      "otpLabel": "Verification code",
+      "verifyOtp": "Verify code",
+      "verifyingOtp": "Verifying...",
+      "resendOtp": "Resend code",
+      "emailVerified": "Email verified",
+      "passwordLabel": "Password",
+      "confirmPasswordLabel": "Confirm password",
+      "alreadyAuthenticated": "You already have an active account",
+      "alreadyAuthenticatedHint": "Continue to the next step",
+      "errorCreating": "Could not create the account. Please try again",
+      "errorGeneric": "There was a problem",
+      "accountCreated": "Account created. Almost there"
+    }
   },
   "maintenance": {
     "title": "We take care of your",

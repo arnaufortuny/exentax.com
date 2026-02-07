@@ -864,6 +864,10 @@
       "disconnect": "Déconnecter",
       "connected": "Compte Google connecté",
       "disconnected": "Compte Google déconnecté"
+    },
+    "accountDeactivated": {
+      "title": "Compte désactivé",
+      "description": "Votre compte a été désactivé. Contactez notre équipe de support pour plus d'informations."
     }
   },
   "validation": {
@@ -1063,7 +1067,27 @@
     "sendCode": "Envoyer le code",
     "verify": "Vérifier",
     "uploadDocument": "Télécharger le document",
-    "dragOrClick": "Glissez-déposez ou cliquez pour télécharger"
+    "dragOrClick": "Glissez-déposez ou cliquez pour télécharger",
+    "account": {
+      "title": "Créez votre compte",
+      "subtitle": "Pour gérer votre commande, vous avez besoin d'un compte. Vérifiez d'abord votre email.",
+      "sendOtp": "Envoyer le code de vérification",
+      "sendingOtp": "Envoi en cours...",
+      "otpSent": "Code envoyé à votre email",
+      "otpSentHint": "Vérifiez votre boîte de réception (et spam)",
+      "otpLabel": "Code de vérification",
+      "verifyOtp": "Vérifier le code",
+      "verifyingOtp": "Vérification...",
+      "resendOtp": "Renvoyer le code",
+      "emailVerified": "Email vérifié",
+      "passwordLabel": "Mot de passe",
+      "confirmPasswordLabel": "Confirmer le mot de passe",
+      "alreadyAuthenticated": "Vous avez déjà un compte actif",
+      "alreadyAuthenticatedHint": "Continuez avec l'étape suivante",
+      "errorCreating": "Impossible de créer le compte. Veuillez réessayer",
+      "errorGeneric": "Il y a eu un problème",
+      "accountCreated": "Compte créé. Presque terminé"
+    }
   },
   "maintenance": {
     "title": "Nous nous occupons de votre",

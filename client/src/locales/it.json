@@ -864,6 +864,10 @@
       "disconnect": "Scollega",
       "connected": "Account Google collegato",
       "disconnected": "Account Google scollegato"
+    },
+    "accountDeactivated": {
+      "title": "Account disattivato",
+      "description": "Il tuo account è stato disattivato. Contatta il nostro team di supporto per ulteriori informazioni."
     }
   },
   "validation": {
@@ -1063,7 +1067,27 @@
     "sendCode": "Invia codice",
     "verify": "Verifica",
     "uploadDocument": "Carica documento",
-    "dragOrClick": "Trascina o fai clic per caricare"
+    "dragOrClick": "Trascina o fai clic per caricare",
+    "account": {
+      "title": "Crea il tuo account",
+      "subtitle": "Per gestire il tuo ordine hai bisogno di un account. Prima verifica la tua email.",
+      "sendOtp": "Invia codice di verifica",
+      "sendingOtp": "Invio in corso...",
+      "otpSent": "Codice inviato alla tua email",
+      "otpSentHint": "Controlla la tua casella di posta (e spam)",
+      "otpLabel": "Codice di verifica",
+      "verifyOtp": "Verifica codice",
+      "verifyingOtp": "Verifica in corso...",
+      "resendOtp": "Rinvia codice",
+      "emailVerified": "Email verificata",
+      "passwordLabel": "Password",
+      "confirmPasswordLabel": "Conferma password",
+      "alreadyAuthenticated": "Hai già un account attivo",
+      "alreadyAuthenticatedHint": "Continua con il passo successivo",
+      "errorCreating": "Impossibile creare l'account. Riprova",
+      "errorGeneric": "Si è verificato un problema",
+      "accountCreated": "Account creato. Ci siamo quasi"
+    }
   },
   "maintenance": {
     "title": "Ci prendiamo cura della tua",

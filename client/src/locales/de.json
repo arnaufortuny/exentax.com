@@ -864,6 +864,10 @@
       "disconnect": "Trennen",
       "connected": "Google-Konto verbunden",
       "disconnected": "Google-Konto getrennt"
+    },
+    "accountDeactivated": {
+      "title": "Konto deaktiviert",
+      "description": "Dein Konto wurde deaktiviert. Kontaktiere unser Support-Team für weitere Informationen."
     }
   },
   "validation": {
@@ -1063,7 +1067,27 @@
     "sendCode": "Code senden",
     "verify": "Bestätigen",
     "uploadDocument": "Dokument hochladen",
-    "dragOrClick": "Ziehen und ablegen oder klicken zum Hochladen"
+    "dragOrClick": "Ziehen und ablegen oder klicken zum Hochladen",
+    "account": {
+      "title": "Erstelle dein Konto",
+      "subtitle": "Um deine Bestellung zu verwalten, brauchst du ein Konto. Bestätige zuerst deine E-Mail.",
+      "sendOtp": "Bestätigungscode senden",
+      "sendingOtp": "Senden...",
+      "otpSent": "Code an deine E-Mail gesendet",
+      "otpSentHint": "Prüfe deinen Posteingang (und Spam)",
+      "otpLabel": "Bestätigungscode",
+      "verifyOtp": "Code bestätigen",
+      "verifyingOtp": "Bestätigen...",
+      "resendOtp": "Code erneut senden",
+      "emailVerified": "E-Mail bestätigt",
+      "passwordLabel": "Passwort",
+      "confirmPasswordLabel": "Passwort bestätigen",
+      "alreadyAuthenticated": "Du hast bereits ein aktives Konto",
+      "alreadyAuthenticatedHint": "Fahre mit dem nächsten Schritt fort",
+      "errorCreating": "Konto konnte nicht erstellt werden. Bitte versuche es erneut",
+      "errorGeneric": "Es gab ein Problem",
+      "accountCreated": "Konto erstellt. Fast geschafft"
+    }
   },
   "maintenance": {
     "title": "Wir kümmern uns um Ihre",

@@ -14,6 +14,8 @@ I want to be communicated with in a clear and concise manner. I prefer explanati
 - ONLY touch what is explicitly asked — do not modify other sections, components, or spacing unless requested
 
 ## Recent Changes
+- **2026-02-07:** LLC form account creation (step 14) — replaced all hardcoded Spanish strings with i18n translation keys, added PasswordStrength indicator, fixed password field sizing to match button height, fixed error handling in claim-order flow, added `application.account` (18 keys) and `auth.accountDeactivated` translations across all 7 languages
+- **2026-02-07:** FAQ answer formatting — removed `**` markdown markers from taxes answer (a6) across all 7 languages, added `whitespace-pre-line` for proper numbered list display
 - **2026-02-06:** Bank account details updated to Thread Bank NA (routing: 064209588, account: 200002330558) in PDF invoice generator
 - **2026-02-06:** Fixed "Compara aquí" link on LLC formation page — now navigates to state comparison section (#state-comparison) instead of tax comparator (#comparador)
 - **2026-02-06:** Animation optimizations — CSS animations slowed from 0.2s to 0.4s, Framer Motion transitions from 0.35s to 0.6s, reduced y-offsets from 15px to 10px for smoother, more premium feel

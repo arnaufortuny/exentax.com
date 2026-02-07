@@ -864,6 +864,10 @@
       "disconnect": "Desvincular",
       "connected": "Compte de Google vinculat",
       "disconnected": "Compte de Google desvinculat"
+    },
+    "accountDeactivated": {
+      "title": "Cuenta desactivada",
+      "description": "Tu cuenta ha sido desactivada. Contacta con nuestro equipo de soporte para más información."
     }
   },
   "validation": {
@@ -1063,7 +1067,27 @@
     "sendCode": "Enviar codi",
     "verify": "Verificar",
     "uploadDocument": "Pujar document",
-    "dragOrClick": "Arrossega o fes clic per pujar"
+    "dragOrClick": "Arrossega o fes clic per pujar",
+    "account": {
+      "title": "Crea tu cuenta",
+      "subtitle": "Para gestionar tu pedido necesitas una cuenta. Primero verifica tu email.",
+      "sendOtp": "Enviar código de verificación",
+      "sendingOtp": "Enviando...",
+      "otpSent": "Código enviado a tu email",
+      "otpSentHint": "Revisa tu bandeja de entrada (y spam)",
+      "otpLabel": "Código de verificación",
+      "verifyOtp": "Verificar código",
+      "verifyingOtp": "Verificando...",
+      "resendOtp": "Reenviar código",
+      "emailVerified": "Email verificado",
+      "passwordLabel": "Contraseña",
+      "confirmPasswordLabel": "Confirmar contraseña",
+      "alreadyAuthenticated": "Ya tienes cuenta activa",
+      "alreadyAuthenticatedHint": "Continúa con el siguiente paso",
+      "errorCreating": "No se pudo crear la cuenta. Inténtalo de nuevo",
+      "errorGeneric": "Ha habido un problema",
+      "accountCreated": "Cuenta creada. Ya casi terminamos"
+    }
   },
   "maintenance": {
     "title": "Cuidem la teva",
