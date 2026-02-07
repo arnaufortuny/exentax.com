@@ -138,16 +138,6 @@ export default function Servicios() {
   const deFeatures = [...packFeatures.slice(0, -1), t("services.formation.de")];
   const maintenanceFeatures = t("services.maintenancePack.includes", { returnObjects: true }) as string[];
 
-  const heroFeatures = [
-    t("hero.features.fast"),
-    t("hero.features.complete"),
-    t("hero.features.noVat"),
-    t("hero.features.transparent"),
-    t("hero.features.close"),
-    t("hero.features.bank"),
-    t("hero.features.card")
-  ];
-
   const whatWeDoItems = [
     { key: "formation", icon: FormationIcon },
     { key: "ein", icon: EinIcon },
@@ -198,19 +188,29 @@ export default function Servicios() {
               </motion.div>
               
               <motion.div 
-                className="hidden sm:flex flex-wrap justify-center gap-3 sm:gap-4 max-w-4xl px-4 mb-8 will-change-[transform,opacity]"
+                className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 mb-8 will-change-[transform,opacity]"
                 initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={transitions.normal}
               >
-                {heroFeatures.map((text, i) => (
-                  <div 
-                    key={i} 
-                    className="bg-white dark:bg-card text-primary font-black text-sm px-4 py-2 rounded-full border border-primary shadow-sm"
-                  >
-                    {text}
-                  </div>
-                ))}
+                <Button
+                  onClick={() => window.location.href = '/crear-llc'}
+                  className="bg-accent hover:bg-accent/90 text-white font-black text-sm sm:text-base px-6 sm:px-8 py-3 rounded-full"
+                  data-testid="button-hero-form-llc"
+                >
+                  {t("services.heroCtaPrimary")}
+                </Button>
+                <Button
+                  variant="outline"
+                  onClick={() => {
+                    const el = document.getElementById('comparador');
+                    if (el) el.scrollIntoView({ behavior: 'smooth' });
+                  }}
+                  className="font-black text-sm sm:text-base px-6 sm:px-8 py-3 rounded-full border-2"
+                  data-testid="button-hero-discover"
+                >
+                  {t("services.heroCtaSecondary")}
+                </Button>
               </motion.div>
               
               {/* Trustpilot Section */}
