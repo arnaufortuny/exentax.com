@@ -203,12 +203,21 @@ export default function Dashboard() {
           throw new Error(t("validation.ageMinimum"));
         }
       }
-      const res = await apiRequest("PATCH", "/api/user/profile", data);
+      const token = await getCsrfToken();
+      const headers: Record<string, string> = { "Content-Type": "application/json" };
+      if (token) headers["X-CSRF-Token"] = token;
+      const res = await fetch("/api/user/profile", {
+        method: "PATCH",
+        headers,
+        body: JSON.stringify(data),
+        credentials: "include",
+      });
       if (!res.ok) {
         const err = await res.json().catch(() => ({}));
         if (err.code === "OTP_REQUIRED") {
           setPendingProfileData(err.pendingChanges || {});
           setProfileOtpStep('otp');
+          queryClient.invalidateQueries({ queryKey: ["/api/auth/user"] });
           setFormMessage({ type: 'info', text: t("profile.otpSentTitle", "Action required") + ". " + t("profile.otpSentDesc", "A verification code has been sent to your email to confirm identity changes.") });
           throw new Error("OTP_REQUIRED_SILENT");
         }
