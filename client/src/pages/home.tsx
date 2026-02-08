@@ -503,7 +503,7 @@ function HomeFAQ() {
       <div className="w-full max-w-3xl mx-auto px-5 sm:px-8">
         <div className="text-center mb-10 sm:mb-14 flex flex-col items-center justify-center">
           <h2
-            className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-center leading-[1.1] max-w-3xl uppercase"
+            className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-center leading-[1.1] max-w-3xl uppercase"
             style={{ fontWeight: 900 }}
           >
             <span className="text-foreground">{t("homeFaq.titlePart1")}</span><br/>
