@@ -1262,7 +1262,7 @@ export default function Dashboard() {
 
         {/* Mobile Navigation - Horizontal scroll buttons (ABOVE welcome on mobile) */}
         <div className="flex flex-col gap-2 mb-4 lg:hidden">
-          <div className="flex overflow-x-auto pb-3 gap-2 no-scrollbar -mx-4 px-4" style={{ WebkitOverflowScrolling: 'touch' }}>
+          <div className="flex overflow-x-auto pb-3 gap-2 no-scrollbar mobile-tab-bar -mx-4 px-4">
             {isAdmin ? (
               adminMenuItems.map((item: any) => {
                 const isActive = activeTab === 'admin' && adminSubTab === item.subTab;
@@ -1272,10 +1272,10 @@ export default function Dashboard() {
                     variant={isActive ? "default" : "ghost"}
                     onClick={() => { setActiveTab('admin' as Tab); setAdminSubTab(item.subTab); }}
                     size="sm"
-                    className={`flex items-center gap-1.5 rounded-full font-black text-[11px] sm:text-xs tracking-normal whitespace-nowrap shrink-0 h-10 px-4 transition-colors ${
+                    className={`flex items-center gap-1.5 rounded-full font-black text-[11px] sm:text-xs tracking-normal whitespace-nowrap shrink-0 h-10 px-4 transition-all duration-200 animate-press ${
                       isActive 
-                      ? 'bg-accent text-accent-foreground shadow-md' 
-                      : 'bg-card text-muted-foreground hover:text-foreground hover:bg-secondary'
+                      ? 'bg-accent text-accent-foreground shadow-md scale-[1.02]' 
+                      : 'bg-card text-muted-foreground'
                     }`}
                     data-testid={`button-tab-${item.id}`}
                   >
@@ -1292,10 +1292,10 @@ export default function Dashboard() {
                     variant={activeTab === item.id ? "default" : "ghost"}
                     onClick={() => setActiveTab(item.id as Tab)}
                     size="sm"
-                    className={`flex items-center gap-1.5 rounded-full font-black text-[11px] sm:text-xs tracking-normal whitespace-nowrap shrink-0 h-10 px-4 transition-colors ${
+                    className={`flex items-center gap-1.5 rounded-full font-black text-[11px] sm:text-xs tracking-normal whitespace-nowrap shrink-0 h-10 px-4 transition-all duration-200 animate-press ${
                       activeTab === item.id 
-                      ? 'bg-accent text-accent-foreground shadow-md' 
-                      : 'bg-card text-muted-foreground hover:text-foreground hover:bg-secondary'
+                      ? 'bg-accent text-accent-foreground shadow-md scale-[1.02]' 
+                      : 'bg-card text-muted-foreground'
                     }`}
                     data-testid={`button-tab-${item.id}`}
                     {...('tour' in item && item.tour ? { 'data-tour': item.tour } : {})}
@@ -1365,7 +1365,7 @@ export default function Dashboard() {
         </header>
 
         {/* Main Content Area */}
-        <div>
+        <div key={activeTab} className="animate-tab-content">
             {formMessage && (
               <div className={`mb-4 p-3 rounded-xl text-center text-sm font-medium ${
                 formMessage.type === 'error' 

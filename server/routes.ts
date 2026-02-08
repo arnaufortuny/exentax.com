@@ -202,7 +202,11 @@ export async function registerRoutes(
   registerAccountingRoutes(app);
 
   // Seed Data
-  await seedDatabase();
+  try {
+    await seedDatabase();
+  } catch (e) {
+    console.error("Database seeding error:", e);
+  }
 
   return httpServer;
 }
