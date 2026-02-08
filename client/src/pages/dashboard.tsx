@@ -1258,46 +1258,10 @@ export default function Dashboard() {
 
         {/* Main content area */}
         <div className="flex-1 min-w-0 overflow-y-auto">
-      <main className={`${activeTab === 'services' ? 'pt-16 sm:pt-20' : 'pt-6 sm:pt-10'} pb-20 px-4 md:px-8 max-w-7xl mx-auto lg:mx-0 lg:max-w-none lg:px-10`}>
-        <header className={`${activeTab === 'services' ? 'mb-6 md:mb-10' : 'mb-2 md:mb-4'} animate-fade-in-up`}>
-          {activeTab === 'services' && (
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 md:gap-6">
-            <div>
-              <h1 className="text-2xl sm:text-3xl md:text-4xl font-black text-foreground tracking-tight leading-tight">
-                {t('dashboard.welcome', { name: (user?.firstName || t('dashboard.defaultName', 'Client')).charAt(0).toUpperCase() + (user?.firstName || t('dashboard.defaultName', 'Client')).slice(1).toLowerCase() })}
-              </h1>
-              <p className="text-muted-foreground text-base md:text-lg mt-1 md:mt-2">
-                {t('dashboard.subtitle')}
-              </p>
-            </div>
-          </div>
-          )}
+      <main className={`${activeTab === 'services' ? 'pt-6 sm:pt-8 lg:pt-16 xl:pt-20' : 'pt-6 sm:pt-10'} pb-20 px-4 md:px-8 max-w-7xl mx-auto lg:mx-0 lg:max-w-none lg:px-10`}>
 
-          {!user?.emailVerified && (
-            <Card className="mt-4 p-4 rounded-2xl border-2 border-orange-200 bg-orange-50 dark:bg-orange-900/20 dark:border-orange-800">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-orange-100 dark:bg-orange-900/40 flex items-center justify-center shrink-0">
-                  <Mail className="w-5 h-5 text-orange-600" />
-                </div>
-                <div className="flex-1 min-w-0">
-                  <p className="font-black text-sm text-orange-800 dark:text-orange-300">{t('dashboard.emailVerification.title')}</p>
-                  <p className="text-xs text-orange-600 dark:text-orange-400">{t('dashboard.emailVerification.description')}</p>
-                </div>
-                <Button
-                  size="sm"
-                  onClick={() => setShowEmailVerification(true)}
-                  className="shrink-0 bg-orange-600 hover:bg-orange-700 text-white font-black rounded-full h-9 px-4"
-                  data-testid="button-verify-email-header"
-                >
-                  {t('dashboard.emailVerification.button')}
-                </Button>
-              </div>
-            </Card>
-          )}
-        </header>
-
-        {/* Mobile Navigation - Horizontal scroll buttons */}
-        <div className="flex flex-col gap-2 mb-6 lg:hidden">
+        {/* Mobile Navigation - Horizontal scroll buttons (ABOVE welcome on mobile) */}
+        <div className="flex flex-col gap-2 mb-4 lg:hidden">
           <div className="flex overflow-x-auto pb-3 gap-2 no-scrollbar -mx-4 px-4" style={{ WebkitOverflowScrolling: 'touch' }}>
             {isAdmin ? (
               adminMenuItems.map((item: any) => {
@@ -1362,6 +1326,43 @@ export default function Dashboard() {
             </div>
           )}
         </div>
+
+        <header className={`${activeTab === 'services' ? 'mb-6 md:mb-10' : 'mb-2 md:mb-4'} animate-fade-in-up`}>
+          {activeTab === 'services' && (
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 md:gap-6">
+            <div>
+              <h1 className="text-2xl sm:text-3xl md:text-4xl font-black text-foreground tracking-tight leading-tight">
+                {t('dashboard.welcome', { name: (user?.firstName || t('dashboard.defaultName', 'Client')).charAt(0).toUpperCase() + (user?.firstName || t('dashboard.defaultName', 'Client')).slice(1).toLowerCase() })}
+              </h1>
+              <p className="text-muted-foreground text-base md:text-lg mt-1 md:mt-2">
+                {t('dashboard.subtitle')}
+              </p>
+            </div>
+          </div>
+          )}
+
+          {!user?.emailVerified && (
+            <Card className="mt-4 p-4 rounded-2xl border-2 border-orange-200 bg-orange-50 dark:bg-orange-900/20 dark:border-orange-800">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-orange-100 dark:bg-orange-900/40 flex items-center justify-center shrink-0">
+                  <Mail className="w-5 h-5 text-orange-600" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="font-black text-sm text-orange-800 dark:text-orange-300">{t('dashboard.emailVerification.title')}</p>
+                  <p className="text-xs text-orange-600 dark:text-orange-400">{t('dashboard.emailVerification.description')}</p>
+                </div>
+                <Button
+                  size="sm"
+                  onClick={() => setShowEmailVerification(true)}
+                  className="shrink-0 bg-orange-600 hover:bg-orange-700 text-white font-black rounded-full h-9 px-4"
+                  data-testid="button-verify-email-header"
+                >
+                  {t('dashboard.emailVerification.button')}
+                </Button>
+              </div>
+            </Card>
+          )}
+        </header>
 
         {/* Main Content Area */}
         <div>
