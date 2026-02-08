@@ -502,48 +502,28 @@ function HomeFAQ() {
     <section className="py-16 sm:py-20 bg-background">
       <div className="w-full max-w-3xl mx-auto px-5 sm:px-8">
         <div className="text-center mb-10 sm:mb-14 flex flex-col items-center justify-center">
-          <motion.h2
-            className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-center leading-[1.1] max-w-3xl will-change-[transform,opacity]"
+          <h2
+            className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-center leading-[1.1] max-w-3xl uppercase"
             style={{ fontWeight: 900 }}
-            variants={fadeInUp}
-            initial="hidden"
-            whileInView="visible"
-            viewport={viewportOnce}
           >
             <span className="text-foreground">{t("homeFaq.titlePart1")}</span><br/>
             <span className="text-accent">{t("homeFaq.titlePart2")}</span>
-          </motion.h2>
-          <motion.p
-            className="text-base sm:text-lg text-muted-foreground mt-4 text-center max-w-2xl will-change-[transform,opacity]"
-            variants={fadeInUp}
-            initial="hidden"
-            whileInView="visible"
-            viewport={viewportOnce}
-          >
+          </h2>
+          <p className="text-base sm:text-lg text-muted-foreground mt-4 text-center max-w-2xl">
             {t("homeFaq.subtitle")}
-          </motion.p>
-          <motion.div
-            className="w-24 h-1 bg-accent mt-6 rounded-full will-change-transform"
-            variants={lineExpand}
-            initial="hidden"
-            whileInView="visible"
-            viewport={viewportOnce}
-          />
+          </p>
+          <div className="w-24 h-1 bg-accent mt-6 rounded-full" />
         </div>
 
         <div className="grid gap-2 sm:gap-3">
           {faqKeys.map((key, index) => (
-            <motion.div
+            <div
               key={key}
               className={`group transition-all duration-200 border-2 rounded-2xl sm:rounded-3xl overflow-hidden ${
                 openIndex === index
                   ? "border-accent bg-accent/[0.03]"
                   : "border-primary/5 hover:border-accent/30 bg-white dark:bg-card"
               }`}
-              variants={fadeInUp}
-              initial="hidden"
-              whileInView="visible"
-              viewport={viewportOnce}
               data-testid={`faq-item-home-${key}`}
             >
               <button
@@ -565,17 +545,11 @@ function HomeFAQ() {
                   {t(`homeFaq.items.${key}.answer`)}
                 </div>
               )}
-            </motion.div>
+            </div>
           ))}
         </div>
 
-        <motion.div
-          className="mt-12 text-center flex flex-col items-center"
-          variants={fadeInUp}
-          initial="hidden"
-          whileInView="visible"
-          viewport={viewportOnce}
-        >
+        <div className="mt-12 text-center flex flex-col items-center">
           <p className="text-lg sm:text-xl font-black mb-5 uppercase">
             <span className="text-accent">{t("homeFaq.ctaPart1")}</span>{" "}
             <span className="text-foreground">{t("homeFaq.ctaPart2")}</span>{" "}
@@ -598,7 +572,7 @@ function HomeFAQ() {
               {t("homeFaq.ctaButton")} →
             </a>
           </Button>
-        </motion.div>
+        </div>
       </div>
     </section>
   );

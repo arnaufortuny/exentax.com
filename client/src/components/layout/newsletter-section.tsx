@@ -3,6 +3,7 @@ import { Send, Loader2 } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useTranslation } from "react-i18next";
+import { getCsrfToken } from "@/lib/queryClient";
 
 import { useAuth } from "@/hooks/use-auth";
 
@@ -32,11 +33,26 @@ export function NewsletterSection() {
     setFormMessage(null);
     setLoading(true);
     try {
-      const response = await fetch("/api/newsletter/subscribe", {
+      let token = await getCsrfToken();
+      let response = await fetch("/api/newsletter/subscribe", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", "X-CSRF-Token": token },
         body: JSON.stringify({ email }),
+        credentials: "include",
       });
+
+      if (response.status === 403) {
+        const body = await response.json().catch(() => ({}));
+        if (body.message && body.message.includes('CSRF')) {
+          token = await getCsrfToken(true);
+          response = await fetch("/api/newsletter/subscribe", {
+            method: "POST",
+            headers: { "Content-Type": "application/json", "X-CSRF-Token": token },
+            body: JSON.stringify({ email }),
+            credentials: "include",
+          });
+        }
+      }
 
       const data = await response.json();
 

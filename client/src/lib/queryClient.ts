@@ -21,8 +21,9 @@ const CACHE_TTL = 5000;
 
 let csrfToken: string | null = null;
 
-export async function getCsrfToken(): Promise<string> {
-  if (csrfToken) return csrfToken;
+export async function getCsrfToken(forceRefresh = false): Promise<string> {
+  if (csrfToken && !forceRefresh) return csrfToken;
+  csrfToken = null;
   try {
     const res = await fetch('/api/csrf-token', { credentials: 'include' });
     if (res.ok) {
@@ -69,14 +70,32 @@ export async function apiRequest(
   });
 
   if (res.status === 403) {
-    csrfToken = null;
     try {
       const cloned = res.clone();
       const body = await cloned.json();
       if (body.code === 'ACCOUNT_UNDER_REVIEW' || body.code === 'ACCOUNT_DEACTIVATED') {
         queryClient.invalidateQueries({ queryKey: ["/api/auth/user"] });
+      } else if (body.message && body.message.includes('CSRF')) {
+        csrfToken = null;
+        const newToken = await getCsrfToken(true);
+        if (newToken) {
+          const retryHeaders: Record<string, string> = {};
+          if (data) retryHeaders["Content-Type"] = "application/json";
+          retryHeaders["X-CSRF-Token"] = newToken;
+          const retryRes = await fetch(url, {
+            method,
+            headers: retryHeaders,
+            body: data ? JSON.stringify(data) : undefined,
+            credentials: "include",
+          });
+          if (!retryRes.ok) {
+            await throwIfResNotOk(retryRes);
+          }
+          return retryRes;
+        }
       }
     } catch {}
+    csrfToken = null;
   }
 
   await throwIfResNotOk(res);
