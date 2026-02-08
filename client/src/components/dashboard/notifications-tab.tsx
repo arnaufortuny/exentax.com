@@ -54,7 +54,7 @@ export function NotificationsTab({
     <div key="notifications" className="space-y-6">
       <div className="mb-4 md:mb-6">
         <h2 className="text-xl md:text-2xl font-black text-foreground tracking-tight">{t("dashboard.notifications.title")}</h2>
-        <p className="text-base text-muted-foreground mt-1">{t("dashboard.tracking.subtitle")}</p>
+        <p className="text-base text-muted-foreground mt-1">{t("dashboard.notifications.subtitle")}</p>
       </div>
       {notificationsLoading ? (
         <div className="space-y-3">
@@ -78,7 +78,7 @@ export function NotificationsTab({
             <Bell className="w-12 h-12 md:w-16 md:h-16 text-accent" />
             <div>
               <h3 className="text-base md:text-lg font-black text-foreground mb-1 md:mb-2 text-center tracking-tight">{t("dashboard.notifications.empty")}</h3>
-              <p className="text-xs md:text-sm text-muted-foreground text-center">{t("dashboard.tracking.subtitle")}</p>
+              <p className="text-xs md:text-sm text-muted-foreground text-center">{t("dashboard.notifications.subtitle")}</p>
             </div>
           </div>
         </Card>
