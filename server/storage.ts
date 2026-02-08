@@ -218,13 +218,22 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getMessagesByUserId(userId: string): Promise<any[]> {
-    return await db.query.messages.findMany({
+    const messages = await db.query.messages.findMany({
       where: eq(messagesTable.userId, userId),
       orderBy: desc(messagesTable.createdAt),
       with: {
         replies: true
       }
     });
+    return messages.map(msg => ({
+      ...msg,
+      content: msg.content
+        ?.replace(/\n*Archivo disponible en:.*$/gm, '')
+        ?.replace(/\n*Archivo:.*\.(png|jpg|jpeg|pdf)/gim, '')
+        ?.replace(/\/uploads\/[^\s]*/g, '')
+        ?.trim() || msg.content,
+      encryptedContent: undefined
+    }));
   }
 
   async getAllMessages(): Promise<any[]> {

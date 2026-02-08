@@ -122,7 +122,6 @@ export function registerUserProfileRoutes(app: Express) {
         index === self.findIndex(d => d.id === doc.id)
       );
       
-      // Fetch uploader info for each doc
       const docsWithUploader = await Promise.all(uniqueDocs.map(async (doc) => {
         let uploader = null;
         if (doc.uploadedBy) {
@@ -134,7 +133,8 @@ export function registerUserProfileRoutes(app: Express) {
           }).from(usersTable).where(eq(usersTable.id, doc.uploadedBy)).limit(1);
           uploader = uploaderUser || null;
         }
-        return { ...doc, uploader };
+        const { encryptionIv, fileHash, ...safeFields } = doc;
+        return { ...safeFields, fileUrl: doc.fileUrl ? `/api/user/documents/${doc.id}/download` : null, uploader };
       }));
       
       res.json(docsWithUploader);
@@ -180,6 +180,59 @@ export function registerUserProfileRoutes(app: Express) {
   });
 
 
+  app.get("/api/user/documents/:id/download", isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.session.userId;
+      const docId = parseInt(req.params.id);
+      
+      const [doc] = await db.select().from(applicationDocumentsTable)
+        .where(eq(applicationDocumentsTable.id, docId)).limit(1);
+      
+      if (!doc) {
+        return res.status(404).json({ message: "Document not found" });
+      }
+      
+      let hasAccess = req.session.isAdmin || req.session.isSupport;
+      
+      if (!hasAccess && doc.orderId) {
+        const [order] = await db.select().from(ordersTable)
+          .where(eq(ordersTable.id, doc.orderId)).limit(1);
+        if (order && order.userId === userId) {
+          hasAccess = true;
+        }
+      }
+      
+      if (!hasAccess && doc.userId === userId) {
+        hasAccess = true;
+      }
+      
+      if (!hasAccess) {
+        return res.status(403).json({ message: "Access denied" });
+      }
+      
+      if (!doc.fileUrl) {
+        return res.status(404).json({ message: "File not available" });
+      }
+      
+      const path = await import('path');
+      const fs = await import('fs');
+      const filePath = path.join(process.cwd(), doc.fileUrl.replace(/^\//, ''));
+      
+      if (!fs.existsSync(filePath)) {
+        return res.status(404).json({ message: "File not found" });
+      }
+      
+      res.setHeader('Content-Disposition', `attachment; filename="${doc.fileName}"`);
+      res.setHeader('X-Content-Type-Options', 'nosniff');
+      res.setHeader('Cache-Control', 'private, no-cache');
+      
+      res.sendFile(filePath);
+    } catch (error) {
+      console.error("Error downloading document:", error);
+      res.status(500).json({ message: "Error downloading file" });
+    }
+  });
+
   // Client document upload
   app.post("/api/documents/upload", isAuthenticated, async (req: any, res) => {
     try {
@@ -208,7 +261,8 @@ export function registerUserProfileRoutes(app: Express) {
         "Tipo": documentType
       });
 
-      res.json(doc);
+      const { fileUrl: _url, encryptionIv: _iv, fileHash: _hash, ...safeDoc } = doc;
+      res.json(safeDoc);
     } catch (error) {
       res.status(500).json({ message: "Error uploading document" });
     }

@@ -449,18 +449,18 @@ export function registerLlcRoutes(app: Express) {
         const user = userData[0];
         
         if (user) {
-          // Create message in admin panel as support ticket
           const { encrypt } = await import("../utils/encryption");
-          const notesText = documentType === 'other' && notes ? `\n\nNotas del cliente: ${notes}` : '';
-          const messageContent = `El cliente ha subido un nuevo documento.\n\nTipo: ${docTypeLabel}\nArchivo: ${fileName}${notesText}\n\nArchivo disponible en: ${doc[0].fileUrl}`;
+          const notesText = documentType === 'other' && notes ? `\nNotas: ${notes}` : '';
+          const userVisibleContent = `Tu documento ha sido recibido correctamente.\n\nTipo: ${docTypeLabel}${notesText}\n\nNuestro equipo lo revisará pronto. Recibirás una notificación cuando sea procesado.`;
+          const adminInternalContent = `[ADMIN] Archivo: ${fileName} | Ruta: ${doc[0].fileUrl}`;
           
           await db.insert(messagesTable).values({
             userId,
             name: `${user.firstName || ''} ${user.lastName || ''}`.trim() || 'Cliente',
             email: user.email || 'sin-email@cliente.com',
             subject: `Documento Recibido: ${docTypeLabel}`,
-            content: messageContent,
-            encryptedContent: encrypt(messageContent),
+            content: userVisibleContent,
+            encryptedContent: encrypt(adminInternalContent),
             type: 'support',
             status: 'unread',
             messageId: ticketId
@@ -477,7 +477,8 @@ export function registerLlcRoutes(app: Express) {
             ));
         }
 
-        res.json({ success: true, document: doc[0], ticketId });
+        const safeDoc = { id: doc[0].id, documentType: doc[0].documentType, reviewStatus: doc[0].reviewStatus, uploadedAt: doc[0].uploadedAt };
+        res.json({ success: true, document: safeDoc, ticketId });
       });
 
       req.pipe(bb);
