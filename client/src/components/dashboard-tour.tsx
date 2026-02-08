@@ -74,6 +74,8 @@ export function DashboardTour({ onComplete }: DashboardTourProps) {
     const tourCompleted = localStorage.getItem('dashboard-tour-v4');
     if (tourCompleted) return;
 
+    if (window.innerWidth < 768) return;
+
     const timer = setTimeout(() => {
       setIsVisible(true);
     }, 800);
