@@ -234,7 +234,6 @@ export default function ForgotPassword() {
                       className="h-14 text-center text-2xl md:text-3xl tracking-[0.5em] font-black rounded-full border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-[#1A1A1A]"
                       inputMode="numeric"
                       autoComplete="one-time-code"
-                      placeholder="------"
                       data-testid="input-otp"
                     />
                   </div>

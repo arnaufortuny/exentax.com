@@ -183,7 +183,6 @@ export function ProfileTab({
                 className="text-center text-lg tracking-[0.3em] font-mono bg-white dark:bg-card"
                 maxLength={6}
                 inputMode="numeric"
-                placeholder="------"
                 data-testid="input-profile-otp" 
               />
             </div>

@@ -220,7 +220,6 @@ export default function Login() {
                       type="text"
                       value={securityOtp}
                       onChange={(e) => setSecurityOtp(e.target.value.replace(/\D/g, "").slice(0, 6))}
-                      placeholder="000000"
                       maxLength={6}
                       className="h-12 text-center text-xl tracking-[0.5em] font-bold rounded-full"
                       data-testid="input-security-otp"

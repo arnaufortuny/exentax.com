@@ -1003,7 +1003,6 @@ export default function Dashboard() {
                       className="rounded-full text-center text-xl font-black border-orange-200 focus:border-accent tracking-[0.4em] h-12 mb-3"
                       maxLength={6}
                       inputMode="numeric"
-                      placeholder="------"
                       data-testid="input-pending-verification-code"
                     />
                     <Button
@@ -1962,7 +1961,6 @@ export default function Dashboard() {
                             maxLength={6}
                             inputMode="numeric"
                             autoComplete="one-time-code"
-                            placeholder="000000"
                             data-testid="input-email-verification-code"
                           />
                         </div>
