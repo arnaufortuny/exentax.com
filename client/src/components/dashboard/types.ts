@@ -1,4 +1,4 @@
-export type Tab = 'services' | 'profile' | 'payments' | 'documents' | 'messages' | 'notifications' | 'admin' | 'calendar' | 'tools' | 'consultations';
+export type Tab = 'services' | 'profile' | 'payments' | 'documents' | 'messages' | 'notifications' | 'admin' | 'calendar' | 'tools' | 'consultations' | 'wallet';
 
 export interface ConsultationType {
   id: number;
