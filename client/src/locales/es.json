@@ -89,7 +89,8 @@
     "expiresIn": "Expira",
     "cancelChanges": "Cancelar cambios",
     "confirmChanges": "Confirmar cambios",
-    "resendCode": "Reenviar código"
+    "resendCode": "Reenviar código",
+    "changeEmailContact": "Si deseas cambiar tu email, contáctanos."
   },
   "notFound": {
     "title": "Página No Encontrada",

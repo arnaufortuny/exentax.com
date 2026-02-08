@@ -89,7 +89,8 @@
     "expiresIn": "Expira",
     "cancelChanges": "Cancel·lar canvis",
     "confirmChanges": "Confirmar canvis",
-    "resendCode": "Reenviar codi"
+    "resendCode": "Reenviar codi",
+    "changeEmailContact": "Si vols canviar el teu email, contacta'ns."
   },
   "notFound": {
     "title": "Pàgina No Trobada",

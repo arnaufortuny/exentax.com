@@ -298,6 +298,7 @@ export function ProfileTab({
               {!user?.emailVerified && (
                 <p className="text-[10px] text-orange-600 dark:text-orange-400">{t('dashboard.accountStatus.pendingReview.description', 'Tu cuenta está en revisión hasta que verifiques tu email.')}</p>
               )}
+              <p className="text-[10px] text-muted-foreground mt-1">{t('profile.changeEmailContact', 'Si deseas cambiar tu email, contáctanos.')}</p>
             </div>
             <div className="space-y-1">
               <Label className="text-xs font-bold text-muted-foreground">{t('profile.fields.phone', 'Teléfono')}</Label>
