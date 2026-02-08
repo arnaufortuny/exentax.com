@@ -90,15 +90,15 @@ export function NotificationsTab({
               className={`rounded-2xl border-0 shadow-sm transition-all ${!notif.isRead ? 'bg-white dark:bg-card ring-1 ring-accent/20' : 'bg-white dark:bg-card'}`}
               onClick={() => { if (!notif.isRead) markNotificationRead.mutate(notif.id); }}
             >
-              <CardContent className="p-4 md:p-5">
-                <div className="flex items-start gap-3 md:gap-4">
-                  <div className={`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 ${getNotificationIconBg(notif.type)}`}>
+              <CardContent className="p-3 sm:p-4 md:p-5">
+                <div className="flex items-start gap-2.5 sm:gap-3 md:gap-4">
+                  <div className={`w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 ${getNotificationIconBg(notif.type)}`}>
                     {getNotificationIcon(notif.type)}
                   </div>
                   <div className="flex-1 min-w-0">
-                    <div className="flex items-center justify-between gap-2 mb-1">
-                      <div className="flex items-center gap-2 flex-wrap min-w-0">
-                        <h3 className={`text-sm md:text-base ${!notif.isRead ? 'font-black' : 'font-bold text-foreground/80'}`}>{notif.title}</h3>
+                    <div className="flex items-center justify-between gap-2 mb-0.5 sm:mb-1">
+                      <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap min-w-0">
+                        <h3 className={`text-xs sm:text-sm md:text-base ${!notif.isRead ? 'font-black' : 'font-bold text-foreground/80'}`}>{notif.title}</h3>
                         {!notif.isRead && (
                           <span className="w-2 h-2 rounded-full bg-accent flex-shrink-0" />
                         )}
@@ -131,7 +131,7 @@ export function NotificationsTab({
                         </Button>
                       </div>
                     </div>
-                    <p className="text-sm text-muted-foreground leading-relaxed">{notif.message}</p>
+                    <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">{notif.message}</p>
                     <div className="flex items-center gap-2 mt-2 flex-wrap">
                       {notif.orderCode && (
                         <Badge variant="outline" className="text-[10px] font-bold">
