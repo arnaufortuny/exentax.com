@@ -1492,8 +1492,8 @@
     "payments": {
       "title": "Historique des paiements",
       "subtitle": "Vos factures et reçus",
-      "empty": "Aucun paiement enregistré",
-      "emptyDesc": "Vos factures et reçus apparaîtront ici.",
+      "empty": "Vous n'avez encore aucun paiement enregistré",
+      "emptyDesc": "Lorsque vous souscrirez un service, vos paiements apparaîtront ici pour que vous puissiez les consulter quand vous le souhaitez.",
       "invoice": "Facture",
       "viewServices": "Voir les services",
       "invoiceLabel": "Facture"

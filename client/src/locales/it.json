@@ -1451,8 +1451,8 @@
     "payments": {
       "title": "Storico Pagamenti",
       "subtitle": "Le tue fatture e ricevute",
-      "empty": "Nessun pagamento registrato",
-      "emptyDesc": "Le tue fatture e ricevute appariranno qui.",
+      "empty": "Non hai ancora nessun pagamento registrato",
+      "emptyDesc": "Quando contrarrai un servizio, i pagamenti appariranno qui per poterli consultare quando vuoi.",
       "invoice": "Fattura",
       "viewServices": "Vedi servizi",
       "invoiceLabel": "Fattura"

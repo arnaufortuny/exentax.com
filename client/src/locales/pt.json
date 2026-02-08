@@ -1451,8 +1451,8 @@
     "payments": {
       "title": "Histórico de Pagamentos",
       "subtitle": "As tuas faturas e recibos",
-      "empty": "Sem pagamentos registados",
-      "emptyDesc": "As tuas faturas e recibos aparecerão aqui.",
+      "empty": "Ainda não tens nenhum pagamento registado",
+      "emptyDesc": "Quando contratares algum serviço, os pagamentos aparecerão aqui para que possas consultá-los sempre que quiseres.",
       "invoice": "Fatura",
       "viewServices": "Ver serviços",
       "invoiceLabel": "Fatura"

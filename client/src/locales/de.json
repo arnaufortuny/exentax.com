@@ -1451,8 +1451,8 @@
     "payments": {
       "title": "Zahlungsverlauf",
       "subtitle": "Ihre Rechnungen und Belege",
-      "empty": "Keine Zahlungen verzeichnet",
-      "emptyDesc": "Ihre Rechnungen und Belege erscheinen hier.",
+      "empty": "Sie haben noch keine registrierten Zahlungen",
+      "emptyDesc": "Wenn Sie einen Service beauftragen, erscheinen Ihre Zahlungen hier, damit Sie sie jederzeit einsehen können.",
       "invoice": "Rechnung",
       "viewServices": "Services anzeigen",
       "invoiceLabel": "Rechnung"

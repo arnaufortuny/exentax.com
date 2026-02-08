@@ -1451,8 +1451,8 @@
     "payments": {
       "title": "Payment History",
       "subtitle": "Your invoices and receipts",
-      "empty": "No payments recorded",
-      "emptyDesc": "Your invoices and receipts will appear here.",
+      "empty": "You don't have any payments yet",
+      "emptyDesc": "When you hire a service, your payments will appear here so you can check them whenever you want.",
       "invoice": "Invoice",
       "viewServices": "View services",
       "invoiceLabel": "Invoice"
