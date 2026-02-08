@@ -1316,7 +1316,7 @@ export default function Dashboard() {
                     data-testid={`button-tab-${item.id}`}
                   >
                     <item.icon className="w-4 h-4" />
-                    <span>{item.mobileLabel}</span>
+                    <span>{item.label}</span>
                   </Button>
                 );
               })
@@ -1337,7 +1337,7 @@ export default function Dashboard() {
                     {...('tour' in item && item.tour ? { 'data-tour': item.tour } : {})}
                   >
                     <item.icon className="w-4 h-4" />
-                    <span>{item.mobileLabel}</span>
+                    <span>{item.label}</span>
                   </Button>
                 ))}
               </>
