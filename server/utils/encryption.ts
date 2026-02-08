@@ -6,7 +6,7 @@ const HASH_ALGORITHM = "sha256";
 
 function getEncryptionKey(): Buffer {
   const key = process.env.ENCRYPTION_KEY;
-  const isProduction = process.env.NODE_ENV === "production" || process.env.REPLIT_ENVIRONMENT === "production";
+  const isProduction = process.env.NODE_ENV === "production";
   
   if (!key && isProduction) {
     throw new Error("ENCRYPTION_KEY environment variable is required in production");

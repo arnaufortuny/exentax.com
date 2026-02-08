@@ -1550,7 +1550,7 @@ export default function Dashboard() {
                           <NativeSelect 
                             value={uploadDocType} 
                             onValueChange={setUploadDocType}
-                            className="w-full rounded-xl h-11 px-4 border border-gray-200 dark:border-border bg-white dark:bg-[#1A1A1A]"
+                            className="w-full rounded-full h-11 px-4 border border-gray-200 dark:border-border bg-white dark:bg-[#1A1A1A]"
                             data-testid="select-upload-doc-type-inline"
                           >
                             <NativeSelectItem value="passport">{t('dashboard.documents.passport')}</NativeSelectItem>
