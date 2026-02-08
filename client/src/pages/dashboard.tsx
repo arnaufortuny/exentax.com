@@ -4588,7 +4588,7 @@ export default function Dashboard() {
                 <div className="space-y-2">
                   {!!(user as any)?.pendingProfileChanges && (
                     <div className="flex items-start gap-2 bg-white/60 dark:bg-black/20 rounded-xl p-3" data-testid="action-item-profile-pending">
-                      <ShieldAlert className="w-4 h-4 text-orange-600 dark:text-orange-400 mt-0.5 shrink-0" />
+                      <UserCheck className="w-4 h-4 text-orange-600 dark:text-orange-400 mt-0.5 shrink-0" />
                       <div className="flex-1 min-w-0">
                         <p className="text-xs font-medium text-orange-800 dark:text-orange-300">{t('dashboard.actionRequired.profilePending')}</p>
                         <p className="text-[10px] text-orange-600 dark:text-orange-400">{t('dashboard.actionRequired.profilePendingDesc')}</p>

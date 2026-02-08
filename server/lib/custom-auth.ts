@@ -484,6 +484,8 @@ export function setupCustomAuth(app: Express) {
         googleId: user.googleId ? true : false,
         preferredLanguage: user.preferredLanguage || 'es',
         createdAt: user.createdAt,
+        pendingProfileChanges: user.pendingProfileChanges || null,
+        pendingChangesExpiresAt: user.pendingChangesExpiresAt || null,
       });
     } catch (error) {
       console.error("Get user error:", error);
