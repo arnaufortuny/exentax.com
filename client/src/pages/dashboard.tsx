@@ -8,8 +8,8 @@ import { queryClient, apiRequest, getCsrfToken } from "@/lib/queryClient";
 import { Building2, FileText, Clock, ChevronRight, User as UserIcon, Package, CreditCard, PlusCircle, Download, Mail, BellRing, CheckCircle2, AlertCircle, MessageSquare, Send, Shield, ShieldCheck, Users, Edit, Edit2, Trash2, FileUp, Newspaper, Loader2, CheckCircle, Receipt, Plus, Calendar, DollarSign, BarChart3, UserCheck, Eye, Upload, XCircle, Tag, X, Calculator, Archive, Key, Search, LogOut, ShieldAlert, ClipboardList, Bell, Wallet, Globe } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { useEffect, useState, useMemo, useCallback } from "react";
-import { Link, useLocation } from "wouter";
+import { useEffect, useState, useMemo, useCallback, useRef } from "react";
+import { Link, useLocation, useSearch } from "wouter";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
@@ -40,10 +40,20 @@ import { WalletTab } from "@/components/dashboard/wallet-tab";
 
 export default function Dashboard() {
   const [, setLocation] = useLocation();
+  const searchString = useSearch();
   const { user, isAuthenticated, isLoading: authLoading } = useAuth();
   const { t, i18n } = useTranslation();
   usePageTitle();
-  const [activeTab, setActiveTab] = useState<Tab>(user?.isAdmin ? 'admin' : 'services');
+  const tabFromUrl = new URLSearchParams(searchString).get('tab') as Tab | null;
+  const [activeTab, setActiveTab] = useState<Tab>(tabFromUrl || (user?.isAdmin ? 'admin' : 'services'));
+  const initialTabApplied = useRef(false);
+
+  useEffect(() => {
+    if (tabFromUrl && !initialTabApplied.current) {
+      setActiveTab(tabFromUrl);
+      initialTabApplied.current = true;
+    }
+  }, [tabFromUrl]);
   const [isEditing, setIsEditing] = useState(false);
   const [profileData, setProfileData] = useState({ 
     firstName: '', 
