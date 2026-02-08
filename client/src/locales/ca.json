@@ -1294,7 +1294,7 @@
   "dashboard": {
     "title": "La Meva Àrea",
     "welcome": "Benvingut, {{name}}",
-    "subtitle": "Aquí pots gestionar tot el relacionat amb la teva LLC, seguir l'estat dels teus tràmits i accedir als serveis que necessitis de manera simple, clara i ordenada.",
+    "subtitle": "Gestiona la teva LLC i accedeix a tots els teus serveis en un sol lloc.",
     "clientArea": "Àrea de Clients",
     "defaultName": "Client",
     "newLLC": "Constituir una nova LLC",

@@ -1294,7 +1294,7 @@
   "dashboard": {
     "title": "Mi Área",
     "welcome": "Bienvenido, {{name}}",
-    "subtitle": "Aquí puedes gestionar todo lo relacionado con tu LLC, seguir el estado de tus trámites y acceder a los servicios que necesites de manera simple, clara y ordenada.",
+    "subtitle": "Gestiona tu LLC y accede a todos tus servicios en un solo lugar.",
     "clientArea": "Área de Clientes",
     "defaultName": "Cliente",
     "newLLC": "Constituir una nueva LLC",

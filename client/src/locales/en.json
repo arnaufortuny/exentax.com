@@ -1294,7 +1294,7 @@
   "dashboard": {
     "title": "Dashboard",
     "welcome": "Welcome, {{name}}",
-    "subtitle": "Here you can manage everything related to your LLC, track the status of your applications, and access the services you need in a simple, clear, and organized way.",
+    "subtitle": "Manage your LLC and access all your services in one place.",
     "clientArea": "Client Area",
     "defaultName": "Client",
     "newLLC": "Form a new LLC",
