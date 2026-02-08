@@ -3,7 +3,7 @@ import { z } from "zod";
 import { and, eq, desc } from "drizzle-orm";
 import { db, storage, isAdmin, isAdminOrSupport } from "./shared";
 import { orders as ordersTable, users as usersTable, maintenanceApplications, orderEvents, userNotifications, llcApplications as llcApplicationsTable, applicationDocuments as applicationDocumentsTable, messages as messagesTable } from "@shared/schema";
-import { sendEmail, getDocumentUploadedTemplate, getAdminNoteTemplate, getPaymentRequestTemplate, getDocumentRequestTemplate, getOrderEventTemplate } from "../lib/email";
+import { sendEmail, getDocumentUploadedTemplate, getAdminNoteTemplate, getPaymentRequestTemplate, getDocumentRequestTemplate, getOrderEventTemplate, getDocumentApprovedTemplate, getDocumentRejectedTemplate } from "../lib/email";
 import { updateApplicationDeadlines } from "../calendar-service";
 
 const MAX_FILE_SIZE_MB = 5;
@@ -253,19 +253,15 @@ export function registerAdminDocumentsRoutes(app: Express) {
             isRead: false
           });
           
-          // Email notification
+          const userLang = (docWithOrder.user as any).preferredLanguage || 'es';
           sendEmail({
             to: docWithOrder.user.email!,
             subject: `Documento aprobado - ${docLabel}`,
-            html: `
-              <div style="font-family: sans-serif; padding: 20px;">
-                <h2 style="color: #22C55E;">✓ Documento Aprobado</h2>
-                <p>Hola ${docWithOrder.user.firstName || 'Cliente'},</p>
-                <p>Tu documento <strong>"${docLabel}"</strong> ha sido revisado y <strong>aprobado</strong> correctamente.</p>
-                <p>Puedes ver el estado de tus documentos en tu panel de cliente.</p>
-                <p style="color: #6B7280; font-size: 12px; margin-top: 20px;">Equipo Easy US LLC</p>
-              </div>
-            `
+            html: getDocumentApprovedTemplate(
+              docWithOrder.user.firstName || 'Cliente',
+              docLabel,
+              userLang
+            )
           }).catch(console.error);
         } else if (reviewStatus === 'rejected') {
           // Notify client: document rejected - request again
@@ -280,20 +276,16 @@ export function registerAdminDocumentsRoutes(app: Express) {
             isRead: false
           });
           
-          // Email notification requesting new upload
+          const rejLang = (docWithOrder.user as any).preferredLanguage || 'es';
           sendEmail({
             to: docWithOrder.user.email!,
             subject: `Acción requerida - Documento rechazado`,
-            html: `
-              <div style="font-family: sans-serif; padding: 20px;">
-                <h2 style="color: #EF4444;">⚠️ Documento Rechazado</h2>
-                <p>Hola ${docWithOrder.user.firstName || 'Cliente'},</p>
-                <p>Tu documento <strong>"${docLabel}"</strong> ha sido revisado y <strong>rechazado</strong>.</p>
-                <p><strong>Motivo:</strong> ${reason}</p>
-                <p style="margin-top: 15px;">Por favor, accede a tu panel de cliente y sube nuevamente el documento corregido.</p>
-                <p style="color: #6B7280; font-size: 12px; margin-top: 20px;">Equipo Easy US LLC</p>
-              </div>
-            `
+            html: getDocumentRejectedTemplate(
+              docWithOrder.user.firstName || 'Cliente',
+              docLabel,
+              reason,
+              rejLang
+            )
           }).catch(console.error);
         }
       }

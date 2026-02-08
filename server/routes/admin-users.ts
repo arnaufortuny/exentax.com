@@ -4,7 +4,7 @@ import { z } from "zod";
 import { eq, desc, inArray, and, sql } from "drizzle-orm";
 import { asyncHandler, db, isAdmin, isAdminOrSupport, logAudit, logActivity } from "./shared";
 import { users as usersTable, orders as ordersTable, llcApplications as llcApplicationsTable, maintenanceApplications, applicationDocuments as applicationDocumentsTable, orderEvents, userNotifications, messages as messagesTable, messageReplies, contactOtps } from "@shared/schema";
-import { sendEmail, getAccountDeactivatedTemplate, getAccountVipTemplate, getAccountReactivatedTemplate, getAdminPasswordResetTemplate } from "../lib/email";
+import { sendEmail, getAccountDeactivatedTemplate, getAccountVipTemplate, getAccountReactivatedTemplate, getAdminPasswordResetTemplate, getAdminOtpRequestTemplate } from "../lib/email";
 import { validatePassword } from "../lib/security";
 
 export function registerAdminUserRoutes(app: Express) {
@@ -438,26 +438,16 @@ export function registerAdminUserRoutes(app: Express) {
       verified: false
     });
     
+    const userLang = (user as any).preferredLanguage || 'es';
     sendEmail({
       to: userEmail,
-      subject: "Identity Verification Required - Easy US LLC",
-      html: `
-        <div style="font-family: 'Inter', sans-serif; padding: 30px; max-width: 500px; margin: 0 auto;">
-          <div style="text-align: center; margin-bottom: 24px;">
-            <div style="width: 60px; height: 60px; background: #FEF3C7; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center;">
-              <span style="font-size: 28px;">🔐</span>
-            </div>
-          </div>
-          <h2 style="color: #1F2937; text-align: center;">Identity Verification Required</h2>
-          <p style="color: #6B7280; text-align: center; font-size: 14px;">
-            ${reason || 'Our team requires identity verification for your account. Please enter this code in your profile to confirm your identity.'}
-          </p>
-          <div style="background: #F3F4F6; border-radius: 12px; padding: 20px; text-align: center; margin: 20px 0;">
-            <p style="font-size: 32px; font-weight: 800; letter-spacing: 8px; color: #111827; margin: 0;">${otp}</p>
-          </div>
-          <p style="color: #9CA3AF; text-align: center; font-size: 12px;">This code is valid for 24 hours.</p>
-        </div>
-      `
+      subject: "Verificación de Identidad Requerida - Easy US LLC",
+      html: getAdminOtpRequestTemplate(
+        user.firstName || 'Cliente',
+        otp,
+        reason,
+        userLang
+      )
     }).catch(console.error);
     
     logActivity("OTP Verification Requested", {

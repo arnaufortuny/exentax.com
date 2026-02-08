@@ -3,7 +3,7 @@ import { z } from "zod";
 import { and, eq, gt, desc, sql } from "drizzle-orm";
 import { db, storage, isAuthenticated, isAdmin, logAudit, getClientIp, logActivity } from "./shared";
 import { contactOtps, users as usersTable, userNotifications, orders as ordersTable, llcApplications as llcApplicationsTable, applicationDocuments as applicationDocumentsTable } from "@shared/schema";
-import { sendEmail, getOtpEmailTemplate, getWelcomeEmailTemplate, getPasswordChangeOtpTemplate, getProfileChangeOtpTemplate } from "../lib/email";
+import { sendEmail, getOtpEmailTemplate, getWelcomeEmailTemplate, getPasswordChangeOtpTemplate, getProfileChangeOtpTemplate, getAdminProfileChangesTemplate } from "../lib/email";
 import { getEmailTranslations } from "../lib/email-translations";
 import { checkRateLimit } from "../lib/security";
 import { getUpcomingDeadlinesForUser } from "../calendar-service";
@@ -561,26 +561,16 @@ export function registerUserProfileRoutes(app: Express) {
           }
         });
         
-        // Send alert to admin about verified profile changes
         const adminEmail = process.env.ADMIN_EMAIL || "afortuny07@gmail.com";
-        const changesHtml = changedSensitiveFields.map(f => 
-          `<li><strong>${f.field}:</strong> "${f.oldValue}" → "${f.newValue}"</li>`
-        ).join('');
-        
         sendEmail({
           to: adminEmail,
           subject: `[ALERTA] Cambios de perfil verificados - Cliente ${currentUser.clientId}`,
-          html: `
-            <div style="font-family: sans-serif; padding: 20px;">
-              <h2 style="color: #10B981;">Profile changes verified with OTP</h2>
-              <p><strong>Client:</strong> ${currentUser.firstName} ${currentUser.lastName}</p>
-              <p><strong>Email:</strong> ${currentUser.email}</p>
-              <p><strong>Client ID:</strong> ${currentUser.clientId}</p>
-              <p><strong>Fields modified:</strong></p>
-              <ul>${changesHtml}</ul>
-              <p style="color: #6B7280; font-size: 12px;">Change verified with OTP</p>
-            </div>
-          `
+          html: getAdminProfileChangesTemplate(
+            `${currentUser.firstName} ${currentUser.lastName}`,
+            currentUser.email || '',
+            currentUser.clientId || '',
+            changedSensitiveFields
+          )
         }).catch(console.error);
         
         const [updatedUser] = await db.select().from(usersTable).where(eq(usersTable.id, userId)).limit(1);
@@ -670,25 +660,16 @@ export function registerUserProfileRoutes(app: Express) {
         }
       });
       
-      // Notify admin
       const adminEmail = process.env.ADMIN_EMAIL || "afortuny07@gmail.com";
-      const changesHtml = (pendingChanges.changedFields || []).map((f: any) => 
-        `<li><strong>${f.field}:</strong> "${f.oldValue}" → "${f.newValue}"</li>`
-      ).join('');
-      
       sendEmail({
         to: adminEmail,
-        subject: `[ALERTA] Profile changes verified - Client ${user.clientId}`,
-        html: `
-          <div style="font-family: sans-serif; padding: 20px;">
-            <h2 style="color: #10B981;">Profile changes verified with OTP</h2>
-            <p><strong>Client:</strong> ${user.firstName} ${user.lastName}</p>
-            <p><strong>Email:</strong> ${user.email}</p>
-            <p><strong>Client ID:</strong> ${user.clientId}</p>
-            <p><strong>Fields modified:</strong></p>
-            <ul>${changesHtml}</ul>
-          </div>
-        `
+        subject: `[ALERTA] Cambios de perfil verificados - Cliente ${user.clientId}`,
+        html: getAdminProfileChangesTemplate(
+          `${user.firstName} ${user.lastName}`,
+          user.email || '',
+          user.clientId || '',
+          pendingChanges.changedFields || []
+        )
       }).catch(console.error);
       
       const [updatedUser] = await db.select().from(usersTable).where(eq(usersTable.id, userId)).limit(1);

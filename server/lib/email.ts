@@ -971,6 +971,114 @@ export function getOperatingAgreementReadyTemplate(
   return getEmailWrapper(content, lang);
 }
 
+// 22. Document Approved Template
+export function getDocumentApprovedTemplate(name: string, documentLabel: string, lang: EmailLanguage = 'es') {
+  const t = getEmailTranslations(lang);
+  const content = `
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin: 0 0 25px 0;">${t.common.greeting} ${name},</p>
+    
+    <div style="background: linear-gradient(135deg, #F0FDF4 0%, #ECFDF5 100%); padding: 25px; border-radius: 16px; margin: 25px 0; text-align: center; border: 2px solid #6EDC8A;">
+      <p style="margin: 0 0 8px 0; font-size: 28px;">&#10003;</p>
+      <p style="margin: 0 0 8px 0; font-size: 18px; font-weight: 800; color: #059669;">${t.documentApproved.title}</p>
+      <p style="margin: 0; font-size: 16px; font-weight: 600; color: #0A0A0A;">"${documentLabel}"</p>
+    </div>
+    
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 25px;">${t.documentApproved.reviewedAndApproved}</p>
+    
+    <div style="text-align: center; margin: 30px 0;">
+      <a href="https://${domain}/dashboard" style="display: inline-block; background: #6EDC8A; color: #0A0A0A; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">${t.documentApproved.viewDocuments}</a>
+    </div>
+  `;
+  return getEmailWrapper(content, lang);
+}
+
+// 23. Document Rejected Template
+export function getDocumentRejectedTemplate(name: string, documentLabel: string, reason: string, lang: EmailLanguage = 'es') {
+  const t = getEmailTranslations(lang);
+  const content = `
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin: 0 0 25px 0;">${t.common.greeting} ${name},</p>
+    
+    <div style="background: linear-gradient(135deg, #FEF2F2 0%, #FEE2E2 100%); padding: 25px; border-radius: 16px; margin: 25px 0; text-align: center; border: 2px solid #F87171;">
+      <p style="margin: 0 0 8px 0; font-size: 28px;">&#9888;</p>
+      <p style="margin: 0 0 8px 0; font-size: 18px; font-weight: 800; color: #DC2626;">${t.documentRejected.title}</p>
+      <p style="margin: 0; font-size: 16px; font-weight: 600; color: #0A0A0A;">"${documentLabel}"</p>
+    </div>
+    
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 15px;">${t.documentRejected.reviewedAndRejected}</p>
+    
+    <div style="background: #F9FAFB; padding: 20px 25px; border-radius: 16px; margin: 20px 0; border-left: 4px solid #F87171;">
+      <p style="margin: 0 0 8px 0; font-size: 13px; font-weight: 800; color: #DC2626; text-transform: uppercase;">${t.documentRejected.reason}</p>
+      <p style="margin: 0; font-size: 14px; color: #444; line-height: 1.6;">${reason}</p>
+    </div>
+    
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 25px;">${t.documentRejected.pleaseReupload}</p>
+    
+    <div style="text-align: center; margin: 30px 0;">
+      <a href="https://${domain}/dashboard" style="display: inline-block; background: #F87171; color: #FFFFFF; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(248,113,113,0.35);">${t.documentRejected.viewDocuments}</a>
+    </div>
+  `;
+  return getEmailWrapper(content, lang);
+}
+
+// 23b. Admin Profile Changes Verified Alert
+export function getAdminProfileChangesTemplate(clientName: string, clientEmail: string, clientId: string, changedFields: Array<{field: string, oldValue: string, newValue: string}>) {
+  const changesHtml = changedFields.map(f => 
+    `<tr>
+      <td style="padding: 10px 15px; border-bottom: 1px solid #E5E7EB; font-weight: 600; color: #0A0A0A;">${f.field}</td>
+      <td style="padding: 10px 15px; border-bottom: 1px solid #E5E7EB; color: #6B7280; text-decoration: line-through;">${f.oldValue}</td>
+      <td style="padding: 10px 15px; border-bottom: 1px solid #E5E7EB; color: #059669; font-weight: 600;">${f.newValue}</td>
+    </tr>`
+  ).join('');
+  
+  const content = `
+    <div style="background: linear-gradient(135deg, #F0FDF4 0%, #ECFDF5 100%); padding: 25px; border-radius: 16px; margin: 0 0 25px 0; text-align: center; border: 2px solid #6EDC8A;">
+      <p style="margin: 0 0 8px 0; font-size: 28px;">&#128274;</p>
+      <p style="margin: 0; font-size: 18px; font-weight: 800; color: #059669;">Cambios de Perfil Verificados con OTP</p>
+    </div>
+    
+    <div style="background: #F9FAFB; padding: 20px 25px; border-radius: 16px; margin: 20px 0;">
+      <p style="margin: 0 0 10px 0; font-size: 14px; color: #444;"><strong>Cliente:</strong> ${clientName}</p>
+      <p style="margin: 0 0 10px 0; font-size: 14px; color: #444;"><strong>Email:</strong> ${clientEmail}</p>
+      <p style="margin: 0; font-size: 14px; color: #444;"><strong>ID de Cliente:</strong> ${clientId}</p>
+    </div>
+    
+    <p style="margin: 20px 0 10px 0; font-size: 14px; font-weight: 800; color: #0A0A0A; text-transform: uppercase;">Campos modificados:</p>
+    <table style="width: 100%; border-collapse: collapse; border-radius: 12px; overflow: hidden; border: 1px solid #E5E7EB;">
+      <thead>
+        <tr style="background: #F3F4F6;">
+          <th style="padding: 10px 15px; text-align: left; font-size: 12px; color: #6B7280; text-transform: uppercase;">Campo</th>
+          <th style="padding: 10px 15px; text-align: left; font-size: 12px; color: #6B7280; text-transform: uppercase;">Anterior</th>
+          <th style="padding: 10px 15px; text-align: left; font-size: 12px; color: #6B7280; text-transform: uppercase;">Nuevo</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${changesHtml}
+      </tbody>
+    </table>
+    
+    <p style="line-height: 1.6; font-size: 13px; color: #9CA3AF; margin-top: 20px;">Cambio verificado con OTP - ${new Date().toLocaleString('es-ES')}</p>
+  `;
+  return getEmailWrapper(content, 'es');
+}
+
+// 23c. Admin OTP Request Template
+export function getAdminOtpRequestTemplate(name: string, otp: string, reason?: string, lang: EmailLanguage = 'es') {
+  const t = getEmailTranslations(lang);
+  const content = `
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin: 0 0 20px 0;">${t.common.greeting} ${name},</p>
+    
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 25px;">${reason || t.profileChangeOtp.sensitiveChangeRequest}</p>
+    
+    <div style="background: linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%); padding: 30px; border-radius: 16px; margin: 25px 0; text-align: center; border: 2px solid #F59E0B;">
+      <p style="margin: 0 0 10px 0; font-size: 14px; color: #92400E; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;">${t.profileChangeOtp.yourCode}</p>
+      <p style="margin: 0; font-size: 42px; font-weight: 900; color: #0A0A0A; letter-spacing: 12px; font-family: 'SF Mono', 'Consolas', monospace;">${otp}</p>
+    </div>
+    
+    <p style="line-height: 1.6; font-size: 14px; color: #6B7280; text-align: center;">${t.profileChangeOtp.validFor}</p>
+  `;
+  return getEmailWrapper(content, lang);
+}
+
 // 24. Carrito abandonado - Aplicación incompleta
 export function getAbandonedApplicationTemplate(
   name: string,

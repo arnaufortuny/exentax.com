@@ -245,6 +245,28 @@ interface EmailTranslations {
     tip: string;
     tipText: string;
   };
+  documentApproved: {
+    title: string;
+    approved: string;
+    reviewedAndApproved: string;
+    viewDocuments: string;
+  };
+  documentRejected: {
+    title: string;
+    rejected: string;
+    reviewedAndRejected: string;
+    reason: string;
+    pleaseReupload: string;
+    viewDocuments: string;
+  };
+  profileChangesVerified: {
+    title: string;
+    client: string;
+    email: string;
+    clientId: string;
+    fieldsModified: string;
+    verifiedWithOtp: string;
+  };
   abandonedApplication: {
     incomplete: string;
     noticeText: string;
@@ -543,6 +565,28 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       tip: "Consejo:",
       tipText: "Guarda una copia firmada de este documento junto con tus otros archivos importantes de la empresa."
     },
+    documentApproved: {
+      title: "Documento Aprobado",
+      approved: "Aprobado",
+      reviewedAndApproved: "Tu documento ha sido revisado y aprobado correctamente.",
+      viewDocuments: "Ver mis documentos"
+    },
+    documentRejected: {
+      title: "Documento Rechazado - Acción Requerida",
+      rejected: "Rechazado",
+      reviewedAndRejected: "Tu documento ha sido revisado y rechazado.",
+      reason: "Motivo",
+      pleaseReupload: "Por favor, accede a tu panel de cliente y sube nuevamente el documento corregido.",
+      viewDocuments: "Ver mis documentos"
+    },
+    profileChangesVerified: {
+      title: "Cambios de Perfil Verificados con OTP",
+      client: "Cliente",
+      email: "Email",
+      clientId: "ID de Cliente",
+      fieldsModified: "Campos modificados",
+      verifiedWithOtp: "Cambio verificado con OTP"
+    },
     abandonedApplication: {
       incomplete: "Tu solicitud está incompleta",
       noticeText: "Hemos notado que empezaste a completar tu solicitud de",
@@ -838,6 +882,28 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       viewDocument: "View my document",
       tip: "Tip:",
       tipText: "Keep a signed copy of this document along with your other important company files."
+    },
+    documentApproved: {
+      title: "Document Approved",
+      approved: "Approved",
+      reviewedAndApproved: "Your document has been reviewed and approved successfully.",
+      viewDocuments: "View my documents"
+    },
+    documentRejected: {
+      title: "Document Rejected - Action Required",
+      rejected: "Rejected",
+      reviewedAndRejected: "Your document has been reviewed and rejected.",
+      reason: "Reason",
+      pleaseReupload: "Please access your client dashboard and upload the corrected document again.",
+      viewDocuments: "View my documents"
+    },
+    profileChangesVerified: {
+      title: "Profile Changes Verified with OTP",
+      client: "Client",
+      email: "Email",
+      clientId: "Client ID",
+      fieldsModified: "Fields modified",
+      verifiedWithOtp: "Change verified with OTP"
     },
     abandonedApplication: {
       incomplete: "Your application is incomplete",
@@ -1135,6 +1201,28 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       tip: "Consell:",
       tipText: "Guarda una còpia signada d'aquest document juntament amb els teus altres arxius importants de l'empresa."
     },
+    documentApproved: {
+      title: "Document Aprovat",
+      approved: "Aprovat",
+      reviewedAndApproved: "El teu document ha estat revisat i aprovat correctament.",
+      viewDocuments: "Veure els meus documents"
+    },
+    documentRejected: {
+      title: "Document Rebutjat - Acció Requerida",
+      rejected: "Rebutjat",
+      reviewedAndRejected: "El teu document ha estat revisat i rebutjat.",
+      reason: "Motiu",
+      pleaseReupload: "Si us plau, accedeix al teu panell de client i puja novament el document corregit.",
+      viewDocuments: "Veure els meus documents"
+    },
+    profileChangesVerified: {
+      title: "Canvis de Perfil Verificats amb OTP",
+      client: "Client",
+      email: "Email",
+      clientId: "ID de Client",
+      fieldsModified: "Camps modificats",
+      verifiedWithOtp: "Canvi verificat amb OTP"
+    },
     abandonedApplication: {
       incomplete: "La teva sol·licitud està incompleta",
       noticeText: "Hem notat que vas començar a completar la teva sol·licitud de",
@@ -1430,6 +1518,28 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       viewDocument: "Voir mon document",
       tip: "Conseil :",
       tipText: "Conservez une copie signée de ce document avec vos autres fichiers importants de l'entreprise."
+    },
+    documentApproved: {
+      title: "Document Approuvé",
+      approved: "Approuvé",
+      reviewedAndApproved: "Votre document a été examiné et approuvé avec succès.",
+      viewDocuments: "Voir mes documents"
+    },
+    documentRejected: {
+      title: "Document Rejeté - Action Requise",
+      rejected: "Rejeté",
+      reviewedAndRejected: "Votre document a été examiné et rejeté.",
+      reason: "Raison",
+      pleaseReupload: "Veuillez accéder à votre tableau de bord client et télécharger à nouveau le document corrigé.",
+      viewDocuments: "Voir mes documents"
+    },
+    profileChangesVerified: {
+      title: "Modifications de Profil Vérifiées avec OTP",
+      client: "Client",
+      email: "Email",
+      clientId: "ID Client",
+      fieldsModified: "Champs modifiés",
+      verifiedWithOtp: "Modification vérifiée avec OTP"
     },
     abandonedApplication: {
       incomplete: "Votre demande est incomplète",
@@ -1727,6 +1837,28 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       tip: "Tipp:",
       tipText: "Bewahren Sie eine unterzeichnete Kopie dieses Dokuments zusammen mit Ihren anderen wichtigen Unternehmensunterlagen auf."
     },
+    documentApproved: {
+      title: "Dokument Genehmigt",
+      approved: "Genehmigt",
+      reviewedAndApproved: "Ihr Dokument wurde überprüft und erfolgreich genehmigt.",
+      viewDocuments: "Meine Dokumente anzeigen"
+    },
+    documentRejected: {
+      title: "Dokument Abgelehnt - Aktion Erforderlich",
+      rejected: "Abgelehnt",
+      reviewedAndRejected: "Ihr Dokument wurde überprüft und abgelehnt.",
+      reason: "Grund",
+      pleaseReupload: "Bitte greifen Sie auf Ihr Kunden-Dashboard zu und laden Sie das korrigierte Dokument erneut hoch.",
+      viewDocuments: "Meine Dokumente anzeigen"
+    },
+    profileChangesVerified: {
+      title: "Profiländerungen mit OTP Verifiziert",
+      client: "Kunde",
+      email: "E-Mail",
+      clientId: "Kunden-ID",
+      fieldsModified: "Geänderte Felder",
+      verifiedWithOtp: "Änderung mit OTP verifiziert"
+    },
     abandonedApplication: {
       incomplete: "Ihr Antrag ist unvollständig",
       noticeText: "Wir haben bemerkt, dass Sie begonnen haben, Ihren Antrag für",
@@ -2023,6 +2155,28 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       tip: "Consiglio:",
       tipText: "Conserva una copia firmata di questo documento insieme agli altri file importanti della tua azienda."
     },
+    documentApproved: {
+      title: "Documento Approvato",
+      approved: "Approvato",
+      reviewedAndApproved: "Il tuo documento è stato esaminato e approvato con successo.",
+      viewDocuments: "Visualizza i miei documenti"
+    },
+    documentRejected: {
+      title: "Documento Rifiutato - Azione Richiesta",
+      rejected: "Rifiutato",
+      reviewedAndRejected: "Il tuo documento è stato esaminato e rifiutato.",
+      reason: "Motivo",
+      pleaseReupload: "Per favore, accedi al tuo pannello cliente e carica nuovamente il documento corretto.",
+      viewDocuments: "Visualizza i miei documenti"
+    },
+    profileChangesVerified: {
+      title: "Modifiche Profilo Verificate con OTP",
+      client: "Cliente",
+      email: "Email",
+      clientId: "ID Cliente",
+      fieldsModified: "Campi modificati",
+      verifiedWithOtp: "Modifica verificata con OTP"
+    },
     abandonedApplication: {
       incomplete: "La tua richiesta è incompleta",
       noticeText: "Abbiamo notato che hai iniziato a compilare la tua richiesta per",
@@ -2318,6 +2472,28 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       viewDocument: "Ver o meu documento",
       tip: "Dica:",
       tipText: "Guarde uma cópia assinada deste documento junto com os outros ficheiros importantes da sua empresa."
+    },
+    documentApproved: {
+      title: "Documento Aprovado",
+      approved: "Aprovado",
+      reviewedAndApproved: "O seu documento foi revisto e aprovado com sucesso.",
+      viewDocuments: "Ver os meus documentos"
+    },
+    documentRejected: {
+      title: "Documento Rejeitado - Ação Necessária",
+      rejected: "Rejeitado",
+      reviewedAndRejected: "O seu documento foi revisto e rejeitado.",
+      reason: "Motivo",
+      pleaseReupload: "Por favor, aceda ao seu painel de cliente e carregue novamente o documento corrigido.",
+      viewDocuments: "Ver os meus documentos"
+    },
+    profileChangesVerified: {
+      title: "Alterações de Perfil Verificadas com OTP",
+      client: "Cliente",
+      email: "Email",
+      clientId: "ID de Cliente",
+      fieldsModified: "Campos modificados",
+      verifiedWithOtp: "Alteração verificada com OTP"
     },
     abandonedApplication: {
       incomplete: "O seu pedido está incompleto",
