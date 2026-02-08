@@ -36,6 +36,7 @@ import { ConsultationsTab } from "@/components/dashboard/consultations-tab";
 import { AdminConsultationsPanel } from "@/components/dashboard/admin-consultations-panel";
 import { AdminAccountingPanel } from "@/components/dashboard/admin-accounting-panel";
 import { ConfirmDialog, useConfirmDialog } from "@/components/ui/confirm-dialog";
+import { LoadingScreen } from "@/components/loading-screen";
 
 function _NewsletterToggleLegacy() {
   const { t } = useTranslation();
@@ -915,11 +916,7 @@ export default function Dashboard() {
   }, [adminMessages, adminSearchQuery, adminSearchFilter]);
 
   if (authLoading || !isAuthenticated) {
-    return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
-        <div className="w-6 h-6 border-2 border-accent border-t-transparent rounded-full animate-spin" />
-      </div>
-    );
+    return <LoadingScreen />;
   }
 
   if (user?.accountStatus === 'deactivated') {

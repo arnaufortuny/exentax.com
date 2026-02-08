@@ -7,7 +7,7 @@ import { useEffect, Suspense, lazy, Component, memo, type ReactNode } from "reac
 import { useTranslation } from "react-i18next";
 import i18n from "@/lib/i18n";
 import NotFound from "@/pages/not-found";
-import logoIcon from "@/assets/logo-icon.png";
+import { LoadingScreen } from "@/components/loading-screen";
 
 function lazyRetry<T extends { default: React.ComponentType<unknown> }>(
   importFn: () => Promise<T>,
@@ -117,14 +117,7 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
   render(): ReactNode {
     if (this.state.hasError) {
       if (this.state.errorCount < 5) {
-        return (
-          <div className="min-h-screen bg-background flex flex-col items-center justify-center p-4">
-            <div className="text-center space-y-4">
-              <div className="w-8 h-8 border-4 border-accent border-t-transparent rounded-full animate-spin mx-auto" />
-              <p className="text-muted-foreground">{i18n.t("common.loading")}</p>
-            </div>
-          </div>
-        );
+        return <LoadingScreen delay={0} />;
       }
       
       return this.props.fallback || (
@@ -172,27 +165,13 @@ function ScrollToTop() {
   return null;
 }
 
-function LoadingScreen() {
-  return (
-    <div className="min-h-screen bg-background flex flex-col items-center justify-center p-4 gpu-accelerated">
-      <img 
-        src={logoIcon} 
-        alt="Easy US LLC" 
-        className="w-16 h-16 mb-6 opacity-90"
-      />
-      <div className="w-[280px] h-1.5 bg-border rounded-full overflow-hidden">
-        <div className="h-full bg-gradient-to-r from-[#6EDC8A] to-[#4FCF70] rounded-full loading-bar-animation" />
-      </div>
-    </div>
-  );
-}
 
 function MainRouter() {
   const [location] = useLocation();
   
   return (
     <ErrorBoundary>
-      <Suspense key={location} fallback={<LoadingScreen />}>
+      <Suspense key={location} fallback={<LoadingScreen delay={0} />}>
         <div className="animate-page-in min-h-screen bg-background">
           <Switch>
             <Route path="/" component={Home} />
@@ -252,7 +231,7 @@ function App() {
     return (
       <QueryClientProvider client={queryClient}>
         <ErrorBoundary>
-          <Suspense fallback={<LoadingScreen />}>
+          <Suspense fallback={<LoadingScreen delay={0} />}>
             <LinktreePage />
           </Suspense>
         </ErrorBoundary>
