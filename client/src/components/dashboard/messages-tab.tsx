@@ -28,14 +28,9 @@ export function MessagesTab({
   return (
     <div key="messages" className="space-y-6">
       <div className="mb-4 md:mb-6">
-        <div className="flex justify-between items-center">
-          <div>
-            <h2 className="text-xl md:text-2xl font-black text-foreground tracking-tight">{t('dashboard.support.title')}</h2>
-            <p className="text-base text-muted-foreground mt-1">{t('dashboard.support.subtitle')}</p>
-          </div>
-          <a href={getWhatsAppUrl("dashboardSupport")} target="_blank" rel="noopener noreferrer">
-            <Button className="bg-accent text-accent-foreground font-black rounded-full text-xs">{t('dashboard.support.newQuery')}</Button>
-          </a>
+        <div>
+          <h2 className="text-xl md:text-2xl font-black text-foreground tracking-tight">{t('dashboard.support.title')}</h2>
+          <p className="text-base text-muted-foreground mt-1">{t('dashboard.support.subtitle')}</p>
         </div>
       </div>
       <div className="space-y-4">
@@ -49,7 +44,7 @@ export function MessagesTab({
               </div>
               <a href={getWhatsAppUrl("dashboardSupport")} target="_blank" rel="noopener noreferrer">
                 <Button className="bg-accent text-accent-foreground font-black rounded-full px-6 md:px-8 py-2.5 md:py-3 text-sm md:text-base" data-testid="button-support-whatsapp">
-                  <MessageSquare className="w-4 h-4 mr-2" /> {t('dashboard.support.newQuery')}
+                  {t('dashboard.support.newQuery')}
                 </Button>
               </a>
             </div>
