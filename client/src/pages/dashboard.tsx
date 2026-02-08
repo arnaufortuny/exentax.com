@@ -23,8 +23,7 @@ import {
   Tab, 
   AdminUserData, 
   DiscountCode, 
-  getOrderStatusLabel,
-  NewsletterToggle 
+  getOrderStatusLabel
 } from "@/components/dashboard";
 import { PRICING, getFormationPriceFormatted, getMaintenancePriceFormatted } from "@shared/config/pricing";
 import { ServicesTab } from "@/components/dashboard/services-tab";
@@ -37,33 +36,6 @@ import { AdminConsultationsPanel } from "@/components/dashboard/admin-consultati
 import { AdminAccountingPanel } from "@/components/dashboard/admin-accounting-panel";
 import { ConfirmDialog, useConfirmDialog } from "@/components/ui/confirm-dialog";
 import { LoadingScreen } from "@/components/loading-screen";
-
-function _NewsletterToggleLegacy() {
-  const { t } = useTranslation();
-  const { data: status, isLoading } = useQuery<{ isSubscribed: boolean }>({
-    queryKey: ["/api/newsletter/status"],
-  });
-
-  const mutation = useMutation({
-    mutationFn: async (subscribe: boolean) => {
-      const endpoint = subscribe ? "/api/newsletter/subscribe" : "/api/newsletter/unsubscribe";
-      await apiRequest("POST", endpoint, subscribe ? { email: undefined } : undefined);
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["/api/newsletter/status"] });
-    }
-  });
-
-  if (isLoading) return <div className="w-10 h-6 bg-gray-100 dark:bg-[#1A1A1A] animate-pulse rounded-full" />;
-
-  return (
-    <Switch 
-      checked={status?.isSubscribed} 
-      onCheckedChange={(val) => mutation.mutate(val)}
-      disabled={mutation.isPending}
-    />
-  );
-}
 
 export default function Dashboard() {
   const [, setLocation] = useLocation();
