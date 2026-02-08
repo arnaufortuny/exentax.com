@@ -410,7 +410,7 @@ export default function InvoiceGenerator() {
                     value={issuerAddress}
                     onChange={(e) => setIssuerAddress(e.target.value)}
                     rows={2}
-                    className="mt-1 resize-none rounded-lg"
+                    className="mt-1 resize-none rounded-2xl"
                     data-testid="input-issuer-address"
                   />
                 </div>
@@ -462,7 +462,7 @@ export default function InvoiceGenerator() {
                     value={clientAddress}
                     onChange={(e) => setClientAddress(e.target.value)}
                     rows={2}
-                    className="mt-1 resize-none rounded-lg"
+                    className="mt-1 resize-none rounded-2xl"
                     data-testid="input-client-address"
                   />
                 </div>
@@ -516,7 +516,7 @@ export default function InvoiceGenerator() {
                     type="date"
                     value={invoiceDate}
                     onChange={(e) => setInvoiceDate(e.target.value)}
-                    className="mt-1 rounded-full"
+                    className="mt-1 rounded-full text-xs sm:text-sm min-w-0"
                     data-testid="input-invoice-date"
                   />
                 </div>
@@ -527,7 +527,7 @@ export default function InvoiceGenerator() {
                     type="date"
                     value={dueDate}
                     onChange={(e) => setDueDate(e.target.value)}
-                    className="mt-1 rounded-full"
+                    className="mt-1 rounded-full text-xs sm:text-sm min-w-0"
                     data-testid="input-due-date"
                   />
                 </div>
@@ -662,33 +662,31 @@ export default function InvoiceGenerator() {
                 value={notes}
                 onChange={(e) => setNotes(e.target.value)}
                 rows={2}
-                className="resize-none rounded-lg"
+                className="resize-none rounded-2xl"
                 data-testid="input-notes"
               />
             </CardContent>
           </Card>
 
           <Card className="border-0 shadow-sm rounded-2xl sm:hidden">
-            <CardContent className="p-4">
-              <div className="flex items-center gap-3">
-                <div className="flex items-center gap-2 flex-1 min-w-0">
-                  <Label className="text-xs text-muted-foreground whitespace-nowrap shrink-0">{t("tools.exportLanguage", "PDF language")}:</Label>
-                  <NativeSelect value={exportLang} onChange={(e) => setExportLang(e.target.value)} data-testid="select-invoice-export-lang-mobile">
-                    {EXPORT_LANGUAGES.map(lang => (
-                      <option key={lang.code} value={lang.code}>{lang.label}</option>
-                    ))}
-                  </NativeSelect>
-                </div>
-                <Button
-                  onClick={generatePDF}
-                  disabled={isGenerating}
-                  className="bg-accent hover:bg-accent/90 text-accent-foreground font-black rounded-full px-5 shrink-0"
-                  data-testid="button-generate-pdf-mobile"
-                >
-                  <FileDown className="w-4 h-4 mr-2" />
-                  {isGenerating ? t('tools.invoiceGenerator.generating') : t('tools.invoiceGenerator.generatePdf')}
-                </Button>
+            <CardContent className="p-4 space-y-3">
+              <div className="flex items-center gap-2">
+                <Label className="text-xs text-muted-foreground whitespace-nowrap shrink-0">{t("tools.exportLanguage", "PDF language")}:</Label>
+                <NativeSelect value={exportLang} onChange={(e) => setExportLang(e.target.value)} data-testid="select-invoice-export-lang-mobile">
+                  {EXPORT_LANGUAGES.map(lang => (
+                    <option key={lang.code} value={lang.code}>{lang.label}</option>
+                  ))}
+                </NativeSelect>
               </div>
+              <Button
+                onClick={generatePDF}
+                disabled={isGenerating}
+                className="bg-accent hover:bg-accent/90 text-accent-foreground font-black rounded-full px-5 w-full"
+                data-testid="button-generate-pdf-mobile"
+              >
+                <FileDown className="w-4 h-4 mr-2" />
+                {isGenerating ? t('tools.invoiceGenerator.generating') : t('tools.invoiceGenerator.generatePdf')}
+              </Button>
             </CardContent>
           </Card>
 
