@@ -527,33 +527,25 @@ export function ProfileTab({
         )}
       </Card>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <Card className="rounded-2xl border-0 shadow-sm p-5 bg-white dark:bg-card">
-          <div className="mb-3">
-            <h4 className="font-black text-sm text-foreground">{t('profile.connectedAccounts.title', 'Cuentas Conectadas')}</h4>
-            <p className="text-[10px] text-muted-foreground">{t('profile.connectedAccounts.description', 'Vincula tus cuentas sociales para iniciar sesión más rápido.')}</p>
-          </div>
-          <SocialLogin 
-            mode="connect" 
-            googleConnected={!!(user as any)?.googleId}
-            onSuccess={() => queryClient.refetchQueries({ queryKey: ["/api/auth/user"] })}
-          />
-        </Card>
+      <Card className="rounded-2xl border-0 shadow-sm p-5 bg-white dark:bg-card">
+        <div className="mb-3">
+          <h4 className="font-black text-sm text-foreground">{t('profile.connectedAccounts.title', 'Cuentas Conectadas')}</h4>
+          <p className="text-[10px] text-muted-foreground">{t('profile.connectedAccounts.description', 'Vincula tus cuentas sociales para iniciar sesión más rápido.')}</p>
+        </div>
+        <SocialLogin 
+          mode="connect" 
+          googleConnected={!!(user as any)?.googleId}
+          onSuccess={() => queryClient.refetchQueries({ queryKey: ["/api/auth/user"] })}
+        />
+      </Card>
 
-        {canEdit && (
-          <Card className="rounded-2xl border-0 shadow-sm p-5 bg-white dark:bg-card">
-            <div className="flex items-center justify-between gap-3">
-              <div>
-                <h4 className="font-black text-red-600 dark:text-red-400 text-sm">{t('dashboard.profile.deleteAccount', 'Eliminar Cuenta')}</h4>
-                <p className="text-[10px] text-muted-foreground">{t('profile.deleteAccountDesc', 'Esta acción es irreversible. Se eliminarán todos tus datos.')}</p>
-              </div>
-              <Button variant="outline" size="sm" className="border-red-200 dark:border-red-800 text-red-600 dark:text-red-400 rounded-full shrink-0" onClick={() => setDeleteOwnAccountDialog(true)} data-testid="button-delete-own-account">
-                <Trash2 className="w-3.5 h-3.5 mr-1" /> <span className="hidden sm:inline">{t('common.delete', 'Eliminar')}</span>
-              </Button>
-            </div>
-          </Card>
-        )}
-      </div>
+      {canEdit && (
+        <div className="flex justify-end">
+          <Button variant="ghost" size="sm" className="text-red-500 dark:text-red-400 rounded-full text-xs" onClick={() => setDeleteOwnAccountDialog(true)} data-testid="button-delete-own-account">
+            <Trash2 className="w-3.5 h-3.5 mr-1" /> {t('dashboard.profile.deleteAccount', 'Eliminar Cuenta')}
+          </Button>
+        </div>
+      )}
     </div>
   );
 }
