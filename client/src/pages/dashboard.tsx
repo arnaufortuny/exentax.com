@@ -1257,13 +1257,6 @@ export default function Dashboard() {
                 {t('dashboard.subtitle')}
               </p>
             </div>
-            <div className="flex flex-col sm:flex-row gap-2">
-              <Link href="/llc/formation">
-                <Button className="w-full md:w-auto bg-accent hover:bg-accent/90 text-accent-foreground font-black rounded-full px-6 h-11 transition-all flex items-center justify-center gap-2 shadow-sm">
-                  <PlusCircle className="w-5 h-5" /> {t('dashboard.newLLC')}
-                </Button>
-              </Link>
-            </div>
           </div>
           )}
 
