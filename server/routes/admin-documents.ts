@@ -405,7 +405,7 @@ export function registerAdminDocumentsRoutes(app: Express) {
       await sendEmail({
         to: user.email,
         subject: "Pago pendiente - Easy US LLC",
-        html: getPaymentRequestTemplate(user.firstName || 'Cliente', amount, paymentLink, message, (user.preferredLanguage as any) || 'es')
+        html: getPaymentRequestTemplate(user.firstName || 'Cliente', amount || '', paymentLink, message, (user.preferredLanguage as any) || 'es')
       });
 
       // Create internal notification

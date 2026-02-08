@@ -239,7 +239,7 @@ export function setupOAuth(app: Express) {
       }
 
       req.session.userId = user.id;
-      req.session.email = user.email;
+      req.session.email = user.email || undefined;
       req.session.isAdmin = user.isAdmin || false;
       req.session.isSupport = (user as any).isSupport || false;
       
