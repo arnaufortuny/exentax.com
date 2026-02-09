@@ -47,6 +47,12 @@ export const users = pgTable("users", {
   lastSecurityOtpAt: timestamp("last_security_otp_at"),
   pendingProfileChanges: jsonb("pending_profile_changes"),
   pendingChangesExpiresAt: timestamp("pending_changes_expires_at"),
+  identityVerificationStatus: text("identity_verification_status").notNull().default("none"),
+  identityVerificationNotes: text("identity_verification_notes"),
+  identityVerificationRequestedAt: timestamp("identity_verification_requested_at"),
+  identityVerificationDocumentKey: text("identity_verification_document_key"),
+  identityVerificationDocumentName: text("identity_verification_document_name"),
+  identityVerificationReviewedAt: timestamp("identity_verification_reviewed_at"),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
 });
