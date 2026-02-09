@@ -52,7 +52,10 @@ export function LanguageToggle() {
         {languages.map((lang) => (
           <DropdownMenuItem 
             key={lang.code}
-            onClick={() => i18n.changeLanguage(lang.code)}
+            onClick={() => {
+              i18n.changeLanguage(lang.code);
+              localStorage.setItem("i18n_nav_override", lang.code);
+            }}
             data-testid={`menu-lang-${lang.code}`}
             className={langCode === lang.code ? "bg-accent/20" : ""}
           >

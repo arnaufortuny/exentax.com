@@ -362,7 +362,7 @@ export default function LinktreePage() {
             
             <Button onClick={() => setShowDetails(!showDetails)}
               variant="ghost"
-              className="w-full rounded-none border-t border-gray-100 text-gray-500"
+              className="w-full rounded-xl border-t border-gray-100 text-gray-500"
               data-testid="button-toggle-details"
             >
               {showDetails ? 'Ocultar' : 'Ver desglose'}

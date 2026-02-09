@@ -1,5 +1,7 @@
+import { useEffect, useRef } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import type { User } from "@shared/models/auth";
+import i18n from "@/lib/i18n";
 
 async function fetchUser(): Promise<User | null> {
   const response = await fetch("/api/auth/user", {
@@ -27,6 +29,8 @@ async function logout(): Promise<void> {
 
 export function useAuth() {
   const queryClient = useQueryClient();
+  const languageSynced = useRef(false);
+
   const { data: user, isLoading, refetch } = useQuery<User | null>({
     queryKey: ["/api/auth/user"],
     queryFn: fetchUser,
@@ -35,6 +39,17 @@ export function useAuth() {
     refetchInterval: 1000 * 60 * 5,
     refetchOnWindowFocus: true,
   });
+
+  useEffect(() => {
+    if (user?.preferredLanguage && !languageSynced.current) {
+      i18n.changeLanguage(user.preferredLanguage);
+      localStorage.removeItem("i18n_nav_override");
+      languageSynced.current = true;
+    }
+    if (!user) {
+      languageSynced.current = false;
+    }
+  }, [user]);
 
   const logoutMutation = useMutation({
     mutationFn: logout,
