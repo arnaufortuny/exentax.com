@@ -272,7 +272,7 @@ export function AdminAccountingPanel() {
         <NativeSelect
           value={typeFilter}
           onValueChange={setTypeFilter}
-          className="rounded-xl h-9 text-xs w-32"
+          className="rounded-full h-9 text-xs w-32"
         >
           <NativeSelectItem value="">{t('common.all')}</NativeSelectItem>
           <NativeSelectItem value="income">{t('dashboard.admin.income')}</NativeSelectItem>
@@ -281,7 +281,7 @@ export function AdminAccountingPanel() {
         <NativeSelect
           value={categoryFilter}
           onValueChange={setCategoryFilter}
-          className="rounded-xl h-9 text-xs w-40"
+          className="rounded-full h-9 text-xs w-40"
         >
           <NativeSelectItem value="">{t('dashboard.admin.allCategories')}</NativeSelectItem>
           {[...INCOME_CATEGORIES, ...EXPENSE_CATEGORIES].map(cat => (
@@ -378,7 +378,7 @@ export function AdminAccountingPanel() {
                   <NativeSelect
                     value={formData.type}
                     onValueChange={(val) => setFormData(p => ({ ...p, type: val as 'income' | 'expense', category: '' }))}
-                    className="w-full rounded-xl h-11"
+                    className="w-full rounded-full h-11"
                   >
                     <NativeSelectItem value="income">{t('dashboard.admin.income')}</NativeSelectItem>
                     <NativeSelectItem value="expense">{t('dashboard.admin.expenses')}</NativeSelectItem>
@@ -389,7 +389,7 @@ export function AdminAccountingPanel() {
                   <NativeSelect
                     value={formData.category}
                     onValueChange={(val) => setFormData(p => ({ ...p, category: val }))}
-                    className="w-full rounded-xl h-11"
+                    className="w-full rounded-full h-11"
                   >
                     <NativeSelectItem value="">{t('dashboard.admin.selectCategory')}</NativeSelectItem>
                     {(formData.type === 'income' ? INCOME_CATEGORIES : EXPENSE_CATEGORIES).map(cat => (
@@ -403,7 +403,7 @@ export function AdminAccountingPanel() {
                     step="0.01"
                     value={formData.amount}
                     onChange={(e) => setFormData(p => ({ ...p, amount: e.target.value }))}
-                    className="rounded-xl h-11"
+                    className="rounded-full h-11"
                     placeholder="0.00"
                   />
                 </div>
@@ -412,14 +412,14 @@ export function AdminAccountingPanel() {
                   <Input type="date"
                     value={formData.transactionDate}
                     onChange={(e) => setFormData(p => ({ ...p, transactionDate: e.target.value }))}
-                    className="rounded-xl h-11"
+                    className="rounded-full h-11"
                   />
                 </div>
                 <div className="md:col-span-2">
                   <Label className="text-sm font-semibold mb-2 block">{t('dashboard.admin.description')}</Label>
                   <Input value={formData.description}
                     onChange={(e) => setFormData(p => ({ ...p, description: e.target.value }))}
-                    className="rounded-xl h-11"
+                    className="rounded-full h-11"
                     placeholder={t('dashboard.admin.description')}
                   />
                 </div>
@@ -427,7 +427,7 @@ export function AdminAccountingPanel() {
                   <Label className="text-sm font-semibold mb-2 block">{t('dashboard.admin.transactionDescription')}</Label>
                   <Input value={formData.reference}
                     onChange={(e) => setFormData(p => ({ ...p, reference: e.target.value }))}
-                    className="rounded-xl h-11"
+                    className="rounded-full h-11"
                     placeholder={t('dashboard.admin.transactionDescription')}
                   />
                 </div>
@@ -435,7 +435,7 @@ export function AdminAccountingPanel() {
                   <Label className="text-sm font-semibold mb-2 block">{t('dashboard.admin.internalNotes')}</Label>
                   <Textarea value={formData.notes}
                     onChange={(e) => setFormData(p => ({ ...p, notes: e.target.value }))}
-                    className="rounded-xl resize-none"
+                    className="rounded-3xl resize-none"
                     rows={2}
                   />
                 </div>

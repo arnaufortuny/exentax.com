@@ -179,7 +179,7 @@ export function ProfileTab({
               <Input type="text" 
                 value={profileOtp} 
                 onChange={e => setProfileOtp(e.target.value.replace(/\D/g, '').slice(0, 6))} 
-                className="rounded-xl text-center text-lg tracking-[0.3em] font-mono bg-white dark:bg-card"
+                className="rounded-full text-center text-lg tracking-[0.3em] font-mono bg-white dark:bg-card"
                 maxLength={6}
                 inputMode="numeric"
                 data-testid="input-profile-otp" 
@@ -463,15 +463,15 @@ export function ProfileTab({
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                   <div className="space-y-1">
                     <Label className="text-xs">{t('profile.currentPassword')}</Label>
-                    <Input type="password" value={currentPassword} onChange={e => setCurrentPassword(e.target.value)} className="rounded-xl" data-testid="input-current-password" />
+                    <Input type="password" value={currentPassword} onChange={e => setCurrentPassword(e.target.value)} className="rounded-full" data-testid="input-current-password" />
                   </div>
                   <div className="space-y-1">
                     <Label className="text-xs">{t('profile.newPassword')}</Label>
-                    <Input type="password" value={newPassword} onChange={e => setNewPassword(e.target.value)} className="rounded-xl" data-testid="input-new-password" />
+                    <Input type="password" value={newPassword} onChange={e => setNewPassword(e.target.value)} className="rounded-full" data-testid="input-new-password" />
                   </div>
                   <div className="space-y-1">
                     <Label className="text-xs">{t('profile.confirmNewPassword')}</Label>
-                    <Input type="password" value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} className="rounded-xl" data-testid="input-confirm-password" />
+                    <Input type="password" value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} className="rounded-full" data-testid="input-confirm-password" />
                   </div>
                 </div>
                 {newPassword && confirmPassword && newPassword !== confirmPassword && (
@@ -501,7 +501,7 @@ export function ProfileTab({
                   <Input type="text" 
                     value={passwordOtp} 
                     onChange={e => setPasswordOtp(e.target.value.replace(/\D/g, '').slice(0, 6))} 
-                    className="rounded-xl text-center text-lg tracking-[0.3em] font-mono"
+                    className="rounded-full text-center text-lg tracking-[0.3em] font-mono"
                     maxLength={6}
                     inputMode="numeric"
                     data-testid="input-password-otp" 

@@ -360,7 +360,7 @@ export default function Contacto() {
                       <FormItem>
                         <FormLabel className="text-sm md:text-base font-bold text-foreground">{t("contact.form.whatsYourName")}</FormLabel>
                         <FormControl>
-                          <Input {...field} className="h-12 px-5 border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-[#1A1A1A] transition-all font-medium text-foreground text-base rounded-xl" data-testid="input-nombre" />
+                          <Input {...field} className="h-12 px-5 border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-[#1A1A1A] transition-all font-medium text-foreground text-base rounded-full" data-testid="input-nombre" />
                         </FormControl>
                         <FormDescription className="text-xs text-muted-foreground">{t("common.required")}</FormDescription>
                         <FormMessage />
@@ -388,7 +388,7 @@ export default function Contacto() {
                       <FormItem>
                         <FormLabel className="text-sm md:text-base font-bold text-foreground">{t("contact.form.toKnowWho")}</FormLabel>
                         <FormControl>
-                          <Input {...field} className="h-12 px-5 border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-[#1A1A1A] transition-all font-medium text-foreground text-base rounded-xl" data-testid="input-apellido" />
+                          <Input {...field} className="h-12 px-5 border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-[#1A1A1A] transition-all font-medium text-foreground text-base rounded-full" data-testid="input-apellido" />
                         </FormControl>
                         <FormDescription className="text-xs text-muted-foreground">{t("common.required")}</FormDescription>
                         <FormMessage />
@@ -410,7 +410,7 @@ export default function Contacto() {
                       <FormItem>
                         <FormLabel className="text-sm md:text-base font-bold text-foreground">{t("contact.form.whereToRespond")}</FormLabel>
                         <FormControl>
-                          <Input {...field} type="email" inputMode="email" className="h-12 px-5 border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-[#1A1A1A] transition-all font-medium text-foreground text-base rounded-xl" data-testid="input-email" />
+                          <Input {...field} type="email" inputMode="email" className="h-12 px-5 border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-[#1A1A1A] transition-all font-medium text-foreground text-base rounded-full" data-testid="input-email" />
                         </FormControl>
                         <FormDescription className="text-xs text-muted-foreground">{t("contact.form.noSpam")}</FormDescription>
                         <FormMessage />
@@ -462,7 +462,7 @@ export default function Contacto() {
                           {t("contact.form.enterPhone")} {watchWhatsapp ? "" : `(${t("common.optional")})`}
                         </FormLabel>
                         <FormControl>
-                          <Input {...field} type="tel" inputMode="tel" className="h-12 px-5 border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-[#1A1A1A] transition-all font-medium text-foreground text-base rounded-xl" data-testid="input-telefono" />
+                          <Input {...field} type="tel" inputMode="tel" className="h-12 px-5 border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-[#1A1A1A] transition-all font-medium text-foreground text-base rounded-full" data-testid="input-telefono" />
                         </FormControl>
                         <FormDescription className="text-xs text-muted-foreground">
                           {watchWhatsapp ? t("contact.form.whatsappRequired") + " · " : ""}{t("contact.form.whatsappNote")}
@@ -515,7 +515,7 @@ export default function Contacto() {
                       <FormItem>
                         <FormLabel className="text-sm md:text-base font-bold text-foreground">{t("contact.form.tellUs")}</FormLabel>
                         <FormControl>
-                          <Textarea {...field} className="rounded-xl min-h-[120px] px-5 py-4 border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-[#1A1A1A] transition-all font-medium text-foreground text-base" data-testid="input-mensaje" />
+                          <Textarea {...field} className="rounded-3xl min-h-[120px] px-5 py-4 border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-[#1A1A1A] transition-all font-medium text-foreground text-base" data-testid="input-mensaje" />
                         </FormControl>
                         <FormDescription className="text-xs text-muted-foreground">{t("common.required")}</FormDescription>
                         <FormMessage />
@@ -557,7 +557,7 @@ export default function Contacto() {
                             <FormControl>
                               <Input 
                                 {...field} 
-                                className="h-12 px-5 text-center text-xl font-bold border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-[#1A1A1A] text-foreground tracking-[0.3em] rounded-xl" 
+                                className="h-12 px-5 text-center text-xl font-bold border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-[#1A1A1A] text-foreground tracking-[0.3em] rounded-full" 
                                 maxLength={6}
                                 data-testid="input-otp"
                               />

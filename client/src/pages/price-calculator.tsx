@@ -211,7 +211,7 @@ export default function PriceCalculator() {
                     <Label className="text-sm font-medium text-foreground mb-1.5 block">{t('tools.priceCalculator.productName')}</Label>
                     <Input value={productName}
                       onChange={(e) => setProductName(e.target.value)}
-                      className="h-11 rounded-xl"
+                      className="h-11 rounded-full"
                       data-testid="input-product-name"
                     />
                   </div>
@@ -225,7 +225,7 @@ export default function PriceCalculator() {
                         step="0.01"
                         value={baseCost || ""}
                         onChange={(e) => setBaseCost(parseFloat(e.target.value) || 0)}
-                        className="h-11 pl-8 rounded-xl"
+                        className="h-11 pl-8 rounded-full"
                         data-testid="input-base-cost"
                       />
                     </div>
@@ -237,7 +237,7 @@ export default function PriceCalculator() {
                       min="1"
                       value={quantity}
                       onChange={(e) => setQuantity(parseInt(e.target.value) || 1)}
-                      className="h-11 rounded-xl"
+                      className="h-11 rounded-full"
                       data-testid="input-quantity"
                     />
                   </div>

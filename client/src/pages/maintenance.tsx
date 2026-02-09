@@ -582,7 +582,7 @@ export default function MaintenanceApplication() {
                         <FormLabel className="text-sm md:text-base font-bold text-foreground flex items-center gap-2">
                           {t("maintenance.steps.fullNameLabel")}
                         </FormLabel>
-                        <FormControl><Input {...field} className="h-12 px-5 border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-[#1A1A1A] transition-colors font-medium text-foreground text-base rounded-xl"  /></FormControl>
+                        <FormControl><Input {...field} className="h-12 px-5 border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-[#1A1A1A] transition-colors font-medium text-foreground text-base rounded-full"  /></FormControl>
                         <FormMessage />
                       </FormItem>
                     )} />
@@ -605,7 +605,7 @@ export default function MaintenanceApplication() {
                         <FormLabel className="text-sm md:text-base font-bold text-foreground flex items-center gap-2">
                           {t("maintenance.steps.phoneLabel")}
                         </FormLabel>
-                        <FormControl><Input {...field} className="h-12 px-5 border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-[#1A1A1A] transition-colors font-medium text-foreground text-base rounded-xl"  /></FormControl>
+                        <FormControl><Input {...field} className="h-12 px-5 border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-[#1A1A1A] transition-colors font-medium text-foreground text-base rounded-full"  /></FormControl>
                         <FormMessage />
                       </FormItem>
                     )} />
@@ -628,7 +628,7 @@ export default function MaintenanceApplication() {
                         <FormLabel className="text-sm md:text-base font-bold text-foreground flex items-center gap-2">
                           {t("maintenance.steps.emailLabel")}
                         </FormLabel>
-                        <FormControl><Input {...field} type="email" inputMode="email" className="h-12 px-5 border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-[#1A1A1A] transition-colors font-medium text-foreground text-base rounded-xl"  /></FormControl>
+                        <FormControl><Input {...field} type="email" inputMode="email" className="h-12 px-5 border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-[#1A1A1A] transition-colors font-medium text-foreground text-base rounded-full"  /></FormControl>
                         <FormMessage />
                       </FormItem>
                     )} />
@@ -651,7 +651,7 @@ export default function MaintenanceApplication() {
                         <FormLabel className="text-sm md:text-base font-bold text-foreground flex items-center gap-2">
                           {t("maintenance.steps.companyNameLabel")}
                         </FormLabel>
-                        <FormControl><Input {...field} className="h-12 px-5 border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-[#1A1A1A] transition-colors font-medium text-foreground text-base rounded-xl"  /></FormControl>
+                        <FormControl><Input {...field} className="h-12 px-5 border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-[#1A1A1A] transition-colors font-medium text-foreground text-base rounded-full"  /></FormControl>
                         <FormMessage />
                       </FormItem>
                     )} />
@@ -674,7 +674,7 @@ export default function MaintenanceApplication() {
                         <FormLabel className="text-sm md:text-base font-bold text-foreground flex items-center gap-2">
                           {t("maintenance.steps.einLabel")}
                         </FormLabel>
-                        <FormControl><Input {...field} className="h-12 px-5 border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-[#1A1A1A] transition-colors font-medium text-foreground text-base rounded-xl"  /></FormControl>
+                        <FormControl><Input {...field} className="h-12 px-5 border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-[#1A1A1A] transition-colors font-medium text-foreground text-base rounded-full"  /></FormControl>
                         <FormMessage />
                       </FormItem>
                     )} />
@@ -715,7 +715,7 @@ export default function MaintenanceApplication() {
                       <FormItem>
                         <FormLabel className="text-sm md:text-base font-bold text-foreground">{t("maintenance.steps.creationYearLabel")}</FormLabel>
                         <FormControl>
-                          <Input {...field} className="h-12 px-5 border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-[#1A1A1A] transition-colors font-medium text-foreground text-base rounded-xl" />
+                          <Input {...field} className="h-12 px-5 border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-[#1A1A1A] transition-colors font-medium text-foreground text-base rounded-full" />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -776,7 +776,7 @@ export default function MaintenanceApplication() {
                     <FormDescription>{t("maintenance.steps.activityDesc")}</FormDescription>
                     <FormField control={form.control} name="businessActivity" render={({ field }) => (
                       <FormItem>
-                        <FormControl><Textarea {...field} className="rounded-[2rem] min-h-[120px] p-6 border-border focus:border-accent transition-colors font-bold text-foreground placeholder:text-primary/30 text-lg rounded-xl"  /></FormControl>
+                        <FormControl><Textarea {...field} className="rounded-3xl min-h-[120px] p-6 border-border focus:border-accent transition-colors font-bold text-foreground placeholder:text-primary/30 text-lg"  /></FormControl>
                         <FormMessage />
                       </FormItem>
                     )} />
@@ -952,7 +952,7 @@ export default function MaintenanceApplication() {
                               <FormItem>
                                 <FormLabel className="text-xs font-bold text-foreground tracking-widest">{t("maintenance.steps.password")}</FormLabel>
                                 <FormControl>
-                                  <Input {...field} type="password"  className="p-6 border-border focus:border-accent rounded-xl" data-testid="input-password" />
+                                  <Input {...field} type="password"  className="p-6 border-border focus:border-accent rounded-full" data-testid="input-password" />
                                 </FormControl>
                                 <FormMessage />
                               </FormItem>
@@ -961,7 +961,7 @@ export default function MaintenanceApplication() {
                               <FormItem>
                                 <FormLabel className="text-xs font-bold text-foreground tracking-widest">{t("maintenance.steps.confirmPassword")}</FormLabel>
                                 <FormControl>
-                                  <Input {...field} type="password"  className="p-6 border-border focus:border-accent rounded-xl" data-testid="input-confirm-password" />
+                                  <Input {...field} type="password"  className="p-6 border-border focus:border-accent rounded-full" data-testid="input-confirm-password" />
                                 </FormControl>
                                 <FormMessage />
                               </FormItem>
@@ -1103,7 +1103,7 @@ export default function MaintenanceApplication() {
                       <FormItem>
                         <FormLabel className="text-sm font-bold text-foreground">{t("maintenance.confirmation.additionalNotes")}</FormLabel>
                         <FormControl>
-                          <Textarea {...field} className="rounded-xl min-h-[80px] p-4 border-border focus:border-accent transition-colors text-foreground" />
+                          <Textarea {...field} className="rounded-3xl min-h-[80px] p-4 border-border focus:border-accent transition-colors text-foreground" />
                         </FormControl>
                       </FormItem>
                     )} />

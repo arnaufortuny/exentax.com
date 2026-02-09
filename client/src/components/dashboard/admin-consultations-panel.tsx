@@ -421,7 +421,7 @@ export function AdminConsultationsPanel({ searchQuery = '' }: AdminConsultations
                               <Input placeholder={t('consultations.admin.meetingLinkPlaceholder')}
                                 value={meetingLinkValue}
                                 onChange={(e) => setMeetingLinkValue(e.target.value)}
-                                className="flex-1 rounded-xl"
+                                className="flex-1 rounded-full"
                               />
                               <Button onClick={() => updateBookingMutation.mutate({ id: booking.id, data: { meetingLink: meetingLinkValue } })}
                                 className="bg-accent text-primary font-black rounded-full"
@@ -465,29 +465,29 @@ export function AdminConsultationsPanel({ searchQuery = '' }: AdminConsultations
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label>{t('consultations.admin.nameEs')}</Label>
-                    <Input className="rounded-xl" value={typeForm.nameEs} onChange={(e) => setTypeForm({ ...typeForm, nameEs: e.target.value, name: e.target.value })} />
+                    <Input className="rounded-full" value={typeForm.nameEs} onChange={(e) => setTypeForm({ ...typeForm, nameEs: e.target.value, name: e.target.value })} />
                   </div>
                   <div className="space-y-2">
                     <Label>{t('consultations.admin.nameEn')}</Label>
-                    <Input className="rounded-xl" value={typeForm.nameEn} onChange={(e) => setTypeForm({ ...typeForm, nameEn: e.target.value })} />
+                    <Input className="rounded-full" value={typeForm.nameEn} onChange={(e) => setTypeForm({ ...typeForm, nameEn: e.target.value })} />
                   </div>
                 </div>
                 <div className="space-y-2">
                   <Label>{t('consultations.admin.nameCa')}</Label>
-                  <Input className="rounded-xl" value={typeForm.nameCa} onChange={(e) => setTypeForm({ ...typeForm, nameCa: e.target.value })} />
+                  <Input className="rounded-full" value={typeForm.nameCa} onChange={(e) => setTypeForm({ ...typeForm, nameCa: e.target.value })} />
                 </div>
                 <div className="space-y-2">
                   <Label>{t('consultations.admin.descriptionEs')}</Label>
-                  <Textarea className="rounded-xl" value={typeForm.descriptionEs} onChange={(e) => setTypeForm({ ...typeForm, descriptionEs: e.target.value, description: e.target.value })} rows={2} />
+                  <Textarea className="rounded-3xl" value={typeForm.descriptionEs} onChange={(e) => setTypeForm({ ...typeForm, descriptionEs: e.target.value, description: e.target.value })} rows={2} />
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label>{t('consultations.admin.durationMin')}</Label>
-                    <Input type="number" className="rounded-xl" value={typeForm.duration} onChange={(e) => setTypeForm({ ...typeForm, duration: parseInt(e.target.value) || 30 })} />
+                    <Input type="number" className="rounded-full" value={typeForm.duration} onChange={(e) => setTypeForm({ ...typeForm, duration: parseInt(e.target.value) || 30 })} />
                   </div>
                   <div className="space-y-2">
                     <Label>{t('consultations.admin.priceEur')}</Label>
-                    <Input type="number" className="rounded-xl" value={typeForm.price} onChange={(e) => setTypeForm({ ...typeForm, price: parseInt(e.target.value) || 0 })} placeholder="0" />
+                    <Input type="number" className="rounded-full" value={typeForm.price} onChange={(e) => setTypeForm({ ...typeForm, price: parseInt(e.target.value) || 0 })} placeholder="0" />
                   </div>
                 </div>
                 <div className="flex gap-2 justify-end">
@@ -552,7 +552,7 @@ export function AdminConsultationsPanel({ searchQuery = '' }: AdminConsultations
               <div className="space-y-4">
                 <div className="space-y-2">
                   <Label>{t('consultations.admin.day')}</Label>
-                  <NativeSelect className="rounded-xl" value={slotForm.dayOfWeek.toString()} onChange={(e) => setSlotForm({ ...slotForm, dayOfWeek: parseInt(e.target.value) })}>
+                  <NativeSelect className="rounded-full" value={slotForm.dayOfWeek.toString()} onChange={(e) => setSlotForm({ ...slotForm, dayOfWeek: parseInt(e.target.value) })}>
                     {getDays(t).map((day, idx) => (
                       <NativeSelectItem key={idx} value={idx.toString()}>{day}</NativeSelectItem>
                     ))}
@@ -561,11 +561,11 @@ export function AdminConsultationsPanel({ searchQuery = '' }: AdminConsultations
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label>{t('consultations.admin.start')}</Label>
-                    <Input type="time" className="rounded-xl" value={slotForm.startTime} onChange={(e) => setSlotForm({ ...slotForm, startTime: e.target.value })} />
+                    <Input type="time" className="rounded-full" value={slotForm.startTime} onChange={(e) => setSlotForm({ ...slotForm, startTime: e.target.value })} />
                   </div>
                   <div className="space-y-2">
                     <Label>{t('consultations.admin.end')}</Label>
-                    <Input type="time" className="rounded-xl" value={slotForm.endTime} onChange={(e) => setSlotForm({ ...slotForm, endTime: e.target.value })} />
+                    <Input type="time" className="rounded-full" value={slotForm.endTime} onChange={(e) => setSlotForm({ ...slotForm, endTime: e.target.value })} />
                   </div>
                 </div>
                 <div className="flex gap-2 justify-end">
@@ -616,12 +616,12 @@ export function AdminConsultationsPanel({ searchQuery = '' }: AdminConsultations
               <Input type="date"
                 value={blockedDateForm.date}
                 onChange={(e) => setBlockedDateForm({ ...blockedDateForm, date: e.target.value })}
-                className="w-40 rounded-xl"
+                className="w-40 rounded-full"
               />
               <Input placeholder={t('consultations.admin.reasonOptional')}
                 value={blockedDateForm.reason}
                 onChange={(e) => setBlockedDateForm({ ...blockedDateForm, reason: e.target.value })}
-                className="flex-1 rounded-xl"
+                className="flex-1 rounded-full"
               />
               <Button onClick={() => addBlockedDateMutation.mutate(blockedDateForm)}
                 disabled={!blockedDateForm.date}

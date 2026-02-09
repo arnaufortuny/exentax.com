@@ -151,7 +151,7 @@ export function MessagesTab({
               <Input value={inquirySubject} 
                 onChange={(e) => setInquirySubject(e.target.value)} 
                 placeholder={t('dashboard.support.inquiryTitlePlaceholder')}
-                className="rounded-xl h-11 px-5 border-2 border-gray-200 dark:border-border bg-white dark:bg-muted text-sm"
+                className="rounded-full h-11 px-5 border-2 border-gray-200 dark:border-border bg-white dark:bg-muted text-sm"
                 maxLength={120}
                 data-testid="input-inquiry-subject"
               />
@@ -162,7 +162,7 @@ export function MessagesTab({
               <NativeSelect
                 value={inquiryReason}
                 onValueChange={setInquiryReason}
-                className="w-full rounded-xl h-11 px-5 border-2 border-gray-200 dark:border-border bg-white dark:bg-muted"
+                className="w-full rounded-full h-11 px-5 border-2 border-gray-200 dark:border-border bg-white dark:bg-muted"
                 data-testid="select-inquiry-reason"
               >
                 <NativeSelectItem value="" disabled>{t('dashboard.support.selectReason')}</NativeSelectItem>
@@ -177,7 +177,7 @@ export function MessagesTab({
               <Textarea value={inquiryMessage} 
                 onChange={(e) => setInquiryMessage(e.target.value)} 
                 placeholder={t('dashboard.support.inquiryMessagePlaceholder')}
-                className="rounded-xl min-h-[120px] text-sm border-2 border-gray-200 dark:border-border bg-white dark:bg-muted"
+                className="rounded-3xl min-h-[120px] text-sm border-2 border-gray-200 dark:border-border bg-white dark:bg-muted"
                 style={{ fontSize: '16px' }}
                 data-testid="input-inquiry-message"
               />
@@ -267,7 +267,7 @@ export function MessagesTab({
                     <Textarea value={replyContent} 
                       onChange={(e) => setReplyContent(e.target.value)} 
                       placeholder={t('dashboard.support.replyPlaceholder')} 
-                      className="rounded-xl min-h-[80px] text-sm" 
+                      className="rounded-3xl min-h-[80px] text-sm" 
                       data-testid="input-user-reply" 
                     />
                     <Button onClick={() => sendReplyMutation.mutate(msg.id)} 

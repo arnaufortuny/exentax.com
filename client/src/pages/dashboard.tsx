@@ -1102,7 +1102,7 @@ export default function Dashboard() {
                     </p>
                     <Input value={emailVerificationCode}
                       onChange={(e) => setEmailVerificationCode(e.target.value.replace(/\D/g, ""))}
-                      className="rounded-xl text-center text-xl font-black border-orange-200 focus:border-accent tracking-[0.4em] h-12 mb-3"
+                      className="rounded-full text-center text-xl font-black border-orange-200 focus:border-accent tracking-[0.4em] h-12 mb-3"
                       maxLength={6}
                       inputMode="numeric"
                       data-testid="input-pending-verification-code"
@@ -1673,7 +1673,7 @@ export default function Dashboard() {
                             <Textarea value={uploadNotes} 
                               onChange={(e) => setUploadNotes(e.target.value)} 
                               placeholder={t('dashboard.documents.describePlaceholder')}
-                              className="min-h-[70px] rounded-xl border-border bg-background dark:bg-[#1A1A1A] text-base"
+                              className="min-h-[70px] rounded-3xl border-border bg-background dark:bg-[#1A1A1A] text-base"
                               style={{ fontSize: '16px' }}
                               data-testid="input-upload-notes-inline"
                             />
@@ -2319,24 +2319,24 @@ export default function Dashboard() {
                         <div className="grid grid-cols-2 gap-3">
                           <div>
                             <Label className="text-sm font-semibold text-foreground mb-2 block">{t('dashboard.admin.firstName')}</Label>
-                            <Input value={newUserData.firstName} onChange={e => setNewUserData(p => ({ ...p, firstName: e.target.value }))} placeholder={t('dashboard.admin.firstName')} className="rounded-xl h-11 px-4 border border-gray-200 dark:border-border bg-white dark:bg-[#1A1A1A]" data-testid="input-create-user-firstname" />
+                            <Input value={newUserData.firstName} onChange={e => setNewUserData(p => ({ ...p, firstName: e.target.value }))} placeholder={t('dashboard.admin.firstName')} className="rounded-full h-11 px-4 border border-gray-200 dark:border-border bg-white dark:bg-[#1A1A1A]" data-testid="input-create-user-firstname" />
                           </div>
                           <div>
                             <Label className="text-sm font-semibold text-foreground mb-2 block">{t('dashboard.admin.lastName')}</Label>
-                            <Input value={newUserData.lastName} onChange={e => setNewUserData(p => ({ ...p, lastName: e.target.value }))} placeholder={t('dashboard.admin.lastName')} className="rounded-xl h-11 px-4 border border-gray-200 dark:border-border bg-white dark:bg-[#1A1A1A]" data-testid="input-create-user-lastname" />
+                            <Input value={newUserData.lastName} onChange={e => setNewUserData(p => ({ ...p, lastName: e.target.value }))} placeholder={t('dashboard.admin.lastName')} className="rounded-full h-11 px-4 border border-gray-200 dark:border-border bg-white dark:bg-[#1A1A1A]" data-testid="input-create-user-lastname" />
                           </div>
                         </div>
                         <div>
                           <Label className="text-sm font-semibold text-foreground mb-2 block">{t('dashboard.admin.email')}</Label>
-                          <Input type="email" value={newUserData.email} onChange={e => setNewUserData(p => ({ ...p, email: e.target.value }))} placeholder={t('dashboard.admin.email')} className="rounded-xl h-11 px-4 border border-gray-200 dark:border-border bg-white dark:bg-[#1A1A1A]" data-testid="input-create-user-email" />
+                          <Input type="email" value={newUserData.email} onChange={e => setNewUserData(p => ({ ...p, email: e.target.value }))} placeholder={t('dashboard.admin.email')} className="rounded-full h-11 px-4 border border-gray-200 dark:border-border bg-white dark:bg-[#1A1A1A]" data-testid="input-create-user-email" />
                         </div>
                         <div>
                           <Label className="text-sm font-semibold text-foreground mb-2 block">{t('dashboard.admin.phone')}</Label>
-                          <Input value={newUserData.phone} onChange={e => setNewUserData(p => ({ ...p, phone: e.target.value }))} placeholder="+34 600 000 000" className="rounded-xl h-11 px-4 border border-gray-200 dark:border-border bg-white dark:bg-[#1A1A1A]" data-testid="input-create-user-phone" />
+                          <Input value={newUserData.phone} onChange={e => setNewUserData(p => ({ ...p, phone: e.target.value }))} placeholder="+34 600 000 000" className="rounded-full h-11 px-4 border border-gray-200 dark:border-border bg-white dark:bg-[#1A1A1A]" data-testid="input-create-user-phone" />
                         </div>
                         <div>
                           <Label className="text-sm font-semibold text-foreground mb-2 block">{t('dashboard.admin.password')}</Label>
-                          <Input type="password" value={newUserData.password} onChange={e => setNewUserData(p => ({ ...p, password: e.target.value }))} placeholder={t('dashboard.admin.minChars')} className="rounded-xl h-11 px-4 border border-gray-200 dark:border-border bg-white dark:bg-[#1A1A1A]" data-testid="input-create-user-password" />
+                          <Input type="password" value={newUserData.password} onChange={e => setNewUserData(p => ({ ...p, password: e.target.value }))} placeholder={t('dashboard.admin.minChars')} className="rounded-full h-11 px-4 border border-gray-200 dark:border-border bg-white dark:bg-[#1A1A1A]" data-testid="input-create-user-password" />
                         </div>
                       </div>
                       <div className="flex flex-col sm:flex-row gap-3 mt-6 pt-4 border-t">
@@ -2442,7 +2442,7 @@ export default function Dashboard() {
                         )}
                         <div>
                           <Label className="text-sm font-semibold text-foreground mb-2 block">{t('dashboard.admin.amount')} (€)</Label>
-                          <Input type="number" value={newOrderData.amount} onChange={e => setNewOrderData(p => ({ ...p, amount: e.target.value }))} placeholder="739" className="rounded-xl h-11 px-4 border border-gray-200 dark:border-border bg-white dark:bg-[#1A1A1A]" data-testid="input-order-amount" />
+                          <Input type="number" value={newOrderData.amount} onChange={e => setNewOrderData(p => ({ ...p, amount: e.target.value }))} placeholder="739" className="rounded-full h-11 px-4 border border-gray-200 dark:border-border bg-white dark:bg-[#1A1A1A]" data-testid="input-order-amount" />
                         </div>
                       </div>
                       <div className="flex flex-col sm:flex-row gap-3 mt-6 pt-4 border-t">
@@ -2469,11 +2469,11 @@ export default function Dashboard() {
                       <div className="space-y-4">
                         <div>
                           <Label className="text-sm font-semibold text-foreground mb-2 block">{t('dashboard.admin.messageTitle')}</Label>
-                          <Input value={noteTitle} onChange={e => setNoteTitle(e.target.value)} placeholder={t('dashboard.admin.messageTitlePlaceholder')} className="w-full rounded-xl h-11 px-4 border border-gray-200 dark:border-border bg-white dark:bg-[#1A1A1A]" data-testid="input-note-title" />
+                          <Input value={noteTitle} onChange={e => setNoteTitle(e.target.value)} placeholder={t('dashboard.admin.messageTitlePlaceholder')} className="w-full rounded-full h-11 px-4 border border-gray-200 dark:border-border bg-white dark:bg-[#1A1A1A]" data-testid="input-note-title" />
                         </div>
                         <div>
                           <Label className="text-sm font-semibold text-foreground mb-2 block">{t('dashboard.admin.message')}</Label>
-                          <Textarea value={noteMessage} onChange={e => setNoteMessage(e.target.value)} placeholder={t('dashboard.admin.messagePlaceholder')} rows={4} className="w-full rounded-xl border-border bg-background dark:bg-[#1A1A1A]" data-testid="input-note-message" />
+                          <Textarea value={noteMessage} onChange={e => setNoteMessage(e.target.value)} placeholder={t('dashboard.admin.messagePlaceholder')} rows={4} className="w-full rounded-3xl border-border bg-background dark:bg-[#1A1A1A]" data-testid="input-note-message" />
                         </div>
                       </div>
                       <div className="flex flex-col sm:flex-row gap-3 mt-6 pt-4 border-t">
@@ -2501,20 +2501,20 @@ export default function Dashboard() {
                         <div className="grid grid-cols-2 gap-3">
                           <div>
                             <Label className="text-xs font-semibold text-foreground mb-1.5 block">{t('dashboard.admin.firstName')}</Label>
-                            <Input value={editingUser.firstName || ''} onChange={e => setEditingUser({...editingUser, firstName: e.target.value})} className="rounded-xl h-10 px-3 border border-gray-200 dark:border-border text-sm bg-white dark:bg-[#1A1A1A]" data-testid="input-edit-firstname" />
+                            <Input value={editingUser.firstName || ''} onChange={e => setEditingUser({...editingUser, firstName: e.target.value})} className="rounded-full h-10 px-3 border border-gray-200 dark:border-border text-sm bg-white dark:bg-[#1A1A1A]" data-testid="input-edit-firstname" />
                           </div>
                           <div>
                             <Label className="text-xs font-semibold text-foreground mb-1.5 block">{t('dashboard.admin.lastName')}</Label>
-                            <Input value={editingUser.lastName || ''} onChange={e => setEditingUser({...editingUser, lastName: e.target.value})} className="rounded-xl h-10 px-3 border border-gray-200 dark:border-border text-sm bg-white dark:bg-[#1A1A1A]" data-testid="input-edit-lastname" />
+                            <Input value={editingUser.lastName || ''} onChange={e => setEditingUser({...editingUser, lastName: e.target.value})} className="rounded-full h-10 px-3 border border-gray-200 dark:border-border text-sm bg-white dark:bg-[#1A1A1A]" data-testid="input-edit-lastname" />
                           </div>
                         </div>
                         <div>
                           <Label className="text-xs font-semibold text-foreground mb-1.5 block">{t('dashboard.admin.email')}</Label>
-                          <Input value={editingUser.email || ''} onChange={e => setEditingUser({...editingUser, email: e.target.value})} className="rounded-xl h-10 px-3 border border-gray-200 dark:border-border text-sm bg-white dark:bg-[#1A1A1A]" data-testid="input-edit-email" />
+                          <Input value={editingUser.email || ''} onChange={e => setEditingUser({...editingUser, email: e.target.value})} className="rounded-full h-10 px-3 border border-gray-200 dark:border-border text-sm bg-white dark:bg-[#1A1A1A]" data-testid="input-edit-email" />
                         </div>
                         <div>
                           <Label className="text-xs font-semibold text-foreground mb-1.5 block">{t('dashboard.admin.phone')}</Label>
-                          <Input value={editingUser.phone || ''} onChange={e => setEditingUser({...editingUser, phone: e.target.value})} className="rounded-xl h-10 px-3 border border-gray-200 dark:border-border text-sm bg-white dark:bg-[#1A1A1A]" data-testid="input-edit-phone" />
+                          <Input value={editingUser.phone || ''} onChange={e => setEditingUser({...editingUser, phone: e.target.value})} className="rounded-full h-10 px-3 border border-gray-200 dark:border-border text-sm bg-white dark:bg-[#1A1A1A]" data-testid="input-edit-phone" />
                         </div>
                         <div className="grid grid-cols-2 gap-3">
                           <div>
@@ -2532,12 +2532,12 @@ export default function Dashboard() {
                           </div>
                           <div>
                             <Label className="text-xs font-semibold text-foreground mb-1.5 block">{t('dashboard.admin.idNumber')}</Label>
-                            <Input value={editingUser.idNumber || ''} onChange={e => setEditingUser({...editingUser, idNumber: e.target.value})} className="rounded-xl h-10 px-3 border border-gray-200 dark:border-border text-sm bg-white dark:bg-[#1A1A1A]" data-testid="input-edit-idnumber" />
+                            <Input value={editingUser.idNumber || ''} onChange={e => setEditingUser({...editingUser, idNumber: e.target.value})} className="rounded-full h-10 px-3 border border-gray-200 dark:border-border text-sm bg-white dark:bg-[#1A1A1A]" data-testid="input-edit-idnumber" />
                           </div>
                         </div>
                         <div>
                           <Label className="text-xs font-semibold text-foreground mb-1.5 block">{t('dashboard.admin.birthDate')}</Label>
-                          <Input type="date" value={editingUser.birthDate || ''} onChange={e => setEditingUser({...editingUser, birthDate: e.target.value})} className="rounded-xl h-10 px-3 border border-gray-200 dark:border-border text-sm bg-white dark:bg-[#1A1A1A]" data-testid="input-edit-birthdate" />
+                          <Input type="date" value={editingUser.birthDate || ''} onChange={e => setEditingUser({...editingUser, birthDate: e.target.value})} className="rounded-full h-10 px-3 border border-gray-200 dark:border-border text-sm bg-white dark:bg-[#1A1A1A]" data-testid="input-edit-birthdate" />
                         </div>
                         <div>
                           <Label className="text-xs font-semibold text-foreground mb-1.5 block">{t('dashboard.admin.businessActivity')}</Label>
@@ -2573,31 +2573,31 @@ export default function Dashboard() {
                         </div>
                         <div>
                           <Label className="text-xs font-semibold text-foreground mb-1.5 block">{t('dashboard.admin.address')}</Label>
-                          <Input value={editingUser.address || ''} onChange={e => setEditingUser({...editingUser, address: e.target.value})} placeholder={t('dashboard.admin.streetAndNumber')} className="rounded-xl h-10 px-3 border border-gray-200 dark:border-border text-sm bg-white dark:bg-[#1A1A1A]" data-testid="input-edit-address" />
+                          <Input value={editingUser.address || ''} onChange={e => setEditingUser({...editingUser, address: e.target.value})} placeholder={t('dashboard.admin.streetAndNumber')} className="rounded-full h-10 px-3 border border-gray-200 dark:border-border text-sm bg-white dark:bg-[#1A1A1A]" data-testid="input-edit-address" />
                         </div>
                         <div className="grid grid-cols-2 gap-3">
                           <div>
                             <Label className="text-xs font-semibold text-foreground mb-1.5 block">{t('dashboard.admin.city')}</Label>
-                            <Input value={editingUser.city || ''} onChange={e => setEditingUser({...editingUser, city: e.target.value})} className="rounded-xl h-10 px-3 border border-gray-200 dark:border-border text-sm bg-white dark:bg-[#1A1A1A]" data-testid="input-edit-city" />
+                            <Input value={editingUser.city || ''} onChange={e => setEditingUser({...editingUser, city: e.target.value})} className="rounded-full h-10 px-3 border border-gray-200 dark:border-border text-sm bg-white dark:bg-[#1A1A1A]" data-testid="input-edit-city" />
                           </div>
                           <div>
                             <Label className="text-xs font-semibold text-foreground mb-1.5 block">{t('dashboard.admin.postalCode')}</Label>
-                            <Input value={editingUser.postalCode || ''} onChange={e => setEditingUser({...editingUser, postalCode: e.target.value})} className="rounded-xl h-10 px-3 border border-gray-200 dark:border-border text-sm bg-white dark:bg-[#1A1A1A]" data-testid="input-edit-postal" />
+                            <Input value={editingUser.postalCode || ''} onChange={e => setEditingUser({...editingUser, postalCode: e.target.value})} className="rounded-full h-10 px-3 border border-gray-200 dark:border-border text-sm bg-white dark:bg-[#1A1A1A]" data-testid="input-edit-postal" />
                           </div>
                         </div>
                         <div className="grid grid-cols-2 gap-3">
                           <div>
                             <Label className="text-xs font-semibold text-foreground mb-1.5 block">{t('dashboard.admin.province')}</Label>
-                            <Input value={editingUser.province || ''} onChange={e => setEditingUser({...editingUser, province: e.target.value})} className="rounded-xl h-10 px-3 border border-gray-200 dark:border-border text-sm bg-white dark:bg-[#1A1A1A]" data-testid="input-edit-province" />
+                            <Input value={editingUser.province || ''} onChange={e => setEditingUser({...editingUser, province: e.target.value})} className="rounded-full h-10 px-3 border border-gray-200 dark:border-border text-sm bg-white dark:bg-[#1A1A1A]" data-testid="input-edit-province" />
                           </div>
                           <div>
                             <Label className="text-xs font-semibold text-foreground mb-1.5 block">{t('dashboard.admin.country')}</Label>
-                            <Input value={editingUser.country || ''} onChange={e => setEditingUser({...editingUser, country: e.target.value})} className="rounded-xl h-10 px-3 border border-gray-200 dark:border-border text-sm bg-white dark:bg-[#1A1A1A]" data-testid="input-edit-country" />
+                            <Input value={editingUser.country || ''} onChange={e => setEditingUser({...editingUser, country: e.target.value})} className="rounded-full h-10 px-3 border border-gray-200 dark:border-border text-sm bg-white dark:bg-[#1A1A1A]" data-testid="input-edit-country" />
                           </div>
                         </div>
                         <div>
                           <Label className="text-xs font-semibold text-foreground mb-1.5 block">{t('dashboard.admin.internalNotes')}</Label>
-                          <Textarea value={editingUser.internalNotes || ''} onChange={e => setEditingUser({...editingUser, internalNotes: e.target.value})} rows={2} className="rounded-xl border-border bg-background dark:bg-[#1A1A1A] text-sm" data-testid="input-edit-notes" />
+                          <Textarea value={editingUser.internalNotes || ''} onChange={e => setEditingUser({...editingUser, internalNotes: e.target.value})} rows={2} className="rounded-3xl border-border bg-background dark:bg-[#1A1A1A] text-sm" data-testid="input-edit-notes" />
                         </div>
                         {user?.email === 'afortuny07@gmail.com' && (
                           <>
@@ -2790,7 +2790,7 @@ export default function Dashboard() {
                         </div>
                         <div>
                           <Label className="text-sm font-semibold text-foreground mb-2 block">{t('dashboard.admin.message')}</Label>
-                          <Textarea value={docMessage} onChange={e => setDocMessage(e.target.value)} placeholder={t('dashboard.admin.messageForClient')} rows={3} className="w-full rounded-xl border-border bg-background dark:bg-[#1A1A1A]" data-testid="input-doc-message" />
+                          <Textarea value={docMessage} onChange={e => setDocMessage(e.target.value)} placeholder={t('dashboard.admin.messageForClient')} rows={3} className="w-full rounded-3xl border-border bg-background dark:bg-[#1A1A1A]" data-testid="input-doc-message" />
                         </div>
                       </div>
                       <div className="flex flex-col sm:flex-row gap-3 mt-6 pt-4 border-t">
@@ -3621,11 +3621,11 @@ export default function Dashboard() {
                               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                                 <div>
                                   <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-wide">{t('dashboard.admin.orders.company')}</label>
-                                  <Input value={inlineEditData.companyName || ''} onChange={e => setInlineEditData(d => ({ ...d, companyName: e.target.value }))} className="rounded-xl h-9 text-xs" data-testid={`input-inline-company-${order.id}`} />
+                                  <Input value={inlineEditData.companyName || ''} onChange={e => setInlineEditData(d => ({ ...d, companyName: e.target.value }))} className="rounded-full h-9 text-xs" data-testid={`input-inline-company-${order.id}`} />
                                 </div>
                                 <div>
                                   <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-wide">{t('dashboard.admin.orders.stateLabel')}</label>
-                                  <NativeSelect value={inlineEditData.state || ''} onValueChange={val => setInlineEditData(d => ({ ...d, state: val }))} className="rounded-xl h-9 text-xs bg-white dark:bg-card border px-2 w-full">
+                                  <NativeSelect value={inlineEditData.state || ''} onValueChange={val => setInlineEditData(d => ({ ...d, state: val }))} className="rounded-full h-9 text-xs bg-white dark:bg-card border px-2 w-full">
                                     <NativeSelectItem value="new_mexico">{t('application.states.newMexico')}</NativeSelectItem>
                                     <NativeSelectItem value="wyoming">{t('application.states.wyoming')}</NativeSelectItem>
                                     <NativeSelectItem value="delaware">{t('application.states.delaware')}</NativeSelectItem>
@@ -3633,28 +3633,28 @@ export default function Dashboard() {
                                 </div>
                                 <div>
                                   <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-wide">{t('dashboard.admin.orders.ownerName')}</label>
-                                  <Input value={inlineEditData.ownerFullName || ''} onChange={e => setInlineEditData(d => ({ ...d, ownerFullName: e.target.value }))} className="rounded-xl h-9 text-xs" data-testid={`input-inline-owner-${order.id}`} />
+                                  <Input value={inlineEditData.ownerFullName || ''} onChange={e => setInlineEditData(d => ({ ...d, ownerFullName: e.target.value }))} className="rounded-full h-9 text-xs" data-testid={`input-inline-owner-${order.id}`} />
                                 </div>
                                 <div>
                                   <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-wide">{t('common.email')}</label>
-                                  <Input value={inlineEditData.ownerEmail || ''} onChange={e => setInlineEditData(d => ({ ...d, ownerEmail: e.target.value }))} className="rounded-xl h-9 text-xs" data-testid={`input-inline-email-${order.id}`} />
+                                  <Input value={inlineEditData.ownerEmail || ''} onChange={e => setInlineEditData(d => ({ ...d, ownerEmail: e.target.value }))} className="rounded-full h-9 text-xs" data-testid={`input-inline-email-${order.id}`} />
                                 </div>
                                 <div>
                                   <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-wide">{t('dashboard.admin.orders.phone')}</label>
-                                  <Input value={inlineEditData.ownerPhone || ''} onChange={e => setInlineEditData(d => ({ ...d, ownerPhone: e.target.value }))} className="rounded-xl h-9 text-xs" data-testid={`input-inline-phone-${order.id}`} />
+                                  <Input value={inlineEditData.ownerPhone || ''} onChange={e => setInlineEditData(d => ({ ...d, ownerPhone: e.target.value }))} className="rounded-full h-9 text-xs" data-testid={`input-inline-phone-${order.id}`} />
                                 </div>
                                 <div>
                                   <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-wide">{t('dashboard.admin.orders.category')}</label>
-                                  <Input value={inlineEditData.businessCategory || ''} onChange={e => setInlineEditData(d => ({ ...d, businessCategory: e.target.value }))} className="rounded-xl h-9 text-xs" data-testid={`input-inline-category-${order.id}`} />
+                                  <Input value={inlineEditData.businessCategory || ''} onChange={e => setInlineEditData(d => ({ ...d, businessCategory: e.target.value }))} className="rounded-full h-9 text-xs" data-testid={`input-inline-category-${order.id}`} />
                                 </div>
                                 <div>
                                   <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-wide">{t('dashboard.admin.orders.amount')} (€)</label>
-                                  <Input type="number" step="0.01" value={inlineEditData.amount || ''} onChange={e => setInlineEditData(d => ({ ...d, amount: e.target.value }))} className="rounded-xl h-9 text-xs" data-testid={`input-inline-amount-${order.id}`} />
+                                  <Input type="number" step="0.01" value={inlineEditData.amount || ''} onChange={e => setInlineEditData(d => ({ ...d, amount: e.target.value }))} className="rounded-full h-9 text-xs" data-testid={`input-inline-amount-${order.id}`} />
                                 </div>
                                 {isMaintenance && (
                                   <div>
                                     <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-wide">EIN</label>
-                                    <Input value={inlineEditData.ein || ''} onChange={e => setInlineEditData(d => ({ ...d, ein: e.target.value }))} className="rounded-xl h-9 text-xs" data-testid={`input-inline-ein-${order.id}`} />
+                                    <Input value={inlineEditData.ein || ''} onChange={e => setInlineEditData(d => ({ ...d, ein: e.target.value }))} className="rounded-full h-9 text-xs" data-testid={`input-inline-ein-${order.id}`} />
                                   </div>
                                 )}
                               </div>
@@ -4125,7 +4125,7 @@ export default function Dashboard() {
                                   <Label className="text-[10px] md:text-xs font-bold text-muted-foreground mb-1 block truncate">{t('dashboard.admin.calendar.annualReport')}</Label>
                                   <Input 
                                     type="date" 
-                                    className="h-8 md:h-10 text-xs md:text-sm px-2 md:px-3 rounded-xl"
+                                    className="h-8 md:h-10 text-xs md:text-sm px-2 md:px-3 rounded-full"
                                     defaultValue={app.annualReportDueDate ? new Date(app.annualReportDueDate).toISOString().split('T')[0] : ''}
                                     onChange={e => updateLlcDatesMutation.mutate({ appId: app.id, field: 'annualReportDueDate', value: e.target.value })}
                                     data-testid={`input-annual-report-${app.id}`}
@@ -4139,7 +4139,7 @@ export default function Dashboard() {
                                   <Input 
                                     type="text" 
                                     placeholder="XX-XXXXXXX"
-                                    className="h-8 md:h-10 text-xs md:text-sm px-2 md:px-3 font-mono rounded-xl"
+                                    className="h-8 md:h-10 text-xs md:text-sm px-2 md:px-3 font-mono rounded-full"
                                     defaultValue={app.ein || ''}
                                     onChange={e => updateLlcDatesMutation.mutate({ appId: app.id, field: 'ein', value: e.target.value })}
                                     data-testid={`input-ein-${app.id}`}
@@ -4585,15 +4585,15 @@ export default function Dashboard() {
                               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                                 <div>
                                   <label className="text-xs font-bold text-muted-foreground mb-1 block">{t('dashboard.admin.paymentAccounts.label')} *</label>
-                                  <Input value={paymentAccountForm.label} onChange={e => setPaymentAccountForm(f => ({...f, label: e.target.value}))} className="rounded-xl text-sm" />
+                                  <Input value={paymentAccountForm.label} onChange={e => setPaymentAccountForm(f => ({...f, label: e.target.value}))} className="rounded-full text-sm" />
                                 </div>
                                 <div>
                                   <label className="text-xs font-bold text-muted-foreground mb-1 block">{t('dashboard.admin.paymentAccounts.holder')} *</label>
-                                  <Input value={paymentAccountForm.holder} onChange={e => setPaymentAccountForm(f => ({...f, holder: e.target.value}))} className="rounded-xl text-sm" />
+                                  <Input value={paymentAccountForm.holder} onChange={e => setPaymentAccountForm(f => ({...f, holder: e.target.value}))} className="rounded-full text-sm" />
                                 </div>
                                 <div>
                                   <label className="text-xs font-bold text-muted-foreground mb-1 block">{t('dashboard.admin.paymentAccounts.bank')} *</label>
-                                  <Input value={paymentAccountForm.bankName} onChange={e => setPaymentAccountForm(f => ({...f, bankName: e.target.value}))} className="rounded-xl text-sm" />
+                                  <Input value={paymentAccountForm.bankName} onChange={e => setPaymentAccountForm(f => ({...f, bankName: e.target.value}))} className="rounded-full text-sm" />
                                 </div>
                                 <div>
                                   <label className="text-xs font-bold text-muted-foreground mb-1 block">{t('dashboard.admin.paymentAccounts.accountType')}</label>
@@ -4605,27 +4605,27 @@ export default function Dashboard() {
                                 </div>
                                 <div>
                                   <label className="text-xs font-bold text-muted-foreground mb-1 block">{t('dashboard.admin.paymentAccounts.accountNumber')}</label>
-                                  <Input value={paymentAccountForm.accountNumber} onChange={e => setPaymentAccountForm(f => ({...f, accountNumber: e.target.value}))} className="rounded-xl text-sm" />
+                                  <Input value={paymentAccountForm.accountNumber} onChange={e => setPaymentAccountForm(f => ({...f, accountNumber: e.target.value}))} className="rounded-full text-sm" />
                                 </div>
                                 <div>
                                   <label className="text-xs font-bold text-muted-foreground mb-1 block">{t('dashboard.admin.paymentAccounts.routingNumber')}</label>
-                                  <Input value={paymentAccountForm.routingNumber} onChange={e => setPaymentAccountForm(f => ({...f, routingNumber: e.target.value}))} className="rounded-xl text-sm" />
+                                  <Input value={paymentAccountForm.routingNumber} onChange={e => setPaymentAccountForm(f => ({...f, routingNumber: e.target.value}))} className="rounded-full text-sm" />
                                 </div>
                                 <div>
                                   <label className="text-xs font-bold text-muted-foreground mb-1 block">IBAN</label>
-                                  <Input value={paymentAccountForm.iban} onChange={e => setPaymentAccountForm(f => ({...f, iban: e.target.value}))} className="rounded-xl text-sm" />
+                                  <Input value={paymentAccountForm.iban} onChange={e => setPaymentAccountForm(f => ({...f, iban: e.target.value}))} className="rounded-full text-sm" />
                                 </div>
                                 <div>
                                   <label className="text-xs font-bold text-muted-foreground mb-1 block">{t('dashboard.admin.paymentAccounts.swiftBic')}</label>
-                                  <Input value={paymentAccountForm.swift} onChange={e => setPaymentAccountForm(f => ({...f, swift: e.target.value}))} className="rounded-xl text-sm" />
+                                  <Input value={paymentAccountForm.swift} onChange={e => setPaymentAccountForm(f => ({...f, swift: e.target.value}))} className="rounded-full text-sm" />
                                 </div>
                                 <div className="sm:col-span-2">
                                   <label className="text-xs font-bold text-muted-foreground mb-1 block">{t('dashboard.admin.paymentAccounts.address')}</label>
-                                  <Input value={paymentAccountForm.address} onChange={e => setPaymentAccountForm(f => ({...f, address: e.target.value}))} className="rounded-xl text-sm" />
+                                  <Input value={paymentAccountForm.address} onChange={e => setPaymentAccountForm(f => ({...f, address: e.target.value}))} className="rounded-full text-sm" />
                                 </div>
                                 <div>
                                   <label className="text-xs font-bold text-muted-foreground mb-1 block">{t('dashboard.admin.paymentAccounts.sortOrder')}</label>
-                                  <Input type="number" value={paymentAccountForm.sortOrder} onChange={e => setPaymentAccountForm(f => ({...f, sortOrder: parseInt(e.target.value) || 0}))} className="rounded-xl text-sm" />
+                                  <Input type="number" value={paymentAccountForm.sortOrder} onChange={e => setPaymentAccountForm(f => ({...f, sortOrder: parseInt(e.target.value) || 0}))} className="rounded-full text-sm" />
                                 </div>
                               </div>
                               <div className="flex justify-end gap-2 pt-2">

@@ -34,7 +34,7 @@ export function FormTextarea<T extends FieldValues>({
           <FormControl>
             <Textarea
               {...field}
-              className="rounded-2xl p-5 border-2 border-gray-200 dark:border-[#2A2A2A] focus:border-accent bg-white dark:bg-[#1A1A1A] transition-all font-medium text-foreground dark:text-white placeholder:text-muted-foreground text-base"
+              className="rounded-3xl p-5 border-2 border-gray-200 dark:border-[#2A2A2A] focus:border-accent bg-white dark:bg-[#1A1A1A] transition-all font-medium text-foreground dark:text-white placeholder:text-muted-foreground text-base"
               style={{ minHeight }}
               placeholder={placeholder}
             />

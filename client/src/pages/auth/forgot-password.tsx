@@ -230,7 +230,7 @@ export default function ForgotPassword() {
                     <Input maxLength={6}
                       value={otp}
                       onChange={(e) => setOtp(e.target.value.replace(/\D/g, ""))}
-                      className="h-14 text-center text-2xl md:text-3xl tracking-[0.5em] font-black border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-[#1A1A1A] rounded-xl"
+                      className="h-14 text-center text-2xl md:text-3xl tracking-[0.5em] font-black border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-[#1A1A1A] rounded-full"
                       inputMode="numeric"
                       autoComplete="one-time-code"
                       data-testid="input-otp"

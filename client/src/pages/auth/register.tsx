@@ -337,7 +337,7 @@ export default function Register() {
                 <label className="text-sm font-black text-primary block mb-2">{t("auth.verify.codeLabel")}</label>
                 <Input value={verificationCode}
                   onChange={(e) => setVerificationCode(e.target.value.replace(/\D/g, ""))}
-                  className="h-12 text-center text-2xl font-black border-2 border-gray-200 dark:border-border focus:border-accent tracking-[0.5em] bg-white dark:bg-[#1A1A1A] rounded-xl"
+                  className="h-12 text-center text-2xl font-black border-2 border-gray-200 dark:border-border focus:border-accent tracking-[0.5em] bg-white dark:bg-[#1A1A1A] rounded-full"
                   maxLength={6}
                   inputMode="numeric"
                   autoComplete="one-time-code"
@@ -454,7 +454,7 @@ export default function Register() {
                             <Input
                               {...field}
                               placeholder={t("auth.register.firstNamePlaceholder")}
-                              className="h-11 md:h-12 px-5 border-2 border-gray-200 dark:border-[#2A2A2A] focus:border-accent bg-white dark:bg-[#1A1A1A] transition-colors font-medium text-foreground dark:text-white text-base placeholder:text-muted-foreground rounded-xl"
+                              className="h-11 md:h-12 px-5 border-2 border-gray-200 dark:border-[#2A2A2A] focus:border-accent bg-white dark:bg-[#1A1A1A] transition-colors font-medium text-foreground dark:text-white text-base placeholder:text-muted-foreground rounded-full"
                               style={{ fontFamily: 'Inter, system-ui, sans-serif', fontSize: '16px' }}
                               data-testid="input-firstName"
                             />
@@ -474,7 +474,7 @@ export default function Register() {
                             <Input
                               {...field}
                               placeholder={t("auth.register.lastNamePlaceholder")}
-                              className="h-11 md:h-12 px-5 border-2 border-gray-200 dark:border-[#2A2A2A] focus:border-accent bg-white dark:bg-[#1A1A1A] transition-colors font-medium text-foreground dark:text-white text-base placeholder:text-muted-foreground rounded-xl"
+                              className="h-11 md:h-12 px-5 border-2 border-gray-200 dark:border-[#2A2A2A] focus:border-accent bg-white dark:bg-[#1A1A1A] transition-colors font-medium text-foreground dark:text-white text-base placeholder:text-muted-foreground rounded-full"
                               style={{ fontFamily: 'Inter, system-ui, sans-serif', fontSize: '16px' }}
                               data-testid="input-lastName"
                             />
@@ -504,7 +504,7 @@ export default function Register() {
                               {...field}
                               type="email"
                               inputMode="email"
-                              className="h-11 md:h-12 px-5 border-2 border-gray-200 dark:border-[#2A2A2A] focus:border-accent bg-white dark:bg-[#1A1A1A] transition-colors font-medium text-foreground dark:text-white text-base placeholder:text-muted-foreground rounded-xl"
+                              className="h-11 md:h-12 px-5 border-2 border-gray-200 dark:border-[#2A2A2A] focus:border-accent bg-white dark:bg-[#1A1A1A] transition-colors font-medium text-foreground dark:text-white text-base placeholder:text-muted-foreground rounded-full"
                               style={{ fontFamily: 'Inter, system-ui, sans-serif', fontSize: '16px' }}
                               data-testid="input-email"
                             />
@@ -535,7 +535,7 @@ export default function Register() {
                               type="tel"
                               inputMode="tel"
                               placeholder={t("auth.register.phonePlaceholder")}
-                              className="h-11 md:h-12 px-5 border-2 border-gray-200 dark:border-[#2A2A2A] focus:border-accent bg-white dark:bg-[#1A1A1A] transition-colors font-medium text-foreground dark:text-white text-base placeholder:text-muted-foreground rounded-xl"
+                              className="h-11 md:h-12 px-5 border-2 border-gray-200 dark:border-[#2A2A2A] focus:border-accent bg-white dark:bg-[#1A1A1A] transition-colors font-medium text-foreground dark:text-white text-base placeholder:text-muted-foreground rounded-full"
                               style={{ fontFamily: 'Inter, system-ui, sans-serif', fontSize: '16px' }}
                               data-testid="input-phone"
                             />
@@ -603,7 +603,7 @@ export default function Register() {
                                 {...field}
                                 type={showPassword ? "text" : "password"}
                                 autoComplete="new-password"
-                                className="h-11 md:h-12 px-5 pr-12 border-2 border-gray-200 dark:border-[#2A2A2A] focus:border-accent bg-white dark:bg-[#1A1A1A] transition-colors font-medium text-foreground dark:text-white text-base placeholder:text-muted-foreground rounded-xl"
+                                className="h-11 md:h-12 px-5 pr-12 border-2 border-gray-200 dark:border-[#2A2A2A] focus:border-accent bg-white dark:bg-[#1A1A1A] transition-colors font-medium text-foreground dark:text-white text-base placeholder:text-muted-foreground rounded-full"
                                 style={{ fontFamily: 'Inter, system-ui, sans-serif', fontSize: '16px' }}
                                 data-testid="input-password"
                               />
@@ -639,7 +639,7 @@ export default function Register() {
                               {...field}
                               type={showPassword ? "text" : "password"}
                               autoComplete="new-password"
-                              className="h-11 md:h-12 px-5 border-2 border-gray-200 dark:border-[#2A2A2A] focus:border-accent bg-white dark:bg-[#1A1A1A] transition-colors font-medium text-foreground dark:text-white text-base placeholder:text-muted-foreground rounded-xl"
+                              className="h-11 md:h-12 px-5 border-2 border-gray-200 dark:border-[#2A2A2A] focus:border-accent bg-white dark:bg-[#1A1A1A] transition-colors font-medium text-foreground dark:text-white text-base placeholder:text-muted-foreground rounded-full"
                               style={{ fontFamily: 'Inter, system-ui, sans-serif', fontSize: '16px' }}
                               data-testid="input-confirmPassword"
                             />

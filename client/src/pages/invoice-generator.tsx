@@ -398,7 +398,7 @@ export default function InvoiceGenerator() {
                   <Input id="issuerName"
                     value={issuerName}
                     onChange={(e) => setIssuerName(e.target.value)}
-                    className="mt-1 rounded-xl"
+                    className="mt-1 rounded-full"
                     data-testid="input-issuer-name"
                   />
                 </div>
@@ -408,7 +408,7 @@ export default function InvoiceGenerator() {
                     value={issuerAddress}
                     onChange={(e) => setIssuerAddress(e.target.value)}
                     rows={2}
-                    className="mt-1 resize-none rounded-xl"
+                    className="mt-1 resize-none rounded-3xl"
                     data-testid="input-issuer-address"
                   />
                 </div>
@@ -419,7 +419,7 @@ export default function InvoiceGenerator() {
                       type="email"
                       value={issuerEmail}
                       onChange={(e) => setIssuerEmail(e.target.value)}
-                      className="mt-1 rounded-xl"
+                      className="mt-1 rounded-full"
                       data-testid="input-issuer-email"
                     />
                   </div>
@@ -428,7 +428,7 @@ export default function InvoiceGenerator() {
                     <Input id="issuerTaxId"
                       value={issuerTaxId}
                       onChange={(e) => setIssuerTaxId(e.target.value)}
-                      className="mt-1 rounded-xl"
+                      className="mt-1 rounded-full"
                       data-testid="input-issuer-tax-id"
                     />
                   </div>
@@ -446,7 +446,7 @@ export default function InvoiceGenerator() {
                   <Input id="clientName"
                     value={clientName}
                     onChange={(e) => setClientName(e.target.value)}
-                    className="mt-1 rounded-xl"
+                    className="mt-1 rounded-full"
                     data-testid="input-client-name"
                   />
                 </div>
@@ -456,7 +456,7 @@ export default function InvoiceGenerator() {
                     value={clientAddress}
                     onChange={(e) => setClientAddress(e.target.value)}
                     rows={2}
-                    className="mt-1 resize-none rounded-xl"
+                    className="mt-1 resize-none rounded-3xl"
                     data-testid="input-client-address"
                   />
                 </div>
@@ -467,7 +467,7 @@ export default function InvoiceGenerator() {
                       type="email"
                       value={clientEmail}
                       onChange={(e) => setClientEmail(e.target.value)}
-                      className="mt-1 rounded-xl"
+                      className="mt-1 rounded-full"
                       data-testid="input-client-email"
                     />
                   </div>
@@ -476,7 +476,7 @@ export default function InvoiceGenerator() {
                     <Input id="clientTaxId"
                       value={clientTaxId}
                       onChange={(e) => setClientTaxId(e.target.value)}
-                      className="mt-1 rounded-xl"
+                      className="mt-1 rounded-full"
                       data-testid="input-client-tax-id"
                     />
                   </div>
@@ -496,7 +496,7 @@ export default function InvoiceGenerator() {
                   <Input id="invoiceNumber"
                     value={invoiceNumber}
                     onChange={(e) => setInvoiceNumber(e.target.value)}
-                    className="mt-1 rounded-xl"
+                    className="mt-1 rounded-full"
                     data-testid="input-invoice-number"
                   />
                 </div>
@@ -506,7 +506,7 @@ export default function InvoiceGenerator() {
                     type="date"
                     value={invoiceDate}
                     onChange={(e) => setInvoiceDate(e.target.value)}
-                    className="mt-1 text-[10px] sm:text-sm min-w-0 px-2 sm:px-4 rounded-xl"
+                    className="mt-1 text-[10px] sm:text-sm min-w-0 px-2 sm:px-4 rounded-full"
                     data-testid="input-invoice-date"
                   />
                 </div>
@@ -516,7 +516,7 @@ export default function InvoiceGenerator() {
                     type="date"
                     value={dueDate}
                     onChange={(e) => setDueDate(e.target.value)}
-                    className="mt-1 text-[10px] sm:text-sm min-w-0 px-2 sm:px-4 rounded-xl"
+                    className="mt-1 text-[10px] sm:text-sm min-w-0 px-2 sm:px-4 rounded-full"
                     data-testid="input-due-date"
                   />
                 </div>
@@ -579,7 +579,7 @@ export default function InvoiceGenerator() {
                     <div className="col-span-12 md:col-span-6">
                       <Input value={item.description}
                         onChange={(e) => updateItem(item.id, 'description', e.target.value)}
-                        className="rounded-xl"
+                        className="rounded-full"
                         data-testid={`input-item-description-${index}`}
                       />
                     </div>
@@ -588,7 +588,7 @@ export default function InvoiceGenerator() {
                         min="1"
                         value={item.quantity}
                         onChange={(e) => updateItem(item.id, 'quantity', parseInt(e.target.value) || 1)}
-                        className="rounded-xl"
+                        className="rounded-full"
                         data-testid={`input-item-quantity-${index}`}
                       />
                     </div>
@@ -598,7 +598,7 @@ export default function InvoiceGenerator() {
                         step="0.01"
                         value={item.price}
                         onChange={(e) => updateItem(item.id, 'price', parseFloat(e.target.value) || 0)}
-                        className="rounded-xl"
+                        className="rounded-full"
                         data-testid={`input-item-price-${index}`}
                       />
                     </div>
@@ -647,7 +647,7 @@ export default function InvoiceGenerator() {
               <Textarea value={notes}
                 onChange={(e) => setNotes(e.target.value)}
                 rows={2}
-                className="resize-none rounded-xl"
+                className="resize-none rounded-3xl"
                 data-testid="input-notes"
               />
             </CardContent>

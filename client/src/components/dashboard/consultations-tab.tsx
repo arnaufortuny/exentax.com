@@ -206,7 +206,7 @@ export function ConsultationsTab({ setActiveTab }: ConsultationsTabProps) {
                           setSelectedDate(e.target.value);
                           setSelectedTime("");
                         }}
-                        className="rounded-xl bg-white dark:bg-card"
+                        className="rounded-full bg-white dark:bg-card"
                         data-testid="input-consultation-date"
                       />
                     </div>
@@ -290,7 +290,7 @@ export function ConsultationsTab({ setActiveTab }: ConsultationsTabProps) {
                         <Input value={formData.countryOfResidence}
                           onChange={(e) => setFormData({ ...formData, countryOfResidence: e.target.value })}
                           placeholder={t("consultations.form.countryPlaceholder")}
-                          className="rounded-xl bg-white dark:bg-card"
+                          className="rounded-full bg-white dark:bg-card"
                         />
                       </div>
                     </div>
@@ -301,7 +301,7 @@ export function ConsultationsTab({ setActiveTab }: ConsultationsTabProps) {
                         onChange={(e) => setFormData({ ...formData, mainTopic: e.target.value })}
                         placeholder={t("consultations.form.topicPlaceholder")}
                         rows={2}
-                        className="rounded-xl bg-white dark:bg-card"
+                        className="rounded-3xl bg-white dark:bg-card"
                       />
                     </div>
 
@@ -311,7 +311,7 @@ export function ConsultationsTab({ setActiveTab }: ConsultationsTabProps) {
                         onChange={(e) => setFormData({ ...formData, additionalNotes: e.target.value })}
                         placeholder={t("consultations.form.notesPlaceholder")}
                         rows={2}
-                        className="rounded-xl bg-white dark:bg-card"
+                        className="rounded-3xl bg-white dark:bg-card"
                       />
                     </div>
                   </div>

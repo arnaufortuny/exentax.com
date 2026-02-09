@@ -98,7 +98,7 @@ export function ActivityLogPanel() {
         <NativeSelect
           value={actionFilter}
           onValueChange={(val) => { setActionFilter(val); setPage(0); }}
-          className="text-xs rounded-xl w-full sm:w-48"
+          className="text-xs rounded-full w-full sm:w-48"
           data-testid="select-activity-filter"
         >
           <NativeSelectItem value="">{t('dashboard.admin.activityLog.allActions')}</NativeSelectItem>
