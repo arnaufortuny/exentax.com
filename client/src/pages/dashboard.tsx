@@ -312,15 +312,13 @@ export default function Dashboard() {
   const { data: orders, isLoading: ordersLoading } = useQuery<any[]>({
     queryKey: ["/api/orders"],
     enabled: isAuthenticated,
-    refetchInterval: 30000,
-    staleTime: 10000,
+    staleTime: 1000 * 60 * 2,
   });
 
   const { data: messagesData, isLoading: messagesLoading } = useQuery<any[]>({
     queryKey: ["/api/messages"],
     enabled: isAuthenticated,
-    refetchInterval: 60000,
-    staleTime: 30000,
+    staleTime: 1000 * 60 * 2,
   });
 
   const [selectedMessage, setSelectedMessage] = useState<any>(null);
@@ -330,8 +328,7 @@ export default function Dashboard() {
   const { data: selectedOrderEvents } = useQuery<any[]>({
     queryKey: ["/api/orders", selectedOrderId, "events"],
     enabled: !!selectedOrderId,
-    refetchInterval: 30000,
-    staleTime: 10000,
+    staleTime: 1000 * 60 * 2,
   });
 
   const sendReplyMutation = useMutation({
@@ -360,8 +357,7 @@ export default function Dashboard() {
   const { data: notifications, isLoading: notificationsLoading } = useQuery<any[]>({
     queryKey: ["/api/user/notifications"],
     enabled: isAuthenticated,
-    refetchInterval: 60000,
-    staleTime: 30000,
+    staleTime: 1000 * 60 * 2,
   });
 
   const markNotificationRead = useMutation({
@@ -393,13 +389,13 @@ export default function Dashboard() {
   const { data: adminOrders } = useQuery<any[]>({
     queryKey: ["/api/admin/orders"],
     enabled: !!user?.isAdmin || !!user?.isSupport,
-    refetchInterval: 30000,
+    staleTime: 1000 * 60 * 2,
   });
 
   const { data: incompleteApps } = useQuery<{ llc: any[]; maintenance: any[] }>({
     queryKey: ["/api/admin/incomplete-applications"],
     enabled: !!user?.isAdmin,
-    refetchInterval: 30000,
+    staleTime: 1000 * 60 * 2,
   });
 
   const deleteIncompleteAppMutation = useMutation({
@@ -421,7 +417,7 @@ export default function Dashboard() {
   const { data: adminUsers } = useQuery<any[]>({
     queryKey: ["/api/admin/users"],
     enabled: !!user?.isAdmin,
-    refetchInterval: 60000,
+    staleTime: 1000 * 60 * 3,
   });
 
   const { data: adminNewsletterSubs, refetch: refetchNewsletterSubs } = useQuery<any[]>({
@@ -432,13 +428,13 @@ export default function Dashboard() {
   const { data: adminDocuments } = useQuery<any[]>({
     queryKey: ["/api/admin/documents"],
     enabled: !!user?.isAdmin || !!user?.isSupport,
-    refetchInterval: 30000,
+    staleTime: 1000 * 60 * 2,
   });
 
   const { data: adminInvoices } = useQuery<any[]>({
     queryKey: ["/api/admin/invoices"],
     enabled: !!user?.isAdmin,
-    refetchInterval: 60000,
+    staleTime: 1000 * 60 * 3,
   });
 
   const { data: adminStats } = useQuery<{
@@ -462,8 +458,7 @@ export default function Dashboard() {
   }>({
     queryKey: ["/api/admin/system-stats"],
     enabled: !!user?.isAdmin,
-    refetchInterval: 10000,
-    staleTime: 5000,
+    staleTime: 1000 * 60 * 2,
   });
 
   const { data: adminMessages } = useQuery<any[]>({

@@ -11,8 +11,8 @@ import { LoadingScreen } from "@/components/loading-screen";
 
 function lazyRetry<T extends { default: React.ComponentType<unknown> }>(
   importFn: () => Promise<T>,
-  retries = 5,
-  interval = 500
+  retries = 2,
+  interval = 800
 ): Promise<T> {
   return new Promise((resolve, reject) => {
     const attemptImport = (remainingRetries: number) => {
@@ -20,14 +20,12 @@ function lazyRetry<T extends { default: React.ComponentType<unknown> }>(
         .then(resolve)
         .catch((error) => {
           if (remainingRetries <= 0) {
-            console.error('Failed to load module after retries:', error);
             reject(error);
             return;
           }
-          const delay = interval * (6 - remainingRetries);
           setTimeout(() => {
             attemptImport(remainingRetries - 1);
-          }, delay);
+          }, interval);
         });
     };
     attemptImport(retries);
@@ -68,41 +66,27 @@ interface ErrorBoundaryProps {
 }
 
 class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
-  private retryTimeout: ReturnType<typeof setTimeout> | null = null;
+  private prevResetKey: string | undefined;
 
   constructor(props: ErrorBoundaryProps) {
     super(props);
     this.state = { hasError: false, errorCount: 0, lastError: '' };
+    this.prevResetKey = props.resetKey;
   }
 
   static getDerivedStateFromError(error: Error): Partial<ErrorBoundaryState> {
     return { hasError: true, lastError: error.message };
   }
 
-  static getDerivedStateFromProps(props: ErrorBoundaryProps, state: ErrorBoundaryState): Partial<ErrorBoundaryState> | null {
-    if (state.hasError) {
-      return { hasError: false, errorCount: 0, lastError: '' };
+  componentDidUpdate(prevProps: ErrorBoundaryProps): void {
+    if (prevProps.resetKey !== this.props.resetKey && this.state.hasError) {
+      this.setState({ hasError: false, errorCount: 0, lastError: '' });
     }
-    return null;
   }
 
   componentDidCatch(error: Error): void {
     console.error('Page load error:', error);
-    const newCount = this.state.errorCount + 1;
-    this.setState({ errorCount: newCount });
-    
-    if (newCount < 5) {
-      const delay = Math.min(300 * newCount, 1000);
-      this.retryTimeout = setTimeout(() => {
-        this.setState({ hasError: false });
-      }, delay);
-    }
-  }
-
-  componentWillUnmount(): void {
-    if (this.retryTimeout) {
-      clearTimeout(this.retryTimeout);
-    }
+    this.setState(prev => ({ errorCount: prev.errorCount + 1 }));
   }
 
   handleRetry = (): void => {
@@ -116,10 +100,6 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
 
   render(): ReactNode {
     if (this.state.hasError) {
-      if (this.state.errorCount < 5) {
-        return <LoadingScreen delay={0} />;
-      }
-      
       return this.props.fallback || (
         <div className="min-h-screen bg-background flex flex-col items-center justify-center p-4">
           <div className="text-center space-y-4">
@@ -167,9 +147,11 @@ function ScrollToTop() {
 
 
 function MainRouter() {
+  const [location] = useLocation();
+  
   return (
-    <ErrorBoundary>
-      <Suspense fallback={<LoadingScreen delay={0} />}>
+    <ErrorBoundary resetKey={location}>
+      <Suspense fallback={<LoadingScreen />}>
         <div className="min-h-screen bg-background">
           <Switch>
             <Route path="/" component={Home} />

@@ -31,8 +31,8 @@ export function useAuth() {
     queryKey: ["/api/auth/user"],
     queryFn: fetchUser,
     retry: false,
-    staleTime: 1000 * 30,
-    refetchInterval: 1000 * 30,
+    staleTime: 1000 * 60 * 2,
+    refetchInterval: 1000 * 60 * 5,
     refetchOnWindowFocus: true,
   });
 

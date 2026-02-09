@@ -414,10 +414,6 @@ button {
   animation: fadeIn 0.15s ease-out forwards;
 }
 
-.gpu-accelerated {
-  transform: translateZ(0);
-}
-
 /* Global animation performance optimization */
 * {
   -webkit-tap-highlight-color: transparent;

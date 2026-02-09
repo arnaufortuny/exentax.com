@@ -68,8 +68,7 @@ export function ActivityLogPanel() {
       if (!res.ok) throw new Error("Failed to fetch");
       return res.json();
     },
-    refetchInterval: 15000,
-    staleTime: 10000,
+    staleTime: 1000 * 60 * 2,
   });
 
   const totalPages = Math.ceil((data?.total || 0) / limit);
