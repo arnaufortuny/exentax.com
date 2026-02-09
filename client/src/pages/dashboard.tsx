@@ -1,4 +1,5 @@
 import { Navbar } from "@/components/layout/navbar";
+import { Footer } from "@/components/layout/footer";
 import { useAuth } from "@/hooks/use-auth";
 import { usePageTitle } from "@/hooks/use-page-title";
 import { useTranslation } from "react-i18next";
@@ -1023,37 +1024,35 @@ export default function Dashboard() {
 
   if (user?.accountStatus === 'deactivated') {
     return (
-      <div className="min-h-screen bg-background font-sans flex flex-col">
+      <div className="min-h-screen bg-background font-sans">
         <Navbar />
-        <main className="flex-1 flex items-center justify-center px-4 py-8 sm:py-12">
-          <div className="max-w-md w-full">
-            <Card className="rounded-2xl sm:rounded-[2rem] border-0 shadow-2xl overflow-hidden bg-white dark:bg-card">
-              <div className="bg-red-500 h-2 w-full" />
-              <CardContent className="p-6 sm:p-8 md:p-12 text-center">
-                <div className="flex items-center justify-center mx-auto mb-4 sm:mb-6">
-                  <div className="w-20 h-20 rounded-full bg-red-100 dark:bg-red-900/30 flex items-center justify-center">
-                    <ShieldAlert className="w-10 h-10 text-red-500" />
-                  </div>
-                </div>
-                <h1 className="text-xl sm:text-2xl md:text-3xl font-black text-foreground tracking-tight mb-3 sm:mb-4">
-                  {t("dashboard.accountDeactivated.title")}
-                </h1>
-                <p className="text-sm sm:text-base text-muted-foreground font-medium leading-relaxed mb-6 sm:mb-8">
-                  {t("dashboard.accountDeactivated.message")}
-                </p>
-                <Button 
-                  variant="destructive" 
-                  className="w-full sm:w-auto px-8 font-black h-11 sm:h-12 rounded-full shadow-lg hover:shadow-xl transition-all"
-                  onClick={() => apiRequest("POST", "/api/auth/logout").then(() => window.location.href = "/")}
-                  data-testid="button-logout"
-                >
-                  <LogOut className="w-4 h-4 mr-2" />
-                  {t("nav.logout")}
-                </Button>
-              </CardContent>
-            </Card>
+        <main className="pt-20 md:pt-24 pb-12 md:pb-16 px-4 sm:px-6 flex flex-col items-center justify-center min-h-[80vh]">
+          <div className="w-full max-w-md text-center">
+            <div className="mb-8">
+              <svg width="80" height="80" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" className="mx-auto mb-6">
+                <circle cx="60" cy="60" r="50" fill="#FEE2E2" stroke="#EF4444" strokeWidth="4"/>
+                <path d="M60 35V65" stroke="#EF4444" strokeWidth="6" strokeLinecap="round"/>
+                <circle cx="60" cy="80" r="5" fill="#EF4444"/>
+              </svg>
+              <h1 className="text-2xl sm:text-3xl font-black text-foreground tracking-tight">
+                {t("auth.accountDeactivated.title")}
+              </h1>
+              <p className="text-muted-foreground mt-4 text-sm sm:text-base">
+                {t("auth.accountDeactivated.description")}
+              </p>
+            </div>
+            <Button 
+              variant="destructive" 
+              className="w-full sm:w-auto px-8 font-black h-11 sm:h-12 rounded-full shadow-lg"
+              onClick={() => apiRequest("POST", "/api/auth/logout").then(() => window.location.href = "/")}
+              data-testid="button-logout"
+            >
+              <LogOut className="w-4 h-4 mr-2" />
+              {t("nav.logout")}
+            </Button>
           </div>
         </main>
+        <Footer />
       </div>
     );
   }

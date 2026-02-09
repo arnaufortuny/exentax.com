@@ -298,7 +298,7 @@ export default function Register() {
     return (
       <div className="min-h-screen bg-background font-sans">
         <Navbar />
-        <main className="pt-16 md:pt-20 pb-16 px-5 sm:px-6 flex flex-col items-center min-h-[calc(100vh-80px)]">
+        <main className="pt-16 md:pt-20 pb-16 px-5 sm:px-6 flex flex-col items-center justify-center min-h-[calc(100vh-80px)]">
           <div ref={verifyTopRef} className="w-full max-w-md">
             <div className="text-center mb-8">
               <h1 className="text-2xl sm:text-3xl font-black text-primary tracking-tight text-center mx-auto">
