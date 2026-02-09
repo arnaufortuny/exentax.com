@@ -867,16 +867,16 @@ export default function LlcFormation() {
                 <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight">6️⃣ {t("application.steps.howManyOwners")}</h2>
                 <FormDescription>{t("application.steps.howManyOwnersDesc")}</FormDescription>
                 <div className="flex items-center justify-between gap-3 p-4 rounded-full border-2 border-accent bg-accent/10 dark:bg-accent/20">
-                  <span className="font-bold text-foreground text-sm md:text-base">{t("forms.options.singleOwnerLabel")}</span>
+                  <span className="font-bold text-foreground text-sm md:text-base">{t("application.options.singleOwnerLabel")}</span>
                   <Check className="w-5 h-5 text-accent" />
                 </div>
                 <div className="bg-muted/50 dark:bg-[#1A1A1A]/50 p-4 rounded-2xl border border-border">
                   <p className="text-sm text-muted-foreground">
-                    {t("forms.options.needMultipleOwners")}
+                    {t("application.options.needMultipleOwners")}
                   </p>
                   <a href={getWhatsAppUrl("llcFormation")} target="_blank" rel="noopener noreferrer" className="inline-block mt-3">
                     <Button type="button" variant="outline" size="sm" className="rounded-full font-bold text-xs">
-                      {t("forms.options.consultWhatsApp")}
+                      {t("application.options.consultWhatsApp")}
                     </Button>
                   </a>
                 </div>
