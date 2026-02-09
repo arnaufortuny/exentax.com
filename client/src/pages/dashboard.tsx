@@ -4797,16 +4797,27 @@ export default function Dashboard() {
                     )}
                   </>
                 ) : (
-                  <div className="text-center py-4"><ClipboardList className="w-8 h-8 mx-auto mb-2 opacity-30 text-muted-foreground" /><p className="text-xs text-muted-foreground">{t('dashboard.tracking.empty')}</p><p className="text-[10px] text-muted-foreground/70 mt-1">{t('dashboard.tracking.emptyDescription')}</p></div>
+                  <div className="flex flex-col items-center gap-3 md:gap-4 text-center py-4">
+                    <ClipboardList className="w-12 h-12 md:w-16 md:h-16 text-accent" />
+                    <div>
+                      <h3 className="text-base md:text-lg font-black text-foreground mb-1 md:mb-2 text-center tracking-tight">{t('dashboard.tracking.empty')}</h3>
+                      <p className="text-xs md:text-sm text-muted-foreground text-center">{t('dashboard.tracking.emptyDescription')}</p>
+                    </div>
+                  </div>
                 )}
               </div>
             </Card>
-            <Card className="rounded-2xl border-0 shadow-sm bg-accent/10 p-6 md:p-8 mt-4 mb-16 md:mb-12">
-              <h3 className="text-base font-black text-foreground tracking-tight mb-2">{t('dashboard.support.haveQuestion')}</h3>
-              <p className="text-xs text-primary/70 mb-5 leading-relaxed">{t('dashboard.support.hereToHelp')}</p>
-              <a href={getWhatsAppUrl("dashboardLlc")} target="_blank" rel="noopener noreferrer">
-                <Button className="w-full bg-accent text-accent-foreground font-black rounded-full py-5">{t('dashboard.support.talkToSupport')}</Button>
-              </a>
+            <Card className="rounded-2xl border-0 shadow-sm bg-white dark:bg-card p-6 md:p-8 mt-4 mb-16 md:mb-12 text-center" data-testid="card-support-help">
+              <div className="flex flex-col items-center gap-3 md:gap-4">
+                <MessageSquare className="w-12 h-12 md:w-16 md:h-16 text-accent" />
+                <div>
+                  <h3 className="text-base md:text-lg font-black text-foreground mb-1 md:mb-2 text-center tracking-tight">{t('dashboard.support.haveQuestion')}</h3>
+                  <p className="text-xs md:text-sm text-muted-foreground mb-4 md:mb-6 text-center">{t('dashboard.support.hereToHelp')}</p>
+                </div>
+                <a href={getWhatsAppUrl("dashboardLlc")} target="_blank" rel="noopener noreferrer">
+                  <Button className="bg-accent text-accent-foreground font-black rounded-full px-6 md:px-8 py-2.5 md:py-3 text-sm md:text-base" data-testid="button-talk-to-support">{t('dashboard.support.talkToSupport')}</Button>
+                </a>
+              </div>
             </Card>
           </div>
         </div>
