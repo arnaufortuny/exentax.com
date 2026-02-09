@@ -57,7 +57,11 @@ const getDays = (t: any) => [
   t('consultations.admin.days.saturday', 'Sábado')
 ];
 
-export function AdminConsultationsPanel() {
+interface AdminConsultationsPanelProps {
+  searchQuery?: string;
+}
+
+export function AdminConsultationsPanel({ searchQuery = '' }: AdminConsultationsPanelProps) {
   const { t, i18n } = useTranslation();
   const [formMessage, setFormMessage] = useState<{ type: 'error' | 'success' | 'info', text: string } | null>(null);
 
@@ -74,7 +78,6 @@ export function AdminConsultationsPanel() {
   const [showSlotForm, setShowSlotForm] = useState(false);
   const [expandedBookingId, setExpandedBookingId] = useState<number | null>(null);
   const [meetingLinkValue, setMeetingLinkValue] = useState('');
-  const [bookingSearch, setBookingSearch] = useState('');
   const [typeForm, setTypeForm] = useState({
     name: '', nameEs: '', nameEn: '', nameCa: '',
     description: '', descriptionEs: '', descriptionEn: '', descriptionCa: '',
@@ -237,8 +240,8 @@ export function AdminConsultationsPanel() {
   };
 
   const filteredBookings = useMemo(() => {
-    if (!bookingSearch.trim()) return bookings;
-    const query = bookingSearch.toLowerCase().trim();
+    if (!searchQuery.trim()) return bookings;
+    const query = searchQuery.toLowerCase().trim();
     return bookings.filter(({ booking, user }) => {
       const code = (booking.bookingCode || '').toLowerCase();
       const clientId = (user.clientId || '').toLowerCase();
@@ -247,7 +250,7 @@ export function AdminConsultationsPanel() {
       const topic = (booking.mainTopic || '').toLowerCase();
       return code.includes(query) || clientId.includes(query) || name.includes(query) || email.includes(query) || topic.includes(query);
     });
-  }, [bookings, bookingSearch]);
+  }, [bookings, searchQuery]);
 
   return (
     <div className="space-y-4">
@@ -300,13 +303,6 @@ export function AdminConsultationsPanel() {
 
       {activeSubTab === 'bookings' && (
         <div className="space-y-3">
-          <Input
-            placeholder={t('consultations.admin.searchBookings', 'Buscar por código, cliente, email...')}
-            value={bookingSearch}
-            onChange={(e) => setBookingSearch(e.target.value)}
-            className="rounded-xl"
-            data-testid="input-booking-search"
-          />
         <Card className="p-0 overflow-hidden">
           <div className="divide-y">
             {filteredBookings.length === 0 ? (
@@ -314,7 +310,7 @@ export function AdminConsultationsPanel() {
                 {t('consultations.admin.noBookings', 'No hay reservas de consultas')}
               </div>
             ) : (
-              bookings.map(({ booking, consultationType, user }) => {
+              filteredBookings.map(({ booking, consultationType, user }) => {
                 const statusInfo = getConsultationStatusLabel(booking.status, t);
                 const isExpanded = expandedBookingId === booking.id;
                 return (

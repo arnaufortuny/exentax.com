@@ -951,6 +951,22 @@ export default function Dashboard() {
     });
   }, [adminMessages, adminSearchQuery, adminSearchFilter]);
 
+  const filteredAdminDocuments = useMemo(() => {
+    if (!adminSearchQuery.trim() || !adminDocuments) return adminDocuments;
+    const query = adminSearchQuery.toLowerCase().trim();
+    return adminDocuments.filter((doc: any) => {
+      const fields: Record<string, string> = {
+        name: ((doc.user?.firstName || '') + ' ' + (doc.user?.lastName || '')).toLowerCase(),
+        email: (doc.user?.email || '').toLowerCase(),
+        date: doc.uploadedAt ? formatDateShort(doc.uploadedAt) : '',
+        invoiceId: (doc.fileName || '').toLowerCase(),
+        orderId: (doc.id?.toString() || ''),
+        companyName: (doc.application?.companyName || '').toLowerCase(),
+      };
+      return matchesFilter(fields, query, adminSearchFilter);
+    });
+  }, [adminDocuments, adminSearchQuery, adminSearchFilter]);
+
   if (authLoading || !isAuthenticated) {
     return <LoadingScreen />;
   }
@@ -3300,7 +3316,7 @@ export default function Dashboard() {
                           <Card className="p-4 rounded-xl border border-border/50 shadow-sm bg-card">
                             <div className="flex items-center justify-between mb-2">
                               <p className="text-[11px] md:text-xs text-muted-foreground font-medium leading-tight">{t('dashboard.admin.metrics.pendingCollection')}</p>
-                              <Clock className="w-3.5 h-3.5 text-amber-500 flex-shrink-0" />
+                              <Clock className="w-3.5 h-3.5 text-green-500 flex-shrink-0" />
                             </div>
                             <p className="text-lg md:text-2xl font-black text-foreground truncate" data-testid="stat-pending-sales">{((adminStats?.pendingSales || 0) / 100).toLocaleString(getLocale(), { style: 'currency', currency: 'EUR' })}</p>
                           </Card>
@@ -3323,8 +3339,8 @@ export default function Dashboard() {
 
                       <div data-testid="section-orders">
                         <div className="flex items-center gap-2 mb-3">
-                          <div className="w-7 h-7 rounded-lg bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center flex-shrink-0">
-                            <ClipboardList className="w-4 h-4 text-blue-600 dark:text-blue-400" />
+                          <div className="w-7 h-7 rounded-lg bg-green-100 dark:bg-green-900/30 flex items-center justify-center flex-shrink-0">
+                            <ClipboardList className="w-4 h-4 text-green-600 dark:text-green-400" />
                           </div>
                           <h3 className="text-sm font-black tracking-tight" data-testid="heading-orders">{t('dashboard.admin.metrics.orderStatus')}</h3>
                         </div>
@@ -3332,14 +3348,14 @@ export default function Dashboard() {
                           <Card className="p-4 rounded-xl border border-border/50 shadow-sm bg-card">
                             <div className="flex items-center justify-between mb-2">
                               <p className="text-[11px] md:text-xs text-muted-foreground font-medium">{t('dashboard.admin.metrics.pending')}</p>
-                              <Clock className="w-3.5 h-3.5 text-amber-500 flex-shrink-0" />
+                              <Clock className="w-3.5 h-3.5 text-green-500 flex-shrink-0" />
                             </div>
                             <p className="text-xl md:text-3xl font-black text-foreground" data-testid="stat-pending-orders">{adminStats?.pendingOrders || 0}</p>
                           </Card>
                           <Card className="p-4 rounded-xl border border-border/50 shadow-sm bg-card">
                             <div className="flex items-center justify-between mb-2">
                               <p className="text-[11px] md:text-xs text-muted-foreground font-medium">{t('dashboard.admin.metrics.inProcess')}</p>
-                              <Loader2 className="w-3.5 h-3.5 text-blue-500 flex-shrink-0" />
+                              <Loader2 className="w-3.5 h-3.5 text-green-500 flex-shrink-0" />
                             </div>
                             <p className="text-xl md:text-3xl font-black text-foreground" data-testid="stat-processing-orders">{adminStats?.processingOrders || 0}</p>
                           </Card>
@@ -3355,8 +3371,8 @@ export default function Dashboard() {
 
                       <div data-testid="section-crm">
                         <div className="flex items-center gap-2 mb-3">
-                          <div className="w-7 h-7 rounded-lg bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center flex-shrink-0">
-                            <Users className="w-4 h-4 text-purple-600 dark:text-purple-400" />
+                          <div className="w-7 h-7 rounded-lg bg-green-100 dark:bg-green-900/30 flex items-center justify-center flex-shrink-0">
+                            <Users className="w-4 h-4 text-green-600 dark:text-green-400" />
                           </div>
                           <h3 className="text-sm font-black tracking-tight" data-testid="heading-crm">{t('dashboard.admin.metrics.clients')}</h3>
                         </div>
@@ -3364,7 +3380,7 @@ export default function Dashboard() {
                           <Card className="p-4 rounded-xl border border-border/50 shadow-sm bg-card">
                             <div className="flex items-center justify-between mb-2">
                               <p className="text-[11px] md:text-xs text-muted-foreground font-medium">{t('dashboard.admin.metrics.totalUsers')}</p>
-                              <Users className="w-3.5 h-3.5 text-purple-500 flex-shrink-0" />
+                              <Users className="w-3.5 h-3.5 text-green-500 flex-shrink-0" />
                             </div>
                             <p className="text-xl md:text-3xl font-black text-foreground" data-testid="stat-total-users">{adminStats?.userCount || 0}</p>
                           </Card>
@@ -3378,21 +3394,21 @@ export default function Dashboard() {
                           <Card className="p-4 rounded-xl border border-border/50 shadow-sm bg-card">
                             <div className="flex items-center justify-between mb-2">
                               <p className="text-[11px] md:text-xs text-muted-foreground font-medium">VIP</p>
-                              <Shield className="w-3.5 h-3.5 text-amber-500 flex-shrink-0" />
+                              <Shield className="w-3.5 h-3.5 text-green-500 flex-shrink-0" />
                             </div>
                             <p className="text-xl md:text-3xl font-black text-foreground" data-testid="stat-vip-users">{adminStats?.vipAccounts || 0}</p>
                           </Card>
                           <Card className="p-4 rounded-xl border border-border/50 shadow-sm bg-card">
                             <div className="flex items-center justify-between mb-2">
                               <p className="text-[11px] md:text-xs text-muted-foreground font-medium">{t('dashboard.admin.metrics.inReview')}</p>
-                              <Eye className="w-3.5 h-3.5 text-blue-500 flex-shrink-0" />
+                              <Eye className="w-3.5 h-3.5 text-green-500 flex-shrink-0" />
                             </div>
                             <p className="text-xl md:text-3xl font-black text-foreground" data-testid="stat-pending-accounts">{adminStats?.pendingAccounts || 0}</p>
                           </Card>
                           <Card className="p-4 rounded-xl border border-border/50 shadow-sm bg-card">
                             <div className="flex items-center justify-between mb-2">
                               <p className="text-[11px] md:text-xs text-muted-foreground font-medium">{t('dashboard.admin.metrics.deactivated')}</p>
-                              <XCircle className="w-3.5 h-3.5 text-red-500 flex-shrink-0" />
+                              <XCircle className="w-3.5 h-3.5 text-green-500 flex-shrink-0" />
                             </div>
                             <p className="text-xl md:text-3xl font-black text-foreground" data-testid="stat-deactivated-users">{adminStats?.deactivatedAccounts || 0}</p>
                           </Card>
@@ -3401,8 +3417,8 @@ export default function Dashboard() {
 
                       <div data-testid="section-guests">
                         <div className="flex items-center gap-2 mb-3">
-                          <div className="w-7 h-7 rounded-lg bg-teal-100 dark:bg-teal-900/30 flex items-center justify-center flex-shrink-0">
-                            <Eye className="w-4 h-4 text-teal-600 dark:text-teal-400" />
+                          <div className="w-7 h-7 rounded-lg bg-green-100 dark:bg-green-900/30 flex items-center justify-center flex-shrink-0">
+                            <Eye className="w-4 h-4 text-green-600 dark:text-green-400" />
                           </div>
                           <h3 className="text-sm font-black tracking-tight" data-testid="heading-guests">{t('dashboard.admin.guestSection.guests')}</h3>
                         </div>
@@ -3410,7 +3426,7 @@ export default function Dashboard() {
                           <Card className="p-4 rounded-xl border border-border/50 shadow-sm bg-card">
                             <div className="flex items-center justify-between mb-2">
                               <p className="text-[11px] md:text-xs text-muted-foreground font-medium">{t('dashboard.admin.guestSection.totalVisitors')}</p>
-                              <Globe className="w-3.5 h-3.5 text-teal-500 flex-shrink-0" />
+                              <Globe className="w-3.5 h-3.5 text-green-500 flex-shrink-0" />
                             </div>
                             <p className="text-xl md:text-3xl font-black text-foreground" data-testid="stat-total-guests">{(guestVisitors as any[])?.length || 0}</p>
                           </Card>
@@ -3424,7 +3440,7 @@ export default function Dashboard() {
                           <Card className="p-4 rounded-xl border border-border/50 shadow-sm bg-card">
                             <div className="flex items-center justify-between mb-2">
                               <p className="text-[11px] md:text-xs text-muted-foreground font-medium">{t('dashboard.admin.guestSection.calculator')}</p>
-                              <Calculator className="w-3.5 h-3.5 text-purple-500 flex-shrink-0" />
+                              <Calculator className="w-3.5 h-3.5 text-green-500 flex-shrink-0" />
                             </div>
                             <p className="text-xl md:text-3xl font-black text-foreground" data-testid="stat-calculator-guests">{(guestVisitors as any[])?.filter((g: any) => g.source === 'calculator')?.length || 0}</p>
                           </Card>
@@ -3508,8 +3524,8 @@ export default function Dashboard() {
 
                       <div data-testid="section-communications">
                         <div className="flex items-center gap-2 mb-3">
-                          <div className="w-7 h-7 rounded-lg bg-orange-100 dark:bg-orange-900/30 flex items-center justify-center flex-shrink-0">
-                            <Mail className="w-4 h-4 text-orange-600 dark:text-orange-400" />
+                          <div className="w-7 h-7 rounded-lg bg-green-100 dark:bg-green-900/30 flex items-center justify-center flex-shrink-0">
+                            <Mail className="w-4 h-4 text-green-600 dark:text-green-400" />
                           </div>
                           <h3 className="text-sm font-black tracking-tight" data-testid="heading-communications">{t('dashboard.admin.metrics.communications')}</h3>
                         </div>
@@ -3524,21 +3540,21 @@ export default function Dashboard() {
                           <Card className="p-4 rounded-xl border border-border/50 shadow-sm bg-card">
                             <div className="flex items-center justify-between mb-2">
                               <p className="text-[11px] md:text-xs text-muted-foreground font-medium">{t('dashboard.admin.metrics.totalMessages')}</p>
-                              <MessageSquare className="w-3.5 h-3.5 text-blue-500 flex-shrink-0" />
+                              <MessageSquare className="w-3.5 h-3.5 text-green-500 flex-shrink-0" />
                             </div>
                             <p className="text-xl md:text-3xl font-black text-foreground" data-testid="stat-total-messages">{adminStats?.totalMessages || 0}</p>
                           </Card>
                           <Card className="p-4 rounded-xl border border-border/50 shadow-sm bg-card">
                             <div className="flex items-center justify-between mb-2">
                               <p className="text-[11px] md:text-xs text-muted-foreground font-medium">{t('dashboard.admin.metrics.pendingMessages')}</p>
-                              <AlertCircle className="w-3.5 h-3.5 text-amber-500 flex-shrink-0" />
+                              <AlertCircle className="w-3.5 h-3.5 text-green-500 flex-shrink-0" />
                             </div>
                             <p className="text-xl md:text-3xl font-black text-foreground" data-testid="stat-pending-messages">{adminStats?.pendingMessages || 0}</p>
                           </Card>
                           <Card className="p-4 rounded-xl border border-border/50 shadow-sm bg-card">
                             <div className="flex items-center justify-between mb-2">
                               <p className="text-[11px] md:text-xs text-muted-foreground font-medium">{t('dashboard.admin.metrics.pendingDocs')}</p>
-                              <FileUp className="w-3.5 h-3.5 text-orange-500 flex-shrink-0" />
+                              <FileUp className="w-3.5 h-3.5 text-green-500 flex-shrink-0" />
                             </div>
                             <p className="text-xl md:text-3xl font-black text-foreground" data-testid="stat-pending-docs">{adminStats?.pendingDocs || 0}</p>
                           </Card>
@@ -3658,7 +3674,7 @@ export default function Dashboard() {
                       {commSubTab === 'inbox' && (
                         <Card className="rounded-2xl border-0 shadow-sm p-0 overflow-hidden">
                           <div className="divide-y">
-                            {adminMessages?.map((msg: any) => (
+                            {filteredAdminMessages?.map((msg: any) => (
                               <div 
                                 key={msg.id} 
                                 className="p-4 space-y-2 hover:bg-accent/5 cursor-pointer transition-colors"
@@ -3759,14 +3775,14 @@ export default function Dashboard() {
                                 )}
                               </div>
                             ))}
-                            {(!adminMessages || adminMessages.length === 0) && (
+                            {(!filteredAdminMessages || filteredAdminMessages.length === 0) && (
                               <div className="text-center py-8 text-muted-foreground text-sm">{t('dashboard.admin.inboxSection.noMessages')}</div>
                             )}
                           </div>
                         </Card>
                       )}
                       {commSubTab === 'agenda' && (
-                        <AdminConsultationsPanel />
+                        <AdminConsultationsPanel searchQuery={adminSearchQuery} />
                       )}
                     </div>
                   )}
@@ -3861,13 +3877,18 @@ export default function Dashboard() {
                             {filteredAdminUsers?.map(u => (
                               <div key={u.id} className="p-3 md:p-4 space-y-3">
                                 <div className="flex flex-col gap-2">
-                                  <div className="flex items-center gap-2 flex-wrap">
+                                  <div className="flex items-start justify-between gap-2">
+                                    <div className="flex items-center gap-2 flex-wrap">
                                     <p className="font-black text-sm">{u.firstName} {u.lastName}</p>
                                     <Badge className={`text-[9px] rounded-full ${u.accountStatus === 'deactivated' ? 'bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 border border-red-300 dark:border-red-700' : u.accountStatus === 'vip' ? 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300 border border-green-500 dark:border-green-500' : u.accountStatus === 'pending' ? 'bg-yellow-50 dark:bg-yellow-900/20 text-yellow-700 dark:text-yellow-300 border border-yellow-300 dark:border-yellow-700' : 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300 border border-green-400 dark:border-green-600'}`}>
                                       {u.accountStatus === 'active' ? t('dashboard.admin.users.verified') : u.accountStatus === 'pending' ? t('dashboard.admin.users.inReview') : u.accountStatus === 'deactivated' ? t('dashboard.admin.users.deactivated') : u.accountStatus === 'vip' ? 'VIP' : t('dashboard.admin.users.verified')}
                                     </Badge>
                                     {u.isAdmin && <Badge className="text-[9px] rounded-full bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300 border border-green-400 dark:border-green-600">ADMIN</Badge>}
                                     {u.isSupport && !u.isAdmin && <Badge className="text-[9px] rounded-full bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300 border border-green-400 dark:border-green-600">{t('dashboard.admin.users.supportBadge', 'SOPORTE')}</Badge>}
+                                    </div>
+                                    {u.clientId && (
+                                      <span className="text-[10px] font-mono font-bold text-accent bg-accent/10 px-2 py-0.5 rounded-full shrink-0" data-testid={`text-client-id-${u.id}`}>{u.clientId}</span>
+                                    )}
                                   </div>
                                   <p className="text-xs text-muted-foreground">{u.email}</p>
                                   <p className="text-[10px] text-muted-foreground">
@@ -4202,7 +4223,7 @@ export default function Dashboard() {
                         </div>
                       </div>
                       <div className="divide-y max-h-[60vh] overflow-y-auto">
-                        {adminDocuments?.map((doc: any) => (
+                        {filteredAdminDocuments?.map((doc: any) => (
                           <div key={doc.id} className="py-3 space-y-2">
                             <div className="flex items-start gap-2">
                               <div className="w-8 h-8 rounded-full bg-accent/20 flex items-center justify-center shrink-0">
@@ -4270,7 +4291,7 @@ export default function Dashboard() {
                             </div>
                           </div>
                         ))}
-                        {(!adminDocuments || adminDocuments.length === 0) && (
+                        {(!filteredAdminDocuments || filteredAdminDocuments.length === 0) && (
                           <div className="text-center py-8 text-muted-foreground text-sm">
                             <FileText className="w-12 h-12 mx-auto mb-3 text-muted-foreground/30" />
                             {t('dashboard.admin.documents.noDocs')}
