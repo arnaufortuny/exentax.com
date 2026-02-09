@@ -743,11 +743,13 @@ export default function Dashboard() {
   const deleteDocMutation = useMutation({
     mutationFn: async (docId: number) => {
       setFormMessage(null);
-      const res = await apiRequest("DELETE", `/api/user/documents/${docId}`);
+      const endpoint = user?.isAdmin ? `/api/admin/documents/${docId}` : `/api/user/documents/${docId}`;
+      const res = await apiRequest("DELETE", endpoint);
       if (!res.ok) throw new Error(t("dashboard.toasts.couldNotDelete"));
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/user/documents"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/admin/documents"] });
       setFormMessage({ type: 'success', text: t("dashboard.toasts.documentDeleted") });
     },
     onError: (error: any) => {
@@ -1718,7 +1720,7 @@ export default function Dashboard() {
                                         </Button>
                                       </label>
                                     )}
-                                    {!isApproved && canEdit && (
+                                    {(user?.isAdmin || (!isApproved && canEdit)) && (
                                       <Button variant="ghost" size="icon" className="rounded-full text-muted-foreground hover:text-red-500 shrink-0" onClick={() => deleteDocMutation.mutate(doc.id)} disabled={deleteDocMutation.isPending} data-testid={`button-delete-doc-${doc.id}`}>
                                         <Trash2 className="w-3 h-3" />
                                       </Button>
@@ -4748,7 +4750,7 @@ export default function Dashboard() {
               </section>
             )}
             
-            <section className={`bg-white dark:bg-card p-6 md:p-8 rounded-[2rem] shadow-sm ${activeTab !== 'services' ? 'hidden xl:block' : ''}`}>
+            <Card className={`rounded-2xl border-0 shadow-sm bg-white dark:bg-card p-6 md:p-8 ${activeTab !== 'services' ? 'hidden xl:block' : ''}`}>
               <div className="mb-6">
                 <h3 className="text-lg md:text-xl font-black tracking-tight text-primary flex items-center gap-2">
                   <Clock className="w-5 h-5 text-accent" /> {t('dashboard.tracking.title')}
@@ -4758,13 +4760,13 @@ export default function Dashboard() {
               <div className="space-y-5">
                 {orders && orders.length > 0 ? (
                   <>
-                    <div className="bg-gray-50 dark:bg-[#1A1A1A] rounded-xl p-3 mb-4">
+                    <div className="rounded-xl bg-gray-50 dark:bg-[#1A1A1A] p-3 mb-4">
                       <div className="flex items-start justify-between gap-2">
                         <div className="min-w-0 flex-1">
-                          <p className="text-[9px] font-bold text-accent uppercase tracking-wider mb-0.5">Pedido: {orders[0]?.application?.requestCode || orders[0]?.maintenanceApplication?.requestCode || orders[0]?.invoiceNumber || orders[0]?.id}</p>
+                          <p className="text-[9px] font-bold text-accent uppercase tracking-wider mb-0.5">{t('dashboard.tracking.order', 'Pedido')}: {orders[0]?.application?.requestCode || orders[0]?.maintenanceApplication?.requestCode || orders[0]?.invoiceNumber || orders[0]?.id}</p>
                           <p className="text-sm font-semibold text-foreground truncate">
                             {orders[0]?.maintenanceApplication 
-                              ? `Mantenimiento ${orders[0]?.maintenanceApplication?.state || ''}`
+                              ? `${t('dashboard.services.maintenance')} ${orders[0]?.maintenanceApplication?.state || ''}`
                               : orders[0]?.application?.companyName 
                                 ? `${orders[0]?.application?.companyName} LLC`
                                 : orders[0]?.product?.name || 'LLC'}
@@ -4775,7 +4777,7 @@ export default function Dashboard() {
                           {getOrderStatusLabel(orders[0]?.status || '', t).label}
                         </Badge>
                       </div>
-                      <p className="text-[9px] text-muted-foreground mt-2">Creado: {orders[0]?.createdAt ? new Date(orders[0].createdAt).toLocaleDateString('es-ES', { day: '2-digit', month: 'short', year: 'numeric' }) : '-'}</p>
+                      <p className="text-[9px] text-muted-foreground mt-2">{t('dashboard.tracking.created', 'Creado')}: {orders[0]?.createdAt ? new Date(orders[0].createdAt).toLocaleDateString('es-ES', { day: '2-digit', month: 'short', year: 'numeric' }) : '-'}</p>
                     </div>
                     {selectedOrderEvents && selectedOrderEvents.length > 0 ? (
                     selectedOrderEvents.map((event: any, idx: number) => (
@@ -4806,14 +4808,14 @@ export default function Dashboard() {
                   <div className="text-center py-4"><ClipboardList className="w-8 h-8 mx-auto mb-2 opacity-30 text-muted-foreground" /><p className="text-xs text-muted-foreground">{t('dashboard.tracking.empty')}</p><p className="text-[10px] text-muted-foreground/70 mt-1">{t('dashboard.tracking.emptyDescription')}</p></div>
                 )}
               </div>
-            </section>
-            <section className="bg-accent/10 p-6 md:p-8 rounded-[2rem] border-2 border-accent/20 mt-8 mb-16 md:mb-12">
+            </Card>
+            <Card className="rounded-2xl border-0 shadow-sm bg-accent/10 p-6 md:p-8 mt-4 mb-16 md:mb-12">
               <h3 className="text-base font-black text-foreground tracking-tight mb-2">{t('dashboard.support.haveQuestion')}</h3>
               <p className="text-xs text-primary/70 mb-5 leading-relaxed">{t('dashboard.support.hereToHelp')}</p>
               <a href={getWhatsAppUrl("dashboardLlc")} target="_blank" rel="noopener noreferrer">
                 <Button className="w-full bg-accent text-accent-foreground font-black rounded-full py-5">{t('dashboard.support.talkToSupport')}</Button>
               </a>
-            </section>
+            </Card>
           </div>
         </div>
         </div>
