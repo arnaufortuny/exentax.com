@@ -5,7 +5,7 @@
     "personalData": "Dades Personals",
     "infoDescription": "Aquesta informació ens permet acompanyar-te millor i complir amb els requisits legals quan sigui necessari.",
     "notProvided": "No proporcionat",
-    "verifyEmail": "Verificar email",
+    "verifyEmail": "Verificar correu",
     "saveChanges": "Desar canvis",
     "reviewNote": "El nostre equip revisarà qualsevol canvi abans d'avançar per assegurar-nos que tot estigui correcte.",
     "currentPassword": "Contrasenya actual",
@@ -458,7 +458,7 @@
       }
     },
     "packs": {
-      "badge": "PACKS",
+      "badge": "PAQUETS",
       "title": "ELS NOSTRES PACKS",
       "subtitle": "(Tria el pla que millor s'adapti a tu)"
     },
@@ -473,21 +473,21 @@
       "subtitle": "Preparem la teva sol·licitud, revisem la documentació i et guiem fins que el teu compte estigui operatiu.",
       "mercury": {
         "title": "Mercury",
-        "desc": "Te acompañamos en todo el proceso de solicitud de cuenta en Mercury, ayudándote a presentar correctamente la información de tu LLC."
+        "desc": "T'acompanyem en tot el procés de sol·licitud de compte a Mercury, ajudant-te a presentar correctament la informació de la teva LLC."
       },
       "relay": {
         "title": "Relay",
-        "desc": "Asistencia en la apertura de cuenta en Relay, una alternativa bancaria sólida para la operativa diaria de tu empresa."
+        "desc": "Assistència en l'obertura de compte a Relay, una alternativa bancària sòlida per a l'operativa diària de la teva empresa."
       },
       "strategy": {
-        "title": "Estrategia bancaria",
-        "desc": "Te orientamos sobre la opción bancaria más adecuada según tu tipo de negocio y forma de operar."
+        "title": "Estratègia bancària",
+        "desc": "T'orientem sobre l'opció bancària més adequada segons el teu tipus de negoci i forma d'operar."
       },
       "continuous": {
-        "title": "Acompañamiento continuo",
-        "desc": "Te acompañamos durante el proceso y resolvemos tus dudas hasta que la solicitud queda resuelta."
+        "title": "Acompanyament continu",
+        "desc": "T'acompanyem durant el procés i resolem els teus dubtes fins que la sol·licitud queda resolta."
       },
-      "included": "Incluido en tu paquete inicial"
+      "included": "Inclòs en el teu paquet inicial"
     },
     "management": {
       "badge": "GESTIÓ",
@@ -658,16 +658,16 @@
       "price": "1.399"
     },
     "features": {
-      "formation": "Formación LLC completa",
-      "ein": "Obtención EIN",
-      "agent": "Agente registrado 1 año",
-      "bank": "Asistencia apertura bancaria",
-      "support": "Soporte prioritario"
+      "formation": "Formació LLC completa",
+      "ein": "Obtenció EIN",
+      "agent": "Agent registrat 1 any",
+      "bank": "Assistència obertura bancària",
+      "support": "Suport prioritari"
     },
     "currency": "€",
-    "startFrom": "Desde",
-    "selectPlan": "Seleccionar plan",
-    "mostPopular": "Más Popular"
+    "startFrom": "Des de",
+    "selectPlan": "Seleccionar pla",
+    "mostPopular": "Més Popular"
   },
   "auth": {
     "continueQuickly": "o continua de forma ràpida",
@@ -884,7 +884,7 @@
       "errorResetPassword": "No s'ha pogut restablir la contrasenya"
     },
     "otp": {
-      "title": "Verificar Email",
+      "title": "Verificar correu",
       "description": "Introdueix el codi que t'hem enviat al teu correu",
       "sendCode": "Enviar codi de verificació",
       "verifyCode": "Verificar codi",
@@ -904,8 +904,8 @@
       "disconnected": "Compte de Google desvinculat"
     },
     "accountDeactivated": {
-      "title": "Cuenta desactivada",
-      "description": "Tu cuenta ha sido desactivada. Contacta con nuestro equipo de soporte para más información."
+      "title": "Compte desactivat",
+      "description": "El teu compte ha estat desactivat. Contacta amb el nostre equip de suport per a més informació."
     }
   },
   "validation": {
@@ -1039,8 +1039,8 @@
       "wantsBoi": "BOI Report",
       "wantsMaintenance": "Pack de manteniment anual",
       "password": "Contrasenya",
-      "confirmPassword": "Confirmar contraseña",
-      "notes": "Notas",
+      "confirmPassword": "Confirmar contrasenya",
+      "notes": "Notes",
       "desiredName": "Nom desitjat",
       "addressAndNumber": "Adreça i número",
       "uploadOrDrag": "Pujar arxiu o arrossegar",
@@ -1049,19 +1049,19 @@
       "maxFileSize": "JPG, PNG, PDF (Màx 10MB)"
     },
     "streetTypes": {
-      "street": "Calle",
-      "avenue": "Avenida",
+      "street": "Carrer",
+      "avenue": "Avinguda",
       "road": "Carretera",
-      "plaza": "Plaza",
-      "passage": "Pasaje",
-      "boulevard": "Bulevar",
-      "other": "Otro"
+      "plaza": "Plaça",
+      "passage": "Passatge",
+      "boulevard": "Bulevard",
+      "other": "Altre"
     },
     "idTypes": {
-      "passport": "Pasaporte",
+      "passport": "Passaport",
       "dni": "DNI",
       "nie": "NIE",
-      "other": "Otro"
+      "other": "Altre"
     },
     "states": {
       "newMexico": "New Mexico",
@@ -1080,8 +1080,8 @@
       "notYet": "Encara no",
       "otherBank": "Altre banc",
       "other": "Altra",
-      "oneOwner": "Un propietario (single-member)",
-      "multipleOwners": "Varios propietarios (multi-member)",
+      "oneOwner": "Un propietari (single-member)",
+      "multipleOwners": "Diversos propietaris (multi-member)",
       "singleOwnerLabel": "Propietari únic (100%)",
       "needMultipleOwners": "Necessites diversos socis? Contacta'ns per a LLCs amb dos o més propietaris.",
       "consultWhatsApp": "Consultar per WhatsApp"
@@ -1098,31 +1098,31 @@
       "fileTooLarge": "L'arxiu no pot superar 10MB"
     },
     "messages": {
-      "dataLoaded": "Datos cargados",
-      "canEditApplication": "Puedes editar tu solicitud",
-      "changesSaved": "Cambios guardados",
-      "infoUpdated": "Tu información se ha actualizado",
-      "somethingWentWrong": "Algo no ha ido bien",
-      "tryAgain": "Inténtalo de nuevo",
-      "processingPayment": "Procesando pago",
-      "momentPlease": "Un momento...",
-      "paymentCompleted": "Pago completado",
-      "workingOnRequest": "Todo listo. Ya estamos trabajando en tu solicitud",
-      "emailMissing": "Falta tu email",
-      "emailNeeded": "Necesitamos tu email para continuar",
-      "codeSent": "Código enviado",
-      "checkEmailWaiting": "Revisa tu correo, te esperamos aquí",
+      "dataLoaded": "Dades carregades",
+      "canEditApplication": "Pots editar la teva sol·licitud",
+      "changesSaved": "Canvis desats",
+      "infoUpdated": "La teva informació s'ha actualitzat",
+      "somethingWentWrong": "Alguna cosa no ha anat bé",
+      "tryAgain": "Torna-ho a provar",
+      "processingPayment": "Processant pagament",
+      "momentPlease": "Un moment...",
+      "paymentCompleted": "Pagament completat",
+      "workingOnRequest": "Tot llest. Ja estem treballant en la teva sol·licitud",
+      "emailMissing": "Falta el teu correu",
+      "emailNeeded": "Necessitem el teu correu per continuar",
+      "codeSent": "Codi enviat",
+      "checkEmailWaiting": "Revisa el teu correu, t'esperem aquí",
       "errorSending": "Error en enviar",
-      "tryAgainSeconds": "Inténtalo de nuevo en unos segundos",
-      "codeMissing": "Falta el código",
-      "enter6DigitCode": "Introduce el código de 6 dígitos",
-      "emailVerified": "Email verificado",
-      "canContinue": "Perfecto. Ya puedes continuar",
-      "incorrectCode": "Código incorrecto",
-      "codeInvalidOrExpired": "El código no es válido o ha caducado",
+      "tryAgainSeconds": "Torna-ho a provar en uns segons",
+      "codeMissing": "Falta el codi",
+      "enter6DigitCode": "Introdueix el codi de 6 dígits",
+      "emailVerified": "Correu verificat",
+      "canContinue": "Perfecte. Ja pots continuar",
+      "incorrectCode": "Codi incorrecte",
+      "codeInvalidOrExpired": "El codi no és vàlid o ha caducat",
       "fileSelected": "Arxiu seleccionat"
     },
-    "discountCode": "Código de descuento",
+    "discountCode": "Codi de descompte",
     "applyCode": "Aplicar",
     "codeApplied": "Codi aplicat",
     "codeInvalid": "Codi no vàlid",
@@ -1137,24 +1137,24 @@
     "uploadDocument": "Pujar document",
     "dragOrClick": "Arrossega o fes clic per pujar",
     "account": {
-      "title": "Crea tu cuenta",
-      "subtitle": "Para gestionar tu pedido necesitas una cuenta. Primero verifica tu email.",
-      "sendOtp": "Enviar código de verificación",
-      "sendingOtp": "Enviando...",
-      "otpSent": "Código enviado a tu email",
-      "otpSentHint": "Revisa tu bandeja de entrada (y spam)",
-      "otpLabel": "Código de verificación",
-      "verifyOtp": "Verificar código",
-      "verifyingOtp": "Verificando...",
-      "resendOtp": "Reenviar código",
-      "emailVerified": "Email verificado",
-      "passwordLabel": "Contraseña",
-      "confirmPasswordLabel": "Confirmar contraseña",
-      "alreadyAuthenticated": "Ya tienes cuenta activa",
-      "alreadyAuthenticatedHint": "Continúa con el siguiente paso",
-      "errorCreating": "No se pudo crear la cuenta. Inténtalo de nuevo",
-      "errorGeneric": "Ha habido un problema",
-      "accountCreated": "Cuenta creada. Ya casi terminamos"
+      "title": "Crea el teu compte",
+      "subtitle": "Per gestionar la teva comanda necessites un compte. Primer verifica el teu correu.",
+      "sendOtp": "Enviar codi de verificació",
+      "sendingOtp": "Enviant...",
+      "otpSent": "Codi enviat al teu correu",
+      "otpSentHint": "Revisa la safata d'entrada (i correu brossa)",
+      "otpLabel": "Codi de verificació",
+      "verifyOtp": "Verificar codi",
+      "verifyingOtp": "Verificant...",
+      "resendOtp": "Reenviar codi",
+      "emailVerified": "Correu verificat",
+      "passwordLabel": "Contrasenya",
+      "confirmPasswordLabel": "Confirmar contrasenya",
+      "alreadyAuthenticated": "Ja tens un compte actiu",
+      "alreadyAuthenticatedHint": "Continua amb el següent pas",
+      "errorCreating": "No s'ha pogut crear el compte. Torna-ho a provar",
+      "errorGeneric": "Hi ha hagut un problema",
+      "accountCreated": "Compte creat. Ja gairebé hem acabat"
     },
     "bankTransferFormDesc": "Rebràs les dades bancàries a la factura de la teva comanda."
   },
@@ -1178,7 +1178,7 @@
       "phoneLabel": "Telèfon:",
       "email": "Email",
       "emailDesc": "Aquí rebràs recordatoris i documentació",
-      "emailLabel": "Email:",
+      "emailLabel": "Correu:",
       "companyName": "Nom legal de la LLC",
       "companyNameDesc": "Tal com figura als documents oficials",
       "companyNameLabel": "Nom de la LLC:",
@@ -1300,10 +1300,10 @@
       "description": "Inicia sessió amb el teu compte existent per continuar amb el formulari.",
       "hello": "Hola",
       "existingAccount": "Ja tens un compte amb aquest email. Inicia sessió per continuar.",
-      "forgotPassword": "¿Olvidaste tu contraseña?",
-      "continueWithoutLogin": "Continuar sin iniciar sesión",
-      "loggingIn": "Iniciando sesión...",
-      "accessAccount": "Acceder a mi cuenta"
+      "forgotPassword": "Has oblidat la contrasenya?",
+      "continueWithoutLogin": "Continuar sense iniciar sessió",
+      "loggingIn": "Iniciant sessió...",
+      "accessAccount": "Accedir al meu compte"
     }
   },
   "dashboard": {
@@ -2259,28 +2259,28 @@
         "q2": "Què és l'Operating Agreement?",
         "a2": "És el contracte intern fonamental de la teva empresa. Aquest document marca les regles del joc: qui són els propietaris (membres), quin percentatge de participació té cadascú, qui té el poder de decisió, com es reparteixen els beneficis i què passa legalment si un soci vol sortir o entrar a la companyia. Els bancs nord-americans l'exigeixen com a requisit indispensable per obrir un compte i és la teva principal defensa davant qualsevol disputa legal o auditoria.",
         "q3": "Què són els Articles d'Organització?",
-        "a3": "Es el acta de nacimiento oficial de tu empresa, el documento que presentamos ante la Secretaría de Estado para crear la entidad legal. Incluye datos públicos cruciales como el nombre de la LLC, el estado de formación (Wyoming o Nuevo México), la dirección física oficial y la identidad del Agente Registrado. Una vez sellado por el estado, este documento confirma que tu responsabilidad limitada ha comenzado y que tus activos personales están protegidos.",
-        "q4": "¿Qué es un Agente Registrado?",
-        "a4": "Es una figura obligatoria por ley en todos los estados. Es la entidad o persona encargada de recibir en tu nombre todas las notificaciones oficiales del gobierno, requerimientos legales, citaciones judiciales y avisos de impuestos. Nosotros actuamos como tu Agente Registrado oficial: procesamos toda la correspondencia importante, te notificamos de inmediato y te asesoramos sobre qué acciones tomar. No contar con uno es motivo de disolución inmediata de tu empresa por parte del estado.",
-        "q5": "¿Qué es el BOI?",
-        "a5": "Es el registro de 'Beneficial Ownership Information' (Información sobre los Beneficiarios Reales) exigido por el Departamento del Tesoro (FinCEN). El gobierno de Estados Unidos requiere saber quiénes son las personas físicas que poseen o controlan realmente la empresa para prevenir actividades ilícitas. No es un trámite opcional y el incumplimiento puede acarrear multas civiles extremas de hasta 500$ por cada día de retraso o sanciones penales de hasta 10.000$."
+        "a3": "És l'acta de naixement oficial de la teva empresa, el document que presentem davant la Secretaria d'Estat per crear l'entitat legal. Inclou dades públiques crucials com el nom de la LLC, l'estat de formació (Wyoming o Nou Mèxic), l'adreça física oficial i la identitat de l'Agent Registrat. Un cop segellat per l'estat, aquest document confirma que la teva responsabilitat limitada ha començat i que els teus actius personals estan protegits.",
+        "q4": "Què és un Agent Registrat?",
+        "a4": "És una figura obligatòria per llei a tots els estats. És l'entitat o persona encarregada de rebre en el teu nom totes les notificacions oficials del govern, requeriments legals, citacions judicials i avisos d'impostos. Nosaltres actuem com el teu Agent Registrat oficial: processem tota la correspondència important, et notifiquem immediatament i t'assessorem sobre quines accions prendre. No comptar amb un és motiu de dissolució immediata de la teva empresa per part de l'estat.",
+        "q5": "Què és el BOI?",
+        "a5": "És el registre de 'Beneficial Ownership Information' (Informació sobre els Beneficiaris Reals) exigit pel Departament del Tresor (FinCEN). El govern dels Estats Units requereix saber qui són les persones físiques que posseeixen o controlen realment l'empresa per prevenir activitats il·lícites. No és un tràmit opcional i l'incompliment pot comportar multes civils extremes de fins a 500$ per cada dia de retard o sancions penals de fins a 10.000$."
       },
       "taxes": {
-        "title": "Impuestos y Cumplimiento",
-        "q1": "¿Qué impuestos paga una LLC?",
-        "a1": "La tributación depende totalmente de cómo esté estructurada la empresa y la residencia de sus dueños. La mayoría de las LLC operan como entidades 'disregarded' (transparentes), lo que significa que la empresa en sí no paga impuesto de sociedades en Estados Unidos, sino que el beneficio fluye hacia los dueños. Si no tienes presencia física ni empleados en EE.UU. y realizas servicios digitales, es muy probable que tu carga fiscal federal sea del 0%, tributando únicamente en tu país de residencia. Cada caso es único y nosotros te proporcionamos la orientación inicial necesaria.",
-        "q2": "¿Hay IVA en Estados Unidos?",
-        "a2": "No, en Estados Unidos no existe el IVA (Impuesto sobre el Valor Añadido) tal como se conoce en Europa o Latinoamérica. En su lugar, existe el 'Sales Tax' (Impuesto sobre las Ventas), que es un impuesto estatal y local. Solo se recauda si vendes productos físicos a clientes finales en estados donde tu empresa tiene 'nexus' (presencia legal o económica). Para servicios digitales y software (SaaS) vendidos fuera de EE.UU., generalmente no hay impuestos indirectos que recaudar.",
-        "q3": "¿Qué es el CRS y FATCA?",
-        "a3": "Estados Unidos es uno de los pocos países que no participa en el sistema de intercambio automático de información bancaria conocido como CRS (Common Reporting Standard). En su lugar, utiliza su propio sistema llamado FATCA. Esto significa que las cuentas bancarias abiertas en EE.UU. por extranjeros no se reportan automáticamente a través del sistema CRS utilizado por casi toda Europa y Latinoamérica, ofreciendo un nivel superior de privacidad financiera, siempre que el usuario cumpla con sus obligaciones legales individuales.",
-        "q4": "¿Qué son los Formularios 5472 y 1120?",
-        "a4": "Son declaraciones informativas anuales obligatorias ante el IRS. El Formulario 5472 informa sobre transacciones entre la LLC y sus dueños extranjeros (préstamos, aportaciones de capital, pagos). La omisión de este formulario conlleva una multa automática mínima de 25.000$. El Formulario 1120 es la declaración de impuestos de la corporación que acompaña al 5472. Deben presentarse incluso si la empresa no ha tenido actividad comercial o facturación durante el año.",
-        "q5": "¿Qué es el Annual Report?",
-        "a5": "Es un informe anual de mantenimiento que exigen estados como Wyoming para confirmar que la empresa sigue activa y que sus datos de contacto son correctos. Incluye el pago de una tasa estatal de mantenimiento. Si no presentas este informe antes de la fecha límite, el estado cambiará el estatus de tu empresa a 'Delinquent' y eventualmente la disolverá, perdiendo tú toda la protección de responsabilidad limitada.",
-        "q6": "¿Qué impuestos existen en Estados Unidos?",
-        "a6": "En Estados Unidos existen varios niveles de impuestos:\n\n1. Impuestos Federales (IRS) - Son los impuestos nacionales aplicados por el gobierno federal. Incluyen impuesto sobre sociedades, impuesto sobre renta empresarial, impuestos sobre ingresos generados en EEUU y obligaciones informativas (reportes obligatorios).\n\n2. Impuestos Estatales - Cada estado puede aplicar sus propios impuestos como Franchise Tax, State Income Tax, Annual Report Fees y Business Taxes estatales. Dependen del estado donde esté registrada la LLC o donde opere.\n\n3. Impuestos sobre ventas (Sales Tax) - Es el equivalente al IVA europeo. Se aplica cuando vendes productos físicos, tienes nexus fiscal en un estado o superas ciertos volúmenes de ventas.\n\n4. Impuestos locales - Algunas ciudades o condados aplican tasas adicionales, aunque normalmente no afectan a negocios digitales internacionales.",
-        "q7": "¿Qué impuestos NO aplican a no residentes?",
-        "a7": "En el modelo típico de negocio online internacional, estos impuestos normalmente NO aplican a no residentes:\n\n• Impuesto sobre sociedades federal\n• Impuesto estatal sobre beneficios\n• IVA americano general\n• Seguridad social estadounidense\n\n**Importante:** Que una LLC no pague impuestos en EEUU no significa que no tengas obligaciones fiscales en tu país de residencia. Dependiendo de dónde vivas, podrías tener que declarar beneficios allí."
+        "title": "Impostos i Compliment",
+        "q1": "Quins impostos paga una LLC?",
+        "a1": "La tributació depèn totalment de com estigui estructurada l'empresa i la residència dels seus propietaris. La majoria de les LLC operen com a entitats 'disregarded' (transparents), cosa que significa que l'empresa en si no paga impost de societats als Estats Units, sinó que el benefici flueix cap als propietaris. Si no tens presència física ni empleats als EUA i realitzes serveis digitals, és molt probable que la teva càrrega fiscal federal sigui del 0%, tributant únicament al teu país de residència. Cada cas és únic i nosaltres et proporcionem l'orientació inicial necessària.",
+        "q2": "Hi ha IVA als Estats Units?",
+        "a2": "No, als Estats Units no existeix l'IVA (Impost sobre el Valor Afegit) tal com es coneix a Europa o Llatinoamèrica. En el seu lloc, existeix el 'Sales Tax' (Impost sobre les Vendes), que és un impost estatal i local. Només es recapta si vens productes físics a clients finals en estats on la teva empresa té 'nexus' (presència legal o econòmica). Per a serveis digitals i programari (SaaS) venuts fora dels EUA, generalment no hi ha impostos indirectes que recaptar.",
+        "q3": "Què és el CRS i FATCA?",
+        "a3": "Els Estats Units són un dels pocs països que no participa en el sistema d'intercanvi automàtic d'informació bancària conegut com a CRS (Common Reporting Standard). En el seu lloc, utilitza el seu propi sistema anomenat FATCA. Això significa que els comptes bancaris oberts als EUA per estrangers no es reporten automàticament a través del sistema CRS utilitzat per gairebé tota Europa i Llatinoamèrica, oferint un nivell superior de privacitat financera, sempre que l'usuari compleixi amb les seves obligacions legals individuals.",
+        "q4": "Què són els Formularis 5472 i 1120?",
+        "a4": "Són declaracions informatives anuals obligatòries davant l'IRS. El Formulari 5472 informa sobre transaccions entre la LLC i els seus propietaris estrangers (préstecs, aportacions de capital, pagaments). L'omissió d'aquest formulari comporta una multa automàtica mínima de 25.000$. El Formulari 1120 és la declaració d'impostos de la corporació que acompanya el 5472. S'han de presentar fins i tot si l'empresa no ha tingut activitat comercial o facturació durant l'any.",
+        "q5": "Què és l'Annual Report?",
+        "a5": "És un informe anual de manteniment que exigeixen estats com Wyoming per confirmar que l'empresa segueix activa i que les seves dades de contacte són correctes. Inclou el pagament d'una taxa estatal de manteniment. Si no presentes aquest informe abans de la data límit, l'estat canviarà l'estatus de la teva empresa a 'Delinquent' i eventualment la dissoldrà, perdent tu tota la protecció de responsabilitat limitada.",
+        "q6": "Quins impostos existeixen als Estats Units?",
+        "a6": "Als Estats Units existeixen diversos nivells d'impostos:\n\n1. Impostos Federals (IRS) - Són els impostos nacionals aplicats pel govern federal. Inclouen impost de societats, impost sobre renda empresarial, impostos sobre ingressos generats als EUA i obligacions informatives (informes obligatoris).\n\n2. Impostos Estatals - Cada estat pot aplicar els seus propis impostos com Franchise Tax, State Income Tax, Annual Report Fees i Business Taxes estatals. Depenen de l'estat on estigui registrada la LLC o on operi.\n\n3. Impostos sobre vendes (Sales Tax) - És l'equivalent a l'IVA europeu. S'aplica quan vens productes físics, tens nexus fiscal en un estat o superes certs volums de vendes.\n\n4. Impostos locals - Algunes ciutats o comtats apliquen taxes addicionals, encara que normalment no afecten negocis digitals internacionals.",
+        "q7": "Quins impostos NO s'apliquen a no residents?",
+        "a7": "En el model típic de negoci online internacional, aquests impostos normalment NO s'apliquen a no residents:\n\n• Impost de societats federal\n• Impost estatal sobre beneficis\n• IVA americà general\n• Seguretat social nord-americana\n\n**Important:** Que una LLC no pagui impostos als EUA no significa que no tinguis obligacions fiscals al teu país de residència. Depenent d'on visquis, podries haver de declarar beneficis allà."
       },
       "taxExtensions": {
         "title": "Extensió d'Impostos",
@@ -2897,16 +2897,16 @@
       "description": "Constitueix la teva LLC als Estats Units amb optimització fiscal internacional, estructura legal eficient i suport expert. A Easy US LLC gestionem tot el procés, incloent compliment normatiu, banca empresarial i assessorament estratègic per a negocis digitals i emprenedors globals."
     },
     "servicios": {
-      "title": "Servicios y Precios | Easy US LLC",
-      "description": "Descubre nuestros packs de formación de LLC en New Mexico, Wyoming y Delaware. Precios transparentes desde 739€."
+      "title": "Serveis i Preus | Easy US LLC",
+      "description": "Descobreix els nostres packs de formació de LLC a New Mexico, Wyoming i Delaware. Preus transparents des de 739€."
     },
     "faq": {
-      "title": "Preguntas Frecuentes | Easy US LLC",
-      "description": "Resuelve todas tus dudas sobre la formación de LLC en Estados Unidos. Centro de ayuda completo."
+      "title": "Preguntes Freqüents | Easy US LLC",
+      "description": "Resol tots els teus dubtes sobre la formació de LLC als Estats Units. Centre d'ajuda complet."
     },
     "contacto": {
-      "title": "Contacto | Easy US LLC",
-      "description": "Contacta con nuestro equipo de expertos en formación de LLC en Estados Unidos."
+      "title": "Contacte | Easy US LLC",
+      "description": "Contacta amb el nostre equip d'experts en formació de LLC als Estats Units."
     },
     "dashboard": {
       "title": "La Meva Àrea | Easy US LLC",
@@ -2914,48 +2914,48 @@
     },
     "formation": {
       "title": "Crear LLC | Easy US LLC",
-      "description": "Inicia el proceso de creación de tu LLC en Estados Unidos. Formulario simple y seguro."
+      "description": "Inicia el procés de creació de la teva LLC als Estats Units. Formulari simple i segur."
     },
     "maintenance": {
-      "title": "Mantenimiento LLC | Easy US LLC",
-      "description": "Renueva el mantenimiento anual de tu LLC. Agente registrado y cumplimiento incluido."
+      "title": "Manteniment LLC | Easy US LLC",
+      "description": "Renova el manteniment anual de la teva LLC. Agent registrat i compliment inclòs."
     },
     "login": {
-      "title": "Iniciar Sesión | Easy US LLC",
-      "description": "Accede a tu cuenta de Easy US LLC para gestionar tu empresa."
+      "title": "Iniciar Sessió | Easy US LLC",
+      "description": "Accedeix al teu compte d'Easy US LLC per gestionar la teva empresa."
     },
     "register": {
-      "title": "Crear Cuenta | Easy US LLC",
-      "description": "Crea tu cuenta gratuita en Easy US LLC."
+      "title": "Crear Compte | Easy US LLC",
+      "description": "Crea el teu compte gratuït a Easy US LLC."
     },
     "forgotPassword": {
-      "title": "Recuperar Contraseña | Easy US LLC",
-      "description": "Recupera el acceso a tu cuenta de Easy US LLC."
+      "title": "Recuperar Contrasenya | Easy US LLC",
+      "description": "Recupera l'accés al teu compte d'Easy US LLC."
     },
     "invoice": {
-      "title": "Generador de Facturas | Easy US LLC",
-      "description": "Crea facturas profesionales para tu LLC de forma gratuita."
+      "title": "Generador de Factures | Easy US LLC",
+      "description": "Crea factures professionals per a la teva LLC de forma gratuïta."
     },
     "calculator": {
       "title": "Calculadora de Rendibilitat | Easy US LLC",
-      "description": "Calcula cuánto puedes ahorrar en impuestos con una LLC en Estados Unidos."
+      "description": "Calcula quant pots estalviar en impostos amb una LLC als Estats Units."
     },
     "operatingAgreement": {
       "title": "Generador Operating Agreement | Easy US LLC",
-      "description": "Genera el Operating Agreement de tu LLC de forma automática."
+      "description": "Genera l'Operating Agreement de la teva LLC de forma automàtica."
     },
     "legal": {
       "terminos": {
-        "title": "Términos y Condiciones | Easy US LLC",
-        "description": "Consulta los términos y condiciones de uso de Easy US LLC."
+        "title": "Termes i Condicions | Easy US LLC",
+        "description": "Consulta els termes i condicions d'ús d'Easy US LLC."
       },
       "privacidad": {
-        "title": "Política de Privacidad | Easy US LLC",
-        "description": "Consulta nuestra política de privacidad y protección de datos."
+        "title": "Política de Privacitat | Easy US LLC",
+        "description": "Consulta la nostra política de privacitat i protecció de dades."
       },
       "reembolsos": {
-        "title": "Política de Reembolsos | Easy US LLC",
-        "description": "Consulta nuestra política de reembolsos y devoluciones."
+        "title": "Política de Reemborsaments | Easy US LLC",
+        "description": "Consulta la nostra política de reemborsaments i devolucions."
       },
       "cookies": {
         "title": "Política de Cookies | Easy US LLC",
@@ -3059,7 +3059,7 @@
       "descriptionEs": "Descripció (ES)",
       "durationMin": "Duració (min)",
       "priceCents": "Preu (cents)",
-      "save": "Guardar",
+      "save": "Desar",
       "create": "Crear",
       "add": "Afegir",
       "day": "Dia",
