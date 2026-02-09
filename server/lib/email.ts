@@ -986,7 +986,6 @@ export function getDocumentApprovedTemplate(name: string, documentLabel: string,
     <p style="line-height: 1.7; font-size: 15px; color: #444; margin: 0 0 25px 0;">${t.common.greeting} ${name},</p>
     
     <div style="background: linear-gradient(135deg, #F0FDF4 0%, #ECFDF5 100%); padding: 25px; border-radius: 16px; margin: 25px 0; text-align: center; border: 2px solid #6EDC8A;">
-      <p style="margin: 0 0 8px 0; font-size: 28px;">&#10003;</p>
       <p style="margin: 0 0 8px 0; font-size: 18px; font-weight: 800; color: #059669;">${t.documentApproved.title}</p>
       <p style="margin: 0; font-size: 16px; font-weight: 600; color: #0A0A0A;">"${documentLabel}"</p>
     </div>
@@ -1007,7 +1006,6 @@ export function getDocumentRejectedTemplate(name: string, documentLabel: string,
     <p style="line-height: 1.7; font-size: 15px; color: #444; margin: 0 0 25px 0;">${t.common.greeting} ${name},</p>
     
     <div style="background: linear-gradient(135deg, #FEF2F2 0%, #FEE2E2 100%); padding: 25px; border-radius: 16px; margin: 25px 0; text-align: center; border: 2px solid #F87171;">
-      <p style="margin: 0 0 8px 0; font-size: 28px;">&#9888;</p>
       <p style="margin: 0 0 8px 0; font-size: 18px; font-weight: 800; color: #DC2626;">${t.documentRejected.title}</p>
       <p style="margin: 0; font-size: 16px; font-weight: 600; color: #0A0A0A;">"${documentLabel}"</p>
     </div>
@@ -1040,7 +1038,6 @@ export function getAdminProfileChangesTemplate(clientName: string, clientEmail: 
   
   const content = `
     <div style="background: linear-gradient(135deg, #F0FDF4 0%, #ECFDF5 100%); padding: 25px; border-radius: 16px; margin: 0 0 25px 0; text-align: center; border: 2px solid #6EDC8A;">
-      <p style="margin: 0 0 8px 0; font-size: 28px;">&#128274;</p>
       <p style="margin: 0; font-size: 18px; font-weight: 800; color: #059669;">Cambios de Perfil Verificados con OTP</p>
     </div>
     

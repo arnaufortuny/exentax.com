@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { NativeSelect, NativeSelectItem } from "@/components/ui/native-select";
-import { CheckCircle2, Trash2, Mail, Copy, Check, Globe, ShieldCheck, RotateCcw, X, AlertTriangle } from "@/components/icons";
+import { CheckCircle2, Trash2, Mail, Copy, Check, Globe, ShieldCheck, RotateCcw, X } from "@/components/icons";
 import { useState, useEffect } from "react";
 import { NewsletterToggle } from "./";
 import { SocialLogin } from "@/components/auth/social-login";
@@ -133,20 +133,17 @@ export function ProfileTab({
       </div>
 
       {(profileOtpStep === 'otp' || hasPendingChanges) && (
-        <Card className="rounded-2xl border-orange-300 dark:border-orange-700 shadow-md p-5 md:p-6 bg-orange-50 dark:bg-orange-950/30" data-testid="card-profile-otp">
+        <Card className="rounded-2xl border-emerald-300 dark:border-emerald-700 shadow-md p-5 md:p-6 bg-emerald-50 dark:bg-emerald-950/30" data-testid="card-profile-otp">
           <div className="flex items-start gap-3 mb-4">
-            <div className="w-10 h-10 rounded-full bg-orange-100 dark:bg-orange-900/40 flex items-center justify-center shrink-0">
-              <AlertTriangle className="w-5 h-5 text-orange-600 dark:text-orange-400" />
-            </div>
             <div className="flex-1">
               <h3 className="font-black text-foreground">{t('profile.otpSentTitle')}</h3>
               <p className="text-xs text-muted-foreground mt-0.5">{t('profile.otpRequiredDesc')}</p>
-              <p className="text-xs font-bold text-orange-600 dark:text-orange-400 mt-1">{t('profile.actionRequired')}</p>
+              <p className="text-xs font-bold text-emerald-600 dark:text-emerald-400 mt-1">{t('profile.actionRequired')}</p>
             </div>
           </div>
           
           {pendingChangesData?.changedFields && (
-            <div className="mb-4 p-3 bg-white/60 dark:bg-card/60 rounded-xl border border-orange-200 dark:border-orange-800">
+            <div className="mb-4 p-3 bg-white/60 dark:bg-card/60 rounded-xl border border-emerald-200 dark:border-emerald-800">
               <p className="text-xs font-bold text-muted-foreground mb-2">{t('profile.pendingChanges')}:</p>
               <div className="space-y-1">
                 {pendingChangesData.changedFields.map((change, i) => {
@@ -162,7 +159,7 @@ export function ProfileTab({
                       <span className="font-bold text-foreground">{fieldLabels[change.field] || change.field}:</span>
                       <span className="text-muted-foreground line-through">{change.oldValue}</span>
                       <span className="text-foreground">→</span>
-                      <span className="font-bold text-orange-700 dark:text-orange-300">{change.newValue}</span>
+                      <span className="font-bold text-emerald-700 dark:text-emerald-300">{change.newValue}</span>
                     </div>
                   );
                 })}
