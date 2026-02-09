@@ -227,11 +227,10 @@ export default function ForgotPassword() {
                   <p className="text-sm text-muted-foreground text-center">{t("auth.forgotPassword.codeSentTo")} <strong className="text-foreground">{email}</strong></p>
                   <div className="w-full">
                     <label className="text-xs font-bold text-foreground mb-2 block text-center">{t("auth.forgotPassword.enterCode")}</label>
-                    <Input
-                      maxLength={6}
+                    <Input maxLength={6}
                       value={otp}
                       onChange={(e) => setOtp(e.target.value.replace(/\D/g, ""))}
-                      className="h-14 text-center text-2xl md:text-3xl tracking-[0.5em] font-black rounded-full border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-[#1A1A1A]"
+                      className="h-14 text-center text-2xl md:text-3xl tracking-[0.5em] font-black rounded-full border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-[#1A1A1A] rounded-xl"
                       inputMode="numeric"
                       autoComplete="one-time-code"
                       data-testid="input-otp"

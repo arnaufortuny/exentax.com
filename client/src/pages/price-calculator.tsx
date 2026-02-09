@@ -209,10 +209,9 @@ export default function PriceCalculator() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="md:col-span-2">
                     <Label className="text-sm font-medium text-foreground mb-1.5 block">{t('tools.priceCalculator.productName')}</Label>
-                    <Input 
-                      value={productName}
+                    <Input value={productName}
                       onChange={(e) => setProductName(e.target.value)}
-                      className="h-11 rounded-full"
+                      className="h-11 rounded-full rounded-xl"
                       data-testid="input-product-name"
                     />
                   </div>
@@ -221,13 +220,12 @@ export default function PriceCalculator() {
                     <Label className="text-sm font-medium text-foreground mb-1.5 block">{t('tools.priceCalculator.baseCost')}</Label>
                     <div className="relative">
                       <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">{currencySymbol}</span>
-                      <Input 
-                        type="number"
+                      <Input type="number"
                         min="0"
                         step="0.01"
                         value={baseCost || ""}
                         onChange={(e) => setBaseCost(parseFloat(e.target.value) || 0)}
-                        className="h-11 rounded-full pl-8"
+                        className="h-11 rounded-full pl-8 rounded-xl"
                         data-testid="input-base-cost"
                       />
                     </div>
@@ -235,12 +233,11 @@ export default function PriceCalculator() {
                   
                   <div>
                     <Label className="text-sm font-medium text-foreground mb-1.5 block">{t('tools.priceCalculator.quantity')}</Label>
-                    <Input 
-                      type="number"
+                    <Input type="number"
                       min="1"
                       value={quantity}
                       onChange={(e) => setQuantity(parseInt(e.target.value) || 1)}
-                      className="h-11 rounded-full"
+                      className="h-11 rounded-full rounded-xl"
                       data-testid="input-quantity"
                     />
                   </div>
@@ -287,21 +284,19 @@ export default function PriceCalculator() {
                     {additionalCosts.map((cost, index) => (
                       <div key={cost.id} className="flex items-center gap-2 p-3 bg-muted/50 rounded-xl">
                         <div className="flex-1 grid grid-cols-1 sm:grid-cols-3 gap-2">
-                          <Input 
-                            value={cost.name}
+                          <Input value={cost.name}
                             onChange={(e) => updateCost(cost.id, 'name', e.target.value)}
-                            className="h-9 rounded-full text-sm"
+                            className="h-9 rounded-full text-sm rounded-xl"
                             data-testid={`input-cost-name-${index}`}
                           />
                           <div className="relative">
                             <span className="absolute left-2 top-1/2 -translate-y-1/2 text-muted-foreground text-sm">{currencySymbol}</span>
-                            <Input 
-                              type="number"
+                            <Input type="number"
                               min="0"
                               step="0.01"
                               value={cost.cost || ""}
                               onChange={(e) => updateCost(cost.id, 'cost', parseFloat(e.target.value) || 0)}
-                              className="h-9 rounded-full pl-6 text-sm"
+                              className="h-9 rounded-full pl-6 text-sm rounded-xl"
                               data-testid={`input-cost-amount-${index}`}
                             />
                           </div>
@@ -339,13 +334,12 @@ export default function PriceCalculator() {
                   <div>
                     <Label className="text-sm font-medium text-foreground mb-1.5 block">{t('tools.priceCalculator.profitMargin')}</Label>
                     <div className="relative">
-                      <Input 
-                        type="number"
+                      <Input type="number"
                         min="0"
                         max="500"
                         value={marginPercent}
                         onChange={(e) => setMarginPercent(parseFloat(e.target.value) || 0)}
-                        className="h-11 rounded-full pr-8"
+                        className="h-11 rounded-full pr-8 rounded-xl"
                         data-testid="input-margin"
                       />
                       <span className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground">%</span>
@@ -356,13 +350,12 @@ export default function PriceCalculator() {
                   <div>
                     <Label className="text-sm font-medium text-foreground mb-1.5 block">{t('tools.priceCalculator.taxes')}</Label>
                     <div className="relative">
-                      <Input 
-                        type="number"
+                      <Input type="number"
                         min="0"
                         max="100"
                         value={taxPercent}
                         onChange={(e) => setTaxPercent(parseFloat(e.target.value) || 0)}
-                        className="h-11 rounded-full pr-8"
+                        className="h-11 rounded-full pr-8 rounded-xl"
                         data-testid="input-tax"
                       />
                       <span className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground">%</span>
@@ -377,8 +370,7 @@ export default function PriceCalculator() {
                   </div>
                   <div className="flex flex-wrap gap-2 mt-2">
                     {[15, 25, 30, 40, 50, 100].map((m) => (
-                      <Button
-                        key={m}
+                      <Button key={m}
                         variant={marginPercent === m ? "default" : "outline"}
                         size="sm"
                         onClick={() => setMarginPercent(m)}

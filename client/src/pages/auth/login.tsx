@@ -216,12 +216,11 @@ export default function Login() {
                     <label className="text-xs font-bold text-foreground tracking-wide block">
                       {t("auth.login.securityCode")}
                     </label>
-                    <Input
-                      type="text"
+                    <Input type="text"
                       value={securityOtp}
                       onChange={(e) => setSecurityOtp(e.target.value.replace(/\D/g, "").slice(0, 6))}
                       maxLength={6}
-                      className="h-12 text-center text-xl tracking-[0.5em] font-bold rounded-full"
+                      className="h-12 text-center text-xl tracking-[0.5em] font-bold rounded-full rounded-xl"
                       data-testid="input-security-otp"
                     />
                   </div>

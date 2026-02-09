@@ -574,8 +574,7 @@ export default function OperatingAgreementGenerator() {
                   <p className="text-muted-foreground text-sm mb-6 max-w-sm text-center">
                     {t("tools.operatingAgreement.noLlcDescription")}
                   </p>
-                  <Button 
-                    onClick={() => setLocation("/llc/formation")} 
+                  <Button onClick={() => setLocation("/llc/formation")} 
                     className="bg-accent text-accent-foreground rounded-full px-6"
                   >
                     {t("tools.operatingAgreement.formLlc")}
@@ -648,8 +647,7 @@ export default function OperatingAgreementGenerator() {
                             <MapPin className="w-4 h-4 text-muted-foreground" />
                             {t("tools.operatingAgreement.memberAddress")} *
                           </Label>
-                          <Textarea
-                            value={formData.memberAddress}
+                          <Textarea value={formData.memberAddress}
                             onChange={(e) => setFormData(prev => ({ ...prev, memberAddress: e.target.value }))}
                             className="min-h-[80px] resize-none rounded-xl"
                             data-testid="input-member-address"
@@ -662,10 +660,9 @@ export default function OperatingAgreementGenerator() {
                               <Phone className="w-4 h-4 text-muted-foreground" />
                               {t("tools.operatingAgreement.memberPhone")}
                             </Label>
-                            <Input
-                              value={formData.memberPhone}
+                            <Input value={formData.memberPhone}
                               onChange={(e) => setFormData(prev => ({ ...prev, memberPhone: e.target.value }))}
-                              className="h-11 rounded-full"
+                              className="h-11 rounded-full rounded-xl"
                               data-testid="input-member-phone"
                             />
                           </div>
@@ -674,10 +671,9 @@ export default function OperatingAgreementGenerator() {
                             <Label className="text-sm font-medium text-foreground mb-2">
                               {t("tools.operatingAgreement.capitalContribution")}
                             </Label>
-                            <Input
-                              value={formData.capitalContribution}
+                            <Input value={formData.capitalContribution}
                               onChange={(e) => setFormData(prev => ({ ...prev, capitalContribution: e.target.value }))}
-                              className="h-11 rounded-full"
+                              className="h-11 rounded-full rounded-xl"
                               data-testid="input-capital"
                             />
                           </div>
@@ -687,11 +683,10 @@ export default function OperatingAgreementGenerator() {
                           <Label className="text-sm font-medium text-foreground mb-2 block">
                             {t("tools.operatingAgreement.effectiveDate")} *
                           </Label>
-                          <Input
-                            type="date"
+                          <Input type="date"
                             value={formData.effectiveDate}
                             onChange={(e) => setFormData(prev => ({ ...prev, effectiveDate: e.target.value }))}
-                            className="h-11 rounded-full"
+                            className="h-11 rounded-full rounded-xl"
                             data-testid="input-effective-date"
                           />
                         </div>

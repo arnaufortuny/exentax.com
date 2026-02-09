@@ -121,8 +121,8 @@ export function ProfileTab({
     setTimeout(() => setCopiedId(false), 2000);
   };
 
-  const inputClass = "rounded-full h-11 px-5 border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-muted transition-colors font-medium text-foreground text-sm";
-  const selectClass = "rounded-full h-11 px-5 border-2 border-gray-200 dark:border-border bg-white dark:bg-muted";
+  const inputClass = "rounded-xl h-11 px-5 border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-muted transition-colors font-medium text-foreground text-sm";
+  const selectClass = "rounded-xl h-11 px-5 border-2 border-gray-200 dark:border-border bg-white dark:bg-muted";
   const readOnlyClass = "p-2.5 px-5 bg-gray-50 dark:bg-muted rounded-full text-sm h-11 flex items-center";
 
   return (
@@ -176,11 +176,10 @@ export function ProfileTab({
           <div className="space-y-3">
             <div>
               <Label className="text-xs font-bold text-muted-foreground mb-1 block">{t('dashboard.profile.verificationCode', 'Verification code')}</Label>
-              <Input 
-                type="text" 
+              <Input type="text" 
                 value={profileOtp} 
                 onChange={e => setProfileOtp(e.target.value.replace(/\D/g, '').slice(0, 6))} 
-                className="text-center text-lg tracking-[0.3em] font-mono bg-white dark:bg-card"
+                className="rounded-xl text-center text-lg tracking-[0.3em] font-mono bg-white dark:bg-card"
                 maxLength={6}
                 inputMode="numeric"
                 data-testid="input-profile-otp" 
@@ -329,7 +328,7 @@ export function ProfileTab({
             </div>
             <div className="space-y-1">
               <Label className="text-xs font-bold text-muted-foreground">{t('profile.fields.birthDate', 'Fecha de nacimiento')}</Label>
-              {isEditing && canEdit ? <Input type="date" value={profileData.birthDate} onChange={e => setProfileData({...profileData, birthDate: e.target.value})} className={`${inputClass} text-xs sm:text-sm`} data-testid="input-birthdate" /> : <div className={readOnlyClass}>{user?.birthDate || t('profile.notProvided', 'No proporcionado')}</div>}
+              {isEditing && canEdit ? <Input type="date" value={profileData.birthDate} onChange={e => setProfileData({...profileData, birthDate: e.target.value})} className={`${inputClass} text-xs sm:text-sm rounded-xl`} data-testid="input-birthdate" /> : <div className={readOnlyClass}>{user?.birthDate || t('profile.notProvided', 'No proporcionado')}</div>}
             </div>
           </div>
 
@@ -464,15 +463,15 @@ export function ProfileTab({
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                   <div className="space-y-1">
                     <Label className="text-xs">{t('profile.currentPassword', 'Contraseña actual')}</Label>
-                    <Input type="password" value={currentPassword} onChange={e => setCurrentPassword(e.target.value)} className="rounded-full" data-testid="input-current-password" />
+                    <Input type="password" value={currentPassword} onChange={e => setCurrentPassword(e.target.value)} className="rounded-full rounded-xl" data-testid="input-current-password" />
                   </div>
                   <div className="space-y-1">
                     <Label className="text-xs">{t('profile.newPassword', 'Nueva contraseña')}</Label>
-                    <Input type="password" value={newPassword} onChange={e => setNewPassword(e.target.value)} className="rounded-full" data-testid="input-new-password" />
+                    <Input type="password" value={newPassword} onChange={e => setNewPassword(e.target.value)} className="rounded-full rounded-xl" data-testid="input-new-password" />
                   </div>
                   <div className="space-y-1">
                     <Label className="text-xs">{t('profile.confirmNewPassword', 'Confirmar nueva contraseña')}</Label>
-                    <Input type="password" value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} className="rounded-full" data-testid="input-confirm-password" />
+                    <Input type="password" value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} className="rounded-full rounded-xl" data-testid="input-confirm-password" />
                   </div>
                 </div>
                 {newPassword && confirmPassword && newPassword !== confirmPassword && (
@@ -499,11 +498,10 @@ export function ProfileTab({
                 </div>
                 <div className="space-y-1">
                   <Label className="text-xs">{t('dashboard.profile.verificationCode', 'Código de verificación')}</Label>
-                  <Input 
-                    type="text" 
+                  <Input type="text" 
                     value={passwordOtp} 
                     onChange={e => setPasswordOtp(e.target.value.replace(/\D/g, '').slice(0, 6))} 
-                    className="text-center text-lg tracking-[0.3em] font-mono"
+                    className="rounded-xl text-center text-lg tracking-[0.3em] font-mono"
                     maxLength={6}
                     inputMode="numeric"
                     data-testid="input-password-otp" 

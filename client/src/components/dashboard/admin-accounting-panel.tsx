@@ -399,8 +399,7 @@ export function AdminAccountingPanel() {
                 </div>
                 <div>
                   <Label className="text-sm font-semibold mb-2 block">{t('dashboard.admin.amount')} (€)</Label>
-                  <Input
-                    type="number"
+                  <Input type="number"
                     step="0.01"
                     value={formData.amount}
                     onChange={(e) => setFormData(p => ({ ...p, amount: e.target.value }))}
@@ -410,8 +409,7 @@ export function AdminAccountingPanel() {
                 </div>
                 <div>
                   <Label className="text-sm font-semibold mb-2 block">{t('dashboard.admin.transactionDate')}</Label>
-                  <Input
-                    type="date"
+                  <Input type="date"
                     value={formData.transactionDate}
                     onChange={(e) => setFormData(p => ({ ...p, transactionDate: e.target.value }))}
                     className="rounded-xl h-11"
@@ -419,8 +417,7 @@ export function AdminAccountingPanel() {
                 </div>
                 <div className="md:col-span-2">
                   <Label className="text-sm font-semibold mb-2 block">{t('dashboard.admin.description')}</Label>
-                  <Input
-                    value={formData.description}
+                  <Input value={formData.description}
                     onChange={(e) => setFormData(p => ({ ...p, description: e.target.value }))}
                     className="rounded-xl h-11"
                     placeholder={t('dashboard.admin.description')}
@@ -428,8 +425,7 @@ export function AdminAccountingPanel() {
                 </div>
                 <div>
                   <Label className="text-sm font-semibold mb-2 block">{t('dashboard.admin.transactionDescription')}</Label>
-                  <Input
-                    value={formData.reference}
+                  <Input value={formData.reference}
                     onChange={(e) => setFormData(p => ({ ...p, reference: e.target.value }))}
                     className="rounded-xl h-11"
                     placeholder={t('dashboard.admin.transactionDescription')}
@@ -437,8 +433,7 @@ export function AdminAccountingPanel() {
                 </div>
                 <div>
                   <Label className="text-sm font-semibold mb-2 block">{t('dashboard.admin.internalNotes')}</Label>
-                  <Textarea
-                    value={formData.notes}
+                  <Textarea value={formData.notes}
                     onChange={(e) => setFormData(p => ({ ...p, notes: e.target.value }))}
                     className="rounded-xl resize-none"
                     rows={2}
@@ -453,8 +448,7 @@ export function AdminAccountingPanel() {
                 >
                   {(createMutation.isPending || updateMutation.isPending) ? <Loader2 className="w-4 h-4 animate-spin" /> : t('dashboard.admin.saveChanges')}
                 </Button>
-                <Button
-                  variant="outline"
+                <Button variant="outline"
                   onClick={() => { setFormOpen(false); setEditingTransaction(null); }}
                   className="rounded-full"
                 >

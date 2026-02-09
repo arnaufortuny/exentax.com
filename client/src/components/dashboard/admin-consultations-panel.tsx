@@ -286,8 +286,7 @@ export function AdminConsultationsPanel({ searchQuery = '' }: AdminConsultations
 
       <div className="flex gap-2 flex-wrap">
         {(['bookings', 'types', 'availability', 'blocked'] as const).map(tab => (
-          <Button
-            key={tab}
+          <Button key={tab}
             variant={activeSubTab === tab ? 'default' : 'outline'}
             size="sm"
             onClick={() => setActiveSubTab(tab)}
@@ -419,14 +418,12 @@ export function AdminConsultationsPanel({ searchQuery = '' }: AdminConsultations
                           <div className="space-y-2">
                             <Label>{t('consultations.admin.meetingLink', 'Link de reunión')}</Label>
                             <div className="flex gap-2">
-                              <Input
-                                placeholder={t('consultations.admin.meetingLinkPlaceholder', 'https://meet.google.com/...')}
+                              <Input placeholder={t('consultations.admin.meetingLinkPlaceholder', 'https://meet.google.com/...')}
                                 value={meetingLinkValue}
                                 onChange={(e) => setMeetingLinkValue(e.target.value)}
                                 className="flex-1 rounded-xl"
                               />
-                              <Button
-                                onClick={() => updateBookingMutation.mutate({ id: booking.id, data: { meetingLink: meetingLinkValue } })}
+                              <Button onClick={() => updateBookingMutation.mutate({ id: booking.id, data: { meetingLink: meetingLinkValue } })}
                                 className="bg-accent text-primary font-black rounded-full"
                               >
                                 {t('consultations.admin.save', 'Guardar')}
@@ -616,20 +613,17 @@ export function AdminConsultationsPanel({ searchQuery = '' }: AdminConsultations
         <div className="space-y-4">
           <Card className="p-4">
             <div className="flex gap-2 flex-wrap">
-              <Input
-                type="date"
+              <Input type="date"
                 value={blockedDateForm.date}
                 onChange={(e) => setBlockedDateForm({ ...blockedDateForm, date: e.target.value })}
                 className="w-40 rounded-xl"
               />
-              <Input
-                placeholder={t('consultations.admin.reasonOptional', 'Motivo (opcional)')}
+              <Input placeholder={t('consultations.admin.reasonOptional', 'Motivo (opcional)')}
                 value={blockedDateForm.reason}
                 onChange={(e) => setBlockedDateForm({ ...blockedDateForm, reason: e.target.value })}
                 className="flex-1 rounded-xl"
               />
-              <Button
-                onClick={() => addBlockedDateMutation.mutate(blockedDateForm)}
+              <Button onClick={() => addBlockedDateMutation.mutate(blockedDateForm)}
                 disabled={!blockedDateForm.date}
                 className="bg-accent text-primary font-black rounded-full"
               >

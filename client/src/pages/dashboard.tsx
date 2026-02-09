@@ -1072,16 +1072,14 @@ export default function Dashboard() {
                     <p className="text-xs text-orange-600 dark:text-orange-400 mb-3">
                       {t("dashboard.pendingAccount.codeSentTo")} <strong>{user?.email}</strong>
                     </p>
-                    <Input
-                      value={emailVerificationCode}
+                    <Input value={emailVerificationCode}
                       onChange={(e) => setEmailVerificationCode(e.target.value.replace(/\D/g, ""))}
-                      className="rounded-full text-center text-xl font-black border-orange-200 focus:border-accent tracking-[0.4em] h-12 mb-3"
+                      className="rounded-full text-center text-xl font-black border-orange-200 focus:border-accent tracking-[0.4em] h-12 mb-3 rounded-xl"
                       maxLength={6}
                       inputMode="numeric"
                       data-testid="input-pending-verification-code"
                     />
-                    <Button
-                      onClick={async () => {
+                    <Button onClick={async () => {
                         if (!emailVerificationCode || emailVerificationCode.length < 6) {
                           setFormMessage({ type: 'error', text: t("dashboard.pendingAccount.enter6DigitCode") });
                           return;
@@ -1107,8 +1105,7 @@ export default function Dashboard() {
                     >
                       {isVerifyingEmail ? <Loader2 className="w-5 h-5 animate-spin" /> : t("dashboard.pendingAccount.verifyButton")}
                     </Button>
-                    <Button
-                      variant="link"
+                    <Button variant="link"
                       onClick={async () => {
                         setIsResendingCode(true);
                         try {
@@ -1342,8 +1339,7 @@ export default function Dashboard() {
               adminMenuItems.map((item: any) => {
                 const isActive = activeTab === 'admin' && adminSubTab === item.subTab;
                 return (
-                  <Button
-                    key={item.id}
+                  <Button key={item.id}
                     variant={isActive ? "default" : "ghost"}
                     onClick={() => { setActiveTab('admin' as Tab); setAdminSubTab(item.subTab); }}
                     size="sm"
@@ -1362,8 +1358,7 @@ export default function Dashboard() {
             ) : (
               <>
                 {userMenuItems.map((item) => (
-                  <Button
-                    key={item.id}
+                  <Button key={item.id}
                     variant={activeTab === item.id ? "default" : "ghost"}
                     onClick={() => setActiveTab(item.id as Tab)}
                     size="sm"
@@ -1384,8 +1379,7 @@ export default function Dashboard() {
           </div>
           {isSupport && !isAdmin && (
             <div className="flex -mx-4 px-4">
-              <Button
-                variant={activeTab === 'admin' ? "default" : "ghost"}
+              <Button variant={activeTab === 'admin' ? "default" : "ghost"}
                 onClick={() => setActiveTab('admin' as Tab)}
                 size="sm"
                 className={`flex items-center gap-1.5 rounded-full font-black text-[11px] sm:text-xs tracking-normal whitespace-nowrap shrink-0 h-10 px-4 transition-colors ${
@@ -1426,8 +1420,7 @@ export default function Dashboard() {
                   <p className="font-black text-sm text-orange-800 dark:text-orange-300">{t('dashboard.emailVerification.title')}</p>
                   <p className="text-xs text-orange-600 dark:text-orange-400">{t('dashboard.emailVerification.description')}</p>
                 </div>
-                <Button
-                  size="sm"
+                <Button size="sm"
                   onClick={() => setShowEmailVerification(true)}
                   className="shrink-0 bg-orange-600 hover:bg-orange-700 text-white font-black rounded-full h-9 px-4"
                   data-testid="button-verify-email-header"
@@ -1649,8 +1642,7 @@ export default function Dashboard() {
                         {uploadDocType === "other" && (
                           <div>
                             <Label className="text-xs font-semibold text-foreground mb-2 block">{t('dashboard.documents.description')}</Label>
-                            <Textarea 
-                              value={uploadNotes} 
+                            <Textarea value={uploadNotes} 
                               onChange={(e) => setUploadNotes(e.target.value)} 
                               placeholder={t('dashboard.documents.describePlaceholder')}
                               className="min-h-[70px] rounded-xl border-border bg-background dark:bg-[#1A1A1A] text-base"
@@ -1660,8 +1652,7 @@ export default function Dashboard() {
                           </div>
                         )}
                         
-                        <Button 
-                          onClick={async () => {
+                        <Button onClick={async () => {
                             if (!uploadDialog.file) return;
                             const formData = new FormData();
                             formData.append('file', uploadDialog.file);
@@ -2107,8 +2098,7 @@ export default function Dashboard() {
                       <div className="space-y-4">
                         <div>
                           <Label className="text-sm font-semibold text-foreground block mb-2">{t('dashboard.profile.verificationCode')}</Label>
-                          <Input
-                            value={emailVerificationCode}
+                          <Input value={emailVerificationCode}
                             onChange={(e) => setEmailVerificationCode(e.target.value.replace(/\D/g, ""))}
                             className="rounded-xl text-center text-2xl font-black border-border bg-background dark:bg-[#1A1A1A] h-14 tracking-[0.5em]"
                             maxLength={6}
@@ -2118,8 +2108,7 @@ export default function Dashboard() {
                           />
                         </div>
                         <div className="flex flex-col sm:flex-row gap-2">
-                          <Button
-                            onClick={async () => {
+                          <Button onClick={async () => {
                               if (!emailVerificationCode || emailVerificationCode.length < 6) {
                                 setFormMessage({ type: 'error', text: t("dashboard.toasts.enter6DigitCode") });
                                 return;
@@ -2146,8 +2135,7 @@ export default function Dashboard() {
                           >
                             {isVerifyingEmail ? <Loader2 className="w-4 h-4 animate-spin" /> : t('dashboard.profile.verifyEmail')}
                           </Button>
-                          <Button
-                            variant="outline"
+                          <Button variant="outline"
                             onClick={async () => {
                               setIsResendingCode(true);
                               try {
@@ -2188,8 +2176,7 @@ export default function Dashboard() {
                         <p className="text-sm text-red-600 dark:text-red-400">{t('dashboard.profile.deleteAccountConfirm')}</p>
                       </div>
                       <div className="flex flex-col sm:flex-row gap-2">
-                        <Button 
-                          variant="destructive" 
+                        <Button variant="destructive" 
                           onClick={() => deleteOwnAccountMutation.mutate()} 
                           disabled={deleteOwnAccountMutation.isPending} 
                           className="flex-1 rounded-full font-black" 
@@ -2215,8 +2202,7 @@ export default function Dashboard() {
                       { id: 'calendar', label: t('dashboard.calendar.dates'), icon: Calendar, adminOnly: false },
                       { id: 'docs', label: t('dashboard.admin.tabs.docs'), icon: FileText, adminOnly: false },
                     ].map((item) => (
-                      <Button
-                        key={item.id}
+                      <Button key={item.id}
                         variant={adminSubTab === item.id ? "default" : "outline"}
                         onClick={() => setAdminSubTab(item.id)}
                         size="sm"
@@ -2251,11 +2237,10 @@ export default function Dashboard() {
                       </div>
                       <div className="relative flex-1 min-w-0">
                         <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground pointer-events-none" />
-                        <Input
-                          placeholder={t('dashboard.admin.searchPlaceholder')}
+                        <Input placeholder={t('dashboard.admin.searchPlaceholder')}
                           value={adminSearchQuery}
                           onChange={(e) => setAdminSearchQuery(e.target.value)}
-                          className="pl-10 pr-12 h-11 rounded-full text-sm bg-white dark:bg-[#1A1A1A] border-border w-full"
+                          className="pl-10 pr-12 h-11 rounded-full text-sm bg-white dark:bg-[#1A1A1A] border-border w-full rounded-xl"
                           data-testid="input-admin-search"
                         />
                         {adminSearchQuery && (
@@ -2389,8 +2374,7 @@ export default function Dashboard() {
                         {newOrderData.orderType === 'custom' ? (
                           <div>
                             <Label className="text-sm font-semibold text-foreground mb-2 block">{t('dashboard.admin.concept', 'Concepto')}</Label>
-                            <Input 
-                              value={newOrderData.concept} 
+                            <Input value={newOrderData.concept} 
                               onChange={e => setNewOrderData(p => ({ ...p, concept: e.target.value }))} 
                               placeholder={t('dashboard.admin.conceptPlaceholder', 'Ej: Consultoría fiscal, Apostilla, Servicio adicional...')} 
                               className="rounded-xl h-11 px-4 border border-gray-200 dark:border-border bg-white dark:bg-[#1A1A1A]" 
@@ -2687,8 +2671,7 @@ export default function Dashboard() {
                       <div className="space-y-4">
                         <div>
                           <Label className="text-sm font-semibold text-foreground mb-2 block">{t('dashboard.admin.invoiceAmount')}</Label>
-                          <Input 
-                            type="number" 
+                          <Input type="number" 
                             step="0.01" 
                             value={orderInvoiceAmount} 
                             onChange={e => setOrderInvoiceAmount(e.target.value)}
@@ -2825,8 +2808,7 @@ export default function Dashboard() {
                       <div className="space-y-4">
                         <div>
                           <Label className="text-sm font-semibold text-foreground mb-2 block">{t('dashboard.admin.concept')}</Label>
-                          <Input 
-                            value={invoiceConcept} 
+                          <Input value={invoiceConcept} 
                             onChange={e => setInvoiceConcept(e.target.value)} 
                             placeholder={t('dashboard.admin.conceptPlaceholder')} 
                             className="w-full rounded-xl h-11 px-4 border border-gray-200 dark:border-border bg-white dark:bg-[#1A1A1A]"
@@ -2836,8 +2818,7 @@ export default function Dashboard() {
                         <div className="grid grid-cols-3 gap-3">
                           <div className="col-span-2">
                             <Label className="text-sm font-semibold text-foreground mb-2 block">{t('dashboard.admin.invoiceAmount')}</Label>
-                            <Input 
-                              type="number" 
+                            <Input type="number" 
                               value={invoiceAmount} 
                               onChange={e => setInvoiceAmount(e.target.value)} 
                               placeholder="739" 
@@ -2860,8 +2841,7 @@ export default function Dashboard() {
                         </div>
                       </div>
                       <div className="flex flex-col sm:flex-row gap-3 mt-6 pt-4 border-t">
-                        <Button 
-                          onClick={() => invoiceDialog.user?.id && createInvoiceMutation.mutate({ 
+                        <Button onClick={() => invoiceDialog.user?.id && createInvoiceMutation.mutate({ 
                             userId: invoiceDialog.user.id, 
                             concept: invoiceConcept, 
                             amount: Math.round(parseFloat(invoiceAmount) * 100),
@@ -2897,8 +2877,7 @@ export default function Dashboard() {
                       <div className="space-y-4">
                         <div>
                           <Label className="text-sm font-semibold text-foreground mb-2 block">{t('dashboard.admin.code')}</Label>
-                          <Input 
-                            value={newDiscountCode.code} 
+                          <Input value={newDiscountCode.code} 
                             onChange={e => setNewDiscountCode(p => ({ ...p, code: e.target.value.toUpperCase() }))} 
                             className="rounded-xl h-11 px-4 border border-gray-200 dark:border-border uppercase bg-white dark:bg-[#1A1A1A]" 
                             disabled={!!discountCodeDialog.code}
@@ -2922,8 +2901,7 @@ export default function Dashboard() {
                             <Label className="text-sm font-semibold text-foreground mb-2 block">
                               {t('dashboard.admin.value')} {newDiscountCode.discountType === 'percentage' ? '(%)' : '(cts)'}
                             </Label>
-                            <Input 
-                              type="number" 
+                            <Input type="number" 
                               value={newDiscountCode.discountValue} 
                               onChange={e => setNewDiscountCode(p => ({ ...p, discountValue: e.target.value }))} 
                               className="rounded-xl h-11 px-4 border border-gray-200 dark:border-border bg-white dark:bg-[#1A1A1A]" 
@@ -2934,8 +2912,7 @@ export default function Dashboard() {
                         <div className="grid grid-cols-2 gap-3">
                           <div>
                             <Label className="text-sm font-semibold text-foreground mb-2 block">{t('dashboard.admin.minAmount')}</Label>
-                            <Input 
-                              type="number" 
+                            <Input type="number" 
                               value={newDiscountCode.minOrderAmount} 
                               onChange={e => setNewDiscountCode(p => ({ ...p, minOrderAmount: e.target.value }))} 
                               className="rounded-xl h-11 px-4 border border-gray-200 dark:border-border bg-white dark:bg-[#1A1A1A]" 
@@ -2944,8 +2921,7 @@ export default function Dashboard() {
                           </div>
                           <div>
                             <Label className="text-sm font-semibold text-foreground mb-2 block">{t('dashboard.admin.maxUses')}</Label>
-                            <Input 
-                              type="number" 
+                            <Input type="number" 
                               value={newDiscountCode.maxUses} 
                               onChange={e => setNewDiscountCode(p => ({ ...p, maxUses: e.target.value }))} 
                               className="rounded-xl h-11 px-4 border border-gray-200 dark:border-border bg-white dark:bg-[#1A1A1A]" 
@@ -2956,8 +2932,7 @@ export default function Dashboard() {
                         <div className="grid grid-cols-2 gap-3">
                           <div>
                             <Label className="text-sm font-semibold text-foreground mb-2 block">{t('dashboard.admin.validFrom')}</Label>
-                            <Input 
-                              type="date" 
+                            <Input type="date" 
                               value={newDiscountCode.validFrom} 
                               onChange={e => setNewDiscountCode(p => ({ ...p, validFrom: e.target.value }))} 
                               className="rounded-xl h-11 px-4 border border-gray-200 dark:border-border bg-white dark:bg-[#1A1A1A]" 
@@ -2966,8 +2941,7 @@ export default function Dashboard() {
                           </div>
                           <div>
                             <Label className="text-sm font-semibold text-foreground mb-2 block">{t('dashboard.admin.validUntil')}</Label>
-                            <Input 
-                              type="date" 
+                            <Input type="date" 
                               value={newDiscountCode.validUntil} 
                               onChange={e => setNewDiscountCode(p => ({ ...p, validUntil: e.target.value }))} 
                               className="rounded-xl h-11 px-4 border border-gray-200 dark:border-border bg-white dark:bg-[#1A1A1A]" 
@@ -2985,8 +2959,7 @@ export default function Dashboard() {
                         </div>
                       </div>
                       <div className="flex flex-col sm:flex-row gap-3 pt-4 border-t mt-4">
-                        <Button 
-                          onClick={async () => {
+                        <Button onClick={async () => {
                             try {
                               const payload = {
                                 code: newDiscountCode.code,
@@ -3037,8 +3010,7 @@ export default function Dashboard() {
                       <div className="space-y-4">
                         <div>
                           <Label className="text-sm font-semibold text-foreground block mb-2">{t('dashboard.admin.paymentLinkUrl')}</Label>
-                          <Input
-                            value={paymentLinkUrl}
+                          <Input value={paymentLinkUrl}
                             onChange={(e) => setPaymentLinkUrl(e.target.value)}
                             placeholder="https://..."
                             className="rounded-xl h-11 px-4 border border-gray-200 dark:border-border bg-white dark:bg-[#1A1A1A]"
@@ -3047,8 +3019,7 @@ export default function Dashboard() {
                         </div>
                         <div>
                           <Label className="text-sm font-semibold text-foreground block mb-2">{t('dashboard.admin.paymentAmount')}</Label>
-                          <Input
-                            value={paymentLinkAmount}
+                          <Input value={paymentLinkAmount}
                             onChange={(e) => setPaymentLinkAmount(e.target.value)}
                             placeholder={t('dashboard.admin.paymentAmountPlaceholder')}
                             className="rounded-xl h-11 px-4 border border-gray-200 dark:border-border bg-white dark:bg-[#1A1A1A]"
@@ -3057,8 +3028,7 @@ export default function Dashboard() {
                         </div>
                         <div>
                           <Label className="text-sm font-semibold text-foreground block mb-2">{t('dashboard.admin.paymentMessage')}</Label>
-                          <Textarea
-                            value={paymentLinkMessage}
+                          <Textarea value={paymentLinkMessage}
                             onChange={(e) => setPaymentLinkMessage(e.target.value)}
                             placeholder={t('dashboard.admin.paymentMessagePlaceholder')}
                             className="rounded-xl border-border bg-background dark:bg-[#1A1A1A]"
@@ -3068,8 +3038,7 @@ export default function Dashboard() {
                         </div>
                       </div>
                       <div className="flex flex-col sm:flex-row gap-3 mt-6 pt-4 border-t">
-                        <Button
-                          onClick={async () => {
+                        <Button onClick={async () => {
                             if (!paymentLinkUrl || !paymentLinkAmount) {
                               setFormMessage({ type: 'error', text: t("form.validation.requiredFields") });
                               return;
@@ -3167,8 +3136,7 @@ export default function Dashboard() {
                         </div>
                       </div>
                       <div className="flex flex-col sm:flex-row gap-3 mt-6 pt-4 border-t">
-                        <Button
-                          disabled={!adminDocFile || isUploadingAdminDoc}
+                        <Button disabled={!adminDocFile || isUploadingAdminDoc}
                           onClick={async () => {
                             if (!adminDocFile || !adminDocUploadDialog.order) return;
                             setIsUploadingAdminDoc(true);
@@ -3229,8 +3197,7 @@ export default function Dashboard() {
                       <div className="space-y-4">
                         <div>
                           <Label className="text-sm font-semibold text-foreground block mb-2">{t('dashboard.admin.newPassword')}</Label>
-                          <Input
-                            type="password"
+                          <Input type="password"
                             value={newAdminPassword}
                             onChange={(e) => setNewAdminPassword(e.target.value)}
                             placeholder={t('dashboard.admin.minChars')}
@@ -3240,8 +3207,7 @@ export default function Dashboard() {
                         </div>
                       </div>
                       <div className="flex flex-col sm:flex-row gap-3 mt-6 pt-4 border-t">
-                        <Button
-                          disabled={newAdminPassword.length < 8 || isResettingPassword}
+                        <Button disabled={newAdminPassword.length < 8 || isResettingPassword}
                           onClick={async () => {
                             if (!resetPasswordDialog.user?.id || newAdminPassword.length < 8) return;
                             setIsResettingPassword(true);
@@ -3280,8 +3246,7 @@ export default function Dashboard() {
                       <div className="space-y-4">
                         <div>
                           <Label className="text-sm font-semibold text-foreground block mb-2">{t('dashboard.admin.users.otpReason', 'Reason (optional)')}</Label>
-                          <Textarea
-                            value={otpRequestReason}
+                          <Textarea value={otpRequestReason}
                             onChange={(e) => setOtpRequestReason(e.target.value)}
                             placeholder={t('dashboard.admin.users.otpReasonPlaceholder', 'e.g. We need to verify your identity before processing your LLC application')}
                             className="rounded-xl border-border bg-white dark:bg-card"
@@ -3291,8 +3256,7 @@ export default function Dashboard() {
                         </div>
                       </div>
                       <div className="flex flex-col sm:flex-row gap-3 mt-6 pt-4 border-t border-orange-200 dark:border-orange-800">
-                        <Button
-                          disabled={isSendingOtpRequest}
+                        <Button disabled={isSendingOtpRequest}
                           onClick={async () => {
                             if (!otpRequestDialog.user?.id) return;
                             setIsSendingOtpRequest(true);
@@ -3789,15 +3753,13 @@ export default function Dashboard() {
                                 
                                 {selectedMessage?.id === msg.id && (
                                   <div className="space-y-2 pt-3 border-t mt-2" onClick={(e) => e.stopPropagation()}>
-                                    <Textarea 
-                                      value={replyContent} 
+                                    <Textarea value={replyContent} 
                                       onChange={(e) => setReplyContent(e.target.value)} 
                                       placeholder={t('dashboard.admin.inboxSection.replyPlaceholder')} 
                                       className="rounded-xl min-h-[80px] text-sm"
                                       data-testid="input-admin-reply"
                                     />
-                                    <Button 
-                                      onClick={() => sendReplyMutation.mutate(msg.id)} 
+                                    <Button onClick={() => sendReplyMutation.mutate(msg.id)} 
                                       disabled={!replyContent.trim() || sendReplyMutation.isPending} 
                                       className="bg-accent text-accent-foreground font-black rounded-full px-6"
                                       data-testid="button-send-admin-reply"
@@ -3997,15 +3959,13 @@ export default function Dashboard() {
                           <Card className="rounded-2xl border-0 shadow-sm p-4 md:p-6">
                             <h4 className="font-black text-sm mb-3">{t('dashboard.admin.newsletterSection.sendNewsletter')}</h4>
                             <div className="space-y-3">
-                              <Input
-                                placeholder={t('dashboard.admin.newsletterSection.subjectPlaceholder')}
+                              <Input placeholder={t('dashboard.admin.newsletterSection.subjectPlaceholder')}
                                 value={broadcastSubject}
                                 onChange={(e) => setBroadcastSubject(e.target.value)}
                                 className="rounded-xl text-sm"
                                 data-testid="input-broadcast-subject"
                               />
-                              <Textarea
-                                placeholder={t('dashboard.admin.newsletterSection.messagePlaceholder')}
+                              <Textarea placeholder={t('dashboard.admin.newsletterSection.messagePlaceholder')}
                                 value={broadcastMessage}
                                 onChange={(e) => setBroadcastMessage(e.target.value)}
                                 className="rounded-xl min-h-[100px] text-sm"

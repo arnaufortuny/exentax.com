@@ -310,8 +310,7 @@ export default function LinktreePage() {
               
               <div className="flex flex-wrap gap-2 justify-center mb-3">
                 {incomePresets.map((preset) => (
-                  <Button
-                    key={preset}
+                  <Button key={preset}
                     onClick={() => setIncome(preset)}
                     variant={income === preset ? "default" : "outline"}
                     size="sm"
@@ -361,10 +360,9 @@ export default function LinktreePage() {
               </div>
             </div>
             
-            <Button
-              onClick={() => setShowDetails(!showDetails)}
+            <Button onClick={() => setShowDetails(!showDetails)}
               variant="ghost"
-              className="w-full rounded-none border-t border-gray-100 text-gray-500"
+              className="w-full rounded-none border-t border-gray-100 text-gray-500 rounded-full"
               data-testid="button-toggle-details"
             >
               {showDetails ? 'Ocultar' : 'Ver desglose'}

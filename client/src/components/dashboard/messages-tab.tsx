@@ -90,8 +90,7 @@ export function MessagesTab({
           <p className="text-base text-muted-foreground mt-1">{t('dashboard.support.subtitle')}</p>
         </div>
         {!showNewInquiry && (
-          <Button 
-            onClick={() => setShowNewInquiry(true)} 
+          <Button onClick={() => setShowNewInquiry(true)} 
             className="bg-accent text-accent-foreground font-black rounded-full shrink-0"
             size="sm"
             data-testid="button-open-new-inquiry"
@@ -120,11 +119,10 @@ export function MessagesTab({
 
             <div>
               <Label className="text-xs font-bold text-muted-foreground mb-1.5 block">{t('dashboard.support.inquiryTitle', 'Title')}</Label>
-              <Input 
-                value={inquirySubject} 
+              <Input value={inquirySubject} 
                 onChange={(e) => setInquirySubject(e.target.value)} 
                 placeholder={t('dashboard.support.inquiryTitlePlaceholder', 'Briefly describe your inquiry')}
-                className="rounded-full h-11 px-5 border-2 border-gray-200 dark:border-border bg-white dark:bg-muted text-sm"
+                className="rounded-full rounded-xl h-11 px-5 border-2 border-gray-200 dark:border-border bg-white dark:bg-muted text-sm"
                 maxLength={120}
                 data-testid="input-inquiry-subject"
               />
@@ -147,8 +145,7 @@ export function MessagesTab({
 
             <div>
               <Label className="text-xs font-bold text-muted-foreground mb-1.5 block">{t('dashboard.support.inquiryMessage', 'Message')}</Label>
-              <Textarea 
-                value={inquiryMessage} 
+              <Textarea value={inquiryMessage} 
                 onChange={(e) => setInquiryMessage(e.target.value)} 
                 placeholder={t('dashboard.support.inquiryMessagePlaceholder', 'Describe your question or request in detail...')}
                 className="rounded-xl min-h-[120px] text-sm border-2 border-gray-200 dark:border-border bg-white dark:bg-muted"
@@ -157,8 +154,7 @@ export function MessagesTab({
               />
             </div>
 
-            <Button 
-              onClick={() => sendInquiryMutation.mutate()} 
+            <Button onClick={() => sendInquiryMutation.mutate()} 
               disabled={!canSubmitInquiry || sendInquiryMutation.isPending}
               className="w-full bg-accent text-accent-foreground font-black rounded-full h-12"
               data-testid="button-send-inquiry"
@@ -183,8 +179,7 @@ export function MessagesTab({
                 <h3 className="text-base md:text-lg font-black text-foreground mb-1 md:mb-2 text-center tracking-tight">{t('dashboard.support.empty')}</h3>
                 <p className="text-xs md:text-sm text-muted-foreground mb-4 md:mb-6 text-center">{t('dashboard.support.emptyDescription')}</p>
               </div>
-              <Button 
-                onClick={() => setShowNewInquiry(true)} 
+              <Button onClick={() => setShowNewInquiry(true)} 
                 className="bg-accent text-accent-foreground font-black rounded-full px-6 md:px-8 py-2.5 md:py-3 text-sm md:text-base" 
                 data-testid="button-support-new-inquiry"
               >
@@ -240,15 +235,13 @@ export function MessagesTab({
                         ))}
                       </div>
                     )}
-                    <Textarea 
-                      value={replyContent} 
+                    <Textarea value={replyContent} 
                       onChange={(e) => setReplyContent(e.target.value)} 
                       placeholder={t('dashboard.support.replyPlaceholder')} 
                       className="rounded-xl min-h-[80px] text-sm" 
                       data-testid="input-user-reply" 
                     />
-                    <Button 
-                      onClick={() => sendReplyMutation.mutate(msg.id)} 
+                    <Button onClick={() => sendReplyMutation.mutate(msg.id)} 
                       disabled={!replyContent.trim() || sendReplyMutation.isPending} 
                       className="bg-accent text-accent-foreground font-black rounded-full px-6" 
                       data-testid="button-user-send-reply"

@@ -392,18 +392,16 @@ export default function Servicios() {
                 </div>
               </div>
               <div className="p-4 sm:p-5 pt-0">
-                <Button 
-                  onClick={() => handleSelectProduct("New Mexico")}
+                <Button onClick={() => handleSelectProduct("New Mexico")}
                   className="w-full bg-accent text-primary font-black text-sm rounded-full py-2.5 border-0 shadow-md hover:bg-accent/90 transition-colors h-9"
                 >
                   {t("services.formation.choose")} New Mexico
                 </Button>
               </div>
               <div className="bg-accent/5 px-4 py-2 border-t border-accent/10 mt-auto text-center">
-                <Button 
-                  variant="link"
+                <Button variant="link"
                   onClick={() => setLocation(`/contacto?subject=${encodeURIComponent("Mantenimiento New Mexico")}`)}
-                  className="font-black text-[10px] sm:text-xs tracking-widest text-primary/70 p-0 h-auto"
+                  className="font-black text-[10px] sm:text-xs tracking-widest text-primary/70 p-0 h-auto rounded-full"
                   data-testid="button-maintenance-nm"
                 >
                   {t("services.formation.maintenanceYear2")}: {getMaintenancePriceFormatted("newMexico")}
@@ -436,18 +434,16 @@ export default function Servicios() {
                 </div>
               </div>
               <div className="p-4 sm:p-5 pt-0">
-                <Button 
-                  onClick={() => handleSelectProduct("Wyoming")}
+                <Button onClick={() => handleSelectProduct("Wyoming")}
                   className="w-full bg-accent text-primary font-black text-sm rounded-full py-2.5 border-0 shadow-md hover:bg-accent/90 transition-colors h-9"
                 >
                   {t("services.formation.choose")} Wyoming
                 </Button>
               </div>
               <div className="bg-accent/5 px-4 py-2 border-t border-accent/10 mt-auto text-center">
-                <Button 
-                  variant="link"
+                <Button variant="link"
                   onClick={() => setLocation(`/contacto?subject=${encodeURIComponent("Mantenimiento Wyoming")}`)}
-                  className="font-black text-[10px] sm:text-xs tracking-widest text-primary/70 p-0 h-auto"
+                  className="font-black text-[10px] sm:text-xs tracking-widest text-primary/70 p-0 h-auto rounded-full"
                   data-testid="button-maintenance-wy"
                 >
                   {t("services.formation.maintenanceYear2")}: {getMaintenancePriceFormatted("wyoming")}
@@ -480,18 +476,16 @@ export default function Servicios() {
                 </div>
               </div>
               <div className="p-4 sm:p-5 pt-0">
-                <Button 
-                  onClick={() => handleSelectProduct("Delaware")}
+                <Button onClick={() => handleSelectProduct("Delaware")}
                   className="w-full bg-accent text-primary font-black text-sm rounded-full py-2.5 border-0 shadow-md hover:bg-accent/90 transition-colors h-9"
                 >
                   {t("services.formation.choose")} Delaware
                 </Button>
               </div>
               <div className="bg-accent/5 px-4 py-2 border-t border-accent/10 mt-auto text-center">
-                <Button 
-                  variant="link"
+                <Button variant="link"
                   onClick={() => setLocation(`/contacto?subject=${encodeURIComponent("Mantenimiento Delaware")}`)}
-                  className="font-black text-[10px] sm:text-xs tracking-widest text-primary/70 p-0 h-auto"
+                  className="font-black text-[10px] sm:text-xs tracking-widest text-primary/70 p-0 h-auto rounded-full"
                   data-testid="button-maintenance-de"
                 >
                   {t("services.formation.maintenanceYear2")}: {getMaintenancePriceFormatted("delaware")}
@@ -505,8 +499,7 @@ export default function Servicios() {
           </div>
           
           <div className="mt-12 sm:mt-16 flex justify-center">
-            <Button 
-              onClick={() => {
+            <Button onClick={() => {
                 openWhatsApp("services");
               }}
               className="group bg-accent text-primary font-black text-sm sm:text-base rounded-full px-5 sm:px-8 h-10 sm:h-11 shadow-lg shadow-accent/20 transition-all transform active:scale-95"
@@ -658,8 +651,7 @@ export default function Servicios() {
                   </div>
                 </div>
                 <div className="p-4 sm:p-5 pt-0 mt-auto">
-                  <Button 
-                    onClick={() => handleSelectMaintenance(item.state)}
+                  <Button onClick={() => handleSelectMaintenance(item.state)}
                     className="w-full bg-accent text-primary font-black text-sm rounded-full border-0 shadow-md hover:bg-accent/90 transition-colors h-9 sm:h-10"
                   >
                     {t("services.maintenancePack.choosePack")} {item.state}
@@ -729,8 +721,7 @@ export default function Servicios() {
               <span className="text-accent">{t("services.maintenancePack.helpTextPart2")}</span>
             </h3>
             <div className="mt-10 sm:mt-12 flex justify-center">
-              <Button 
-                onClick={() => {
+              <Button onClick={() => {
                   openWhatsApp("services");
                 }}
                 className="group bg-accent text-primary font-black text-sm sm:text-base rounded-full px-5 sm:px-8 h-10 sm:h-11 shadow-lg shadow-accent/20 transition-all transform active:scale-95"

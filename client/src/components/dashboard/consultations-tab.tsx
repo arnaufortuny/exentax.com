@@ -199,15 +199,14 @@ export function ConsultationsTab({ setActiveTab }: ConsultationsTabProps) {
                   <div className="grid gap-4 sm:grid-cols-2">
                     <div className="space-y-2">
                       <Label className="font-bold text-sm">{t("consultations.selectDate")}</Label>
-                      <Input
-                        type="date"
+                      <Input type="date"
                         min={getTomorrowDate()}
                         value={selectedDate}
                         onChange={(e) => {
                           setSelectedDate(e.target.value);
                           setSelectedTime("");
                         }}
-                        className="bg-white dark:bg-card"
+                        className="rounded-xl bg-white dark:bg-card"
                         data-testid="input-consultation-date"
                       />
                     </div>
@@ -288,41 +287,37 @@ export function ConsultationsTab({ setActiveTab }: ConsultationsTabProps) {
 
                       <div className="space-y-2">
                         <Label className="text-sm">{t("consultations.form.countryOfResidence")}</Label>
-                        <Input
-                          value={formData.countryOfResidence}
+                        <Input value={formData.countryOfResidence}
                           onChange={(e) => setFormData({ ...formData, countryOfResidence: e.target.value })}
                           placeholder={t("consultations.form.countryPlaceholder")}
-                          className="bg-white dark:bg-card"
+                          className="rounded-xl bg-white dark:bg-card"
                         />
                       </div>
                     </div>
 
                     <div className="space-y-2">
                       <Label className="text-sm">{t("consultations.form.mainTopic")}</Label>
-                      <Textarea
-                        value={formData.mainTopic}
+                      <Textarea value={formData.mainTopic}
                         onChange={(e) => setFormData({ ...formData, mainTopic: e.target.value })}
                         placeholder={t("consultations.form.topicPlaceholder")}
                         rows={2}
-                        className="bg-white dark:bg-card"
+                        className="rounded-xl bg-white dark:bg-card"
                       />
                     </div>
 
                     <div className="space-y-2">
                       <Label className="text-sm">{t("consultations.form.additionalNotes")}</Label>
-                      <Textarea
-                        value={formData.additionalNotes}
+                      <Textarea value={formData.additionalNotes}
                         onChange={(e) => setFormData({ ...formData, additionalNotes: e.target.value })}
                         placeholder={t("consultations.form.notesPlaceholder")}
                         rows={2}
-                        className="bg-white dark:bg-card"
+                        className="rounded-xl bg-white dark:bg-card"
                       />
                     </div>
                   </div>
 
                   <div className="flex flex-col sm:flex-row gap-3 pt-2">
-                    <Button 
-                      variant="outline" 
+                    <Button variant="outline" 
                       onClick={() => {
                         setShowBookingPanel(false);
                         resetForm();
@@ -427,8 +422,7 @@ export function ConsultationsTab({ setActiveTab }: ConsultationsTabProps) {
               <h3 className="text-base md:text-lg font-black text-foreground mb-1 md:mb-2 text-center tracking-tight">{t("consultations.noBookings")}</h3>
               <p className="text-xs md:text-sm text-muted-foreground mb-4 md:mb-6 text-center">{t("consultations.noBookingsDesc")}</p>
             </div>
-            <Button 
-              onClick={() => setShowBookingPanel(true)}
+            <Button onClick={() => setShowBookingPanel(true)}
               className="bg-accent text-accent-foreground font-black rounded-full px-6 md:px-8 py-2.5 md:py-3 text-sm md:text-base"
               data-testid="button-book-first"
             >
