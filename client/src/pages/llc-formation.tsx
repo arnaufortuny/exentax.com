@@ -1032,12 +1032,12 @@ export default function LlcFormation() {
                   )} />
                   <label className="flex items-center gap-3 p-4 rounded-[2rem] border border-border bg-white dark:bg-card hover:border-accent cursor-pointer transition-colors">
                     <Checkbox 
-                      checked={form.getValues("idDocumentUrl") === "PENDIENTE"}
+                      checked={form.watch("idDocumentUrl") === "PENDIENTE"}
                       onCheckedChange={(checked) => {
                         if (checked) {
-                          form.setValue("idDocumentUrl", "PENDIENTE");
+                          form.setValue("idDocumentUrl", "PENDIENTE", { shouldValidate: true });
                         } else {
-                          form.setValue("idDocumentUrl", "");
+                          form.setValue("idDocumentUrl", "", { shouldValidate: true });
                         }
                       }}
                     />

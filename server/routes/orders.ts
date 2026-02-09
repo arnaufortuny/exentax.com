@@ -201,11 +201,10 @@ export function registerOrderRoutes(app: Express) {
         stripeSessionId: "mock_session_" + Date.now(),
       });
 
-      // Add Order Event for Timeline
       await db.insert(orderEvents).values({
         orderId: order.id,
-        eventType: "Pedido Recibido",
-        description: `Se ha registrado un nuevo pedido para ${product.name}.`,
+        eventType: "i18n:dashboard.tracking.orderReceived",
+        description: `i18n:ntf.orderCreated.message::{"productName":"${product.name}"}`,
         createdBy: userId
       });
 

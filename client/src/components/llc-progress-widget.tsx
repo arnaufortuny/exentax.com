@@ -73,7 +73,7 @@ export function LLCProgressWidget({ status, serviceName, state, requestCode, isM
   }
 
   return (
-    <Card className="overflow-hidden max-w-sm sm:max-w-none mx-auto sm:mx-0" data-testid={`widget-progress-${isMaintenance ? 'maintenance' : 'llc'}`}>
+    <Card className={`overflow-hidden max-w-sm sm:max-w-none mx-auto sm:mx-0 ${status === 'completed' ? 'border-green-500 dark:border-green-600' : ''}`} data-testid={`widget-progress-${isMaintenance ? 'maintenance' : 'llc'}`}>
       <CardHeader className="pb-2 md:pb-3 p-2.5 sm:p-3 md:p-4 bg-primary/5">
         <div className="flex items-center justify-between gap-2 flex-wrap">
           <CardTitle className="text-sm md:text-base font-bold flex items-center gap-2">

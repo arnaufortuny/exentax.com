@@ -38,6 +38,25 @@ import { ConfirmDialog, useConfirmDialog } from "@/components/ui/confirm-dialog"
 import { LoadingScreen } from "@/components/loading-screen";
 import { WalletTab } from "@/components/dashboard/wallet-tab";
 
+function translateI18nText(text: string, t: (key: string, params?: Record<string, string>) => string): string {
+  if (!text || !text.startsWith('i18n:')) return text;
+  const rest = text.substring(5);
+  const sepIdx = rest.indexOf('::');
+  if (sepIdx > -1) {
+    const key = rest.substring(0, sepIdx);
+    try {
+      const params = JSON.parse(rest.substring(sepIdx + 2));
+      const result = t(key, params);
+      return typeof result === 'string' && result !== key ? result : text;
+    } catch {
+      const result = t(key);
+      return typeof result === 'string' && result !== key ? result : text;
+    }
+  }
+  const result = t(rest);
+  return typeof result === 'string' && result !== rest ? result : text;
+}
+
 export default function Dashboard() {
   const [, setLocation] = useLocation();
   const searchString = useSearch();
@@ -4778,14 +4797,14 @@ export default function Dashboard() {
                         <div className="w-6 h-6 rounded-full flex items-center justify-center shrink-0 z-10 bg-accent text-primary"><CheckCircle2 className="w-3 h-3" /></div>
                         <div className="min-w-0 flex-1">
                           <div className="flex items-center gap-2 flex-wrap">
-                            <p className="text-xs md:text-sm font-semibold text-foreground truncate">{event.eventType}</p>
+                            <p className="text-xs md:text-sm font-semibold text-foreground truncate">{translateI18nText(event.eventType, t)}</p>
                             {event.createdAt && (
                               <span className="text-[9px] text-muted-foreground whitespace-nowrap">
-                                {new Date(event.createdAt).toLocaleDateString('es-ES', { day: '2-digit', month: 'short', year: 'numeric' })}
+                                {new Date(event.createdAt).toLocaleDateString(i18n.language === 'es' ? 'es-ES' : i18n.language, { day: '2-digit', month: 'short', year: 'numeric' })}
                               </span>
                             )}
                           </div>
-                          <p className="text-[10px] text-muted-foreground">{event.description}</p>
+                          <p className="text-[10px] text-muted-foreground">{translateI18nText(event.description, t)}</p>
                         </div>
                       </div>
                     ))

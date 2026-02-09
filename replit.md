@@ -262,3 +262,7 @@ Easy US LLC is a full-stack SaaS platform that simplifies US LLC formation for i
 - **Support System:** Replaced WhatsApp-only contact with inline inquiry form in Messages tab (title, reason selector, message body, ticket ID generation); message list now shows status badges and ticket IDs
 - **Performance:** Optimized document N+1 query to batch-fetch uploaders with single query instead of per-document lookups
 - **Code Cleanup:** Removed unused `path` import from server/index.ts; TypeScript compiles with zero errors
+- **Order Events i18n:** Converted hardcoded Spanish order event text ("Pedido Recibido") to i18n keys for proper multilingual display in timeline
+- **PDF Invoices:** Removed right-aligned "INVOICE" text from both standard and custom invoice PDFs; updated bank name from "Saxo Payments" to "BANKING CIRCLE SA"
+- **LLC Progress Widget:** Added green border highlighting when order status is 'completed'
+- **Dashboard Timeline:** Added i18n text parser for order event timeline entries; localized date formatting based on user language

@@ -55,7 +55,7 @@ const DEFAULT_BANK_ACCOUNTS: BankAccountInfo[] = [
   {
     label: 'Cuenta Internacional (IBAN)',
     holder: 'Fortuny Consulting LLC',
-    bankName: 'Saxo Payments',
+    bankName: 'BANKING CIRCLE SA',
     accountType: 'iban',
     iban: 'DK2489000045271938',
     swift: 'SXPYDKKK',
@@ -209,7 +209,6 @@ export function generateInvoicePdf(data: InvoiceData): Promise<Buffer> {
       doc.font('Helvetica-Bold').fontSize(16).fillColor(black).text('Easy US LLC', left + 44, 44);
       doc.font('Helvetica').fontSize(7.5).fillColor(light).text('Fortuny Consulting LLC', left + 44, 62);
 
-      doc.font('Helvetica-Bold').fontSize(28).fillColor(black).text('INVOICE', right, 38, { align: 'right', width: 0 });
       doc.font('Helvetica').fontSize(9).fillColor(mid).text(`No. ${data.orderNumber}`, left, 80, { align: 'right', width: contentW });
 
       doc.moveTo(left, 98).lineTo(right, 98).strokeColor(black).lineWidth(1.5).stroke();
@@ -391,7 +390,6 @@ export function generateCustomInvoicePdf(data: CustomInvoiceData): Promise<Buffe
       doc.font('Helvetica-Bold').fontSize(16).fillColor(black).text('Easy US LLC', left + 44, 44);
       doc.font('Helvetica').fontSize(7.5).fillColor(light).text('Fortuny Consulting LLC', left + 44, 62);
 
-      doc.font('Helvetica-Bold').fontSize(28).fillColor(black).text('INVOICE', right, 38, { align: 'right', width: 0 });
       doc.font('Helvetica').fontSize(9).fillColor(mid).text(`No. ${data.invoiceNumber}`, left, 80, { align: 'right', width: contentW });
 
       doc.moveTo(left, 98).lineTo(right, 98).strokeColor(black).lineWidth(1.5).stroke();
