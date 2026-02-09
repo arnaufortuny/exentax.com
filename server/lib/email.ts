@@ -1087,6 +1087,121 @@ export function getAdminOtpRequestTemplate(name: string, otp: string, reason?: s
   return getEmailWrapper(content, lang);
 }
 
+// 23b. Identity Verification Request
+export function getIdentityVerificationRequestTemplate(name: string, notes?: string, lang: EmailLanguage = 'es') {
+  const t = getEmailTranslations(lang);
+  const clientName = name || t.common.client;
+  const content = `
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin: 0 0 25px 0;">${t.common.greeting} ${clientName},</p>
+    
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 25px;">${t.identityVerificationRequest.intro}</p>
+    
+    <div style="background: #F9FAFB; padding: 25px; border-radius: 16px; margin: 25px 0; border-left: 4px solid #6EDC8A;">
+      <p style="margin: 0 0 10px 0; font-size: 14px; font-weight: 700; color: #0A0A0A;">${t.identityVerificationRequest.whyTitle}</p>
+      <p style="margin: 0; font-size: 14px; color: #444; line-height: 1.7;">${t.identityVerificationRequest.whyText}</p>
+    </div>
+    
+    <div style="background: #F0FDF4; padding: 25px; border-radius: 16px; margin: 25px 0; border: 1px solid #6EDC8A;">
+      <p style="margin: 0 0 15px 0; font-size: 14px; font-weight: 700; color: #0A0A0A;">${t.identityVerificationRequest.whatNeedTitle}</p>
+      <p style="margin: 0 0 12px 0; font-size: 14px; color: #444; line-height: 1.7;">${t.identityVerificationRequest.whatNeedText}</p>
+      <ul style="margin: 0; padding-left: 20px; font-size: 14px; color: #444; line-height: 1.9;">
+        <li style="margin-bottom: 8px;">${t.identityVerificationRequest.doc1}</li>
+        <li style="margin-bottom: 8px;">${t.identityVerificationRequest.doc2}</li>
+        <li>${t.identityVerificationRequest.doc3}</li>
+      </ul>
+    </div>
+    
+    <div style="background: #F9FAFB; padding: 25px; border-radius: 16px; margin: 25px 0; border-left: 4px solid #6EDC8A;">
+      <p style="margin: 0 0 15px 0; font-size: 14px; font-weight: 700; color: #0A0A0A;">${t.identityVerificationRequest.howToUploadTitle}</p>
+      <ol style="margin: 0; padding-left: 20px; font-size: 14px; color: #444; line-height: 1.9;">
+        <li style="margin-bottom: 8px;">${t.identityVerificationRequest.howStep1}</li>
+        <li style="margin-bottom: 8px;">${t.identityVerificationRequest.howStep2}</li>
+        <li>${t.identityVerificationRequest.howStep3}</li>
+      </ol>
+    </div>
+    
+    <div style="text-align: center; margin: 30px 0;">
+      <a href="https://${domain}/dashboard" style="display: inline-block; background: #6EDC8A; color: #0A0A0A; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">${t.identityVerificationRequest.uploadButton}</a>
+    </div>
+    
+    <div style="background: #FEF3C7; padding: 20px 25px; border-radius: 16px; margin: 25px 0; border-left: 4px solid #F59E0B;">
+      <p style="margin: 0; font-size: 14px; color: #92400E; line-height: 1.7;">${t.identityVerificationRequest.duringProcess}</p>
+    </div>
+    
+    ${notes ? `
+    <div style="background: #EFF6FF; padding: 20px 25px; border-radius: 16px; margin: 25px 0; border-left: 4px solid #3B82F6;">
+      <p style="margin: 0 0 8px 0; font-size: 13px; font-weight: 800; color: #1E40AF; text-transform: uppercase;">${t.identityVerificationRequest.adminNotes}</p>
+      <p style="margin: 0; font-size: 14px; color: #1E3A5F; line-height: 1.7;">${notes}</p>
+    </div>
+    ` : ''}
+    
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">${t.identityVerificationRequest.teamMessage}</p>
+    
+    <p style="line-height: 1.7; font-size: 15px; color: #0A0A0A; font-weight: 600; margin-bottom: 0;">${t.identityVerificationRequest.closing}</p>
+  `;
+  return getEmailWrapper(content, lang);
+}
+
+// 23c. Identity Verification Approved
+export function getIdentityVerificationApprovedTemplate(name: string, lang: EmailLanguage = 'es') {
+  const t = getEmailTranslations(lang);
+  const clientName = name || t.common.client;
+  const content = `
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin: 0 0 25px 0;">${t.common.greeting} ${clientName},</p>
+    
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 25px;">${t.identityVerificationApproved.intro}</p>
+    
+    <div style="background: #F0FDF4; padding: 25px; border-radius: 16px; margin: 25px 0; border: 1px solid #6EDC8A;">
+      <p style="margin: 0; font-size: 14px; color: #047857; line-height: 1.7;">${t.identityVerificationApproved.verified}</p>
+    </div>
+    
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 25px;">${t.identityVerificationApproved.accessRestored}</p>
+    
+    <div style="text-align: center; margin: 30px 0;">
+      <a href="https://${domain}/dashboard" style="display: inline-block; background: #6EDC8A; color: #0A0A0A; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">${t.identityVerificationApproved.viewDashboard}</a>
+    </div>
+    
+    <p style="line-height: 1.7; font-size: 15px; color: #0A0A0A; font-weight: 600; margin-bottom: 0;">${t.identityVerificationApproved.closing}</p>
+  `;
+  return getEmailWrapper(content, lang);
+}
+
+// 23d. Identity Verification Rejected
+export function getIdentityVerificationRejectedTemplate(name: string, reason?: string, lang: EmailLanguage = 'es') {
+  const t = getEmailTranslations(lang);
+  const clientName = name || t.common.client;
+  const content = `
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin: 0 0 25px 0;">${t.common.greeting} ${clientName},</p>
+    
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 25px;">${t.identityVerificationRejected.intro}</p>
+    
+    <div style="background: #FEE2E2; padding: 20px 25px; border-radius: 16px; margin: 25px 0; border-left: 4px solid #EF4444;">
+      <p style="margin: 0; font-size: 14px; color: #B91C1C; line-height: 1.7;">${t.identityVerificationRejected.notApproved}</p>
+    </div>
+    
+    ${reason ? `
+    <div style="background: #FEF3C7; padding: 20px 25px; border-radius: 16px; margin: 25px 0; border-left: 4px solid #F59E0B;">
+      <p style="margin: 0 0 8px 0; font-size: 13px; font-weight: 800; color: #92400E; text-transform: uppercase;">${t.identityVerificationRejected.reason}</p>
+      <p style="margin: 0; font-size: 14px; color: #92400E; line-height: 1.7;">${reason}</p>
+    </div>
+    ` : ''}
+    
+    <div style="background: #F9FAFB; padding: 25px; border-radius: 16px; margin: 25px 0; border-left: 4px solid #6EDC8A;">
+      <p style="margin: 0 0 10px 0; font-size: 14px; font-weight: 700; color: #0A0A0A;">${t.identityVerificationRejected.whatToDo}</p>
+      <p style="margin: 0; font-size: 14px; color: #444; line-height: 1.7;">${t.identityVerificationRejected.reuploadStep}</p>
+    </div>
+    
+    <div style="text-align: center; margin: 30px 0;">
+      <a href="https://${domain}/dashboard" style="display: inline-block; background: #6EDC8A; color: #0A0A0A; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">${t.identityVerificationRejected.uploadButton}</a>
+    </div>
+    
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">${t.identityVerificationRejected.needHelp}</p>
+    
+    <p style="line-height: 1.7; font-size: 15px; color: #0A0A0A; font-weight: 600; margin-bottom: 0;">${t.identityVerificationRejected.closing}</p>
+  `;
+  return getEmailWrapper(content, lang);
+}
+
 // 24. Carrito abandonado - Aplicación incompleta
 export function getAbandonedApplicationTemplate(
   name: string,

@@ -318,6 +318,46 @@ interface EmailTranslations {
     date: string;
     viewDetails: string;
   };
+  identityVerificationRequest: {
+    subject: string;
+    intro: string;
+    whyTitle: string;
+    whyText: string;
+    whatNeedTitle: string;
+    whatNeedText: string;
+    acceptedDocs: string;
+    doc1: string;
+    doc2: string;
+    doc3: string;
+    howToUploadTitle: string;
+    howStep1: string;
+    howStep2: string;
+    howStep3: string;
+    uploadButton: string;
+    duringProcess: string;
+    adminNotes: string;
+    teamMessage: string;
+    closing: string;
+  };
+  identityVerificationApproved: {
+    subject: string;
+    intro: string;
+    verified: string;
+    accessRestored: string;
+    viewDashboard: string;
+    closing: string;
+  };
+  identityVerificationRejected: {
+    subject: string;
+    intro: string;
+    notApproved: string;
+    reason: string;
+    whatToDo: string;
+    reuploadStep: string;
+    uploadButton: string;
+    needHelp: string;
+    closing: string;
+  };
 }
 
 const translations: Record<EmailLanguage, EmailTranslations> = {
@@ -638,6 +678,46 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       update: "Tu pedido tiene una actualización:",
       date: "Fecha:",
       viewDetails: "Ver Detalles"
+    },
+    identityVerificationRequest: {
+      subject: "Verificación de identidad requerida | Easy US LLC",
+      intro: "Necesitamos verificar tu identidad para garantizar la seguridad de tu cuenta y cumplir con nuestras políticas de protección de datos.",
+      whyTitle: "¿Por qué es necesario?",
+      whyText: "En Easy US LLC nos tomamos muy en serio la seguridad de nuestros clientes. Esta verificación es un paso esencial para proteger tu información personal y garantizar que solo tú tengas acceso a tu cuenta.",
+      whatNeedTitle: "¿Qué necesitamos?",
+      whatNeedText: "Te pedimos que subas un documento de identidad oficial válido y vigente. Acepta los siguientes formatos:",
+      acceptedDocs: "Documentos aceptados:",
+      doc1: "DNI / Cédula de identidad (ambas caras)",
+      doc2: "Pasaporte (página principal con foto)",
+      doc3: "NIE / Tarjeta de residencia (ambas caras)",
+      howToUploadTitle: "¿Cómo subir tu documento?",
+      howStep1: "Accede a tu Área Cliente desde el botón de abajo",
+      howStep2: "Verás una sección para cargar tu documento de identidad",
+      howStep3: "Sube una foto clara y legible de tu documento (PDF, JPG o PNG, máximo 5 MB)",
+      uploadButton: "Subir Documento de Identidad",
+      duringProcess: "Mientras se procesa tu verificación, las funciones de tu cuenta estarán temporalmente limitadas. No podrás realizar nuevos pedidos ni modificar información existente, pero no te preocupes: tus trámites en curso no se verán afectados.",
+      adminNotes: "Nota del equipo:",
+      teamMessage: "Nuestro equipo revisará tu documento en un plazo de 24-48 horas laborables. Te notificaremos por correo electrónico en cuanto la verificación haya sido completada.",
+      closing: "Gracias por tu colaboración y paciencia. Estamos aquí para ayudarte."
+    },
+    identityVerificationApproved: {
+      subject: "Identidad verificada correctamente | Easy US LLC",
+      intro: "¡Excelentes noticias! Tu identidad ha sido verificada correctamente.",
+      verified: "Nuestro equipo ha revisado tu documentación y todo está en orden. Tu cuenta ha sido reactivada y ya puedes utilizar todos nuestros servicios con normalidad.",
+      accessRestored: "El acceso completo a tu cuenta ha sido restaurado. Ya puedes realizar pedidos, modificar tu perfil y acceder a todos los servicios disponibles.",
+      viewDashboard: "Ir a Mi Área Cliente",
+      closing: "Gracias por tu paciencia y colaboración. Estamos encantados de seguir ayudándote."
+    },
+    identityVerificationRejected: {
+      subject: "Verificación de identidad: se requiere nueva documentación | Easy US LLC",
+      intro: "Hemos revisado la documentación que nos enviaste, pero lamentablemente no hemos podido verificar tu identidad con el documento proporcionado.",
+      notApproved: "El documento enviado no cumple con los requisitos necesarios para completar la verificación.",
+      reason: "Motivo:",
+      whatToDo: "¿Qué debes hacer?",
+      reuploadStep: "Accede a tu Área Cliente y sube un nuevo documento de identidad que cumpla con los requisitos. Asegúrate de que la imagen sea clara, legible y muestre toda la información necesaria.",
+      uploadButton: "Subir Nuevo Documento",
+      needHelp: "Si tienes dudas o necesitas ayuda, no dudes en contactar con nuestro equipo de soporte. Estamos aquí para ayudarte.",
+      closing: "Gracias por tu comprensión y colaboración."
     }
   },
   en: {
@@ -957,6 +1037,46 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       update: "Your order has an update:",
       date: "Date:",
       viewDetails: "View Details"
+    },
+    identityVerificationRequest: {
+      subject: "Identity verification required | Easy US LLC",
+      intro: "We need to verify your identity to ensure the security of your account and comply with our data protection policies.",
+      whyTitle: "Why is this necessary?",
+      whyText: "At Easy US LLC, we take our clients' security very seriously. This verification is an essential step to protect your personal information and ensure that only you have access to your account.",
+      whatNeedTitle: "What do we need?",
+      whatNeedText: "We ask you to upload a valid and current official identity document. The following formats are accepted:",
+      acceptedDocs: "Accepted documents:",
+      doc1: "National ID card (both sides)",
+      doc2: "Passport (main page with photo)",
+      doc3: "Residence card / Permit (both sides)",
+      howToUploadTitle: "How to upload your document?",
+      howStep1: "Access your Client Area from the button below",
+      howStep2: "You will see a section to upload your identity document",
+      howStep3: "Upload a clear and legible photo of your document (PDF, JPG or PNG, maximum 5 MB)",
+      uploadButton: "Upload Identity Document",
+      duringProcess: "While your verification is being processed, your account functions will be temporarily limited. You won't be able to place new orders or modify existing information, but don't worry: your ongoing processes will not be affected.",
+      adminNotes: "Team note:",
+      teamMessage: "Our team will review your document within 24-48 business hours. We will notify you by email as soon as the verification has been completed.",
+      closing: "Thank you for your cooperation and patience. We are here to help you."
+    },
+    identityVerificationApproved: {
+      subject: "Identity successfully verified | Easy US LLC",
+      intro: "Great news! Your identity has been successfully verified.",
+      verified: "Our team has reviewed your documentation and everything is in order. Your account has been reactivated and you can now use all our services normally.",
+      accessRestored: "Full access to your account has been restored. You can now place orders, modify your profile and access all available services.",
+      viewDashboard: "Go to My Client Area",
+      closing: "Thank you for your patience and cooperation. We are delighted to continue helping you."
+    },
+    identityVerificationRejected: {
+      subject: "Identity verification: new documentation required | Easy US LLC",
+      intro: "We have reviewed the documentation you sent us, but unfortunately we were unable to verify your identity with the document provided.",
+      notApproved: "The submitted document does not meet the requirements necessary to complete the verification.",
+      reason: "Reason:",
+      whatToDo: "What should you do?",
+      reuploadStep: "Access your Client Area and upload a new identity document that meets the requirements. Make sure the image is clear, legible and shows all necessary information.",
+      uploadButton: "Upload New Document",
+      needHelp: "If you have questions or need help, don't hesitate to contact our support team. We are here to help you.",
+      closing: "Thank you for your understanding and cooperation."
     }
   },
   ca: {
@@ -1276,6 +1396,46 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       update: "La teva comanda té una actualització:",
       date: "Data:",
       viewDetails: "Veure Detalls"
+    },
+    identityVerificationRequest: {
+      subject: "Verificació d'identitat requerida | Easy US LLC",
+      intro: "Necessitem verificar la teva identitat per garantir la seguretat del teu compte i complir amb les nostres polítiques de protecció de dades.",
+      whyTitle: "Per què és necessari?",
+      whyText: "A Easy US LLC ens prenem molt seriosament la seguretat dels nostres clients. Aquesta verificació és un pas essencial per protegir la teva informació personal i garantir que només tu tinguis accés al teu compte.",
+      whatNeedTitle: "Què necessitem?",
+      whatNeedText: "Et demanem que pugis un document d'identitat oficial vàlid i vigent. S'accepten els següents formats:",
+      acceptedDocs: "Documents acceptats:",
+      doc1: "DNI / Cèdula d'identitat (ambdues cares)",
+      doc2: "Passaport (pàgina principal amb foto)",
+      doc3: "NIE / Targeta de residència (ambdues cares)",
+      howToUploadTitle: "Com pujar el teu document?",
+      howStep1: "Accedeix a la teva Àrea Client des del botó de sota",
+      howStep2: "Veuràs una secció per carregar el teu document d'identitat",
+      howStep3: "Puja una foto clara i llegible del teu document (PDF, JPG o PNG, màxim 5 MB)",
+      uploadButton: "Pujar Document d'Identitat",
+      duringProcess: "Mentre es processa la teva verificació, les funcions del teu compte estaran temporalment limitades. No podràs realitzar noves comandes ni modificar informació existent, però no et preocupis: els teus tràmits en curs no es veuran afectats.",
+      adminNotes: "Nota de l'equip:",
+      teamMessage: "El nostre equip revisarà el teu document en un termini de 24-48 hores laborables. Et notificarem per correu electrònic en quan la verificació hagi estat completada.",
+      closing: "Gràcies per la teva col·laboració i paciència. Estem aquí per ajudar-te."
+    },
+    identityVerificationApproved: {
+      subject: "Identitat verificada correctament | Easy US LLC",
+      intro: "Excel·lents notícies! La teva identitat ha estat verificada correctament.",
+      verified: "El nostre equip ha revisat la teva documentació i tot està en ordre. El teu compte ha estat reactivat i ja pots utilitzar tots els nostres serveis amb normalitat.",
+      accessRestored: "L'accés complet al teu compte ha estat restaurat. Ja pots realitzar comandes, modificar el teu perfil i accedir a tots els serveis disponibles.",
+      viewDashboard: "Anar a La Meva Àrea Client",
+      closing: "Gràcies per la teva paciència i col·laboració. Estem encantats de seguir ajudant-te."
+    },
+    identityVerificationRejected: {
+      subject: "Verificació d'identitat: es requereix nova documentació | Easy US LLC",
+      intro: "Hem revisat la documentació que ens vas enviar, però malauradament no hem pogut verificar la teva identitat amb el document proporcionat.",
+      notApproved: "El document enviat no compleix amb els requisits necessaris per completar la verificació.",
+      reason: "Motiu:",
+      whatToDo: "Què has de fer?",
+      reuploadStep: "Accedeix a la teva Àrea Client i puja un nou document d'identitat que compleixi amb els requisits. Assegura't que la imatge sigui clara, llegible i mostri tota la informació necessària.",
+      uploadButton: "Pujar Nou Document",
+      needHelp: "Si tens dubtes o necessites ajuda, no dubtis a contactar amb el nostre equip de suport. Estem aquí per ajudar-te.",
+      closing: "Gràcies per la teva comprensió i col·laboració."
     }
   },
   fr: {
@@ -1595,6 +1755,46 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       update: "Votre commande a une mise à jour :",
       date: "Date :",
       viewDetails: "Voir les détails"
+    },
+    identityVerificationRequest: {
+      subject: "Vérification d'identité requise | Easy US LLC",
+      intro: "Nous devons vérifier votre identité pour garantir la sécurité de votre compte et respecter nos politiques de protection des données.",
+      whyTitle: "Pourquoi est-ce nécessaire ?",
+      whyText: "Chez Easy US LLC, nous prenons très au sérieux la sécurité de nos clients. Cette vérification est une étape essentielle pour protéger vos informations personnelles et garantir que vous seul avez accès à votre compte.",
+      whatNeedTitle: "De quoi avons-nous besoin ?",
+      whatNeedText: "Nous vous demandons de télécharger un document d'identité officiel valide et en cours de validité. Les formats suivants sont acceptés :",
+      acceptedDocs: "Documents acceptés :",
+      doc1: "Carte d'identité nationale (recto et verso)",
+      doc2: "Passeport (page principale avec photo)",
+      doc3: "Titre de séjour / Carte de résident (recto et verso)",
+      howToUploadTitle: "Comment télécharger votre document ?",
+      howStep1: "Accédez à votre Espace Client depuis le bouton ci-dessous",
+      howStep2: "Vous verrez une section pour télécharger votre document d'identité",
+      howStep3: "Téléchargez une photo claire et lisible de votre document (PDF, JPG ou PNG, maximum 5 Mo)",
+      uploadButton: "Télécharger le Document d'Identité",
+      duringProcess: "Pendant le traitement de votre vérification, les fonctions de votre compte seront temporairement limitées. Vous ne pourrez pas passer de nouvelles commandes ni modifier les informations existantes, mais ne vous inquiétez pas : vos procédures en cours ne seront pas affectées.",
+      adminNotes: "Note de l'équipe :",
+      teamMessage: "Notre équipe examinera votre document dans un délai de 24 à 48 heures ouvrables. Nous vous notifierons par e-mail dès que la vérification sera terminée.",
+      closing: "Merci pour votre coopération et votre patience. Nous sommes là pour vous aider."
+    },
+    identityVerificationApproved: {
+      subject: "Identité vérifiée avec succès | Easy US LLC",
+      intro: "Excellente nouvelle ! Votre identité a été vérifiée avec succès.",
+      verified: "Notre équipe a examiné votre documentation et tout est en ordre. Votre compte a été réactivé et vous pouvez désormais utiliser tous nos services normalement.",
+      accessRestored: "L'accès complet à votre compte a été restauré. Vous pouvez maintenant passer des commandes, modifier votre profil et accéder à tous les services disponibles.",
+      viewDashboard: "Accéder à Mon Espace Client",
+      closing: "Merci pour votre patience et votre coopération. Nous sommes ravis de continuer à vous aider."
+    },
+    identityVerificationRejected: {
+      subject: "Vérification d'identité : nouvelle documentation requise | Easy US LLC",
+      intro: "Nous avons examiné la documentation que vous nous avez envoyée, mais malheureusement nous n'avons pas pu vérifier votre identité avec le document fourni.",
+      notApproved: "Le document soumis ne répond pas aux exigences nécessaires pour compléter la vérification.",
+      reason: "Raison :",
+      whatToDo: "Que devez-vous faire ?",
+      reuploadStep: "Accédez à votre Espace Client et téléchargez un nouveau document d'identité conforme aux exigences. Assurez-vous que l'image soit claire, lisible et montre toutes les informations nécessaires.",
+      uploadButton: "Télécharger un Nouveau Document",
+      needHelp: "Si vous avez des questions ou besoin d'aide, n'hésitez pas à contacter notre équipe d'assistance. Nous sommes là pour vous aider.",
+      closing: "Merci pour votre compréhension et votre coopération."
     }
   },
   de: {
@@ -1914,6 +2114,46 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       update: "Ihre Bestellung hat ein Update:",
       date: "Datum:",
       viewDetails: "Details anzeigen"
+    },
+    identityVerificationRequest: {
+      subject: "Identitätsverifizierung erforderlich | Easy US LLC",
+      intro: "Wir müssen Ihre Identität verifizieren, um die Sicherheit Ihres Kontos zu gewährleisten und unsere Datenschutzrichtlinien einzuhalten.",
+      whyTitle: "Warum ist das notwendig?",
+      whyText: "Bei Easy US LLC nehmen wir die Sicherheit unserer Kunden sehr ernst. Diese Verifizierung ist ein wesentlicher Schritt, um Ihre persönlichen Daten zu schützen und sicherzustellen, dass nur Sie Zugang zu Ihrem Konto haben.",
+      whatNeedTitle: "Was benötigen wir?",
+      whatNeedText: "Wir bitten Sie, ein gültiges und aktuelles amtliches Ausweisdokument hochzuladen. Die folgenden Formate werden akzeptiert:",
+      acceptedDocs: "Akzeptierte Dokumente:",
+      doc1: "Personalausweis (Vorder- und Rückseite)",
+      doc2: "Reisepass (Hauptseite mit Foto)",
+      doc3: "Aufenthaltstitel / Aufenthaltskarte (Vorder- und Rückseite)",
+      howToUploadTitle: "Wie laden Sie Ihr Dokument hoch?",
+      howStep1: "Greifen Sie über die Schaltfläche unten auf Ihren Kundenbereich zu",
+      howStep2: "Sie sehen einen Bereich zum Hochladen Ihres Ausweisdokuments",
+      howStep3: "Laden Sie ein klares und lesbares Foto Ihres Dokuments hoch (PDF, JPG oder PNG, maximal 5 MB)",
+      uploadButton: "Ausweisdokument Hochladen",
+      duringProcess: "Während Ihre Verifizierung bearbeitet wird, sind die Funktionen Ihres Kontos vorübergehend eingeschränkt. Sie können keine neuen Bestellungen aufgeben oder bestehende Informationen ändern, aber keine Sorge: Ihre laufenden Vorgänge werden nicht beeinträchtigt.",
+      adminNotes: "Hinweis des Teams:",
+      teamMessage: "Unser Team wird Ihr Dokument innerhalb von 24-48 Geschäftsstunden prüfen. Wir werden Sie per E-Mail benachrichtigen, sobald die Verifizierung abgeschlossen ist.",
+      closing: "Vielen Dank für Ihre Zusammenarbeit und Geduld. Wir sind hier, um Ihnen zu helfen."
+    },
+    identityVerificationApproved: {
+      subject: "Identität erfolgreich verifiziert | Easy US LLC",
+      intro: "Großartige Neuigkeiten! Ihre Identität wurde erfolgreich verifiziert.",
+      verified: "Unser Team hat Ihre Dokumentation geprüft und alles ist in Ordnung. Ihr Konto wurde reaktiviert und Sie können nun alle unsere Dienste normal nutzen.",
+      accessRestored: "Der vollständige Zugang zu Ihrem Konto wurde wiederhergestellt. Sie können jetzt Bestellungen aufgeben, Ihr Profil ändern und auf alle verfügbaren Dienste zugreifen.",
+      viewDashboard: "Zum Kundenbereich",
+      closing: "Vielen Dank für Ihre Geduld und Zusammenarbeit. Wir freuen uns, Ihnen weiterhin helfen zu können."
+    },
+    identityVerificationRejected: {
+      subject: "Identitätsverifizierung: neue Dokumentation erforderlich | Easy US LLC",
+      intro: "Wir haben die von Ihnen gesendete Dokumentation geprüft, konnten Ihre Identität jedoch leider nicht mit dem bereitgestellten Dokument verifizieren.",
+      notApproved: "Das eingereichte Dokument erfüllt nicht die Anforderungen zur Durchführung der Verifizierung.",
+      reason: "Grund:",
+      whatToDo: "Was sollten Sie tun?",
+      reuploadStep: "Greifen Sie auf Ihren Kundenbereich zu und laden Sie ein neues Ausweisdokument hoch, das den Anforderungen entspricht. Stellen Sie sicher, dass das Bild klar, lesbar und alle notwendigen Informationen zeigt.",
+      uploadButton: "Neues Dokument Hochladen",
+      needHelp: "Wenn Sie Fragen haben oder Hilfe benötigen, zögern Sie nicht, unser Support-Team zu kontaktieren. Wir sind hier, um Ihnen zu helfen.",
+      closing: "Vielen Dank für Ihr Verständnis und Ihre Zusammenarbeit."
     }
   },
   it: {
@@ -2233,6 +2473,46 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       update: "Il tuo ordine ha un aggiornamento:",
       date: "Data:",
       viewDetails: "Visualizza dettagli"
+    },
+    identityVerificationRequest: {
+      subject: "Verifica dell'identità richiesta | Easy US LLC",
+      intro: "Dobbiamo verificare la tua identità per garantire la sicurezza del tuo account e rispettare le nostre politiche di protezione dei dati.",
+      whyTitle: "Perché è necessario?",
+      whyText: "In Easy US LLC prendiamo molto seriamente la sicurezza dei nostri clienti. Questa verifica è un passo essenziale per proteggere le tue informazioni personali e garantire che solo tu abbia accesso al tuo account.",
+      whatNeedTitle: "Di cosa abbiamo bisogno?",
+      whatNeedText: "Ti chiediamo di caricare un documento di identità ufficiale valido e in corso di validità. Sono accettati i seguenti formati:",
+      acceptedDocs: "Documenti accettati:",
+      doc1: "Carta d'identità nazionale (fronte e retro)",
+      doc2: "Passaporto (pagina principale con foto)",
+      doc3: "Permesso di soggiorno / Carta di soggiorno (fronte e retro)",
+      howToUploadTitle: "Come caricare il tuo documento?",
+      howStep1: "Accedi alla tua Area Cliente dal pulsante sottostante",
+      howStep2: "Vedrai una sezione per caricare il tuo documento d'identità",
+      howStep3: "Carica una foto chiara e leggibile del tuo documento (PDF, JPG o PNG, massimo 5 MB)",
+      uploadButton: "Carica Documento d'Identità",
+      duringProcess: "Durante l'elaborazione della tua verifica, le funzioni del tuo account saranno temporaneamente limitate. Non potrai effettuare nuovi ordini né modificare le informazioni esistenti, ma non preoccuparti: le tue pratiche in corso non saranno interessate.",
+      adminNotes: "Nota del team:",
+      teamMessage: "Il nostro team esaminerà il tuo documento entro 24-48 ore lavorative. Ti avviseremo via e-mail non appena la verifica sarà completata.",
+      closing: "Grazie per la tua collaborazione e pazienza. Siamo qui per aiutarti."
+    },
+    identityVerificationApproved: {
+      subject: "Identità verificata con successo | Easy US LLC",
+      intro: "Ottime notizie! La tua identità è stata verificata con successo.",
+      verified: "Il nostro team ha esaminato la tua documentazione e tutto è in ordine. Il tuo account è stato riattivato e ora puoi utilizzare tutti i nostri servizi normalmente.",
+      accessRestored: "L'accesso completo al tuo account è stato ripristinato. Ora puoi effettuare ordini, modificare il tuo profilo e accedere a tutti i servizi disponibili.",
+      viewDashboard: "Vai alla Mia Area Cliente",
+      closing: "Grazie per la tua pazienza e collaborazione. Siamo lieti di continuare ad aiutarti."
+    },
+    identityVerificationRejected: {
+      subject: "Verifica dell'identità: nuova documentazione richiesta | Easy US LLC",
+      intro: "Abbiamo esaminato la documentazione che ci hai inviato, ma purtroppo non siamo riusciti a verificare la tua identità con il documento fornito.",
+      notApproved: "Il documento inviato non soddisfa i requisiti necessari per completare la verifica.",
+      reason: "Motivo:",
+      whatToDo: "Cosa devi fare?",
+      reuploadStep: "Accedi alla tua Area Cliente e carica un nuovo documento d'identità che soddisfi i requisiti. Assicurati che l'immagine sia chiara, leggibile e mostri tutte le informazioni necessarie.",
+      uploadButton: "Carica Nuovo Documento",
+      needHelp: "Se hai domande o hai bisogno di aiuto, non esitare a contattare il nostro team di supporto. Siamo qui per aiutarti.",
+      closing: "Grazie per la tua comprensione e collaborazione."
     }
   },
   pt: {
@@ -2552,6 +2832,46 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       update: "A sua encomenda tem uma atualização:",
       date: "Data:",
       viewDetails: "Ver detalhes"
+    },
+    identityVerificationRequest: {
+      subject: "Verificação de identidade necessária | Easy US LLC",
+      intro: "Precisamos verificar a sua identidade para garantir a segurança da sua conta e cumprir as nossas políticas de proteção de dados.",
+      whyTitle: "Por que é necessário?",
+      whyText: "Na Easy US LLC, levamos a segurança dos nossos clientes muito a sério. Esta verificação é um passo essencial para proteger as suas informações pessoais e garantir que apenas você tenha acesso à sua conta.",
+      whatNeedTitle: "Do que precisamos?",
+      whatNeedText: "Pedimos que carregue um documento de identidade oficial válido e vigente. Os seguintes formatos são aceites:",
+      acceptedDocs: "Documentos aceites:",
+      doc1: "Cartão de cidadão / Bilhete de identidade (frente e verso)",
+      doc2: "Passaporte (página principal com foto)",
+      doc3: "Título de residência / Autorização de residência (frente e verso)",
+      howToUploadTitle: "Como carregar o seu documento?",
+      howStep1: "Aceda à sua Área de Cliente a partir do botão abaixo",
+      howStep2: "Verá uma secção para carregar o seu documento de identidade",
+      howStep3: "Carregue uma foto clara e legível do seu documento (PDF, JPG ou PNG, máximo 5 MB)",
+      uploadButton: "Carregar Documento de Identidade",
+      duringProcess: "Enquanto a sua verificação está a ser processada, as funções da sua conta estarão temporariamente limitadas. Não poderá fazer novas encomendas nem modificar informações existentes, mas não se preocupe: os seus processos em curso não serão afetados.",
+      adminNotes: "Nota da equipa:",
+      teamMessage: "A nossa equipa irá analisar o seu documento num prazo de 24 a 48 horas úteis. Notificá-lo-emos por e-mail assim que a verificação estiver concluída.",
+      closing: "Obrigado pela sua colaboração e paciência. Estamos aqui para ajudá-lo."
+    },
+    identityVerificationApproved: {
+      subject: "Identidade verificada com sucesso | Easy US LLC",
+      intro: "Excelentes notícias! A sua identidade foi verificada com sucesso.",
+      verified: "A nossa equipa analisou a sua documentação e tudo está em ordem. A sua conta foi reativada e já pode utilizar todos os nossos serviços normalmente.",
+      accessRestored: "O acesso completo à sua conta foi restaurado. Já pode fazer encomendas, modificar o seu perfil e aceder a todos os serviços disponíveis.",
+      viewDashboard: "Ir para a Minha Área de Cliente",
+      closing: "Obrigado pela sua paciência e colaboração. Estamos encantados por continuar a ajudá-lo."
+    },
+    identityVerificationRejected: {
+      subject: "Verificação de identidade: nova documentação necessária | Easy US LLC",
+      intro: "Analisámos a documentação que nos enviou, mas infelizmente não conseguimos verificar a sua identidade com o documento fornecido.",
+      notApproved: "O documento enviado não cumpre os requisitos necessários para completar a verificação.",
+      reason: "Motivo:",
+      whatToDo: "O que deve fazer?",
+      reuploadStep: "Aceda à sua Área de Cliente e carregue um novo documento de identidade que cumpra os requisitos. Certifique-se de que a imagem é clara, legível e mostra toda a informação necessária.",
+      uploadButton: "Carregar Novo Documento",
+      needHelp: "Se tiver dúvidas ou precisar de ajuda, não hesite em contactar a nossa equipa de suporte. Estamos aqui para ajudá-lo.",
+      closing: "Obrigado pela sua compreensão e colaboração."
     }
   }
 };

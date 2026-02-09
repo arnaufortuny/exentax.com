@@ -197,9 +197,15 @@ export default function Dashboard() {
   const [resetPasswordDialog, setResetPasswordDialog] = useState<{ open: boolean; user: AdminUserData | null }>({ open: false, user: null });
   const [newAdminPassword, setNewAdminPassword] = useState("");
   const [isResettingPassword, setIsResettingPassword] = useState(false);
-  const [otpRequestDialog, setOtpRequestDialog] = useState<{ open: boolean; user: AdminUserData | null }>({ open: false, user: null });
-  const [otpRequestReason, setOtpRequestReason] = useState("");
-  const [isSendingOtpRequest, setIsSendingOtpRequest] = useState(false);
+  const [idvRequestDialog, setIdvRequestDialog] = useState<{ open: boolean; user: AdminUserData | null }>({ open: false, user: null });
+  const [idvRequestNotes, setIdvRequestNotes] = useState("");
+  const [isSendingIdvRequest, setIsSendingIdvRequest] = useState(false);
+  const [idvRejectDialog, setIdvRejectDialog] = useState<{ open: boolean; user: AdminUserData | null }>({ open: false, user: null });
+  const [idvRejectReason, setIdvRejectReason] = useState("");
+  const [isSendingIdvReject, setIsSendingIdvReject] = useState(false);
+  const [isApprovingIdv, setIsApprovingIdv] = useState(false);
+  const [idvUploadFile, setIdvUploadFile] = useState<File | null>(null);
+  const [isUploadingIdv, setIsUploadingIdv] = useState(false);
   const [showEmailVerification, setShowEmailVerification] = useState(false);
   const [emailVerificationCode, setEmailVerificationCode] = useState("");
   const [isVerifyingEmail, setIsVerifyingEmail] = useState(false);
@@ -1153,16 +1159,116 @@ export default function Dashboard() {
                   </div>
                 ) : (
                   <div className="space-y-4">
-                    <div className="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-xl p-4">
-                      <div className="flex items-center gap-2 mb-2">
-                        <Shield className="w-5 h-5 text-amber-600" />
-                        <span className="font-black text-sm text-amber-800 dark:text-amber-300">{t("dashboard.pendingAccount.adminReviewTitle")}</span>
+                    {((user as any).identityVerificationStatus === 'requested' || (user as any).identityVerificationStatus === 'rejected') ? (
+                      <div className="space-y-4">
+                        <div className={`border rounded-xl p-4 ${(user as any).identityVerificationStatus === 'rejected' ? 'bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-800' : 'bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-800'}`}>
+                          <div className="flex items-center gap-2 mb-2">
+                            <ShieldCheck className={`w-5 h-5 ${(user as any).identityVerificationStatus === 'rejected' ? 'text-red-600' : 'text-blue-600'}`} />
+                            <span className="font-black text-sm text-foreground">
+                              {(user as any).identityVerificationStatus === 'rejected' ? t("dashboard.pendingAccount.idvRejectedTitle") : t("dashboard.pendingAccount.idvRequestedTitle")}
+                            </span>
+                          </div>
+                          <p className="text-xs text-muted-foreground leading-relaxed mb-3">
+                            {(user as any).identityVerificationStatus === 'rejected' ? t("dashboard.pendingAccount.idvRejectedDesc") : t("dashboard.pendingAccount.idvRequestedDesc")}
+                          </p>
+                          {(user as any).identityVerificationNotes && (
+                            <div className="bg-white dark:bg-card border border-border rounded-lg p-3 mb-3">
+                              <p className="text-xs font-semibold text-muted-foreground mb-1">{t("dashboard.pendingAccount.idvAdminNotes")}</p>
+                              <p className="text-sm text-foreground">{(user as any).identityVerificationNotes}</p>
+                            </div>
+                          )}
+                          <div className="space-y-3">
+                            <p className="text-xs font-semibold text-foreground">{t("dashboard.pendingAccount.idvAcceptedFormats")}</p>
+                            <ul className="text-xs text-muted-foreground space-y-1 ml-4 list-disc">
+                              <li>{t("dashboard.pendingAccount.idvDoc1")}</li>
+                              <li>{t("dashboard.pendingAccount.idvDoc2")}</li>
+                              <li>{t("dashboard.pendingAccount.idvDoc3")}</li>
+                            </ul>
+                            <div className="pt-2">
+                              <input type="file" accept=".pdf,.jpg,.jpeg,.png" id="idv-upload-input"
+                                className="hidden" 
+                                onChange={(e) => setIdvUploadFile(e.target.files?.[0] || null)}
+                                data-testid="input-idv-file"
+                              />
+                              {idvUploadFile ? (
+                                <div className="flex items-center gap-2 bg-white dark:bg-card border border-border rounded-full px-4 py-2 mb-3">
+                                  <FileText className="w-4 h-4 text-accent shrink-0" />
+                                  <span className="text-sm text-foreground truncate flex-1">{idvUploadFile.name}</span>
+                                  <Button variant="ghost" size="icon" className="h-6 w-6 rounded-full" onClick={() => setIdvUploadFile(null)}>
+                                    <X className="w-3 h-3" />
+                                  </Button>
+                                </div>
+                              ) : (
+                                <Button variant="outline" className="w-full rounded-full" onClick={() => document.getElementById('idv-upload-input')?.click()} data-testid="button-idv-select-file">
+                                  <Upload className="w-4 h-4 mr-2" />
+                                  {t("dashboard.pendingAccount.idvSelectFile")}
+                                </Button>
+                              )}
+                              {idvUploadFile && (
+                                <Button disabled={isUploadingIdv}
+                                  onClick={async () => {
+                                    if (!idvUploadFile) return;
+                                    if (idvUploadFile.size > 5 * 1024 * 1024) {
+                                      setFormMessage({ type: 'error', text: t("dashboard.pendingAccount.idvFileTooLarge") });
+                                      return;
+                                    }
+                                    setIsUploadingIdv(true);
+                                    try {
+                                      const formData = new FormData();
+                                      formData.append('file', idvUploadFile);
+                                      const csrfToken = document.cookie.match(/csrf_token=([^;]+)/)?.[1] || '';
+                                      const res = await fetch('/api/user/identity-verification/upload', {
+                                        method: 'POST',
+                                        headers: { 'X-CSRF-Token': csrfToken },
+                                        body: formData,
+                                        credentials: 'include'
+                                      });
+                                      if (res.ok) {
+                                        setFormMessage({ type: 'success', text: t("dashboard.pendingAccount.idvUploadSuccess") });
+                                        setIdvUploadFile(null);
+                                        queryClient.invalidateQueries({ queryKey: ['/api/auth/user'] });
+                                      } else {
+                                        const data = await res.json().catch(() => ({}));
+                                        setFormMessage({ type: 'error', text: data.message || t("common.error") });
+                                      }
+                                    } catch {
+                                      setFormMessage({ type: 'error', text: t("common.error") });
+                                    } finally {
+                                      setIsUploadingIdv(false);
+                                    }
+                                  }}
+                                  className="w-full bg-accent text-accent-foreground font-black rounded-full h-11 mt-3"
+                                  data-testid="button-idv-upload"
+                                >
+                                  {isUploadingIdv ? <Loader2 className="w-5 h-5 animate-spin" /> : t("dashboard.pendingAccount.idvUploadButton")}
+                                </Button>
+                              )}
+                            </div>
+                          </div>
+                        </div>
                       </div>
-                      <p className="text-xs text-amber-700 dark:text-amber-400 leading-relaxed">
-                        {t("dashboard.pendingAccount.adminReviewMessage")}
-                      </p>
-                    </div>
-                                      </div>
+                    ) : (user as any).identityVerificationStatus === 'uploaded' ? (
+                      <div className="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-xl p-4">
+                        <div className="flex items-center gap-2 mb-2">
+                          <Clock className="w-5 h-5 text-amber-600" />
+                          <span className="font-black text-sm text-amber-800 dark:text-amber-300">{t("dashboard.pendingAccount.idvUploadedTitle")}</span>
+                        </div>
+                        <p className="text-xs text-amber-700 dark:text-amber-400 leading-relaxed">
+                          {t("dashboard.pendingAccount.idvUploadedDesc")}
+                        </p>
+                      </div>
+                    ) : (
+                      <div className="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-xl p-4">
+                        <div className="flex items-center gap-2 mb-2">
+                          <Shield className="w-5 h-5 text-amber-600" />
+                          <span className="font-black text-sm text-amber-800 dark:text-amber-300">{t("dashboard.pendingAccount.adminReviewTitle")}</span>
+                        </div>
+                        <p className="text-xs text-amber-700 dark:text-amber-400 leading-relaxed">
+                          {t("dashboard.pendingAccount.adminReviewMessage")}
+                        </p>
+                      </div>
+                    )}
+                  </div>
                 )}
               </CardContent>
             </Card>
@@ -3263,51 +3369,102 @@ export default function Dashboard() {
                     </Card>
                   )}
 
-                  {otpRequestDialog.open && otpRequestDialog.user && (
-                    <Card className="mb-4 p-4 md:p-6 rounded-2xl border border-orange-300 dark:border-orange-700 bg-orange-50 dark:bg-orange-950/30 shadow-lg animate-in slide-in-from-top-2 duration-200">
+                  {idvRequestDialog.open && idvRequestDialog.user && (
+                    <Card className="mb-4 p-4 md:p-6 rounded-2xl border border-blue-300 dark:border-blue-700 bg-blue-50 dark:bg-blue-950/30 shadow-lg animate-in slide-in-from-top-2 duration-200">
                       <div className="flex items-center justify-between mb-4">
                         <div>
-                          <h3 className="text-lg font-black text-foreground">{t('dashboard.admin.users.requestOtpTitle')}</h3>
-                          <p className="text-sm text-muted-foreground">{t('dashboard.admin.users.requestOtpDesc')} {otpRequestDialog.user?.firstName} {otpRequestDialog.user?.lastName} ({otpRequestDialog.user?.email})</p>
+                          <h3 className="text-lg font-black text-foreground">{t('dashboard.admin.users.requestIdvTitle')}</h3>
+                          <p className="text-sm text-muted-foreground">{t('dashboard.admin.users.requestIdvDesc')} {idvRequestDialog.user?.firstName} {idvRequestDialog.user?.lastName} ({idvRequestDialog.user?.email})</p>
                         </div>
-                        <Button variant="ghost" size="icon" onClick={() => { setOtpRequestDialog({ open: false, user: null }); setOtpRequestReason(""); }} className="rounded-full">
+                        <Button variant="ghost" size="icon" onClick={() => { setIdvRequestDialog({ open: false, user: null }); setIdvRequestNotes(""); }} className="rounded-full">
                           <X className="w-4 h-4" />
                         </Button>
                       </div>
                       <div className="space-y-4">
                         <div>
-                          <Label className="text-sm font-semibold text-foreground block mb-2">{t('dashboard.admin.users.otpReason')}</Label>
-                          <Textarea value={otpRequestReason}
-                            onChange={(e) => setOtpRequestReason(e.target.value)}
-                            placeholder={t('dashboard.admin.users.otpReasonPlaceholder')}
+                          <Label className="text-sm font-semibold text-foreground block mb-2">{t('dashboard.admin.users.idvNotes')}</Label>
+                          <Textarea value={idvRequestNotes}
+                            onChange={(e) => setIdvRequestNotes(e.target.value)}
+                            placeholder={t('dashboard.admin.users.idvNotesPlaceholder')}
                             className="rounded-xl border-border bg-white dark:bg-card"
                             rows={3}
-                            data-testid="input-otp-reason"
+                            data-testid="input-idv-notes"
                           />
                         </div>
                       </div>
-                      <div className="flex flex-col sm:flex-row gap-3 mt-6 pt-4 border-t border-orange-200 dark:border-orange-800">
-                        <Button disabled={isSendingOtpRequest}
+                      <div className="flex flex-col sm:flex-row gap-3 mt-6 pt-4 border-t border-blue-200 dark:border-blue-800">
+                        <Button disabled={isSendingIdvRequest}
                           onClick={async () => {
-                            if (!otpRequestDialog.user?.id) return;
-                            setIsSendingOtpRequest(true);
+                            if (!idvRequestDialog.user?.id) return;
+                            setIsSendingIdvRequest(true);
                             try {
-                              await apiRequest("POST", `/api/admin/users/${otpRequestDialog.user.id}/request-otp`, { reason: otpRequestReason || undefined });
-                              setFormMessage({ type: 'success', text: t('dashboard.admin.users.otpSent') });
-                              setOtpRequestDialog({ open: false, user: null });
-                              setOtpRequestReason("");
+                              await apiRequest("POST", `/api/admin/users/${idvRequestDialog.user.id}/request-identity-verification`, { notes: idvRequestNotes || undefined });
+                              setFormMessage({ type: 'success', text: t('dashboard.admin.users.idvRequestSent') });
+                              setIdvRequestDialog({ open: false, user: null });
+                              setIdvRequestNotes("");
+                              queryClient.invalidateQueries({ queryKey: ['/api/admin/users'] });
                             } catch {
-                              setFormMessage({ type: 'error', text: t('dashboard.admin.users.otpSendError') });
+                              setFormMessage({ type: 'error', text: t('dashboard.admin.users.idvRequestError') });
                             } finally {
-                              setIsSendingOtpRequest(false);
+                              setIsSendingIdvRequest(false);
                             }
                           }}
-                          className="flex-1 bg-orange-600 hover:bg-orange-700 text-white font-black rounded-full"
-                          data-testid="button-confirm-otp-request"
+                          className="flex-1 bg-blue-600 text-white font-black rounded-full"
+                          data-testid="button-confirm-idv-request"
                         >
-                          {isSendingOtpRequest ? <Loader2 className="w-4 h-4 animate-spin" /> : t('dashboard.admin.users.sendOtpBtn')}
+                          {isSendingIdvRequest ? <Loader2 className="w-4 h-4 animate-spin" /> : t('dashboard.admin.users.sendIdvBtn')}
                         </Button>
-                        <Button variant="outline" onClick={() => { setOtpRequestDialog({ open: false, user: null }); setOtpRequestReason(""); }} className="flex-1 rounded-full">{t('common.cancel')}</Button>
+                        <Button variant="outline" onClick={() => { setIdvRequestDialog({ open: false, user: null }); setIdvRequestNotes(""); }} className="flex-1 rounded-full">{t('common.cancel')}</Button>
+                      </div>
+                    </Card>
+                  )}
+
+                  {idvRejectDialog.open && idvRejectDialog.user && (
+                    <Card className="mb-4 p-4 md:p-6 rounded-2xl border border-red-300 dark:border-red-700 bg-red-50 dark:bg-red-950/30 shadow-lg animate-in slide-in-from-top-2 duration-200">
+                      <div className="flex items-center justify-between mb-4">
+                        <div>
+                          <h3 className="text-lg font-black text-foreground">{t('dashboard.admin.users.rejectIdvTitle')}</h3>
+                          <p className="text-sm text-muted-foreground">{t('dashboard.admin.users.rejectIdvDesc')} {idvRejectDialog.user?.firstName} {idvRejectDialog.user?.lastName}</p>
+                        </div>
+                        <Button variant="ghost" size="icon" onClick={() => { setIdvRejectDialog({ open: false, user: null }); setIdvRejectReason(""); }} className="rounded-full">
+                          <X className="w-4 h-4" />
+                        </Button>
+                      </div>
+                      <div className="space-y-4">
+                        <div>
+                          <Label className="text-sm font-semibold text-foreground block mb-2">{t('dashboard.admin.users.idvRejectReason')}</Label>
+                          <Textarea value={idvRejectReason}
+                            onChange={(e) => setIdvRejectReason(e.target.value)}
+                            placeholder={t('dashboard.admin.users.idvRejectReasonPlaceholder')}
+                            className="rounded-xl border-border bg-white dark:bg-card"
+                            rows={3}
+                            data-testid="input-idv-reject-reason"
+                          />
+                        </div>
+                      </div>
+                      <div className="flex flex-col sm:flex-row gap-3 mt-6 pt-4 border-t border-red-200 dark:border-red-800">
+                        <Button disabled={isSendingIdvReject}
+                          onClick={async () => {
+                            if (!idvRejectDialog.user?.id) return;
+                            setIsSendingIdvReject(true);
+                            try {
+                              await apiRequest("POST", `/api/admin/users/${idvRejectDialog.user.id}/reject-identity-verification`, { reason: idvRejectReason || undefined });
+                              setFormMessage({ type: 'success', text: t('dashboard.admin.users.idvRejected') });
+                              setIdvRejectDialog({ open: false, user: null });
+                              setIdvRejectReason("");
+                              queryClient.invalidateQueries({ queryKey: ['/api/admin/users'] });
+                            } catch {
+                              setFormMessage({ type: 'error', text: t('common.error') });
+                            } finally {
+                              setIsSendingIdvReject(false);
+                            }
+                          }}
+                          className="flex-1 bg-red-600 text-white font-black rounded-full"
+                          data-testid="button-confirm-idv-reject"
+                        >
+                          {isSendingIdvReject ? <Loader2 className="w-4 h-4 animate-spin" /> : t('dashboard.admin.users.rejectIdvBtn')}
+                        </Button>
+                        <Button variant="outline" onClick={() => { setIdvRejectDialog({ open: false, user: null }); setIdvRejectReason(""); }} className="flex-1 rounded-full">{t('common.cancel')}</Button>
                       </div>
                     </Card>
                   )}
@@ -3961,9 +4118,35 @@ export default function Dashboard() {
                                   <Button size="sm" variant="outline" className="rounded-full text-xs" onClick={() => setResetPasswordDialog({ open: true, user: u })} data-testid={`button-reset-pwd-${u.id}`}>
                                     <Key className="w-3 h-3 mr-1" />{t('dashboard.admin.users.passwordBtn')}
                                   </Button>
-                                  <Button size="sm" variant="outline" className="rounded-full text-xs" onClick={() => { setOtpRequestDialog({ open: true, user: u }); setOtpRequestReason(""); }} data-testid={`button-request-otp-${u.id}`}>
-                                    <ShieldCheck className="w-3 h-3 mr-1" />{t('dashboard.admin.users.requestOtpBtn')}
+                                  <Button size="sm" variant="outline" className="rounded-full text-xs" onClick={() => { setIdvRequestDialog({ open: true, user: u }); setIdvRequestNotes(""); }} data-testid={`button-request-idv-${u.id}`}>
+                                    <ShieldCheck className="w-3 h-3 mr-1" />{t('dashboard.admin.users.requestIdvBtn')}
                                   </Button>
+                                  {(u as any).identityVerificationStatus === 'uploaded' && (
+                                    <>
+                                      <Button size="sm" className="rounded-full text-xs bg-green-600 text-white" 
+                                        disabled={isApprovingIdv}
+                                        onClick={async () => {
+                                          setIsApprovingIdv(true);
+                                          try {
+                                            await apiRequest("POST", `/api/admin/users/${u.id}/approve-identity-verification`);
+                                            setFormMessage({ type: 'success', text: t('dashboard.admin.users.idvApproved') });
+                                            queryClient.invalidateQueries({ queryKey: ['/api/admin/users'] });
+                                          } catch { setFormMessage({ type: 'error', text: t('common.error') }); }
+                                          finally { setIsApprovingIdv(false); }
+                                        }}
+                                        data-testid={`button-approve-idv-${u.id}`}>
+                                        <CheckCircle className="w-3 h-3 mr-1" />{t('dashboard.admin.users.approveIdvBtn')}
+                                      </Button>
+                                      <Button size="sm" variant="outline" className="rounded-full text-xs text-red-600 border-red-200" onClick={() => { setIdvRejectDialog({ open: true, user: u }); setIdvRejectReason(""); }} data-testid={`button-reject-idv-${u.id}`}>
+                                        <XCircle className="w-3 h-3 mr-1" />{t('dashboard.admin.users.rejectIdvBtn')}
+                                      </Button>
+                                      <a href={`/api/admin/users/${u.id}/identity-document`} target="_blank" rel="noopener noreferrer">
+                                        <Button size="sm" variant="outline" className="rounded-full text-xs" data-testid={`button-view-idv-doc-${u.id}`}>
+                                          <FileText className="w-3 h-3 mr-1" />{t('dashboard.admin.users.viewIdvDoc')}
+                                        </Button>
+                                      </a>
+                                    </>
+                                  )}
                                   <Button size="sm" variant="outline" className="rounded-full text-xs" onClick={() => setNoteDialog({ open: true, user: u })} data-testid={`button-note-user-${u.id}`}>
                                     {t('dashboard.admin.users.messageBtn')}
                                   </Button>

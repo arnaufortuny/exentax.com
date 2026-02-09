@@ -276,6 +276,97 @@ export function registerUserProfileRoutes(app: Express) {
     }
   });
 
+  // Client: Upload identity verification document
+  app.post("/api/user/identity-verification/upload", isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.session.userId;
+      
+      const [user] = await db.select().from(usersTable).where(eq(usersTable.id, userId)).limit(1);
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+      
+      const verStatus = (user as any).identityVerificationStatus;
+      if (verStatus !== 'requested' && verStatus !== 'rejected') {
+        return res.status(400).json({ message: "No identity verification pending" });
+      }
+      
+      const Busboy = (await import("busboy")).default;
+      const fs = await import("fs");
+      const path = await import("path");
+      
+      const uploadDir = path.join(process.cwd(), "uploads", "identity-docs");
+      if (!fs.existsSync(uploadDir)) {
+        fs.mkdirSync(uploadDir, { recursive: true });
+      }
+      
+      const bb = Busboy({ headers: req.headers, limits: { fileSize: 5 * 1024 * 1024 } });
+      let savedFile = false;
+      let filePath = "";
+      let originalName = "";
+      
+      bb.on("file", (_fieldname: string, file: any, info: { filename: string; mimeType: string }) => {
+        const { filename, mimeType } = info;
+        originalName = filename;
+        
+        const allowedMimes = ['application/pdf', 'image/jpeg', 'image/png', 'image/jpg'];
+        const allowedExts = ['.pdf', '.jpg', '.jpeg', '.png'];
+        const ext = path.extname(filename).toLowerCase();
+        
+        if (!allowedMimes.includes(mimeType) || !allowedExts.includes(ext)) {
+          file.resume();
+          return;
+        }
+        
+        const safeFilename = `idv_${userId}_${Date.now()}${ext}`;
+        filePath = path.join(uploadDir, safeFilename);
+        
+        const writeStream = fs.createWriteStream(filePath);
+        file.pipe(writeStream);
+        
+        writeStream.on("close", () => {
+          savedFile = true;
+        });
+        
+        file.on("limit", () => {
+          fs.unlinkSync(filePath);
+          savedFile = false;
+        });
+      });
+      
+      bb.on("finish", async () => {
+        if (!savedFile || !filePath) {
+          return res.status(400).json({ message: "Invalid file. Allowed: PDF, JPG, PNG (max 5MB)" });
+        }
+        
+        const relativePath = filePath.replace(process.cwd() + "/", "").replace(process.cwd() + "\\", "");
+        
+        await db.update(usersTable).set({
+          identityVerificationStatus: "uploaded",
+          identityVerificationDocumentKey: relativePath,
+          identityVerificationDocumentName: originalName,
+          updatedAt: new Date()
+        }).where(eq(usersTable.id, userId));
+        
+        logActivity("Identity Document Uploaded", {
+          "User": userId,
+          "File": originalName
+        });
+        
+        res.json({ success: true, message: "Document uploaded successfully" });
+      });
+      
+      bb.on("error", () => {
+        res.status(500).json({ message: "Error uploading file" });
+      });
+      
+      req.pipe(bb);
+    } catch (error) {
+      console.error("Identity document upload error:", error);
+      res.status(500).json({ message: "Error uploading identity document" });
+    }
+  });
+
   // Protected file serving - admin documents
   app.get("/uploads/admin-docs/:filename", isAuthenticated, async (req: any, res) => {
     try {

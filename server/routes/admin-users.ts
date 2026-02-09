@@ -4,7 +4,7 @@ import { z } from "zod";
 import { eq, desc, inArray, and, sql } from "drizzle-orm";
 import { asyncHandler, db, isAdmin, isAdminOrSupport, logAudit, logActivity } from "./shared";
 import { users as usersTable, orders as ordersTable, llcApplications as llcApplicationsTable, maintenanceApplications, applicationDocuments as applicationDocumentsTable, orderEvents, userNotifications, messages as messagesTable, messageReplies, contactOtps } from "@shared/schema";
-import { sendEmail, getAccountDeactivatedTemplate, getAccountVipTemplate, getAccountReactivatedTemplate, getAdminPasswordResetTemplate, getAdminOtpRequestTemplate } from "../lib/email";
+import { sendEmail, getAccountDeactivatedTemplate, getAccountVipTemplate, getAccountReactivatedTemplate, getAdminPasswordResetTemplate, getAdminOtpRequestTemplate, getIdentityVerificationRequestTemplate, getIdentityVerificationApprovedTemplate, getIdentityVerificationRejectedTemplate } from "../lib/email";
 import { EmailLanguage, getOtpSubject } from "../lib/email-translations";
 import { validatePassword } from "../lib/security";
 
@@ -423,8 +423,100 @@ export function registerAdminUserRoutes(app: Express) {
     res.json({ success: true, message: "User reactivated successfully" });
   }));
 
-  // Admin: Request OTP verification from a client
-  app.post("/api/admin/users/:userId/request-otp", isAdmin, asyncHandler(async (req: Request, res: Response) => {
+  // Admin: Request Identity Verification from a client
+  app.post("/api/admin/users/:userId/request-identity-verification", isAdmin, asyncHandler(async (req: Request, res: Response) => {
+    const { userId } = req.params;
+    const { notes } = req.body;
+    
+    const [user] = await db.select().from(usersTable).where(eq(usersTable.id, userId)).limit(1);
+    if (!user || !user.email) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    
+    await db.update(usersTable).set({
+      accountStatus: "pending",
+      identityVerificationStatus: "requested",
+      identityVerificationNotes: notes || null,
+      identityVerificationRequestedAt: new Date(),
+      identityVerificationDocumentKey: null,
+      identityVerificationDocumentName: null,
+      identityVerificationReviewedAt: null,
+      updatedAt: new Date()
+    }).where(eq(usersTable.id, userId));
+    
+    const ticketId = `IDV-${Date.now().toString(36).toUpperCase()}`;
+    await db.insert(userNotifications).values({
+      userId,
+      ticketId,
+      type: "identity_verification",
+      title: "Verificación de identidad requerida",
+      message: notes || "Se ha solicitado la verificación de tu identidad. Por favor, sube un documento de identidad válido.",
+      isRead: false
+    });
+    
+    const userLang = ((user as any).preferredLanguage || 'es') as EmailLanguage;
+    const { getEmailTranslations } = await import("../lib/email-translations");
+    const t = getEmailTranslations(userLang);
+    sendEmail({
+      to: user.email,
+      subject: t.identityVerificationRequest.subject,
+      html: getIdentityVerificationRequestTemplate(user.firstName || 'Cliente', notes, userLang)
+    }).catch(console.error);
+    
+    logActivity("Identity Verification Requested", {
+      "Admin": (req as any).session?.userId || "unknown",
+      "Target User": userId,
+      "Email": user.email,
+      "Notes": notes || "No notes"
+    });
+    
+    res.json({ success: true, message: "Identity verification requested" });
+  }));
+
+  // Admin: Approve Identity Verification
+  app.post("/api/admin/users/:userId/approve-identity-verification", isAdmin, asyncHandler(async (req: Request, res: Response) => {
+    const { userId } = req.params;
+    
+    const [user] = await db.select().from(usersTable).where(eq(usersTable.id, userId)).limit(1);
+    if (!user || !user.email) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    
+    await db.update(usersTable).set({
+      accountStatus: "active",
+      identityVerificationStatus: "approved",
+      identityVerificationReviewedAt: new Date(),
+      updatedAt: new Date()
+    }).where(eq(usersTable.id, userId));
+    
+    await db.insert(userNotifications).values({
+      userId,
+      type: "identity_verification_approved",
+      title: "Identidad verificada correctamente",
+      message: "Tu identidad ha sido verificada. El acceso completo a tu cuenta ha sido restaurado.",
+      isRead: false
+    });
+    
+    const userLang = ((user as any).preferredLanguage || 'es') as EmailLanguage;
+    const { getEmailTranslations: getTranslations } = await import("../lib/email-translations");
+    const tApproved = getTranslations(userLang);
+    sendEmail({
+      to: user.email,
+      subject: tApproved.identityVerificationApproved.subject,
+      html: getIdentityVerificationApprovedTemplate(user.firstName || 'Cliente', userLang)
+    }).catch(console.error);
+    
+    logActivity("Identity Verification Approved", {
+      "Admin": (req as any).session?.userId || "unknown",
+      "Target User": userId,
+      "Email": user.email
+    });
+    
+    res.json({ success: true, message: "Identity verification approved" });
+  }));
+
+  // Admin: Reject Identity Verification
+  app.post("/api/admin/users/:userId/reject-identity-verification", isAdmin, asyncHandler(async (req: Request, res: Response) => {
     const { userId } = req.params;
     const { reason } = req.body;
     
@@ -433,37 +525,79 @@ export function registerAdminUserRoutes(app: Express) {
       return res.status(404).json({ message: "User not found" });
     }
     
-    const otp = Math.floor(100000 + Math.random() * 900000).toString();
-    const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000);
-    const userEmail = user.email;
+    await db.update(usersTable).set({
+      identityVerificationStatus: "rejected",
+      identityVerificationNotes: reason || null,
+      identityVerificationDocumentKey: null,
+      identityVerificationDocumentName: null,
+      identityVerificationReviewedAt: new Date(),
+      updatedAt: new Date()
+    }).where(eq(usersTable.id, userId));
     
-    await db.insert(contactOtps).values({
-      email: userEmail,
-      otp,
-      otpType: "profile_change",
-      expiresAt,
-      verified: false
+    await db.insert(userNotifications).values({
+      userId,
+      type: "identity_verification_rejected",
+      title: "Verificación de identidad rechazada",
+      message: reason || "El documento proporcionado no cumple con los requisitos. Por favor, sube un nuevo documento.",
+      isRead: false
     });
     
     const userLang = ((user as any).preferredLanguage || 'es') as EmailLanguage;
+    const { getEmailTranslations: getRejTrans } = await import("../lib/email-translations");
+    const tRejected = getRejTrans(userLang);
     sendEmail({
-      to: userEmail,
-      subject: getOtpSubject(userLang),
-      html: getAdminOtpRequestTemplate(
-        user.firstName || 'Cliente',
-        otp,
-        reason,
-        userLang
-      )
+      to: user.email,
+      subject: tRejected.identityVerificationRejected.subject,
+      html: getIdentityVerificationRejectedTemplate(user.firstName || 'Cliente', reason, userLang)
     }).catch(console.error);
     
-    logActivity("OTP Verification Requested", {
+    logActivity("Identity Verification Rejected", {
       "Admin": (req as any).session?.userId || "unknown",
       "Target User": userId,
       "Email": user.email,
-      "Reason": reason || "Admin request"
+      "Reason": reason || "No reason provided"
     });
     
-    res.json({ success: true, message: "OTP verification email sent to client" });
+    res.json({ success: true, message: "Identity verification rejected" });
+  }));
+
+  // Admin: Download Identity Verification Document
+  app.get("/api/admin/users/:userId/identity-document", isAdmin, asyncHandler(async (req: Request, res: Response) => {
+    const { userId } = req.params;
+    
+    const [user] = await db.select().from(usersTable).where(eq(usersTable.id, userId)).limit(1);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    
+    const docKey = (user as any).identityVerificationDocumentKey;
+    const docName = (user as any).identityVerificationDocumentName;
+    
+    if (!docKey) {
+      return res.status(404).json({ message: "No identity document uploaded" });
+    }
+    
+    const fs = await import("fs");
+    const path = await import("path");
+    const filePath = path.join(process.cwd(), docKey);
+    
+    if (!fs.existsSync(filePath)) {
+      return res.status(404).json({ message: "Document file not found" });
+    }
+    
+    const ext = path.extname(docName || docKey).toLowerCase();
+    const mimeTypes: Record<string, string> = {
+      '.pdf': 'application/pdf',
+      '.jpg': 'image/jpeg',
+      '.jpeg': 'image/jpeg',
+      '.png': 'image/png'
+    };
+    
+    res.setHeader('Content-Type', mimeTypes[ext] || 'application/octet-stream');
+    res.setHeader('Content-Disposition', `inline; filename="${docName || 'identity-document'}"`);
+    res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+    
+    const fileStream = fs.createReadStream(filePath);
+    fileStream.pipe(res);
   }));
 }

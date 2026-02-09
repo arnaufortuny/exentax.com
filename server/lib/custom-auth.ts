@@ -487,6 +487,8 @@ export function setupCustomAuth(app: Express) {
         createdAt: user.createdAt,
         pendingProfileChanges: user.pendingProfileChanges || null,
         pendingChangesExpiresAt: user.pendingChangesExpiresAt || null,
+        identityVerificationStatus: user.identityVerificationStatus || 'none',
+        identityVerificationNotes: user.identityVerificationNotes || null,
       });
     } catch (error) {
       console.error("Get user error:", error);

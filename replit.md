@@ -15,7 +15,7 @@ Easy US LLC is a full-stack SaaS platform designed to streamline US LLC formatio
 - **Frontend:** React 18 + Vite, Wouter, TanStack Query v5, shadcn/ui + Radix, Tailwind CSS, Framer Motion
 - **Backend:** Express.js (Node.js), TypeScript
 - **Database:** PostgreSQL (Neon-backed), Drizzle ORM, Zod
-- **Authentication:** Custom session-based, Google OAuth, OTP verification
+- **Authentication:** Custom session-based, Google OAuth, document-based identity verification
 - **Email:** Nodemailer via IONOS SMTP
 - **PDF Generation:** jspdf (client-side), pdfkit (server-side)
 - **Storage:** Replit Object Storage
@@ -35,7 +35,8 @@ The project is structured into `client/`, `server/`, `shared/`, `uploads/`, and 
 - `shared/`: Defines the Drizzle ORM schema (28 tables) and Zod validators.
 
 ### Key Features
-- **Security:** AES-256 encryption, CSRF protection, rate limiting, OTP verification, SHA-256 file integrity, document access logging, secure document download, HTML sanitization.
+- **Security:** AES-256 encryption, CSRF protection, rate limiting, document-based identity verification, SHA-256 file integrity, document access logging, secure document download, HTML sanitization.
+- **Identity Verification:** Document-based workflow (request → upload → approve/reject) replacing OTP system. Admin requests verification, client uploads ID document (PDF/JPG/PNG, max 5MB), admin reviews and approves/rejects with email notifications in 7 languages. Account suspended during review. Documents stored in `uploads/identity-docs/`.
 - **Internationalization:** Support for 7 languages with 2,500+ translation keys, automatic language detection, and user preference saving.
 - **Client Tools:** Invoice Generator, Operating Agreement Generator, CSV Transaction Generator, Price Calculator (tax comparison), State Comparison.
 - **Admin Panel:** Comprehensive management for orders, users, documents, billing, communications, accounting, consultations, and analytics.
