@@ -3277,6 +3277,9 @@
       "tax_id": "Steuer-ID",
       "address_proof": "Adressnachweis",
       "passport_id": "Reisepass / Ausweisdokument"
+    },
+    "docRequest": {
+      "subject": "Dokumentenanforderung: {{docType}}"
     }
   }
 }

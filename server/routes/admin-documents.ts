@@ -439,16 +439,21 @@ export function registerAdminDocumentsRoutes(app: Express) {
       const { generateDocRequestId } = await import("../lib/id-generator");
       const msgId = generateDocRequestId();
       
-      const docTypeLabels: Record<string, string> = {
-        'passport': 'Pasaporte / Documento de Identidad',
-        'address_proof': 'Comprobante de Domicilio',
-        'tax_id': 'Identificación Fiscal',
-        'other': 'Otro Documento'
+      const docTypeLabelsByLang: Record<string, Record<string, string>> = {
+        es: { passport: 'Pasaporte / Documento de Identidad', address_proof: 'Comprobante de Domicilio', tax_id: 'Identificación Fiscal', other: 'Otro Documento' },
+        en: { passport: 'Passport / ID Document', address_proof: 'Proof of Address', tax_id: 'Tax ID', other: 'Other Document' },
+        ca: { passport: 'Passaport / Document d\'Identitat', address_proof: 'Comprovant de Domicili', tax_id: 'Identificació Fiscal', other: 'Altre Document' },
+        fr: { passport: 'Passeport / Document d\'Identité', address_proof: 'Justificatif de Domicile', tax_id: 'Identification Fiscale', other: 'Autre Document' },
+        de: { passport: 'Reisepass / Ausweisdokument', address_proof: 'Adressnachweis', tax_id: 'Steuer-ID', other: 'Anderes Dokument' },
+        it: { passport: 'Passaporto / Documento di Identità', address_proof: 'Prova di Indirizzo', tax_id: 'Identificazione Fiscale', other: 'Altro Documento' },
+        pt: { passport: 'Passaporte / Documento de Identidade', address_proof: 'Comprovativo de Morada', tax_id: 'Identificação Fiscal', other: 'Outro Documento' },
       };
-      const docTypeLabel = docTypeLabels[documentType] || documentType;
       
       const [reqUser] = userId ? await db.select().from(usersTable).where(eq(usersTable.id, userId)).limit(1) : [null];
       const reqLang = ((reqUser as any)?.preferredLanguage || 'es') as EmailLanguage;
+      const langLabels = docTypeLabelsByLang[reqLang] || docTypeLabelsByLang['es'];
+      const docTypeLabel = langLabels[documentType] || docTypeLabelsByLang['es'][documentType] || documentType;
+      
       const reqSubjects: Record<string, string> = { en: 'Action Required: Documentation Request', ca: 'Acció Requerida: Sol·licitud de Documentació', fr: 'Action Requise : Demande de Documentation', de: 'Handlung Erforderlich: Dokumentationsanfrage', it: 'Azione Richiesta: Richiesta di Documentazione', pt: 'Ação Necessária: Solicitação de Documentação' };
       await sendEmail({
         to: email,
@@ -457,7 +462,8 @@ export function registerAdminDocumentsRoutes(app: Express) {
       });
 
       if (userId) {
-        const reqDocKey = documentType && ['passport', 'address_proof', 'tax_id', 'other'].includes(documentType) ? `@ntf.docTypes.${documentType === 'passport' ? 'passport_id' : documentType}` : docTypeLabel;
+        const reqDocKey = documentType && ['passport', 'address_proof', 'tax_id', 'other'].includes(documentType) ? `@ntf.docTypes.${documentType === 'passport' ? 'passport_id' : documentType}` : `@ntf.docTypes.other`;
+        const msgSubjectsByLang: Record<string, string> = { es: 'Solicitud de Documento', en: 'Document Request', ca: 'Sol·licitud de Document', fr: 'Demande de Document', de: 'Dokumentenanforderung', it: 'Richiesta di Documento', pt: 'Solicitação de Documento' };
         await db.insert(userNotifications).values({
           userId,
           title: 'i18n:ntf.docRequested.title',
@@ -471,7 +477,7 @@ export function registerAdminDocumentsRoutes(app: Express) {
           userId,
           name: "Easy US LLC (Soporte)",
           email: "soporte@easyusllc.com",
-          subject: `Solicitud de Documento: ${docTypeLabel}`,
+          subject: `i18n:ntf.docRequest.subject::{"docType":"${reqDocKey}"}`,
           content: message,
           encryptedContent: encrypt(message),
           type: "support",

@@ -3277,6 +3277,9 @@
       "tax_id": "Identificació Fiscal",
       "address_proof": "Comprovant de Domicili",
       "passport_id": "Passaport / Document d'Identitat"
+    },
+    "docRequest": {
+      "subject": "Sol·licitud de Document: {{docType}}"
     }
   }
 }

@@ -3277,6 +3277,9 @@
       "tax_id": "Tax ID",
       "address_proof": "Proof of Address",
       "passport_id": "Passport / ID Document"
+    },
+    "docRequest": {
+      "subject": "Document Request: {{docType}}"
     }
   }
 }

@@ -3277,6 +3277,9 @@
       "tax_id": "Codice Fiscale",
       "address_proof": "Prova di Indirizzo",
       "passport_id": "Passaporto / Documento di Identità"
+    },
+    "docRequest": {
+      "subject": "Richiesta di Documento: {{docType}}"
     }
   }
 }

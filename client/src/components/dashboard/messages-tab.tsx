@@ -6,11 +6,40 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { NativeSelect, NativeSelectItem } from "@/components/ui/native-select";
 import { Badge } from "@/components/ui/badge";
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { formatDate } from "@/lib/utils";
 import { useMutation } from "@tanstack/react-query";
 import { apiRequest, queryClient } from "@/lib/queryClient";
+
+function translateI18nField(text: string, t: ReturnType<typeof useTranslation>['t']): string {
+  if (!text || !text.startsWith('i18n:')) return text;
+  const rest = text.substring(5);
+  const sepIdx = rest.indexOf('::');
+  if (sepIdx > -1) {
+    const key = rest.substring(0, sepIdx);
+    try {
+      const params = JSON.parse(rest.substring(sepIdx + 2));
+      const resolvedParams: Record<string, string> = {};
+      for (const [k, v] of Object.entries(params)) {
+        if (typeof v === 'string' && v.startsWith('@')) {
+          const nestedKey = v.substring(1);
+          const translated = t(nestedKey);
+          resolvedParams[k] = typeof translated === 'string' && translated !== nestedKey ? translated : v.substring(1);
+        } else {
+          resolvedParams[k] = String(v);
+        }
+      }
+      const result = t(key, resolvedParams);
+      return typeof result === 'string' && result !== key ? result : text;
+    } catch {
+      const result = t(key);
+      return typeof result === 'string' && result !== key ? result : text;
+    }
+  }
+  const result = t(rest);
+  return typeof result === 'string' && result !== rest ? result : text;
+}
 
 interface MessagesTabProps {
   messagesData: any[] | undefined;
@@ -195,7 +224,7 @@ export function MessagesTab({
                 <div className="flex justify-between items-start gap-2 mb-2">
                   <div className="flex items-center gap-2 min-w-0">
                     <MessageSquare className="w-4 h-4 text-accent shrink-0" />
-                    <h4 className="font-black text-foreground text-xs sm:text-sm truncate">{msg.subject || t('dashboard.support.noSubject')}</h4>
+                    <h4 className="font-black text-foreground text-xs sm:text-sm truncate">{translateI18nField(msg.subject, t) || t('dashboard.support.noSubject')}</h4>
                   </div>
                   <div className="flex items-center gap-2 shrink-0">
                     {msg.messageId && (
