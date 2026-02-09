@@ -1040,7 +1040,7 @@ export default function Dashboard() {
                 <path d="M60 35V65" stroke="#EF4444" strokeWidth="6" strokeLinecap="round"/>
                 <circle cx="60" cy="80" r="5" fill="#EF4444"/>
               </svg>
-              <h1 className="text-2xl sm:text-3xl font-black text-foreground tracking-tight">
+              <h1 className="text-2xl sm:text-3xl font-black text-foreground tracking-tight text-center">
                 {t("auth.accountDeactivated.title")}
               </h1>
               <p className="text-muted-foreground mt-4 text-sm sm:text-base">
@@ -1297,9 +1297,6 @@ export default function Dashboard() {
                         className={`p-3 rounded-xl border ${notif.isRead ? 'bg-muted/50 border-border' : 'bg-accent/5 border-accent/20'}`}
                       >
                         <div className="flex items-start gap-3">
-                          <div className="flex items-center justify-center shrink-0">
-                            <span className={`w-2.5 h-2.5 rounded-full ${notif.isRead ? 'bg-muted-foreground/30' : 'bg-accent'}`} />
-                          </div>
                           <div className="flex-1 min-w-0">
                             <p className="font-black text-sm text-foreground">{tn(notif.title)}</p>
                             <p className="text-xs text-muted-foreground line-clamp-2">{tn(notif.message)}</p>
@@ -2373,7 +2370,7 @@ export default function Dashboard() {
                         <Input placeholder={t('dashboard.admin.searchPlaceholder')}
                           value={adminSearchQuery}
                           onChange={(e) => setAdminSearchQuery(e.target.value)}
-                          className="pl-10 pr-12 h-11 rounded-xl text-sm bg-white dark:bg-[#1A1A1A] border-border w-full"
+                          className="pl-10 pr-12 h-11 rounded-full text-sm bg-white dark:bg-[#1A1A1A] border-border w-full"
                           data-testid="input-admin-search"
                         />
                         {adminSearchQuery && (

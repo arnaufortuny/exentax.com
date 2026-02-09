@@ -1624,6 +1624,7 @@
       "title": "Administration",
       "newClient": "New Client",
       "createClient": "Create Client",
+      "search": "Search",
       "searchPlaceholder": "Search client, order or ticket ID...",
       "createOrder": "Create New Order",
       "configureOrder": "Configure the order for the client",

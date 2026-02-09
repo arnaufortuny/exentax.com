@@ -1583,6 +1583,7 @@
       "title": "Amministrazione",
       "newClient": "Nuovo Cliente",
       "createClient": "Crea Cliente",
+      "search": "Cerca",
       "searchPlaceholder": "Cerca ID cliente, ordine o ticket...",
       "createOrder": "Crea Nuovo Ordine",
       "configureOrder": "Configura l'ordine per il cliente",

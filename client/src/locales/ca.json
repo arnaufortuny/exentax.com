@@ -1624,6 +1624,7 @@
       "title": "Administració",
       "newClient": "Nou Client",
       "createClient": "Crear Client",
+      "search": "Cercar",
       "searchPlaceholder": "Cercar ID client, sol·licitud o tiquet...",
       "createOrder": "Crear Nova Sol·licitud",
       "configureOrder": "Configura la sol·licitud per al client",

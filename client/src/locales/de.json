@@ -1624,6 +1624,7 @@
       "title": "Verwaltung",
       "newClient": "Neuer Kunde",
       "createClient": "Kunde erstellen",
+      "search": "Suchen",
       "searchPlaceholder": "Kunde, Bestellung oder Ticket-ID suchen...",
       "createOrder": "Neue Bestellung erstellen",
       "configureOrder": "Bestellung für den Kunden konfigurieren",

@@ -1624,6 +1624,7 @@
       "title": "Administración",
       "newClient": "Nuevo Cliente",
       "createClient": "Crear Cliente",
+      "search": "Buscar",
       "searchPlaceholder": "Buscar ID cliente, pedido o ticket...",
       "createOrder": "Crear Nuevo Pedido",
       "configureOrder": "Configura el pedido para el cliente",
