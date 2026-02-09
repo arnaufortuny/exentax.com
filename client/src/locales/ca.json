@@ -1459,7 +1459,20 @@
       "sendReply": "Enviar Resposta",
       "haveQuestion": "Tens algun dubte?",
       "hereToHelp": "Estem aquí per ajudar-te, escriu-nos i et respondrem el més aviat possible!",
-      "ticketLabel": "Ticket"
+      "ticketLabel": "Ticket",
+      "newInquiry": "Nova consulta",
+      "inquiryTitle": "Títol",
+      "inquiryReason": "Motiu",
+      "selectReason": "Selecciona un motiu",
+      "inquiryMessage": "Missatge",
+      "inquiryTitlePlaceholder": "Descriu breument la teva consulta",
+      "inquiryMessagePlaceholder": "Descriu la teva pregunta o sol·licitud en detall...",
+      "sendInquiry": "Enviar consulta",
+      "messageSent": "Missatge enviat correctament",
+      "statusPending": "Pendent",
+      "statusRead": "Llegit",
+      "statusReplied": "Respost",
+      "hide": "Amagar"
     },
     "payments": {
       "title": "Historial de Pagaments",
@@ -2021,7 +2034,8 @@
       "resendCode": "Reenviar codi",
       "deleteAccount": "Eliminar el meu compte",
       "deleteAccountWarning": "Aquesta acció és permanent i no es pot desfer",
-      "deleteAccountConfirm": "Estàs segur que vols eliminar el teu compte permanentment? Totes les teves dades seran eliminades."
+      "deleteAccountConfirm": "Estàs segur que vols eliminar el teu compte permanentment? Totes les teves dades seran eliminades.",
+      "deleteAccountDesc": "Aquesta acció és irreversible. S'eliminaran totes les teves dades."
     },
     "toasts": {
       "preferencesUpdated": "Genial, les teves preferències estan desades!",

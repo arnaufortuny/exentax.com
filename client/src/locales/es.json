@@ -1459,7 +1459,20 @@
       "sendReply": "Enviar Respuesta",
       "haveQuestion": "¿Tienes alguna duda?",
       "hereToHelp": "Estamos aquí para ayudarte, escríbenos y te responderemos lo antes posible!",
-      "ticketLabel": "Ticket"
+      "ticketLabel": "Ticket",
+      "newInquiry": "Nueva consulta",
+      "inquiryTitle": "Título",
+      "inquiryReason": "Motivo",
+      "selectReason": "Selecciona un motivo",
+      "inquiryMessage": "Mensaje",
+      "inquiryTitlePlaceholder": "Describe brevemente tu consulta",
+      "inquiryMessagePlaceholder": "Describe tu pregunta o solicitud en detalle...",
+      "sendInquiry": "Enviar consulta",
+      "messageSent": "Mensaje enviado correctamente",
+      "statusPending": "Pendiente",
+      "statusRead": "Leído",
+      "statusReplied": "Respondido",
+      "hide": "Ocultar"
     },
     "payments": {
       "title": "Historial de Pagos",
@@ -2021,7 +2034,8 @@
       "resendCode": "Reenviar código",
       "deleteAccount": "Eliminar mi cuenta",
       "deleteAccountWarning": "Esta acción es permanente y no se puede deshacer",
-      "deleteAccountConfirm": "¿Estás seguro de que deseas eliminar tu cuenta permanentemente? Todos tus datos serán eliminados."
+      "deleteAccountConfirm": "¿Estás seguro de que deseas eliminar tu cuenta permanentemente? Todos tus datos serán eliminados.",
+      "deleteAccountDesc": "Esta acción es irreversible. Se eliminarán todos tus datos."
     },
     "toasts": {
       "preferencesUpdated": "¡Genial, tus preferencias están guardadas!",
