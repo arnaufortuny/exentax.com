@@ -166,11 +166,11 @@ export function Navbar() {
             {isAuthenticated && location.startsWith("/dashboard") ? (
               <Button 
                 variant="outline"
-                className="border-2 border-red-500 text-red-500 bg-white dark:bg-zinc-800 dark:text-red-400 dark:border-red-400 rounded-full px-4 h-10 text-sm font-black flex items-center gap-2"
+                className="border-2 border-red-500 text-red-500 bg-white dark:bg-zinc-800 dark:text-red-400 dark:border-red-400 rounded-full px-3 h-9 text-xs font-black flex items-center gap-1.5"
                 onClick={() => { setIsOpen(false); resetScrollLock(); logout(); }}
                 data-testid="button-mobile-logout-header"
               >
-                <LogOut className="w-4 h-4" />
+                <LogOut className="w-3.5 h-3.5" />
                 <span>{t("mobile.logout")}</span>
               </Button>
             ) : (
