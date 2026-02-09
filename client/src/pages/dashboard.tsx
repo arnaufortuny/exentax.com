@@ -2218,10 +2218,26 @@ export default function Dashboard() {
                           placeholder={t('dashboard.admin.searchPlaceholder')}
                           value={adminSearchQuery}
                           onChange={(e) => setAdminSearchQuery(e.target.value)}
-                          className="pl-10 h-11 rounded-full text-sm bg-white dark:bg-[#1A1A1A] border-border w-full"
+                          className="pl-10 pr-12 h-11 rounded-full text-sm bg-white dark:bg-[#1A1A1A] border-border w-full"
                           data-testid="input-admin-search"
                         />
+                        {adminSearchQuery && (
+                          <button
+                            onClick={() => setAdminSearchQuery('')}
+                            className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                            data-testid="button-clear-search"
+                          >
+                            <X className="w-4 h-4" />
+                          </button>
+                        )}
                       </div>
+                      <Button
+                        className="h-11 rounded-full bg-accent text-primary font-black shrink-0 px-5"
+                        data-testid="button-admin-search"
+                      >
+                        <Search className="w-4 h-4 mr-1" />
+                        {t('dashboard.admin.search', 'Buscar')}
+                      </Button>
                     </div>
                     {isAdmin && (
                     <div className="flex flex-wrap gap-2">
