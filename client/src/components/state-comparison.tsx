@@ -121,10 +121,10 @@ export function StateComparison() {
           <AnimatePresence mode="wait">
             <motion.div
               key={active.key}
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -12 }}
-              transition={{ duration: 0.25, ease: "easeOut" }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.12, ease: "easeOut" }}
             >
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-5">
                 <div className="border border-accent/15 rounded-2xl p-5 text-left" data-testid={`card-advantages-${active.key}`}>
@@ -166,7 +166,7 @@ export function StateComparison() {
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={viewportOnce}
-          transition={{ delay: 0.4 }}
+          transition={{ delay: 0.1 }}
         >
           {t("stateComparison.humanMessage")}
         </motion.p>

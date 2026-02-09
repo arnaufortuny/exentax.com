@@ -174,7 +174,7 @@ export default function Servicios() {
         title={
           <>
             <motion.h1 
-              className="font-black text-foreground tracking-tighter text-center uppercase will-change-[transform,opacity] [text-wrap:balance]"
+              className="font-black text-foreground tracking-tighter text-center uppercase [text-wrap:balance]"
               style={{ fontSize: 'clamp(34px, 10vw, 88px)', lineHeight: '0.85' }}
               variants={heroTitle}
               initial="hidden"
@@ -190,7 +190,7 @@ export default function Servicios() {
         subtitle={
             <div className="flex flex-col items-center justify-center w-full mt-6 sm:mt-8">
               <motion.div 
-                className="text-[13px] sm:text-xl lg:text-2xl text-foreground font-medium leading-relaxed max-w-2xl text-center mb-8 sm:mb-12 mx-auto px-2 will-change-opacity"
+                className="text-[13px] sm:text-xl lg:text-2xl text-foreground font-medium leading-relaxed max-w-2xl text-center mb-8 sm:mb-12 mx-auto px-2"
                 variants={heroSubtitle}
                 initial="hidden"
                 animate="visible"
@@ -199,7 +199,7 @@ export default function Servicios() {
               </motion.div>
               
               <motion.div 
-                className="hidden sm:flex flex-wrap justify-center gap-3 sm:gap-4 max-w-4xl px-4 mb-8 will-change-[transform,opacity]"
+                className="hidden sm:flex flex-wrap justify-center gap-3 sm:gap-4 max-w-4xl px-4 mb-8"
                 initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={transitions.normal}
@@ -242,7 +242,7 @@ export default function Servicios() {
         <div className="w-full px-5 sm:px-8">
           <div className="text-center mb-10 sm:mb-14 flex flex-col items-center justify-center relative">
             <motion.h2 
-              className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-center leading-[1.1] will-change-[transform,opacity]" 
+              className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-center leading-[1.1]" 
               style={{ fontWeight: 900 }}
               variants={fadeInUp}
               initial="hidden"
@@ -261,7 +261,7 @@ export default function Servicios() {
               {t("services.whatWeDo.subtitle")}
             </motion.p>
             <motion.div 
-              className="w-24 h-1 bg-accent mt-6 rounded-full will-change-transform"
+              className="w-24 h-1 bg-accent mt-6 rounded-full"
               variants={lineExpand}
               initial="hidden"
               whileInView="visible"
@@ -275,7 +275,7 @@ export default function Servicios() {
               return (
                 <motion.div 
                   key={i} 
-                  className="group p-5 sm:p-6 bg-card rounded-2xl border border-border hover:border-accent/40 text-left transition-[border-color,box-shadow] duration-200 will-change-[transform,opacity]"
+                  className="group p-5 sm:p-6 bg-card rounded-2xl border border-border hover:border-accent/40 text-left transition-[border-color,box-shadow] duration-200"
                   variants={cardVariants}
                   initial="hidden"
                   whileInView="visible"
@@ -336,7 +336,7 @@ export default function Servicios() {
         <div className="w-full px-4 sm:px-8">
           <div className="text-center mb-10 sm:mb-14 flex flex-col items-center justify-center relative">
             <motion.h2 
-              className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-center leading-[1.1] will-change-[transform,opacity]" 
+              className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-center leading-[1.1]" 
               style={{ fontWeight: 900 }}
               variants={fadeInUp}
               initial="hidden"
@@ -358,7 +358,7 @@ export default function Servicios() {
               {t("packsTitle.subtitle")}
             </motion.p>
             <motion.div 
-              className="w-24 h-1 bg-accent mt-6 rounded-full will-change-transform"
+              className="w-24 h-1 bg-accent mt-6 rounded-full"
               variants={lineExpand}
               initial="hidden"
               whileInView="visible"
@@ -523,7 +523,7 @@ export default function Servicios() {
         <div className="w-full px-5 sm:px-8">
           <div className="text-center mb-8 sm:mb-12 flex flex-col items-center justify-center relative">
             <motion.h2 
-              className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-center leading-[1.1] will-change-[transform,opacity]" 
+              className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-center leading-[1.1]" 
               style={{ fontWeight: 900 }}
               variants={fadeInUp}
               initial="hidden"
@@ -537,7 +537,7 @@ export default function Servicios() {
               <span className="text-accent">{t("services.banks.sectionTitleLine5")}</span>
             </motion.h2>
             <motion.p 
-              className="text-muted-foreground text-base sm:text-lg mt-4 text-center max-w-2xl will-change-opacity"
+              className="text-muted-foreground text-base sm:text-lg mt-4 text-center max-w-2xl"
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={viewportOnce}
@@ -546,7 +546,7 @@ export default function Servicios() {
               {t("services.banks.subtitle")}
             </motion.p>
             <motion.div 
-              className="w-24 h-1 bg-accent mt-6 rounded-full will-change-transform"
+              className="w-24 h-1 bg-accent mt-6 rounded-full"
               variants={lineExpand}
               initial="hidden"
               whileInView="visible"
@@ -587,7 +587,7 @@ export default function Servicios() {
         <div className="w-full px-5 sm:px-8">
           <div className="text-center mb-8 sm:mb-10 flex flex-col items-center justify-center relative">
             <motion.h2 
-              className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-center leading-[1.1] will-change-[transform,opacity]" 
+              className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-center leading-[1.1]" 
               style={{ fontWeight: 900 }}
               variants={fadeInUp}
               initial="hidden"
@@ -609,7 +609,7 @@ export default function Servicios() {
               {t("services.maintenancePack.sectionSubtitle")}
             </motion.p>
             <motion.div 
-              className="w-24 h-1 bg-accent mt-6 rounded-full will-change-transform"
+              className="w-24 h-1 bg-accent mt-6 rounded-full"
               variants={lineExpand}
               initial="hidden"
               whileInView="visible"

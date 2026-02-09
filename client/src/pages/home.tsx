@@ -110,7 +110,7 @@ export default function Home() {
         <div className="w-full px-6 sm:px-8">
           <div className="text-center mb-10 sm:mb-14 flex flex-col items-center justify-center relative">
             <motion.h2 
-              className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-center leading-[1.1] will-change-[transform,opacity]" 
+              className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-center leading-[1.1]" 
               style={{ fontWeight: 900 }} 
               dangerouslySetInnerHTML={{ __html: t("benefits.sectionTitle") }}
               variants={fadeInUp}
@@ -119,7 +119,7 @@ export default function Home() {
               viewport={viewportOnce}
             />
             <motion.div 
-              className="w-24 h-1 bg-accent mt-6 rounded-full will-change-transform"
+              className="w-24 h-1 bg-accent mt-6 rounded-full"
               variants={lineExpand}
               initial="hidden"
               whileInView="visible"

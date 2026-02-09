@@ -288,44 +288,24 @@ button {
   }
 }
 
-/* Loading bar animation - smooth and visible */
 @keyframes loading-bar {
-  0% {
-    width: 0%;
-    opacity: 1;
-  }
-  70% {
-    width: 85%;
-    opacity: 1;
-  }
-  100% {
-    width: 100%;
-    opacity: 1;
-  }
+  0% { width: 0%; }
+  70% { width: 85%; }
+  100% { width: 100%; }
 }
 
 .animate-loading-bar {
-  animation: loading-bar 1.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  animation: loading-bar 0.8s ease-out forwards;
 }
 
-/* Infinite loading bar for longer page transitions */
 @keyframes loading-bar-infinite {
-  0% {
-    width: 0%;
-    opacity: 1;
-  }
-  50% {
-    width: 75%;
-    opacity: 1;
-  }
-  100% {
-    width: 100%;
-    opacity: 1;
-  }
+  0% { width: 0%; }
+  50% { width: 75%; }
+  100% { width: 100%; }
 }
 
 .loading-bar-animation {
-  animation: loading-bar-infinite 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  animation: loading-bar-infinite 1.2s ease-out infinite;
 }
 
 /* Reduce motion for users who prefer it */
@@ -346,7 +326,6 @@ button {
   overscroll-behavior: contain;
 }
 
-  /* Professional GPU-accelerated animations with optimized timing */
   @keyframes fadeIn {
     from { opacity: 0; }
     to { opacity: 1; }
@@ -355,7 +334,7 @@ button {
   @keyframes fadeInUp {
     from { 
       opacity: 0; 
-      transform: translate3d(0, 15px, 0); 
+      transform: translate3d(0, 8px, 0); 
     }
     to { 
       opacity: 1; 
@@ -363,15 +342,12 @@ button {
     }
   }
 
-  /* Optimized animation classes - smooth, gentle durations */
   .animate-page-in {
-    animation: fadeIn 0.4s ease-out forwards;
-    will-change: opacity;
+    animation: fadeIn 0.15s ease-out forwards;
   }
 
   .animate-fade-in-up {
-    animation: fadeInUp 0.5s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
-    will-change: transform, opacity;
+    animation: fadeInUp 0.2s ease-out forwards;
   }
 
   /* Responsive Typography and Spacing */
@@ -385,11 +361,10 @@ button {
     }
   }
 
-  /* Mobile tab content transition */
   @keyframes tabFadeIn {
     from {
       opacity: 0;
-      transform: translate3d(0, 6px, 0);
+      transform: translate3d(0, 4px, 0);
     }
     to {
       opacity: 1;
@@ -398,8 +373,7 @@ button {
   }
 
   .animate-tab-content {
-    animation: tabFadeIn 0.25s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
-    will-change: opacity, transform;
+    animation: tabFadeIn 0.15s ease-out forwards;
   }
 
   /* Mobile tab bar smooth scroll */
@@ -414,18 +388,15 @@ button {
   }
 
 /* Staggered animation delays */
-.animate-delay-1 { animation-delay: 0.06s; opacity: 0; }
-.animate-delay-2 { animation-delay: 0.12s; opacity: 0; }
-.animate-delay-3 { animation-delay: 0.18s; opacity: 0; }
-.animate-delay-4 { animation-delay: 0.24s; opacity: 0; }
-.animate-delay-5 { animation-delay: 0.30s; opacity: 0; }
-.animate-delay-6 { animation-delay: 0.36s; opacity: 0; }
+.animate-delay-1 { animation-delay: 0.03s; opacity: 0; }
+.animate-delay-2 { animation-delay: 0.06s; opacity: 0; }
+.animate-delay-3 { animation-delay: 0.09s; opacity: 0; }
+.animate-delay-4 { animation-delay: 0.12s; opacity: 0; }
+.animate-delay-5 { animation-delay: 0.15s; opacity: 0; }
+.animate-delay-6 { animation-delay: 0.18s; opacity: 0; }
 
-/* Card entrance animation - GPU accelerated */
 .animate-card-in {
-  animation: fadeInUp 0.45s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
-  transform: translateZ(0);
-  backface-visibility: hidden;
+  animation: fadeInUp 0.2s ease-out forwards;
 }
 
 /* Button press animation - instant response */
@@ -439,18 +410,12 @@ button {
   transform: scale3d(0.98, 0.98, 1) translateZ(0);
 }
 
-/* Page transitions - smooth fade */
-.animate-page-in {
-  animation: fadeIn 0.5s ease-out forwards;
-}
-
 .animate-section-in {
-  animation: fadeIn 0.55s ease-out forwards;
+  animation: fadeIn 0.15s ease-out forwards;
 }
 
-/* GPU acceleration utility - minimal */
 .gpu-accelerated {
-  will-change: opacity;
+  transform: translateZ(0);
 }
 
 /* Global animation performance optimization */

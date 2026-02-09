@@ -10,12 +10,12 @@ export const easing = {
 };
 
 export const transitions = {
-  instant: { duration: 0.2, ease: easing.elegant } as Transition,
-  fast: { duration: 0.45, ease: easing.professional } as Transition,
-  normal: { duration: 0.7, ease: easing.elegant } as Transition,
-  slow: { duration: 1.0, ease: easing.smooth } as Transition,
-  spring: { type: "spring", stiffness: 180, damping: 30, mass: 1 } as Transition,
-  springBounce: { type: "spring", stiffness: 150, damping: 24, mass: 0.8 } as Transition,
+  instant: { duration: 0.1, ease: easing.elegant } as Transition,
+  fast: { duration: 0.18, ease: easing.professional } as Transition,
+  normal: { duration: 0.25, ease: easing.elegant } as Transition,
+  slow: { duration: 0.35, ease: easing.smooth } as Transition,
+  spring: { type: "spring", stiffness: 300, damping: 30, mass: 0.8 } as Transition,
+  springBounce: { type: "spring", stiffness: 280, damping: 28, mass: 0.7 } as Transition,
 };
 
 export const fadeIn: Variants = {
@@ -27,16 +27,16 @@ export const fadeIn: Variants = {
 };
 
 export const fadeInUp: Variants = {
-  hidden: { opacity: 0, y: 10 },
+  hidden: { opacity: 0, y: 6 },
   visible: { 
     opacity: 1, 
     y: 0,
-    transition: { duration: 0.6, ease: easing.elegant },
+    transition: { duration: 0.2, ease: easing.elegant },
   },
 };
 
 export const fadeInDown: Variants = {
-  hidden: { opacity: 0, y: -12 },
+  hidden: { opacity: 0, y: -6 },
   visible: { 
     opacity: 1, 
     y: 0,
@@ -45,7 +45,7 @@ export const fadeInDown: Variants = {
 };
 
 export const fadeInLeft: Variants = {
-  hidden: { opacity: 0, x: -16 },
+  hidden: { opacity: 0, x: -8 },
   visible: { 
     opacity: 1, 
     x: 0,
@@ -54,7 +54,7 @@ export const fadeInLeft: Variants = {
 };
 
 export const fadeInRight: Variants = {
-  hidden: { opacity: 0, x: 16 },
+  hidden: { opacity: 0, x: 8 },
   visible: { 
     opacity: 1, 
     x: 0,
@@ -63,7 +63,7 @@ export const fadeInRight: Variants = {
 };
 
 export const scaleIn: Variants = {
-  hidden: { opacity: 0, scale: 0.95 },
+  hidden: { opacity: 0, scale: 0.97 },
   visible: { 
     opacity: 1, 
     scale: 1,
@@ -72,7 +72,7 @@ export const scaleIn: Variants = {
 };
 
 export const scaleInBounce: Variants = {
-  hidden: { opacity: 0, scale: 0.9 },
+  hidden: { opacity: 0, scale: 0.95 },
   visible: { 
     opacity: 1, 
     scale: 1,
@@ -84,7 +84,7 @@ export const lineExpand: Variants = {
   hidden: { scaleX: 0, originX: 0.5 },
   visible: { 
     scaleX: 1,
-    transition: { duration: 0.7, ease: easing.elegant, delay: 0.2 },
+    transition: { duration: 0.3, ease: easing.elegant, delay: 0.05 },
   },
 };
 
@@ -93,8 +93,8 @@ export const staggerContainer: Variants = {
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.1,
-      delayChildren: 0.15,
+      staggerChildren: 0.04,
+      delayChildren: 0.03,
     },
   },
 };
@@ -104,41 +104,41 @@ export const staggerContainerFast: Variants = {
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.07,
-      delayChildren: 0.08,
+      staggerChildren: 0.025,
+      delayChildren: 0.02,
     },
   },
 };
 
 export const cardVariants: Variants = {
-  hidden: { opacity: 0, y: 8 },
+  hidden: { opacity: 0, y: 4 },
   visible: { 
     opacity: 1, 
     y: 0,
-    transition: { duration: 0.6, ease: easing.elegant },
+    transition: { duration: 0.2, ease: easing.elegant },
   },
 };
 
 export const heroTitle: Variants = {
-  hidden: { opacity: 0, y: 10 },
+  hidden: { opacity: 0, y: 6 },
   visible: { 
     opacity: 1, 
     y: 0,
-    transition: { duration: 0.7, ease: easing.elegant },
+    transition: { duration: 0.25, ease: easing.elegant },
   },
 };
 
 export const heroSubtitle: Variants = {
-  hidden: { opacity: 0, y: 6 },
+  hidden: { opacity: 0, y: 4 },
   visible: { 
     opacity: 1,
     y: 0,
-    transition: { duration: 0.6, delay: 0.2, ease: easing.elegant },
+    transition: { duration: 0.2, delay: 0.05, ease: easing.elegant },
   },
 };
 
 export const numberPop: Variants = {
-  hidden: { opacity: 0, scale: 0.8 },
+  hidden: { opacity: 0, scale: 0.9 },
   visible: { 
     opacity: 1, 
     scale: 1,
@@ -147,7 +147,7 @@ export const numberPop: Variants = {
 };
 
 export const listItem: Variants = {
-  hidden: { opacity: 0, x: -10 },
+  hidden: { opacity: 0, x: -6 },
   visible: { 
     opacity: 1, 
     x: 0,
@@ -156,19 +156,19 @@ export const listItem: Variants = {
 };
 
 export const buttonHover = {
-  scale: 1.02,
+  scale: 1.01,
   transition: transitions.fast,
 };
 
 export const buttonTap = {
   scale: 0.98,
-  transition: { duration: 0.15, ease: easing.elegant },
+  transition: { duration: 0.08, ease: easing.elegant },
 };
 
 export const viewportOnce = { once: true, amount: 0.15, margin: "-30px" };
 export const viewportRepeat = { once: false, amount: 0.2 };
 
-export const getStaggerDelay = (index: number, baseDelay = 0.1) => ({
+export const getStaggerDelay = (index: number, baseDelay = 0.04) => ({
   transition: { delay: index * baseDelay },
 });
 
@@ -179,9 +179,9 @@ export const cssAnimations = {
   pageIn: "animate-page-in",
 };
 
-export const willChangeTransform = "will-change-transform";
-export const willChangeOpacity = "will-change-[opacity]";
-export const willChangeBoth = "will-change-[transform,opacity]";
+export const willChangeTransform = "";
+export const willChangeOpacity = "";
+export const willChangeBoth = "";
 
 export const reducedMotionTransition: Transition = { duration: 0 };
 

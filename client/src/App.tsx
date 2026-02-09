@@ -167,12 +167,10 @@ function ScrollToTop() {
 
 
 function MainRouter() {
-  const [location] = useLocation();
-  
   return (
     <ErrorBoundary>
-      <Suspense key={location} fallback={<LoadingScreen delay={0} />}>
-        <div className="animate-page-in min-h-screen bg-background">
+      <Suspense fallback={<LoadingScreen delay={0} />}>
+        <div className="min-h-screen bg-background">
           <Switch>
             <Route path="/" component={Home} />
             <Route path="/servicios" component={Servicios} />

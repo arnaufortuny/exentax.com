@@ -341,7 +341,7 @@ export function TaxComparator() {
       <div className="w-full px-4 sm:px-8 relative z-10">
         <div className="text-center mb-10 sm:mb-14 lg:mb-10 flex flex-col items-center justify-center">
           <motion.h2 
-            className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-center leading-[1.1] will-change-transform"
+            className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-center leading-[1.1]"
             style={{ fontWeight: 900 }}
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -354,7 +354,7 @@ export function TaxComparator() {
             <span className="text-accent">{t("taxComparator.titlePart4")}</span>
           </motion.h2>
           <motion.p 
-            className="text-muted-foreground text-base sm:text-lg lg:text-sm mt-4 text-center max-w-2xl lg:max-w-lg will-change-transform"
+            className="text-muted-foreground text-base sm:text-lg lg:text-sm mt-4 text-center max-w-2xl lg:max-w-lg"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true, amount: 0.3 }}
@@ -372,7 +372,7 @@ export function TaxComparator() {
         </div>
         
         <motion.div 
-          className="max-w-4xl lg:max-w-xl mx-auto will-change-transform"
+          className="max-w-4xl lg:max-w-xl mx-auto"
           initial={{ opacity: 0, y: 10 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.2 }}
@@ -472,7 +472,7 @@ export function TaxComparator() {
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.2, ease: "easeOut" }}
-                  className="p-6 sm:p-8 lg:p-5 bg-background will-change-transform flex items-center justify-center min-h-[280px] lg:min-h-[220px] w-full"
+                  className="p-6 sm:p-8 lg:p-5 bg-background flex items-center justify-center min-h-[280px] lg:min-h-[220px] w-full"
                 >
                   <div className="max-w-sm sm:max-w-md w-full mx-auto text-center flex flex-col items-center">
                     <GrowthChartIcon className="w-16 h-16 mb-4" />
@@ -525,7 +525,7 @@ export function TaxComparator() {
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.2, ease: "easeOut" }}
-                  className="p-12 sm:p-16 bg-background flex flex-col items-center justify-center will-change-transform"
+                  className="p-12 sm:p-16 bg-background flex flex-col items-center justify-center"
                 >
                   <div className="relative w-24 h-24 mb-8">
                     <div className="absolute inset-0 rounded-full border-4 border-accent/20" />
@@ -566,7 +566,7 @@ export function TaxComparator() {
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.25, ease: "easeOut" }}
-                  className="will-change-transform"
+                  className=""
                 >
                   {/* Comparison */}
                   <div className="grid grid-cols-1 md:grid-cols-2">
