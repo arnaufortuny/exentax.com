@@ -98,6 +98,7 @@ export type AuditAction =
   | 'backup_completed'
   | 'backup_failed'
   | 'admin_create_maintenance_order'
+  | 'admin_create_custom_order'
   | 'consultation_booked'
   | 'consultation_cancelled'
   | 'consultation_type_created'

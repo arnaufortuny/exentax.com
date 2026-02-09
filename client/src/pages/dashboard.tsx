@@ -138,7 +138,7 @@ export default function Dashboard() {
   const [createUserDialog, setCreateUserDialog] = useState(false);
   const [newUserData, setNewUserData] = useState({ firstName: '', lastName: '', email: '', phone: '', password: '' });
   const [createOrderDialog, setCreateOrderDialog] = useState(false);
-  const [newOrderData, setNewOrderData] = useState({ userId: '', productId: '1', amount: '', state: 'New Mexico', orderType: 'llc' as 'llc' | 'maintenance' });
+  const [newOrderData, setNewOrderData] = useState({ userId: '', productId: '1', amount: '', state: 'New Mexico', orderType: 'llc' as 'llc' | 'maintenance' | 'custom', concept: '' });
   const [deleteConfirm, setDeleteConfirm] = useState<{ open: boolean; user: AdminUserData | null }>({ open: false, user: null });
   const [deleteOwnAccountDialog, setDeleteOwnAccountDialog] = useState(false);
   const [uploadDialog, setUploadDialog] = useState<{ open: boolean; file: File | null }>({ open: false, file: null });
@@ -732,10 +732,21 @@ export default function Dashboard() {
   const createOrderMutation = useMutation({
     mutationFn: async (data: typeof newOrderData) => {
       setFormMessage(null);
-      const { userId, state, amount, orderType } = data;
-      if (!userId || !state || !amount) {
+      const { userId, amount, orderType } = data;
+      if (!userId || !amount) {
         throw new Error(t("dashboard.toasts.missingRequiredData"));
       }
+      if (orderType === 'custom') {
+        if (!data.concept) throw new Error(t("dashboard.toasts.missingRequiredData"));
+        const res = await apiRequest("POST", "/api/admin/orders/create-custom", { userId, concept: data.concept, amount });
+        if (!res.ok) {
+          const errorData = await res.json().catch(() => ({}));
+          throw new Error(errorData.message || t("dashboard.toasts.couldNotCreate"));
+        }
+        return res.json();
+      }
+      const { state } = data;
+      if (!state) throw new Error(t("dashboard.toasts.missingRequiredData"));
       const endpoint = orderType === 'maintenance' ? "/api/admin/orders/create-maintenance" : "/api/admin/orders/create";
       const res = await apiRequest("POST", endpoint, { userId, state, amount });
       if (!res.ok) {
@@ -748,7 +759,7 @@ export default function Dashboard() {
       queryClient.invalidateQueries({ queryKey: ["/api/admin/orders"] });
       setFormMessage({ type: 'success', text: t("dashboard.toasts.orderCreated") + ". " + (t("dashboard.toasts.orderCreatedDesc", { number: data?.invoiceNumber || '' })) });
       setCreateOrderDialog(false);
-      setNewOrderData({ userId: '', productId: '1', amount: '', state: 'New Mexico', orderType: 'llc' });
+      setNewOrderData({ userId: '', productId: '1', amount: '', state: 'New Mexico', orderType: 'llc', concept: '' });
     },
     onError: (error: any) => {
       setFormMessage({ type: 'error', text: t("common.error") + ". " + (error.message || t("dashboard.toasts.couldNotCreate")) });
@@ -2185,26 +2196,12 @@ export default function Dashboard() {
                     ))}
                   </div>
                   )}
-                  <div className="flex flex-col sm:flex-row flex-wrap gap-2 mb-4">
-                    {isAdmin && (
-                    <div className="flex flex-wrap gap-2">
-                      <Button variant="ghost" size="sm" className={`rounded-full text-xs font-black shadow-sm ${createUserDialog ? 'bg-accent text-accent-foreground' : 'bg-white dark:bg-[#1A1A1A]'}`} onClick={() => setCreateUserDialog(!createUserDialog)} data-testid="button-create-user">
-                        <Plus className="w-3 h-3 mr-1" />
-                        <span className="hidden sm:inline">{t('dashboard.admin.newClient')}</span>
-                        <span className="sm:hidden">{t('dashboard.admin.newClient')}</span>
-                      </Button>
-                      <Button variant="ghost" size="sm" className={`rounded-full text-xs font-black shadow-sm ${createOrderDialog ? 'bg-accent text-accent-foreground' : 'bg-white dark:bg-[#1A1A1A]'}`} onClick={() => setCreateOrderDialog(!createOrderDialog)} data-testid="button-create-order">
-                        <Plus className="w-3 h-3 mr-1" />
-                        <span className="hidden sm:inline">{t('dashboard.admin.newOrder')}</span>
-                        <span className="sm:hidden">{t('dashboard.admin.newOrder')}</span>
-                      </Button>
-                    </div>
-                    )}
-                    <div className="flex items-center gap-2 flex-1 max-w-md min-w-48">
+                  <div className="space-y-3 mb-5">
+                    <div className="flex items-center gap-2 w-full">
                       <NativeSelect
                         value={adminSearchFilter}
                         onValueChange={(val) => setAdminSearchFilter(val as typeof adminSearchFilter)}
-                        className="rounded-full h-9 text-xs w-28 shrink-0"
+                        className="rounded-xl h-11 text-sm w-32 shrink-0 border-border bg-white dark:bg-[#1A1A1A]"
                         data-testid="select-admin-search-filter"
                       >
                         <option value="all">{t('dashboard.admin.searchFilters.all')}</option>
@@ -2216,14 +2213,26 @@ export default function Dashboard() {
                       <div className="relative flex-1">
                         <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                         <Input
-                            placeholder={t('dashboard.admin.searchPlaceholder')}
+                          placeholder={t('dashboard.admin.searchPlaceholder')}
                           value={adminSearchQuery}
                           onChange={(e) => setAdminSearchQuery(e.target.value)}
-                          className="pl-9 rounded-full text-xs bg-white dark:bg-[#1A1A1A] border-border"
+                          className="pl-10 h-11 rounded-xl text-sm bg-white dark:bg-[#1A1A1A] border-border"
                           data-testid="input-admin-search"
                         />
                       </div>
                     </div>
+                    {isAdmin && (
+                    <div className="flex flex-wrap gap-2">
+                      <Button variant="ghost" size="sm" className={`rounded-full text-xs font-black shadow-sm ${createUserDialog ? 'bg-accent text-accent-foreground' : 'bg-white dark:bg-[#1A1A1A]'}`} onClick={() => setCreateUserDialog(!createUserDialog)} data-testid="button-create-user">
+                        <Plus className="w-3 h-3 mr-1" />
+                        {t('dashboard.admin.newClient')}
+                      </Button>
+                      <Button variant="ghost" size="sm" className={`rounded-full text-xs font-black shadow-sm ${createOrderDialog ? 'bg-accent text-accent-foreground' : 'bg-white dark:bg-[#1A1A1A]'}`} onClick={() => setCreateOrderDialog(!createOrderDialog)} data-testid="button-create-order">
+                        <Plus className="w-3 h-3 mr-1" />
+                        {t('dashboard.admin.newOrder')}
+                      </Button>
+                    </div>
+                    )}
                   </div>
 
                   {/* Inline Admin Panels - Replace Sheets */}
@@ -2288,12 +2297,16 @@ export default function Dashboard() {
                           <NativeSelect 
                             value={newOrderData.orderType} 
                             onValueChange={val => {
-                              const type = val as 'llc' | 'maintenance';
-                              const stateKey = newOrderData.state === 'Wyoming' ? 'wyoming' : newOrderData.state === 'Delaware' ? 'delaware' : 'newMexico';
-                              const defaultAmount = type === 'maintenance' 
-                                ? String(PRICING.maintenance[stateKey as keyof typeof PRICING.maintenance].price)
-                                : String(PRICING.formation[stateKey as keyof typeof PRICING.formation].price);
-                              setNewOrderData(p => ({ ...p, orderType: type, amount: defaultAmount }));
+                              const type = val as 'llc' | 'maintenance' | 'custom';
+                              if (type === 'custom') {
+                                setNewOrderData(p => ({ ...p, orderType: type, amount: '', concept: '' }));
+                              } else {
+                                const stateKey = newOrderData.state === 'Wyoming' ? 'wyoming' : newOrderData.state === 'Delaware' ? 'delaware' : 'newMexico';
+                                const defaultAmount = type === 'maintenance' 
+                                  ? String(PRICING.maintenance[stateKey as keyof typeof PRICING.maintenance].price)
+                                  : String(PRICING.formation[stateKey as keyof typeof PRICING.formation].price);
+                                setNewOrderData(p => ({ ...p, orderType: type, amount: defaultAmount, concept: '' }));
+                              }
                             }}
                             placeholder={t('dashboard.admin.selectOrderType')}
                             className="w-full rounded-xl h-11 px-4 border border-gray-200 dark:border-border bg-white dark:bg-[#1A1A1A]"
@@ -2301,6 +2314,7 @@ export default function Dashboard() {
                           >
                             <NativeSelectItem value="llc">{t('dashboard.admin.llcCreation')}</NativeSelectItem>
                             <NativeSelectItem value="maintenance">{t('dashboard.admin.maintenanceService')}</NativeSelectItem>
+                            <NativeSelectItem value="custom">{t('dashboard.admin.customOrder', 'Pedido personalizado')}</NativeSelectItem>
                           </NativeSelect>
                         </div>
                         <div>
@@ -2317,42 +2331,55 @@ export default function Dashboard() {
                             ))}
                           </NativeSelect>
                         </div>
-                        <div>
-                          <Label className="text-sm font-semibold text-foreground mb-2 block">{t('dashboard.admin.state')}</Label>
-                          <NativeSelect 
-                            value={newOrderData.state} 
-                            onValueChange={val => {
-                              const sk = val === 'Wyoming' ? 'wyoming' : val === 'Delaware' ? 'delaware' : 'newMexico';
-                              const priceConfig = newOrderData.orderType === 'maintenance' ? PRICING.maintenance : PRICING.formation;
-                              const amount = String(priceConfig[sk as keyof typeof priceConfig].price);
-                              setNewOrderData(p => ({ ...p, state: val, amount }));
-                            }}
-                            placeholder={t('dashboard.admin.selectState')}
-                            className="w-full rounded-xl h-11 px-4 border border-gray-200 dark:border-border bg-white dark:bg-[#1A1A1A]"
-                            data-testid="select-order-state"
-                          >
-                            {newOrderData.orderType === 'maintenance' ? (
-                              <>
-                                <NativeSelectItem value="New Mexico">{t('application.states.newMexico')} - {getMaintenancePriceFormatted("newMexico")}</NativeSelectItem>
-                                <NativeSelectItem value="Wyoming">{t('application.states.wyoming')} - {getMaintenancePriceFormatted("wyoming")}</NativeSelectItem>
-                                <NativeSelectItem value="Delaware">{t('application.states.delaware')} - {getMaintenancePriceFormatted("delaware")}</NativeSelectItem>
-                              </>
-                            ) : (
-                              <>
-                                <NativeSelectItem value="New Mexico">{t('application.states.newMexico')} - {getFormationPriceFormatted("newMexico")}</NativeSelectItem>
-                                <NativeSelectItem value="Wyoming">{t('application.states.wyoming')} - {getFormationPriceFormatted("wyoming")}</NativeSelectItem>
-                                <NativeSelectItem value="Delaware">{t('application.states.delaware')} - {getFormationPriceFormatted("delaware")}</NativeSelectItem>
-                              </>
-                            )}
-                          </NativeSelect>
-                        </div>
+                        {newOrderData.orderType === 'custom' ? (
+                          <div>
+                            <Label className="text-sm font-semibold text-foreground mb-2 block">{t('dashboard.admin.concept', 'Concepto')}</Label>
+                            <Input 
+                              value={newOrderData.concept} 
+                              onChange={e => setNewOrderData(p => ({ ...p, concept: e.target.value }))} 
+                              placeholder={t('dashboard.admin.conceptPlaceholder', 'Ej: Consultoría fiscal, Apostilla, Servicio adicional...')} 
+                              className="rounded-xl h-11 px-4 border border-gray-200 dark:border-border bg-white dark:bg-[#1A1A1A]" 
+                              data-testid="input-order-concept" 
+                            />
+                          </div>
+                        ) : (
+                          <div>
+                            <Label className="text-sm font-semibold text-foreground mb-2 block">{t('dashboard.admin.state')}</Label>
+                            <NativeSelect 
+                              value={newOrderData.state} 
+                              onValueChange={val => {
+                                const sk = val === 'Wyoming' ? 'wyoming' : val === 'Delaware' ? 'delaware' : 'newMexico';
+                                const priceConfig = newOrderData.orderType === 'maintenance' ? PRICING.maintenance : PRICING.formation;
+                                const amount = String(priceConfig[sk as keyof typeof priceConfig].price);
+                                setNewOrderData(p => ({ ...p, state: val, amount }));
+                              }}
+                              placeholder={t('dashboard.admin.selectState')}
+                              className="w-full rounded-xl h-11 px-4 border border-gray-200 dark:border-border bg-white dark:bg-[#1A1A1A]"
+                              data-testid="select-order-state"
+                            >
+                              {newOrderData.orderType === 'maintenance' ? (
+                                <>
+                                  <NativeSelectItem value="New Mexico">{t('application.states.newMexico')} - {getMaintenancePriceFormatted("newMexico")}</NativeSelectItem>
+                                  <NativeSelectItem value="Wyoming">{t('application.states.wyoming')} - {getMaintenancePriceFormatted("wyoming")}</NativeSelectItem>
+                                  <NativeSelectItem value="Delaware">{t('application.states.delaware')} - {getMaintenancePriceFormatted("delaware")}</NativeSelectItem>
+                                </>
+                              ) : (
+                                <>
+                                  <NativeSelectItem value="New Mexico">{t('application.states.newMexico')} - {getFormationPriceFormatted("newMexico")}</NativeSelectItem>
+                                  <NativeSelectItem value="Wyoming">{t('application.states.wyoming')} - {getFormationPriceFormatted("wyoming")}</NativeSelectItem>
+                                  <NativeSelectItem value="Delaware">{t('application.states.delaware')} - {getFormationPriceFormatted("delaware")}</NativeSelectItem>
+                                </>
+                              )}
+                            </NativeSelect>
+                          </div>
+                        )}
                         <div>
                           <Label className="text-sm font-semibold text-foreground mb-2 block">{t('dashboard.admin.amount')} (€)</Label>
                           <Input type="number" value={newOrderData.amount} onChange={e => setNewOrderData(p => ({ ...p, amount: e.target.value }))} placeholder="739" className="rounded-xl h-11 px-4 border border-gray-200 dark:border-border bg-white dark:bg-[#1A1A1A]" data-testid="input-order-amount" />
                         </div>
                       </div>
                       <div className="flex flex-col sm:flex-row gap-3 mt-6 pt-4 border-t">
-                        <Button onClick={() => createOrderMutation.mutate(newOrderData)} disabled={createOrderMutation.isPending || !newOrderData.userId || !newOrderData.amount} className="flex-1 bg-accent text-accent-foreground font-black rounded-full" data-testid="button-confirm-create-order">
+                        <Button onClick={() => createOrderMutation.mutate(newOrderData)} disabled={createOrderMutation.isPending || !newOrderData.userId || !newOrderData.amount || (newOrderData.orderType === 'custom' && !newOrderData.concept)} className="flex-1 bg-accent text-accent-foreground font-black rounded-full" data-testid="button-confirm-create-order">
                           {createOrderMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : t('dashboard.admin.createOrderBtn')}
                         </Button>
                         <Button variant="outline" onClick={() => setCreateOrderDialog(false)} className="flex-1 rounded-full" data-testid="button-cancel-create-order">{t('common.cancel')}</Button>
@@ -4762,6 +4789,7 @@ export default function Dashboard() {
               </Card>
             )}
             
+            {!user?.isAdmin && (
             <Card className={`rounded-2xl border-0 shadow-sm bg-white dark:bg-card p-6 md:p-8 ${activeTab !== 'services' ? 'hidden xl:block' : ''}`}>
               <div className="mb-6">
                 <h3 className="text-lg md:text-xl font-black tracking-tight text-primary flex items-center gap-2">
@@ -4827,6 +4855,8 @@ export default function Dashboard() {
                 )}
               </div>
             </Card>
+            )}
+            {!user?.isAdmin && (
             <Card className="rounded-2xl border-0 shadow-sm bg-white dark:bg-card p-6 md:p-8 mt-4 mb-16 md:mb-12 text-center" data-testid="card-support-help">
               <div className="flex flex-col items-center gap-3 md:gap-4">
                 <div>
@@ -4838,6 +4868,7 @@ export default function Dashboard() {
                 </a>
               </div>
             </Card>
+            )}
           </div>
         </div>
         </div>

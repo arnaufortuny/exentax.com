@@ -142,6 +142,58 @@ export function registerAdminBillingRoutes(app: Express) {
     res.json({ success: true, orderId: order.id, invoiceNumber });
   }));
 
+  app.post("/api/admin/orders/create-custom", isAdmin, asyncHandler(async (req: Request, res: Response) => {
+    const schema = z.object({
+      userId: z.string().uuid(),
+      concept: z.string().min(1, "Concept is required"),
+      amount: z.string().or(z.number()).refine(val => Number(val) > 0, { message: "Amount must be greater than 0" }),
+    });
+    const { userId, concept, amount } = schema.parse(req.body);
+    
+    const [user] = await db.select().from(usersTable).where(eq(usersTable.id, userId)).limit(1);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    
+    const amountCents = Math.round(Number(amount) * 100);
+    
+    const { generate8DigitId } = await import("../lib/id-generator");
+    const invoiceNumber = `CUST-${generate8DigitId()}`;
+    
+    const [order] = await db.insert(ordersTable).values({
+      userId,
+      productId: 1,
+      amount: amountCents,
+      status: 'pending',
+      invoiceNumber
+    }).returning();
+    
+    await db.insert(orderEvents).values({
+      orderId: order.id,
+      eventType: 'order_created',
+      description: `Custom order: ${concept}`
+    });
+    
+    await db.insert(userNotifications).values({
+      userId,
+      orderId: order.id,
+      orderCode: invoiceNumber,
+      title: 'i18n:ntf.orderCreatedAdmin.title',
+      message: `i18n:ntf.orderCreatedAdmin.message::{"invoiceNumber":"${invoiceNumber}","productName":"${concept}"}`,
+      type: 'info',
+      isRead: false
+    });
+    
+    logAudit({
+      action: 'admin_create_custom_order',
+      userId: req.session?.userId,
+      targetId: String(order.id),
+      details: { userId, concept, amount: amountCents, invoiceNumber }
+    });
+    
+    res.json({ success: true, orderId: order.id, invoiceNumber });
+  }));
+
   app.get("/api/admin/system-stats", isAdmin, async (req, res) => {
     try {
       // Check cache first
