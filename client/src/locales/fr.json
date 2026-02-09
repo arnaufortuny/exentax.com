@@ -134,7 +134,8 @@
     "confirmAction": "Confirmer l'action",
     "all": "Tous",
     "copy": "Copier",
-    "email": "E-mail"
+    "email": "E-mail",
+    "na": "N/D"
   },
   "helpSection": {
     "title": "VOUS AVEZ UNE",
@@ -2009,7 +2010,9 @@
         "email": "Email",
         "date": "Date",
         "invoiceId": "ID facture"
-      }
+      },
+      "customOrder": "Commande personnalisée",
+      "conceptLabel": "Concept"
     },
     "profile": {
       "title": "Mon Profil",

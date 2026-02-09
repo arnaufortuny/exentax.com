@@ -209,7 +209,7 @@ export function ProfileTab({
               <Button 
                 variant="link" 
                 size="sm" 
-                className="text-xs text-muted-foreground"
+                className="text-xs text-muted-foreground rounded-full"
                 onClick={() => resendProfileOtp.mutate()}
                 disabled={resendProfileOtp.isPending}
                 data-testid="button-resend-profile-otp"
@@ -287,7 +287,7 @@ export function ProfileTab({
                   <Button
                     variant="link"
                     size="sm"
-                    className="text-accent p-0 h-auto text-xs font-black shrink-0"
+                    className="text-accent p-0 h-auto text-xs font-black shrink-0 rounded-full"
                     onClick={() => setShowEmailVerification(true)}
                     data-testid="button-verify-email"
                   >

@@ -134,7 +134,8 @@
     "confirmAction": "Conferma azione",
     "all": "Tutti",
     "copy": "Copia",
-    "email": "Email"
+    "email": "Email",
+    "na": "N/D"
   },
   "helpSection": {
     "title": "HAI QUALCHE",
@@ -1968,7 +1969,9 @@
         "email": "Email",
         "date": "Data",
         "invoiceId": "ID Fattura"
-      }
+      },
+      "customOrder": "Ordine personalizzato",
+      "conceptLabel": "Concetto"
     },
     "profile": {
       "title": "Il Mio Profilo",

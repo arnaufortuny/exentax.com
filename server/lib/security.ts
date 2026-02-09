@@ -108,7 +108,8 @@ export type AuditAction =
   | 'accounting_transaction_updated'
   | 'accounting_transaction_deleted'
   | 'admin_documents_download'
-  | 'account_review';
+  | 'account_review'
+  | 'order_updated';
 
 interface AuditLogEntry {
   action: AuditAction;

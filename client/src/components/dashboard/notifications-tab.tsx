@@ -3,11 +3,11 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import type { Tab } from "./types";
-import { useTranslation, type TFunction } from "react-i18next";
+import { useTranslation } from "react-i18next";
 import { formatDate } from "@/lib/utils";
 import { useCallback } from "react";
 
-function translateNotifText(text: string, t: TFunction): string {
+function translateNotifText(text: string, t: ReturnType<typeof useTranslation>['t']): string {
   if (!text || !text.startsWith('i18n:')) return text;
   const rest = text.substring(5);
   const sepIdx = rest.indexOf('::');

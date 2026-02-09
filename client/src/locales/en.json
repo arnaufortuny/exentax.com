@@ -134,7 +134,8 @@
     "confirmAction": "Confirm action",
     "all": "All",
     "copy": "Copy",
-    "email": "Email"
+    "email": "Email",
+    "na": "N/A"
   },
   "helpSection": {
     "title": "HAVE A",

@@ -134,7 +134,8 @@
     "confirmAction": "Confirmar ação",
     "all": "Todos",
     "copy": "Copiar",
-    "email": "Email"
+    "email": "Email",
+    "na": "N/D"
   },
   "helpSection": {
     "title": "ALGUMA",
@@ -2009,7 +2010,9 @@
         "email": "Email",
         "date": "Data",
         "invoiceId": "ID Fatura"
-      }
+      },
+      "customOrder": "Pedido personalizado",
+      "conceptLabel": "Conceito"
     },
     "profile": {
       "title": "O Meu Perfil",

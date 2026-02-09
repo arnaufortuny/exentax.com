@@ -134,7 +134,8 @@
     "confirmAction": "Confirmar acción",
     "all": "Todos",
     "copy": "Copiar",
-    "email": "Email"
+    "email": "Email",
+    "na": "N/D"
   },
   "helpSection": {
     "title": "¿ALGUNA",

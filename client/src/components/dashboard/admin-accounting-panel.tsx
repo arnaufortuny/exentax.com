@@ -11,7 +11,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { NativeSelect, NativeSelectItem } from "@/components/ui/native-select";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
-import { Plus, Download, Edit, Trash2, Loader2, X } from "@/components/icons";
+import { Plus, Download, Edit, Trash2, Loader2, X, DollarSign, TrendingUp, TrendingDown } from "@/components/icons";
 import type { AccountingTransaction } from "@shared/schema";
 import { ConfirmDialog, useConfirmDialog } from "@/components/ui/confirm-dialog";
 
@@ -324,7 +324,7 @@ export function AdminAccountingPanel() {
                   <Button
                     variant="outline"
                     size="icon"
-                    className="h-8 w-8 rounded-lg"
+                    className="h-8 w-8 rounded-full"
                     onClick={() => openEditForm(tx)}
                   >
                     <Edit className="w-3 h-3" />
@@ -332,7 +332,7 @@ export function AdminAccountingPanel() {
                   <Button
                     variant="outline"
                     size="icon"
-                    className="h-8 w-8 rounded-lg text-red-600"
+                    className="h-8 w-8 rounded-full text-red-600"
                     onClick={() => {
                       showConfirm({
                         title: t('common.confirmAction', 'Confirmar'),

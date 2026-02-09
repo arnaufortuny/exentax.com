@@ -134,7 +134,8 @@
     "confirmAction": "Aktion bestätigen",
     "all": "Alle",
     "copy": "Kopieren",
-    "email": "E-Mail"
+    "email": "E-Mail",
+    "na": "N/V"
   },
   "helpSection": {
     "title": "HABEN SIE EINE",
@@ -2009,7 +2010,9 @@
         "email": "E-Mail",
         "date": "Datum",
         "invoiceId": "Rechnungsnummer"
-      }
+      },
+      "customOrder": "Individuelle Bestellung",
+      "conceptLabel": "Konzept"
     },
     "profile": {
       "title": "Mein Profil",

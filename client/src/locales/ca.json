@@ -134,7 +134,8 @@
     "confirmAction": "Confirmar acció",
     "all": "Tots",
     "copy": "Copiar",
-    "email": "Correu electrònic"
+    "email": "Correu electrònic",
+    "na": "N/D"
   },
   "helpSection": {
     "title": "ALGUNA",
@@ -2009,7 +2010,9 @@
         "email": "Correu",
         "date": "Data",
         "invoiceId": "ID Factura"
-      }
+      },
+      "customOrder": "Comanda personalitzada",
+      "conceptLabel": "Concepte"
     },
     "profile": {
       "title": "El meu Perfil",

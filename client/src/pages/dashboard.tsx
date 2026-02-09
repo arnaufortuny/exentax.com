@@ -1121,7 +1121,7 @@ export default function Dashboard() {
                         }
                       }}
                       disabled={isResendingCode}
-                      className="text-accent p-0 h-auto text-xs mt-2"
+                      className="text-accent p-0 h-auto text-xs mt-2 rounded-full"
                       data-testid="button-pending-resend"
                     >
                       {isResendingCode ? t("common.sending") : t("dashboard.pendingAccount.resendCode")}
@@ -1181,7 +1181,7 @@ export default function Dashboard() {
                             <Button
                               variant="ghost"
                               size="sm"
-                              className="h-7 px-2 text-xs"
+                              className="h-7 px-2 text-xs rounded-full"
                               onClick={() => markNotificationRead.mutate(notif.id)}
                             >
                               {t("dashboard.notifications.read")}
@@ -1204,7 +1204,7 @@ export default function Dashboard() {
           <div className="mt-6 text-center">
             <Button 
               variant="ghost" 
-              className="text-sm text-muted-foreground"
+              className="text-sm text-muted-foreground rounded-full"
               onClick={() => apiRequest("POST", "/api/auth/logout").then(() => window.location.href = "/")}
               data-testid="button-pending-logout"
             >
@@ -3620,7 +3620,7 @@ export default function Dashboard() {
                                 <p className="text-xs text-muted-foreground">{app?.ownerEmail || order.user?.email}</p>
                                 {app?.ownerPhone && <p className="text-xs text-muted-foreground">{app.ownerPhone}</p>}
                                 <p className="text-xs text-muted-foreground mt-1">
-                                  <strong>{t('dashboard.admin.orders.company')}:</strong> {app?.companyName || t('dashboard.admin.orders.notSpecified')} • <strong>{t('dashboard.admin.orders.stateLabel')}:</strong> {app?.state || 'N/A'}
+                                  <strong>{t('dashboard.admin.orders.company')}:</strong> {app?.companyName || t('dashboard.admin.orders.notSpecified')} • <strong>{t('dashboard.admin.orders.stateLabel')}:</strong> {app?.state || t('common.na')}
                                 </p>
                                 <p className="text-xs text-muted-foreground">
                                   <strong>{t('dashboard.admin.orders.product')}:</strong> {order.product?.name} • <strong>{t('dashboard.admin.orders.amount')}:</strong> {(order.amount / 100).toFixed(2)}€
@@ -3685,9 +3685,9 @@ export default function Dashboard() {
                                 <div>
                                   <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-wide">{t('dashboard.admin.orders.stateLabel')}</label>
                                   <NativeSelect value={inlineEditData.state || ''} onValueChange={val => setInlineEditData(d => ({ ...d, state: val }))} className="rounded-xl h-9 text-xs bg-white dark:bg-card border px-2 w-full">
-                                    <NativeSelectItem value="new_mexico">New Mexico</NativeSelectItem>
-                                    <NativeSelectItem value="wyoming">Wyoming</NativeSelectItem>
-                                    <NativeSelectItem value="delaware">Delaware</NativeSelectItem>
+                                    <NativeSelectItem value="new_mexico">{t('application.states.newMexico')}</NativeSelectItem>
+                                    <NativeSelectItem value="wyoming">{t('application.states.wyoming')}</NativeSelectItem>
+                                    <NativeSelectItem value="delaware">{t('application.states.delaware')}</NativeSelectItem>
                                   </NativeSelect>
                                 </div>
                                 <div>
@@ -3695,7 +3695,7 @@ export default function Dashboard() {
                                   <Input value={inlineEditData.ownerFullName || ''} onChange={e => setInlineEditData(d => ({ ...d, ownerFullName: e.target.value }))} className="rounded-xl h-9 text-xs" data-testid={`input-inline-owner-${order.id}`} />
                                 </div>
                                 <div>
-                                  <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-wide">Email</label>
+                                  <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-wide">{t('common.email')}</label>
                                   <Input value={inlineEditData.ownerEmail || ''} onChange={e => setInlineEditData(d => ({ ...d, ownerEmail: e.target.value }))} className="rounded-xl h-9 text-xs" data-testid={`input-inline-email-${order.id}`} />
                                 </div>
                                 <div>
@@ -4148,7 +4148,7 @@ export default function Dashboard() {
                                   <Label className="text-[10px] md:text-xs font-bold text-muted-foreground mb-1 block truncate">{t('dashboard.admin.calendar.llcCreation')}</Label>
                                   <Input 
                                     type="date" 
-                                    className="h-8 md:h-10 text-xs md:text-sm px-2 md:px-3"
+                                    className="h-8 md:h-10 text-xs md:text-sm px-2 md:px-3 rounded-xl"
                                     defaultValue={app.llcCreatedDate ? new Date(app.llcCreatedDate).toISOString().split('T')[0] : ''}
                                     onChange={e => updateLlcDatesMutation.mutate({ appId: app.id, field: 'llcCreatedDate', value: e.target.value })}
                                     data-testid={`input-llc-created-${app.id}`}
@@ -4158,7 +4158,7 @@ export default function Dashboard() {
                                   <Label className="text-[10px] md:text-xs font-bold text-muted-foreground mb-1 block truncate">{t('dashboard.admin.calendar.agentRenewal')}</Label>
                                   <Input 
                                     type="date" 
-                                    className="h-8 md:h-10 text-xs md:text-sm px-2 md:px-3"
+                                    className="h-8 md:h-10 text-xs md:text-sm px-2 md:px-3 rounded-xl"
                                     defaultValue={app.agentRenewalDate ? new Date(app.agentRenewalDate).toISOString().split('T')[0] : ''}
                                     onChange={e => updateLlcDatesMutation.mutate({ appId: app.id, field: 'agentRenewalDate', value: e.target.value })}
                                     data-testid={`input-agent-renewal-${app.id}`}
@@ -4168,7 +4168,7 @@ export default function Dashboard() {
                                   <Label className="text-[10px] md:text-xs font-bold text-muted-foreground mb-1 block truncate">IRS 1120</Label>
                                   <Input 
                                     type="date" 
-                                    className="h-8 md:h-10 text-xs md:text-sm px-2 md:px-3"
+                                    className="h-8 md:h-10 text-xs md:text-sm px-2 md:px-3 rounded-xl"
                                     defaultValue={app.irs1120DueDate ? new Date(app.irs1120DueDate).toISOString().split('T')[0] : ''}
                                     onChange={e => updateLlcDatesMutation.mutate({ appId: app.id, field: 'irs1120DueDate', value: e.target.value })}
                                     data-testid={`input-irs1120-${app.id}`}
@@ -4178,7 +4178,7 @@ export default function Dashboard() {
                                   <Label className="text-[10px] md:text-xs font-bold text-muted-foreground mb-1 block truncate">IRS 5472</Label>
                                   <Input 
                                     type="date" 
-                                    className="h-8 md:h-10 text-xs md:text-sm px-2 md:px-3"
+                                    className="h-8 md:h-10 text-xs md:text-sm px-2 md:px-3 rounded-xl"
                                     defaultValue={app.irs5472DueDate ? new Date(app.irs5472DueDate).toISOString().split('T')[0] : ''}
                                     onChange={e => updateLlcDatesMutation.mutate({ appId: app.id, field: 'irs5472DueDate', value: e.target.value })}
                                     data-testid={`input-irs5472-${app.id}`}
@@ -4188,7 +4188,7 @@ export default function Dashboard() {
                                   <Label className="text-[10px] md:text-xs font-bold text-muted-foreground mb-1 block truncate">{t('dashboard.admin.calendar.annualReport')}</Label>
                                   <Input 
                                     type="date" 
-                                    className="h-8 md:h-10 text-xs md:text-sm px-2 md:px-3"
+                                    className="h-8 md:h-10 text-xs md:text-sm px-2 md:px-3 rounded-xl"
                                     defaultValue={app.annualReportDueDate ? new Date(app.annualReportDueDate).toISOString().split('T')[0] : ''}
                                     onChange={e => updateLlcDatesMutation.mutate({ appId: app.id, field: 'annualReportDueDate', value: e.target.value })}
                                     data-testid={`input-annual-report-${app.id}`}
@@ -4202,7 +4202,7 @@ export default function Dashboard() {
                                   <Input 
                                     type="text" 
                                     placeholder="XX-XXXXXXX"
-                                    className="h-8 md:h-10 text-xs md:text-sm px-2 md:px-3 font-mono"
+                                    className="h-8 md:h-10 text-xs md:text-sm px-2 md:px-3 font-mono rounded-xl"
                                     defaultValue={app.ein || ''}
                                     onChange={e => updateLlcDatesMutation.mutate({ appId: app.id, field: 'ein', value: e.target.value })}
                                     data-testid={`input-ein-${app.id}`}
@@ -4469,15 +4469,15 @@ export default function Dashboard() {
                                     <div className="flex items-center gap-2 flex-wrap">
                                       <span className="font-black text-sm">{inv.fileName || `${t('dashboard.admin.invoicesSection.invoiceLabel')} ${inv.order?.invoiceNumber}`}</span>
                                       <Badge variant={inv.order?.status === 'paid' || inv.order?.status === 'completed' ? "default" : "secondary"} className="text-[10px]">
-                                        {inv.order?.status === 'paid' ? t('dashboard.admin.invoicesSection.paid') : inv.order?.status === 'completed' ? t('dashboard.admin.invoicesSection.completedStatus') : inv.order?.status === 'pending' ? t('dashboard.admin.invoicesSection.pendingStatus') : inv.order?.status || 'N/A'}
+                                        {inv.order?.status === 'paid' ? t('dashboard.admin.invoicesSection.paid') : inv.order?.status === 'completed' ? t('dashboard.admin.invoicesSection.completedStatus') : inv.order?.status === 'pending' ? t('dashboard.admin.invoicesSection.pendingStatus') : inv.order?.status || t('common.na')}
                                       </Badge>
                                     </div>
                                     <p className="text-xs text-muted-foreground">
                                       {inv.user?.firstName} {inv.user?.lastName} ({inv.user?.email})
                                     </p>
                                     <p className="text-xs text-muted-foreground">
-                                      {t('dashboard.admin.invoicesSection.amountLabel')}: {inv.order?.amount ? ((inv.order.amount / 100).toFixed(2) + (inv.order.currency === 'USD' ? ' $' : ' €')) : 'N/A'} | 
-                                      {t('dashboard.admin.invoicesSection.date')}: {inv.createdAt ? formatDate(inv.createdAt) : 'N/A'}
+                                      {t('dashboard.admin.invoicesSection.amountLabel')}: {inv.order?.amount ? ((inv.order.amount / 100).toFixed(2) + (inv.order.currency === 'USD' ? ' $' : ' €')) : t('common.na')} | 
+                                      {t('dashboard.admin.invoicesSection.date')}: {inv.createdAt ? formatDate(inv.createdAt) : t('common.na')}
                                     </p>
                                   </div>
                                   <div className="flex gap-2 flex-wrap">
@@ -4788,7 +4788,7 @@ export default function Dashboard() {
                                 <Button 
                                   variant="outline" 
                                   size="sm" 
-                                  className="rounded-lg text-xs h-8 w-8 p-0"
+                                  className="rounded-full text-xs h-8 w-8 p-0"
                                   onClick={() => {
                                     setNewDiscountCode({
                                       code: dc.code,
@@ -4809,7 +4809,7 @@ export default function Dashboard() {
                                 <Button 
                                   variant="outline" 
                                   size="sm" 
-                                  className={`rounded-lg text-xs h-8 w-8 p-0 ${dc.isActive ? 'text-orange-600' : 'text-green-600'}`}
+                                  className={`rounded-full text-xs h-8 w-8 p-0 ${dc.isActive ? 'text-orange-600' : 'text-green-600'}`}
                                   onClick={async () => {
                                     try {
                                       await apiRequest("PATCH", `/api/admin/discount-codes/${dc.id}`, { isActive: !dc.isActive });
@@ -4826,7 +4826,7 @@ export default function Dashboard() {
                                 <Button 
                                   variant="outline" 
                                   size="sm" 
-                                  className="rounded-lg text-xs h-8 w-8 p-0 text-red-600 border-red-200 hover:bg-red-50"
+                                  className="rounded-full text-xs h-8 w-8 p-0 text-red-600 border-red-200 hover:bg-red-50"
                                   onClick={() => {
                                     showConfirm({
                                       title: t('common.confirmAction', 'Confirmar'),

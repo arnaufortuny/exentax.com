@@ -179,7 +179,12 @@ export function registerAdminOrderRoutes(app: Express) {
       }
     }
 
-    await logAudit(req, "order_updated", orderId.toString(), { orderId, changedFields: Object.keys(body) });
+    logAudit({
+      action: 'order_updated',
+      userId: req.session?.userId,
+      targetId: orderId.toString(),
+      details: { orderId, changedFields: Object.keys(body) }
+    });
     res.json({ success: true });
   }));
 

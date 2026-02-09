@@ -218,7 +218,7 @@ export function MessagesTab({
                 <Button 
                   variant="ghost" 
                   size="sm" 
-                  className="text-accent text-xs px-2" 
+                  className="text-accent text-xs px-2 rounded-full" 
                   onClick={() => setSelectedMessage(selectedMessage?.id === msg.id ? null : msg)}
                   data-testid={`button-view-message-${msg.id}`}
                 >

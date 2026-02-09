@@ -174,7 +174,7 @@ export function ConsultationsTab({ setActiveTab }: ConsultationsTabProps) {
                     <Button
                       key={type.id}
                       variant={selectedType?.id === type.id ? "default" : "outline"}
-                      className={`justify-start h-auto py-3 px-4 rounded-xl ${selectedType?.id === type.id ? 'bg-accent text-primary border-accent' : 'bg-white dark:bg-card'}`}
+                      className={`justify-start h-auto py-3 px-4 rounded-full ${selectedType?.id === type.id ? 'bg-accent text-primary border-accent' : 'bg-white dark:bg-card'}`}
                       onClick={() => setSelectedType(type)}
                       data-testid={`button-select-type-${type.id}`}
                     >
@@ -222,7 +222,7 @@ export function ConsultationsTab({ setActiveTab }: ConsultationsTabProps) {
                                 key={slot.startTime}
                                 variant={selectedTime === slot.startTime ? "default" : "outline"}
                                 size="sm"
-                                className={`rounded-lg ${selectedTime === slot.startTime ? 'bg-accent text-primary' : 'bg-white dark:bg-card'}`}
+                                className={`rounded-full ${selectedTime === slot.startTime ? 'bg-accent text-primary' : 'bg-white dark:bg-card'}`}
                                 onClick={() => setSelectedTime(slot.startTime)}
                                 data-testid={`button-time-${slot.startTime}`}
                               >
