@@ -67,7 +67,7 @@ export function MessagesTab({
     },
     onSuccess: (data) => {
       const ticketId = data?.messageId || data?.id || '';
-      setFormMessage({ type: 'success', text: `${t('dashboard.support.messageSent', 'Message sent successfully')}. Ticket #${ticketId}` });
+      setFormMessage({ type: 'success', text: `${t('dashboard.support.messageSent', 'Message sent successfully')}. ${t('dashboard.support.ticketLabel', 'Ticket')} #${ticketId}` });
       setShowNewInquiry(false);
       setInquirySubject("");
       setInquiryReason("");

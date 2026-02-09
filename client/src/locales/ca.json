@@ -1458,7 +1458,8 @@
       "replyPlaceholder": "Escriu la teva resposta...",
       "sendReply": "Enviar Resposta",
       "haveQuestion": "Tens algun dubte?",
-      "hereToHelp": "Estem aquí per ajudar-te, escriu-nos i et respondrem el més aviat possible!"
+      "hereToHelp": "Estem aquí per ajudar-te, escriu-nos i et respondrem el més aviat possible!",
+      "ticketLabel": "Ticket"
     },
     "payments": {
       "title": "Historial de Pagaments",
@@ -2202,7 +2203,7 @@
     "checkEmail": "Estigues atent al teu email",
     "nextSteps": "T'enviarem un correu amb els següents passos",
     "backHome": "Tornar a l'inici",
-    "talkWhatsapp": "Parlar per WhatsApp",
+    "talkWhatsapp": "Escriu-nos per WhatsApp",
     "error": "Error en enviar el missatge",
     "tryAgain": "Torna-ho a provar en uns segons",
     "loginFaster": "o inicia sessió amb email per anar més ràpid"

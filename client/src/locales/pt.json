@@ -1458,7 +1458,8 @@
       "replyPlaceholder": "Escreve a tua resposta...",
       "sendReply": "Enviar Resposta",
       "haveQuestion": "Tens alguma dúvida?",
-      "hereToHelp": "Estamos aqui para te ajudar, escreve-nos e responderemos o mais brevemente possível!"
+      "hereToHelp": "Estamos aqui para te ajudar, escreve-nos e responderemos o mais brevemente possível!",
+      "ticketLabel": "Ticket"
     },
     "payments": {
       "title": "Histórico de Pagamentos",
@@ -2202,7 +2203,7 @@
     "checkEmail": "Fica atento ao teu email",
     "nextSteps": "Enviaremos-te um correio com os próximos passos",
     "backHome": "Voltar ao início",
-    "talkWhatsapp": "Falar por WhatsApp",
+    "talkWhatsapp": "Escreva-nos no WhatsApp",
     "error": "Erro ao enviar a mensagem",
     "tryAgain": "Tenta novamente em alguns segundos",
     "loginFaster": "ou inicia sessão com email para ser mais rápido"

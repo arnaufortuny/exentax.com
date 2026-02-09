@@ -205,10 +205,21 @@ export function registerContactRoutes(app: Express) {
         "IP": clientIp
       });
 
+      const contactLang = (req.headers['accept-language']?.split(',')[0]?.split('-')[0] || 'es') as EmailLanguage;
+      const validLang = ['es','en','ca','fr','de','it','pt'].includes(contactLang) ? contactLang : 'es';
+      const contactTicketSubjects: Record<string, string> = {
+        es: `Hemos recibido tu mensaje - Ticket #${ticketId}`,
+        en: `We received your message - Ticket #${ticketId}`,
+        ca: `Hem rebut el teu missatge - Ticket #${ticketId}`,
+        fr: `Nous avons reçu votre message - Ticket #${ticketId}`,
+        de: `Wir haben Ihre Nachricht erhalten - Ticket #${ticketId}`,
+        it: `Abbiamo ricevuto il tuo messaggio - Ticket #${ticketId}`,
+        pt: `Recebemos a sua mensagem - Ticket #${ticketId}`
+      };
       await sendEmail({
         to: contactData.email,
-        subject: `Hemos recibido tu mensaje - Ticket #${ticketId}`,
-        html: getAutoReplyTemplate(sanitizedData.nombre, ticketId),
+        subject: contactTicketSubjects[validLang] || contactTicketSubjects.es,
+        html: getAutoReplyTemplate(sanitizedData.nombre, ticketId, validLang as EmailLanguage),
       });
 
       await storage.createGuestVisitor({

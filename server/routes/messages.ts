@@ -3,6 +3,7 @@ import { db, storage, isAuthenticated, logActivity } from "./shared";
 import { users as usersTable, messages as messagesTable, messageReplies, userNotifications } from "@shared/schema";
 import { eq } from "drizzle-orm";
 import { sendEmail, getAutoReplyTemplate, getMessageReplyTemplate } from "../lib/email";
+import type { EmailLanguage } from "../lib/email-translations";
 
 export function registerMessageRoutes(app: Express) {
   // Messages API
@@ -46,12 +47,29 @@ export function registerMessageRoutes(app: Express) {
         type: "contact"
       });
 
-      // Send auto-reply with ticket ID
+      // Send auto-reply with ticket ID (translated)
       const ticketId = message.messageId || String(message.id);
+      let userLang: EmailLanguage = 'es';
+      if (userId) {
+        const [msgUser] = await db.select().from(usersTable).where(eq(usersTable.id, userId)).limit(1);
+        if (msgUser?.preferredLanguage) userLang = msgUser.preferredLanguage as EmailLanguage;
+      } else {
+        const browserLang = (req.headers['accept-language']?.split(',')[0]?.split('-')[0] || 'es') as string;
+        if (['es','en','ca','fr','de','it','pt'].includes(browserLang)) userLang = browserLang as EmailLanguage;
+      }
+      const ticketSubjects: Record<string, string> = {
+        es: `Recibimos tu mensaje - Ticket #${ticketId}`,
+        en: `We received your message - Ticket #${ticketId}`,
+        ca: `Hem rebut el teu missatge - Ticket #${ticketId}`,
+        fr: `Nous avons reçu votre message - Ticket #${ticketId}`,
+        de: `Wir haben Ihre Nachricht erhalten - Ticket #${ticketId}`,
+        it: `Abbiamo ricevuto il tuo messaggio - Ticket #${ticketId}`,
+        pt: `Recebemos a sua mensagem - Ticket #${ticketId}`
+      };
       sendEmail({
         to: email,
-        subject: `Recibimos tu mensaje - Ticket #${ticketId}`,
-        html: getAutoReplyTemplate(name || "Cliente", ticketId),
+        subject: ticketSubjects[userLang] || ticketSubjects.es,
+        html: getAutoReplyTemplate(name || "Cliente", ticketId, userLang),
       }).catch(() => {});
 
       // Notify admin with WhatsApp preference

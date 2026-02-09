@@ -1458,7 +1458,8 @@
       "replyPlaceholder": "Schreiben Sie Ihre Antwort...",
       "sendReply": "Antwort senden",
       "haveQuestion": "Haben Sie eine Frage?",
-      "hereToHelp": "Wir sind für Sie da, schreiben Sie uns und wir antworten so schnell wie möglich!"
+      "hereToHelp": "Wir sind für Sie da, schreiben Sie uns und wir antworten so schnell wie möglich!",
+      "ticketLabel": "Ticket"
     },
     "payments": {
       "title": "Zahlungsverlauf",
@@ -2202,7 +2203,7 @@
     "checkEmail": "Überprüfen Sie Ihre E-Mail",
     "nextSteps": "Wir senden Ihnen eine E-Mail mit den nächsten Schritten",
     "backHome": "Zurück zur Startseite",
-    "talkWhatsapp": "Über WhatsApp sprechen",
+    "talkWhatsapp": "Schreiben Sie uns auf WhatsApp",
     "error": "Fehler beim Senden der Nachricht",
     "tryAgain": "Versuchen Sie es in einigen Sekunden erneut",
     "loginFaster": "oder mit E-Mail anmelden, um schneller fortzufahren"
