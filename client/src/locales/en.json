@@ -1075,7 +1075,10 @@
       "otherBank": "Other bank",
       "other": "Other",
       "oneOwner": "One owner (single-member)",
-      "multipleOwners": "Multiple owners (multi-member)"
+      "multipleOwners": "Multiple owners (multi-member)",
+      "singleOwnerLabel": "Sole owner (100%)",
+      "needMultipleOwners": "Need multiple partners? Contact us for LLCs with two or more owners.",
+      "consultWhatsApp": "Consult via WhatsApp"
     },
     "validation": {
       "required": "This field is required",

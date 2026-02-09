@@ -3,7 +3,6 @@ import { registerRoutes } from "./routes";
 import { serveStatic } from "./static";
 import { createServer } from "http";
 import compression from "compression";
-import path from "path";
 import { initServerSentry } from "./lib/sentry";
 import { scheduleBackups } from "./lib/backup";
 import { cleanupDbRateLimits } from "./lib/rate-limiter";

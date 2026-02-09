@@ -1075,7 +1075,10 @@
       "otherBank": "Otro banco",
       "other": "Otra",
       "oneOwner": "Un propietario (single-member)",
-      "multipleOwners": "Varios propietarios (multi-member)"
+      "multipleOwners": "Varios propietarios (multi-member)",
+      "singleOwnerLabel": "Único propietario (100%)",
+      "needMultipleOwners": "¿Necesitas varios socios? Contáctanos para LLCs con dos o más propietarios.",
+      "consultWhatsApp": "Consultar por WhatsApp"
     },
     "validation": {
       "required": "Este campo es obligatorio",

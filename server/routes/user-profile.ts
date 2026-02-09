@@ -1,6 +1,6 @@
 import type { Express } from "express";
 import { z } from "zod";
-import { and, eq, gt, desc, sql } from "drizzle-orm";
+import { and, eq, gt, desc, sql, inArray } from "drizzle-orm";
 import { db, storage, isAuthenticated, isAdmin, logAudit, getClientIp, logActivity } from "./shared";
 import { contactOtps, users as usersTable, userNotifications, orders as ordersTable, llcApplications as llcApplicationsTable, applicationDocuments as applicationDocumentsTable } from "@shared/schema";
 import { sendEmail, getOtpEmailTemplate, getWelcomeEmailTemplate, getPasswordChangeOtpTemplate, getProfileChangeOtpTemplate, getAdminProfileChangesTemplate } from "../lib/email";
@@ -122,20 +122,23 @@ export function registerUserProfileRoutes(app: Express) {
         index === self.findIndex(d => d.id === doc.id)
       );
       
-      const docsWithUploader = await Promise.all(uniqueDocs.map(async (doc) => {
-        let uploader = null;
-        if (doc.uploadedBy) {
-          const [uploaderUser] = await db.select({
-            id: usersTable.id,
-            firstName: usersTable.firstName,
-            lastName: usersTable.lastName,
-            isAdmin: usersTable.isAdmin
-          }).from(usersTable).where(eq(usersTable.id, doc.uploadedBy)).limit(1);
-          uploader = uploaderUser || null;
-        }
+      const uploaderIds = Array.from(new Set(uniqueDocs.map(d => d.uploadedBy).filter(Boolean))) as string[];
+      const uploaderMap = new Map<string, { id: string; firstName: string | null; lastName: string | null; isAdmin: boolean | null }>();
+      if (uploaderIds.length > 0) {
+        const uploaders = await db.select({
+          id: usersTable.id,
+          firstName: usersTable.firstName,
+          lastName: usersTable.lastName,
+          isAdmin: usersTable.isAdmin
+        }).from(usersTable).where(inArray(usersTable.id, uploaderIds));
+        uploaders.forEach(u => uploaderMap.set(u.id, u));
+      }
+      
+      const docsWithUploader = uniqueDocs.map((doc) => {
+        const uploader = doc.uploadedBy ? uploaderMap.get(doc.uploadedBy) || null : null;
         const { encryptionIv, fileHash, ...safeFields } = doc;
         return { ...safeFields, fileUrl: doc.fileUrl ? `/api/user/documents/${doc.id}/download` : null, uploader };
-      }));
+      });
       
       res.json(docsWithUploader);
     } catch (error) {

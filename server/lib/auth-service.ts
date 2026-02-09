@@ -178,14 +178,16 @@ export async function loginUser(email: string, password: string): Promise<typeof
 
   // Check if account is locked
   if (user.lockUntil && user.lockUntil > new Date()) {
-    const error = new Error("CUENTA BLOQUEADA TEMPORALMENTE. Por su seguridad su cuenta ha sido temporalmente desactivada, porfavor contacte con nuestro equipo o revise su email para desbloquear su cuenta.");
+    const error = new Error("ACCOUNT_LOCKED_TEMPORARILY");
     (error as any).locked = true;
+    (error as any).code = "ACCOUNT_LOCKED";
     throw error;
   }
 
   if (user.isActive === false || user.accountStatus === 'deactivated') {
-    const error = new Error("Tu cuenta ha sido desactivada. Contacta con nuestro equipo de soporte para más información.");
+    const error = new Error("ACCOUNT_DEACTIVATED");
     (error as any).locked = true;
+    (error as any).code = "ACCOUNT_DEACTIVATED";
     (error as any).status = 403;
     logActivity("Intento de Login en Cuenta Desactivada", { userId: user.id, email: user.email });
     throw error;

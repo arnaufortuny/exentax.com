@@ -8,7 +8,7 @@ Easy US LLC is a full-stack SaaS platform that simplifies US LLC formation for i
 - `easyusllc.com` — Main platform (home, services, dashboard, forms, auth, legal, FAQ)
 - `creamostullc.com` — Isolated landing pages and marketing funnels
 
-**Current State:** Production-ready with 28 database tables, 7-language i18n (2,500+ keys per language), comprehensive admin panel, secure document handling, and automated compliance calendar.
+**Current State:** Production-ready with 28 database tables, 7-language i18n (2,515 keys per language), comprehensive admin panel, secure document handling, and automated compliance calendar.
 
 ---
 
@@ -251,8 +251,14 @@ Easy US LLC is a full-stack SaaS platform that simplifies US LLC formation for i
 
 ## Recent Changes (February 2026)
 
-- **Security:** Implemented secure document download endpoint with ownership verification; sanitized all API responses to remove internal file paths
+- **Security:** Implemented secure document download endpoint with ownership verification; sanitized all API responses to remove internal file paths; converted hardcoded auth error messages to error codes for i18n compatibility; added `account_review` to AuditAction type for OTP security tracking
 - **Mobile UX:** Optimized nav button behavior (context-aware: "Cerrar Sesión" on dashboard, "Mi Área" elsewhere); fixed mobile overlay z-index and scroll; reduced mobile field sizes
-- **Translations:** Added 12 missing translation keys across all 7 languages for complete coverage
+- **Translations:** 2,515 keys synchronized across all 7 languages; fixed hardcoded Spanish in LLC ownership section; added singleOwnerLabel, needMultipleOwners, consultWhatsApp keys
 - **OAuth:** Improved host fallback to use environment-based URLs instead of hardcoded localhost
-- **Dashboard:** Adjusted mobile padding for better edge spacing
+- **Dashboard:** Adjusted mobile padding for better edge spacing; removed jarring tab animation; added Trustpilot button spacing
+- **Email i18n:** All email subjects now translate across 7 languages (admin password reset, newsletter subscription, document notifications, payment requests, security alerts)
+- **OTP Security:** Profile change OTP allows 5 retry attempts with clear error messages; automatic account review after max failed attempts
+- **Documentation Center:** Redesigned with status badges (pending/approved/rejected), document type labels, upload dates; prevented deletion of approved documents (frontend + backend); "Upload again" option for rejected documents
+- **Support System:** Replaced WhatsApp-only contact with inline inquiry form in Messages tab (title, reason selector, message body, ticket ID generation); message list now shows status badges and ticket IDs
+- **Performance:** Optimized document N+1 query to batch-fetch uploaders with single query instead of per-document lookups
+- **Code Cleanup:** Removed unused `path` import from server/index.ts; TypeScript compiles with zero errors

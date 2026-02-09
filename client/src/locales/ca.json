@@ -1075,7 +1075,10 @@
       "otherBank": "Altre banc",
       "other": "Altra",
       "oneOwner": "Un propietario (single-member)",
-      "multipleOwners": "Varios propietarios (multi-member)"
+      "multipleOwners": "Varios propietarios (multi-member)",
+      "singleOwnerLabel": "Propietari únic (100%)",
+      "needMultipleOwners": "Necessites diversos socis? Contacta'ns per a LLCs amb dos o més propietaris.",
+      "consultWhatsApp": "Consultar per WhatsApp"
     },
     "validation": {
       "required": "Aquest camp és obligatori",
