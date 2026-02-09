@@ -5,6 +5,7 @@ import { db, storage, isAuthenticated, isAdmin, logAudit } from "./shared";
 import { api } from "@shared/routes";
 import { insertLlcApplicationSchema, insertApplicationDocumentSchema, contactOtps, users as usersTable, orders as ordersTable, llcApplications as llcApplicationsTable, applicationDocuments as applicationDocumentsTable, discountCodes, userNotifications, messages as messagesTable } from "@shared/schema";
 import { sendEmail, getWelcomeEmailTemplate, getConfirmationEmailTemplate, getAdminLLCOrderTemplate } from "../lib/email";
+import { EmailLanguage, getWelcomeEmailSubject } from "../lib/email-translations";
 
 export function registerLlcRoutes(app: Express) {
   // Claim order endpoint - creates account and associates with existing order
@@ -105,11 +106,11 @@ export function registerLlcRoutes(app: Express) {
       // Set session for the new user
       req.session.userId = newUser.id;
       
-      // Send welcome email
+      const llcLang = (req.body.preferredLanguage || 'es') as EmailLanguage;
       sendEmail({
         to: email,
-        subject: "Bienvenido a Easy US LLC - Acceso a tu panel",
-        html: getWelcomeEmailTemplate(nameParts[0] || 'Cliente')
+        subject: getWelcomeEmailSubject(llcLang),
+        html: getWelcomeEmailTemplate(nameParts[0] || undefined, llcLang)
       }).catch(console.error);
       
       res.json({ success: true, userId: newUser.id });

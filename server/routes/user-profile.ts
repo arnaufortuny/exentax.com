@@ -4,7 +4,7 @@ import { and, eq, gt, desc, sql } from "drizzle-orm";
 import { db, storage, isAuthenticated, isAdmin, logAudit, getClientIp, logActivity } from "./shared";
 import { contactOtps, users as usersTable, userNotifications, orders as ordersTable, llcApplications as llcApplicationsTable, applicationDocuments as applicationDocumentsTable } from "@shared/schema";
 import { sendEmail, getOtpEmailTemplate, getWelcomeEmailTemplate, getPasswordChangeOtpTemplate, getProfileChangeOtpTemplate, getAdminProfileChangesTemplate } from "../lib/email";
-import { getEmailTranslations } from "../lib/email-translations";
+import { getEmailTranslations, EmailLanguage, getOtpSubject } from "../lib/email-translations";
 import { checkRateLimit } from "../lib/security";
 import { getUpcomingDeadlinesForUser } from "../calendar-service";
 
@@ -842,10 +842,11 @@ export function registerUserProfileRoutes(app: Express) {
       req.session.isSupport = user.isSupport;
       
       // Send welcome email
+      const activeLang = ((user as any).preferredLanguage || 'es') as EmailLanguage;
       sendEmail({
         to: userEmail,
-        subject: "Cuenta activada - Easy US LLC",
-        html: getWelcomeEmailTemplate(user.firstName || "Cliente")
+        subject: activeLang === 'en' ? "Account activated - Easy US LLC" : activeLang === 'ca' ? "Compte activat - Easy US LLC" : activeLang === 'fr' ? "Compte activé - Easy US LLC" : activeLang === 'de' ? "Konto aktiviert - Easy US LLC" : activeLang === 'it' ? "Account attivato - Easy US LLC" : activeLang === 'pt' ? "Conta ativada - Easy US LLC" : "Cuenta activada - Easy US LLC",
+        html: getWelcomeEmailTemplate(user.firstName || undefined, activeLang)
       }).catch(console.error);
       
       res.json({ success: true, message: "Email verified successfully. Your account is active." });
@@ -887,10 +888,11 @@ export function registerUserProfileRoutes(app: Express) {
         verified: false
       });
       
+      const vpLang = ((user as any).preferredLanguage || 'es') as EmailLanguage;
       sendEmail({
         to: userEmail,
-        subject: "Código de verificación - Easy US LLC",
-        html: getOtpEmailTemplate(otp, user.firstName || "Cliente")
+        subject: getOtpSubject(vpLang),
+        html: getOtpEmailTemplate(otp, user.firstName || undefined, vpLang)
       }).catch(console.error);
       
       res.json({ success: true, message: "OTP code sent to your email" });
@@ -1018,10 +1020,11 @@ export function registerUserProfileRoutes(app: Express) {
         verified: false
       });
       
+      const pwLang = ((user as any).preferredLanguage || 'es') as EmailLanguage;
       await sendEmail({
         to: user.email,
-        subject: "Código de verificación - Cambio de contraseña",
-        html: getPasswordChangeOtpTemplate(user.firstName || 'Cliente', otp, (user.preferredLanguage as any) || 'es')
+        subject: getOtpSubject(pwLang),
+        html: getPasswordChangeOtpTemplate(user.firstName || '', otp, pwLang)
       });
       
       res.json({ success: true });

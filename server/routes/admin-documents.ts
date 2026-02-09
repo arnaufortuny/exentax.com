@@ -4,6 +4,7 @@ import { and, eq, desc } from "drizzle-orm";
 import { db, storage, isAdmin, isAdminOrSupport } from "./shared";
 import { orders as ordersTable, users as usersTable, maintenanceApplications, orderEvents, userNotifications, llcApplications as llcApplicationsTable, applicationDocuments as applicationDocumentsTable, messages as messagesTable } from "@shared/schema";
 import { sendEmail, getDocumentUploadedTemplate, getAdminNoteTemplate, getPaymentRequestTemplate, getDocumentRequestTemplate, getOrderEventTemplate, getDocumentApprovedTemplate, getDocumentRejectedTemplate } from "../lib/email";
+import { EmailLanguage } from "../lib/email-translations";
 import { updateApplicationDeadlines } from "../calendar-service";
 
 const MAX_FILE_SIZE_MB = 5;
@@ -166,10 +167,12 @@ export function registerAdminDocumentsRoutes(app: Express) {
           // Send email notification
           const [user] = await db.select().from(usersTable).where(eq(usersTable.id, finalUserId)).limit(1);
           if (user?.email) {
+            const docLang = ((user as any).preferredLanguage || 'es') as EmailLanguage;
+            const docSubjects: Record<string, string> = { en: 'New document available', ca: 'Nou document disponible', fr: 'Nouveau document disponible', de: 'Neues Dokument verfügbar', it: 'Nuovo documento disponibile', pt: 'Novo documento disponível' };
             sendEmail({
               to: user.email,
-              subject: `Nuevo documento disponible${orderCode ? ` - ${orderCode}` : ''}`,
-              html: getDocumentUploadedTemplate(user.firstName || 'Cliente', docLabel, orderCode || 'tu cuenta', (user.preferredLanguage as any) || 'es')
+              subject: `${docSubjects[docLang] || 'Nuevo documento disponible'}${orderCode ? ` - ${orderCode}` : ''}`,
+              html: getDocumentUploadedTemplate(user.firstName || '', docLabel, orderCode || '', docLang)
             }).catch(() => {});
           }
         }
@@ -253,12 +256,13 @@ export function registerAdminDocumentsRoutes(app: Express) {
             isRead: false
           });
           
-          const userLang = (docWithOrder.user as any).preferredLanguage || 'es';
+          const userLang = ((docWithOrder.user as any).preferredLanguage || 'es') as EmailLanguage;
+          const approvedSubjects: Record<string, string> = { en: 'Document approved', ca: 'Document aprovat', fr: 'Document approuvé', de: 'Dokument genehmigt', it: 'Documento approvato', pt: 'Documento aprovado' };
           sendEmail({
             to: docWithOrder.user.email!,
-            subject: `Documento aprobado - ${docLabel}`,
+            subject: `${approvedSubjects[userLang] || 'Documento aprobado'} - ${docLabel}`,
             html: getDocumentApprovedTemplate(
-              docWithOrder.user.firstName || 'Cliente',
+              docWithOrder.user.firstName || '',
               docLabel,
               userLang
             )
@@ -276,12 +280,13 @@ export function registerAdminDocumentsRoutes(app: Express) {
             isRead: false
           });
           
-          const rejLang = (docWithOrder.user as any).preferredLanguage || 'es';
+          const rejLang = ((docWithOrder.user as any).preferredLanguage || 'es') as EmailLanguage;
+          const rejSubjects: Record<string, string> = { en: 'Action required - Document rejected', ca: 'Acció requerida - Document rebutjat', fr: 'Action requise - Document rejeté', de: 'Handlung erforderlich - Dokument abgelehnt', it: 'Azione richiesta - Documento rifiutato', pt: 'Ação necessária - Documento rejeitado' };
           sendEmail({
             to: docWithOrder.user.email!,
-            subject: `Acción requerida - Documento rechazado`,
+            subject: rejSubjects[rejLang] || 'Acción requerida - Documento rechazado',
             html: getDocumentRejectedTemplate(
-              docWithOrder.user.firstName || 'Cliente',
+              docWithOrder.user.firstName || '',
               docLabel,
               reason,
               rejLang
@@ -394,10 +399,11 @@ export function registerAdminDocumentsRoutes(app: Express) {
       const [user] = await db.select().from(usersTable).where(eq(usersTable.id, userId)).limit(1);
       if (!user || !user.email) return res.status(404).json({ message: "User or email not found" });
 
+      const payLang = ((user as any).preferredLanguage || 'es') as EmailLanguage;
       await sendEmail({
         to: user.email,
-        subject: "Pago pendiente - Easy US LLC",
-        html: getPaymentRequestTemplate(user.firstName || 'Cliente', amount || '', paymentLink, message, (user.preferredLanguage as any) || 'es')
+        subject: payLang === 'en' ? "Payment pending - Easy US LLC" : payLang === 'ca' ? "Pagament pendent - Easy US LLC" : payLang === 'fr' ? "Paiement en attente - Easy US LLC" : payLang === 'de' ? "Zahlung ausstehend - Easy US LLC" : payLang === 'it' ? "Pagamento in sospeso - Easy US LLC" : payLang === 'pt' ? "Pagamento pendente - Easy US LLC" : "Pago pendiente - Easy US LLC",
+        html: getPaymentRequestTemplate(user.firstName || '', amount || '', paymentLink, message, payLang)
       });
 
       // Create internal notification
@@ -437,10 +443,13 @@ export function registerAdminDocumentsRoutes(app: Express) {
       };
       const docTypeLabel = docTypeLabels[documentType] || documentType;
       
+      const [reqUser] = userId ? await db.select().from(usersTable).where(eq(usersTable.id, userId)).limit(1) : [null];
+      const reqLang = ((reqUser as any)?.preferredLanguage || 'es') as EmailLanguage;
+      const reqSubjects: Record<string, string> = { en: 'Action Required: Documentation Request', ca: 'Acció Requerida: Sol·licitud de Documentació', fr: 'Action Requise : Demande de Documentation', de: 'Handlung Erforderlich: Dokumentationsanfrage', it: 'Azione Richiesta: Richiesta di Documentazione', pt: 'Ação Necessária: Solicitação de Documentação' };
       await sendEmail({
         to: email,
-        subject: `Acción Requerida: Solicitud de Documentación`,
-        html: getDocumentRequestTemplate('Cliente', docTypeLabel, message, msgId)
+        subject: reqSubjects[reqLang] || 'Acción Requerida: Solicitud de Documentación',
+        html: getDocumentRequestTemplate(reqUser?.firstName || '', docTypeLabel, message, msgId, reqLang)
       });
 
       if (userId) {
@@ -501,10 +510,11 @@ export function registerAdminDocumentsRoutes(app: Express) {
       if (order) {
         const [user] = await db.select().from(usersTable).where(eq(usersTable.id, order.userId)).limit(1);
         if (user?.email) {
+          const evtLang = ((user as any).preferredLanguage || 'es') as EmailLanguage;
           sendEmail({
             to: user.email,
-            subject: "Actualización de tu pedido",
-            html: getOrderEventTemplate(user.firstName || 'Cliente', String(orderId), eventType, description, (user.preferredLanguage as any) || 'es')
+            subject: evtLang === 'en' ? "Update on your order" : evtLang === 'ca' ? "Actualització del teu pedido" : evtLang === 'fr' ? "Mise à jour de votre commande" : evtLang === 'de' ? "Aktualisierung Ihrer Bestellung" : evtLang === 'it' ? "Aggiornamento del tuo ordine" : evtLang === 'pt' ? "Atualização do seu pedido" : "Actualización de tu pedido",
+            html: getOrderEventTemplate(user.firstName || '', String(orderId), eventType, description, evtLang)
           }).catch(() => {});
         }
       }

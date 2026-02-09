@@ -2600,3 +2600,72 @@ export function getWelcomeEmailSubject(lang: EmailLanguage = 'es'): string {
   };
   return subjects[lang] || subjects.es;
 }
+
+export function getRegistrationOtpSubject(lang: EmailLanguage = 'es'): string {
+  const subjects: Record<EmailLanguage, string> = {
+    es: "Bienvenido a Easy US LLC - Verifica tu cuenta",
+    en: "Welcome to Easy US LLC - Verify your account",
+    ca: "Benvingut a Easy US LLC - Verifica el teu compte",
+    fr: "Bienvenue chez Easy US LLC - Vérifiez votre compte",
+    de: "Willkommen bei Easy US LLC - Verifizieren Sie Ihr Konto",
+    it: "Benvenuto in Easy US LLC - Verifica il tuo account",
+    pt: "Bem-vindo à Easy US LLC - Verifique a sua conta"
+  };
+  return subjects[lang] || subjects.es;
+}
+
+export function getOtpSubject(lang: EmailLanguage = 'es'): string {
+  const subjects: Record<EmailLanguage, string> = {
+    es: "Tu código de verificación | Easy US LLC",
+    en: "Your verification code | Easy US LLC",
+    ca: "El teu codi de verificació | Easy US LLC",
+    fr: "Votre code de vérification | Easy US LLC",
+    de: "Ihr Verifizierungscode | Easy US LLC",
+    it: "Il tuo codice di verifica | Easy US LLC",
+    pt: "O seu código de verificação | Easy US LLC"
+  };
+  return subjects[lang] || subjects.es;
+}
+
+export function getSecurityOtpSubject(lang: EmailLanguage = 'es'): string {
+  const subjects: Record<EmailLanguage, string> = {
+    es: "Verificación de seguridad - Easy US LLC",
+    en: "Security verification - Easy US LLC",
+    ca: "Verificació de seguretat - Easy US LLC",
+    fr: "Vérification de sécurité - Easy US LLC",
+    de: "Sicherheitsverifizierung - Easy US LLC",
+    it: "Verifica di sicurezza - Easy US LLC",
+    pt: "Verificação de segurança - Easy US LLC"
+  };
+  return subjects[lang] || subjects.es;
+}
+
+export function getPasswordResetSubject(lang: EmailLanguage = 'es'): string {
+  const subjects: Record<EmailLanguage, string> = {
+    es: "Código de verificación - Easy US LLC",
+    en: "Verification code - Easy US LLC",
+    ca: "Codi de verificació - Easy US LLC",
+    fr: "Code de vérification - Easy US LLC",
+    de: "Verifizierungscode - Easy US LLC",
+    it: "Codice di verifica - Easy US LLC",
+    pt: "Código de verificação - Easy US LLC"
+  };
+  return subjects[lang] || subjects.es;
+}
+
+export function getVerifyEmailSubject(lang: EmailLanguage = 'es'): string {
+  const subjects: Record<EmailLanguage, string> = {
+    es: "Verifica tu email - Easy US LLC",
+    en: "Verify your email - Easy US LLC",
+    ca: "Verifica el teu email - Easy US LLC",
+    fr: "Vérifiez votre email - Easy US LLC",
+    de: "Verifizieren Sie Ihre E-Mail - Easy US LLC",
+    it: "Verifica la tua email - Easy US LLC",
+    pt: "Verifique o seu email - Easy US LLC"
+  };
+  return subjects[lang] || subjects.es;
+}
+
+export function getAdminNewRegistrationSubject(lang: EmailLanguage = 'es'): string {
+  return `[NUEVA CUENTA]`;
+}

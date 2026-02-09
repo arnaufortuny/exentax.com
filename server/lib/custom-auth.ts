@@ -8,7 +8,7 @@ import { userNotifications, messages as messagesTable } from "@shared/schema";
 import { eq, sql, and, inArray, desc, gt } from "drizzle-orm";
 import { sendEmail, getWelcomeEmailTemplate } from "./email";
 import { generateUniqueClientId } from "./id-generator";
-import { EmailLanguage, getWelcomeNotificationTitle, getWelcomeNotificationMessage, getWelcomeEmailSubject, getDefaultClientName } from "./email-translations";
+import { EmailLanguage, getWelcomeNotificationTitle, getWelcomeNotificationMessage, getWelcomeEmailSubject, getDefaultClientName, getSecurityOtpSubject } from "./email-translations";
 import { checkRateLimit, logAudit, getClientIp } from "./security";
 import {
   createUser,
@@ -227,10 +227,11 @@ export function setupCustomAuth(app: Express) {
             expiresAt,
           });
           
+          const secLang = (user.preferredLanguage || 'es') as EmailLanguage;
           await sendEmail({
             to: user.email!,
-            subject: "Verificación de seguridad - Easy US LLC",
-            html: getOtpEmailTemplate(otp, user.firstName || "Cliente"),
+            subject: getSecurityOtpSubject(secLang),
+            html: getOtpEmailTemplate(otp, user.firstName || undefined, secLang),
           });
           
           return res.status(200).json({ 

@@ -4,6 +4,7 @@ import { db } from "../db";
 import { users, passwordResetTokens, emailVerificationTokens, messages as messagesTable } from "@shared/schema";
 import { eq, and, gt, sql } from "drizzle-orm";
 import { sendEmail, getRegistrationOtpTemplate, getAdminNewRegistrationTemplate, getAccountLockedTemplate, getOtpEmailTemplate } from "./email";
+import { EmailLanguage, getRegistrationOtpSubject, getOtpSubject, getPasswordResetSubject } from "./email-translations";
 import { validatePassword } from "./security";
 import { generateUniqueClientId, generateUniqueMessageId } from "./id-generator";
 export { generateUniqueClientId };
@@ -92,11 +93,12 @@ export async function createUser(data: {
     expiresAt,
   });
 
+  const userLang = (data.preferredLanguage || 'es') as EmailLanguage;
   try {
     await sendEmail({
       to: data.email,
-      subject: "Bienvenido a Easy US LLC - Verifica tu cuenta",
-      html: getRegistrationOtpTemplate(data.firstName, verificationToken, data.clientId, OTP_EXPIRY_MINUTES)
+      subject: getRegistrationOtpSubject(userLang),
+      html: getRegistrationOtpTemplate(data.firstName, verificationToken, data.clientId, OTP_EXPIRY_MINUTES, userLang)
     });
 
     // Email notification to admin about new registration
@@ -209,10 +211,12 @@ export async function loginUser(email: string, password: string): Promise<typeof
 
       // Send deactivation email
       try {
+        const secLang = ((user as any).preferredLanguage || 'es') as EmailLanguage;
+        const secSubjects: Record<string, string> = { en: 'Security Easy US LLC - Account Deactivated', ca: 'Seguretat Easy US LLC - Compte Desactivat', fr: 'Sécurité Easy US LLC - Compte Désactivé', de: 'Sicherheit Easy US LLC - Konto Deaktiviert', it: 'Sicurezza Easy US LLC - Account Disattivato', pt: 'Segurança Easy US LLC - Conta Desativada' };
         await sendEmail({
           to: user.email!,
-          subject: "Seguridad Easy US LLC - Cuenta Desactivada",
-          html: getAccountLockedTemplate(user.firstName || 'Cliente', msgId)
+          subject: secSubjects[secLang] || "Seguridad Easy US LLC - Cuenta Desactivada",
+          html: getAccountLockedTemplate(user.firstName || '', msgId)
         });
 
         // Add to messages for admin visibility
@@ -267,12 +271,13 @@ export async function createPasswordResetOtp(email: string): Promise<{ success: 
     expiresAt,
   });
 
+  const lang = ((user as any).preferredLanguage || 'es') as EmailLanguage;
   try {
-    const { getEmailHeader, getEmailFooter, getOtpEmailTemplate } = await import("./email");
+    const { getOtpEmailTemplate } = await import("./email");
     await sendEmail({
       to: email,
-      subject: "Código de verificación - Easy US LLC",
-      html: getOtpEmailTemplate(otp),
+      subject: getPasswordResetSubject(lang),
+      html: getOtpEmailTemplate(otp, user.firstName || undefined, lang),
     });
   } catch (emailError) {
     // Email error silenced
@@ -364,11 +369,12 @@ export async function resendVerificationEmail(userId: string): Promise<boolean> 
     expiresAt,
   });
 
+  const lang = ((user as any).preferredLanguage || 'es') as EmailLanguage;
   try {
     await sendEmail({
       to: user.email,
-      subject: "Easy US LLC - Código de verificación",
-      html: getOtpEmailTemplate(verificationToken, user.firstName || 'Cliente')
+      subject: getOtpSubject(lang),
+      html: getOtpEmailTemplate(verificationToken, user.firstName || undefined, lang)
     });
   } catch (emailError) {
     // Email error silenced

@@ -5,6 +5,7 @@ import { eq, desc, inArray, and, sql } from "drizzle-orm";
 import { asyncHandler, db, isAdmin, isAdminOrSupport, logAudit, logActivity } from "./shared";
 import { users as usersTable, orders as ordersTable, llcApplications as llcApplicationsTable, maintenanceApplications, applicationDocuments as applicationDocumentsTable, orderEvents, userNotifications, messages as messagesTable, messageReplies, contactOtps } from "@shared/schema";
 import { sendEmail, getAccountDeactivatedTemplate, getAccountVipTemplate, getAccountReactivatedTemplate, getAdminPasswordResetTemplate, getAdminOtpRequestTemplate } from "../lib/email";
+import { EmailLanguage, getOtpSubject } from "../lib/email-translations";
 import { validatePassword } from "../lib/security";
 
 export function registerAdminUserRoutes(app: Express) {
@@ -73,42 +74,43 @@ export function registerAdminUserRoutes(app: Express) {
     if (data.accountStatus) {
       const [user] = await db.select().from(usersTable).where(eq(usersTable.id, userId)).limit(1);
       if (user && user.email) {
+        const uLang = ((user as any).preferredLanguage || 'es') as EmailLanguage;
         if (data.accountStatus === 'deactivated') {
           await sendEmail({
             to: user.email,
-            subject: "Notificación de estado de cuenta",
-            html: getAccountDeactivatedTemplate(user.firstName || "Cliente")
+            subject: uLang === 'en' ? "Account status notification" : uLang === 'ca' ? "Notificació d'estat del compte" : uLang === 'fr' ? "Notification de statut de compte" : uLang === 'de' ? "Kontostatus-Benachrichtigung" : uLang === 'it' ? "Notifica stato account" : uLang === 'pt' ? "Notificação de estado da conta" : "Notificación de estado de cuenta",
+            html: getAccountDeactivatedTemplate(user.firstName || undefined, uLang)
           }).catch(() => {});
           await db.insert(userNotifications).values({
             userId,
-            title: "Cuenta desactivada",
-            message: "Tu cuenta ha sido desactivada. Contacta con soporte si tienes dudas.",
+            title: uLang === 'en' ? "Account deactivated" : "Cuenta desactivada",
+            message: uLang === 'en' ? "Your account has been deactivated. Contact support if you have questions." : "Tu cuenta ha sido desactivada. Contacta con soporte si tienes dudas.",
             type: 'action_required',
             isRead: false
           });
         } else if (data.accountStatus === 'vip') {
           await sendEmail({
             to: user.email,
-            subject: "Tu cuenta ha sido actualizada a estado VIP",
-            html: getAccountVipTemplate(user.firstName || "Cliente")
+            subject: uLang === 'en' ? "Your account has been upgraded to VIP" : uLang === 'ca' ? "El teu compte ha estat actualitzat a VIP" : uLang === 'fr' ? "Votre compte a été mis à jour en VIP" : uLang === 'de' ? "Ihr Konto wurde auf VIP aktualisiert" : uLang === 'it' ? "Il tuo account è stato aggiornato a VIP" : uLang === 'pt' ? "A sua conta foi atualizada para VIP" : "Tu cuenta ha sido actualizada a estado VIP",
+            html: getAccountVipTemplate(user.firstName || undefined, uLang)
           }).catch(() => {});
           await db.insert(userNotifications).values({
             userId,
-            title: "Estado VIP activado",
-            message: "Tu cuenta ha sido actualizada al estado VIP con beneficios prioritarios.",
+            title: uLang === 'en' ? "VIP status activated" : "Estado VIP activado",
+            message: uLang === 'en' ? "Your account has been upgraded to VIP status with priority benefits." : "Tu cuenta ha sido actualizada al estado VIP con beneficios prioritarios.",
             type: 'update',
             isRead: false
           });
         } else if (data.accountStatus === 'active') {
           await sendEmail({
             to: user.email,
-            subject: "Tu cuenta ha sido reactivada",
-            html: getAccountReactivatedTemplate(user.firstName || "Cliente")
+            subject: uLang === 'en' ? "Your account has been reactivated" : uLang === 'ca' ? "El teu compte ha estat reactivat" : uLang === 'fr' ? "Votre compte a été réactivé" : uLang === 'de' ? "Ihr Konto wurde reaktiviert" : uLang === 'it' ? "Il tuo account è stato riattivato" : uLang === 'pt' ? "A sua conta foi reativada" : "Tu cuenta ha sido reactivada",
+            html: getAccountReactivatedTemplate(user.firstName || undefined, uLang)
           }).catch(() => {});
           await db.insert(userNotifications).values({
             userId,
-            title: "Cuenta reactivada",
-            message: "Tu cuenta ha sido reactivada y ya puedes acceder a todos los servicios.",
+            title: uLang === 'en' ? "Account reactivated" : "Cuenta reactivada",
+            message: uLang === 'en' ? "Your account has been reactivated and you can access all services." : "Tu cuenta ha sido reactivada y ya puedes acceder a todos los servicios.",
             type: 'update',
             isRead: false
           });
@@ -265,10 +267,11 @@ export function registerAdminUserRoutes(app: Express) {
     
     // Send email notification to user
     if (user.email) {
+      const rpLang = ((user as any).preferredLanguage || 'es') as EmailLanguage;
       await sendEmail({
         to: user.email,
-        subject: "Tu contraseña ha sido restablecida",
-        html: getAdminPasswordResetTemplate(user.firstName || 'Cliente')
+        subject: rpLang === 'en' ? "Your password has been reset" : rpLang === 'ca' ? "La teva contrasenya ha estat restablerta" : rpLang === 'fr' ? "Votre mot de passe a été réinitialisé" : rpLang === 'de' ? "Ihr Passwort wurde zurückgesetzt" : rpLang === 'it' ? "La tua password è stata reimpostata" : rpLang === 'pt' ? "A sua palavra-passe foi redefinida" : "Tu contraseña ha sido restablecida",
+        html: getAdminPasswordResetTemplate(user.firstName || '', rpLang)
       }).catch(() => {});
     }
     
@@ -438,10 +441,10 @@ export function registerAdminUserRoutes(app: Express) {
       verified: false
     });
     
-    const userLang = (user as any).preferredLanguage || 'es';
+    const userLang = ((user as any).preferredLanguage || 'es') as EmailLanguage;
     sendEmail({
       to: userEmail,
-      subject: "Verificación de Identidad Requerida - Easy US LLC",
+      subject: getOtpSubject(userLang),
       html: getAdminOtpRequestTemplate(
         user.firstName || 'Cliente',
         otp,

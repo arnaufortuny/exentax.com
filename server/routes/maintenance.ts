@@ -3,6 +3,7 @@ import { eq, and, gt, sql } from "drizzle-orm";
 import { db, storage, isAuthenticated, logAudit, getClientIp, logActivity, isIpBlockedFromOrders, trackOrderByIp, detectSuspiciousOrderActivity, flagAccountForReview } from "./shared";
 import { contactOtps, users as usersTable, orders as ordersTable, maintenanceApplications, discountCodes, userNotifications } from "@shared/schema";
 import { sendEmail, getWelcomeEmailTemplate, getConfirmationEmailTemplate, getAdminMaintenanceOrderTemplate, getAccountPendingVerificationTemplate } from "../lib/email";
+import { EmailLanguage, getVerifyEmailSubject, getWelcomeEmailSubject } from "../lib/email-translations";
 
 export function registerMaintenanceRoutes(app: Express) {
   // Claim maintenance order endpoint
@@ -96,11 +97,11 @@ export function registerMaintenanceRoutes(app: Express) {
       // Set session for the new user
       req.session.userId = newUser.id;
       
-      // Send welcome email
+      const claimLang = (req.body.preferredLanguage || 'es') as EmailLanguage;
       sendEmail({
         to: email,
-        subject: "Bienvenido a Easy US LLC - Acceso a tu panel",
-        html: getWelcomeEmailTemplate(nameParts[0] || 'Cliente')
+        subject: getWelcomeEmailSubject(claimLang),
+        html: getWelcomeEmailTemplate(nameParts[0] || undefined, claimLang)
       }).catch(console.error);
       
       res.json({ success: true, userId: newUser.id });
@@ -197,19 +198,18 @@ export function registerMaintenanceRoutes(app: Express) {
         isNewUser = true;
         req.session.userId = userId;
         
-        // Send welcome email with verification prompt if not verified
+        const mLang = (req.body.preferredLanguage || 'es') as EmailLanguage;
         if (isEmailVerified) {
           sendEmail({
             to: email,
-            subject: "Bienvenido a Easy US LLC - Acceso a tu panel",
-            html: getWelcomeEmailTemplate(nameParts[0] || 'Cliente')
+            subject: getWelcomeEmailSubject(mLang),
+            html: getWelcomeEmailTemplate(nameParts[0] || undefined, mLang)
           }).catch(console.error);
         } else {
-          // Send email asking to verify
           sendEmail({
             to: email,
-            subject: "Verifica tu email - Easy US LLC",
-            html: getAccountPendingVerificationTemplate(nameParts[0] || 'Cliente')
+            subject: getVerifyEmailSubject(mLang),
+            html: getAccountPendingVerificationTemplate(nameParts[0] || undefined, mLang)
           }).catch(console.error);
         }
       }

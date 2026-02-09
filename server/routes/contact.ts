@@ -5,6 +5,7 @@ import { contactOtps, users as usersTable, newsletterSubscribers, userNotificati
 import { and, eq, gt } from "drizzle-orm";
 import { checkRateLimit, sanitizeHtml } from "../lib/security";
 import { sendEmail, getOtpEmailTemplate, getNewsletterWelcomeTemplate, getAutoReplyTemplate } from "../lib/email";
+import { EmailLanguage, getOtpSubject } from "../lib/email-translations";
 
 export function registerContactRoutes(app: Express) {
   // Newsletter
@@ -61,10 +62,19 @@ export function registerContactRoutes(app: Express) {
         });
       }
       
+      const nlLang = ((user as any)?.preferredLanguage || req.headers['accept-language']?.split(',')[0]?.split('-')[0] || 'es') as EmailLanguage;
+      const nlSubjects: Record<string, string> = {
+        en: "Subscription confirmed - Easy US LLC",
+        ca: "Subscripció confirmada - Easy US LLC",
+        fr: "Abonnement confirmé - Easy US LLC",
+        de: "Abonnement bestätigt - Easy US LLC",
+        it: "Iscrizione confermata - Easy US LLC",
+        pt: "Subscrição confirmada - Easy US LLC",
+      };
       await sendEmail({
         to: targetEmail,
-        subject: "Confirmación de suscripción a Easy US LLC",
-        html: getNewsletterWelcomeTemplate(),
+        subject: nlSubjects[nlLang] || "Confirmación de suscripción a Easy US LLC",
+        html: getNewsletterWelcomeTemplate(nlLang),
       }).catch(() => {});
       
       res.json({ success: true });
@@ -98,10 +108,13 @@ export function registerContactRoutes(app: Express) {
         expiresAt,
       });
 
+      const cLang = (req.headers['accept-language']?.split(',')[0]?.split('-')[0] || 'es') as EmailLanguage;
+      const supportedContactLangs: string[] = ['es', 'en', 'ca', 'fr', 'de', 'it', 'pt'];
+      const contactLang = supportedContactLangs.includes(cLang) ? cLang : 'es' as EmailLanguage;
       await sendEmail({
         to: email,
-        subject: "Tu código de verificación | Easy US LLC",
-        html: getOtpEmailTemplate(otp, "Cliente"),
+        subject: getOtpSubject(contactLang),
+        html: getOtpEmailTemplate(otp, undefined, contactLang),
       });
 
       res.json({ success: true });

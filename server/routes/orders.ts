@@ -5,6 +5,7 @@ import { db, storage, isAuthenticated, logAudit, getClientIp, logActivity, isIpB
 import { api } from "@shared/routes";
 import { contactOtps, users as usersTable, orderEvents, userNotifications, orders as ordersTable, llcApplications as llcApplicationsTable, maintenanceApplications, discountCodes } from "@shared/schema";
 import { sendEmail, getWelcomeEmailTemplate } from "../lib/email";
+import { EmailLanguage, getWelcomeEmailSubject } from "../lib/email-translations";
 import { generateOrderInvoice } from "../lib/pdf-generator";
 
 export function registerOrderRoutes(app: Express) {
@@ -153,11 +154,11 @@ export function registerOrderRoutes(app: Express) {
         // Set session for the new user
         req.session.userId = userId;
         
-        // Send welcome email
+        const oLang = (req.body.preferredLanguage || 'es') as EmailLanguage;
         sendEmail({
           to: email,
-          subject: "Bienvenido a Easy US LLC - Acceso a tu panel",
-          html: getWelcomeEmailTemplate(nameParts[0] || 'Cliente')
+          subject: getWelcomeEmailSubject(oLang),
+          html: getWelcomeEmailTemplate(nameParts[0] || undefined, oLang)
         }).catch(console.error);
       }
 

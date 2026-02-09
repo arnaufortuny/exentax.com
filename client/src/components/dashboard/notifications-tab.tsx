@@ -1,4 +1,4 @@
-import { Upload, X, Bell, AlertCircle, CheckCircle, Info } from "@/components/icons";
+import { Upload, X, Bell } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -14,31 +14,6 @@ interface NotificationsTabProps {
   setActiveTab: (tab: Tab) => void;
 }
 
-function getNotificationIcon(type: string) {
-  switch (type) {
-    case 'action_required':
-      return <AlertCircle className="w-5 h-5 text-red-500" />;
-    case 'update':
-      return <CheckCircle className="w-5 h-5 text-accent" />;
-    case 'info':
-      return <Info className="w-5 h-5 text-accent" />;
-    default:
-      return <Bell className="w-5 h-5 text-muted-foreground" />;
-  }
-}
-
-function getNotificationIconBg(type: string) {
-  switch (type) {
-    case 'action_required':
-      return 'bg-red-50 dark:bg-red-900/20';
-    case 'update':
-      return 'bg-accent/10';
-    case 'info':
-      return 'bg-accent/10';
-    default:
-      return 'bg-muted';
-  }
-}
 
 export function NotificationsTab({ 
   notifications, 
@@ -92,9 +67,6 @@ export function NotificationsTab({
             >
               <CardContent className="p-3 sm:p-4 md:p-5">
                 <div className="flex items-start gap-2.5 sm:gap-3 md:gap-4">
-                  <div className={`w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 ${getNotificationIconBg(notif.type)}`}>
-                    {getNotificationIcon(notif.type)}
-                  </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center justify-between gap-2 mb-0.5 sm:mb-1">
                       <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap min-w-0">

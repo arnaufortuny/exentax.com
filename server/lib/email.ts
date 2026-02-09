@@ -843,23 +843,32 @@ export function getAdminMaintenanceOrderTemplate(orderData: {
 }
 
 // Password reset by admin notification
-export function getAdminPasswordResetTemplate(name: string = "Cliente") {
+export function getAdminPasswordResetTemplate(name?: string, lang: EmailLanguage = 'es') {
+  const t = {
+    es: { greeting: `Hola ${name || 'Cliente'},`, body: 'Tu contraseña ha sido restablecida por nuestro equipo de soporte.', cta: 'Ahora puedes iniciar sesión con tu nueva contraseña', btn: 'Iniciar Sesión', important: 'Importante:', warning: 'Si no solicitaste este cambio, por favor contacta con nuestro equipo de soporte inmediatamente.' },
+    en: { greeting: `Hello ${name || 'Client'},`, body: 'Your password has been reset by our support team.', cta: 'You can now log in with your new password', btn: 'Log In', important: 'Important:', warning: 'If you did not request this change, please contact our support team immediately.' },
+    ca: { greeting: `Hola ${name || 'Client'},`, body: 'La teva contrasenya ha estat restablerta pel nostre equip de suport.', cta: 'Ara pots iniciar sessió amb la teva nova contrasenya', btn: 'Iniciar Sessió', important: 'Important:', warning: 'Si no has sol·licitat aquest canvi, contacta amb el nostre equip de suport immediatament.' },
+    fr: { greeting: `Bonjour ${name || 'Client'},`, body: 'Votre mot de passe a été réinitialisé par notre équipe de support.', cta: 'Vous pouvez maintenant vous connecter avec votre nouveau mot de passe', btn: 'Se connecter', important: 'Important :', warning: 'Si vous n\'avez pas demandé ce changement, veuillez contacter notre équipe de support immédiatement.' },
+    de: { greeting: `Hallo ${name || 'Kunde'},`, body: 'Ihr Passwort wurde von unserem Support-Team zurückgesetzt.', cta: 'Sie können sich jetzt mit Ihrem neuen Passwort anmelden', btn: 'Anmelden', important: 'Wichtig:', warning: 'Wenn Sie diese Änderung nicht angefordert haben, kontaktieren Sie bitte sofort unser Support-Team.' },
+    it: { greeting: `Ciao ${name || 'Cliente'},`, body: 'La tua password è stata reimpostata dal nostro team di supporto.', cta: 'Ora puoi accedere con la tua nuova password', btn: 'Accedi', important: 'Importante:', warning: 'Se non hai richiesto questa modifica, contatta immediatamente il nostro team di supporto.' },
+    pt: { greeting: `Olá ${name || 'Cliente'},`, body: 'A sua palavra-passe foi redefinida pela nossa equipa de suporte.', cta: 'Agora pode iniciar sessão com a sua nova palavra-passe', btn: 'Iniciar Sessão', important: 'Importante:', warning: 'Se não solicitou esta alteração, contacte a nossa equipa de suporte imediatamente.' },
+  }[lang] || { greeting: `Hola ${name || 'Cliente'},`, body: 'Tu contraseña ha sido restablecida por nuestro equipo de soporte.', cta: 'Ahora puedes iniciar sesión con tu nueva contraseña', btn: 'Iniciar Sesión', important: 'Importante:', warning: 'Si no solicitaste este cambio, por favor contacta con nuestro equipo de soporte inmediatamente.' };
   const content = `
-    <p style="line-height: 1.7; font-size: 15px; color: #444; margin: 0 0 25px 0;">Hola ${name},</p>
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin: 0 0 25px 0;">${t.greeting}</p>
     
-    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">Tu contraseña ha sido restablecida por nuestro equipo de soporte.</p>
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">${t.body}</p>
     
     <div style="background: linear-gradient(135deg, #F0FDF4 0%, #ECFDF5 100%); padding: 25px; border-radius: 16px; margin: 25px 0; text-align: center; border: 2px solid #6EDC8A;">
-      <p style="margin: 0; font-size: 14px; color: #059669; font-weight: 700;">Ahora puedes iniciar sesión con tu nueva contraseña</p>
+      <p style="margin: 0; font-size: 14px; color: #059669; font-weight: 700;">${t.cta}</p>
     </div>
     
     <div style="text-align: center; margin: 30px 0;">
-      <a href="https://${domain}/auth/login" style="display: inline-block; background: #6EDC8A; color: #0A0A0A; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">Iniciar Sesión</a>
+      <a href="https://${domain}/auth/login" style="display: inline-block; background: #6EDC8A; color: #0A0A0A; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">${t.btn}</a>
     </div>
 
     <div style="background: #FEF3C7; padding: 20px 25px; border-radius: 16px; margin: 25px 0; border-left: 4px solid #F59E0B;">
-      <p style="margin: 0 0 8px 0; font-size: 13px; font-weight: 800; color: #92400E; text-transform: uppercase;">Importante:</p>
-      <p style="margin: 0; font-size: 14px; color: #78350F; line-height: 1.6;">Si no solicitaste este cambio, por favor contacta con nuestro equipo de soporte inmediatamente.</p>
+      <p style="margin: 0 0 8px 0; font-size: 13px; font-weight: 800; color: #92400E; text-transform: uppercase;">${t.important}</p>
+      <p style="margin: 0; font-size: 14px; color: #78350F; line-height: 1.6;">${t.warning}</p>
     </div>
   `;
   return getEmailWrapper(content);

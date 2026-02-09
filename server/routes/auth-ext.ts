@@ -5,6 +5,7 @@ import { contactOtps, users as usersTable } from "@shared/schema";
 import { and, eq, gt } from "drizzle-orm";
 import { checkRateLimit } from "../lib/security";
 import { sendEmail, getOtpEmailTemplate } from "../lib/email";
+import { EmailLanguage, getOtpSubject } from "../lib/email-translations";
 
 export function registerAuthExtRoutes(app: Express) {
   // Check if email already exists (for form flow to detect existing users)
@@ -62,10 +63,13 @@ export function registerAuthExtRoutes(app: Express) {
         expiresAt,
       });
 
+      const browserLang = (req.body.preferredLanguage || req.headers['accept-language']?.split(',')[0]?.split('-')[0] || 'es') as EmailLanguage;
+      const supportedLangs: string[] = ['es', 'en', 'ca', 'fr', 'de', 'it', 'pt'];
+      const lang = supportedLangs.includes(browserLang) ? browserLang : 'es' as EmailLanguage;
       await sendEmail({
         to: email,
-        subject: "Tu código de verificación | Easy US LLC",
-        html: getOtpEmailTemplate(otp, "Cliente"),
+        subject: getOtpSubject(lang),
+        html: getOtpEmailTemplate(otp, undefined, lang),
       });
 
       logAudit({ action: 'user_register', ip, details: { email, step: 'otp_sent' } });
@@ -139,10 +143,11 @@ export function registerAuthExtRoutes(app: Express) {
         expiresAt,
       });
 
+      const resetLang = ((existingUser as any)?.preferredLanguage || 'es') as EmailLanguage;
       await sendEmail({
         to: email,
-        subject: "Tu código de verificación | Easy US LLC",
-        html: getOtpEmailTemplate(otp, existingUser?.firstName || "Cliente"),
+        subject: getOtpSubject(resetLang),
+        html: getOtpEmailTemplate(otp, existingUser?.firstName || undefined, resetLang),
       });
 
       logAudit({ action: 'password_reset', ip, details: { email } });

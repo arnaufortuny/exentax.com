@@ -4568,13 +4568,13 @@ export default function Dashboard() {
               )}
             </div>
 
-          <div className="space-y-6 md:gap-8 order-2 lg:order-2">
+          <div className="space-y-6 order-2 lg:order-2 self-start">
             {/* Consolidated Action Required Card */}
             {!user?.isAdmin && (notifications?.some((n: any) => n.type === 'action_required') || 
               !!(user as any)?.pendingProfileChanges ||
               (orders?.some((o: any) => o.application?.fiscalYearEnd && new Date(o.application.fiscalYearEnd) <= new Date(Date.now() + 30 * 24 * 60 * 60 * 1000))) ||
               (orders?.some((o: any) => o.status === 'pending_payment' || o.status === 'payment_failed'))) && (
-              <section className="bg-orange-50 dark:bg-orange-900/20 p-5 rounded-[2rem] border-2 border-orange-200 dark:border-orange-800 mb-4" data-testid="section-action-required-global">
+              <section className="bg-orange-50 dark:bg-orange-900/20 p-5 rounded-[2rem] border-2 border-orange-200 dark:border-orange-800" data-testid="section-action-required-global">
                 <div className="flex items-center gap-3 mb-4">
                   <div className="w-10 h-10 rounded-full bg-orange-100 dark:bg-orange-900/40 flex items-center justify-center">
                     <AlertCircle className="w-5 h-5 text-orange-600 dark:text-orange-400" />
