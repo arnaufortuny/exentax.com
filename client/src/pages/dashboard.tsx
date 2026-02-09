@@ -3788,7 +3788,7 @@ export default function Dashboard() {
                                     <Textarea value={replyContent} 
                                       onChange={(e) => setReplyContent(e.target.value)} 
                                       placeholder={t('dashboard.admin.inboxSection.replyPlaceholder')} 
-                                      className="rounded-xl min-h-[80px] text-sm"
+                                      className="rounded-3xl min-h-[80px] text-sm"
                                       data-testid="input-admin-reply"
                                     />
                                     <Button onClick={() => sendReplyMutation.mutate(msg.id)} 
@@ -3994,13 +3994,13 @@ export default function Dashboard() {
                               <Input placeholder={t('dashboard.admin.newsletterSection.subjectPlaceholder')}
                                 value={broadcastSubject}
                                 onChange={(e) => setBroadcastSubject(e.target.value)}
-                                className="rounded-xl text-sm"
+                                className="rounded-full text-sm"
                                 data-testid="input-broadcast-subject"
                               />
                               <Textarea placeholder={t('dashboard.admin.newsletterSection.messagePlaceholder')}
                                 value={broadcastMessage}
                                 onChange={(e) => setBroadcastMessage(e.target.value)}
-                                className="rounded-xl min-h-[100px] text-sm"
+                                className="rounded-3xl min-h-[100px] text-sm"
                                 data-testid="input-broadcast-message"
                               />
                               <div className="flex items-center justify-between gap-2">
@@ -4085,7 +4085,7 @@ export default function Dashboard() {
                                   <Label className="text-[10px] md:text-xs font-bold text-muted-foreground mb-1 block truncate">{t('dashboard.admin.calendar.llcCreation')}</Label>
                                   <Input 
                                     type="date" 
-                                    className="h-8 md:h-10 text-xs md:text-sm px-2 md:px-3 rounded-xl"
+                                    className="h-8 md:h-10 text-xs md:text-sm px-2 md:px-3 rounded-full"
                                     defaultValue={app.llcCreatedDate ? new Date(app.llcCreatedDate).toISOString().split('T')[0] : ''}
                                     onChange={e => updateLlcDatesMutation.mutate({ appId: app.id, field: 'llcCreatedDate', value: e.target.value })}
                                     data-testid={`input-llc-created-${app.id}`}
@@ -4095,7 +4095,7 @@ export default function Dashboard() {
                                   <Label className="text-[10px] md:text-xs font-bold text-muted-foreground mb-1 block truncate">{t('dashboard.admin.calendar.agentRenewal')}</Label>
                                   <Input 
                                     type="date" 
-                                    className="h-8 md:h-10 text-xs md:text-sm px-2 md:px-3 rounded-xl"
+                                    className="h-8 md:h-10 text-xs md:text-sm px-2 md:px-3 rounded-full"
                                     defaultValue={app.agentRenewalDate ? new Date(app.agentRenewalDate).toISOString().split('T')[0] : ''}
                                     onChange={e => updateLlcDatesMutation.mutate({ appId: app.id, field: 'agentRenewalDate', value: e.target.value })}
                                     data-testid={`input-agent-renewal-${app.id}`}
@@ -4105,7 +4105,7 @@ export default function Dashboard() {
                                   <Label className="text-[10px] md:text-xs font-bold text-muted-foreground mb-1 block truncate">IRS 1120</Label>
                                   <Input 
                                     type="date" 
-                                    className="h-8 md:h-10 text-xs md:text-sm px-2 md:px-3 rounded-xl"
+                                    className="h-8 md:h-10 text-xs md:text-sm px-2 md:px-3 rounded-full"
                                     defaultValue={app.irs1120DueDate ? new Date(app.irs1120DueDate).toISOString().split('T')[0] : ''}
                                     onChange={e => updateLlcDatesMutation.mutate({ appId: app.id, field: 'irs1120DueDate', value: e.target.value })}
                                     data-testid={`input-irs1120-${app.id}`}
@@ -4115,7 +4115,7 @@ export default function Dashboard() {
                                   <Label className="text-[10px] md:text-xs font-bold text-muted-foreground mb-1 block truncate">IRS 5472</Label>
                                   <Input 
                                     type="date" 
-                                    className="h-8 md:h-10 text-xs md:text-sm px-2 md:px-3 rounded-xl"
+                                    className="h-8 md:h-10 text-xs md:text-sm px-2 md:px-3 rounded-full"
                                     defaultValue={app.irs5472DueDate ? new Date(app.irs5472DueDate).toISOString().split('T')[0] : ''}
                                     onChange={e => updateLlcDatesMutation.mutate({ appId: app.id, field: 'irs5472DueDate', value: e.target.value })}
                                     data-testid={`input-irs5472-${app.id}`}
