@@ -4,9 +4,8 @@ import { useTranslation } from "react-i18next";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Input } from "@/components/ui/input";
 import { NativeSelect, NativeSelectItem } from "@/components/ui/native-select";
-import { ClipboardList, Search, ChevronRight, ChevronLeft, Loader2, Globe, Shield, UserCheck, Package, Mail, Key, Eye, FileText, Calculator, AlertCircle } from "@/components/icons";
+import { ClipboardList, ChevronRight, ChevronLeft, Loader2, Globe, Shield, UserCheck, Package, Mail, Key, Eye, FileText, Calculator, AlertCircle } from "@/components/icons";
 import { getLocale } from "@/lib/utils";
 
 type AuditLog = {
@@ -49,8 +48,7 @@ export function ActivityLogPanel() {
   const { t } = useTranslation();
   const [page, setPage] = useState(0);
   const [actionFilter, setActionFilter] = useState("");
-  const [searchQuery, setSearchQuery] = useState("");
-  const [searchInput, setSearchInput] = useState("");
+  const [searchQuery] = useState("");
   const limit = 50;
 
   const { data, isLoading, isFetching } = useQuery<{
@@ -95,10 +93,6 @@ export function ActivityLogPanel() {
     return parts.length > 0 ? parts.join(" · ") : JSON.stringify(details).substring(0, 100);
   };
 
-  const handleSearch = () => {
-    setSearchQuery(searchInput);
-    setPage(0);
-  };
 
   return (
     <div className="space-y-4" data-testid="admin-activity-log">
@@ -113,25 +107,6 @@ export function ActivityLogPanel() {
       </div>
 
       <div className="flex flex-col sm:flex-row gap-2">
-        <div className="flex-1 flex gap-2">
-          <Input
-            value={searchInput}
-            onChange={(e) => setSearchInput(e.target.value)}
-            placeholder={t('dashboard.admin.activityLog.searchPlaceholder', 'Search IP, user, details...')}
-            className="text-xs rounded-full"
-            onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
-            data-testid="input-activity-search"
-          />
-          <Button
-            variant="outline"
-            size="icon"
-            className="rounded-full shrink-0"
-            onClick={handleSearch}
-            data-testid="button-activity-search"
-          >
-            <Search className="w-4 h-4" />
-          </Button>
-        </div>
         <NativeSelect
           value={actionFilter}
           onValueChange={(val) => { setActionFilter(val); setPage(0); }}

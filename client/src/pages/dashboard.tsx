@@ -2202,7 +2202,7 @@ export default function Dashboard() {
                         <NativeSelect
                           value={adminSearchFilter}
                           onValueChange={(val) => setAdminSearchFilter(val as typeof adminSearchFilter)}
-                          className="rounded-xl h-11 text-sm border-border bg-white dark:bg-[#1A1A1A]"
+                          className="rounded-full h-11 text-sm border-border bg-white dark:bg-[#1A1A1A]"
                           data-testid="select-admin-search-filter"
                         >
                           <option value="all">{t('dashboard.admin.searchFilters.all')}</option>
@@ -2218,7 +2218,7 @@ export default function Dashboard() {
                           placeholder={t('dashboard.admin.searchPlaceholder')}
                           value={adminSearchQuery}
                           onChange={(e) => setAdminSearchQuery(e.target.value)}
-                          className="pl-10 h-11 rounded-xl text-sm bg-white dark:bg-[#1A1A1A] border-border w-full"
+                          className="pl-10 h-11 rounded-full text-sm bg-white dark:bg-[#1A1A1A] border-border w-full"
                           data-testid="input-admin-search"
                         />
                       </div>
