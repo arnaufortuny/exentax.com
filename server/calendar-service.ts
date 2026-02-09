@@ -138,8 +138,8 @@ export async function checkAndSendReminders() {
       order.id,
       application.requestCode || `LLC-${application.id}`,
       "irs_1120",
-      `Recordatorio: Formulario IRS 1120 vence en ${daysUntilDue} días`,
-      `Tu declaración de impuestos corporativos (Form 1120) para ${application.companyName} vence el ${formatDate(application.irs1120DueDate!)}. No olvides presentarlo a tiempo.`
+      `i18n:ntf.compliance.irs1120.title::{"days":"${daysUntilDue}"}`,
+      `i18n:ntf.compliance.irs1120.message::{"companyName":"${application.companyName || ''}","dueDate":"${formatDate(application.irs1120DueDate!)}"}`
     );
   }
 
@@ -164,8 +164,8 @@ export async function checkAndSendReminders() {
       order.id,
       application.requestCode || `LLC-${application.id}`,
       "irs_5472",
-      `Recordatorio: Formulario IRS 5472 vence en ${daysUntilDue} días`,
-      `Tu declaración de transacciones (Form 5472) para ${application.companyName} vence el ${formatDate(application.irs5472DueDate!)}. Es obligatorio para propietarios extranjeros.`
+      `i18n:ntf.compliance.irs5472.title::{"days":"${daysUntilDue}"}`,
+      `i18n:ntf.compliance.irs5472.message::{"companyName":"${application.companyName || ''}","dueDate":"${formatDate(application.irs5472DueDate!)}"}`
     );
   }
 
@@ -185,14 +185,14 @@ export async function checkAndSendReminders() {
 
   for (const { application, order } of applicationsWithAnnualReport) {
     const daysUntilDue = Math.ceil((application.annualReportDueDate!.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
-    const stateLabel = application.state === "wyoming" || application.state === "WY" ? "Wyoming" : "Nuevo México";
+    const stateLabel = application.state === "wyoming" || application.state === "WY" ? "Wyoming" : "New Mexico";
     await createComplianceNotification(
       order.userId,
       order.id,
       application.requestCode || `LLC-${application.id}`,
       "annual_report",
-      `Recordatorio: Informe Anual de ${stateLabel} vence en ${daysUntilDue} días`,
-      `El informe anual de tu empresa ${application.companyName} en ${stateLabel} vence el ${formatDate(application.annualReportDueDate!)}. Presentar tarde puede resultar en multas.`
+      `i18n:ntf.compliance.annualReport.title::{"stateLabel":"${stateLabel}","days":"${daysUntilDue}"}`,
+      `i18n:ntf.compliance.annualReport.message::{"companyName":"${application.companyName || ''}","stateLabel":"${stateLabel}","dueDate":"${formatDate(application.annualReportDueDate!)}"}`
     );
   }
 
@@ -217,8 +217,8 @@ export async function checkAndSendReminders() {
       order.id,
       application.requestCode || `LLC-${application.id}`,
       "agent_renewal",
-      `Recordatorio: Renovación de Agente Registrado en ${daysUntilDue} días`,
-      `La renovación del agente registrado para ${application.companyName} vence el ${formatDate(application.agentRenewalDate!)}. Sin agente registrado activo, tu LLC puede perder su buen estado legal.`
+      `i18n:ntf.compliance.agentRenewal.title::{"days":"${daysUntilDue}"}`,
+      `i18n:ntf.compliance.agentRenewal.message::{"companyName":"${application.companyName || ''}","dueDate":"${formatDate(application.agentRenewalDate!)}"}`
     );
   }
 
@@ -433,14 +433,14 @@ export async function sendRenewalReminders() {
     
     for (const window of reminderWindows) {
       if (client.daysUntilExpiry >= window.min && client.daysUntilExpiry <= window.max) {
-        // Create in-app notification
+        // Create in-app notification (translated on frontend via i18n keys)
         await createComplianceNotification(
           client.userId,
           client.orderId,
           `LLC-${client.applicationId}`,
           window.type,
-          `Renovación pendiente en ${window.label}`,
-          `Tu pack de mantenimiento para ${client.companyName} vence pronto (${formatDate(new Date(client.agentRenewalDate!))}). Contrata el pack de mantenimiento para mantener tu LLC activa y en cumplimiento legal.`
+          `i18n:ntf.compliance.renewalPending.title::{"label":"${window.label}"}`,
+          `i18n:ntf.compliance.renewalPending.message::{"companyName":"${client.companyName || ''}","dueDate":"${formatDate(new Date(client.agentRenewalDate!))}"}`
         );
         
         // Send email notification

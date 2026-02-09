@@ -3126,5 +3126,122 @@
     "validation": {
       "requiredFields": "Completa todos los campos obligatorios"
     }
+  },
+  "ntf": {
+    "welcome": {
+      "title": "¡Bienvenido a Easy US LLC!",
+      "message": "Gracias por confiar en nosotros para crear tu empresa en EE.UU. Explora tu panel para comenzar."
+    },
+    "newsletterSubscribed": {
+      "title": "Suscripción confirmada",
+      "message": "Te has suscrito correctamente a nuestra newsletter. Recibirás las últimas noticias y ofertas."
+    },
+    "docUploaded": {
+      "title": "Nuevo documento disponible",
+      "message": "Se ha añadido el documento \"{{docName}}\" a tu expediente."
+    },
+    "docApproved": {
+      "title": "Documento aprobado",
+      "message": "Tu documento \"{{docType}}\" ha sido revisado y aprobado."
+    },
+    "docRejected": {
+      "title": "Documento rechazado - Acción requerida",
+      "message": "Tu documento \"{{docType}}\" ha sido rechazado. Motivo: {{reason}}. Por favor, sube nuevamente el documento."
+    },
+    "docRequested": {
+      "title": "Acción Requerida: Subir Documento",
+      "message": "Se ha solicitado el documento: {{docType}}. Revisa tu email para más detalles."
+    },
+    "accountActivated": {
+      "title": "Cuenta reactivada",
+      "message": "Tu cuenta ha sido reactivada y ya puedes acceder a todos los servicios."
+    },
+    "accountDeactivated": {
+      "title": "Cuenta desactivada",
+      "message": "Tu cuenta ha sido desactivada. Contacta con soporte si tienes dudas."
+    },
+    "accountVip": {
+      "title": "Estado VIP activado",
+      "message": "Tu cuenta ha sido actualizada al estado VIP con beneficios prioritarios."
+    },
+    "orderUpdate": {
+      "title": "Actualización de pedido: {{statusLabel}}",
+      "message": "Tu pedido {{orderCode}} ha cambiado a: {{statusLabel}}."
+    },
+    "orderUpdateCompleted": {
+      "title": "Actualización de pedido: {{statusLabel}}",
+      "message": "Tu pedido {{orderCode}} ha cambiado a: {{statusLabel}}. ¡Enhorabuena, ahora eres cliente VIP!"
+    },
+    "orderCreated": {
+      "title": "Nuevo pedido registrado",
+      "message": "Tu pedido de {{productName}} ha sido registrado correctamente. Te mantendremos informado del progreso."
+    },
+    "orderCreatedAdmin": {
+      "title": "Nuevo pedido registrado",
+      "message": "Se ha registrado el pedido {{invoiceNumber}} para {{productName}}"
+    },
+    "maintenanceSubmitted": {
+      "title": "Nuevo pedido de mantenimiento",
+      "message": "Tu pedido de mantenimiento anual ({{requestCode}}) ha sido registrado. Te mantendremos informado del progreso."
+    },
+    "maintenanceCreatedAdmin": {
+      "title": "Nuevo pedido de mantenimiento registrado",
+      "message": "Se ha registrado el pedido de mantenimiento {{invoiceNumber}} para {{productName}}"
+    },
+    "paymentRequested": {
+      "title": "Pago Pendiente Solicitado",
+      "message": "Se ha enviado un enlace de pago por {{amount}}. Revisa tu email."
+    },
+    "messageReply": {
+      "title": "Nueva respuesta a tu consulta",
+      "message": "Hemos respondido a tu mensaje (Ticket: #{{ticketId}}). Revisa tu email o tu área de mensajes."
+    },
+    "compliance": {
+      "irs1120": {
+        "title": "Recordatorio: Formulario IRS 1120 vence en {{days}} días",
+        "message": "Tu declaración de impuestos corporativos (Form 1120) para {{companyName}} vence el {{dueDate}}. No olvides presentarlo a tiempo."
+      },
+      "irs5472": {
+        "title": "Recordatorio: Formulario IRS 5472 vence en {{days}} días",
+        "message": "Tu declaración de transacciones (Form 5472) para {{companyName}} vence el {{dueDate}}. Es obligatorio para propietarios extranjeros."
+      },
+      "annualReport": {
+        "title": "Recordatorio: Informe Anual de {{stateLabel}} vence en {{days}} días",
+        "message": "El informe anual de tu empresa {{companyName}} en {{stateLabel}} vence el {{dueDate}}. Presentar tarde puede resultar en multas."
+      },
+      "agentRenewal": {
+        "title": "Recordatorio: Renovación de Agente Registrado en {{days}} días",
+        "message": "La renovación del agente registrado para {{companyName}} vence el {{dueDate}}. Sin agente registrado activo, tu LLC puede perder su buen estado legal."
+      },
+      "renewalPending": {
+        "title": "Renovación pendiente en {{label}}",
+        "message": "Tu pack de mantenimiento para {{companyName}} vence pronto ({{dueDate}}). Contrata el pack de mantenimiento para mantener tu LLC activa y en cumplimiento legal."
+      }
+    },
+    "orderStatus": {
+      "pending": "Pendiente",
+      "paid": "Pagado",
+      "processing": "En proceso",
+      "filed": "Presentado",
+      "documents_ready": "Documentos listos",
+      "completed": "Completado",
+      "cancelled": "Cancelado"
+    },
+    "docTypes": {
+      "id_document": "Documento de identidad",
+      "proof_of_address": "Comprobante de domicilio",
+      "passport": "Pasaporte",
+      "ein_letter": "Carta EIN",
+      "articles_of_organization": "Artículos de Organización",
+      "certificate_of_formation": "Certificado de Formación",
+      "operating_agreement": "Acuerdo Operativo",
+      "invoice": "Factura",
+      "other": "Otro documento",
+      "boir": "BOIR",
+      "ein_document": "Documento EIN",
+      "tax_id": "Identificación Fiscal",
+      "address_proof": "Comprobante de Domicilio",
+      "passport_id": "Pasaporte / Documento de Identidad"
+    }
   }
 }

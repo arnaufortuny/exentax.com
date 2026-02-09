@@ -83,32 +83,14 @@ export function registerAdminOrderRoutes(app: Express) {
 
       const orderCode = order.application?.requestCode || order.maintenanceApplication?.requestCode || order.invoiceNumber || `#${order.id}`;
       
-      const notifTitles: Record<string, string> = {
-        es: `Actualización de pedido: ${statusLabel}`,
-        en: `Order update: ${statusLabel}`,
-        ca: `Actualització de comanda: ${statusLabel}`,
-        fr: `Mise à jour de commande : ${statusLabel}`,
-        de: `Bestellaktualisierung: ${statusLabel}`,
-        it: `Aggiornamento ordine: ${statusLabel}`,
-        pt: `Atualização do pedido: ${statusLabel}`
-      };
+      const messageKey = status === 'completed' ? 'ntf.orderUpdateCompleted.message' : 'ntf.orderUpdate.message';
       
-      const notifMessages: Record<string, string> = {
-        es: `Tu pedido ${orderCode} ha cambiado a: ${statusLabel}.${status === 'completed' ? ' ¡Enhorabuena, ahora eres cliente VIP!' : ''}`,
-        en: `Your order ${orderCode} has been updated to: ${statusLabel}.${status === 'completed' ? ' Congratulations, you are now a VIP client!' : ''}`,
-        ca: `La teva comanda ${orderCode} ha canviat a: ${statusLabel}.${status === 'completed' ? ' Enhorabona, ara ets client VIP!' : ''}`,
-        fr: `Votre commande ${orderCode} a été mise à jour : ${statusLabel}.${status === 'completed' ? ' Félicitations, vous êtes maintenant client VIP !' : ''}`,
-        de: `Ihre Bestellung ${orderCode} wurde aktualisiert: ${statusLabel}.${status === 'completed' ? ' Herzlichen Glückwunsch, Sie sind jetzt VIP-Kunde!' : ''}`,
-        it: `Il tuo ordine ${orderCode} è stato aggiornato a: ${statusLabel}.${status === 'completed' ? ' Congratulazioni, ora sei un cliente VIP!' : ''}`,
-        pt: `O seu pedido ${orderCode} foi atualizado para: ${statusLabel}.${status === 'completed' ? ' Parabéns, agora é um cliente VIP!' : ''}`
-      };
-
       await db.insert(userNotifications).values({
         userId: order.userId,
         orderId: order.id,
         orderCode,
-        title: notifTitles[userLang] || notifTitles.es,
-        message: notifMessages[userLang] || notifMessages.es,
+        title: `i18n:ntf.orderUpdate.title::{"statusLabel":"@ntf.orderStatus.${status}"}`,
+        message: `i18n:${messageKey}::{"orderCode":"${orderCode}","statusLabel":"@ntf.orderStatus.${status}"}`,
         type: 'update',
         isRead: false
       });

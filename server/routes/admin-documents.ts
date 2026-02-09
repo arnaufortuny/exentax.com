@@ -153,13 +153,14 @@ export function registerAdminDocumentsRoutes(app: Express) {
         if (finalUserId) {
           const docLabel = docTypeLabels[documentType] || 'Documento';
           
-          // Dashboard notification
+          // Dashboard notification (translated on frontend via i18n keys)
+          const docTypeKey = documentType && ['articles_of_organization', 'certificate_of_formation', 'boir', 'ein_document', 'operating_agreement', 'invoice', 'other'].includes(documentType) ? `@ntf.docTypes.${documentType}` : docLabel;
           await db.insert(userNotifications).values({
             userId: finalUserId,
             orderId: orderId ? Number(orderId) : null,
             orderCode: orderCode || 'General',
-            title: 'Nuevo documento disponible',
-            message: `Se ha añadido el documento "${docLabel}" a tu expediente.`,
+            title: 'i18n:ntf.docUploaded.title',
+            message: `i18n:ntf.docUploaded.message::{"docName":"${docTypeKey}"}`,
             type: 'info',
             isRead: false
           });
@@ -245,13 +246,14 @@ export function registerAdminDocumentsRoutes(app: Express) {
         const docLabel = docTypeLabels[docWithOrder.doc.documentType] || docWithOrder.doc.fileName;
         
         if (reviewStatus === 'approved') {
-          // Notify client: document approved
+          // Notify client: document approved (translated on frontend via i18n keys)
+          const approvedDocKey = docWithOrder.doc.documentType && ['id_document', 'proof_of_address', 'passport', 'ein_letter', 'articles_of_organization', 'operating_agreement', 'invoice', 'other'].includes(docWithOrder.doc.documentType) ? `@ntf.docTypes.${docWithOrder.doc.documentType}` : docLabel;
           await db.insert(userNotifications).values({
             userId: docWithOrder.user.id,
             orderId: docWithOrder.order?.id || null,
             orderCode: docWithOrder.order?.invoiceNumber || 'General',
-            title: 'Documento aprobado',
-            message: `Tu documento "${docLabel}" ha sido revisado y aprobado.`,
+            title: 'i18n:ntf.docApproved.title',
+            message: `i18n:ntf.docApproved.message::{"docType":"${approvedDocKey}"}`,
             type: 'success',
             isRead: false
           });
@@ -268,14 +270,16 @@ export function registerAdminDocumentsRoutes(app: Express) {
             )
           }).catch(console.error);
         } else if (reviewStatus === 'rejected') {
-          // Notify client: document rejected - request again
+          // Notify client: document rejected (translated on frontend via i18n keys)
           const reason = rejectionReason || 'No cumple los requisitos necesarios';
+          const rejectedDocKey = docWithOrder.doc.documentType && ['id_document', 'proof_of_address', 'passport', 'ein_letter', 'articles_of_organization', 'operating_agreement', 'invoice', 'other'].includes(docWithOrder.doc.documentType) ? `@ntf.docTypes.${docWithOrder.doc.documentType}` : docLabel;
+          const safeReason = reason.replace(/"/g, '\\"').replace(/\n/g, ' ');
           await db.insert(userNotifications).values({
             userId: docWithOrder.user.id,
             orderId: docWithOrder.order?.id || null,
             orderCode: docWithOrder.order?.invoiceNumber || 'General',
-            title: 'Documento rechazado - Acción requerida',
-            message: `Tu documento "${docLabel}" ha sido rechazado. Motivo: ${reason}. Por favor, sube nuevamente el documento.`,
+            title: 'i18n:ntf.docRejected.title',
+            message: `i18n:ntf.docRejected.message::{"docType":"${rejectedDocKey}","reason":"${safeReason}"}`,
             type: 'action_required',
             isRead: false
           });
@@ -406,11 +410,11 @@ export function registerAdminDocumentsRoutes(app: Express) {
         html: getPaymentRequestTemplate(user.firstName || '', amount || '', paymentLink, message, payLang)
       });
 
-      // Create internal notification
+      // Create internal notification (translated on frontend via i18n keys)
       await db.insert(userNotifications).values({
         userId,
-        title: "Pago Pendiente Solicitado",
-        message: `Se ha enviado un enlace de pago por ${amount || 'el trámite'}. Revisa tu email.`,
+        title: 'i18n:ntf.paymentRequested.title',
+        message: `i18n:ntf.paymentRequested.message::{"amount":"${amount || ''}"}`,
         type: 'action_required',
         isRead: false
       });
@@ -453,10 +457,11 @@ export function registerAdminDocumentsRoutes(app: Express) {
       });
 
       if (userId) {
+        const reqDocKey = documentType && ['passport', 'address_proof', 'tax_id', 'other'].includes(documentType) ? `@ntf.docTypes.${documentType === 'passport' ? 'passport_id' : documentType}` : docTypeLabel;
         await db.insert(userNotifications).values({
           userId,
-          title: "Acción Requerida: Subir Documento",
-          message: `Se ha solicitado el documento: ${docTypeLabel}. Revisa tu email para más detalles.`,
+          title: 'i18n:ntf.docRequested.title',
+          message: `i18n:ntf.docRequested.message::{"docType":"${reqDocKey}"}`,
           type: 'action_required',
           isRead: false
         });

@@ -3126,5 +3126,122 @@
     "validation": {
       "requiredFields": "Complete all required fields"
     }
+  },
+  "ntf": {
+    "welcome": {
+      "title": "Welcome to Easy US LLC!",
+      "message": "Thank you for trusting us to create your US business. Explore your dashboard to get started."
+    },
+    "newsletterSubscribed": {
+      "title": "Subscription confirmed",
+      "message": "You have successfully subscribed to our newsletter. You will receive the latest news and offers."
+    },
+    "docUploaded": {
+      "title": "New document available",
+      "message": "The document \"{{docName}}\" has been added to your file."
+    },
+    "docApproved": {
+      "title": "Document approved",
+      "message": "Your document \"{{docType}}\" has been reviewed and approved."
+    },
+    "docRejected": {
+      "title": "Document rejected - Action required",
+      "message": "Your document \"{{docType}}\" has been rejected. Reason: {{reason}}. Please upload the document again."
+    },
+    "docRequested": {
+      "title": "Action Required: Upload Document",
+      "message": "The document {{docType}} has been requested. Check your email for more details."
+    },
+    "accountActivated": {
+      "title": "Account reactivated",
+      "message": "Your account has been reactivated and you can access all services."
+    },
+    "accountDeactivated": {
+      "title": "Account deactivated",
+      "message": "Your account has been deactivated. Contact support if you have questions."
+    },
+    "accountVip": {
+      "title": "VIP status activated",
+      "message": "Your account has been upgraded to VIP status with priority benefits."
+    },
+    "orderUpdate": {
+      "title": "Order update: {{statusLabel}}",
+      "message": "Your order {{orderCode}} has been updated to: {{statusLabel}}."
+    },
+    "orderUpdateCompleted": {
+      "title": "Order update: {{statusLabel}}",
+      "message": "Your order {{orderCode}} has been updated to: {{statusLabel}}. Congratulations, you are now a VIP client!"
+    },
+    "orderCreated": {
+      "title": "New order registered",
+      "message": "Your order for {{productName}} has been registered successfully. We will keep you informed of the progress."
+    },
+    "orderCreatedAdmin": {
+      "title": "New order registered",
+      "message": "Order {{invoiceNumber}} has been registered for {{productName}}"
+    },
+    "maintenanceSubmitted": {
+      "title": "New maintenance order",
+      "message": "Your annual maintenance order ({{requestCode}}) has been registered. We will keep you informed of the progress."
+    },
+    "maintenanceCreatedAdmin": {
+      "title": "New maintenance order registered",
+      "message": "Maintenance order {{invoiceNumber}} has been registered for {{productName}}"
+    },
+    "paymentRequested": {
+      "title": "Payment Requested",
+      "message": "A payment link for {{amount}} has been sent. Check your email."
+    },
+    "messageReply": {
+      "title": "New reply to your inquiry",
+      "message": "We have replied to your message (Ticket: #{{ticketId}}). Check your email or your messages area."
+    },
+    "compliance": {
+      "irs1120": {
+        "title": "Reminder: IRS Form 1120 due in {{days}} days",
+        "message": "Your corporate tax return (Form 1120) for {{companyName}} is due on {{dueDate}}. Don't forget to file on time."
+      },
+      "irs5472": {
+        "title": "Reminder: IRS Form 5472 due in {{days}} days",
+        "message": "Your transaction report (Form 5472) for {{companyName}} is due on {{dueDate}}. It is mandatory for foreign owners."
+      },
+      "annualReport": {
+        "title": "Reminder: {{stateLabel}} Annual Report due in {{days}} days",
+        "message": "The annual report for {{companyName}} in {{stateLabel}} is due on {{dueDate}}. Filing late may result in penalties."
+      },
+      "agentRenewal": {
+        "title": "Reminder: Registered Agent Renewal in {{days}} days",
+        "message": "The registered agent renewal for {{companyName}} is due on {{dueDate}}. Without an active registered agent, your LLC may lose its good standing."
+      },
+      "renewalPending": {
+        "title": "Renewal pending in {{label}}",
+        "message": "Your maintenance package for {{companyName}} expires soon ({{dueDate}}). Renew the maintenance package to keep your LLC active and legally compliant."
+      }
+    },
+    "orderStatus": {
+      "pending": "Pending",
+      "paid": "Paid",
+      "processing": "Processing",
+      "filed": "Filed",
+      "documents_ready": "Documents ready",
+      "completed": "Completed",
+      "cancelled": "Cancelled"
+    },
+    "docTypes": {
+      "id_document": "ID Document",
+      "proof_of_address": "Proof of address",
+      "passport": "Passport",
+      "ein_letter": "EIN Letter",
+      "articles_of_organization": "Articles of Organization",
+      "certificate_of_formation": "Certificate of Formation",
+      "operating_agreement": "Operating Agreement",
+      "invoice": "Invoice",
+      "other": "Other document",
+      "boir": "BOIR",
+      "ein_document": "EIN Document",
+      "tax_id": "Tax ID",
+      "address_proof": "Proof of Address",
+      "passport_id": "Passport / ID Document"
+    }
   }
 }

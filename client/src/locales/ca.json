@@ -3126,5 +3126,122 @@
     "validation": {
       "requiredFields": "Completa tots els camps obligatoris"
     }
+  },
+  "ntf": {
+    "welcome": {
+      "title": "Benvingut a Easy US LLC!",
+      "message": "Gràcies per confiar en nosaltres per crear la teva empresa als EUA. Explora el teu panell per començar."
+    },
+    "newsletterSubscribed": {
+      "title": "Subscripció confirmada",
+      "message": "T'has subscrit correctament a la nostra newsletter. Rebràs les últimes notícies i ofertes."
+    },
+    "docUploaded": {
+      "title": "Nou document disponible",
+      "message": "S'ha afegit el document \"{{docName}}\" al teu expedient."
+    },
+    "docApproved": {
+      "title": "Document aprovat",
+      "message": "El teu document \"{{docType}}\" ha estat revisat i aprovat."
+    },
+    "docRejected": {
+      "title": "Document rebutjat - Acció requerida",
+      "message": "El teu document \"{{docType}}\" ha estat rebutjat. Motiu: {{reason}}. Si us plau, torna a pujar el document."
+    },
+    "docRequested": {
+      "title": "Acció Requerida: Pujar Document",
+      "message": "S'ha sol·licitat el document: {{docType}}. Revisa el teu email per a més detalls."
+    },
+    "accountActivated": {
+      "title": "Compte reactivat",
+      "message": "El teu compte ha estat reactivat i ja pots accedir a tots els serveis."
+    },
+    "accountDeactivated": {
+      "title": "Compte desactivat",
+      "message": "El teu compte ha estat desactivat. Contacta amb suport si tens dubtes."
+    },
+    "accountVip": {
+      "title": "Estat VIP activat",
+      "message": "El teu compte ha estat actualitzat a l'estat VIP amb beneficis prioritaris."
+    },
+    "orderUpdate": {
+      "title": "Actualització de comanda: {{statusLabel}}",
+      "message": "La teva comanda {{orderCode}} ha canviat a: {{statusLabel}}."
+    },
+    "orderUpdateCompleted": {
+      "title": "Actualització de comanda: {{statusLabel}}",
+      "message": "La teva comanda {{orderCode}} ha canviat a: {{statusLabel}}. Enhorabona, ara ets client VIP!"
+    },
+    "orderCreated": {
+      "title": "Nova comanda registrada",
+      "message": "La teva comanda de {{productName}} ha estat registrada correctament. Et mantindrem informat del progrés."
+    },
+    "orderCreatedAdmin": {
+      "title": "Nova comanda registrada",
+      "message": "S'ha registrat la comanda {{invoiceNumber}} per a {{productName}}"
+    },
+    "maintenanceSubmitted": {
+      "title": "Nova comanda de manteniment",
+      "message": "La teva comanda de manteniment anual ({{requestCode}}) ha estat registrada. Et mantindrem informat del progrés."
+    },
+    "maintenanceCreatedAdmin": {
+      "title": "Nova comanda de manteniment registrada",
+      "message": "S'ha registrat la comanda de manteniment {{invoiceNumber}} per a {{productName}}"
+    },
+    "paymentRequested": {
+      "title": "Pagament Pendent Sol·licitat",
+      "message": "S'ha enviat un enllaç de pagament per {{amount}}. Revisa el teu email."
+    },
+    "messageReply": {
+      "title": "Nova resposta a la teva consulta",
+      "message": "Hem respost al teu missatge (Ticket: #{{ticketId}}). Revisa el teu email o la teva àrea de missatges."
+    },
+    "compliance": {
+      "irs1120": {
+        "title": "Recordatori: Formulari IRS 1120 venç en {{days}} dies",
+        "message": "La teva declaració d'impostos corporatius (Form 1120) per a {{companyName}} venç el {{dueDate}}. No oblidis presentar-lo a temps."
+      },
+      "irs5472": {
+        "title": "Recordatori: Formulari IRS 5472 venç en {{days}} dies",
+        "message": "La teva declaració de transaccions (Form 5472) per a {{companyName}} venç el {{dueDate}}. És obligatori per a propietaris estrangers."
+      },
+      "annualReport": {
+        "title": "Recordatori: Informe Anual de {{stateLabel}} venç en {{days}} dies",
+        "message": "L'informe anual de la teva empresa {{companyName}} a {{stateLabel}} venç el {{dueDate}}. Presentar tard pot resultar en multes."
+      },
+      "agentRenewal": {
+        "title": "Recordatori: Renovació d'Agent Registrat en {{days}} dies",
+        "message": "La renovació de l'agent registrat per a {{companyName}} venç el {{dueDate}}. Sense agent registrat actiu, la teva LLC pot perdre el seu bon estat legal."
+      },
+      "renewalPending": {
+        "title": "Renovació pendent en {{label}}",
+        "message": "El teu pack de manteniment per a {{companyName}} venç aviat ({{dueDate}}). Contracta el pack de manteniment per mantenir la teva LLC activa i en compliment legal."
+      }
+    },
+    "orderStatus": {
+      "pending": "Pendent",
+      "paid": "Pagat",
+      "processing": "En procés",
+      "filed": "Presentat",
+      "documents_ready": "Documents preparats",
+      "completed": "Completat",
+      "cancelled": "Cancel·lat"
+    },
+    "docTypes": {
+      "id_document": "Document d'identitat",
+      "proof_of_address": "Comprovant de domicili",
+      "passport": "Passaport",
+      "ein_letter": "Carta EIN",
+      "articles_of_organization": "Articles d'Organització",
+      "certificate_of_formation": "Certificat de Formació",
+      "operating_agreement": "Acord Operatiu",
+      "invoice": "Factura",
+      "other": "Altre document",
+      "boir": "BOIR",
+      "ein_document": "Document EIN",
+      "tax_id": "Identificació Fiscal",
+      "address_proof": "Comprovant de Domicili",
+      "passport_id": "Passaport / Document d'Identitat"
+    }
   }
 }

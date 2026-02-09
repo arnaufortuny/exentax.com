@@ -137,8 +137,8 @@ export function registerMessageRoutes(app: Express) {
         if (message.userId) {
           await db.insert(userNotifications).values({
             userId: message.userId,
-            title: "Nueva respuesta a tu consulta",
-            message: `Hemos respondido a tu mensaje (Ticket: #${ticketId}). Revisa tu email o tu área de mensajes.`,
+            title: 'i18n:ntf.messageReply.title',
+            message: `i18n:ntf.messageReply.message::{"ticketId":"${ticketId}"}`,
             type: 'info',
             isRead: false
           });

@@ -101,12 +101,12 @@ export function setupCustomAuth(app: Express) {
         preferredLanguage: lang,
       });
 
-      // NOTIFICATION: Welcome (in user's language)
+      // NOTIFICATION: Welcome (translated on frontend via i18n keys)
       const emailLang = lang as EmailLanguage;
       await db.insert(userNotifications).values({
         userId: user.id,
-        title: getWelcomeNotificationTitle(emailLang),
-        message: getWelcomeNotificationMessage(emailLang),
+        title: 'i18n:ntf.welcome.title',
+        message: 'i18n:ntf.welcome.message',
         type: 'info',
         isRead: false
       });

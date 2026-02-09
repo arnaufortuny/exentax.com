@@ -83,8 +83,8 @@ export function registerAdminUserRoutes(app: Express) {
           }).catch(() => {});
           await db.insert(userNotifications).values({
             userId,
-            title: uLang === 'en' ? "Account deactivated" : "Cuenta desactivada",
-            message: uLang === 'en' ? "Your account has been deactivated. Contact support if you have questions." : "Tu cuenta ha sido desactivada. Contacta con soporte si tienes dudas.",
+            title: 'i18n:ntf.accountDeactivated.title',
+            message: 'i18n:ntf.accountDeactivated.message',
             type: 'action_required',
             isRead: false
           });
@@ -96,8 +96,8 @@ export function registerAdminUserRoutes(app: Express) {
           }).catch(() => {});
           await db.insert(userNotifications).values({
             userId,
-            title: uLang === 'en' ? "VIP status activated" : "Estado VIP activado",
-            message: uLang === 'en' ? "Your account has been upgraded to VIP status with priority benefits." : "Tu cuenta ha sido actualizada al estado VIP con beneficios prioritarios.",
+            title: 'i18n:ntf.accountVip.title',
+            message: 'i18n:ntf.accountVip.message',
             type: 'update',
             isRead: false
           });
@@ -109,8 +109,8 @@ export function registerAdminUserRoutes(app: Express) {
           }).catch(() => {});
           await db.insert(userNotifications).values({
             userId,
-            title: uLang === 'en' ? "Account reactivated" : "Cuenta reactivada",
-            message: uLang === 'en' ? "Your account has been reactivated and you can access all services." : "Tu cuenta ha sido reactivada y ya puedes acceder a todos los servicios.",
+            title: 'i18n:ntf.accountActivated.title',
+            message: 'i18n:ntf.accountActivated.message',
             type: 'update',
             isRead: false
           });

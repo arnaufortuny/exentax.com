@@ -60,8 +60,8 @@ export function registerAdminBillingRoutes(app: Express) {
       userId,
       orderId: order.id,
       orderCode: invoiceNumber,
-      title: 'Nuevo pedido registrado',
-      message: `Se ha registrado el pedido ${invoiceNumber} para ${product.name}`,
+      title: 'i18n:ntf.orderCreatedAdmin.title',
+      message: `i18n:ntf.orderCreatedAdmin.message::{"invoiceNumber":"${invoiceNumber}","productName":"${product.name}"}`,
       type: 'info',
       isRead: false
     });
@@ -125,8 +125,8 @@ export function registerAdminBillingRoutes(app: Express) {
       userId,
       orderId: order.id,
       orderCode: invoiceNumber,
-      title: 'Nuevo pedido de mantenimiento registrado',
-      message: `Se ha registrado el pedido de mantenimiento ${invoiceNumber} para ${product.name}`,
+      title: 'i18n:ntf.maintenanceCreatedAdmin.title',
+      message: `i18n:ntf.maintenanceCreatedAdmin.message::{"invoiceNumber":"${invoiceNumber}","productName":"${product.name}"}`,
       type: 'info',
       isRead: false
     });

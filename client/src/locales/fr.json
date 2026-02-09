@@ -3126,5 +3126,122 @@
     "validation": {
       "requiredFields": "Remplissez tous les champs obligatoires"
     }
+  },
+  "ntf": {
+    "welcome": {
+      "title": "Bienvenue chez Easy US LLC !",
+      "message": "Merci de nous faire confiance pour créer votre entreprise aux États-Unis. Explorez votre tableau de bord pour commencer."
+    },
+    "newsletterSubscribed": {
+      "title": "Abonnement confirmé",
+      "message": "Vous êtes inscrit à notre newsletter. Vous recevrez les dernières nouvelles et offres."
+    },
+    "docUploaded": {
+      "title": "Nouveau document disponible",
+      "message": "Le document \"{{docName}}\" a été ajouté à votre dossier."
+    },
+    "docApproved": {
+      "title": "Document approuvé",
+      "message": "Votre document \"{{docType}}\" a été examiné et approuvé."
+    },
+    "docRejected": {
+      "title": "Document rejeté - Action requise",
+      "message": "Votre document \"{{docType}}\" a été rejeté. Raison : {{reason}}. Veuillez télécharger à nouveau le document."
+    },
+    "docRequested": {
+      "title": "Action Requise : Télécharger un Document",
+      "message": "Le document {{docType}} a été demandé. Consultez votre email pour plus de détails."
+    },
+    "accountActivated": {
+      "title": "Compte réactivé",
+      "message": "Votre compte a été réactivé et vous pouvez accéder à tous les services."
+    },
+    "accountDeactivated": {
+      "title": "Compte désactivé",
+      "message": "Votre compte a été désactivé. Contactez le support si vous avez des questions."
+    },
+    "accountVip": {
+      "title": "Statut VIP activé",
+      "message": "Votre compte a été mis à jour au statut VIP avec des avantages prioritaires."
+    },
+    "orderUpdate": {
+      "title": "Mise à jour de commande : {{statusLabel}}",
+      "message": "Votre commande {{orderCode}} a été mise à jour : {{statusLabel}}."
+    },
+    "orderUpdateCompleted": {
+      "title": "Mise à jour de commande : {{statusLabel}}",
+      "message": "Votre commande {{orderCode}} a été mise à jour : {{statusLabel}}. Félicitations, vous êtes maintenant client VIP !"
+    },
+    "orderCreated": {
+      "title": "Nouvelle commande enregistrée",
+      "message": "Votre commande pour {{productName}} a été enregistrée avec succès. Nous vous tiendrons informé de la progression."
+    },
+    "orderCreatedAdmin": {
+      "title": "Nouvelle commande enregistrée",
+      "message": "La commande {{invoiceNumber}} a été enregistrée pour {{productName}}"
+    },
+    "maintenanceSubmitted": {
+      "title": "Nouvelle commande de maintenance",
+      "message": "Votre commande de maintenance annuelle ({{requestCode}}) a été enregistrée. Nous vous tiendrons informé de la progression."
+    },
+    "maintenanceCreatedAdmin": {
+      "title": "Nouvelle commande de maintenance enregistrée",
+      "message": "La commande de maintenance {{invoiceNumber}} a été enregistrée pour {{productName}}"
+    },
+    "paymentRequested": {
+      "title": "Paiement Demandé",
+      "message": "Un lien de paiement de {{amount}} a été envoyé. Consultez votre email."
+    },
+    "messageReply": {
+      "title": "Nouvelle réponse à votre demande",
+      "message": "Nous avons répondu à votre message (Ticket : #{{ticketId}}). Consultez votre email ou votre espace messages."
+    },
+    "compliance": {
+      "irs1120": {
+        "title": "Rappel : Formulaire IRS 1120 expire dans {{days}} jours",
+        "message": "Votre déclaration d'impôts (Form 1120) pour {{companyName}} expire le {{dueDate}}. N'oubliez pas de le soumettre à temps."
+      },
+      "irs5472": {
+        "title": "Rappel : Formulaire IRS 5472 expire dans {{days}} jours",
+        "message": "Votre rapport de transactions (Form 5472) pour {{companyName}} expire le {{dueDate}}. C'est obligatoire pour les propriétaires étrangers."
+      },
+      "annualReport": {
+        "title": "Rappel : Rapport Annuel de {{stateLabel}} expire dans {{days}} jours",
+        "message": "Le rapport annuel de {{companyName}} à {{stateLabel}} expire le {{dueDate}}. Un dépôt tardif peut entraîner des pénalités."
+      },
+      "agentRenewal": {
+        "title": "Rappel : Renouvellement d'Agent Enregistré dans {{days}} jours",
+        "message": "Le renouvellement de l'agent enregistré pour {{companyName}} expire le {{dueDate}}. Sans agent enregistré actif, votre LLC peut perdre sa bonne réputation."
+      },
+      "renewalPending": {
+        "title": "Renouvellement en attente dans {{label}}",
+        "message": "Votre forfait de maintenance pour {{companyName}} expire bientôt ({{dueDate}}). Renouvelez le forfait pour maintenir votre LLC active et en conformité légale."
+      }
+    },
+    "orderStatus": {
+      "pending": "En attente",
+      "paid": "Payé",
+      "processing": "En cours",
+      "filed": "Déposé",
+      "documents_ready": "Documents prêts",
+      "completed": "Terminé",
+      "cancelled": "Annulé"
+    },
+    "docTypes": {
+      "id_document": "Document d'identité",
+      "proof_of_address": "Justificatif de domicile",
+      "passport": "Passeport",
+      "ein_letter": "Lettre EIN",
+      "articles_of_organization": "Statuts",
+      "certificate_of_formation": "Certificat de Formation",
+      "operating_agreement": "Accord d'Exploitation",
+      "invoice": "Facture",
+      "other": "Autre document",
+      "boir": "BOIR",
+      "ein_document": "Document EIN",
+      "tax_id": "Identification Fiscale",
+      "address_proof": "Justificatif de Domicile",
+      "passport_id": "Passeport / Document d'Identité"
+    }
   }
 }

@@ -3126,5 +3126,122 @@
     "validation": {
       "requiredFields": "Füllen Sie alle Pflichtfelder aus"
     }
+  },
+  "ntf": {
+    "welcome": {
+      "title": "Willkommen bei Easy US LLC!",
+      "message": "Vielen Dank, dass Sie uns mit der Gründung Ihres US-Unternehmens vertrauen. Erkunden Sie Ihr Dashboard, um loszulegen."
+    },
+    "newsletterSubscribed": {
+      "title": "Abonnement bestätigt",
+      "message": "Sie haben unseren Newsletter erfolgreich abonniert. Sie erhalten die neuesten Nachrichten und Angebote."
+    },
+    "docUploaded": {
+      "title": "Neues Dokument verfügbar",
+      "message": "Das Dokument \"{{docName}}\" wurde Ihrer Akte hinzugefügt."
+    },
+    "docApproved": {
+      "title": "Dokument genehmigt",
+      "message": "Ihr Dokument \"{{docType}}\" wurde geprüft und genehmigt."
+    },
+    "docRejected": {
+      "title": "Dokument abgelehnt - Handlung erforderlich",
+      "message": "Ihr Dokument \"{{docType}}\" wurde abgelehnt. Grund: {{reason}}. Bitte laden Sie das Dokument erneut hoch."
+    },
+    "docRequested": {
+      "title": "Handlung Erforderlich: Dokument Hochladen",
+      "message": "Das Dokument {{docType}} wurde angefordert. Überprüfen Sie Ihre E-Mail für weitere Details."
+    },
+    "accountActivated": {
+      "title": "Konto reaktiviert",
+      "message": "Ihr Konto wurde reaktiviert und Sie können auf alle Dienste zugreifen."
+    },
+    "accountDeactivated": {
+      "title": "Konto deaktiviert",
+      "message": "Ihr Konto wurde deaktiviert. Kontaktieren Sie den Support bei Fragen."
+    },
+    "accountVip": {
+      "title": "VIP-Status aktiviert",
+      "message": "Ihr Konto wurde auf den VIP-Status mit Prioritätsvorteilen aktualisiert."
+    },
+    "orderUpdate": {
+      "title": "Bestellaktualisierung: {{statusLabel}}",
+      "message": "Ihre Bestellung {{orderCode}} wurde aktualisiert: {{statusLabel}}."
+    },
+    "orderUpdateCompleted": {
+      "title": "Bestellaktualisierung: {{statusLabel}}",
+      "message": "Ihre Bestellung {{orderCode}} wurde aktualisiert: {{statusLabel}}. Herzlichen Glückwunsch, Sie sind jetzt VIP-Kunde!"
+    },
+    "orderCreated": {
+      "title": "Neue Bestellung registriert",
+      "message": "Ihre Bestellung für {{productName}} wurde erfolgreich registriert. Wir halten Sie über den Fortschritt informiert."
+    },
+    "orderCreatedAdmin": {
+      "title": "Neue Bestellung registriert",
+      "message": "Bestellung {{invoiceNumber}} wurde für {{productName}} registriert"
+    },
+    "maintenanceSubmitted": {
+      "title": "Neue Wartungsbestellung",
+      "message": "Ihre jährliche Wartungsbestellung ({{requestCode}}) wurde registriert. Wir halten Sie über den Fortschritt informiert."
+    },
+    "maintenanceCreatedAdmin": {
+      "title": "Neue Wartungsbestellung registriert",
+      "message": "Wartungsbestellung {{invoiceNumber}} wurde für {{productName}} registriert"
+    },
+    "paymentRequested": {
+      "title": "Zahlung Angefordert",
+      "message": "Ein Zahlungslink über {{amount}} wurde gesendet. Überprüfen Sie Ihre E-Mail."
+    },
+    "messageReply": {
+      "title": "Neue Antwort auf Ihre Anfrage",
+      "message": "Wir haben auf Ihre Nachricht geantwortet (Ticket: #{{ticketId}}). Überprüfen Sie Ihre E-Mail oder Ihren Nachrichtenbereich."
+    },
+    "compliance": {
+      "irs1120": {
+        "title": "Erinnerung: IRS-Formular 1120 fällig in {{days}} Tagen",
+        "message": "Ihre Körperschaftsteuererklärung (Form 1120) für {{companyName}} ist am {{dueDate}} fällig. Vergessen Sie nicht, rechtzeitig einzureichen."
+      },
+      "irs5472": {
+        "title": "Erinnerung: IRS-Formular 5472 fällig in {{days}} Tagen",
+        "message": "Ihr Transaktionsbericht (Form 5472) für {{companyName}} ist am {{dueDate}} fällig. Er ist für ausländische Eigentümer Pflicht."
+      },
+      "annualReport": {
+        "title": "Erinnerung: Jahresbericht {{stateLabel}} fällig in {{days}} Tagen",
+        "message": "Der Jahresbericht für {{companyName}} in {{stateLabel}} ist am {{dueDate}} fällig. Verspätete Einreichung kann Strafen nach sich ziehen."
+      },
+      "agentRenewal": {
+        "title": "Erinnerung: Erneuerung des Registered Agent in {{days}} Tagen",
+        "message": "Die Erneuerung des Registered Agent für {{companyName}} ist am {{dueDate}} fällig. Ohne aktiven Registered Agent kann Ihre LLC ihren guten Status verlieren."
+      },
+      "renewalPending": {
+        "title": "Verlängerung fällig in {{label}}",
+        "message": "Ihr Wartungspaket für {{companyName}} läuft bald ab ({{dueDate}}). Erneuern Sie das Paket, um Ihre LLC aktiv und rechtskonform zu halten."
+      }
+    },
+    "orderStatus": {
+      "pending": "Ausstehend",
+      "paid": "Bezahlt",
+      "processing": "In Bearbeitung",
+      "filed": "Eingereicht",
+      "documents_ready": "Dokumente bereit",
+      "completed": "Abgeschlossen",
+      "cancelled": "Storniert"
+    },
+    "docTypes": {
+      "id_document": "Ausweisdokument",
+      "proof_of_address": "Adressnachweis",
+      "passport": "Reisepass",
+      "ein_letter": "EIN-Brief",
+      "articles_of_organization": "Gründungsurkunde",
+      "certificate_of_formation": "Gründungszertifikat",
+      "operating_agreement": "Betriebsvereinbarung",
+      "invoice": "Rechnung",
+      "other": "Anderes Dokument",
+      "boir": "BOIR",
+      "ein_document": "EIN-Dokument",
+      "tax_id": "Steuer-ID",
+      "address_proof": "Adressnachweis",
+      "passport_id": "Reisepass / Ausweisdokument"
+    }
   }
 }

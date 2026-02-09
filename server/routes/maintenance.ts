@@ -265,14 +265,14 @@ export function registerMaintenanceRoutes(app: Express) {
         .set({ requestCode })
         .where(eq(maintenanceApplications.id, application.id));
 
-      // NOTIFICATION: New maintenance order
+      // NOTIFICATION: New maintenance order (translated on frontend via i18n keys)
       if (userId && !userId.startsWith('guest_')) {
         await db.insert(userNotifications).values({
           userId,
           orderId: order.id,
           orderCode: requestCode,
-          title: "Nuevo pedido de mantenimiento",
-          message: `Tu pedido de mantenimiento anual (${requestCode}) ha sido registrado. Te mantendremos informado del progreso.`,
+          title: 'i18n:ntf.maintenanceSubmitted.title',
+          message: `i18n:ntf.maintenanceSubmitted.message::{"requestCode":"${requestCode}"}`,
           type: 'info',
           isRead: false
         });

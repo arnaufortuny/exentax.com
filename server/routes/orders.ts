@@ -216,14 +216,14 @@ export function registerOrderRoutes(app: Express) {
         state: product.name.split(" ")[0], // Extract state name correctly
       });
 
-      // NOTIFICATION: New order created (after application so we have requestCode)
+      // NOTIFICATION: New order created (translated on frontend via i18n keys)
       if (userId && !userId.startsWith('guest_')) {
         await db.insert(userNotifications).values({
           userId,
           orderId: order.id,
           orderCode: application.requestCode || order.invoiceNumber,
-          title: "Nuevo pedido registrado",
-          message: `Tu pedido de ${product.name} ha sido registrado correctamente. Te mantendremos informado del progreso.`,
+          title: 'i18n:ntf.orderCreated.title',
+          message: `i18n:ntf.orderCreated.message::{"productName":"${product.name}"}`,
           type: 'info',
           isRead: false
         });
