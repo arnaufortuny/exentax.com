@@ -171,6 +171,11 @@ export function registerUserProfileRoutes(app: Express) {
         return res.status(404).json({ message: "Document not found" });
       }
       
+      const docToDelete = orderDocs[0]?.application_documents || directDocs[0];
+      if (docToDelete && docToDelete.reviewStatus === 'approved') {
+        return res.status(403).json({ message: "Approved documents cannot be deleted." });
+      }
+      
       await db.delete(applicationDocumentsTable).where(eq(applicationDocumentsTable.id, docId));
       res.json({ success: true });
     } catch (error) {
@@ -689,7 +694,38 @@ export function registerUserProfileRoutes(app: Express) {
         .limit(1);
       
       if (!otpRecord) {
-        return res.status(400).json({ message: "Invalid or expired OTP code", code: "OTP_INVALID" });
+        const attempts = (pendingChanges.otpAttempts || 0) + 1;
+        const maxAttempts = 5;
+        
+        if (attempts >= maxAttempts) {
+          await db.update(usersTable).set({ 
+            pendingProfileChanges: null, 
+            pendingChangesExpiresAt: null,
+            accountStatus: 'pending'
+          }).where(eq(usersTable.id, userId));
+          
+          logAudit({
+            action: 'account_review',
+            userId,
+            details: { reason: 'Too many failed OTP attempts for profile change', attempts, email: user.email }
+          });
+          
+          return res.status(403).json({ 
+            message: "Too many failed attempts. Your account has been placed under review for security.", 
+            code: "ACCOUNT_UNDER_REVIEW",
+            attemptsRemaining: 0
+          });
+        }
+        
+        await db.update(usersTable).set({ 
+          pendingProfileChanges: { ...pendingChanges, otpAttempts: attempts }
+        }).where(eq(usersTable.id, userId));
+        
+        return res.status(400).json({ 
+          message: "Invalid or expired OTP code", 
+          code: "OTP_INVALID",
+          attemptsRemaining: maxAttempts - attempts
+        });
       }
       
       // Mark OTP as used

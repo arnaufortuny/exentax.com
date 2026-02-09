@@ -53,10 +53,13 @@ export function registerContactRoutes(app: Express) {
       // NOTIFICATION: Newsletter subscription
       const [user] = await db.select().from(usersTable).where(eq(usersTable.email, targetEmail)).limit(1);
       if (user) {
+        const uLang = ((user as any).preferredLanguage || 'es') as EmailLanguage;
+        const nlTitles: Record<string, string> = { en: 'Subscription confirmed', ca: 'Subscripció confirmada', fr: 'Abonnement confirmé', de: 'Abonnement bestätigt', it: 'Iscrizione confermata', pt: 'Subscrição confirmada' };
+        const nlMsgs: Record<string, string> = { en: 'You have successfully subscribed to our newsletter. You will receive the latest news and offers.', ca: 'T\'has subscrit correctament a la nostra newsletter. Rebràs les últimes notícies i ofertes.', fr: 'Vous êtes inscrit à notre newsletter. Vous recevrez les dernières nouvelles et offres.', de: 'Sie haben unseren Newsletter erfolgreich abonniert. Sie erhalten die neuesten Nachrichten und Angebote.', it: 'Ti sei iscritto alla nostra newsletter. Riceverai le ultime novità e offerte.', pt: 'Subscreveu a nossa newsletter com sucesso. Receberá as últimas notícias e ofertas.' };
         await db.insert(userNotifications).values({
           userId: user.id,
-          title: "Suscripción confirmada",
-          message: "Te has suscrito correctamente a nuestra newsletter. Recibirás las últimas noticias y ofertas.",
+          title: nlTitles[uLang] || "Suscripción confirmada",
+          message: nlMsgs[uLang] || "Te has suscrito correctamente a nuestra newsletter. Recibirás las últimas noticias y ofertas.",
           type: 'info',
           isRead: false
         });

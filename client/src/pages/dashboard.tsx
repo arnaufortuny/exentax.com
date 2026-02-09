@@ -247,7 +247,16 @@ export default function Dashboard() {
       const res = await apiRequest("POST", "/api/user/profile/confirm-otp", { otpCode: profileOtp });
       if (!res.ok) {
         const err = await res.json().catch(() => ({}));
-        throw new Error(err.message || t("dashboard.toasts.couldNotSave"));
+        if (err.code === "ACCOUNT_UNDER_REVIEW") {
+          queryClient.invalidateQueries({ queryKey: ["/api/auth/user"] });
+          setProfileOtpStep('idle');
+          setProfileOtp("");
+          setPendingProfileData(null);
+        }
+        const attemptsMsg = err.attemptsRemaining !== undefined && err.attemptsRemaining > 0
+          ? ` (${err.attemptsRemaining} ${t('profile.attemptsRemaining', 'attempts remaining')})`
+          : '';
+        throw new Error((err.message || t("dashboard.toasts.couldNotSave")) + attemptsMsg);
       }
     },
     onSuccess: () => {
@@ -259,7 +268,8 @@ export default function Dashboard() {
       setFormMessage({ type: 'success', text: t("dashboard.toasts.changesSaved") + ". " + t("dashboard.toasts.changesSavedDesc") });
     },
     onError: (error: any) => {
-      setFormMessage({ type: 'error', text: t("common.error") + ". " + error.message });
+      setProfileOtp("");
+      setFormMessage({ type: 'error', text: error.message });
     }
   });
 
@@ -1365,7 +1375,7 @@ export default function Dashboard() {
         </header>
 
         {/* Main Content Area */}
-        <div key={activeTab} className="animate-tab-content">
+        <div className="transition-opacity duration-100 ease-out">
             {formMessage && (
               <div className={`mb-4 p-3 rounded-xl text-center text-sm font-medium ${
                 formMessage.type === 'error' 
@@ -1388,7 +1398,7 @@ export default function Dashboard() {
                   activeOrders={activeOrders} 
                 />
                 {showTrustpilotCard && (
-                  <Card className="rounded-2xl border border-accent/20 shadow-sm p-5 bg-white dark:bg-card mt-4 relative" data-testid="card-trustpilot-review">
+                  <Card className="rounded-2xl border border-accent/20 shadow-sm p-5 pr-10 bg-white dark:bg-card mt-4 relative" data-testid="card-trustpilot-review">
                     <button 
                       onClick={() => {
                         setShowTrustpilotCard(false);
@@ -1438,6 +1448,8 @@ export default function Dashboard() {
                   replyContent={replyContent}
                   setReplyContent={setReplyContent}
                   sendReplyMutation={sendReplyMutation}
+                  user={user}
+                  setFormMessage={setFormMessage}
                 />
               )}
 
@@ -1622,29 +1634,104 @@ export default function Dashboard() {
                     )}
                   </Card>
                   
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    
-                    {userDocuments?.map((doc: any) => (
-                      <Card key={doc.id} className="rounded-xl md:rounded-2xl border-0 shadow-sm p-4 md:p-6 flex flex-col items-center text-center bg-white dark:bg-card">
-                        <FileUp className="w-10 h-10 md:w-12 md:h-12 text-accent mb-3" />
-                        <h3 className="font-black text-primary mb-1 text-xs md:text-sm line-clamp-2">{doc.fileName}</h3>
-                        <p className="text-[9px] md:text-[10px] text-muted-foreground">{new Date(doc.createdAt || doc.uploadedAt).toLocaleDateString()}</p>
-                        {doc.uploader && (
-                          <p className="text-[9px] text-accent mb-1">{t('dashboard.documents.uploadedBy')} {doc.uploader.firstName} {doc.uploader.lastName}</p>
-                        )}
-                        <div className="flex gap-2 w-full mt-3">
-                          <Button variant="outline" size="sm" className="rounded-full font-black flex-1 text-[10px] md:text-xs" onClick={() => window.open(doc.fileUrl, "_blank")} data-testid={`button-download-doc-${doc.id}`}>
-                            <Download className="w-3 h-3 mr-1" /> {t('dashboard.documents.download')}
-                          </Button>
-                          {canEdit && (
-                            <Button variant="outline" size="icon" className="rounded-full text-red-500 shrink-0" onClick={() => deleteDocMutation.mutate(doc.id)} disabled={deleteDocMutation.isPending} data-testid={`button-delete-doc-${doc.id}`}>
-                              <Trash2 className="w-3 h-3" />
-                            </Button>
-                          )}
-                        </div>
-                      </Card>
-                    ))}
-                  </div>
+                  {userDocuments && userDocuments.length > 0 && (
+                    <div className="space-y-3">
+                      <h3 className="text-sm font-black text-foreground">{t('dashboard.documents.myDocuments', 'My Documents')}</h3>
+                      {userDocuments.map((doc: any) => {
+                        const docTypeLabels: Record<string, string> = {
+                          passport: t('dashboard.documents.passport'),
+                          address_proof: t('dashboard.documents.addressProof'),
+                          tax_id: t('dashboard.documents.taxId'),
+                          articles_of_organization: t('dashboard.documents.articlesOfOrg', 'Articles of Organization'),
+                          ein_letter: t('dashboard.documents.einLetter', 'EIN Letter'),
+                          operating_agreement: t('dashboard.documents.operatingAgreement', 'Operating Agreement'),
+                          other: t('dashboard.documents.otherDocument'),
+                        };
+                        const statusConfig: Record<string, { label: string; className: string }> = {
+                          pending: { label: t('dashboard.documents.statusPending', 'Pending review'), className: 'bg-yellow-50 dark:bg-yellow-900/20 text-yellow-700 dark:text-yellow-400' },
+                          approved: { label: t('dashboard.documents.statusApproved', 'Approved'), className: 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400' },
+                          rejected: { label: t('dashboard.documents.statusRejected', 'Rejected'), className: 'bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-400' },
+                        };
+                        const status = statusConfig[doc.reviewStatus] || statusConfig.pending;
+                        const isApproved = doc.reviewStatus === 'approved';
+                        const isRejected = doc.reviewStatus === 'rejected';
+                        
+                        return (
+                          <Card key={doc.id} className="rounded-xl md:rounded-2xl border-0 shadow-sm bg-white dark:bg-card" data-testid={`card-document-${doc.id}`}>
+                            <CardContent className="p-4 md:p-5">
+                              <div className="flex items-start gap-3">
+                                <div className="w-10 h-10 rounded-xl bg-accent/10 flex items-center justify-center shrink-0">
+                                  <FileText className="w-5 h-5 text-accent" />
+                                </div>
+                                <div className="flex-1 min-w-0">
+                                  <div className="flex items-center justify-between gap-2 mb-1">
+                                    <h4 className="font-black text-foreground text-xs sm:text-sm truncate">{doc.fileName}</h4>
+                                    <Badge variant="secondary" className={`no-default-hover-elevate no-default-active-elevate text-[10px] font-bold shrink-0 ${status.className}`}>
+                                      {status.label}
+                                    </Badge>
+                                  </div>
+                                  <div className="flex items-center gap-3 text-[10px] sm:text-xs text-muted-foreground mb-2 flex-wrap">
+                                    <span>{docTypeLabels[doc.documentType] || doc.documentType}</span>
+                                    <span>{new Date(doc.uploadedAt || doc.createdAt).toLocaleDateString()}</span>
+                                    {doc.uploader && (
+                                      <span className="text-accent">{doc.uploader.firstName} {doc.uploader.lastName}</span>
+                                    )}
+                                  </div>
+                                  <div className="flex items-center gap-2 flex-wrap">
+                                    <Button variant="outline" size="sm" className="rounded-full font-bold text-[10px] md:text-xs" onClick={() => window.open(doc.fileUrl, "_blank")} data-testid={`button-download-doc-${doc.id}`}>
+                                      <Download className="w-3 h-3 mr-1" /> {t('dashboard.documents.download')}
+                                    </Button>
+                                    {isRejected && canEdit && (
+                                      <label className="cursor-pointer">
+                                        <input 
+                                          type="file" 
+                                          className="hidden" 
+                                          accept=".pdf,.jpg,.jpeg,.png"
+                                          onChange={async (e) => {
+                                            const file = e.target.files?.[0];
+                                            if (!file) return;
+                                            const formData = new FormData();
+                                            formData.append('file', file);
+                                            formData.append('documentType', doc.documentType);
+                                            try {
+                                              const csrfToken = await getCsrfToken();
+                                              const res = await fetch('/api/user/documents/upload', {
+                                                method: 'POST',
+                                                headers: { 'X-CSRF-Token': csrfToken },
+                                                body: formData,
+                                                credentials: 'include'
+                                              });
+                                              if (res.ok) {
+                                                setFormMessage({ type: 'success', text: t("dashboard.toasts.documentUploadedClient") });
+                                                queryClient.invalidateQueries({ queryKey: ['/api/user/documents'] });
+                                              } else {
+                                                setFormMessage({ type: 'error', text: t("dashboard.toasts.couldNotUpload") });
+                                              }
+                                            } catch {
+                                              setFormMessage({ type: 'error', text: t("dashboard.toasts.connectionError") });
+                                            }
+                                          }}
+                                          data-testid={`input-reupload-doc-${doc.id}`}
+                                        />
+                                        <Button variant="outline" size="sm" className="rounded-full font-bold text-[10px] md:text-xs border-orange-300 dark:border-orange-700 text-orange-700 dark:text-orange-300" asChild>
+                                          <span><Upload className="w-3 h-3 mr-1" /> {t('dashboard.documents.uploadAgain', 'Upload again')}</span>
+                                        </Button>
+                                      </label>
+                                    )}
+                                    {!isApproved && canEdit && (
+                                      <Button variant="ghost" size="icon" className="rounded-full text-muted-foreground hover:text-red-500 shrink-0" onClick={() => deleteDocMutation.mutate(doc.id)} disabled={deleteDocMutation.isPending} data-testid={`button-delete-doc-${doc.id}`}>
+                                        <Trash2 className="w-3 h-3" />
+                                      </Button>
+                                    )}
+                                  </div>
+                                </div>
+                              </div>
+                            </CardContent>
+                          </Card>
+                        );
+                      })}
+                    </div>
+                  )}
                 </div>
               )}
 
