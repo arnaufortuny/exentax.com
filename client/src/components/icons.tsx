@@ -377,14 +377,6 @@ export function Tag({ className, ...props }: IconProps) {
   );
 }
 
-export function Wallet({ className, ...props }: IconProps) {
-  return (
-    <Icon className={className} {...props}>
-      <rect x="2" y="6" width="20" height="14" rx="2" />
-      <path d="M16 12h4" />
-    </Icon>
-  );
-}
 
 export function Archive({ className, ...props }: IconProps) {
   return (

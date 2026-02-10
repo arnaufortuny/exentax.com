@@ -138,7 +138,7 @@ export function ProfileTab({
             <div className="flex-1">
               <h3 className="font-black text-foreground">{t('profile.otpSentTitle')}</h3>
               <p className="text-xs text-muted-foreground mt-0.5">{t('profile.otpRequiredDesc')}</p>
-              <p className="text-xs font-bold text-accent dark:text-accent mt-1">{t('profile.actionRequired')}</p>
+              <p className="text-xs font-bold text-red-600 dark:text-red-400 mt-1">{t('profile.actionRequired')}</p>
             </div>
           </div>
           

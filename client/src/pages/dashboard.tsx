@@ -1364,10 +1364,10 @@ export default function Dashboard() {
                     
                     if ((hasActionRequired || hasDocInReview) && user?.accountStatus !== 'deactivated') {
                       return (
-                        <Card className={`rounded-2xl border-0 shadow-sm bg-white dark:bg-card p-4 mb-4 ${hasDocInReview && !hasActionRequired ? 'border-l-4 border-l-blue-400' : ''}`} data-testid="card-doc-action-required">
+                        <Card className={`rounded-2xl shadow-sm p-4 mb-4 ${hasActionRequired ? 'border-2 border-red-300 dark:border-red-800 bg-red-50 dark:bg-red-950/30' : 'border-2 border-blue-300 dark:border-blue-800 bg-blue-50 dark:bg-blue-950/30'}`} data-testid="card-doc-action-required">
                           <div className="flex items-start gap-3">
                             {hasActionRequired ? (
-                              <FileUp className="w-5 h-5 text-accent mt-0.5" />
+                              <FileUp className="w-5 h-5 text-red-600 dark:text-red-400 mt-0.5" />
                             ) : (
                               <Clock className="w-5 h-5 text-blue-500 mt-0.5" />
                             )}
@@ -4873,17 +4873,17 @@ export default function Dashboard() {
               !!(user as any)?.pendingProfileChanges ||
               (orders?.some((o: any) => o.application?.fiscalYearEnd && new Date(o.application.fiscalYearEnd) <= new Date(Date.now() + 30 * 24 * 60 * 60 * 1000))) ||
               (orders?.some((o: any) => o.status === 'pending_payment' || o.status === 'payment_failed'))) && (
-              <Card className="rounded-2xl border-0 shadow-sm bg-white dark:bg-card p-6 md:p-8" data-testid="section-action-required-global">
+              <Card className="rounded-2xl border-2 border-red-300 dark:border-red-800 shadow-sm bg-red-50 dark:bg-red-950/30 p-6 md:p-8" data-testid="section-action-required-global">
                 <div className="mb-6">
-                  <h3 className="text-lg md:text-xl font-black tracking-tight text-primary flex items-center gap-2">
-                    <AlertCircle className="w-5 h-5 text-accent" /> {t('dashboard.actionRequired.title')}
+                  <h3 className="text-lg md:text-xl font-black tracking-tight text-red-700 dark:text-red-400 flex items-center gap-2">
+                    <AlertCircle className="w-5 h-5 text-red-600 dark:text-red-400" /> {t('dashboard.actionRequired.title')}
                   </h3>
-                  <p className="text-xs text-muted-foreground mt-1">{t('dashboard.actionRequired.subtitle')}</p>
+                  <p className="text-xs text-red-600/70 dark:text-red-400/70 mt-1">{t('dashboard.actionRequired.subtitle')}</p>
                 </div>
                 <div className="space-y-3">
                   {!!(user as any)?.pendingProfileChanges && (
-                    <div className="flex items-start gap-3 rounded-xl bg-gray-50 dark:bg-[#1A1A1A] p-3" data-testid="action-item-profile-pending">
-                      <UserCheck className="w-4 h-4 text-accent mt-0.5 shrink-0" />
+                    <div className="flex items-start gap-3 rounded-xl bg-red-50/50 dark:bg-red-950/10 p-3" data-testid="action-item-profile-pending">
+                      <UserCheck className="w-4 h-4 text-red-600 dark:text-red-400 mt-0.5 shrink-0" />
                       <div className="flex-1 min-w-0">
                         <p className="text-xs font-bold text-foreground">{t('dashboard.actionRequired.profilePending')}</p>
                         <p className="text-[10px] text-muted-foreground">{t('dashboard.actionRequired.profilePendingDesc')}</p>
@@ -4900,8 +4900,8 @@ export default function Dashboard() {
                     </div>
                   )}
                   {notifications?.filter((n: any) => n.type === 'action_required' && !(n.title || '').includes('accountDeactivated') && !(n.message || '').includes('accountDeactivated')).map((n: any) => (
-                    <div key={n.id} className="flex items-start gap-3 rounded-xl bg-gray-50 dark:bg-[#1A1A1A] p-3" data-testid={`action-item-document-${n.id}`}>
-                      <FileUp className="w-4 h-4 text-accent mt-0.5 shrink-0" />
+                    <div key={n.id} className="flex items-start gap-3 rounded-xl bg-red-50/50 dark:bg-red-950/10 p-3" data-testid={`action-item-document-${n.id}`}>
+                      <FileUp className="w-4 h-4 text-red-600 dark:text-red-400 mt-0.5 shrink-0" />
                       <div className="flex-1 min-w-0">
                         <p className="text-xs font-bold text-foreground">{t('dashboard.actionRequired.documentRequest')}</p>
                         <p className="text-[10px] text-muted-foreground">{tn(n.message)}</p>
@@ -4936,8 +4936,8 @@ export default function Dashboard() {
                     </div>
                   ))}
                   {orders?.filter((o: any) => o.status === 'pending_payment' || o.status === 'payment_failed').map((o: any) => (
-                    <div key={o.id} className="flex items-start gap-3 rounded-xl bg-gray-50 dark:bg-[#1A1A1A] p-3" data-testid={`action-item-payment-${o.id}`}>
-                      <DollarSign className="w-4 h-4 text-accent mt-0.5 shrink-0" />
+                    <div key={o.id} className="flex items-start gap-3 rounded-xl bg-red-50/50 dark:bg-red-950/10 p-3" data-testid={`action-item-payment-${o.id}`}>
+                      <DollarSign className="w-4 h-4 text-red-600 dark:text-red-400 mt-0.5 shrink-0" />
                       <div className="flex-1 min-w-0">
                         <p className="text-xs font-bold text-foreground">{t('dashboard.actionRequired.paymentPending')}</p>
                         <p className="text-[10px] text-muted-foreground truncate">{o.application?.companyName || o.maintenanceApplication?.requestCode || o.invoiceNumber}</p>
@@ -4954,8 +4954,8 @@ export default function Dashboard() {
                     </div>
                   ))}
                   {orders?.filter((o: any) => o.application?.fiscalYearEnd && new Date(o.application.fiscalYearEnd) <= new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)).map((o: any) => (
-                    <div key={`fiscal-${o.id}`} className="flex items-start gap-3 rounded-xl bg-gray-50 dark:bg-[#1A1A1A] p-3" data-testid={`action-item-fiscal-${o.id}`}>
-                      <Calendar className="w-4 h-4 text-accent mt-0.5 shrink-0" />
+                    <div key={`fiscal-${o.id}`} className="flex items-start gap-3 rounded-xl bg-red-50/50 dark:bg-red-950/10 p-3" data-testid={`action-item-fiscal-${o.id}`}>
+                      <Calendar className="w-4 h-4 text-red-600 dark:text-red-400 mt-0.5 shrink-0" />
                       <div className="flex-1 min-w-0">
                         <p className="text-xs font-bold text-foreground">{t('dashboard.actionRequired.fiscalDeadline')}</p>
                         <p className="text-[10px] text-muted-foreground">{o.application?.companyName} - {formatDate(o.application.fiscalYearEnd)}</p>
