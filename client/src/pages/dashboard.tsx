@@ -1168,7 +1168,7 @@ export default function Dashboard() {
 
         {/* Main content area */}
         <div className="flex-1 min-w-0 overflow-y-auto overflow-x-hidden">
-      <main className={`${activeTab === 'services' ? 'pt-8 sm:pt-10 lg:pt-14' : 'pt-6 sm:pt-10'} pb-20 ${isAdmin ? 'px-3 md:px-4 lg:px-4 xl:px-5' : 'px-5 md:px-8 max-w-7xl mx-auto lg:mx-0 lg:max-w-none lg:px-10'}`}>
+      <main className={`pt-6 sm:pt-10 pb-20 ${isAdmin ? 'px-3 md:px-4 lg:px-4 xl:px-5' : 'px-5 md:px-8 max-w-7xl mx-auto lg:mx-0 lg:max-w-none lg:px-10'}`}>
 
         {/* Mobile Navigation - Horizontal scroll buttons (ABOVE welcome on mobile) */}
         <div className="flex flex-col gap-2 mb-4 lg:hidden">
@@ -1234,7 +1234,7 @@ export default function Dashboard() {
           )}
         </div>
 
-        <header className={`${activeTab === 'services' ? 'mb-4 md:mb-6' : 'mb-2 md:mb-4'} animate-fade-in-up`}>
+        <header className="mb-2 md:mb-4 animate-fade-in-up">
           {activeTab === 'services' && (
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 md:gap-6">
             <div>
