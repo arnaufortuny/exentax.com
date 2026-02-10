@@ -109,12 +109,12 @@ function PendingReviewPage() {
   const tn = translateNotification;
 
   const { data: notifications, isLoading: notificationsLoading } = useQuery<any[]>({
-    queryKey: ["/api/notifications"],
+    queryKey: ["/api/user/notifications"],
   });
 
   const markNotificationRead = useMutation({
-    mutationFn: (id: number) => apiRequest("PATCH", `/api/notifications/${id}/read`),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["/api/notifications"] }),
+    mutationFn: (id: number) => apiRequest("PATCH", `/api/user/notifications/${id}/read`),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["/api/user/notifications"] }),
   });
 
   return (
