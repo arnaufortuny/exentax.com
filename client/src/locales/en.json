@@ -2738,6 +2738,7 @@
       "dueDate": "Due Date",
       "currency": "Currency",
       "taxRate": "Tax (%)",
+      "noVat": "No VAT (0%)",
       "description": "Description",
       "descriptionPlaceholder": "Service description",
       "quantity": "Quantity",

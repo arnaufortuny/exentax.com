@@ -2738,6 +2738,7 @@
       "dueDate": "Fälligkeitsdatum",
       "currency": "Währung",
       "taxRate": "Steuer (%)",
+      "noVat": "Keine MwSt. (0%)",
       "description": "Beschreibung",
       "descriptionPlaceholder": "Dienstleistungsbeschreibung",
       "quantity": "Menge",

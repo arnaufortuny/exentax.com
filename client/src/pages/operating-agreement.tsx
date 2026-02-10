@@ -381,8 +381,8 @@ export default function OperatingAgreementGenerator() {
       // Section 8 - Tax Treatment
       addSectionTitle(8, tPdf("tools.operatingAgreement.pdf.section8Title"));
       addParagraph(tPdf("tools.operatingAgreement.pdf.section8Intro"));
-      addBulletPoint("IRS Form 1120");
-      addBulletPoint("IRS Form 5472");
+      addBulletPoint(tPdf("tools.operatingAgreement.pdf.irs1120"));
+      addBulletPoint(tPdf("tools.operatingAgreement.pdf.irs5472"));
       addBulletPoint(tPdf("tools.operatingAgreement.pdf.federalState"));
       
       // Section 9 - Financial Responsibility

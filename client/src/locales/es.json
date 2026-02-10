@@ -2738,6 +2738,7 @@
       "dueDate": "Fecha de Vencimiento",
       "currency": "Moneda",
       "taxRate": "Impuesto (%)",
+      "noVat": "Sin IVA (0%)",
       "description": "Descripción",
       "descriptionPlaceholder": "Descripción del servicio",
       "quantity": "Cantidad",

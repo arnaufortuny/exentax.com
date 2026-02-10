@@ -543,7 +543,7 @@ export default function InvoiceGenerator() {
                     className="mt-1 rounded-full"
                     data-testid="select-tax-rate"
                   >
-                    <option value="0">Sin IVA (0%)</option>
+                    <option value="0">{t("tools.invoiceGenerator.noVat")}</option>
                     <option value="4">4%</option>
                     <option value="10">10%</option>
                     <option value="21">21%</option>

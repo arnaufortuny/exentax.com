@@ -2738,6 +2738,7 @@
       "dueDate": "Data di Scadenza",
       "currency": "Valuta",
       "taxRate": "Imposta (%)",
+      "noVat": "Senza IVA (0%)",
       "description": "Descrizione",
       "descriptionPlaceholder": "Descrizione del servizio",
       "quantity": "Quantità",
