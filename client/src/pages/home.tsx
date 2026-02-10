@@ -49,7 +49,7 @@ export default function Home() {
         showOverlay={false}
         title={
           <div className="flex flex-col items-center w-full">
-            <div className="mb-4 sm:hidden flex justify-center mt-1">
+            <div className="mb-6 sm:hidden flex justify-center mt-2">
               <a href="https://es.trustpilot.com/review/easyusllc.com" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-white dark:bg-white px-4 py-2.5 rounded-full shadow-md border-2 border-accent">
                 <img src={trustpilotLogo} alt="Trustpilot" className="h-6 w-auto" />
                 <div className="flex gap-0.5">
