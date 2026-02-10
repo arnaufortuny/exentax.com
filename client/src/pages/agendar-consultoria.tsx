@@ -379,7 +379,7 @@ export default function AsesoriaGratis() {
                       initial={{ opacity: 0, x: 20 }}
                       animate={{ opacity: 1, x: 0 }}
                       exit={{ opacity: 0, x: -20 }}
-                      transition={{ duration: 0.2 }}
+                      transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
                     >
                       {step === 0 && (
                         <div className="space-y-6">
