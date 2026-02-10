@@ -43,7 +43,10 @@ export function registerAuthExtRoutes(app: Express) {
 
       const { email } = z.object({ email: z.string().email() }).parse(req.body);
       
-      // Check if email is already registered
+      const browserLang = (req.body.preferredLanguage || req.headers['accept-language']?.split(',')[0]?.split('-')[0] || 'es') as EmailLanguage;
+      const supportedLangs: string[] = ['es', 'en', 'ca', 'fr', 'de', 'it', 'pt'];
+      const lang = supportedLangs.includes(browserLang) ? browserLang : 'es' as EmailLanguage;
+
       const [existingUser] = await db.select().from(usersTable).where(eq(usersTable.email, email)).limit(1);
       if (existingUser) {
         if (existingUser.isActive === false || existingUser.accountStatus === 'deactivated') {
@@ -75,7 +78,7 @@ export function registerAuthExtRoutes(app: Express) {
       }
       
       const otp = Math.floor(100000 + Math.random() * 900000).toString();
-      const expiresAt = new Date(Date.now() + 10 * 60 * 1000); // 10 mins
+      const expiresAt = new Date(Date.now() + 10 * 60 * 1000);
 
       await db.insert(contactOtps).values({
         email,
@@ -83,10 +86,6 @@ export function registerAuthExtRoutes(app: Express) {
         otpType: "account_verification",
         expiresAt,
       });
-
-      const browserLang = (req.body.preferredLanguage || req.headers['accept-language']?.split(',')[0]?.split('-')[0] || 'es') as EmailLanguage;
-      const supportedLangs: string[] = ['es', 'en', 'ca', 'fr', 'de', 'it', 'pt'];
-      const lang = supportedLangs.includes(browserLang) ? browserLang : 'es' as EmailLanguage;
       await sendEmail({
         to: email,
         subject: getOtpSubject(lang),
