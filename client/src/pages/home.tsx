@@ -45,7 +45,7 @@ export default function Home() {
       <Navbar />
       <HeroSection 
         className="flex flex-col items-center justify-center text-center min-h-[400px] sm:min-h-[70vh] w-full"
-        mobilePaddingTop="pt-4 sm:pt-4 lg:pt-8"
+        mobilePaddingTop="pt-8 sm:pt-12 lg:pt-16"
         showOverlay={false}
         title={
           <div className="flex flex-col items-center w-full">

@@ -307,7 +307,7 @@ export default function Contacto() {
   return (
     <div className="min-h-screen bg-background font-sans w-full animate-page-in">
       <Navbar />
-      <main className="pt-8 pb-16 max-w-xl mx-auto px-5 sm:px-6 md:px-8">
+      <main className="pt-10 sm:pt-14 pb-16 max-w-xl mx-auto px-5 sm:px-6 md:px-8">
         <h1 className="text-3xl md:text-5xl font-black mb-4 text-foreground leading-tight text-center">
           <span className="text-accent tracking-widest text-xs sm:text-sm font-black block mb-2">{t("contact.pageTitle")}</span>
           <span className="text-foreground">{t("contact.pageSubtitle")}</span>
