@@ -34,6 +34,7 @@ import { registerAccountingRoutes } from "./routes/accounting";
 import { registerMessageRoutes } from "./routes/messages";
 import { registerContactRoutes } from "./routes/contact";
 import { registerAuthExtRoutes } from "./routes/auth-ext";
+import { registerAdminRoleRoutes } from "./routes/admin-roles";
 
 export async function registerRoutes(
   httpServer: Server,
@@ -178,6 +179,9 @@ export async function registerRoutes(
 
   // Admin Documents (extracted to server/routes/admin-documents.ts)
   registerAdminDocumentsRoutes(app);
+
+  // Admin Roles & Permissions
+  registerAdminRoleRoutes(app);
 
   // User Documents (extracted to server/routes/user-documents.ts)
   registerUserDocumentRoutes(app);

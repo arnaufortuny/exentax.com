@@ -1741,7 +1741,8 @@
         "paymentAccounts": "Zahlungsmethoden",
         "activity": "Aktivität",
         "accounting": "Buchhaltung",
-        "invoices": "Rechnungen"
+        "invoices": "Rechnungen",
+        "roles": "Rollen"
       },
       "newOrder": "Neue Bestellung",
       "supportPermissions": "Support-Rolle",
@@ -3631,6 +3632,7 @@
     "duration": "20 Minuten · Kostenlos · Ohne Verpflichtung",
     "error": "Fehler bei der Buchung. Bitte versuchen Sie es erneut.",
     "consent": "Ich stimme der Verarbeitung meiner personenbezogenen Daten zur Verwaltung dieser Beratung gemäß der Datenschutzrichtlinie zu.",
+    "emailDeactivated": "Diese E-Mail ist mit einem deaktivierten Konto verknüpft. Bitte kontaktieren Sie den Support.",
     "success": {
       "title": "Beratung erfolgreich gebucht",
       "description": "Wir haben Ihre Beratung registriert. Sie erhalten eine Bestätigungs-E-Mail mit allen Details.",

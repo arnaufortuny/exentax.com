@@ -272,30 +272,8 @@ export function Navbar() {
                 {t("nav.freeConsultation")}
               </button>
               
-              <div className="px-3 py-4 mb-4 bg-accent/5 rounded-2xl border border-accent/20 text-left">
-                <p className="text-sm font-black text-accent tracking-tighter mb-2 text-left" style={{ fontFamily: 'var(--font-display)' }}>{t("nav.myArea")}</p>
-                {isAuthenticated ? (
-                  <>
-                    <button
-                      onClick={() => handleNavClick("/dashboard")}
-                      className="w-full text-left py-2 text-foreground font-black text-xl tracking-tighter flex items-center justify-start gap-2"
-                      data-testid="button-mobile-dashboard-menu"
-                    >
-                      <UserIcon className="w-5 h-5" /> {t("nav.myArea")}
-                    </button>
-                    <button
-                      onClick={() => {
-                        resetScrollLock();
-                        logout();
-                        setIsOpen(false);
-                      }}
-                      className="w-full text-left py-2 text-red-500 dark:text-red-400 font-black text-lg tracking-tighter flex items-center justify-start gap-2"
-                      data-testid="button-mobile-logout-menu"
-                    >
-                      <LogOut className="w-5 h-5" /> {t("mobile.logout")}
-                    </button>
-                  </>
-                ) : (
+              {!isAuthenticated && (
+                <div className="px-3 py-4 mb-4 bg-accent/5 rounded-2xl border border-accent/20 text-left">
                   <button
                     onClick={() => handleNavClick("/auth/login")}
                     className="w-full text-left py-2 text-foreground font-black text-xl tracking-tighter flex items-center justify-start gap-2"
@@ -303,8 +281,8 @@ export function Navbar() {
                   >
                     <UserIcon className="w-5 h-5" /> {t("mobile.myAccount")}
                   </button>
-                )}
-              </div>
+                </div>
+              )}
 
               <div className="mt-4 px-3 flex flex-col gap-3">
                 {!isAuthenticated && (

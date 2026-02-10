@@ -1741,7 +1741,8 @@
         "paymentAccounts": "Méthodes de paiement",
         "activity": "Activité",
         "accounting": "Comptabilité",
-        "invoices": "Factures"
+        "invoices": "Factures",
+        "roles": "Rôles"
       },
       "newOrder": "Nouvelle commande",
       "supportPermissions": "Rôle de support",
@@ -3631,6 +3632,7 @@
     "duration": "20 minutes · Gratuite · Sans engagement",
     "error": "Erreur lors de la réservation. Veuillez réessayer.",
     "consent": "J'accepte le traitement de mes données personnelles pour gérer cette consultation, conformément à la politique de confidentialité.",
+    "emailDeactivated": "Cet email est associé à un compte désactivé. Veuillez contacter le support.",
     "success": {
       "title": "Consultation réservée avec succès",
       "description": "Nous avons enregistré votre consultation. Vous recevrez un email de confirmation avec tous les détails.",

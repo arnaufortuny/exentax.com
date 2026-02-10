@@ -1744,7 +1744,8 @@
         "paymentAccounts": "Payment Methods",
         "activity": "Activity",
         "accounting": "Accounting",
-        "invoices": "Invoices"
+        "invoices": "Invoices",
+        "roles": "Roles"
       },
       "newOrder": "New Order",
       "supportPermissions": "Support Role",
@@ -3631,6 +3632,7 @@
     "duration": "20 minutes · Free · No commitment",
     "error": "Error booking consultation. Please try again.",
     "consent": "I agree to the processing of my personal data to manage this consultation, in accordance with the privacy policy.",
+    "emailDeactivated": "This email is associated with a deactivated account. Please contact support.",
     "success": {
       "title": "Consultation booked successfully",
       "description": "We've registered your consultation. You'll receive a confirmation email with all the details.",

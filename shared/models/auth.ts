@@ -53,11 +53,14 @@ export const users = pgTable("users", {
   identityVerificationDocumentKey: text("identity_verification_document_key"),
   identityVerificationDocumentName: text("identity_verification_document_name"),
   identityVerificationReviewedAt: timestamp("identity_verification_reviewed_at"),
+  userType: text("user_type").notNull().default("client"),
+  staffRoleId: integer("staff_role_id"),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
 }, (table) => ({
   accountStatusIdx: index("users_account_status_idx").on(table.accountStatus),
   isAdminIdx: index("users_is_admin_idx").on(table.isAdmin),
+  userTypeIdx: index("users_user_type_idx").on(table.userType),
 }));
 
 export const userNotifications = pgTable("user_notifications", {

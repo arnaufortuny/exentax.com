@@ -24,11 +24,49 @@ import { motion, AnimatePresence } from "framer-motion";
 
 const TOTAL_STEPS = 5;
 
+const PHONE_PREFIXES = [
+  { code: '+34', country: 'ES', label: 'Spain (+34)' },
+  { code: '+1', country: 'US', label: 'USA (+1)' },
+  { code: '+44', country: 'GB', label: 'UK (+44)' },
+  { code: '+33', country: 'FR', label: 'France (+33)' },
+  { code: '+49', country: 'DE', label: 'Germany (+49)' },
+  { code: '+39', country: 'IT', label: 'Italy (+39)' },
+  { code: '+351', country: 'PT', label: 'Portugal (+351)' },
+  { code: '+52', country: 'MX', label: 'Mexico (+52)' },
+  { code: '+54', country: 'AR', label: 'Argentina (+54)' },
+  { code: '+57', country: 'CO', label: 'Colombia (+57)' },
+  { code: '+56', country: 'CL', label: 'Chile (+56)' },
+  { code: '+55', country: 'BR', label: 'Brazil (+55)' },
+  { code: '+593', country: 'EC', label: 'Ecuador (+593)' },
+  { code: '+51', country: 'PE', label: 'Peru (+51)' },
+  { code: '+58', country: 'VE', label: 'Venezuela (+58)' },
+  { code: '+502', country: 'GT', label: 'Guatemala (+502)' },
+  { code: '+506', country: 'CR', label: 'Costa Rica (+506)' },
+  { code: '+507', country: 'PA', label: 'Panama (+507)' },
+  { code: '+598', country: 'UY', label: 'Uruguay (+598)' },
+  { code: '+595', country: 'PY', label: 'Paraguay (+595)' },
+  { code: '+591', country: 'BO', label: 'Bolivia (+591)' },
+  { code: '+503', country: 'SV', label: 'El Salvador (+503)' },
+  { code: '+504', country: 'HN', label: 'Honduras (+504)' },
+  { code: '+505', country: 'NI', label: 'Nicaragua (+505)' },
+  { code: '+353', country: 'IE', label: 'Ireland (+353)' },
+  { code: '+31', country: 'NL', label: 'Netherlands (+31)' },
+  { code: '+32', country: 'BE', label: 'Belgium (+32)' },
+  { code: '+41', country: 'CH', label: 'Switzerland (+41)' },
+  { code: '+43', country: 'AT', label: 'Austria (+43)' },
+  { code: '+48', country: 'PL', label: 'Poland (+48)' },
+  { code: '+46', country: 'SE', label: 'Sweden (+46)' },
+  { code: '+47', country: 'NO', label: 'Norway (+47)' },
+  { code: '+45', country: 'DK', label: 'Denmark (+45)' },
+  { code: '+358', country: 'FI', label: 'Finland (+358)' },
+];
+
 const createFormSchema = (t: (key: string) => string) => z.object({
   firstName: z.string().min(1, t("validation.required")),
   lastName: z.string().min(1, t("validation.required")),
   email: z.string().email(t("validation.invalidEmail")),
-  phone: z.string().optional(),
+  phonePrefix: z.string().min(1, t("validation.required")),
+  phone: z.string().min(6, t("validation.required")).max(15),
   countryOfResidence: z.string().min(1, t("validation.required")),
   scheduledDate: z.string().min(1, t("validation.required")),
   scheduledTime: z.string().min(1, t("validation.required")),
@@ -72,6 +110,7 @@ export default function AsesoriaGratis() {
       firstName: "",
       lastName: "",
       email: "",
+      phonePrefix: "+34",
       phone: "",
       countryOfResidence: "",
       scheduledDate: "",
@@ -159,7 +198,7 @@ export default function AsesoriaGratis() {
 
   const nextStep = async () => {
     const validations: Record<number, (keyof FormValues)[]> = {
-      0: ["firstName", "lastName", "email", "countryOfResidence"],
+      0: ["firstName", "lastName", "email", "phonePrefix", "phone", "countryOfResidence"],
       1: ["scheduledDate", "scheduledTime"],
       2: ["mainTopic"],
       3: [],
@@ -177,6 +216,15 @@ export default function AsesoriaGratis() {
       if (!validateEmail(email)) {
         form.setError("email", { message: t("validation.invalidEmail") });
         return;
+      }
+      try {
+        const checkRes = await apiRequest("POST", "/api/consultations/check-email", { email });
+        const checkData = await checkRes.json();
+        if (checkData.deactivated) {
+          form.setError("email", { message: t("freeConsultation.emailDeactivated") || "This email is associated with a deactivated account." });
+          return;
+        }
+      } catch {
       }
     }
 
@@ -197,11 +245,12 @@ export default function AsesoriaGratis() {
     setIsSubmitting(true);
     setFormMessage(null);
     try {
+      const fullPhone = values.phonePrefix + ' ' + values.phone;
       const res = await apiRequest("POST", "/api/consultations/book-free", {
         firstName: values.firstName,
         lastName: values.lastName,
         email: values.email,
-        phone: values.phone || undefined,
+        phone: fullPhone,
         countryOfResidence: values.countryOfResidence,
         scheduledDate: values.scheduledDate,
         scheduledTime: values.scheduledTime,
@@ -303,14 +352,14 @@ export default function AsesoriaGratis() {
       <Navbar />
       <main className="flex-1 px-4 py-8 md:py-16">
         <div className="max-w-2xl mx-auto">
-          <div className="text-center mb-8">
-            <h1 className="text-3xl md:text-4xl font-bold mb-3" data-testid="text-page-title">
+          <div className="text-center mb-10 pt-4">
+            <h1 className="text-3xl md:text-5xl font-black tracking-tight mb-4" style={{ fontFamily: 'var(--font-display)' }} data-testid="text-page-title">
               {t("freeConsultation.title")}
             </h1>
-            <p className="text-muted-foreground text-lg">
+            <p className="text-muted-foreground text-lg md:text-xl max-w-xl mx-auto">
               {t("freeConsultation.subtitle")}
             </p>
-            <div className="flex items-center justify-center gap-2 mt-3">
+            <div className="flex items-center justify-center gap-2 mt-4">
               <Clock className="w-4 h-4 text-accent" />
               <span className="text-sm text-accent font-medium">
                 {t("freeConsultation.duration")}
@@ -374,10 +423,23 @@ export default function AsesoriaGratis() {
                           )} />
                           <FormField control={form.control} name="phone" render={({ field }) => (
                             <FormItem>
-                              <FormLabel>{t("freeConsultation.fields.phone")}</FormLabel>
-                              <FormControl>
-                                <Input data-testid="input-phone" type="tel" placeholder={t("freeConsultation.fields.phonePlaceholder")} {...field} />
-                              </FormControl>
+                              <FormLabel>{t("freeConsultation.fields.phone")} *</FormLabel>
+                              <div className="flex gap-2">
+                                <FormField control={form.control} name="phonePrefix" render={({ field: prefixField }) => (
+                                  <select
+                                    {...prefixField}
+                                    data-testid="select-phone-prefix"
+                                    className="flex h-9 min-w-[100px] max-w-[120px] rounded-md border border-input bg-background px-2 py-1 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                                  >
+                                    {PHONE_PREFIXES.map(p => (
+                                      <option key={p.code} value={p.code}>{p.code} {p.country}</option>
+                                    ))}
+                                  </select>
+                                )} />
+                                <FormControl>
+                                  <Input data-testid="input-phone" type="tel" placeholder="612 345 678" {...field} className="flex-1" />
+                                </FormControl>
+                              </div>
                               <FormMessage />
                             </FormItem>
                           )} />

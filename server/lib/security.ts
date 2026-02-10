@@ -125,7 +125,11 @@ export type AuditAction =
   | 'identity_verification_approved'
   | 'identity_verification_rejected'
   | 'identity_verification_requested'
-  | 'send_verification_otp';
+  | 'send_verification_otp'
+  | 'staff_role_created'
+  | 'staff_role_updated'
+  | 'staff_role_deleted'
+  | 'staff_role_assigned';
 
 interface AuditLogEntry {
   action: AuditAction;

@@ -610,3 +610,33 @@ export const standaloneInvoices = pgTable("standalone_invoices", {
 export const insertStandaloneInvoiceSchema = createInsertSchema(standaloneInvoices).omit({ id: true, createdAt: true, updatedAt: true });
 export type StandaloneInvoice = typeof standaloneInvoices.$inferSelect;
 export type InsertStandaloneInvoice = z.infer<typeof insertStandaloneInvoiceSchema>;
+
+export const STAFF_PERMISSIONS = [
+  'accounting.view',
+  'accounting.manage',
+  'consultations.view',
+  'consultations.manage',
+  'documents.view',
+  'documents.upload',
+  'support.view',
+  'support.respond',
+  'users.view',
+  'orders.view',
+  'orders.manage',
+] as const;
+
+export type StaffPermission = typeof STAFF_PERMISSIONS[number];
+
+export const staffRoles = pgTable("staff_roles", {
+  id: serial("id").primaryKey(),
+  name: text("name").notNull().unique(),
+  description: text("description"),
+  permissions: jsonb("permissions").$type<StaffPermission[]>().notNull().default([]),
+  isActive: boolean("is_active").notNull().default(true),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+export const insertStaffRoleSchema = createInsertSchema(staffRoles).omit({ id: true, createdAt: true, updatedAt: true });
+export type StaffRole = typeof staffRoles.$inferSelect;
+export type InsertStaffRole = z.infer<typeof insertStaffRoleSchema>;

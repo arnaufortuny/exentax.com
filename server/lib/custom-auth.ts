@@ -64,6 +64,8 @@ declare module "express-session" {
     email: string;
     isAdmin: boolean;
     isSupport: boolean;
+    staffRoleId: number | null;
+    staffPermissions: string[];
   }
 }
 
@@ -485,7 +487,7 @@ export function setupCustomAuth(app: Express) {
         return res.status(401).json({ message: "User not found" });
       }
 
-      res.json({
+      const userData: any = {
         id: user.id,
         email: user.email,
         firstName: user.firstName,
@@ -513,7 +515,21 @@ export function setupCustomAuth(app: Express) {
         pendingChangesExpiresAt: user.pendingChangesExpiresAt || null,
         identityVerificationStatus: user.identityVerificationStatus || 'none',
         identityVerificationNotes: user.identityVerificationNotes || null,
-      });
+        userType: user.userType || 'client',
+        staffRoleId: user.staffRoleId || null,
+        staffPermissions: [] as string[],
+      };
+
+      if (user.staffRoleId) {
+        const { staffRoles } = await import("@shared/schema");
+        const [role] = await db.select().from(staffRoles)
+          .where(eq(staffRoles.id, user.staffRoleId)).limit(1);
+        if (role && role.isActive) {
+          userData.staffPermissions = (role.permissions || []) as string[];
+        }
+      }
+
+      res.json(userData);
     } catch (error) {
       log.error("Get user error", error);
       res.status(500).json({ message: "Error fetching user" });
@@ -700,3 +716,79 @@ export const isAdminOrSupport: RequestHandler = async (req, res, next) => {
 
   next();
 };
+
+export function hasPermission(...requiredPermissions: string[]): RequestHandler {
+  return async (req: any, res, next) => {
+    if (!req.session.userId) {
+      return res.status(401).json({ message: "Not authenticated" });
+    }
+
+    const [user] = await db.select().from(users).where(eq(users.id, req.session.userId)).limit(1);
+    if (!user) {
+      return res.status(401).json({ message: "Not authenticated" });
+    }
+
+    if (user.isAdmin) {
+      return next();
+    }
+
+    if (!user.staffRoleId) {
+      return res.status(403).json({ message: "Not authorized" });
+    }
+
+    const { staffRoles } = await import("@shared/schema");
+    const [role] = await db.select().from(staffRoles)
+      .where(and(eq(staffRoles.id, user.staffRoleId), eq(staffRoles.isActive, true)))
+      .limit(1);
+
+    if (!role) {
+      return res.status(403).json({ message: "Not authorized" });
+    }
+
+    const userPerms = (role.permissions || []) as string[];
+    const hasAll = requiredPermissions.every(p => userPerms.includes(p));
+    if (!hasAll) {
+      return res.status(403).json({ message: "Insufficient permissions" });
+    }
+
+    next();
+  };
+}
+
+export function hasAnyPermission(...requiredPermissions: string[]): RequestHandler {
+  return async (req: any, res, next) => {
+    if (!req.session.userId) {
+      return res.status(401).json({ message: "Not authenticated" });
+    }
+
+    const [user] = await db.select().from(users).where(eq(users.id, req.session.userId)).limit(1);
+    if (!user) {
+      return res.status(401).json({ message: "Not authenticated" });
+    }
+
+    if (user.isAdmin) {
+      return next();
+    }
+
+    if (!user.staffRoleId) {
+      return res.status(403).json({ message: "Not authorized" });
+    }
+
+    const { staffRoles } = await import("@shared/schema");
+    const [role] = await db.select().from(staffRoles)
+      .where(and(eq(staffRoles.id, user.staffRoleId), eq(staffRoles.isActive, true)))
+      .limit(1);
+
+    if (!role) {
+      return res.status(403).json({ message: "Not authorized" });
+    }
+
+    const userPerms = (role.permissions || []) as string[];
+    const hasAny = requiredPermissions.some(p => userPerms.includes(p));
+    if (!hasAny) {
+      return res.status(403).json({ message: "Insufficient permissions" });
+    }
+
+    next();
+  };
+}

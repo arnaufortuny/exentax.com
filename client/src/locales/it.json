@@ -1690,7 +1690,8 @@
         "paymentAccounts": "Metodi di pagamento",
         "activity": "Attività",
         "accounting": "Contabilità",
-        "invoices": "Fatture"
+        "invoices": "Fatture",
+        "roles": "Ruoli"
       },
       "newOrder": "Nuovo Ordine",
       "supportPermissions": "Ruolo di supporto",
@@ -3631,6 +3632,7 @@
     "duration": "20 minuti · Gratuita · Senza impegno",
     "error": "Errore nella prenotazione. Riprova.",
     "consent": "Accetto il trattamento dei miei dati personali per gestire questa consulenza, secondo la politica sulla privacy.",
+    "emailDeactivated": "Questa email è associata a un account disattivato. Contatta il supporto.",
     "success": {
       "title": "Consulenza prenotata con successo",
       "description": "Abbiamo registrato la tua consulenza. Riceverai un'email di conferma con tutti i dettagli.",

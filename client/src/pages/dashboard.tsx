@@ -30,6 +30,7 @@ import {
 import { PRICING, getFormationPriceFormatted, getMaintenancePriceFormatted } from "@shared/config/pricing";
 import { ServicesTab } from "@/components/dashboard/services-tab";
 import { ActivityLogPanel } from "@/components/dashboard/activity-log-panel";
+import AdminRolesPanel from "@/components/dashboard/admin-roles-panel";
 import { NotificationsTab } from "@/components/dashboard/notifications-tab";
 import { MessagesTab } from "@/components/dashboard/messages-tab";
 import { ProfileTab } from "@/components/dashboard/profile-tab";
@@ -961,6 +962,7 @@ export default function Dashboard() {
       { id: 'admin-docs', subTab: 'docs', label: t('dashboard.admin.tabs.docs'), icon: FileText, mobileLabel: t('dashboard.admin.tabs.docs'), adminOnly: false },
       { id: 'admin-discounts', subTab: 'descuentos', label: t('dashboard.admin.tabs.discounts'), icon: Tag, mobileLabel: t('dashboard.admin.tabs.discounts'), adminOnly: true },
       { id: 'admin-activity', subTab: 'activity', label: t('dashboard.admin.tabs.activity'), icon: ClipboardList, mobileLabel: t('dashboard.admin.tabs.activity'), adminOnly: true },
+      { id: 'admin-roles', subTab: 'roles', label: t('dashboard.admin.tabs.roles') || 'Roles', icon: Key, mobileLabel: t('dashboard.admin.tabs.roles') || 'Roles', adminOnly: true },
     ];
     return allItems.filter(item => isAdmin || !item.adminOnly);
   }, [t, isAdmin]);
@@ -4730,6 +4732,10 @@ export default function Dashboard() {
 
                   {adminSubTab === 'activity' && (
                     <ActivityLogPanel />
+                  )}
+
+                  {adminSubTab === 'roles' && (
+                    <AdminRolesPanel />
                   )}
 
                   {adminSubTab === 'descuentos' && (

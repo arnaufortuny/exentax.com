@@ -1741,7 +1741,8 @@
         "paymentAccounts": "Mètodes de pagament",
         "activity": "Registre",
         "accounting": "Comptabilitat",
-        "invoices": "Factures"
+        "invoices": "Factures",
+        "roles": "Rols"
       },
       "newOrder": "Nova Sol·licitud",
       "supportPermissions": "Rol de Suport",
@@ -3631,6 +3632,7 @@
     "duration": "20 minuts · Gratuïta · Sense compromís",
     "error": "Error en reservar la consulta. Torna-ho a provar.",
     "consent": "Accepto el tractament de les meves dades personals per gestionar aquesta consulta, segons la política de privacitat.",
+    "emailDeactivated": "Aquest email està associat amb un compte desactivat. Contacteu amb suport.",
     "success": {
       "title": "Consulta reservada amb èxit",
       "description": "Hem registrat la teva consulta. Rebràs un correu de confirmació amb tots els detalls.",

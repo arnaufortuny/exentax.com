@@ -148,6 +148,25 @@ export function registerConsultationRoutes(app: Express) {
     }
   });
 
+  app.post("/api/consultations/check-email", async (req: any, res) => {
+    try {
+      const { email } = req.body;
+      if (!email) return res.json({ exists: false, deactivated: false });
+      
+      const normalizedEmail = email.trim().toLowerCase();
+      const [user] = await db.select({ id: usersTable.id, accountStatus: usersTable.accountStatus })
+        .from(usersTable)
+        .where(eq(usersTable.email, normalizedEmail))
+        .limit(1);
+      
+      if (!user) return res.json({ exists: false, deactivated: false });
+      if (user.accountStatus === 'deactivated') return res.json({ exists: true, deactivated: true });
+      return res.json({ exists: true, deactivated: false });
+    } catch (error) {
+      res.json({ exists: false, deactivated: false });
+    }
+  });
+
   // Public booking for free consultations (no auth required)
   app.post("/api/consultations/book-free", async (req: any, res) => {
     try {
@@ -237,10 +256,28 @@ export function registerConsultationRoutes(app: Express) {
       if (req.session?.userId) {
         userId = req.session.userId;
       } else {
-        const [existingUser] = await db.select({ id: usersTable.id }).from(usersTable)
+        const [existingUser] = await db.select({ id: usersTable.id, accountStatus: usersTable.accountStatus }).from(usersTable)
           .where(eq(usersTable.email, email)).limit(1);
         if (existingUser) {
+          if (existingUser.accountStatus === 'deactivated') {
+            return res.status(400).json({ message: "This email is associated with a deactivated account. Please contact support." });
+          }
           userId = existingUser.id;
+        } else {
+          const { generateUniqueClientId } = await import("../lib/id-generator");
+          const clientId = await generateUniqueClientId();
+          const [guestUser] = await db.insert(usersTable).values({
+            email,
+            firstName: data.firstName,
+            lastName: data.lastName,
+            phone: data.phone || null,
+            country: data.countryOfResidence || null,
+            preferredLanguage: data.preferredLanguage || 'es',
+            userType: 'guest',
+            clientId,
+            accountStatus: 'active',
+          }).returning();
+          userId = guestUser.id;
         }
       }
       

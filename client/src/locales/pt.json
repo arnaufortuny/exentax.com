@@ -1741,7 +1741,8 @@
         "paymentAccounts": "Métodos de pagamento",
         "activity": "Atividade",
         "accounting": "Contabilidade",
-        "invoices": "Faturas"
+        "invoices": "Faturas",
+        "roles": "Funções"
       },
       "newOrder": "Novo Pedido",
       "supportPermissions": "Função de suporte",
@@ -3631,6 +3632,7 @@
     "duration": "20 minutos · Gratuita · Sem compromisso",
     "error": "Erro ao reservar a consulta. Tente novamente.",
     "consent": "Aceito o tratamento dos meus dados pessoais para gerir esta consulta, de acordo com a política de privacidade.",
+    "emailDeactivated": "Este email está associado a uma conta desativada. Entre em contato com o suporte.",
     "success": {
       "title": "Consulta reservada com sucesso",
       "description": "Registramos sua consulta. Você receberá um email de confirmação com todos os detalhes.",

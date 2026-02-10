@@ -4,7 +4,7 @@ import { storage } from "../storage";
 import { orders as ordersTable, users as usersTable } from "@shared/schema";
 import { and, eq, gt, sql } from "drizzle-orm";
 import { logAudit, getClientIp } from "../lib/security";
-import { isAuthenticated, isAdmin, isAdminOrSupport, isNotUnderReview } from "../lib/custom-auth";
+import { isAuthenticated, isAdmin, isAdminOrSupport, isNotUnderReview, hasPermission, hasAnyPermission } from "../lib/custom-auth";
 
 interface CacheEntry<T> {
   data: T;
@@ -108,4 +108,4 @@ export const asyncHandler = (fn: any) => (req: any, res: any, next: any) => {
 };
 
 export { withRetry } from "../lib/db-utils";
-export { db, storage, isAuthenticated, isAdmin, isAdminOrSupport, isNotUnderReview, logAudit, getClientIp };
+export { db, storage, isAuthenticated, isAdmin, isAdminOrSupport, isNotUnderReview, hasPermission, hasAnyPermission, logAudit, getClientIp };
