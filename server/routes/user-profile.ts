@@ -244,40 +244,6 @@ export function registerUserProfileRoutes(app: Express) {
     }
   });
 
-  // Client document upload
-  app.post("/api/documents/upload", isAuthenticated, async (req: any, res) => {
-    try {
-      const { orderId, fileName, fileUrl, documentType, applicationId } = z.object({
-        orderId: z.number(),
-        applicationId: z.number(),
-        fileName: z.string(),
-        fileUrl: z.string(),
-        documentType: z.string()
-      }).parse(req.body);
-
-      const [doc] = await db.insert(applicationDocumentsTable).values({
-        orderId,
-        applicationId,
-        fileName,
-        fileType: "application/pdf",
-        fileUrl,
-        documentType,
-        reviewStatus: "pending",
-        uploadedBy: req.session.userId
-      }).returning();
-
-      logActivity("Documento Subido por Cliente", { 
-        "Cliente ID": req.session.userId,
-        "Pedido ID": orderId,
-        "Tipo": documentType
-      });
-
-      const { fileUrl: _url, encryptionIv: _iv, fileHash: _hash, ...safeDoc } = doc;
-      res.json(safeDoc);
-    } catch (error) {
-      res.status(500).json({ message: "Error uploading document" });
-    }
-  });
 
   // Client: Upload identity verification document
   app.post("/api/user/identity-verification/upload", isAuthenticated, async (req: any, res) => {

@@ -586,6 +586,8 @@ export default function Dashboard() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/user/documents"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/admin/documents"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/admin/orders"] });
       setFormMessage({ type: 'success', text: t("dashboard.toasts.documentUploaded") + ". " + t("dashboard.toasts.documentUploadedDesc") });
     },
     onError: (error: any) => {
@@ -602,6 +604,9 @@ export default function Dashboard() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/admin/orders"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/orders"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/user/notifications"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/user/documents"] });
       setFormMessage({ type: 'success', text: t("dashboard.toasts.statusUpdated") });
     },
     onError: () => {
@@ -636,6 +641,7 @@ export default function Dashboard() {
       return res.json();
     },
     onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/user/notifications"] });
       setFormMessage({ type: 'success', text: t("dashboard.toasts.notesSent") + ". " + t("dashboard.toasts.notesSentDesc") });
       setNoteDialog({ open: false, user: null });
       setNoteTitle("");
@@ -681,6 +687,8 @@ export default function Dashboard() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/admin/users"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/auth/user"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/admin/orders"] });
       setFormMessage({ type: 'success', text: t("dashboard.toasts.userUpdated") });
       setEditingUser(null);
     },
@@ -823,6 +831,9 @@ export default function Dashboard() {
     },
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["/api/admin/orders"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/orders"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/admin/invoices"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/admin/accounting/transactions"] });
       setFormMessage({ type: 'success', text: t("dashboard.toasts.orderCreated") + ". " + (t("dashboard.toasts.orderCreatedDesc", { number: data?.invoiceNumber || '' })) });
       setCreateOrderDialog(false);
       setNewOrderData({ userId: '', productId: '1', amount: '', state: 'New Mexico', orderType: 'llc', concept: '' });
@@ -4587,7 +4598,7 @@ export default function Dashboard() {
                             return (
                             <Card key={doc.id} className="rounded-xl border-0 shadow-sm p-4" data-testid={`admin-doc-card-${doc.id}`}>
                               <div className="flex items-start gap-3">
-                                <div className={`w-10 h-10 rounded-md flex items-center justify-center shrink-0 ${doc.reviewStatus === 'approved' ? 'bg-green-100 dark:bg-green-900/30' : doc.reviewStatus === 'rejected' ? 'bg-red-100 dark:bg-red-900/30' : 'bg-yellow-100 dark:bg-yellow-900/30'}`}>
+                                <div className={`w-10 h-10 rounded-full flex items-center justify-center shrink-0 ${doc.reviewStatus === 'approved' ? 'bg-green-100 dark:bg-green-900/30' : doc.reviewStatus === 'rejected' ? 'bg-red-100 dark:bg-red-900/30' : 'bg-yellow-100 dark:bg-yellow-900/30'}`}>
                                   <FileText className={`w-5 h-5 ${doc.reviewStatus === 'approved' ? 'text-green-600 dark:text-green-400' : doc.reviewStatus === 'rejected' ? 'text-red-600 dark:text-red-400' : 'text-yellow-600 dark:text-yellow-400'}`} />
                                 </div>
                                 <div className="flex-1 min-w-0">
