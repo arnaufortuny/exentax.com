@@ -110,7 +110,7 @@ export default function Login() {
     return (
       <div className="min-h-screen bg-background font-sans">
         <Navbar />
-        <main className="pt-20 md:pt-24 pb-12 md:pb-16 px-4 sm:px-6 flex flex-col items-center justify-center min-h-[80vh]">
+        <main className="pt-6 md:pt-10 pb-12 md:pb-16 px-4 sm:px-6 flex flex-col items-center justify-center min-h-[80vh]">
           <div className="w-full max-w-md text-center">
             <div className="mb-8">
               <svg width="80" height="80" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" className="mx-auto mb-6">
@@ -142,7 +142,7 @@ export default function Login() {
   return (
     <div className="min-h-screen bg-background font-sans">
       <Navbar />
-      <main className="pt-20 md:pt-24 pb-12 md:pb-16 px-4 sm:px-6 flex flex-col items-center justify-center min-h-[80vh]">
+      <main className="pt-6 md:pt-10 pb-12 md:pb-16 px-4 sm:px-6 flex flex-col items-center justify-center min-h-[80vh]">
         <div className="w-full max-w-sm md:max-w-md lg:max-w-5xl">
           <div className="text-center mb-6 md:mb-8 flex flex-col items-center justify-center w-full lg:hidden">
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight text-center w-full">

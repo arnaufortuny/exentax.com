@@ -231,7 +231,7 @@ export default function Contacto() {
     return (
       <div className="min-h-screen bg-background font-sans selection:bg-accent selection:text-black animate-page-in">
         <Navbar />
-        <main className="min-h-[calc(100vh-80px)] pt-20 sm:pt-28 pb-12 px-4 flex flex-col items-center justify-center text-center max-w-3xl mx-auto">
+        <main className="min-h-[calc(100vh-80px)] pt-6 sm:pt-12 pb-12 px-4 flex flex-col items-center justify-center text-center max-w-3xl mx-auto">
           <div className="space-y-5 sm:space-y-6 w-full">
             <div className="flex items-center justify-center mx-auto">
               <svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -318,7 +318,7 @@ export default function Contacto() {
   return (
     <div className="min-h-screen bg-background font-sans w-full animate-page-in">
       <Navbar />
-      <main className="pt-24 pb-16 max-w-xl mx-auto px-5 sm:px-6 md:px-8">
+      <main className="pt-8 pb-16 max-w-xl mx-auto px-5 sm:px-6 md:px-8">
         <h1 className="text-3xl md:text-5xl font-black mb-4 text-foreground leading-tight text-center">
           <span className="text-accent tracking-widest text-xs sm:text-sm font-black block mb-2">{t("contact.pageTitle")}</span>
           <span className="text-foreground">{t("contact.pageSubtitle")}</span>

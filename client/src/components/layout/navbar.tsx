@@ -78,7 +78,9 @@ export function Navbar() {
   };
 
   return (
-    <header className="sticky top-0 z-[100] bg-background border-b border-border shadow-sm transition-shadow h-20 sm:h-24 flex items-center w-full" data-mobile-menu-open={isOpen}>
+    <>
+    <div className="h-20 sm:h-24 w-full shrink-0" aria-hidden="true" />
+    <header className="fixed top-0 left-0 right-0 z-[100] bg-background border-b border-border shadow-sm transition-shadow h-20 sm:h-24 flex items-center w-full" data-mobile-menu-open={isOpen}>
       <div className="w-full px-5 sm:px-8">
         <div className="flex items-center justify-between w-full">
           <Link href="/" className="flex items-center gap-3 shrink-0 relative z-[110]" onClick={() => { setIsOpen(false); resetScrollLock(); window.scrollTo(0, 0); }}>
@@ -306,5 +308,6 @@ export function Navbar() {
         </div>
       )}
     </header>
+    </>
   );
 }

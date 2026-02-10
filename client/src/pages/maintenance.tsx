@@ -503,7 +503,7 @@ export default function MaintenanceApplication() {
   return (
     <div className="min-h-screen bg-background font-sans w-full">
       <Navbar />
-      <main className="pt-20 md:pt-24 pb-16 max-w-xl mx-auto px-5 sm:px-6 md:px-8">
+      <main className="pt-6 md:pt-10 pb-16 max-w-xl mx-auto px-5 sm:px-6 md:px-8">
         <h1 className="text-2xl md:text-4xl font-black mb-2 text-primary leading-tight text-center">
           {t("maintenance.title")} <span className="text-accent">LLC</span>
         </h1>
@@ -1230,7 +1230,8 @@ export default function MaintenanceApplication() {
                         <Input type={showPassword ? "text" : "password"}
                           value={form.getValues("password") || ""}
                           onChange={(e) => form.setValue("password", e.target.value)}
-                          className="p-6 pr-12 border-border focus:border-accent rounded-xl"
+                          className="h-12 px-5 pr-12 border-2 border-gray-200 dark:border-[#2A2A2A] focus:border-accent bg-white dark:bg-[#1A1A1A] rounded-full font-medium text-foreground text-base"
+                          style={{ fontFamily: 'Inter, system-ui, sans-serif', fontSize: '16px' }}
                           data-testid="input-login-password"
                         />
                         <button

@@ -169,7 +169,7 @@ export default function ForgotPassword() {
   return (
     <div className="min-h-screen bg-background font-sans">
       <Navbar />
-      <main className="pt-12 md:pt-16 pb-12 md:pb-16 px-4 sm:px-6 flex flex-col items-center justify-center min-h-[80vh]">
+      <main className="pt-6 md:pt-10 pb-12 md:pb-16 px-4 sm:px-6 flex flex-col items-center justify-center min-h-[80vh]">
         <div className="w-full max-w-sm md:max-w-md">
           <div className="text-center mb-6 md:mb-8 mx-auto">
             <h1 className="text-2xl sm:text-3xl md:text-4xl font-black text-primary tracking-tight text-center">
@@ -206,6 +206,7 @@ export default function ForgotPassword() {
                       type="email"
                       inputMode="email"
                       placeholder={t("auth.forgotPassword.emailPlaceholder")}
+                      className="[&_input]:rounded-full"
                     />
                     <p className="text-[10px] md:text-xs text-muted-foreground px-1">
                       {t("auth.forgotPassword.emailHelp")}
@@ -277,6 +278,7 @@ export default function ForgotPassword() {
                       name="password"
                       label={t("auth.forgotPassword.newPassword")}
                       type={showPassword ? "text" : "password"}
+                      className="[&_input]:rounded-full"
                     />
                     <button
                       type="button"
@@ -296,6 +298,7 @@ export default function ForgotPassword() {
                     name="confirmPassword"
                     label={t("auth.forgotPassword.confirmPassword")}
                     type={showPassword ? "text" : "password"}
+                    className="[&_input]:rounded-full"
                   />
                   <Button
                     type="submit"

@@ -183,7 +183,7 @@ function PendingReviewPage() {
                           setEmailVerificationCode("");
                         }
                       } catch {
-                        setFormMessage({ type: 'error', text: t("llc.messages.incorrectCode") });
+                        setFormMessage({ type: 'error', text: t("application.messages.incorrectCode") });
                       } finally {
                         setIsVerifyingEmail(false);
                       }
@@ -199,7 +199,7 @@ function PendingReviewPage() {
                       setIsResendingCode(true);
                       try {
                         await apiRequest("POST", "/api/auth/resend-verification");
-                        setFormMessage({ type: 'success', text: t("llc.messages.codeSent") });
+                        setFormMessage({ type: 'success', text: t("application.messages.codeSent") });
                       } catch {
                         setFormMessage({ type: 'error', text: t("common.error") });
                       } finally {
@@ -383,15 +383,6 @@ function PendingReviewPage() {
           </Card>
         </div>
 
-        <div className="mt-6 flex justify-center">
-          <span
-            className="text-sm text-muted-foreground cursor-pointer hover:text-foreground transition-colors"
-            onClick={() => apiRequest("POST", "/api/auth/logout").then(() => window.location.href = "/")}
-            data-testid="button-pending-logout"
-          >
-            {t("common.exit")}
-          </span>
-        </div>
       </main>
     </div>
   );

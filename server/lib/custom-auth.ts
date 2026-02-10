@@ -413,6 +413,14 @@ export function setupCustomAuth(app: Express) {
         return res.status(400).json({ message: "Email is required" });
       }
 
+      const existingUser = await db.select({ accountStatus: users.accountStatus }).from(users).where(eq(users.email, email.toLowerCase().trim())).limit(1);
+      if (existingUser.length > 0 && existingUser[0].accountStatus === 'deactivated') {
+        return res.json({
+          success: true,
+          message: "If the email exists in our system, you will receive a verification code",
+        });
+      }
+
       await createPasswordResetOtp(email);
 
       // Always return success to prevent email enumeration

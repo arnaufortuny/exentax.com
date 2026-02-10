@@ -110,7 +110,7 @@ export default function FAQ() {
     <div className="min-h-screen bg-background font-sans text-left w-full relative animate-page-in">
       <Navbar />
 
-      <section className="pt-16 sm:pt-24 lg:pt-28 pb-4 sm:py-20 bg-background">
+      <section className="pt-4 sm:pt-8 lg:pt-12 pb-4 sm:py-20 bg-background">
         <div className="container max-w-7xl mx-auto px-5 sm:px-8">
           <div className="text-center mb-8 sm:mb-12 flex flex-col items-center justify-center">
             <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-center leading-[1.1] max-w-3xl uppercase">

@@ -111,6 +111,8 @@ export default function AsesoriaGratis() {
     },
   });
 
+  const watchedTime = form.watch("scheduledTime");
+
   useEffect(() => {
     if (isAuthenticated && user) {
       form.reset({
@@ -193,7 +195,7 @@ export default function AsesoriaGratis() {
   };
 
   const handleTimeSelect = (time: string) => {
-    form.setValue("scheduledTime", time);
+    form.setValue("scheduledTime", time, { shouldValidate: true });
   };
 
   const nextStep = async () => {
@@ -349,7 +351,7 @@ export default function AsesoriaGratis() {
   return (
     <div className="min-h-screen flex flex-col bg-background">
       <Navbar />
-      <main className="flex-1 px-4 pt-20 pb-8 md:py-16">
+      <main className="flex-1 px-4 pb-8 md:py-16">
         <div className="max-w-2xl mx-auto">
           <div className="text-center mb-8 md:mb-10 flex flex-col items-center justify-center">
             <h1 className="text-3xl md:text-5xl font-black tracking-tight mb-4" style={{ fontFamily: 'var(--font-display)' }} data-testid="text-page-title">
@@ -519,7 +521,7 @@ export default function AsesoriaGratis() {
                               ) : slotsQuery.data && slotsQuery.data.length > 0 ? (
                                 <div className="grid grid-cols-3 sm:grid-cols-4 gap-2">
                                   {slotsQuery.data.map((slot) => {
-                                    const isSelected = form.getValues("scheduledTime") === slot.time;
+                                    const isSelected = watchedTime === slot.time;
                                     return (
                                       <button
                                         key={slot.time}

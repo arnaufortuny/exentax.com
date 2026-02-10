@@ -678,7 +678,7 @@ export default function LlcFormation() {
   return (
     <div className="min-h-screen bg-background font-sans w-full">
       <Navbar />
-      <main className="pt-20 md:pt-24 pb-16 max-w-xl mx-auto px-4 md:px-6">
+      <main className="pt-6 md:pt-10 pb-16 max-w-xl mx-auto px-4 md:px-6">
         {isEditMode && (
           <div className="bg-accent/10 border border-accent/20 rounded-2xl p-4 mb-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div>
@@ -1452,7 +1452,8 @@ export default function LlcFormation() {
                     <Input type={showPassword ? "text" : "password"}
                       value={form.getValues("password") || ""}
                       onChange={(e) => form.setValue("password", e.target.value)}
-                      className="p-6 border-border focus:border-accent pr-12 rounded-full"
+                      className="h-12 px-5 pr-12 border-2 border-gray-200 dark:border-[#2A2A2A] focus:border-accent bg-white dark:bg-[#1A1A1A] rounded-full font-medium text-foreground text-base"
+                      style={{ fontFamily: 'Inter, system-ui, sans-serif', fontSize: '16px' }}
                       data-testid="input-login-password"
                     />
                     <button

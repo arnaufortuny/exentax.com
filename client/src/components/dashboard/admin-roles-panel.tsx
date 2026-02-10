@@ -327,15 +327,24 @@ export default function AdminRolesPanel() {
           </Button>
         </div>
         {activeSection === "roles" && (
-          <Button
-            size="sm"
-            className="rounded-full text-xs bg-accent text-accent-foreground"
-            onClick={openCreateDialog}
-            data-testid="button-create-role"
-          >
-            <Plus className="w-3 h-3 mr-1" />
-            {"Create Role"}
-          </Button>
+          <div className="flex items-center gap-2 w-full sm:w-auto">
+            <Input
+              placeholder="New role name..."
+              value={roleForm.name}
+              onChange={(e) => setRoleForm((prev) => ({ ...prev, name: e.target.value }))}
+              className="rounded-full text-xs flex-1 sm:w-48"
+              data-testid="input-quick-role-name"
+            />
+            <Button
+              size="sm"
+              className="rounded-full text-xs bg-accent text-accent-foreground shrink-0"
+              onClick={openCreateDialog}
+              data-testid="button-create-role"
+            >
+              <Plus className="w-3 h-3 mr-1" />
+              {"Create Role"}
+            </Button>
+          </div>
         )}
       </div>
 
@@ -348,7 +357,6 @@ export default function AdminRolesPanel() {
           ) : roles.length === 0 ? (
             <Card className="rounded-2xl shadow-sm">
               <CardContent className="p-8 text-center">
-                <Shield className="w-10 h-10 mx-auto mb-3 text-muted-foreground" />
                 <p className="text-sm text-muted-foreground">{"No roles created yet"}</p>
                 <Button
                   size="sm"

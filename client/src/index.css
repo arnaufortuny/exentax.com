@@ -419,6 +419,13 @@ button {
   -webkit-tap-highlight-color: transparent;
 }
 
+/* Disable hover pseudo-element effects on touch devices (prevents double-tap issue on iOS/Safari) */
+@media (hover: none) {
+  .hover-elevate::before {
+    display: none !important;
+  }
+}
+
 /* Optimized transitions - fast and smooth */
 .transition-optimized {
   transition-timing-function: cubic-bezier(0.25, 0.1, 0.25, 1);
