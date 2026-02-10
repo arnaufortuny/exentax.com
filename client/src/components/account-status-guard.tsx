@@ -13,7 +13,7 @@ import {
   LogOut, Mail, Clock, Shield, ShieldCheck, Bell, BellRing, Loader2,
   Upload, FileText, X
 } from "@/components/icons";
-import { getWhatsAppUrl } from "@/lib/whatsapp";
+
 
 function formatDateCompact(dateStr: string) {
   const d = new Date(dateStr);
@@ -383,23 +383,14 @@ function PendingReviewPage() {
           </Card>
         </div>
 
-        <div className="mt-6 flex flex-col sm:flex-row items-center justify-center gap-3">
-          <Button
-            variant="outline"
-            className="text-sm rounded-full"
-            onClick={() => window.open(getWhatsAppUrl('dashboardSupport'), '_blank')}
-            data-testid="button-pending-whatsapp"
-          >
-            {t("dashboard.pendingAccount.askStatusWhatsApp")}
-          </Button>
-          <Button
-            variant="ghost"
-            className="text-sm text-muted-foreground rounded-full"
+        <div className="mt-6 flex justify-center">
+          <span
+            className="text-sm text-muted-foreground cursor-pointer hover:text-foreground transition-colors"
             onClick={() => apiRequest("POST", "/api/auth/logout").then(() => window.location.href = "/")}
             data-testid="button-pending-logout"
           >
-            {t("dashboard.pendingAccount.logout")}
-          </Button>
+            {t("common.exit")}
+          </span>
         </div>
       </main>
     </div>
