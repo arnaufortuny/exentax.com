@@ -8,6 +8,7 @@ import { useTranslation } from "react-i18next";
 import i18n from "@/lib/i18n";
 import NotFound from "@/pages/not-found";
 import { LoadingScreen } from "@/components/loading-screen";
+import { AccountStatusGuard } from "@/components/account-status-guard";
 
 function lazyRetry<T extends { default: React.ComponentType<unknown> }>(
   importFn: () => Promise<T>,
@@ -146,6 +147,14 @@ function ScrollToTop() {
 }
 
 
+function GuardedRoute({ component: Comp }: { component: React.ComponentType }) {
+  return (
+    <AccountStatusGuard>
+      <Comp />
+    </AccountStatusGuard>
+  );
+}
+
 function MainRouter() {
   const [location] = useLocation();
   
@@ -154,24 +163,27 @@ function MainRouter() {
       <Suspense fallback={<LoadingScreen />}>
         <div className="min-h-screen bg-background">
           <Switch>
+            {/* Public routes - accessible to everyone */}
             <Route path="/" component={Home} />
             <Route path="/servicios" component={Servicios} />
             <Route path="/faq" component={FAQ} />
-            <Route path="/contacto" component={Contacto} />
             <Route path="/legal/terminos" component={Legal} />
             <Route path="/legal/privacidad" component={Privacidad} />
             <Route path="/legal/reembolsos" component={Reembolsos} />
             <Route path="/legal/cookies" component={Cookies} />
-            <Route path="/llc/maintenance" component={MaintenancePage} />
-            <Route path="/llc/formation" component={LlcFormation} />
-            <Route path="/dashboard" component={Dashboard} />
             <Route path="/auth/login" component={Login} />
             <Route path="/auth/register" component={Register} />
             <Route path="/auth/forgot-password" component={ForgotPassword} />
-            <Route path="/tools/invoice" component={InvoiceGenerator} />
-            <Route path="/tools/price-calculator" component={PriceCalculator} />
-            <Route path="/tools/operating-agreement" component={OperatingAgreement} />
-            <Route path="/tools/csv-generator" component={CsvGenerator} />
+
+            {/* Protected routes - blocked for deactivated/pending accounts */}
+            <Route path="/contacto">{() => <GuardedRoute component={Contacto} />}</Route>
+            <Route path="/llc/maintenance">{() => <GuardedRoute component={MaintenancePage} />}</Route>
+            <Route path="/llc/formation">{() => <GuardedRoute component={LlcFormation} />}</Route>
+            <Route path="/dashboard">{() => <GuardedRoute component={Dashboard} />}</Route>
+            <Route path="/tools/invoice">{() => <GuardedRoute component={InvoiceGenerator} />}</Route>
+            <Route path="/tools/price-calculator">{() => <GuardedRoute component={PriceCalculator} />}</Route>
+            <Route path="/tools/operating-agreement">{() => <GuardedRoute component={OperatingAgreement} />}</Route>
+            <Route path="/tools/csv-generator">{() => <GuardedRoute component={CsvGenerator} />}</Route>
             <Route component={NotFound} />
           </Switch>
         </div>

@@ -42,13 +42,6 @@ export default function Contacto() {
   const { t } = useTranslation();
   usePageTitle();
 
-  // Redirect if account status is deactivated or pending (with email verified)
-  useEffect(() => {
-    if (isAuthenticated && user && (user.accountStatus === 'deactivated' || (user.accountStatus === 'pending' && user.emailVerified))) {
-      window.location.href = '/dashboard';
-    }
-  }, [isAuthenticated, user]);
-
   const [step, setStep] = useState(0);
   const [hasAutoSkipped, setHasAutoSkipped] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);

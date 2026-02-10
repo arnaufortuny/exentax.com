@@ -72,13 +72,6 @@ export default function MaintenanceApplication() {
   const { user, isAuthenticated, refetch: refetchAuth } = useAuth();
   const [, setLocation] = useLocation();
 
-  // Redirect if account status is deactivated or pending (with email verified)
-  useEffect(() => {
-    if (isAuthenticated && user && (user.accountStatus === 'deactivated' || (user.accountStatus === 'pending' && user.emailVerified))) {
-      window.location.href = '/dashboard';
-    }
-  }, [isAuthenticated, user]);
-
   const [step, setStep] = useState(0);
   const [appId, setAppId] = useState<number | null>(null);
   const [requestCode, setRequestCode] = useState<string>("");

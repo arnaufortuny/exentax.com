@@ -96,13 +96,6 @@ export default function LlcFormation() {
   const { user, isAuthenticated, refetch: refetchAuth } = useAuth();
   const [location, setLocation] = useLocation();
 
-  // Redirect if account status is deactivated or pending (with email verified)
-  useEffect(() => {
-    if (isAuthenticated && user && (user.accountStatus === 'deactivated' || (user.accountStatus === 'pending' && user.emailVerified))) {
-      window.location.href = '/dashboard';
-    }
-  }, [isAuthenticated, user]);
-
   const { data: products } = useQuery<{ id: number; name: string; price: number }[]>({
     queryKey: ['/api/products'],
   });
