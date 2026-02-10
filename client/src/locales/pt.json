@@ -157,7 +157,8 @@
     "dashboard": "Dashboard",
     "openMenu": "Abrir menu",
     "closeMenu": "Fechar menu",
-    "logout": "Terminar sessão"
+    "logout": "Terminar sessão",
+    "freeConsultation": "Consulta grátis"
   },
   "hero": {
     "title": "OTIMIZA A ESTRUTURA FISCAL DO TEU NEGÓCIO DIGITAL",
@@ -3068,6 +3069,10 @@
     "csvGenerator": {
       "title": "Gerador CSV de Transações | Easy US LLC",
       "description": "Gere ficheiros CSV de transações bancárias para a sua LLC gratuitamente."
+    },
+    "asesoriaGratis": {
+      "title": "Consulta Gratuita | Easy US LLC",
+      "description": "Reserve uma consulta gratuita de 20 minutos com os nossos especialistas em formação de LLC nos Estados Unidos."
     }
   },
   "consultations": {
@@ -3619,5 +3624,82 @@
     "s07p1": "Podemos atualizar este Aviso de Cookies de tempos a tempos para refletir alterações nas nossas práticas ou por outras razões operacionais, legais ou regulatórias. A data da última atualização é mostrada no topo desta página.",
     "s08Title": "Contacto",
     "s08p1": "Se tens perguntas sobre a nossa utilização de cookies, contacta-nos:"
+  },
+  "freeConsultation": {
+    "title": "Consulta Gratuita",
+    "subtitle": "Reserve uma sessão de 20 minutos com nossa equipe de especialistas. Sem compromisso.",
+    "duration": "20 minutos · Gratuita · Sem compromisso",
+    "error": "Erro ao reservar a consulta. Tente novamente.",
+    "consent": "Aceito o tratamento dos meus dados pessoais para gerir esta consulta, de acordo com a política de privacidade.",
+    "success": {
+      "title": "Consulta reservada com sucesso",
+      "description": "Registramos sua consulta. Você receberá um email de confirmação com todos os detalhes.",
+      "codeLabel": "Código de reserva",
+      "emailSent": "Enviamos um email de confirmação. Verifique sua caixa de entrada."
+    },
+    "steps": {
+      "personal": {
+        "title": "Dados pessoais",
+        "subtitle": "Precisamos dos seus dados de contacto"
+      },
+      "schedule": {
+        "title": "Data e hora",
+        "subtitle": "Escolha quando prefere a consulta (horário Madrid)",
+        "availableSlots": "Horários disponíveis",
+        "noSlots": "Não há horários disponíveis para esta data"
+      },
+      "questionnaire": {
+        "title": "Sobre o seu negócio",
+        "subtitle": "Ajude-nos a preparar a consulta"
+      },
+      "notes": {
+        "title": "Notas adicionais",
+        "subtitle": "Há mais alguma coisa que devamos saber?",
+        "summary": "Resumo da reserva"
+      },
+      "confirm": {
+        "title": "Confirmar reserva",
+        "subtitle": "Reveja os dados antes de confirmar"
+      }
+    },
+    "fields": {
+      "firstName": "Nome",
+      "firstNamePlaceholder": "Seu nome",
+      "lastName": "Apelido",
+      "lastNamePlaceholder": "Seu apelido",
+      "email": "Email",
+      "emailPlaceholder": "seu@email.com",
+      "phone": "Telefone (opcional)",
+      "phonePlaceholder": "+351 910 000 000",
+      "country": "País de residência",
+      "countryPlaceholder": "Ex: Portugal, Brasil, Espanha...",
+      "mainTopic": "Tema principal",
+      "mainTopicPlaceholder": "Sobre o que gostaria de falar?",
+      "hasExistingBusiness": "Já tem um negócio?",
+      "businessActivity": "Atividade do negócio",
+      "businessActivityPlaceholder": "Ex: E-commerce, consultoria, serviços...",
+      "estimatedRevenue": "Faturação anual estimada",
+      "preferredState": "Estado preferido para a sua LLC",
+      "additionalNotes": "Notas adicionais",
+      "additionalNotesPlaceholder": "Conte-nos mais sobre a sua situação ou dúvidas específicas...",
+      "select": "Selecionar...",
+      "yes": "Sim",
+      "no": "Não",
+      "planning": "Estou a planear",
+      "notSure": "Não tenho certeza"
+    },
+    "topics": {
+      "llcFormation": "Criação de LLC",
+      "taxPlanning": "Planeamento fiscal",
+      "banking": "Abertura de conta bancária",
+      "compliance": "Conformidade e relatórios",
+      "ecommerce": "E-commerce internacional",
+      "other": "Outro tema"
+    },
+    "navigation": {
+      "back": "Anterior",
+      "next": "Seguinte",
+      "confirm": "Confirmar reserva"
+    }
   }
 }

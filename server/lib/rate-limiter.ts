@@ -15,6 +15,7 @@ const RATE_LIMITS: Record<string, RateLimitConfig> = {
   register: { windowMs: 3600000, maxRequests: 3 },
   passwordReset: { windowMs: 600000, maxRequests: 3 },
   contact: { windowMs: 300000, maxRequests: 5 },
+  consultation: { windowMs: 3600000, maxRequests: 5 },
   general: { windowMs: 60000, maxRequests: 100 },
   api: { windowMs: 60000, maxRequests: 100 },
 };

@@ -157,7 +157,8 @@
     "dashboard": "Dashboard",
     "openMenu": "Open menu",
     "closeMenu": "Close menu",
-    "logout": "Log out"
+    "logout": "Log out",
+    "freeConsultation": "Free consultation"
   },
   "hero": {
     "title": "OPTIMIZE THE TAX STRUCTURE OF YOUR DIGITAL BUSINESS",
@@ -3068,6 +3069,10 @@
     "csvGenerator": {
       "title": "Transaction CSV Generator | Easy US LLC",
       "description": "Generate bank transaction CSV files for your LLC for free."
+    },
+    "asesoriaGratis": {
+      "title": "Free Consultation | Easy US LLC",
+      "description": "Book a free 20-minute consultation with our US LLC formation experts. No commitment required."
     }
   },
   "consultations": {
@@ -3619,5 +3624,82 @@
     "s07p1": "We may update this Cookie Policy from time to time to reflect changes in our practices or for other operational, legal, or regulatory reasons. The date of the last update is shown at the top of this page.",
     "s08Title": "Contact",
     "s08p1": "If you have questions about our use of cookies, please contact us:"
+  },
+  "freeConsultation": {
+    "title": "Free Consultation",
+    "subtitle": "Book a 20-minute session with our expert team. No commitment required.",
+    "duration": "20 minutes · Free · No commitment",
+    "error": "Error booking consultation. Please try again.",
+    "consent": "I agree to the processing of my personal data to manage this consultation, in accordance with the privacy policy.",
+    "success": {
+      "title": "Consultation booked successfully",
+      "description": "We've registered your consultation. You'll receive a confirmation email with all the details.",
+      "codeLabel": "Booking code",
+      "emailSent": "We've sent you a confirmation email. Check your inbox."
+    },
+    "steps": {
+      "personal": {
+        "title": "Personal details",
+        "subtitle": "We need your contact information"
+      },
+      "schedule": {
+        "title": "Date & time",
+        "subtitle": "Choose your preferred consultation time (Madrid timezone)",
+        "availableSlots": "Available time slots",
+        "noSlots": "No time slots available for this date"
+      },
+      "questionnaire": {
+        "title": "About your business",
+        "subtitle": "Help us prepare for your consultation"
+      },
+      "notes": {
+        "title": "Additional notes",
+        "subtitle": "Is there anything else we should know?",
+        "summary": "Your booking summary"
+      },
+      "confirm": {
+        "title": "Confirm booking",
+        "subtitle": "Review the details before confirming"
+      }
+    },
+    "fields": {
+      "firstName": "First name",
+      "firstNamePlaceholder": "Your first name",
+      "lastName": "Last name",
+      "lastNamePlaceholder": "Your last name",
+      "email": "Email",
+      "emailPlaceholder": "your@email.com",
+      "phone": "Phone (optional)",
+      "phonePlaceholder": "+1 555 000 000",
+      "country": "Country of residence",
+      "countryPlaceholder": "E.g.: Spain, Mexico, USA...",
+      "mainTopic": "Main topic",
+      "mainTopicPlaceholder": "What would you like to discuss?",
+      "hasExistingBusiness": "Do you already have a business?",
+      "businessActivity": "Business activity",
+      "businessActivityPlaceholder": "E.g.: E-commerce, consulting, services...",
+      "estimatedRevenue": "Estimated annual revenue",
+      "preferredState": "Preferred state for your LLC",
+      "additionalNotes": "Additional notes",
+      "additionalNotesPlaceholder": "Tell us more about your situation or specific questions...",
+      "select": "Select...",
+      "yes": "Yes",
+      "no": "No",
+      "planning": "I'm planning",
+      "notSure": "Not sure"
+    },
+    "topics": {
+      "llcFormation": "LLC Formation",
+      "taxPlanning": "Tax Planning",
+      "banking": "Bank Account Opening",
+      "compliance": "Compliance & Reporting",
+      "ecommerce": "International E-commerce",
+      "other": "Other topic"
+    },
+    "navigation": {
+      "back": "Back",
+      "next": "Next",
+      "confirm": "Confirm booking"
+    }
   }
 }

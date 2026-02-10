@@ -53,6 +53,7 @@ const PriceCalculator = lazy(() => lazyRetry(() => import("@/pages/price-calcula
 const CsvGenerator = lazy(() => lazyRetry(() => import("@/pages/csv-generator")));
 const OperatingAgreement = lazy(() => lazyRetry(() => import("@/pages/operating-agreement")));
 const LinktreePage = lazy(() => lazyRetry(() => import("@/pages/linktree")));
+const AsesoriaGratis = lazy(() => lazyRetry(() => import("@/pages/asesoria-gratis")));
 
 interface ErrorBoundaryState {
   hasError: boolean;
@@ -171,6 +172,7 @@ function MainRouter() {
             <Route path="/legal/privacidad" component={Privacidad} />
             <Route path="/legal/reembolsos" component={Reembolsos} />
             <Route path="/legal/cookies" component={Cookies} />
+            <Route path="/asesoria-gratis" component={AsesoriaGratis} />
             <Route path="/auth/login" component={Login} />
             <Route path="/auth/register" component={Register} />
             <Route path="/auth/forgot-password" component={ForgotPassword} />

@@ -157,7 +157,8 @@
     "dashboard": "Dashboard",
     "openMenu": "Apri menu",
     "closeMenu": "Chiudi menu",
-    "logout": "Esci"
+    "logout": "Esci",
+    "freeConsultation": "Consulenza gratuita"
   },
   "hero": {
     "title": "OTTIMIZZA LA STRUTTURA FISCALE DEL TUO BUSINESS DIGITALE",
@@ -3068,6 +3069,10 @@
     "csvGenerator": {
       "title": "Generatore CSV Transazioni | Easy US LLC",
       "description": "Genera file CSV di transazioni bancarie per la tua LLC gratuitamente."
+    },
+    "asesoriaGratis": {
+      "title": "Consulenza Gratuita | Easy US LLC",
+      "description": "Prenota una consulenza gratuita di 20 minuti con i nostri esperti in formazione LLC negli Stati Uniti."
     }
   },
   "consultations": {
@@ -3619,5 +3624,82 @@
     "s07p1": "Possiamo aggiornare questa Informativa sui Cookie di tanto in tanto per riflettere cambiamenti nelle nostre pratiche o per altre ragioni operative, legali o normative. La data dell'ultimo aggiornamento è indicata in cima a questa pagina.",
     "s08Title": "Contatto",
     "s08p1": "Se hai domande sul nostro utilizzo dei cookie, contattaci:"
+  },
+  "freeConsultation": {
+    "title": "Consulenza Gratuita",
+    "subtitle": "Prenota una sessione di 20 minuti con il nostro team di esperti. Senza impegno.",
+    "duration": "20 minuti · Gratuita · Senza impegno",
+    "error": "Errore nella prenotazione. Riprova.",
+    "consent": "Accetto il trattamento dei miei dati personali per gestire questa consulenza, secondo la politica sulla privacy.",
+    "success": {
+      "title": "Consulenza prenotata con successo",
+      "description": "Abbiamo registrato la tua consulenza. Riceverai un'email di conferma con tutti i dettagli.",
+      "codeLabel": "Codice di prenotazione",
+      "emailSent": "Ti abbiamo inviato un'email di conferma. Controlla la tua casella di posta."
+    },
+    "steps": {
+      "personal": {
+        "title": "Dati personali",
+        "subtitle": "Abbiamo bisogno dei tuoi dati di contatto"
+      },
+      "schedule": {
+        "title": "Data e ora",
+        "subtitle": "Scegli quando preferisci la consulenza (orario Madrid)",
+        "availableSlots": "Orari disponibili",
+        "noSlots": "Nessun orario disponibile per questa data"
+      },
+      "questionnaire": {
+        "title": "Sulla tua attività",
+        "subtitle": "Aiutaci a preparare la consulenza"
+      },
+      "notes": {
+        "title": "Note aggiuntive",
+        "subtitle": "C'è qualcos'altro che dovremmo sapere?",
+        "summary": "Riepilogo della prenotazione"
+      },
+      "confirm": {
+        "title": "Conferma prenotazione",
+        "subtitle": "Verifica i dettagli prima di confermare"
+      }
+    },
+    "fields": {
+      "firstName": "Nome",
+      "firstNamePlaceholder": "Il tuo nome",
+      "lastName": "Cognome",
+      "lastNamePlaceholder": "Il tuo cognome",
+      "email": "Email",
+      "emailPlaceholder": "tua@email.com",
+      "phone": "Telefono (opzionale)",
+      "phonePlaceholder": "+39 333 000 0000",
+      "country": "Paese di residenza",
+      "countryPlaceholder": "Es: Italia, Spagna, Argentina...",
+      "mainTopic": "Argomento principale",
+      "mainTopicPlaceholder": "Di cosa vorresti parlare?",
+      "hasExistingBusiness": "Hai già un'attività?",
+      "businessActivity": "Attività aziendale",
+      "businessActivityPlaceholder": "Es: E-commerce, consulenza, servizi...",
+      "estimatedRevenue": "Fatturato annuale stimato",
+      "preferredState": "Stato preferito per la tua LLC",
+      "additionalNotes": "Note aggiuntive",
+      "additionalNotesPlaceholder": "Raccontaci di più sulla tua situazione o domande specifiche...",
+      "select": "Selezionare...",
+      "yes": "Sì",
+      "no": "No",
+      "planning": "Sto pianificando",
+      "notSure": "Non sono sicuro"
+    },
+    "topics": {
+      "llcFormation": "Creazione LLC",
+      "taxPlanning": "Pianificazione fiscale",
+      "banking": "Apertura conto bancario",
+      "compliance": "Conformità e report",
+      "ecommerce": "E-commerce internazionale",
+      "other": "Altro argomento"
+    },
+    "navigation": {
+      "back": "Indietro",
+      "next": "Avanti",
+      "confirm": "Conferma prenotazione"
+    }
   }
 }

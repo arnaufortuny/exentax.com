@@ -6,6 +6,7 @@ import compression from "compression";
 import { initServerSentry, sentryRequestHandler, sentryErrorHandler } from "./lib/sentry";
 import { scheduleBackups } from "./lib/backup";
 import { cleanupDbRateLimits } from "./lib/rate-limiter";
+import { processConsultationReminders } from "./routes/consultations";
 import { setupSitemapRoute } from "./sitemap";
 import { createLogger } from "./lib/logger";
 
@@ -227,6 +228,13 @@ app.use((req, res, next) => {
           }
         }, 300000);
       }
+      setInterval(async () => {
+        try {
+          await processConsultationReminders();
+        } catch (e) {
+          serverLog.error("Consultation reminder error", e);
+        }
+      }, 600000);
     },
   );
 })();

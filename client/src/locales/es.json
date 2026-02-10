@@ -157,7 +157,8 @@
     "dashboard": "Dashboard",
     "openMenu": "Abrir menú",
     "closeMenu": "Cerrar menú",
-    "logout": "Cerrar sesión"
+    "logout": "Cerrar sesión",
+    "freeConsultation": "Consulta gratis"
   },
   "hero": {
     "title": "OPTIMIZA LA ESTRUCTURA FISCAL DE TU NEGOCIO DIGITAL",
@@ -3068,6 +3069,10 @@
     "csvGenerator": {
       "title": "Generador CSV de Transacciones | Easy US LLC",
       "description": "Genera archivos CSV de transacciones bancarias para tu LLC de forma gratuita."
+    },
+    "asesoriaGratis": {
+      "title": "Consulta Gratuita | Easy US LLC",
+      "description": "Reserva una consulta gratuita de 20 minutos con nuestros expertos en formación de LLC en Estados Unidos. Sin compromiso."
     }
   },
   "consultations": {
@@ -3619,5 +3624,82 @@
     "s07p1": "Podemos actualizar este Aviso de Cookies de vez en cuando para reflejar cambios en nuestras prácticas o por otras razones operativas, legales o regulatorias. La fecha de la última actualización se muestra en la parte superior de esta página.",
     "s08Title": "Contacto",
     "s08p1": "Si tienes preguntas sobre nuestro uso de cookies, contáctanos:"
+  },
+  "freeConsultation": {
+    "title": "Consulta Gratuita",
+    "subtitle": "Reserva una sesión de 20 minutos con nuestro equipo de expertos. Sin compromiso.",
+    "duration": "20 minutos · Gratuita · Sin compromiso",
+    "error": "Error al reservar la consulta. Inténtalo de nuevo.",
+    "consent": "Acepto el tratamiento de mis datos personales para gestionar esta consulta, según la política de privacidad.",
+    "success": {
+      "title": "Consulta reservada con éxito",
+      "description": "Hemos registrado tu consulta. Recibirás un email de confirmación con todos los detalles.",
+      "codeLabel": "Código de reserva",
+      "emailSent": "Te hemos enviado un email de confirmación. Revisa tu bandeja de entrada."
+    },
+    "steps": {
+      "personal": {
+        "title": "Datos personales",
+        "subtitle": "Necesitamos tus datos de contacto"
+      },
+      "schedule": {
+        "title": "Fecha y hora",
+        "subtitle": "Selecciona cuándo prefieres la consulta (horario Madrid)",
+        "availableSlots": "Horarios disponibles",
+        "noSlots": "No hay horarios disponibles para esta fecha"
+      },
+      "questionnaire": {
+        "title": "Sobre tu negocio",
+        "subtitle": "Ayúdanos a preparar la consulta"
+      },
+      "notes": {
+        "title": "Notas adicionales",
+        "subtitle": "¿Hay algo más que debamos saber?",
+        "summary": "Resumen de tu reserva"
+      },
+      "confirm": {
+        "title": "Confirmar reserva",
+        "subtitle": "Revisa los datos antes de confirmar"
+      }
+    },
+    "fields": {
+      "firstName": "Nombre",
+      "firstNamePlaceholder": "Tu nombre",
+      "lastName": "Apellido",
+      "lastNamePlaceholder": "Tu apellido",
+      "email": "Email",
+      "emailPlaceholder": "tu@email.com",
+      "phone": "Teléfono (opcional)",
+      "phonePlaceholder": "+34 600 000 000",
+      "country": "País de residencia",
+      "countryPlaceholder": "Ej: España, México, Argentina...",
+      "mainTopic": "Tema principal",
+      "mainTopicPlaceholder": "¿Sobre qué quieres hablar?",
+      "hasExistingBusiness": "¿Tienes ya un negocio?",
+      "businessActivity": "Actividad del negocio",
+      "businessActivityPlaceholder": "Ej: E-commerce, consultoría, servicios...",
+      "estimatedRevenue": "Facturación anual estimada",
+      "preferredState": "Estado preferido para tu LLC",
+      "additionalNotes": "Notas adicionales",
+      "additionalNotesPlaceholder": "Cuéntanos más sobre tu situación o dudas específicas...",
+      "select": "Seleccionar...",
+      "yes": "Sí",
+      "no": "No",
+      "planning": "Estoy planificando",
+      "notSure": "No estoy seguro"
+    },
+    "topics": {
+      "llcFormation": "Creación de LLC",
+      "taxPlanning": "Planificación fiscal",
+      "banking": "Apertura de cuenta bancaria",
+      "compliance": "Cumplimiento y reportes",
+      "ecommerce": "E-commerce internacional",
+      "other": "Otro tema"
+    },
+    "navigation": {
+      "back": "Anterior",
+      "next": "Siguiente",
+      "confirm": "Confirmar reserva"
+    }
   }
 }

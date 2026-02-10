@@ -157,7 +157,8 @@
     "dashboard": "Dashboard",
     "openMenu": "Obrir menú",
     "closeMenu": "Tancar menú",
-    "logout": "Tancar sessió"
+    "logout": "Tancar sessió",
+    "freeConsultation": "Consulta gratis"
   },
   "hero": {
     "title": "OPTIMITZA L'ESTRUCTURA FISCAL DEL TEU NEGOCI DIGITAL",
@@ -3068,6 +3069,10 @@
     "csvGenerator": {
       "title": "Generador CSV de Transaccions | Easy US LLC",
       "description": "Genera arxius CSV de transaccions bancàries per a la teva LLC de forma gratuïta."
+    },
+    "asesoriaGratis": {
+      "title": "Consulta Gratuïta | Easy US LLC",
+      "description": "Reserva una consulta gratuïta de 20 minuts amb els nostres experts en formació de LLC als Estats Units."
     }
   },
   "consultations": {
@@ -3619,5 +3624,82 @@
     "s07p1": "Podem actualitzar aquest Avís de Cookies de tant en tant per reflectir canvis en les nostres pràctiques o per altres raons operatives, legals o regulatòries. La data de l'última actualització es mostra a la part superior d'aquesta pàgina.",
     "s08Title": "Contacte",
     "s08p1": "Si tens preguntes sobre el nostre ús de cookies, contacta'ns:"
+  },
+  "freeConsultation": {
+    "title": "Consulta Gratuïta",
+    "subtitle": "Reserva una sessió de 20 minuts amb el nostre equip d'experts. Sense compromís.",
+    "duration": "20 minuts · Gratuïta · Sense compromís",
+    "error": "Error en reservar la consulta. Torna-ho a provar.",
+    "consent": "Accepto el tractament de les meves dades personals per gestionar aquesta consulta, segons la política de privacitat.",
+    "success": {
+      "title": "Consulta reservada amb èxit",
+      "description": "Hem registrat la teva consulta. Rebràs un correu de confirmació amb tots els detalls.",
+      "codeLabel": "Codi de reserva",
+      "emailSent": "T'hem enviat un correu de confirmació. Revisa la safata d'entrada."
+    },
+    "steps": {
+      "personal": {
+        "title": "Dades personals",
+        "subtitle": "Necessitem les teves dades de contacte"
+      },
+      "schedule": {
+        "title": "Data i hora",
+        "subtitle": "Selecciona quan prefereixes la consulta (horari Madrid)",
+        "availableSlots": "Horaris disponibles",
+        "noSlots": "No hi ha horaris disponibles per aquesta data"
+      },
+      "questionnaire": {
+        "title": "Sobre el teu negoci",
+        "subtitle": "Ajuda'ns a preparar la consulta"
+      },
+      "notes": {
+        "title": "Notes addicionals",
+        "subtitle": "Hi ha alguna cosa més que hàgim de saber?",
+        "summary": "Resum de la reserva"
+      },
+      "confirm": {
+        "title": "Confirmar reserva",
+        "subtitle": "Revisa les dades abans de confirmar"
+      }
+    },
+    "fields": {
+      "firstName": "Nom",
+      "firstNamePlaceholder": "El teu nom",
+      "lastName": "Cognom",
+      "lastNamePlaceholder": "El teu cognom",
+      "email": "Email",
+      "emailPlaceholder": "el.teu@email.com",
+      "phone": "Telèfon (opcional)",
+      "phonePlaceholder": "+34 600 000 000",
+      "country": "País de residència",
+      "countryPlaceholder": "Ex: Espanya, Mèxic, Argentina...",
+      "mainTopic": "Tema principal",
+      "mainTopicPlaceholder": "Sobre què vols parlar?",
+      "hasExistingBusiness": "Ja tens un negoci?",
+      "businessActivity": "Activitat del negoci",
+      "businessActivityPlaceholder": "Ex: E-commerce, consultoria, serveis...",
+      "estimatedRevenue": "Facturació anual estimada",
+      "preferredState": "Estat preferit per la teva LLC",
+      "additionalNotes": "Notes addicionals",
+      "additionalNotesPlaceholder": "Explica'ns més sobre la teva situació o dubtes específics...",
+      "select": "Seleccionar...",
+      "yes": "Sí",
+      "no": "No",
+      "planning": "Estic planificant",
+      "notSure": "No estic segur"
+    },
+    "topics": {
+      "llcFormation": "Creació de LLC",
+      "taxPlanning": "Planificació fiscal",
+      "banking": "Obertura de compte bancari",
+      "compliance": "Compliment i informes",
+      "ecommerce": "E-commerce internacional",
+      "other": "Altre tema"
+    },
+    "navigation": {
+      "back": "Anterior",
+      "next": "Següent",
+      "confirm": "Confirmar reserva"
+    }
   }
 }

@@ -445,12 +445,17 @@ export const consultationBlockedDates = pgTable("consultation_blocked_dates", {
 export const consultationBookings = pgTable("consultation_bookings", {
   id: serial("id").primaryKey(),
   bookingCode: text("booking_code").unique().notNull(),
-  userId: varchar("user_id").notNull().references(() => users.id),
+  userId: varchar("user_id").references(() => users.id),
   consultationTypeId: integer("consultation_type_id").notNull().references(() => consultationTypes.id),
   scheduledDate: timestamp("scheduled_date").notNull(),
   scheduledTime: text("scheduled_time").notNull(), // "10:00"
   duration: integer("duration").notNull(), // in minutes
   status: text("status").notNull().default("pending"), // pending, confirmed, completed, cancelled, no_show, rescheduled
+  // Guest info (for unauthenticated bookings)
+  guestFirstName: text("guest_first_name"),
+  guestLastName: text("guest_last_name"),
+  guestEmail: text("guest_email"),
+  guestPhone: text("guest_phone"),
   // Pre-consultation questionnaire
   hasLlc: text("has_llc"), // yes, no
   llcState: text("llc_state"),
@@ -458,10 +463,21 @@ export const consultationBookings = pgTable("consultation_bookings", {
   countryOfResidence: text("country_of_residence"),
   mainTopic: text("main_topic"),
   additionalNotes: text("additional_notes"),
+  // Extended questionnaire for free consultations
+  activity: text("activity"),
+  aboutYou: text("about_you"),
+  hasSL: text("has_sl"),
+  isAutonomo: text("is_autonomo"),
+  approximateRevenue: text("approximate_revenue"),
+  preferredLanguage: text("preferred_language").default("es"),
   // Admin notes
   adminNotes: text("admin_notes"),
   // Meeting info
   meetingLink: text("meeting_link"),
+  // Reminder tracking
+  reminder3hSentAt: timestamp("reminder_3h_sent_at"),
+  reminder30mSentAt: timestamp("reminder_30m_sent_at"),
+  confirmationSentAt: timestamp("confirmation_sent_at"),
   // Timestamps
   confirmedAt: timestamp("confirmed_at"),
   completedAt: timestamp("completed_at"),
@@ -475,6 +491,7 @@ export const consultationBookings = pgTable("consultation_bookings", {
   statusIdx: index("consultation_bookings_status_idx").on(table.status),
   scheduledDateIdx: index("consultation_bookings_date_idx").on(table.scheduledDate),
   bookingCodeIdx: index("consultation_bookings_code_idx").on(table.bookingCode),
+  guestEmailIdx: index("consultation_bookings_guest_email_idx").on(table.guestEmail),
 }));
 
 // Relations

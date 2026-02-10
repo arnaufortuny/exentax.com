@@ -363,6 +363,45 @@ interface EmailTranslations {
     needHelp: string;
     closing: string;
   };
+  consultationConfirmation: {
+    subject: string;
+    greeting: string;
+    confirmed: string;
+    details: string;
+    dateLabel: string;
+    timeLabel: string;
+    durationLabel: string;
+    timezoneLabel: string;
+    bookingCodeLabel: string;
+    whatToExpect: string;
+    expectText: string;
+    weWillCallYou: string;
+    confirmAttendance: string;
+    reminderNote: string;
+    cancelNote: string;
+    lookingForward: string;
+    closing: string;
+    minutes: string;
+  };
+  consultationReminder: {
+    subject3h: string;
+    subject30m: string;
+    greeting: string;
+    reminder3h: string;
+    reminder30m: string;
+    details: string;
+    dateLabel: string;
+    timeLabel: string;
+    durationLabel: string;
+    bookingCodeLabel: string;
+    prepareTitle: string;
+    prepareText: string;
+    weWillCallYou: string;
+    cancelNote: string;
+    seeYouSoon: string;
+    closing: string;
+    minutes: string;
+  };
 }
 
 const translations: Record<EmailLanguage, EmailTranslations> = {
@@ -728,6 +767,45 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       uploadButton: "Subir Nuevo Documento",
       needHelp: "Si tienes dudas o necesitas ayuda, no dudes en contactar con nuestro equipo de soporte. Estamos aquí para ayudarte.",
       closing: "Gracias por tu comprensión y colaboración."
+    },
+    consultationConfirmation: {
+      subject: "Asesoría gratuita confirmada | Easy US LLC",
+      greeting: "¡Excelente noticia!",
+      confirmed: "Tu asesoría gratuita ha sido reservada con éxito.",
+      details: "Detalles de tu cita:",
+      dateLabel: "Fecha",
+      timeLabel: "Hora",
+      durationLabel: "Duración",
+      timezoneLabel: "Zona horaria",
+      bookingCodeLabel: "Código de reserva",
+      whatToExpect: "¿Qué puedes esperar?",
+      expectText: "Durante la llamada, uno de nuestros asesores especializados te ayudará a entender cómo crear tu LLC en Estados Unidos, resolver tus dudas fiscales y encontrar la mejor estrategia para tu caso particular.",
+      weWillCallYou: "Te llamaremos al número que nos proporcionaste el día y hora indicados. Por favor, asegúrate de estar disponible.",
+      confirmAttendance: "Por favor, confirma que asistirás a la llamada.",
+      reminderNote: "Te enviaremos un recordatorio 3 horas antes y 30 minutos antes de tu cita para que no se te olvide.",
+      cancelNote: "Si necesitas cancelar o reprogramar, por favor contáctanos con la mayor antelación posible.",
+      lookingForward: "Estamos deseando ayudarte a dar el siguiente paso en tu aventura empresarial.",
+      closing: "Un saludo cordial,",
+      minutes: "minutos"
+    },
+    consultationReminder: {
+      subject3h: "Recordatorio: tu asesoría gratuita es en 3 horas | Easy US LLC",
+      subject30m: "Recordatorio: tu asesoría gratuita es en 30 minutos | Easy US LLC",
+      greeting: "¡Hola de nuevo!",
+      reminder3h: "Te recordamos que tu asesoría gratuita con Easy US LLC es en aproximadamente 3 horas.",
+      reminder30m: "Tu asesoría gratuita con Easy US LLC comienza en 30 minutos. ¡Prepárate!",
+      details: "Detalles de tu cita:",
+      dateLabel: "Fecha",
+      timeLabel: "Hora",
+      durationLabel: "Duración",
+      bookingCodeLabel: "Código de reserva",
+      prepareTitle: "¿Cómo prepararte?",
+      prepareText: "Ten a mano cualquier pregunta que quieras hacernos sobre la creación de tu LLC, impuestos, o estrategia empresarial. Cuanto más nos cuentes, mejor podremos ayudarte.",
+      weWillCallYou: "Te llamaremos al número que nos proporcionaste. Asegúrate de tener buena cobertura y estar en un lugar tranquilo.",
+      cancelNote: "Si no puedes asistir, por favor avísanos lo antes posible para reprogramar tu cita.",
+      seeYouSoon: "¡Nos vemos pronto!",
+      closing: "El equipo de Easy US LLC",
+      minutes: "minutos"
     }
   },
   en: {
@@ -1092,6 +1170,45 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       uploadButton: "Upload New Document",
       needHelp: "If you have questions or need help, don't hesitate to contact our support team. We are here to help you.",
       closing: "Thank you for your understanding and cooperation."
+    },
+    consultationConfirmation: {
+      subject: "Free consultation confirmed | Easy US LLC",
+      greeting: "Great news!",
+      confirmed: "Your free consultation has been successfully booked.",
+      details: "Your appointment details:",
+      dateLabel: "Date",
+      timeLabel: "Time",
+      durationLabel: "Duration",
+      timezoneLabel: "Timezone",
+      bookingCodeLabel: "Booking code",
+      whatToExpect: "What can you expect?",
+      expectText: "During the call, one of our specialized advisors will help you understand how to create your LLC in the United States, answer your tax questions, and find the best strategy for your particular case.",
+      weWillCallYou: "We will call you at the number you provided on the date and time indicated. Please make sure you are available.",
+      confirmAttendance: "Please confirm that you will attend the call.",
+      reminderNote: "We will send you a reminder 3 hours before and 30 minutes before your appointment so you don't forget.",
+      cancelNote: "If you need to cancel or reschedule, please contact us as soon as possible.",
+      lookingForward: "We are looking forward to helping you take the next step in your business journey.",
+      closing: "Best regards,",
+      minutes: "minutes"
+    },
+    consultationReminder: {
+      subject3h: "Reminder: your free consultation is in 3 hours | Easy US LLC",
+      subject30m: "Reminder: your free consultation is in 30 minutes | Easy US LLC",
+      greeting: "Hello again!",
+      reminder3h: "This is a reminder that your free consultation with Easy US LLC is in approximately 3 hours.",
+      reminder30m: "Your free consultation with Easy US LLC starts in 30 minutes. Get ready!",
+      details: "Your appointment details:",
+      dateLabel: "Date",
+      timeLabel: "Time",
+      durationLabel: "Duration",
+      bookingCodeLabel: "Booking code",
+      prepareTitle: "How to prepare?",
+      prepareText: "Have any questions you want to ask us about creating your LLC, taxes, or business strategy ready. The more you tell us, the better we can help you.",
+      weWillCallYou: "We will call you at the number you provided. Make sure you have good reception and are in a quiet place.",
+      cancelNote: "If you cannot attend, please let us know as soon as possible to reschedule your appointment.",
+      seeYouSoon: "See you soon!",
+      closing: "The Easy US LLC Team",
+      minutes: "minutes"
     }
   },
   ca: {
@@ -1456,6 +1573,45 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       uploadButton: "Pujar Nou Document",
       needHelp: "Si tens dubtes o necessites ajuda, no dubtis a contactar amb el nostre equip de suport. Estem aquí per ajudar-te.",
       closing: "Gràcies per la teva comprensió i col·laboració."
+    },
+    consultationConfirmation: {
+      subject: "Assessoria gratuïta confirmada | Easy US LLC",
+      greeting: "Excel·lent notícia!",
+      confirmed: "La teva assessoria gratuïta ha estat reservada amb èxit.",
+      details: "Detalls de la teva cita:",
+      dateLabel: "Data",
+      timeLabel: "Hora",
+      durationLabel: "Durada",
+      timezoneLabel: "Zona horària",
+      bookingCodeLabel: "Codi de reserva",
+      whatToExpect: "Què pots esperar?",
+      expectText: "Durant la trucada, un dels nostres assessors especialitzats t'ajudarà a entendre com crear la teva LLC als Estats Units, resoldre els teus dubtes fiscals i trobar la millor estratègia per al teu cas particular.",
+      weWillCallYou: "Et trucarem al número que ens vas proporcionar el dia i hora indicats. Si us plau, assegura't d'estar disponible.",
+      confirmAttendance: "Si us plau, confirma que assistiràs a la trucada.",
+      reminderNote: "T'enviarem un recordatori 3 hores abans i 30 minuts abans de la teva cita perquè no se t'oblidi.",
+      cancelNote: "Si necessites cancel·lar o reprogramar, si us plau contacta'ns amb la major antelació possible.",
+      lookingForward: "Estem desitjant ajudar-te a fer el següent pas en la teva aventura empresarial.",
+      closing: "Una salutació cordial,",
+      minutes: "minuts"
+    },
+    consultationReminder: {
+      subject3h: "Recordatori: la teva assessoria gratuïta és en 3 hores | Easy US LLC",
+      subject30m: "Recordatori: la teva assessoria gratuïta és en 30 minuts | Easy US LLC",
+      greeting: "Hola de nou!",
+      reminder3h: "Et recordem que la teva assessoria gratuïta amb Easy US LLC és en aproximadament 3 hores.",
+      reminder30m: "La teva assessoria gratuïta amb Easy US LLC comença en 30 minuts. Prepara't!",
+      details: "Detalls de la teva cita:",
+      dateLabel: "Data",
+      timeLabel: "Hora",
+      durationLabel: "Durada",
+      bookingCodeLabel: "Codi de reserva",
+      prepareTitle: "Com preparar-te?",
+      prepareText: "Tingues a mà qualsevol pregunta que vulguis fer-nos sobre la creació de la teva LLC, impostos o estratègia empresarial. Com més ens expliquis, millor podrem ajudar-te.",
+      weWillCallYou: "Et trucarem al número que ens vas proporcionar. Assegura't de tenir bona cobertura i estar en un lloc tranquil.",
+      cancelNote: "Si no pots assistir, si us plau avisa'ns com més aviat millor per reprogramar la teva cita.",
+      seeYouSoon: "Ens veiem aviat!",
+      closing: "L'equip d'Easy US LLC",
+      minutes: "minuts"
     }
   },
   fr: {
@@ -1820,6 +1976,45 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       uploadButton: "Télécharger un Nouveau Document",
       needHelp: "Si vous avez des questions ou besoin d'aide, n'hésitez pas à contacter notre équipe d'assistance. Nous sommes là pour vous aider.",
       closing: "Merci pour votre compréhension et votre coopération."
+    },
+    consultationConfirmation: {
+      subject: "Consultation gratuite confirmée | Easy US LLC",
+      greeting: "Excellente nouvelle !",
+      confirmed: "Votre consultation gratuite a été réservée avec succès.",
+      details: "Détails de votre rendez-vous :",
+      dateLabel: "Date",
+      timeLabel: "Heure",
+      durationLabel: "Durée",
+      timezoneLabel: "Fuseau horaire",
+      bookingCodeLabel: "Code de réservation",
+      whatToExpect: "À quoi vous attendre ?",
+      expectText: "Lors de l'appel, l'un de nos conseillers spécialisés vous aidera à comprendre comment créer votre LLC aux États-Unis, répondra à vos questions fiscales et trouvera la meilleure stratégie pour votre cas particulier.",
+      weWillCallYou: "Nous vous appellerons au numéro que vous nous avez fourni à la date et l'heure indiquées. Veuillez vous assurer d'être disponible.",
+      confirmAttendance: "Veuillez confirmer que vous assisterez à l'appel.",
+      reminderNote: "Nous vous enverrons un rappel 3 heures avant et 30 minutes avant votre rendez-vous pour que vous ne l'oubliiez pas.",
+      cancelNote: "Si vous devez annuler ou reprogrammer, veuillez nous contacter le plus tôt possible.",
+      lookingForward: "Nous avons hâte de vous aider à franchir la prochaine étape de votre aventure entrepreneuriale.",
+      closing: "Cordialement,",
+      minutes: "minutes"
+    },
+    consultationReminder: {
+      subject3h: "Rappel : votre consultation gratuite est dans 3 heures | Easy US LLC",
+      subject30m: "Rappel : votre consultation gratuite est dans 30 minutes | Easy US LLC",
+      greeting: "Rebonjour !",
+      reminder3h: "Nous vous rappelons que votre consultation gratuite avec Easy US LLC est dans environ 3 heures.",
+      reminder30m: "Votre consultation gratuite avec Easy US LLC commence dans 30 minutes. Préparez-vous !",
+      details: "Détails de votre rendez-vous :",
+      dateLabel: "Date",
+      timeLabel: "Heure",
+      durationLabel: "Durée",
+      bookingCodeLabel: "Code de réservation",
+      prepareTitle: "Comment vous préparer ?",
+      prepareText: "Ayez à portée de main toutes les questions que vous souhaitez nous poser sur la création de votre LLC, les impôts ou la stratégie commerciale. Plus vous nous en direz, mieux nous pourrons vous aider.",
+      weWillCallYou: "Nous vous appellerons au numéro que vous nous avez fourni. Assurez-vous d'avoir une bonne réception et d'être dans un endroit calme.",
+      cancelNote: "Si vous ne pouvez pas y assister, veuillez nous prévenir dès que possible pour reprogrammer votre rendez-vous.",
+      seeYouSoon: "À bientôt !",
+      closing: "L'équipe Easy US LLC",
+      minutes: "minutes"
     }
   },
   de: {
@@ -2184,6 +2379,45 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       uploadButton: "Neues Dokument Hochladen",
       needHelp: "Wenn Sie Fragen haben oder Hilfe benötigen, zögern Sie nicht, unser Support-Team zu kontaktieren. Wir sind hier, um Ihnen zu helfen.",
       closing: "Vielen Dank für Ihr Verständnis und Ihre Zusammenarbeit."
+    },
+    consultationConfirmation: {
+      subject: "Kostenlose Beratung bestätigt | Easy US LLC",
+      greeting: "Tolle Neuigkeiten!",
+      confirmed: "Ihre kostenlose Beratung wurde erfolgreich gebucht.",
+      details: "Ihre Termindetails:",
+      dateLabel: "Datum",
+      timeLabel: "Uhrzeit",
+      durationLabel: "Dauer",
+      timezoneLabel: "Zeitzone",
+      bookingCodeLabel: "Buchungscode",
+      whatToExpect: "Was können Sie erwarten?",
+      expectText: "Während des Gesprächs wird einer unserer spezialisierten Berater Ihnen helfen zu verstehen, wie Sie Ihre LLC in den USA gründen können, Ihre Steuerfragen beantworten und die beste Strategie für Ihren speziellen Fall finden.",
+      weWillCallYou: "Wir rufen Sie unter der von Ihnen angegebenen Nummer zum angegebenen Datum und zur angegebenen Uhrzeit an. Bitte stellen Sie sicher, dass Sie erreichbar sind.",
+      confirmAttendance: "Bitte bestätigen Sie, dass Sie am Gespräch teilnehmen werden.",
+      reminderNote: "Wir senden Ihnen 3 Stunden vor und 30 Minuten vor Ihrem Termin eine Erinnerung, damit Sie ihn nicht vergessen.",
+      cancelNote: "Wenn Sie absagen oder umbuchen müssen, kontaktieren Sie uns bitte so früh wie möglich.",
+      lookingForward: "Wir freuen uns darauf, Ihnen beim nächsten Schritt Ihres unternehmerischen Abenteuers zu helfen.",
+      closing: "Mit freundlichen Grüßen,",
+      minutes: "Minuten"
+    },
+    consultationReminder: {
+      subject3h: "Erinnerung: Ihre kostenlose Beratung ist in 3 Stunden | Easy US LLC",
+      subject30m: "Erinnerung: Ihre kostenlose Beratung ist in 30 Minuten | Easy US LLC",
+      greeting: "Hallo nochmal!",
+      reminder3h: "Wir möchten Sie daran erinnern, dass Ihre kostenlose Beratung mit Easy US LLC in etwa 3 Stunden stattfindet.",
+      reminder30m: "Ihre kostenlose Beratung mit Easy US LLC beginnt in 30 Minuten. Machen Sie sich bereit!",
+      details: "Ihre Termindetails:",
+      dateLabel: "Datum",
+      timeLabel: "Uhrzeit",
+      durationLabel: "Dauer",
+      bookingCodeLabel: "Buchungscode",
+      prepareTitle: "Wie bereiten Sie sich vor?",
+      prepareText: "Halten Sie alle Fragen bereit, die Sie uns zur Gründung Ihrer LLC, Steuern oder Geschäftsstrategie stellen möchten. Je mehr Sie uns erzählen, desto besser können wir Ihnen helfen.",
+      weWillCallYou: "Wir rufen Sie unter der von Ihnen angegebenen Nummer an. Stellen Sie sicher, dass Sie guten Empfang haben und sich an einem ruhigen Ort befinden.",
+      cancelNote: "Wenn Sie nicht teilnehmen können, informieren Sie uns bitte so schnell wie möglich, um Ihren Termin zu verschieben.",
+      seeYouSoon: "Bis bald!",
+      closing: "Das Easy US LLC Team",
+      minutes: "Minuten"
     }
   },
   it: {
@@ -2548,6 +2782,45 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       uploadButton: "Carica Nuovo Documento",
       needHelp: "Se hai domande o hai bisogno di aiuto, non esitare a contattare il nostro team di supporto. Siamo qui per aiutarti.",
       closing: "Grazie per la tua comprensione e collaborazione."
+    },
+    consultationConfirmation: {
+      subject: "Consulenza gratuita confermata | Easy US LLC",
+      greeting: "Ottima notizia!",
+      confirmed: "La tua consulenza gratuita è stata prenotata con successo.",
+      details: "Dettagli del tuo appuntamento:",
+      dateLabel: "Data",
+      timeLabel: "Ora",
+      durationLabel: "Durata",
+      timezoneLabel: "Fuso orario",
+      bookingCodeLabel: "Codice prenotazione",
+      whatToExpect: "Cosa puoi aspettarti?",
+      expectText: "Durante la chiamata, uno dei nostri consulenti specializzati ti aiuterà a capire come creare la tua LLC negli Stati Uniti, risponderà alle tue domande fiscali e troverà la strategia migliore per il tuo caso particolare.",
+      weWillCallYou: "Ti chiameremo al numero che ci hai fornito alla data e all'ora indicate. Assicurati di essere disponibile.",
+      confirmAttendance: "Per favore conferma che parteciperai alla chiamata.",
+      reminderNote: "Ti invieremo un promemoria 3 ore prima e 30 minuti prima del tuo appuntamento per non dimenticarlo.",
+      cancelNote: "Se hai bisogno di cancellare o riprogrammare, contattaci il prima possibile.",
+      lookingForward: "Non vediamo l'ora di aiutarti a fare il prossimo passo nella tua avventura imprenditoriale.",
+      closing: "Cordiali saluti,",
+      minutes: "minuti"
+    },
+    consultationReminder: {
+      subject3h: "Promemoria: la tua consulenza gratuita è tra 3 ore | Easy US LLC",
+      subject30m: "Promemoria: la tua consulenza gratuita è tra 30 minuti | Easy US LLC",
+      greeting: "Ciao di nuovo!",
+      reminder3h: "Ti ricordiamo che la tua consulenza gratuita con Easy US LLC è tra circa 3 ore.",
+      reminder30m: "La tua consulenza gratuita con Easy US LLC inizia tra 30 minuti. Preparati!",
+      details: "Dettagli del tuo appuntamento:",
+      dateLabel: "Data",
+      timeLabel: "Ora",
+      durationLabel: "Durata",
+      bookingCodeLabel: "Codice prenotazione",
+      prepareTitle: "Come prepararti?",
+      prepareText: "Tieni a portata di mano tutte le domande che vuoi farci sulla creazione della tua LLC, tasse o strategia aziendale. Più ci racconti, meglio potremo aiutarti.",
+      weWillCallYou: "Ti chiameremo al numero che ci hai fornito. Assicurati di avere buona ricezione e di essere in un posto tranquillo.",
+      cancelNote: "Se non puoi partecipare, avvisaci il prima possibile per riprogrammare il tuo appuntamento.",
+      seeYouSoon: "A presto!",
+      closing: "Il team di Easy US LLC",
+      minutes: "minuti"
     }
   },
   pt: {
@@ -2912,6 +3185,45 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       uploadButton: "Carregar Novo Documento",
       needHelp: "Se tiver dúvidas ou precisar de ajuda, não hesite em contactar a nossa equipa de suporte. Estamos aqui para ajudá-lo.",
       closing: "Obrigado pela sua compreensão e colaboração."
+    },
+    consultationConfirmation: {
+      subject: "Consultoria gratuita confirmada | Easy US LLC",
+      greeting: "Excelente notícia!",
+      confirmed: "A sua consultoria gratuita foi reservada com sucesso.",
+      details: "Detalhes da sua consulta:",
+      dateLabel: "Data",
+      timeLabel: "Hora",
+      durationLabel: "Duração",
+      timezoneLabel: "Fuso horário",
+      bookingCodeLabel: "Código de reserva",
+      whatToExpect: "O que pode esperar?",
+      expectText: "Durante a chamada, um dos nossos consultores especializados irá ajudá-lo a entender como criar a sua LLC nos Estados Unidos, responder às suas questões fiscais e encontrar a melhor estratégia para o seu caso particular.",
+      weWillCallYou: "Ligaremos para o número que nos forneceu na data e hora indicadas. Por favor, certifique-se de que está disponível.",
+      confirmAttendance: "Por favor, confirme que vai comparecer à chamada.",
+      reminderNote: "Enviaremos um lembrete 3 horas antes e 30 minutos antes da sua consulta para que não se esqueça.",
+      cancelNote: "Se precisar de cancelar ou reagendar, por favor contacte-nos o mais cedo possível.",
+      lookingForward: "Estamos ansiosos por ajudá-lo a dar o próximo passo na sua aventura empresarial.",
+      closing: "Com os melhores cumprimentos,",
+      minutes: "minutos"
+    },
+    consultationReminder: {
+      subject3h: "Lembrete: a sua consultoria gratuita é em 3 horas | Easy US LLC",
+      subject30m: "Lembrete: a sua consultoria gratuita é em 30 minutos | Easy US LLC",
+      greeting: "Olá de novo!",
+      reminder3h: "Lembramos que a sua consultoria gratuita com a Easy US LLC é em aproximadamente 3 horas.",
+      reminder30m: "A sua consultoria gratuita com a Easy US LLC começa em 30 minutos. Prepare-se!",
+      details: "Detalhes da sua consulta:",
+      dateLabel: "Data",
+      timeLabel: "Hora",
+      durationLabel: "Duração",
+      bookingCodeLabel: "Código de reserva",
+      prepareTitle: "Como se preparar?",
+      prepareText: "Tenha à mão qualquer pergunta que queira fazer-nos sobre a criação da sua LLC, impostos ou estratégia empresarial. Quanto mais nos contar, melhor poderemos ajudá-lo.",
+      weWillCallYou: "Ligaremos para o número que nos forneceu. Certifique-se de ter boa receção e estar num local tranquilo.",
+      cancelNote: "Se não puder comparecer, por favor avise-nos o mais cedo possível para reagendar a sua consulta.",
+      seeYouSoon: "Até breve!",
+      closing: "A equipa Easy US LLC",
+      minutes: "minutos"
     }
   }
 };

@@ -116,6 +116,12 @@ const routeTitles: Record<string, PageTitleConfig> = {
     descriptionKey: "seo.legal.cookies.description",
     fallbackTitle: "Política de Cookies | Easy US LLC",
     fallbackDescription: "Información sobre el uso de cookies en Easy US LLC."
+  },
+  "/asesoria-gratis": {
+    titleKey: "seo.asesoriaGratis.title",
+    descriptionKey: "seo.asesoriaGratis.description",
+    fallbackTitle: "Consulta Gratuita | Easy US LLC",
+    fallbackDescription: "Reserva una consulta gratuita de 20 minutos con nuestros expertos en formación de LLC en Estados Unidos."
   }
 };
 

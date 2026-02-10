@@ -99,6 +99,15 @@ export function Navbar() {
             >
               {t("nav.contact")}
             </button>
+            <button 
+              onClick={() => handleNavClick("/asesoria-gratis")} 
+              onMouseEnter={() => prefetchOnHover("/asesoria-gratis")} 
+              onMouseLeave={cancelPrefetch}
+              className="text-xs lg:text-sm font-bold text-accent hover:text-accent/80 transition-colors whitespace-nowrap px-2 py-1 h-full flex items-center"
+              data-testid="link-free-consultation"
+            >
+              {t("nav.freeConsultation")}
+            </button>
           </nav>
 
           <div className="hidden md:flex items-center gap-2 lg:gap-3">
@@ -251,9 +260,16 @@ export function Navbar() {
               </button>
               <button
                 onClick={() => handleNavClick("/contacto")}
-                className="text-left px-3 py-3 rounded-xl text-foreground hover:bg-secondary transition-colors font-black text-xl tracking-tighter border border-transparent hover:border-accent/20 mb-4"
+                className="text-left px-3 py-3 rounded-xl text-foreground hover:bg-secondary transition-colors font-black text-xl tracking-tighter border border-transparent hover:border-accent/20"
               >
                 {t("nav.contact")}
+              </button>
+              <button
+                onClick={() => handleNavClick("/asesoria-gratis")}
+                className="text-left px-3 py-3 rounded-xl text-accent hover:bg-accent/10 transition-colors font-black text-xl tracking-tighter border border-accent/20 hover:border-accent/40 mb-4"
+                data-testid="link-free-consultation-mobile"
+              >
+                {t("nav.freeConsultation")}
               </button>
               
               <div className="px-3 py-4 mb-4 bg-accent/5 rounded-2xl border border-accent/20 text-left">

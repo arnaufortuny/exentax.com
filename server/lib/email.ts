@@ -1505,6 +1505,88 @@ export function getAbandonedApplicationReminderTemplate(
   return getEmailWrapper(content, lang);
 }
 
+export function getConsultationConfirmationTemplate(
+  name: string,
+  bookingCode: string,
+  dateFormatted: string,
+  timeFormatted: string,
+  duration: number,
+  lang: EmailLanguage = 'es'
+) {
+  const t = getEmailTranslations(lang);
+  const ct = t.consultationConfirmation;
+  const content = `
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin: 0 0 10px 0;">${ct.greeting}</p>
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin: 0 0 25px 0;">${t.common.greeting} ${name}, ${ct.confirmed}</p>
+    
+    <div style="background: linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%); padding: 25px 30px; border-radius: 16px; margin: 25px 0;">
+      <p style="font-weight: 700; font-size: 15px; color: #1E40AF; margin: 0 0 15px 0;">${ct.details}</p>
+      <table style="width: 100%; font-size: 14px; color: #444;">
+        <tr><td style="padding: 6px 0; font-weight: 600; width: 140px;">${ct.dateLabel}:</td><td style="padding: 6px 0;">${dateFormatted}</td></tr>
+        <tr><td style="padding: 6px 0; font-weight: 600;">${ct.timeLabel}:</td><td style="padding: 6px 0;">${timeFormatted}</td></tr>
+        <tr><td style="padding: 6px 0; font-weight: 600;">${ct.durationLabel}:</td><td style="padding: 6px 0;">${duration} ${ct.minutes}</td></tr>
+        <tr><td style="padding: 6px 0; font-weight: 600;">${ct.timezoneLabel}:</td><td style="padding: 6px 0;">Europe/Madrid (CET)</td></tr>
+        <tr><td style="padding: 6px 0; font-weight: 600;">${ct.bookingCodeLabel}:</td><td style="padding: 6px 0; font-weight: 700; color: #1E40AF;">${bookingCode}</td></tr>
+      </table>
+    </div>
+
+    <p style="line-height: 1.7; font-size: 15px; color: #444; font-weight: 600; margin: 25px 0 10px 0;">${ct.whatToExpect}</p>
+    <p style="line-height: 1.7; font-size: 14px; color: #555; margin: 0 0 20px 0;">${ct.expectText}</p>
+
+    <div style="background: #FEF3C7; padding: 20px 25px; border-radius: 16px; margin: 20px 0; border-left: 4px solid #F59E0B;">
+      <p style="margin: 0 0 8px 0; font-size: 14px; color: #92400E; font-weight: 600;">${ct.weWillCallYou}</p>
+      <p style="margin: 0; font-size: 13px; color: #92400E;">${ct.reminderNote}</p>
+    </div>
+
+    <p style="line-height: 1.7; font-size: 14px; color: #555; margin: 20px 0;">${ct.cancelNote}</p>
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin: 20px 0 5px 0;">${ct.lookingForward}</p>
+    <p style="line-height: 1.7; font-size: 14px; color: #444; margin: 0;">${ct.closing}</p>
+    <p style="font-weight: 700; font-size: 14px; color: #1E40AF; margin: 5px 0 0 0;">Easy US LLC</p>
+  `;
+  return getEmailWrapper(content, lang);
+}
+
+export function getConsultationReminderTemplate(
+  name: string,
+  bookingCode: string,
+  dateFormatted: string,
+  timeFormatted: string,
+  duration: number,
+  reminderType: '3h' | '30m',
+  lang: EmailLanguage = 'es'
+) {
+  const t = getEmailTranslations(lang);
+  const ct = t.consultationReminder;
+  const reminderText = reminderType === '3h' ? ct.reminder3h : ct.reminder30m;
+  const accentColor = reminderType === '3h' ? '#2563EB' : '#DC2626';
+  const content = `
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin: 0 0 10px 0;">${ct.greeting}</p>
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin: 0 0 25px 0;">${t.common.greeting} ${name}, ${reminderText}</p>
+    
+    <div style="background: linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%); padding: 25px 30px; border-radius: 16px; margin: 25px 0; border-left: 4px solid ${accentColor};">
+      <p style="font-weight: 700; font-size: 15px; color: #1E40AF; margin: 0 0 15px 0;">${ct.details}</p>
+      <table style="width: 100%; font-size: 14px; color: #444;">
+        <tr><td style="padding: 6px 0; font-weight: 600; width: 140px;">${ct.dateLabel}:</td><td style="padding: 6px 0;">${dateFormatted}</td></tr>
+        <tr><td style="padding: 6px 0; font-weight: 600;">${ct.timeLabel}:</td><td style="padding: 6px 0; font-weight: 700; color: ${accentColor};">${timeFormatted}</td></tr>
+        <tr><td style="padding: 6px 0; font-weight: 600;">${ct.durationLabel}:</td><td style="padding: 6px 0;">${duration} ${ct.minutes}</td></tr>
+        <tr><td style="padding: 6px 0; font-weight: 600;">${ct.bookingCodeLabel}:</td><td style="padding: 6px 0; font-weight: 700; color: #1E40AF;">${bookingCode}</td></tr>
+      </table>
+    </div>
+
+    <p style="line-height: 1.7; font-size: 15px; color: #444; font-weight: 600; margin: 25px 0 10px 0;">${ct.prepareTitle}</p>
+    <p style="line-height: 1.7; font-size: 14px; color: #555; margin: 0 0 20px 0;">${ct.prepareText}</p>
+
+    <div style="background: #F0FDF4; padding: 18px 25px; border-radius: 16px; margin: 20px 0;">
+      <p style="margin: 0; font-size: 14px; color: #166534; line-height: 1.7;">${ct.weWillCallYou}</p>
+    </div>
+
+    <p style="line-height: 1.7; font-size: 14px; color: #555; margin: 20px 0;">${ct.cancelNote}</p>
+    <p style="line-height: 1.7; font-size: 15px; color: #444; font-weight: 600; margin: 20px 0 5px 0;">${ct.seeYouSoon}</p>
+    <p style="font-weight: 700; font-size: 14px; color: #1E40AF; margin: 5px 0 0 0;">${ct.closing}</p>
+  `;
+  return getEmailWrapper(content, lang);
+}
+
 export async function sendTrustpilotEmail({ to, name, orderNumber }: { to: string; name: string; orderNumber: string }) {
   if (!process.env.SMTP_PASS) {
     return;

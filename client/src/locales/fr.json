@@ -157,7 +157,8 @@
     "dashboard": "Dashboard",
     "openMenu": "Ouvrir le menu",
     "closeMenu": "Fermer le menu",
-    "logout": "Se déconnecter"
+    "logout": "Se déconnecter",
+    "freeConsultation": "Consultation gratuite"
   },
   "hero": {
     "title": "OPTIMISEZ LA STRUCTURE FISCALE DE VOTRE ACTIVITÉ NUMÉRIQUE",
@@ -3068,6 +3069,10 @@
     "csvGenerator": {
       "title": "Générateur CSV de Transactions | Easy US LLC",
       "description": "Générez des fichiers CSV de transactions bancaires pour votre LLC gratuitement."
+    },
+    "asesoriaGratis": {
+      "title": "Consultation Gratuite | Easy US LLC",
+      "description": "Réservez une consultation gratuite de 20 minutes avec nos experts en création de LLC aux États-Unis."
     }
   },
   "consultations": {
@@ -3619,5 +3624,82 @@
     "s07p1": "Nous pouvons mettre à jour cette Politique de Cookies de temps en temps pour refléter les changements dans nos pratiques ou pour d'autres raisons opérationnelles, légales ou réglementaires. La date de la dernière mise à jour est indiquée en haut de cette page.",
     "s08Title": "Contact",
     "s08p1": "Si vous avez des questions sur notre utilisation des cookies, contactez-nous :"
+  },
+  "freeConsultation": {
+    "title": "Consultation Gratuite",
+    "subtitle": "Réservez une session de 20 minutes avec notre équipe d'experts. Sans engagement.",
+    "duration": "20 minutes · Gratuite · Sans engagement",
+    "error": "Erreur lors de la réservation. Veuillez réessayer.",
+    "consent": "J'accepte le traitement de mes données personnelles pour gérer cette consultation, conformément à la politique de confidentialité.",
+    "success": {
+      "title": "Consultation réservée avec succès",
+      "description": "Nous avons enregistré votre consultation. Vous recevrez un email de confirmation avec tous les détails.",
+      "codeLabel": "Code de réservation",
+      "emailSent": "Nous vous avons envoyé un email de confirmation. Vérifiez votre boîte de réception."
+    },
+    "steps": {
+      "personal": {
+        "title": "Données personnelles",
+        "subtitle": "Nous avons besoin de vos coordonnées"
+      },
+      "schedule": {
+        "title": "Date et heure",
+        "subtitle": "Choisissez votre créneau préféré (heure de Madrid)",
+        "availableSlots": "Créneaux disponibles",
+        "noSlots": "Aucun créneau disponible pour cette date"
+      },
+      "questionnaire": {
+        "title": "À propos de votre entreprise",
+        "subtitle": "Aidez-nous à préparer la consultation"
+      },
+      "notes": {
+        "title": "Notes supplémentaires",
+        "subtitle": "Y a-t-il autre chose que nous devrions savoir?",
+        "summary": "Résumé de votre réservation"
+      },
+      "confirm": {
+        "title": "Confirmer la réservation",
+        "subtitle": "Vérifiez les détails avant de confirmer"
+      }
+    },
+    "fields": {
+      "firstName": "Prénom",
+      "firstNamePlaceholder": "Votre prénom",
+      "lastName": "Nom",
+      "lastNamePlaceholder": "Votre nom",
+      "email": "Email",
+      "emailPlaceholder": "votre@email.com",
+      "phone": "Téléphone (optionnel)",
+      "phonePlaceholder": "+33 6 00 00 00 00",
+      "country": "Pays de résidence",
+      "countryPlaceholder": "Ex: France, Belgique, Canada...",
+      "mainTopic": "Sujet principal",
+      "mainTopicPlaceholder": "De quoi souhaitez-vous parler?",
+      "hasExistingBusiness": "Avez-vous déjà une entreprise?",
+      "businessActivity": "Activité de l'entreprise",
+      "businessActivityPlaceholder": "Ex: E-commerce, conseil, services...",
+      "estimatedRevenue": "Chiffre d'affaires annuel estimé",
+      "preferredState": "État préféré pour votre LLC",
+      "additionalNotes": "Notes supplémentaires",
+      "additionalNotesPlaceholder": "Dites-nous en plus sur votre situation ou vos questions spécifiques...",
+      "select": "Sélectionner...",
+      "yes": "Oui",
+      "no": "Non",
+      "planning": "Je planifie",
+      "notSure": "Pas sûr"
+    },
+    "topics": {
+      "llcFormation": "Création de LLC",
+      "taxPlanning": "Planification fiscale",
+      "banking": "Ouverture de compte bancaire",
+      "compliance": "Conformité et rapports",
+      "ecommerce": "E-commerce international",
+      "other": "Autre sujet"
+    },
+    "navigation": {
+      "back": "Précédent",
+      "next": "Suivant",
+      "confirm": "Confirmer la réservation"
+    }
   }
 }
