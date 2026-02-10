@@ -4,9 +4,8 @@ import { useTranslation } from "react-i18next";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Input } from "@/components/ui/input";
 import { NativeSelect, NativeSelectItem } from "@/components/ui/native-select";
-import { ChevronRight, ChevronLeft, Loader2, Search, X, Clock, Shield, Mail, FileText, CreditCard, Package, UserCheck, MessageSquare, Calendar, Upload, Key, Globe, Bell, Users, Eye } from "@/components/icons";
+import { ChevronRight, ChevronLeft, Loader2, Clock, Shield, Mail, FileText, CreditCard, Package, UserCheck, MessageSquare, Calendar, Upload, Key, Globe, Bell, Users, Eye } from "@/components/icons";
 import { getLocale } from "@/lib/utils";
 
 type AuditLog = {
@@ -109,8 +108,6 @@ export function ActivityLogPanel() {
   const { t } = useTranslation();
   const [page, setPage] = useState(0);
   const [actionFilter, setActionFilter] = useState("");
-  const [searchQuery, setSearchQuery] = useState("");
-  const [searchInput, setSearchInput] = useState("");
   const [expandedLog, setExpandedLog] = useState<number | null>(null);
   const limit = 50;
 
@@ -119,13 +116,12 @@ export function ActivityLogPanel() {
     total: number;
     actions: string[];
   }>({
-    queryKey: ["/api/admin/audit-logs", page, actionFilter, searchQuery],
+    queryKey: ["/api/admin/audit-logs", page, actionFilter],
     queryFn: async () => {
       const params = new URLSearchParams();
       params.set("limit", String(limit));
       params.set("offset", String(page * limit));
       if (actionFilter) params.set("action", actionFilter);
-      if (searchQuery) params.set("search", searchQuery);
       const res = await fetch(`/api/admin/audit-logs?${params}`, { credentials: "include" });
       if (!res.ok) throw new Error(t('errors.fetchFailed'));
       return res.json();
@@ -219,11 +215,6 @@ export function ActivityLogPanel() {
     return rows;
   };
 
-  const handleSearch = () => {
-    setSearchQuery(searchInput);
-    setPage(0);
-  };
-
   return (
     <div className="space-y-3" data-testid="admin-activity-log">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
@@ -234,9 +225,6 @@ export function ActivityLogPanel() {
           )}
           {isFetching && <Loader2 className="w-3 h-3 animate-spin text-accent" />}
         </div>
-      </div>
-
-      <div className="flex flex-col sm:flex-row gap-2">
         <NativeSelect
           value={actionFilter}
           onValueChange={(val) => { setActionFilter(val); setPage(0); }}
@@ -250,32 +238,6 @@ export function ActivityLogPanel() {
             </NativeSelectItem>
           ))}
         </NativeSelect>
-        <div className="relative flex-1 min-w-0">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-muted-foreground pointer-events-none" />
-          <Input
-            placeholder="Buscar por IP, email, ID, detalles..."
-            value={searchInput}
-            onChange={(e) => setSearchInput(e.target.value)}
-            onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
-            className="pl-9 pr-8 h-9 rounded-full text-xs"
-            data-testid="input-activity-search"
-          />
-          {searchInput && (
-            <Button
-              size="icon"
-              variant="ghost"
-              onClick={() => { setSearchInput(''); setSearchQuery(''); setPage(0); }}
-              className="absolute right-1 top-1/2 -translate-y-1/2 h-7 w-7"
-              data-testid="button-activity-clear-search"
-            >
-              <X className="w-3 h-3" />
-            </Button>
-          )}
-        </div>
-        <Button size="sm" className="rounded-full text-xs font-bold bg-accent text-black shrink-0" onClick={handleSearch} data-testid="button-activity-search">
-          <Search className="w-3 h-3 mr-1" />
-          Buscar
-        </Button>
       </div>
 
       {isLoading ? (
@@ -374,7 +336,7 @@ export function ActivityLogPanel() {
               })}
               {(!data?.logs || data.logs.length === 0) && (
                 <div className="text-center py-12 text-muted-foreground text-sm">
-                  {searchQuery ? 'No se encontraron resultados' : t('dashboard.admin.activityLog.noLogs')}
+                  {t('dashboard.admin.activityLog.noLogs')}
                 </div>
               )}
             </div>
