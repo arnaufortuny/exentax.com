@@ -24,11 +24,13 @@ Easy US LLC is a full-stack SaaS platform designed to streamline US LLC formatio
 - **Internationalization:** react-i18next (7 languages: ES, EN, CA, FR, DE, IT, PT)
 
 ### Design System
-- **Colors:** Primary Blue (#2C5F8A), Carbon Black, Off White, Soft Gray, Text Gray
+- **Colors:** Primary Metallic Blue (#2C5F8A / accent), Carbon Black, Off White, Soft Gray, Text Gray — NO green/emerald anywhere
+- **Color Rules:** All UI elements use metallic blue accent. Status labels (account/order/payment/invoice/query) use semantic colors: red (error/cancelled), yellow (warning/pending), green (completed/active). Action required badge is red.
 - **Typography:** Space Grotesk (headings), Inter (body), DM Sans (UI)
 - **Theme:** Full dark/light mode with CSS custom properties and localStorage persistence
 - **Animations:** Framer Motion with page transitions
 - **Components:** shadcn/ui with custom elevation utilities (hover-elevate, active-elevate-2)
+- **Wallet Tab:** Removed — was a test feature, no longer exists in client dashboard
 
 ### Project Structure
 ```
