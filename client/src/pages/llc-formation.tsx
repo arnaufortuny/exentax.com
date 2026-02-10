@@ -679,7 +679,7 @@ export default function LlcFormation() {
   return (
     <div className="min-h-screen bg-background font-sans w-full">
       <Navbar />
-      <main className="pt-12 md:pt-16 pb-16 max-w-xl mx-auto px-4 md:px-6">
+      <main className="pt-14 sm:pt-20 pb-16 max-w-xl mx-auto px-4 md:px-6">
         {isEditMode && (
           <div className="bg-accent/10 border border-accent/20 rounded-2xl p-4 mb-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div>
