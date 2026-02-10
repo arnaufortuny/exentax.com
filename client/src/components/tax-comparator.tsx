@@ -502,7 +502,7 @@ export function TaxComparator() {
                       </div>
                       <Button
                         onClick={handleCalculate}
-                        className="w-full bg-accent text-primary font-black text-sm rounded-full h-11 shadow-lg shadow-accent/30 hover:bg-accent/90 transition-all transform active:scale-95"
+                        className="w-full bg-accent text-primary font-black text-sm rounded-full h-11 shadow-lg shadow-accent/30 transition-all"
                         data-testid="button-calculate"
                       >
                         {t("taxComparator.calculateButton")} →
@@ -678,7 +678,7 @@ export function TaxComparator() {
                       </div>
                       <Button
                         onClick={() => setLocation("/llc/formation")}
-                        className="bg-accent text-primary font-black text-base rounded-full px-10 h-14 w-full md:w-auto shadow-xl shadow-accent/30 hover:bg-accent/90 transition-colors"
+                        className="bg-accent text-primary font-black text-base rounded-full px-10 h-14 w-full md:w-auto shadow-xl shadow-accent/30 transition-colors"
                         data-testid="button-start-llc-comparator"
                       >
                         {t("taxComparator.cta")} →

@@ -407,7 +407,7 @@ export function ProfileTab({
           </div>
           {isEditing && canEdit && (
             <div className="mt-4 space-y-2">
-              <Button onClick={() => updateProfile.mutate(profileData)} className="w-full bg-accent hover:bg-accent/90 text-black font-black rounded-full h-11 transition-colors" disabled={updateProfile.isPending} data-testid="button-save-profile">{updateProfile.isPending ? t('common.saving') : t('profile.saveChanges')}</Button>
+              <Button onClick={() => updateProfile.mutate(profileData)} className="w-full bg-accent text-black font-black rounded-full h-11 transition-colors" disabled={updateProfile.isPending} data-testid="button-save-profile">{updateProfile.isPending ? t('common.saving') : t('profile.saveChanges')}</Button>
             </div>
           )}
         </div>

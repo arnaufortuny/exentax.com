@@ -261,7 +261,7 @@ export default function CsvGenerator() {
               <Button 
                 onClick={downloadCSV}
                 disabled={!hasValidTransactions || isGenerating}
-                className="bg-accent hover:bg-accent/90 text-accent-foreground font-black rounded-full px-5"
+                className="bg-accent text-accent-foreground font-black rounded-full px-5"
                 data-testid="button-download-csv"
               >
                 {isGenerating ? (
@@ -343,7 +343,7 @@ export default function CsvGenerator() {
                       <Button 
                         variant="ghost" 
                         size="icon" 
-                        className="text-red-500 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-full"
+                        className="text-red-500 rounded-full"
                         onClick={() => removeTransaction(transaction.id)}
                         data-testid={`button-remove-transaction-${index}`}
                       >
@@ -493,7 +493,7 @@ export default function CsvGenerator() {
             <Button 
               onClick={downloadCSV}
               disabled={!hasValidTransactions || isGenerating}
-              className="bg-accent hover:bg-accent/90 text-accent-foreground font-black rounded-full px-5 w-full"
+              className="bg-accent text-accent-foreground font-black rounded-full px-5 w-full"
               data-testid="button-download-csv-mobile"
             >
               {isGenerating ? (

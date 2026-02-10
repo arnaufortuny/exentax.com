@@ -368,7 +368,7 @@ export default function InvoiceGenerator() {
               <Button
                 onClick={generatePDF}
                 disabled={isGenerating}
-                className="bg-accent hover:bg-accent/90 text-accent-foreground font-black rounded-full px-5"
+                className="bg-accent text-accent-foreground font-black rounded-full px-5"
                 data-testid="button-generate-pdf"
               >
                 <FileDown className="w-4 h-4 mr-2" />
@@ -668,7 +668,7 @@ export default function InvoiceGenerator() {
               <Button
                 onClick={generatePDF}
                 disabled={isGenerating}
-                className="bg-accent hover:bg-accent/90 text-accent-foreground font-black rounded-full px-5 w-full"
+                className="bg-accent text-accent-foreground font-black rounded-full px-5 w-full"
                 data-testid="button-generate-pdf-mobile"
               >
                 <FileDown className="w-4 h-4 mr-2" />

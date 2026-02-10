@@ -3728,7 +3728,7 @@ export default function Dashboard() {
                                     <Button 
                                       size="icon" 
                                       variant="ghost" 
-                                      className="h-6 w-6 md:h-7 md:w-7 text-red-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20" 
+                                      className="h-6 w-6 md:h-7 md:w-7 text-red-500" 
                                       onClick={(e) => {
                                         e.stopPropagation();
                                         showConfirm({
@@ -4047,7 +4047,7 @@ export default function Dashboard() {
                                   <Button 
                                     size="icon" 
                                     variant="ghost" 
-                                    className="h-7 w-7 text-red-500 hover:text-red-600 hover:bg-red-50 shrink-0"
+                                    className="h-7 w-7 text-red-500 shrink-0"
                                     onClick={() => {
                                       showConfirm({
                                         title: t('common.confirmAction'),

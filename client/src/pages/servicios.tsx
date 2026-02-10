@@ -394,7 +394,7 @@ export default function Servicios() {
               </div>
               <div className="p-4 sm:p-5 pt-0">
                 <Button onClick={() => handleSelectProduct("New Mexico")}
-                  className="w-full bg-accent text-primary font-black text-sm rounded-full py-2.5 border-0 shadow-md hover:bg-accent/90 transition-colors h-9"
+                  className="w-full bg-accent text-primary font-black text-sm rounded-full py-2.5 border-0 shadow-md transition-colors h-9"
                 >
                   {t("services.formation.choose")} New Mexico
                 </Button>
@@ -436,7 +436,7 @@ export default function Servicios() {
               </div>
               <div className="p-4 sm:p-5 pt-0">
                 <Button onClick={() => handleSelectProduct("Wyoming")}
-                  className="w-full bg-accent text-primary font-black text-sm rounded-full py-2.5 border-0 shadow-md hover:bg-accent/90 transition-colors h-9"
+                  className="w-full bg-accent text-primary font-black text-sm rounded-full py-2.5 border-0 shadow-md transition-colors h-9"
                 >
                   {t("services.formation.choose")} Wyoming
                 </Button>
@@ -478,7 +478,7 @@ export default function Servicios() {
               </div>
               <div className="p-4 sm:p-5 pt-0">
                 <Button onClick={() => handleSelectProduct("Delaware")}
-                  className="w-full bg-accent text-primary font-black text-sm rounded-full py-2.5 border-0 shadow-md hover:bg-accent/90 transition-colors h-9"
+                  className="w-full bg-accent text-primary font-black text-sm rounded-full py-2.5 border-0 shadow-md transition-colors h-9"
                 >
                   {t("services.formation.choose")} Delaware
                 </Button>
@@ -653,7 +653,7 @@ export default function Servicios() {
                 </div>
                 <div className="p-4 sm:p-5 pt-0 mt-auto">
                   <Button onClick={() => handleSelectMaintenance(item.state)}
-                    className="w-full bg-accent text-primary font-black text-sm rounded-full border-0 shadow-md hover:bg-accent/90 transition-colors h-9 sm:h-10"
+                    className="w-full bg-accent text-primary font-black text-sm rounded-full border-0 shadow-md transition-colors h-9 sm:h-10"
                   >
                     {t("services.maintenancePack.choosePack")} {item.state}
                   </Button>
