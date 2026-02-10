@@ -478,9 +478,9 @@ export function MessageSquare({ className, ...props }: IconProps) {
 export function BellRing({ className, ...props }: IconProps) {
   return (
     <Icon className={className} {...props}>
-      <path d="M19 16H5C5 16 6.2 14.2 6.2 11C6.2 7.7 8.5 5 12 5C15.5 5 17.8 7.7 17.8 11C17.8 14.2 19 16 19 16Z" />
-      <path d="M9.5 5C9.5 3.8 10.5 3 12 3C13.5 3 14.5 3.8 14.5 5" />
-      <circle cx="12" cy="18.5" r="1.8" fill="currentColor" stroke="none" />
+      <path d="M20 17H4C4 17 5.5 14.5 5.5 10.5C5.5 6.5 8 4 12 4C16 4 18.5 6.5 18.5 10.5C18.5 14.5 20 17 20 17Z" />
+      <path d="M9 4C9 2.8 10.2 2 12 2C13.8 2 15 2.8 15 4" />
+      <circle cx="12" cy="20" r="2" fill="currentColor" stroke="none" />
     </Icon>
   );
 }
@@ -488,9 +488,9 @@ export function BellRing({ className, ...props }: IconProps) {
 export function Bell({ className, ...props }: IconProps) {
   return (
     <Icon className={className} {...props}>
-      <path d="M19 16H5C5 16 6.2 14.2 6.2 11C6.2 7.7 8.5 5 12 5C15.5 5 17.8 7.7 17.8 11C17.8 14.2 19 16 19 16Z" />
-      <path d="M9.5 5C9.5 3.8 10.5 3 12 3C13.5 3 14.5 3.8 14.5 5" />
-      <circle cx="12" cy="18.5" r="1.8" fill="currentColor" stroke="none" />
+      <path d="M20 17H4C4 17 5.5 14.5 5.5 10.5C5.5 6.5 8 4 12 4C16 4 18.5 6.5 18.5 10.5C18.5 14.5 20 17 20 17Z" />
+      <path d="M9 4C9 2.8 10.2 2 12 2C13.8 2 15 2.8 15 4" />
+      <circle cx="12" cy="20" r="2" fill="currentColor" stroke="none" />
     </Icon>
   );
 }
