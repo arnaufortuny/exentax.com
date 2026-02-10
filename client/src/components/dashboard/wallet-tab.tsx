@@ -70,7 +70,7 @@ export function WalletTab() {
         </p>
       </div>
 
-      <Card className="rounded-2xl border-0 shadow-sm overflow-visible bg-gradient-to-br from-accent to-emerald-600 dark:from-accent dark:to-emerald-700 text-white" data-testid="card-wallet-balance">
+      <Card className="rounded-2xl border-0 shadow-sm overflow-visible bg-gradient-to-br from-accent to-accent dark:from-accent dark:to-accent text-white" data-testid="card-wallet-balance">
         <CardContent className="p-6 md:p-8">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
             <div className="space-y-1">

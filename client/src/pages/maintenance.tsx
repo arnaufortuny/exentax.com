@@ -894,10 +894,10 @@ export default function MaintenanceApplication() {
                               </Button>
                             ) : (
                               <div className="space-y-4">
-                                <div className="bg-green-50 border border-green-200 rounded-xl p-4 text-center">
-                                  <span className="text-2xl font-black text-green-600 block mb-2">✓</span>
-                                  <p className="text-sm font-bold text-green-700">{t("maintenance.steps.codeSentToEmail")}</p>
-                                  <p className="text-xs text-green-600">{t("maintenance.steps.checkInbox")}</p>
+                                <div className="bg-accent/5 border border-accent/30 rounded-xl p-4 text-center">
+                                  <span className="text-2xl font-black text-accent block mb-2">✓</span>
+                                  <p className="text-sm font-bold text-accent">{t("maintenance.steps.codeSentToEmail")}</p>
+                                  <p className="text-xs text-accent">{t("maintenance.steps.checkInbox")}</p>
                                 </div>
                                 
                                 <div>
@@ -937,9 +937,9 @@ export default function MaintenanceApplication() {
                         {/* Step 2: Password creation (only after OTP verified) */}
                         {isOtpVerified && (
                           <div className="space-y-4">
-                            <div className="bg-green-50 border border-green-200 rounded-xl p-4 text-center mb-4">
-                              <span className="text-2xl font-black text-green-600 block mb-2">✓</span>
-                              <p className="text-sm font-bold text-green-700">{t("maintenance.steps.emailVerified")}</p>
+                            <div className="bg-accent/5 border border-accent/30 rounded-xl p-4 text-center mb-4">
+                              <span className="text-2xl font-black text-accent block mb-2">✓</span>
+                              <p className="text-sm font-bold text-accent">{t("maintenance.steps.emailVerified")}</p>
                             </div>
                             
                             <FormField control={form.control} name="password" render={({ field }) => (
@@ -966,10 +966,10 @@ export default function MaintenanceApplication() {
                     )}
                     
                     {isAuthenticated && (
-                      <div className="bg-green-50 border border-green-200 rounded-2xl p-6 text-center">
-                        <span className="text-3xl font-black text-green-600 block mb-2">✓</span>
-                        <p className="text-sm font-black text-green-700">{t("maintenance.steps.emailVerified")}</p>
-                        <p className="text-xs text-green-600">{t("maintenance.buttons.continue")}</p>
+                      <div className="bg-accent/5 border border-accent/30 rounded-2xl p-6 text-center">
+                        <span className="text-3xl font-black text-accent block mb-2">✓</span>
+                        <p className="text-sm font-black text-accent">{t("maintenance.steps.emailVerified")}</p>
+                        <p className="text-xs text-accent">{t("maintenance.buttons.continue")}</p>
                       </div>
                     )}
                     
@@ -1038,7 +1038,7 @@ export default function MaintenanceApplication() {
                         </Button>
                       </div>
                       {discountInfo && (
-                        <div className={`text-sm p-3 rounded-xl ${discountInfo.valid ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-700'}`}>
+                        <div className={`text-sm p-3 rounded-xl ${discountInfo.valid ? 'bg-accent/5 text-accent' : 'bg-red-50 text-red-700'}`}>
                           {discountInfo.valid 
                             ? `${t("maintenance.payment.discountApplied")}: -${(discountInfo.discountAmount / 100).toFixed(2)}€` 
                             : discountInfo.message}

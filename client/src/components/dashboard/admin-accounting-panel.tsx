@@ -302,12 +302,12 @@ export function AdminAccountingPanel() {
             transactions.map(tx => (
               <div key={tx.id} className="p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
                 <div className="flex items-center gap-3">
-                  <div className={`w-10 h-10 rounded-full flex items-center justify-center ${tx.type === 'income' ? 'bg-green-100 dark:bg-green-900/30' : 'bg-red-100 dark:bg-red-900/30'}`}>
-                    <span className={`text-sm font-black ${tx.type === 'income' ? 'text-green-600' : 'text-red-600'}`}>{tx.type === 'income' ? '+' : '-'}</span>
+                  <div className={`w-10 h-10 rounded-full flex items-center justify-center ${tx.type === 'income' ? 'bg-accent/10 dark:bg-accent/15' : 'bg-red-100 dark:bg-red-900/30'}`}>
+                    <span className={`text-sm font-black ${tx.type === 'income' ? 'text-accent' : 'text-red-600'}`}>{tx.type === 'income' ? '+' : '-'}</span>
                   </div>
                   <div>
                     <div className="flex items-center gap-2 flex-wrap">
-                      <span className={`font-black text-sm ${tx.type === 'income' ? 'text-green-600' : 'text-red-600'}`}>
+                      <span className={`font-black text-sm ${tx.type === 'income' ? 'text-accent' : 'text-red-600'}`}>
                         {tx.type === 'income' ? '+' : ''}{formatAmount(tx.amount)}
                       </span>
                       <Badge variant="outline" className="text-[9px]">{getCategoryLabel(tx.category)}</Badge>

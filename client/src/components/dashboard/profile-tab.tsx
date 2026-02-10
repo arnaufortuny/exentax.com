@@ -133,17 +133,17 @@ export function ProfileTab({
       </div>
 
       {(profileOtpStep === 'otp' || hasPendingChanges) && (
-        <Card className="rounded-2xl border-emerald-300 dark:border-emerald-700 shadow-md p-5 md:p-6 bg-emerald-50 dark:bg-emerald-950/30" data-testid="card-profile-otp">
+        <Card className="rounded-2xl border-accent/30 dark:border-accent shadow-md p-5 md:p-6 bg-accent/5 dark:bg-accent/10" data-testid="card-profile-otp">
           <div className="flex items-start gap-3 mb-4">
             <div className="flex-1">
               <h3 className="font-black text-foreground">{t('profile.otpSentTitle')}</h3>
               <p className="text-xs text-muted-foreground mt-0.5">{t('profile.otpRequiredDesc')}</p>
-              <p className="text-xs font-bold text-emerald-600 dark:text-emerald-400 mt-1">{t('profile.actionRequired')}</p>
+              <p className="text-xs font-bold text-accent dark:text-accent mt-1">{t('profile.actionRequired')}</p>
             </div>
           </div>
           
           {pendingChangesData?.changedFields && (
-            <div className="mb-4 p-3 bg-white/60 dark:bg-card/60 rounded-xl border border-emerald-200 dark:border-emerald-800">
+            <div className="mb-4 p-3 bg-white/60 dark:bg-card/60 rounded-xl border border-accent/30 dark:border-accent/30">
               <p className="text-xs font-bold text-muted-foreground mb-2">{t('profile.pendingChanges')}:</p>
               <div className="space-y-1">
                 {pendingChangesData.changedFields.map((change, i) => {
@@ -159,7 +159,7 @@ export function ProfileTab({
                       <span className="font-bold text-foreground">{fieldLabels[change.field] || change.field}:</span>
                       <span className="text-muted-foreground line-through">{change.oldValue}</span>
                       <span className="text-foreground">→</span>
-                      <span className="font-bold text-emerald-700 dark:text-emerald-300">{change.newValue}</span>
+                      <span className="font-bold text-accent dark:text-accent">{change.newValue}</span>
                     </div>
                   );
                 })}
@@ -250,13 +250,13 @@ export function ProfileTab({
                   data-testid="button-copy-client-id"
                   title={t('common.copy')}
                 >
-                  {copiedId ? <Check className="h-3.5 w-3.5 text-green-600" /> : <Copy className="h-3.5 w-3.5" />}
+                  {copiedId ? <Check className="h-3.5 w-3.5 text-accent" /> : <Copy className="h-3.5 w-3.5" />}
                 </Button>
               </div>
             </div>
             <div className="p-3 bg-accent/5 rounded-xl border border-accent/10">
               <p className="text-[10px] font-black uppercase text-muted-foreground mb-0.5">{t('profile.status')}</p>
-              <p className={`text-base font-black ${user?.accountStatus === 'active' ? 'text-green-600' : user?.accountStatus === 'pending' ? 'text-orange-500' : user?.accountStatus === 'deactivated' ? 'text-red-600' : user?.accountStatus === 'vip' ? 'text-yellow-600' : 'text-green-600'}`}>
+              <p className={`text-base font-black ${user?.accountStatus === 'active' ? 'text-accent' : user?.accountStatus === 'pending' ? 'text-orange-500' : user?.accountStatus === 'deactivated' ? 'text-red-600' : user?.accountStatus === 'vip' ? 'text-yellow-600' : 'text-accent'}`}>
                 {user?.accountStatus === 'active' ? t('profile.statusValues.verified') : user?.accountStatus === 'pending' ? t('profile.statusValues.pending') : user?.accountStatus === 'deactivated' ? t('profile.statusValues.deactivated') : user?.accountStatus === 'vip' ? t('profile.statusValues.vip') : t('profile.statusValues.verified')}
               </p>
             </div>
@@ -279,7 +279,7 @@ export function ProfileTab({
               <div className="p-2.5 px-5 bg-gray-50 dark:bg-muted rounded-full flex justify-between items-center text-sm h-11">
                 <span className="truncate">{user?.email}</span>
                 {user?.emailVerified ? (
-                  <CheckCircle2 className="w-4 h-4 text-green-500 shrink-0" />
+                  <CheckCircle2 className="w-4 h-4 text-accent shrink-0" />
                 ) : (
                   <Button
                     variant="link"

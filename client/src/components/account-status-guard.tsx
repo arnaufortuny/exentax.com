@@ -127,7 +127,7 @@ function PendingReviewPage() {
         </header>
 
         {formMessage && (
-          <div className={`mb-4 p-3 rounded-xl text-sm font-medium ${formMessage.type === 'success' ? 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 border border-green-200 dark:border-green-800' : 'bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-400 border border-red-200 dark:border-red-800'}`} data-testid="text-form-message">
+          <div className={`mb-4 p-3 rounded-xl text-sm font-medium ${formMessage.type === 'success' ? 'bg-accent/5 dark:bg-accent/10 text-accent dark:text-accent border border-accent/30 dark:border-accent/30' : 'bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-400 border border-red-200 dark:border-red-800'}`} data-testid="text-form-message">
             {formMessage.text}
           </div>
         )}

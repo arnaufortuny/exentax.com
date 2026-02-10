@@ -214,7 +214,7 @@ html.dark body {
     font-size: clamp(2.8rem, 6vw, 5.5rem);
   }
   .bg-brand-green {
-    background-color: #2C5F8A;
+    background-color: hsl(var(--accent));
   }
   .bg-brand-gray {
     background-color: #E6E9EC;
@@ -229,7 +229,7 @@ html.dark body {
     color: #6B7280;
   }
   .border-brand-green {
-    border-color: #4A8BC2;
+    border-color: hsl(var(--accent));
   }
   
     
@@ -253,7 +253,7 @@ button {
 
 /* Main site gradient background - top to bottom (white at bottom) */
 .bg-gradient-main {
-  background: linear-gradient(180deg, hsl(145 72% 90% / 0.4) 0%, hsl(0 0% 100%) 100%);
+  background: linear-gradient(180deg, hsl(207 52% 90% / 0.4) 0%, hsl(0 0% 100%) 100%);
 }
 
 .dark .bg-gradient-main {

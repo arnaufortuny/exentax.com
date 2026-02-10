@@ -1551,7 +1551,7 @@ export default function Dashboard() {
                         };
                         const statusConfig: Record<string, { label: string; className: string }> = {
                           pending: { label: t('dashboard.documents.statusPending'), className: 'bg-yellow-50 dark:bg-yellow-900/20 text-yellow-700 dark:text-yellow-400' },
-                          approved: { label: t('dashboard.documents.statusApproved'), className: 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400' },
+                          approved: { label: t('dashboard.documents.statusApproved'), className: 'bg-accent/5 dark:bg-accent/10 text-accent dark:text-accent' },
                           rejected: { label: t('dashboard.documents.statusRejected'), className: 'bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-400' },
                         };
                         const status = statusConfig[doc.reviewStatus] || statusConfig.pending;
@@ -1655,8 +1655,8 @@ export default function Dashboard() {
                         const currencySymbol = inv.currency === 'USD' ? '$' : '€';
                         const statusMap: Record<string, { label: string; color: string }> = {
                           pending: { label: t('dashboard.payments.pending'), color: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400' },
-                          paid: { label: t('dashboard.payments.paid'), color: 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400' },
-                          completed: { label: t('dashboard.payments.completed'), color: 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400' },
+                          paid: { label: t('dashboard.payments.paid'), color: 'bg-accent/10 text-accent dark:bg-accent/15 dark:text-accent' },
+                          completed: { label: t('dashboard.payments.completed'), color: 'bg-accent/10 text-accent dark:bg-accent/15 dark:text-accent' },
                           cancelled: { label: t('dashboard.payments.cancelled'), color: 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400' },
                           refunded: { label: t('dashboard.payments.refunded'), color: 'bg-gray-100 text-gray-800 dark:bg-gray-900/30 dark:text-gray-400' },
                         };
@@ -1810,8 +1810,8 @@ export default function Dashboard() {
                                         </div>
                                         {isPast ? (
                                           <div className="mt-1.5 md:mt-2 flex items-center gap-1">
-                                            <CheckCircle className="w-3 h-3 text-green-500" />
-                                            <span className="text-[9px] md:text-[10px] text-green-600 dark:text-green-400 font-medium">{t('dashboard.calendar.completed')}</span>
+                                            <CheckCircle className="w-3 h-3 text-accent" />
+                                            <span className="text-[9px] md:text-[10px] text-accent dark:text-accent font-medium">{t('dashboard.calendar.completed')}</span>
                                           </div>
                                         ) : isUrgent ? (
                                           <div className="mt-1.5 md:mt-2 flex items-center gap-1">
@@ -3346,7 +3346,7 @@ export default function Dashboard() {
                           </Card>
                           <Card className="p-4 rounded-2xl border border-blue-200 dark:border-blue-800/40 shadow-sm bg-blue-50 dark:bg-blue-950/20">
                             <div className="flex items-center gap-2 mb-2">
-                              <span className="w-2 h-2 rounded-full bg-green-600 flex-shrink-0" />
+                              <span className="w-2 h-2 rounded-full bg-accent flex-shrink-0" />
                               <p className="text-[11px] md:text-xs text-blue-700 dark:text-blue-400 font-semibold">{t('dashboard.admin.metrics.completed')}</p>
                             </div>
                             <p className="text-xl md:text-3xl font-black text-blue-800 dark:text-blue-300" data-testid="stat-completed-orders">{adminStats?.completedOrders || 0}</p>
@@ -3363,7 +3363,7 @@ export default function Dashboard() {
                           </Card>
                           <Card className="p-4 rounded-2xl border border-blue-200 dark:border-blue-800/40 shadow-sm bg-blue-50 dark:bg-blue-950/20">
                             <div className="flex items-center gap-2 mb-2">
-                              <span className="w-2 h-2 rounded-full bg-green-600 flex-shrink-0" />
+                              <span className="w-2 h-2 rounded-full bg-accent flex-shrink-0" />
                               <p className="text-[11px] md:text-xs text-blue-700 dark:text-blue-400 font-semibold">{t('dashboard.admin.metrics.active')}</p>
                             </div>
                             <p className="text-xl md:text-3xl font-black text-blue-800 dark:text-blue-300" data-testid="stat-active-users">{adminStats?.activeAccounts || 0}</p>
@@ -3432,7 +3432,7 @@ export default function Dashboard() {
                                   {meta && guest.source === 'calculator' && (
                                     <div className="mt-1.5 flex flex-wrap gap-1.5">
                                       {meta.income && (
-                                        <span className="text-[9px] bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 px-1.5 py-0.5 rounded-full font-medium">
+                                        <span className="text-[9px] bg-accent/5 dark:bg-accent/10 text-accent dark:text-accent px-1.5 py-0.5 rounded-full font-medium">
                                           ${Number(meta.income).toLocaleString('en-US')}
                                         </span>
                                       )}
@@ -3447,7 +3447,7 @@ export default function Dashboard() {
                                         </span>
                                       )}
                                       {meta.savings !== undefined && meta.savings !== 0 && (
-                                        <span className={`text-[9px] px-1.5 py-0.5 rounded-full font-medium ${meta.savings > 0 ? 'bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-400' : 'bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-400'}`}>
+                                        <span className={`text-[9px] px-1.5 py-0.5 rounded-full font-medium ${meta.savings > 0 ? 'bg-accent/5 dark:bg-accent/10 text-accent dark:text-accent' : 'bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-400'}`}>
                                           {meta.savings > 0 ? '+' : ''}{t('dashboard.admin.guestSection.savingsLabel')}: ${Math.abs(meta.savings).toLocaleString('en-US')}
                                         </span>
                                       )}
@@ -3547,7 +3547,7 @@ export default function Dashboard() {
                                     <NativeSelectItem value="filed">{t('dashboard.admin.orders.filed')}</NativeSelectItem>
                                     <NativeSelectItem value="cancelled">{t('dashboard.admin.orders.cancelled')}</NativeSelectItem>
                                   </NativeSelect>
-                                  <Badge className={`text-[9px] ${isMaintenance ? 'bg-blue-100 text-blue-700' : 'bg-green-100 text-green-700'}`}>
+                                  <Badge className={`text-[9px] ${isMaintenance ? 'bg-blue-100 text-blue-700' : 'bg-accent/10 text-accent'}`}>
                                     {isMaintenance ? t('dashboard.admin.orders.maintenance') : 'LLC'}
                                   </Badge>
                                   {!isFormComplete && <Badge className="text-[9px] bg-orange-100 text-orange-700">{t('dashboard.admin.orders.formIncomplete')}</Badge>}
@@ -3561,7 +3561,7 @@ export default function Dashboard() {
                                 <p className="text-xs text-muted-foreground">
                                   <strong>{t('dashboard.admin.orders.product')}:</strong> {order.product?.name} • <strong>{t('dashboard.admin.orders.amount')}:</strong> {(order.amount / 100).toFixed(2)}€
                                   {order.discountCode && (
-                                    <span className="text-green-600 ml-2">
+                                    <span className="text-accent ml-2">
                                       ({t('dashboard.admin.orders.discount')}: {order.discountCode} -{(order.discountAmount / 100).toFixed(2)}€)
                                     </span>
                                   )}
@@ -3828,7 +3828,7 @@ export default function Dashboard() {
                               <div className="flex justify-between items-start gap-3">
                                 <div className="flex-1 min-w-0">
                                   <div className="flex items-center gap-2 flex-wrap mb-1">
-                                    <Badge className={`text-[9px] ${app.type === 'maintenance' ? 'bg-blue-100 text-blue-700' : 'bg-green-100 text-green-700'}`}>
+                                    <Badge className={`text-[9px] ${app.type === 'maintenance' ? 'bg-blue-100 text-blue-700' : 'bg-accent/10 text-accent'}`}>
                                       {app.type === 'maintenance' ? t('dashboard.admin.orders.maintenance') : 'LLC'}
                                     </Badge>
                                     <Badge className="text-[9px] bg-orange-100 text-orange-700">{t('dashboard.admin.incomplete.incomplete')}</Badge>
@@ -3865,7 +3865,7 @@ export default function Dashboard() {
                         })}
                         {(!incompleteApps?.llc?.length && !incompleteApps?.maintenance?.length) && (
                           <div className="p-8 text-center text-muted-foreground">
-                            <CheckCircle className="w-8 h-8 mx-auto mb-2 text-green-500" />
+                            <CheckCircle className="w-8 h-8 mx-auto mb-2 text-accent" />
                             <p className="text-sm font-medium">{t('dashboard.admin.incomplete.noIncomplete')}</p>
                           </div>
                         )}
@@ -3903,11 +3903,11 @@ export default function Dashboard() {
                                   <div className="flex items-start justify-between gap-2">
                                     <div className="flex items-center gap-2 flex-wrap">
                                     <p className="font-black text-sm">{u.firstName} {u.lastName}</p>
-                                    <Badge className={`text-[9px] rounded-full ${u.accountStatus === 'deactivated' ? 'bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 border border-red-300 dark:border-red-700' : u.accountStatus === 'vip' ? 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300 border border-green-500 dark:border-green-500' : u.accountStatus === 'pending' ? 'bg-yellow-50 dark:bg-yellow-900/20 text-yellow-700 dark:text-yellow-300 border border-yellow-300 dark:border-yellow-700' : 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300 border border-green-400 dark:border-green-600'}`}>
+                                    <Badge className={`text-[9px] rounded-full ${u.accountStatus === 'deactivated' ? 'bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 border border-red-300 dark:border-red-700' : u.accountStatus === 'vip' ? 'bg-accent/5 dark:bg-accent/10 text-accent dark:text-accent border border-accent dark:border-accent' : u.accountStatus === 'pending' ? 'bg-yellow-50 dark:bg-yellow-900/20 text-yellow-700 dark:text-yellow-300 border border-yellow-300 dark:border-yellow-700' : 'bg-accent/5 dark:bg-accent/10 text-accent dark:text-accent border border-accent dark:border-accent'}`}>
                                       {u.accountStatus === 'active' ? t('dashboard.admin.users.verified') : u.accountStatus === 'pending' ? t('dashboard.admin.users.inReview') : u.accountStatus === 'deactivated' ? t('dashboard.admin.users.deactivated') : u.accountStatus === 'vip' ? 'VIP' : t('dashboard.admin.users.verified')}
                                     </Badge>
-                                    {u.isAdmin && <Badge className="text-[9px] rounded-full bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300 border border-green-400 dark:border-green-600">ADMIN</Badge>}
-                                    {u.isSupport && !u.isAdmin && <Badge className="text-[9px] rounded-full bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300 border border-green-400 dark:border-green-600">{t('dashboard.admin.users.supportBadge')}</Badge>}
+                                    {u.isAdmin && <Badge className="text-[9px] rounded-full bg-accent/5 dark:bg-accent/10 text-accent dark:text-accent border border-accent dark:border-accent">ADMIN</Badge>}
+                                    {u.isSupport && !u.isAdmin && <Badge className="text-[9px] rounded-full bg-accent/5 dark:bg-accent/10 text-accent dark:text-accent border border-accent dark:border-accent">{t('dashboard.admin.users.supportBadge')}</Badge>}
                                     </div>
                                     <div className="flex items-center gap-1.5 shrink-0">
                                     {u.clientId && (
@@ -3967,7 +3967,7 @@ export default function Dashboard() {
                                   </Button>
                                   {(u as any).identityVerificationStatus === 'uploaded' && (
                                     <>
-                                      <Button size="sm" className="rounded-full text-xs bg-green-600 text-white" 
+                                      <Button size="sm" className="rounded-full text-xs bg-accent text-white" 
                                         disabled={isApprovingIdv}
                                         onClick={async () => {
                                           setIsApprovingIdv(true);
@@ -4330,13 +4330,13 @@ export default function Dashboard() {
                             return (
                             <Card key={doc.id} className="rounded-xl border-0 shadow-sm p-4" data-testid={`admin-doc-card-${doc.id}`}>
                               <div className="flex items-start gap-3">
-                                <div className={`w-10 h-10 rounded-full flex items-center justify-center shrink-0 ${doc.reviewStatus === 'approved' ? 'bg-green-100 dark:bg-green-900/30' : doc.reviewStatus === 'rejected' ? 'bg-red-100 dark:bg-red-900/30' : 'bg-yellow-100 dark:bg-yellow-900/30'}`}>
-                                  <FileText className={`w-5 h-5 ${doc.reviewStatus === 'approved' ? 'text-green-600 dark:text-green-400' : doc.reviewStatus === 'rejected' ? 'text-red-600 dark:text-red-400' : 'text-yellow-600 dark:text-yellow-400'}`} />
+                                <div className={`w-10 h-10 rounded-full flex items-center justify-center shrink-0 ${doc.reviewStatus === 'approved' ? 'bg-accent/10 dark:bg-accent/15' : doc.reviewStatus === 'rejected' ? 'bg-red-100 dark:bg-red-900/30' : 'bg-yellow-100 dark:bg-yellow-900/30'}`}>
+                                  <FileText className={`w-5 h-5 ${doc.reviewStatus === 'approved' ? 'text-accent dark:text-accent' : doc.reviewStatus === 'rejected' ? 'text-red-600 dark:text-red-400' : 'text-yellow-600 dark:text-yellow-400'}`} />
                                 </div>
                                 <div className="flex-1 min-w-0">
                                   <div className="flex items-center gap-2 flex-wrap">
                                     <p className="font-black text-sm truncate">{doc.fileName}</p>
-                                    <Badge variant="outline" className={`text-[9px] shrink-0 ${doc.reviewStatus === 'approved' ? 'bg-green-50 text-green-700 border-green-200 dark:bg-green-900/20 dark:text-green-400 dark:border-green-800' : doc.reviewStatus === 'rejected' ? 'bg-red-50 text-red-700 border-red-200 dark:bg-red-900/20 dark:text-red-400 dark:border-red-800' : 'bg-yellow-50 text-yellow-700 border-yellow-200 dark:bg-yellow-900/20 dark:text-yellow-400 dark:border-yellow-800'}`}>
+                                    <Badge variant="outline" className={`text-[9px] shrink-0 ${doc.reviewStatus === 'approved' ? 'bg-accent/5 text-accent border-accent/30 dark:bg-accent/10 dark:text-accent dark:border-accent/30' : doc.reviewStatus === 'rejected' ? 'bg-red-50 text-red-700 border-red-200 dark:bg-red-900/20 dark:text-red-400 dark:border-red-800' : 'bg-yellow-50 text-yellow-700 border-yellow-200 dark:bg-yellow-900/20 dark:text-yellow-400 dark:border-yellow-800'}`}>
                                       {doc.reviewStatus === 'approved' ? t('dashboard.admin.documents.approved') : doc.reviewStatus === 'rejected' ? t('dashboard.admin.documents.rejected') : t('dashboard.admin.documents.pendingStatus')}
                                     </Badge>
                                     {docTypeLabel && (
@@ -4359,11 +4359,11 @@ export default function Dashboard() {
                                   <div className="flex items-center gap-2 mt-1 flex-wrap">
                                     {doc.user && (
                                       <>
-                                        <Badge variant="outline" className={`text-[9px] no-default-hover-elevate no-default-active-elevate ${doc.user.emailVerified ? 'bg-green-50 text-green-700 border-green-200 dark:bg-green-900/20 dark:text-green-400 dark:border-green-800' : 'bg-red-50 text-red-700 border-red-200 dark:bg-red-900/20 dark:text-red-400 dark:border-red-800'}`}>
+                                        <Badge variant="outline" className={`text-[9px] no-default-hover-elevate no-default-active-elevate ${doc.user.emailVerified ? 'bg-accent/5 text-accent border-accent/30 dark:bg-accent/10 dark:text-accent dark:border-accent/30' : 'bg-red-50 text-red-700 border-red-200 dark:bg-red-900/20 dark:text-red-400 dark:border-red-800'}`}>
                                           {doc.user.emailVerified ? t('dashboard.admin.documents.emailVerified') : t('dashboard.admin.documents.emailNotVerified')}
                                         </Badge>
                                         {idvStatusKey !== 'none' && (
-                                          <Badge variant="outline" className={`text-[9px] no-default-hover-elevate no-default-active-elevate ${idvStatusKey === 'approved' ? 'bg-green-50 text-green-700 border-green-200 dark:bg-green-900/20 dark:text-green-400 dark:border-green-800' : idvStatusKey === 'rejected' ? 'bg-red-50 text-red-700 border-red-200 dark:bg-red-900/20 dark:text-red-400 dark:border-red-800' : 'bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-900/20 dark:text-amber-400 dark:border-amber-800'}`}>
+                                          <Badge variant="outline" className={`text-[9px] no-default-hover-elevate no-default-active-elevate ${idvStatusKey === 'approved' ? 'bg-accent/5 text-accent border-accent/30 dark:bg-accent/10 dark:text-accent dark:border-accent/30' : idvStatusKey === 'rejected' ? 'bg-red-50 text-red-700 border-red-200 dark:bg-red-900/20 dark:text-red-400 dark:border-red-800' : 'bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-900/20 dark:text-amber-400 dark:border-amber-800'}`}>
                                             {idvLabels[idvStatusKey] || idvStatusKey}
                                           </Badge>
                                         )}
@@ -4624,7 +4624,7 @@ export default function Dashboard() {
                                     <Button
                                       variant="outline"
                                       size="icon"
-                                      className={`rounded-lg ${acct.isActive ? 'text-orange-600' : 'text-green-600'}`}
+                                      className={`rounded-lg ${acct.isActive ? 'text-orange-600' : 'text-accent'}`}
                                       onClick={async () => {
                                         try {
                                           await apiRequest("PATCH", `/api/admin/payment-accounts/${acct.id}`, { isActive: !acct.isActive });
@@ -4819,7 +4819,7 @@ export default function Dashboard() {
                                 <Button 
                                   variant="outline" 
                                   size="sm" 
-                                  className={`rounded-full text-xs h-8 w-8 p-0 ${dc.isActive ? 'text-orange-600' : 'text-green-600'}`}
+                                  className={`rounded-full text-xs h-8 w-8 p-0 ${dc.isActive ? 'text-orange-600' : 'text-accent'}`}
                                   onClick={async () => {
                                     try {
                                       await apiRequest("PATCH", `/api/admin/discount-codes/${dc.id}`, { isActive: !dc.isActive });

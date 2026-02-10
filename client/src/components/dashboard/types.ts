@@ -39,7 +39,7 @@ export function getConsultationStatusLabel(status: string, t: (key: string) => s
   const statusMap: Record<string, { label: string; className: string }> = {
     pending: { label: t('consultations.status.pending'), className: 'bg-yellow-100 dark:bg-yellow-900/50 text-yellow-800 dark:text-yellow-300' },
     confirmed: { label: t('consultations.status.confirmed'), className: 'bg-blue-100 dark:bg-blue-900/50 text-blue-800 dark:text-blue-300' },
-    completed: { label: t('consultations.status.completed'), className: 'bg-green-100 dark:bg-green-900/50 text-green-800 dark:text-green-300' },
+    completed: { label: t('consultations.status.completed'), className: 'bg-accent/10 dark:bg-accent/20 text-accent dark:text-accent' },
     cancelled: { label: t('consultations.status.cancelled'), className: 'bg-red-100 dark:bg-red-900/50 text-red-700 dark:text-red-400' },
     no_show: { label: t('consultations.status.noShow'), className: 'bg-gray-100 dark:bg-muted text-gray-600 dark:text-gray-300' },
     rescheduled: { label: t('consultations.status.rescheduled'), className: 'bg-purple-100 dark:bg-purple-900/50 text-purple-800 dark:text-purple-300' },
@@ -183,12 +183,12 @@ export interface Document {
 export function getOrderStatusLabel(status: string, t: (key: string) => string): { label: string; className: string } {
   const statusMap: Record<string, { label: string; className: string }> = {
     pending: { label: t('dashboard.orders.status.pending'), className: 'bg-yellow-50 dark:bg-yellow-900/20 text-yellow-700 dark:text-yellow-300 border border-yellow-300 dark:border-yellow-700 rounded-full' },
-    paid: { label: t('dashboard.orders.status.paid'), className: 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300 border border-green-400 dark:border-green-600 rounded-full' },
-    processing: { label: t('dashboard.orders.status.processing'), className: 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300 border border-green-400 dark:border-green-600 rounded-full' },
-    documents_ready: { label: t('dashboard.orders.status.documents_ready'), className: 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300 border border-green-400 dark:border-green-600 rounded-full' },
-    completed: { label: t('dashboard.orders.status.completed'), className: 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300 border border-green-500 dark:border-green-500 rounded-full' },
+    paid: { label: t('dashboard.orders.status.paid'), className: 'bg-accent/5 dark:bg-accent/10 text-accent dark:text-accent border border-accent/50 dark:border-accent rounded-full' },
+    processing: { label: t('dashboard.orders.status.processing'), className: 'bg-accent/5 dark:bg-accent/10 text-accent dark:text-accent border border-accent/50 dark:border-accent rounded-full' },
+    documents_ready: { label: t('dashboard.orders.status.documents_ready'), className: 'bg-accent/5 dark:bg-accent/10 text-accent dark:text-accent border border-accent/50 dark:border-accent rounded-full' },
+    completed: { label: t('dashboard.orders.status.completed'), className: 'bg-accent/5 dark:bg-accent/10 text-accent dark:text-accent border border-accent dark:border-accent rounded-full' },
     cancelled: { label: t('dashboard.orders.status.cancelled'), className: 'bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 border border-red-300 dark:border-red-700 rounded-full font-black' },
-    filed: { label: t('dashboard.orders.status.filed'), className: 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300 border border-green-400 dark:border-green-600 rounded-full' },
+    filed: { label: t('dashboard.orders.status.filed'), className: 'bg-accent/5 dark:bg-accent/10 text-accent dark:text-accent border border-accent/50 dark:border-accent rounded-full' },
     draft: { label: t('dashboard.orders.status.draft'), className: 'bg-gray-50 dark:bg-muted text-gray-600 dark:text-gray-300 border border-gray-300 dark:border-gray-600 rounded-full' },
   };
   return statusMap[status] || { label: status, className: 'bg-gray-50 dark:bg-muted text-gray-600 dark:text-gray-300 border border-gray-300 dark:border-gray-600 rounded-full' };

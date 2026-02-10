@@ -1191,12 +1191,12 @@ export default function LlcFormation() {
                           </Button>
                         ) : (
                           <div className="space-y-4">
-                            <div className="bg-green-50 border border-green-200 rounded-xl p-4 text-center">
-                              <span className="text-2xl font-black text-green-600 block mb-2">
+                            <div className="bg-accent/5 border border-accent/30 rounded-xl p-4 text-center">
+                              <span className="text-2xl font-black text-accent block mb-2">
                                 <Check className="w-6 h-6 mx-auto" />
                               </span>
-                              <p className="text-sm font-bold text-green-700">{t("application.account.otpSent")}</p>
-                              <p className="text-xs text-green-600">{t("application.account.otpSentHint")}</p>
+                              <p className="text-sm font-bold text-accent">{t("application.account.otpSent")}</p>
+                              <p className="text-xs text-accent">{t("application.account.otpSentHint")}</p>
                             </div>
                             
                             <div>
@@ -1236,11 +1236,11 @@ export default function LlcFormation() {
                     {/* Step 2: Password creation (only after OTP verified) */}
                     {isOtpVerified && (
                       <div className="space-y-4">
-                        <div className="bg-green-50 border border-green-200 rounded-xl p-4 text-center mb-4">
-                          <span className="text-2xl font-black text-green-600 block mb-2">
+                        <div className="bg-accent/5 border border-accent/30 rounded-xl p-4 text-center mb-4">
+                          <span className="text-2xl font-black text-accent block mb-2">
                             <Check className="w-6 h-6 mx-auto" />
                           </span>
-                          <p className="text-sm font-bold text-green-700">{t("application.account.emailVerified")}</p>
+                          <p className="text-sm font-bold text-accent">{t("application.account.emailVerified")}</p>
                         </div>
                         
                         <FormField control={form.control} name="password" render={({ field }) => (
@@ -1268,12 +1268,12 @@ export default function LlcFormation() {
                 )}
                 
                 {isAuthenticated && (
-                  <div className="bg-green-50 border border-green-200 rounded-2xl p-6 text-center">
-                    <span className="text-3xl font-black text-green-600 block mb-2">
+                  <div className="bg-accent/5 border border-accent/30 rounded-2xl p-6 text-center">
+                    <span className="text-3xl font-black text-accent block mb-2">
                       <Check className="w-8 h-8 mx-auto" />
                     </span>
-                    <p className="text-sm font-black text-green-700">{t("application.account.alreadyAuthenticated")}</p>
-                    <p className="text-xs text-green-600">{t("application.account.alreadyAuthenticatedHint")}</p>
+                    <p className="text-sm font-black text-accent">{t("application.account.alreadyAuthenticated")}</p>
+                    <p className="text-xs text-accent">{t("application.account.alreadyAuthenticatedHint")}</p>
                   </div>
                 )}
                 
@@ -1339,7 +1339,7 @@ export default function LlcFormation() {
                     </Button>
                   </div>
                   {discountInfo && (
-                    <div className={`text-sm p-3 rounded-xl ${discountInfo.valid ? 'bg-green-50 text-green-700 dark:bg-green-900/20 dark:text-green-400' : 'bg-red-50 text-red-700 dark:bg-red-900/20 dark:text-red-400'}`}>
+                    <div className={`text-sm p-3 rounded-xl ${discountInfo.valid ? 'bg-accent/5 text-accent dark:bg-accent/10 dark:text-accent' : 'bg-red-50 text-red-700 dark:bg-red-900/20 dark:text-red-400'}`}>
                       {discountInfo.valid 
                         ? t("application.discountApplied", { amount: (discountInfo.discountAmount / 100).toFixed(2) })
                         : discountInfo.message}

@@ -553,7 +553,7 @@ export default function OperatingAgreementGenerator() {
               {formMessage && (
                 <div className={`p-3 rounded-xl text-sm font-medium mb-4 ${
                   formMessage.type === 'error' ? 'bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-400 border border-red-200 dark:border-red-800' :
-                  formMessage.type === 'success' ? 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 border border-green-200 dark:border-green-800' :
+                  formMessage.type === 'success' ? 'bg-accent/5 dark:bg-accent/10 text-accent dark:text-accent border border-accent/30 dark:border-accent/30' :
                   'bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400 border border-blue-200 dark:border-blue-800'
                 }`} data-testid="form-message">
                   {formMessage.text}
@@ -718,13 +718,13 @@ export default function OperatingAgreementGenerator() {
                           </div>
                         </div>
                       ) : (
-                        <div className="bg-green-50 dark:bg-green-950/30 border border-green-200 dark:border-green-800 rounded-xl p-4 flex items-start gap-3">
-                          <CheckCircle className="w-5 h-5 text-green-600 shrink-0 mt-0.5" />
+                        <div className="bg-accent/5 dark:bg-accent/10 border border-accent/30 dark:border-accent/30 rounded-xl p-4 flex items-start gap-3">
+                          <CheckCircle className="w-5 h-5 text-accent shrink-0 mt-0.5" />
                           <div>
-                            <p className="font-bold text-green-800 dark:text-green-200 text-sm">
+                            <p className="font-bold text-accent dark:text-accent text-sm">
                               {t("tools.operatingAgreement.readyToGenerate")}
                             </p>
-                            <p className="text-green-700 dark:text-green-300 text-xs mt-1">
+                            <p className="text-accent dark:text-accent text-xs mt-1">
                               {t("tools.operatingAgreement.readyDescription")}
                             </p>
                           </div>

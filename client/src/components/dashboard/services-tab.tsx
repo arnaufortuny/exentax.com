@@ -17,7 +17,7 @@ interface ServicesTabProps {
 function getAgentStatusBadge(status: string | null | undefined, t: any) {
   switch (status) {
     case 'active':
-      return <Badge className="bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400 text-[9px]" data-testid="badge-agent-active"><CheckCircle2 className="w-3 h-3 mr-1" />{t('dashboard.llcDetails.agentActive')}</Badge>;
+      return <Badge className="bg-accent/10 text-accent dark:bg-accent/15 dark:text-accent text-[9px]" data-testid="badge-agent-active"><CheckCircle2 className="w-3 h-3 mr-1" />{t('dashboard.llcDetails.agentActive')}</Badge>;
     case 'pending_renewal':
       return <Badge className="bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400 text-[9px]" data-testid="badge-agent-pending"><Clock className="w-3 h-3 mr-1" />{t('dashboard.llcDetails.agentPendingRenewal')}</Badge>;
     case 'expired':
@@ -30,7 +30,7 @@ function getAgentStatusBadge(status: string | null | undefined, t: any) {
 function getBoiStatusBadge(status: string | null | undefined, t: any) {
   switch (status) {
     case 'filed':
-      return <Badge className="bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400 text-[9px]" data-testid="badge-boi-filed"><CheckCircle2 className="w-3 h-3 mr-1" />{t('dashboard.llcDetails.boiFiled')}</Badge>;
+      return <Badge className="bg-accent/10 text-accent dark:bg-accent/15 dark:text-accent text-[9px]" data-testid="badge-boi-filed"><CheckCircle2 className="w-3 h-3 mr-1" />{t('dashboard.llcDetails.boiFiled')}</Badge>;
     case 'update_required':
       return <Badge className="bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400 text-[9px]" data-testid="badge-boi-update"><AlertTriangle className="w-3 h-3 mr-1" />{t('dashboard.llcDetails.boiUpdateRequired')}</Badge>;
     case 'exempt':
@@ -124,18 +124,18 @@ export function ServicesTab({ orders, draftOrders, activeOrders }: ServicesTabPr
                 const app = order.application;
                 return (
                   <Card key={`completed-${order.id}`} className="rounded-2xl border-0 shadow-md bg-white dark:bg-card overflow-hidden" data-testid={`card-completed-llc-${order.id}`}>
-                    <div className="bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 p-4 border-b border-green-100 dark:border-green-900/30">
+                    <div className="bg-gradient-to-r from-accent/5 to-accent/10 dark:from-accent/10 dark:to-accent/15 p-4 border-b border-accent/20 dark:border-accent/20">
                       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
                         <div>
                           <div className="flex items-center gap-2 mb-1">
-                            <CheckCircle2 className="w-5 h-5 text-green-600 dark:text-green-400" />
+                            <CheckCircle2 className="w-5 h-5 text-accent dark:text-accent" />
                             <h4 className="text-lg font-black text-foreground" data-testid={`text-company-name-${order.id}`}>{app.companyName} LLC</h4>
                           </div>
                           <p className="text-xs text-muted-foreground" data-testid={`text-llc-info-${order.id}`}>
                             <span data-testid={`text-state-${order.id}`}>{app.state}</span> · {t('dashboard.llcDetails.orderCode')}: <span data-testid={`text-order-code-${order.id}`}>{app.requestCode}</span>
                           </p>
                         </div>
-                        <Badge className="bg-green-500 text-white font-bold text-xs self-start sm:self-auto" data-testid={`badge-completed-${order.id}`}>
+                        <Badge className="bg-accent text-white font-bold text-xs self-start sm:self-auto" data-testid={`badge-completed-${order.id}`}>
                           {t('dashboard.llcDetails.active')}
                         </Badge>
                       </div>

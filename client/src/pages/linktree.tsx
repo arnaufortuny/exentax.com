@@ -285,7 +285,7 @@ export default function LinktreePage() {
                 <Button
                   className={`w-full font-bold text-base rounded-full flex items-center justify-center gap-3 shadow-lg ${
                     link.primary 
-                      ? 'bg-white text-green-600' 
+                      ? 'bg-white text-accent' 
                       : 'bg-white/20 backdrop-blur-sm text-white border-2 border-white/30'
                   }`}
                   variant={link.primary ? "secondary" : "outline"}
@@ -301,7 +301,7 @@ export default function LinktreePage() {
 
           <Card className="mt-8 bg-white rounded-3xl shadow-2xl overflow-hidden border-0">
             <div className="p-5 text-center">
-              <Badge className="mb-3 bg-green-100 text-green-600 border-0">
+              <Badge className="mb-3 bg-accent/10 text-accent border-0">
                 Calculadora
               </Badge>
               <h3 className="text-lg font-bold mb-3 text-gray-900">
@@ -316,7 +316,7 @@ export default function LinktreePage() {
                     size="sm"
                     className={`rounded-full ${
                       income === preset
-                        ? 'bg-green-500 text-white'
+                        ? 'bg-accent text-white'
                         : 'bg-gray-100 text-gray-700 border-0'
                     }`}
                     data-testid={`button-preset-${preset}`}
@@ -337,23 +337,23 @@ export default function LinktreePage() {
                 <p className="text-xs text-gray-400">impuestos</p>
               </div>
               
-              <div className="p-4 rounded-2xl text-center bg-green-50">
+              <div className="p-4 rounded-2xl text-center bg-accent/5">
                 <div className="flex items-center justify-center gap-1.5 mb-1">
                   <USFlag />
                   <span className="text-xs font-semibold text-gray-900">LLC USA</span>
                 </div>
-                <p className="text-xl font-black text-green-500" data-testid="text-usa-total">{formatCurrency(0)}</p>
+                <p className="text-xl font-black text-accent" data-testid="text-usa-total">{formatCurrency(0)}</p>
                 <p className="text-xs text-gray-400">impuestos</p>
               </div>
             </div>
             
             <div className="px-5 pb-5">
-              <div className="p-5 rounded-2xl text-center bg-gradient-to-r from-green-50 to-emerald-50">
+              <div className="p-5 rounded-2xl text-center bg-gradient-to-r from-accent/5 to-accent/10">
                 <div className="flex items-center justify-center gap-1.5 mb-1">
-                  <TrendingDown className="w-4 h-4 text-green-500" />
+                  <TrendingDown className="w-4 h-4 text-accent" />
                   <span className="text-xs font-semibold text-gray-600">Tu ahorro</span>
                 </div>
-                <p className="text-3xl font-black text-green-500" data-testid="text-savings-amount">{formatCurrency(savings)}</p>
+                <p className="text-3xl font-black text-accent" data-testid="text-savings-amount">{formatCurrency(savings)}</p>
                 <p className="text-xs text-gray-500">
                   {Math.round(savingsPercentage)}% de tus ingresos
                 </p>

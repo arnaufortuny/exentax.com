@@ -167,10 +167,10 @@ export default function PriceCalculator() {
             <Card className="rounded-xl border-0 shadow-sm">
               <CardContent className="p-3 md:p-4">
                 <div className="flex items-center gap-2 mb-1">
-                  <TrendingUp className="w-4 h-4 text-green-600 dark:text-green-400" />
+                  <TrendingUp className="w-4 h-4 text-accent dark:text-accent" />
                   <span className="text-xs text-muted-foreground">{t('tools.priceCalculator.margin')}</span>
                 </div>
-                <p className="text-lg md:text-xl font-bold text-green-600 dark:text-green-400" data-testid="text-summary-margin">
+                <p className="text-lg md:text-xl font-bold text-accent dark:text-accent" data-testid="text-summary-margin">
                   {currencySymbol}{formatNumber(calculations.marginAmount)}
                 </p>
               </CardContent>
@@ -388,7 +388,7 @@ export default function PriceCalculator() {
 
           <div className="lg:col-span-1">
             <div className="sticky top-4 space-y-4">
-              <Card className="rounded-2xl border-0 shadow-lg bg-gradient-to-br from-accent to-green-600 text-white overflow-hidden">
+              <Card className="rounded-2xl border-0 shadow-lg bg-gradient-to-br from-accent to-accent text-white overflow-hidden">
                 <CardContent className="p-5 md:p-6">
                   <h2 className="font-bold mb-4">{t('tools.priceCalculator.recommendedPrice')}</h2>
                   
@@ -452,13 +452,13 @@ export default function PriceCalculator() {
                       <span className="font-bold">{currencySymbol}{formatNumber(calculations.totalCosts)}</span>
                     </div>
                     
-                    <div className="flex justify-between text-green-600 dark:text-green-400">
+                    <div className="flex justify-between text-accent dark:text-accent">
                       <span>+ {t('tools.priceCalculator.margin')} ({marginPercent}%)</span>
                       <span className="font-medium">{currencySymbol}{formatNumber(calculations.marginAmount)}</span>
                     </div>
                     
                     {taxPercent > 0 && (
-                      <div className="flex justify-between text-green-600 dark:text-green-400">
+                      <div className="flex justify-between text-accent dark:text-accent">
                         <span>+ {t('tools.priceCalculator.taxAmount')} ({taxPercent}%)</span>
                         <span className="font-medium">{currencySymbol}{formatNumber(calculations.taxAmount)}</span>
                       </div>

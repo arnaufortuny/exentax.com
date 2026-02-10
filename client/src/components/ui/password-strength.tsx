@@ -47,7 +47,7 @@ export function PasswordStrength({ password, className = "" }: PasswordStrengthP
     if (score === 2) return "bg-orange-500";
     if (score === 3) return "bg-yellow-500";
     if (score === 4) return "bg-lime-500";
-    return "bg-green-500";
+    return "bg-accent";
   }, [score, password.length]);
 
   const textColor = useMemo(() => {
@@ -56,7 +56,7 @@ export function PasswordStrength({ password, className = "" }: PasswordStrengthP
     if (score === 2) return "text-orange-600 dark:text-orange-400";
     if (score === 3) return "text-yellow-600 dark:text-yellow-400";
     if (score === 4) return "text-lime-600 dark:text-lime-400";
-    return "text-green-600 dark:text-green-400";
+    return "text-accent dark:text-accent";
   }, [score, password.length]);
 
   const requirementLabels: Record<string, string> = {
@@ -92,7 +92,7 @@ export function PasswordStrength({ password, className = "" }: PasswordStrengthP
             key={req.key} 
             className={`flex items-center gap-1.5 text-xs transition-colors ${
               req.met 
-                ? "text-green-600 dark:text-green-400" 
+                ? "text-accent dark:text-accent" 
                 : "text-muted-foreground"
             }`}
             data-testid={`password-requirement-${req.key}`}
