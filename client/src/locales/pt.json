@@ -494,7 +494,7 @@
     "management": {
       "badge": "GESTÃO",
       "title": "Manutenção Anual",
-      "subtitle": ""
+      "subtitle": "(O que inclui a sua manutenção)"
     },
     "process": {
       "title": "O NOSSO",
@@ -2686,7 +2686,7 @@
     "cta": "Começa a tua LLC agora",
     "emailTitle": "Calcula a tua poupança grátis",
     "emailSubtitle": "Introduz o teu email para ver quanto podes poupar com uma LLC nos Estados Unidos",
-    "emailPlaceholder": "",
+    "emailPlaceholder": "tu@email.com",
     "emailRequired": "Por favor, introduz o teu email",
     "emailInvalid": "Por favor, introduz um email válido",
     "emailPrivacy": "O teu email está protegido. Não enviamos spam.",

@@ -478,9 +478,9 @@ export function MessageSquare({ className, ...props }: IconProps) {
 export function BellRing({ className, ...props }: IconProps) {
   return (
     <Icon className={className} {...props}>
-      <path d="M18 8a6 6 0 1 0-12 0c0 7-3 7-3 7h18s-3 0-3-7" />
-      <path d="M10 21a2 2 0 0 0 4 0" />
-      <path d="M4 4l2 2M20 4l-2 2" />
+      <path d="M18 16H6C6 16 7 14.5 7 11.5C7 8.5 9 6 12 6C15 6 17 8.5 17 11.5C17 14.5 18 16 18 16Z" />
+      <path d="M10 6C10 5 10.8 4 12 4C13.2 4 14 5 14 6" />
+      <circle cx="12" cy="18" r="1.5" fill="currentColor" stroke="none" />
     </Icon>
   );
 }
@@ -488,8 +488,9 @@ export function BellRing({ className, ...props }: IconProps) {
 export function Bell({ className, ...props }: IconProps) {
   return (
     <Icon className={className} {...props}>
-      <path d="M18 8a6 6 0 1 0-12 0c0 7-3 7-3 7h18s-3 0-3-7" />
-      <path d="M10 21a2 2 0 0 0 4 0" />
+      <path d="M18 16H6C6 16 7 14.5 7 11.5C7 8.5 9 6 12 6C15 6 17 8.5 17 11.5C17 14.5 18 16 18 16Z" />
+      <path d="M10 6C10 5 10.8 4 12 4C13.2 4 14 5 14 6" />
+      <circle cx="12" cy="18" r="1.5" fill="currentColor" stroke="none" />
     </Icon>
   );
 }
@@ -546,7 +547,7 @@ export function User({ className, ...props }: IconProps) {
   return (
     <Icon className={className} {...props}>
       <circle cx="12" cy="8" r="4" />
-      <path d="M4 20a8 8 0 0 1 16 0" />
+      <path d="M4 19C4 15.69 7.58 13 12 13C16.42 13 20 15.69 20 19" />
     </Icon>
   );
 }

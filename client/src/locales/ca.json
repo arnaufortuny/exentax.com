@@ -2686,7 +2686,7 @@
     "cta": "Comença la teva LLC ara",
     "emailTitle": "Calcula el teu estalvi gratis",
     "emailSubtitle": "Introdueix el teu email per veure quant pots estalviar amb una LLC als Estats Units",
-    "emailPlaceholder": "",
+    "emailPlaceholder": "tu@email.com",
     "emailRequired": "Si us plau, introdueix el teu email",
     "emailInvalid": "Si us plau, introdueix un email vàlid",
     "emailPrivacy": "El teu email està protegit. No enviem spam.",
