@@ -546,8 +546,8 @@ export function Calculator({ className, ...props }: IconProps) {
 export function User({ className, ...props }: IconProps) {
   return (
     <Icon className={className} {...props}>
-      <circle cx="12" cy="8" r="4" />
-      <path d="M4 19C4 15.69 7.58 13 12 13C16.42 13 20 15.69 20 19" />
+      <circle cx="12" cy="7" r="5" />
+      <path d="M3 21C3 16.58 6.58 14 12 14C17.42 14 21 16.58 21 21" />
     </Icon>
   );
 }
