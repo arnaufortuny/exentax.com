@@ -34,6 +34,7 @@ export const orders = pgTable("orders", {
 }, (table) => ({
   userIdIdx: index("orders_user_id_idx").on(table.userId),
   statusIdx: index("orders_status_idx").on(table.status),
+  createdAtIdx: index("orders_created_at_idx").on(table.createdAt),
 }));
 
 export const llcApplications = pgTable("llc_applications", {
@@ -210,7 +211,9 @@ export const messageReplies = pgTable("message_replies", {
   isAdmin: boolean("is_admin").notNull().default(false),
   createdAt: timestamp("created_at").defaultNow(),
   createdBy: varchar("created_by").references(() => users.id),
-});
+}, (table) => ({
+  messageIdIdx: index("msg_replies_message_id_idx").on(table.messageId),
+}));
 
 export const maintenanceApplications = pgTable("maintenance_applications", {
   id: serial("id").primaryKey(),

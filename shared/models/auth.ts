@@ -55,7 +55,10 @@ export const users = pgTable("users", {
   identityVerificationReviewedAt: timestamp("identity_verification_reviewed_at"),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
-});
+}, (table) => ({
+  accountStatusIdx: index("users_account_status_idx").on(table.accountStatus),
+  isAdminIdx: index("users_is_admin_idx").on(table.isAdmin),
+}));
 
 export const userNotifications = pgTable("user_notifications", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),

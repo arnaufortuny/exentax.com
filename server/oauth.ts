@@ -189,11 +189,14 @@ export function setupOAuth(app: Express) {
         return res.redirect("/login?error=account_deactivated");
       }
 
-      req.session.userId = user.id;
       await new Promise<void>((resolve, reject) => {
-        req.session.save((err) => {
-          if (err) reject(err);
-          else resolve();
+        req.session.regenerate((err) => {
+          if (err) return reject(err);
+          req.session.userId = user.id;
+          req.session.save((saveErr) => {
+            if (saveErr) reject(saveErr);
+            else resolve();
+          });
         });
       });
 
@@ -238,15 +241,17 @@ export function setupOAuth(app: Express) {
         return res.status(403).json({ message: "Account deactivated" });
       }
 
-      req.session.userId = user.id;
-      req.session.email = user.email || undefined;
-      req.session.isAdmin = user.isAdmin || false;
-      req.session.isSupport = (user as any).isSupport || false;
-      
       await new Promise<void>((resolve, reject) => {
-        req.session.save((err) => {
-          if (err) reject(err);
-          else resolve();
+        req.session.regenerate((err) => {
+          if (err) return reject(err);
+          req.session.userId = user.id;
+          req.session.email = user.email || undefined;
+          req.session.isAdmin = user.isAdmin || false;
+          req.session.isSupport = (user as any).isSupport || false;
+          req.session.save((saveErr) => {
+            if (saveErr) reject(saveErr);
+            else resolve();
+          });
         });
       });
 

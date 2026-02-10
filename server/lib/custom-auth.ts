@@ -67,9 +67,8 @@ declare module "express-session" {
 export function setupCustomAuth(app: Express) {
   app.set("trust proxy", 1);
   
-  // JSON body parser must be before session and routes
-  app.use(express.json());
-  app.use(express.urlencoded({ extended: true }));
+  app.use(express.json({ limit: '1mb' }));
+  app.use(express.urlencoded({ extended: true, limit: '1mb' }));
   
   app.use(getSession());
 
@@ -118,28 +117,34 @@ export function setupCustomAuth(app: Express) {
         html: getWelcomeEmailTemplate(user.firstName || getDefaultClientName(emailLang), emailLang)
       }).catch(() => {});
 
-      req.session.userId = user.id;
-      req.session.email = user.email!;
-      req.session.isAdmin = user.isAdmin;
-      req.session.isSupport = user.isSupport;
-
-      // Save session explicitly before responding
-      req.session.save((err) => {
-        if (err) {
-          console.error("Session save error:", err);
-          return res.status(500).json({ message: "Error saving session" });
+      req.session.regenerate((regenErr) => {
+        if (regenErr) {
+          console.error("Session regeneration error:", regenErr);
+          return res.status(500).json({ message: "Error creating session" });
         }
-        
-        res.json({
-          success: true,
-          user: {
-            id: user.id,
-            email: user.email,
-            firstName: user.firstName,
-            lastName: user.lastName,
-            emailVerified: user.emailVerified,
-          },
-          message: "Account created. Check your email to verify your account.",
+
+        req.session.userId = user.id;
+        req.session.email = user.email!;
+        req.session.isAdmin = user.isAdmin;
+        req.session.isSupport = user.isSupport;
+
+        req.session.save((err) => {
+          if (err) {
+            console.error("Session save error:", err);
+            return res.status(500).json({ message: "Error saving session" });
+          }
+          
+          res.json({
+            success: true,
+            user: {
+              id: user.id,
+              email: user.email,
+              firstName: user.firstName,
+              lastName: user.lastName,
+              emailVerified: user.emailVerified,
+            },
+            message: "Account created. Check your email to verify your account.",
+          });
         });
       });
     } catch (error: any) {
@@ -275,32 +280,38 @@ export function setupCustomAuth(app: Express) {
           })
           .where(eq(users.id, user.id));
 
-        req.session.userId = user.id;
-        req.session.email = user.email!;
-        req.session.isAdmin = user.isAdmin;
-        req.session.isSupport = user.isSupport;
-
-        // Save session explicitly before responding
-        req.session.save((err) => {
-          if (err) {
-            console.error("Session save error:", err);
-            return res.status(500).json({ message: "Error saving session" });
+        req.session.regenerate((regenErr) => {
+          if (regenErr) {
+            console.error("Session regeneration error:", regenErr);
+            return res.status(500).json({ message: "Error creating session" });
           }
-          
-          logAudit({ action: 'user_login', userId: user.id, ip, details: { email, success: true, loginCount: newLoginCount } });
-          res.json({
-            success: true,
-            user: {
-              id: user.id,
-              email: user.email,
-              firstName: user.firstName,
-              lastName: user.lastName,
-              phone: user.phone,
-              emailVerified: user.emailVerified,
-              isAdmin: user.isAdmin,
-              accountStatus: user.accountStatus,
-              preferredLanguage: user.preferredLanguage || 'es',
-            },
+
+          req.session.userId = user.id;
+          req.session.email = user.email!;
+          req.session.isAdmin = user.isAdmin;
+          req.session.isSupport = user.isSupport;
+
+          req.session.save((err) => {
+            if (err) {
+              console.error("Session save error:", err);
+              return res.status(500).json({ message: "Error saving session" });
+            }
+            
+            logAudit({ action: 'user_login', userId: user.id, ip, details: { email, success: true, loginCount: newLoginCount } });
+            res.json({
+              success: true,
+              user: {
+                id: user.id,
+                email: user.email,
+                firstName: user.firstName,
+                lastName: user.lastName,
+                phone: user.phone,
+                emailVerified: user.emailVerified,
+                isAdmin: user.isAdmin,
+                accountStatus: user.accountStatus,
+                preferredLanguage: user.preferredLanguage || 'es',
+              },
+            });
           });
         });
       } catch (error: any) {

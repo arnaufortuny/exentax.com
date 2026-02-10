@@ -13,6 +13,7 @@ import { usePageTitle } from "@/hooks/use-page-title";
 import { fadeInUp, lineExpand, viewportOnce, easing } from "@/lib/animations";
 import { ArrowRight } from "@/components/icons";
 import type { Product } from "@shared/schema";
+import { createSafeHtml } from "@/lib/sanitize";
 import trustpilotLogo from "@/assets/trustpilot-logo.png";
 import llcFormationImg from "@assets/D69A3B61-5493-4DA9-B0CC-F8C4513AA081_1770477081267.png";
 import einIncludedImg from "@assets/8B61DA68-3163-4478-ACA9-8358D58D5022_1770477081267.png";
@@ -112,7 +113,7 @@ export default function Home() {
             <motion.h2 
               className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-center leading-[1.1]" 
               style={{ fontWeight: 900 }} 
-              dangerouslySetInnerHTML={{ __html: t("benefits.sectionTitle") }}
+              dangerouslySetInnerHTML={createSafeHtml(t("benefits.sectionTitle"))}
               variants={fadeInUp}
               initial="hidden"
               whileInView="visible"
@@ -247,7 +248,7 @@ function HowWeWorkSection() {
             <motion.h2 
               className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-center leading-[1.1]" 
               style={{ fontWeight: 900 }} 
-              dangerouslySetInnerHTML={{ __html: t("howWeWork.title") }}
+              dangerouslySetInnerHTML={createSafeHtml(t("howWeWork.title"))}
               initial={{ opacity: 0, y: 10 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.2 }}
@@ -328,7 +329,7 @@ function HowWeWorkSection() {
             <motion.h2 
               className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-center leading-[1.1]" 
               style={{ fontWeight: 900 }} 
-              dangerouslySetInnerHTML={{ __html: t("timing.title") }}
+              dangerouslySetInnerHTML={createSafeHtml(t("timing.title"))}
               initial={{ opacity: 0, y: 10 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.2 }}
@@ -429,7 +430,7 @@ function PorQueEasyUSLLC() {
           <motion.h2 
             className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-center leading-[1.1]" 
             style={{ fontWeight: 900 }} 
-            dangerouslySetInnerHTML={{ __html: t("whyUs.sectionTitle") }}
+            dangerouslySetInnerHTML={createSafeHtml(t("whyUs.sectionTitle"))}
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.2 }}

@@ -107,4 +107,5 @@ export const asyncHandler = (fn: any) => (req: any, res: any, next: any) => {
   Promise.resolve(fn(req, res, next)).catch(next);
 };
 
+export { withRetry } from "../lib/db-utils";
 export { db, storage, isAuthenticated, isAdmin, isAdminOrSupport, isNotUnderReview, logAudit, getClientIp };

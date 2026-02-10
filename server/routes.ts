@@ -14,6 +14,7 @@ import { csrfMiddleware, getCsrfToken, validateCsrf } from "./lib/csrf";
 import { checkRateLimit as checkApiRateLimit } from "./lib/rate-limiter";
 import { registerObjectStorageRoutes } from "./replit_integrations/object_storage";
 import { startIpTrackerCleanup } from "./routes/shared";
+import { checkPoolHealth } from "./lib/db-utils";
 import { registerAdminOrderRoutes } from "./routes/admin-orders";
 import { registerAdminUserRoutes } from "./routes/admin-users";
 import { registerAdminBillingRoutes } from "./routes/admin-billing";
@@ -21,6 +22,8 @@ import { registerAdminCommsRoutes } from "./routes/admin-comms";
 import { registerAdminDocumentsRoutes } from "./routes/admin-documents";
 import { registerConsultationRoutes } from "./routes/consultations";
 import { registerUserProfileRoutes } from "./routes/user-profile";
+import { registerUserDocumentRoutes } from "./routes/user-documents";
+import { registerUserSecurityRoutes } from "./routes/user-security";
 import { registerOrderRoutes } from "./routes/orders";
 import { registerLlcRoutes } from "./routes/llc";
 import { registerMaintenanceRoutes } from "./routes/maintenance";
@@ -133,14 +136,16 @@ export async function registerRoutes(
     startBackupService();
   }, 30000);
 
-  // Health check endpoint for deployment with database verification
   app.get("/api/healthz", async (_req, res) => {
     try {
       const health = await getSystemHealth();
-      if (health.status === 'unhealthy') {
-        return res.status(503).json(health);
-      }
-      res.status(200).json(health);
+      const poolHealth = await checkPoolHealth();
+      const result = {
+        ...health,
+        pool: poolHealth,
+        status: health.status === 'unhealthy' || !poolHealth.healthy ? 'unhealthy' : health.status,
+      };
+      res.status(result.status === 'unhealthy' ? 503 : 200).json(result);
     } catch (error) {
       res.status(503).json({ status: 'unhealthy', error: 'Health check failed' });
     }
@@ -174,8 +179,14 @@ export async function registerRoutes(
   // Admin Documents (extracted to server/routes/admin-documents.ts)
   registerAdminDocumentsRoutes(app);
 
-  // User Profile, Documents, Notifications, Password (extracted to server/routes/user-profile.ts)
+  // User Documents (extracted to server/routes/user-documents.ts)
+  registerUserDocumentRoutes(app);
+
+  // User Profile, Notifications (extracted to server/routes/user-profile.ts)
   registerUserProfileRoutes(app);
+
+  // User Security & Verification (extracted to server/routes/user-security.ts)
+  registerUserSecurityRoutes(app);
 
   // Orders (extracted to server/routes/orders.ts)
   registerOrderRoutes(app);

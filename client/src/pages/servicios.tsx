@@ -7,6 +7,7 @@ import { StateComparison } from "@/components/state-comparison";
 import type { Product } from "@shared/schema";
 import { getFormationPriceFormatted, getMaintenancePriceFormatted } from "@shared/config/pricing";
 
+import { createSafeHtml } from "@/lib/sanitize";
 import { useState, useEffect } from "react";
 import { useLocation, Link } from "wouter";
 import { useQuery } from "@tanstack/react-query";
@@ -248,7 +249,7 @@ export default function Servicios() {
               initial="hidden"
               whileInView="visible"
               viewport={viewportOnce}
-              dangerouslySetInnerHTML={{ __html: t("services.whatWeDo.title") }}
+              dangerouslySetInnerHTML={createSafeHtml(t("services.whatWeDo.title"))}
             />
             
             <motion.p
