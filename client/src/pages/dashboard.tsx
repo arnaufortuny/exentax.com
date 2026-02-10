@@ -1165,7 +1165,7 @@ export default function Dashboard() {
 
         {/* Main content area */}
         <div className="flex-1 min-w-0 overflow-y-auto overflow-x-hidden">
-      <main className={`${activeTab === 'services' ? 'pt-8 sm:pt-10 lg:pt-14' : 'pt-6 sm:pt-10'} pb-20 ${isAdmin ? 'px-4 md:px-6 lg:px-8' : 'px-5 md:px-8 max-w-7xl mx-auto lg:mx-0 lg:max-w-none lg:px-10'}`}>
+      <main className={`${activeTab === 'services' ? 'pt-8 sm:pt-10 lg:pt-14' : 'pt-6 sm:pt-10'} pb-20 ${isAdmin ? 'px-4 md:px-6 lg:px-6 xl:px-8' : 'px-5 md:px-8 max-w-7xl mx-auto lg:mx-0 lg:max-w-none lg:px-10'}`}>
 
         {/* Mobile Navigation - Horizontal scroll buttons (ABOVE welcome on mobile) */}
         <div className="flex flex-col gap-2 mb-4 lg:hidden">
@@ -2230,7 +2230,7 @@ export default function Dashboard() {
                               }
                             }}
                             placeholder={t('dashboard.admin.selectOrderType')}
-                            className="w-full rounded-xl h-11 px-4 border border-gray-200 dark:border-border bg-white dark:bg-[#1A1A1A]"
+                            className="w-full rounded-full h-11 px-4 border border-gray-200 dark:border-border bg-white dark:bg-[#1A1A1A]"
                             data-testid="select-order-type"
                           >
                             <NativeSelectItem value="llc">{t('dashboard.admin.llcCreation')}</NativeSelectItem>
@@ -2244,7 +2244,7 @@ export default function Dashboard() {
                             value={newOrderData.userId} 
                             onValueChange={val => setNewOrderData(p => ({ ...p, userId: val }))}
                             placeholder={t('dashboard.admin.selectClient')}
-                            className="w-full rounded-xl h-11 px-4 border border-gray-200 dark:border-border bg-white dark:bg-[#1A1A1A]"
+                            className="w-full rounded-full h-11 px-4 border border-gray-200 dark:border-border bg-white dark:bg-[#1A1A1A]"
                             data-testid="select-order-user"
                           >
                             {adminUsers?.map((u: any) => (
@@ -2258,7 +2258,7 @@ export default function Dashboard() {
                             <Input value={newOrderData.concept} 
                               onChange={e => setNewOrderData(p => ({ ...p, concept: e.target.value }))} 
                               placeholder={t('dashboard.admin.conceptPlaceholder')} 
-                              className="rounded-xl h-11 px-4 border border-gray-200 dark:border-border bg-white dark:bg-[#1A1A1A]" 
+                              className="rounded-full h-11 px-4 border border-gray-200 dark:border-border bg-white dark:bg-[#1A1A1A]" 
                               data-testid="input-order-concept" 
                             />
                           </div>
@@ -2274,7 +2274,7 @@ export default function Dashboard() {
                                 setNewOrderData(p => ({ ...p, state: val, amount }));
                               }}
                               placeholder={t('dashboard.admin.selectState')}
-                              className="w-full rounded-xl h-11 px-4 border border-gray-200 dark:border-border bg-white dark:bg-[#1A1A1A]"
+                              className="w-full rounded-full h-11 px-4 border border-gray-200 dark:border-border bg-white dark:bg-[#1A1A1A]"
                               data-testid="select-order-state"
                             >
                               {newOrderData.orderType === 'maintenance' ? (
@@ -4042,10 +4042,11 @@ export default function Dashboard() {
                     </div>
                   )}
                   {adminSubTab === 'calendar' && (
-                    <Card className="rounded-2xl border-0 shadow-sm p-4 md:p-6 overflow-hidden">
-                      <h4 className="font-black text-base md:text-lg mb-4 md:mb-6">
+                    <div className="space-y-4">
+                      <h4 className="font-black text-lg">
                         {t('dashboard.admin.calendar.title')}
                       </h4>
+                    <Card className="rounded-2xl border-0 shadow-sm p-4 md:p-6 overflow-hidden">
                       <div className="space-y-4 md:space-y-6">
                         {adminOrders?.map((order: any) => {
                           const app = order.application;
@@ -4209,6 +4210,7 @@ export default function Dashboard() {
                         )}
                       </div>
                     </Card>
+                    </div>
                   )}
                   {adminSubTab === 'docs' && (
                     <div className="space-y-4">
