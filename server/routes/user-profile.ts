@@ -3,7 +3,7 @@ import { z } from "zod";
 import { and, eq, gt, desc, sql, inArray } from "drizzle-orm";
 import { db, storage, isAuthenticated, isAdmin, logAudit, getClientIp, logActivity } from "./shared";
 import { contactOtps, users as usersTable, userNotifications, orders as ordersTable, llcApplications as llcApplicationsTable, applicationDocuments as applicationDocumentsTable, standaloneInvoices } from "@shared/schema";
-import { sendEmail, getOtpEmailTemplate, getWelcomeEmailTemplate, getPasswordChangeOtpTemplate, getProfileChangeOtpTemplate, getAdminProfileChangesTemplate } from "../lib/email";
+import { sendEmail, getOtpEmailTemplate, getWelcomeEmailTemplate, getPasswordChangeOtpTemplate, getProfileChangeOtpTemplate, getAdminProfileChangesTemplate, getAccountDeactivatedByUserTemplate } from "../lib/email";
 import { getEmailTranslations, EmailLanguage, getOtpSubject } from "../lib/email-translations";
 import { checkRateLimit } from "../lib/security";
 import { getUpcomingDeadlinesForUser } from "../calendar-service";
@@ -558,30 +558,52 @@ export function registerUserProfileRoutes(app: Express) {
     }
   });
 
-  // Client Delete Account
+  // Client Deactivate Account (user requests "delete" but we only deactivate, preserving all data)
   app.delete("/api/user/account", isAuthenticated, async (req: any, res) => {
     try {
       const userId = req.session.userId;
-      const { mode } = req.body; // 'hard' for 100% delete, 'soft' to keep data but disable email
-
-      if (mode === 'hard') {
-        await db.delete(usersTable).where(eq(usersTable.id, userId));
-      } else {
-        // Soft delete: Keep record but mark as deactivated and change email to prevent reuse
-        const [user] = await db.select().from(usersTable).where(eq(usersTable.id, userId)).limit(1);
-        await db.update(usersTable).set({ 
-          accountStatus: 'deactivated',
-          isActive: false,
-          email: `deleted_${userId}_${user.email}`,
-          updatedAt: new Date()
-        }).where(eq(usersTable.id, userId));
+      const [user] = await db.select().from(usersTable).where(eq(usersTable.id, userId)).limit(1);
+      
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
       }
 
+      if (user.accountStatus === 'deactivated') {
+        return res.status(400).json({ message: "Account is already deactivated" });
+      }
+
+      await db.update(usersTable).set({ 
+        accountStatus: 'deactivated',
+        isActive: false,
+        internalNotes: user.internalNotes 
+          ? `${user.internalNotes}\n[${new Date().toISOString()}] Desactivado por petición del cliente`
+          : `[${new Date().toISOString()}] Desactivado por petición del cliente`,
+        updatedAt: new Date()
+      }).where(eq(usersTable.id, userId));
+
+      const uLang = ((user as any).preferredLanguage || 'es') as EmailLanguage;
+      
+      if (user.email) {
+        await sendEmail({
+          to: user.email,
+          subject: uLang === 'en' ? "Your account deletion request" 
+            : uLang === 'ca' ? "Sol·licitud d'eliminació del teu compte" 
+            : uLang === 'fr' ? "Demande de suppression de votre compte" 
+            : uLang === 'de' ? "Ihre Kontolöschungsanfrage" 
+            : uLang === 'it' ? "Richiesta di eliminazione del tuo account" 
+            : uLang === 'pt' ? "Pedido de eliminação da sua conta" 
+            : "Solicitud de eliminación de tu cuenta",
+          html: getAccountDeactivatedByUserTemplate(user.firstName || undefined, uLang)
+        }).catch(() => {});
+      }
+
+      logActivity("Cuenta desactivada por cliente", { userId, email: user.email });
+
       req.session.destroy(() => {});
-      res.json({ success: true, message: "Account processed successfully" });
+      res.json({ success: true, message: "Account deactivated successfully" });
     } catch (error) {
-      console.error("Delete account error:", error);
-      res.status(500).json({ message: "Error processing account deletion" });
+      console.error("Deactivate account error:", error);
+      res.status(500).json({ message: "Error deactivating account" });
     }
   });
 

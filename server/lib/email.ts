@@ -584,6 +584,24 @@ export function getAccountDeactivatedTemplate(name?: string, lang: EmailLanguage
   return getEmailWrapper(content, lang);
 }
 
+// 9b. Cuenta Desactivada por el propio usuario
+export function getAccountDeactivatedByUserTemplate(name?: string, lang: EmailLanguage = 'es') {
+  const t = getEmailTranslations(lang);
+  const clientName = name || t.common.client;
+  const content = `
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin: 0 0 25px 0;">${t.common.greeting} ${clientName},</p>
+    
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">${t.accountDeactivatedByUser.deactivated}</p>
+    
+    <div style="background: #FEF3C7; padding: 20px 25px; border-radius: 16px; margin: 25px 0; border-left: 4px solid #F59E0B;">
+      <p style="margin: 0; font-size: 14px; color: #92400E; line-height: 1.7;">${t.accountDeactivatedByUser.cannotAccess}</p>
+    </div>
+    
+    <p style="line-height: 1.6; font-size: 14px; color: #6B7280;">${t.accountDeactivatedByUser.contactSupport}</p>
+  `;
+  return getEmailWrapper(content, lang);
+}
+
 // 10. Newsletter Bienvenida
 export function getNewsletterWelcomeTemplate(lang: EmailLanguage = 'es') {
   const t = getEmailTranslations(lang);

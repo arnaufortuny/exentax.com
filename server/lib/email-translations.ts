@@ -68,6 +68,11 @@ interface EmailTranslations {
     cannotAccess: string;
     contactSupport: string;
   };
+  accountDeactivatedByUser: {
+    deactivated: string;
+    cannotAccess: string;
+    contactSupport: string;
+  };
   confirmation: {
     greatNews: string;
     details: string;
@@ -429,6 +434,11 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       cannotAccess: "Mientras tu cuenta permanezca en este estado, no podrás acceder a tu Área Cliente ni realizar gestiones a través de nuestra plataforma.",
       contactSupport: "Si crees que esto es un error o deseas obtener más información, por favor contacta con nuestro equipo de soporte respondiendo a este correo."
     },
+    accountDeactivatedByUser: {
+      deactivated: "Hemos recibido tu solicitud para eliminar tu cuenta. Tu cuenta ha sido desactivada y será eliminada en breve.",
+      cannotAccess: "A partir de ahora no podrás acceder a tu Área Cliente ni realizar gestiones a través de nuestra plataforma.",
+      contactSupport: "Si has cambiado de opinión o crees que se trata de un error, contacta con nuestro equipo de soporte respondiendo a este correo lo antes posible."
+    },
     confirmation: {
       greatNews: "¡Excelente noticia! Hemos recibido correctamente tu solicitud y ya estamos trabajando en ella. A partir de ahora, nuestro equipo se encargará de todo.",
       details: "Detalles de tu Solicitud",
@@ -787,6 +797,11 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       deactivated: "We regret to inform you that your account has been deactivated.",
       cannotAccess: "While your account remains in this state, you will not be able to access your Client Area or perform any operations through our platform.",
       contactSupport: "If you believe this is an error or would like more information, please contact our support team by replying to this email."
+    },
+    accountDeactivatedByUser: {
+      deactivated: "We have received your request to delete your account. Your account has been deactivated and will be deleted shortly.",
+      cannotAccess: "From now on, you will not be able to access your Client Area or perform any operations through our platform.",
+      contactSupport: "If you have changed your mind or believe this is an error, please contact our support team by replying to this email as soon as possible."
     },
     confirmation: {
       greatNews: "Great news! We have received your request and are already working on it. From now on, our team will take care of everything.",
@@ -1147,6 +1162,11 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       cannotAccess: "Mentre el teu compte romangui en aquest estat, no podràs accedir a la teva Àrea Client ni realitzar gestions a través de la nostra plataforma.",
       contactSupport: "Si creus que això és un error o desitges obtenir més informació, si us plau contacta amb el nostre equip de suport responent a aquest correu."
     },
+    accountDeactivatedByUser: {
+      deactivated: "Hem rebut la teva sol·licitud per eliminar el teu compte. El teu compte ha estat desactivat i serà eliminat en breu.",
+      cannotAccess: "A partir d'ara no podràs accedir a la teva Àrea Client ni realitzar gestions a través de la nostra plataforma.",
+      contactSupport: "Si has canviat d'opinió o creus que es tracta d'un error, contacta amb el nostre equip de suport responent a aquest correu el més aviat possible."
+    },
     confirmation: {
       greatNews: "Excel·lent notícia! Hem rebut correctament la teva sol·licitud i ja estem treballant en ella. A partir d'ara, el nostre equip s'encarregarà de tot.",
       details: "Detalls de la teva Sol·licitud",
@@ -1505,6 +1525,11 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       deactivated: "Nous avons le regret de vous informer que votre compte a été désactivé.",
       cannotAccess: "Tant que votre compte reste dans cet état, vous ne pourrez pas accéder à votre Espace Client ni effectuer d'opérations via notre plateforme.",
       contactSupport: "Si vous pensez qu'il s'agit d'une erreur ou souhaitez obtenir plus d'informations, veuillez contacter notre équipe de support en répondant à cet e-mail."
+    },
+    accountDeactivatedByUser: {
+      deactivated: "Nous avons reçu votre demande de suppression de compte. Votre compte a été désactivé et sera supprimé sous peu.",
+      cannotAccess: "À partir de maintenant, vous ne pourrez plus accéder à votre Espace Client ni effectuer d'opérations via notre plateforme.",
+      contactSupport: "Si vous avez changé d'avis ou pensez qu'il s'agit d'une erreur, veuillez contacter notre équipe de support en répondant à cet e-mail dès que possible."
     },
     confirmation: {
       greatNews: "Excellente nouvelle ! Nous avons bien reçu votre demande et nous travaillons déjà dessus. À partir de maintenant, notre équipe s'occupe de tout.",
@@ -1865,6 +1890,11 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       cannotAccess: "Solange Ihr Konto in diesem Zustand bleibt, können Sie nicht auf Ihren Kundenbereich zugreifen oder Vorgänge über unsere Plattform durchführen.",
       contactSupport: "Wenn Sie glauben, dass dies ein Fehler ist, oder weitere Informationen wünschen, kontaktieren Sie bitte unser Support-Team, indem Sie auf diese E-Mail antworten."
     },
+    accountDeactivatedByUser: {
+      deactivated: "Wir haben Ihre Anfrage zur Kontolöschung erhalten. Ihr Konto wurde deaktiviert und wird in Kürze gelöscht.",
+      cannotAccess: "Ab sofort können Sie nicht mehr auf Ihren Kundenbereich zugreifen oder Vorgänge über unsere Plattform durchführen.",
+      contactSupport: "Wenn Sie Ihre Meinung geändert haben oder glauben, dass es sich um einen Fehler handelt, kontaktieren Sie bitte unser Support-Team, indem Sie so schnell wie möglich auf diese E-Mail antworten."
+    },
     confirmation: {
       greatNews: "Großartige Neuigkeiten! Wir haben Ihre Anfrage erhalten und arbeiten bereits daran. Ab jetzt kümmert sich unser Team um alles.",
       details: "Anfrage-Details",
@@ -2224,6 +2254,11 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       cannotAccess: "Finché il tuo account rimarrà in questo stato, non potrai accedere alla tua Area Cliente né effettuare operazioni tramite la nostra piattaforma.",
       contactSupport: "Se ritieni che si tratti di un errore o desideri maggiori informazioni, contatta il nostro team di supporto rispondendo a questa e-mail."
     },
+    accountDeactivatedByUser: {
+      deactivated: "Abbiamo ricevuto la tua richiesta di eliminazione dell'account. Il tuo account è stato disattivato e verrà eliminato a breve.",
+      cannotAccess: "Da questo momento non potrai più accedere alla tua Area Cliente né effettuare operazioni tramite la nostra piattaforma.",
+      contactSupport: "Se hai cambiato idea o ritieni che si tratti di un errore, contatta il nostro team di supporto rispondendo a questa e-mail il prima possibile."
+    },
     confirmation: {
       greatNews: "Ottime notizie! Abbiamo ricevuto la tua richiesta e stiamo già lavorando. Da questo momento, il nostro team si occuperà di tutto.",
       details: "Dettagli della richiesta",
@@ -2582,6 +2617,11 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       deactivated: "Lamentamos informar que a sua conta foi desativada.",
       cannotAccess: "Enquanto a sua conta permanecer neste estado, não poderá aceder à sua Área de Cliente nem realizar operações através da nossa plataforma.",
       contactSupport: "Se acredita que se trata de um erro ou deseja obter mais informações, contacte a nossa equipa de suporte respondendo a este e-mail."
+    },
+    accountDeactivatedByUser: {
+      deactivated: "Recebemos o seu pedido de eliminação de conta. A sua conta foi desativada e será eliminada em breve.",
+      cannotAccess: "A partir de agora não poderá aceder à sua Área de Cliente nem realizar operações através da nossa plataforma.",
+      contactSupport: "Se mudou de ideias ou acredita que se trata de um erro, contacte a nossa equipa de suporte respondendo a este e-mail o mais rapidamente possível."
     },
     confirmation: {
       greatNews: "Ótimas notícias! Recebemos o seu pedido e já estamos a trabalhar nele. A partir de agora, a nossa equipa trata de tudo.",
