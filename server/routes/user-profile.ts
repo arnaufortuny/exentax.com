@@ -547,6 +547,37 @@ export function registerUserProfileRoutes(app: Express) {
     }
   });
 
+  app.get("/api/user/invoices/:id/download", isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.session.userId;
+      const invoiceId = parseInt(req.params.id);
+      const [invoice] = await db.select().from(standaloneInvoices)
+        .where(and(eq(standaloneInvoices.id, invoiceId), eq(standaloneInvoices.userId, userId)))
+        .limit(1);
+      if (!invoice || !invoice.fileUrl) {
+        return res.status(404).json({ message: "Invoice not found" });
+      }
+      if (invoice.fileUrl.startsWith('data:application/pdf;base64,')) {
+        const base64 = invoice.fileUrl.replace('data:application/pdf;base64,', '');
+        const pdfBuffer = Buffer.from(base64, 'base64');
+        res.setHeader('Content-Type', 'application/pdf');
+        res.setHeader('Content-Disposition', `inline; filename="${invoice.invoiceNumber}.pdf"`);
+        res.send(pdfBuffer);
+      } else if (invoice.fileUrl.startsWith('data:text/html;base64,')) {
+        const base64 = invoice.fileUrl.replace('data:text/html;base64,', '');
+        const html = Buffer.from(base64, 'base64').toString('utf-8');
+        res.setHeader('Content-Type', 'text/html; charset=utf-8');
+        res.setHeader('Content-Disposition', `inline; filename="${invoice.invoiceNumber}.html"`);
+        res.send(html);
+      } else {
+        return res.status(400).json({ message: "Invalid invoice format" });
+      }
+    } catch (error) {
+      log.error("Error downloading user invoice", error);
+      res.status(500).json({ message: "Error downloading invoice" });
+    }
+  });
+
   app.get("/api/user/notifications", isAuthenticated, async (req: any, res) => {
     try {
       const userId = req.session.userId;

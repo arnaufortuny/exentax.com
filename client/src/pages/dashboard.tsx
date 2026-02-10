@@ -161,6 +161,8 @@ export default function Dashboard() {
   const [invoiceConcept, setInvoiceConcept] = useState("");
   const [invoiceAmount, setInvoiceAmount] = useState("");
   const [invoiceCurrency, setInvoiceCurrency] = useState("EUR");
+  const [invoiceDate, setInvoiceDate] = useState(new Date().toISOString().split('T')[0]);
+  const [invoicePaymentAccountIds, setInvoicePaymentAccountIds] = useState<number[]>([]);
   const [adminSubTab, setAdminSubTab] = useState(user?.isSupport && !user?.isAdmin ? "orders" : "dashboard");
   const [commSubTab, setCommSubTab] = useState<'inbox' | 'agenda'>('inbox');
   const [usersSubTab, setUsersSubTab] = useState<'users' | 'newsletter'>('users');
@@ -760,12 +762,12 @@ export default function Dashboard() {
   });
 
   const createInvoiceMutation = useMutation({
-    mutationFn: async ({ userId, concept, amount, currency }: { userId: string, concept: string, amount: number, currency: string }) => {
+    mutationFn: async ({ userId, concept, amount, currency, invoiceDate, paymentAccountIds }: { userId: string, concept: string, amount: number, currency: string, invoiceDate?: string, paymentAccountIds?: number[] }) => {
       setFormMessage(null);
       if (!amount || isNaN(amount) || amount < 1) {
         throw new Error(t("dashboard.toasts.invalidAmount"));
       }
-      const res = await apiRequest("POST", "/api/admin/invoices/create", { userId, concept, amount, currency });
+      const res = await apiRequest("POST", "/api/admin/invoices/create", { userId, concept, amount, currency, invoiceDate, paymentAccountIds });
       if (!res.ok) {
         const data = await res.json().catch(() => ({}));
         throw new Error(data.message || t("dashboard.toasts.couldNotCreate"));
@@ -778,6 +780,8 @@ export default function Dashboard() {
       setInvoiceConcept("");
       setInvoiceAmount("");
       setInvoiceCurrency("EUR");
+      setInvoiceDate(new Date().toISOString().split('T')[0]);
+      setInvoicePaymentAccountIds([]);
       queryClient.invalidateQueries({ queryKey: ["/api/admin/invoices"] });
       queryClient.invalidateQueries({ queryKey: ["/api/admin/accounting/transactions"] });
     },
@@ -1670,7 +1674,7 @@ export default function Dashboard() {
                               </div>
                               <div className="flex gap-2 flex-shrink-0">
                                 {inv.fileUrl && (
-                                  <Button variant="outline" size="sm" className="rounded-full text-xs" onClick={() => window.open(inv.fileUrl, '_blank')} data-testid={`button-view-client-invoice-${inv.id}`}>
+                                  <Button variant="outline" size="sm" className="rounded-full text-xs" onClick={() => window.open(`/api/user/invoices/${inv.id}/download`, '_blank')} data-testid={`button-view-client-invoice-${inv.id}`}>
                                     {t('dashboard.payments.invoice')}
                                   </Button>
                                 )}
@@ -2696,18 +2700,18 @@ export default function Dashboard() {
                           <Input value={invoiceConcept} 
                             onChange={e => setInvoiceConcept(e.target.value)} 
                             placeholder={t('dashboard.admin.conceptPlaceholder')} 
-                            className="w-full rounded-xl h-11 px-4 border border-gray-200 dark:border-border bg-white dark:bg-[#1A1A1A]"
+                            className="w-full rounded-full h-11 px-4 border border-gray-200 dark:border-border bg-white dark:bg-[#1A1A1A]"
                             data-testid="input-invoice-concept"
                           />
                         </div>
-                        <div className="grid grid-cols-3 gap-3">
-                          <div className="col-span-2">
+                        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                          <div>
                             <Label className="text-sm font-semibold text-foreground mb-2 block">{t('dashboard.admin.invoiceAmount')}</Label>
                             <Input type="number" 
                               value={invoiceAmount} 
                               onChange={e => setInvoiceAmount(e.target.value)} 
                               placeholder="739" 
-                              className="w-full rounded-xl h-11 px-4 border border-gray-200 dark:border-border bg-white dark:bg-[#1A1A1A]"
+                              className="w-full rounded-full h-11 px-4 border border-gray-200 dark:border-border bg-white dark:bg-[#1A1A1A]"
                               data-testid="input-invoice-amount"
                             />
                           </div>
@@ -2716,12 +2720,46 @@ export default function Dashboard() {
                             <NativeSelect 
                               value={invoiceCurrency} 
                               onValueChange={setInvoiceCurrency}
-                              className="w-full rounded-xl h-11 px-3 border border-gray-200 dark:border-border bg-white dark:bg-[#1A1A1A]"
+                              className="w-full rounded-full h-11 px-3 border border-gray-200 dark:border-border bg-white dark:bg-[#1A1A1A]"
                               data-testid="select-invoice-currency"
                             >
                               <NativeSelectItem value="EUR">EUR</NativeSelectItem>
                               <NativeSelectItem value="USD">USD</NativeSelectItem>
                             </NativeSelect>
+                          </div>
+                          <div className="col-span-2">
+                            <Label className="text-sm font-semibold text-foreground mb-2 block">{t('dashboard.admin.invoiceDate')}</Label>
+                            <Input type="date" 
+                              value={invoiceDate} 
+                              onChange={e => setInvoiceDate(e.target.value)} 
+                              className="w-full rounded-full h-11 px-4 border border-gray-200 dark:border-border bg-white dark:bg-[#1A1A1A]"
+                              data-testid="input-invoice-date"
+                            />
+                          </div>
+                        </div>
+                        <div>
+                          <Label className="text-sm font-semibold text-foreground mb-2 block">{t('dashboard.admin.invoicePaymentMethods')}</Label>
+                          <div className="flex flex-wrap gap-2">
+                            {paymentAccountsList?.filter((a: any) => a.isActive).map((acct: any) => (
+                              <Button 
+                                key={acct.id}
+                                type="button"
+                                size="sm"
+                                variant={invoicePaymentAccountIds.includes(acct.id) ? "default" : "outline"}
+                                className={`rounded-full text-xs ${invoicePaymentAccountIds.includes(acct.id) ? 'bg-accent text-black' : ''}`}
+                                onClick={() => {
+                                  setInvoicePaymentAccountIds(prev => 
+                                    prev.includes(acct.id) ? prev.filter(id => id !== acct.id) : [...prev, acct.id]
+                                  );
+                                }}
+                                data-testid={`button-invoice-payment-${acct.id}`}
+                              >
+                                {acct.label}
+                              </Button>
+                            ))}
+                            {(!paymentAccountsList || paymentAccountsList.filter((a: any) => a.isActive).length === 0) && (
+                              <p className="text-xs text-muted-foreground">{t('dashboard.admin.noPaymentAccounts')}</p>
+                            )}
                           </div>
                         </div>
                       </div>
@@ -2730,7 +2768,9 @@ export default function Dashboard() {
                             userId: invoiceDialog.user.id, 
                             concept: invoiceConcept, 
                             amount: Math.round(parseFloat(invoiceAmount) * 100),
-                            currency: invoiceCurrency
+                            currency: invoiceCurrency,
+                            invoiceDate,
+                            paymentAccountIds: invoicePaymentAccountIds.length > 0 ? invoicePaymentAccountIds : undefined
                           })} 
                           disabled={!invoiceConcept || !invoiceAmount || createInvoiceMutation.isPending}
                           className="flex-1 bg-accent text-accent-foreground font-black rounded-full"
@@ -4487,7 +4527,7 @@ export default function Dashboard() {
                                       variant="outline" 
                                       size="sm" 
                                       className="rounded-full text-xs"
-                                      onClick={() => inv.fileUrl && window.open(inv.fileUrl, '_blank')}
+                                      onClick={() => window.open(`/api/admin/invoices/${inv.id}/download`, '_blank')}
                                       data-testid={`button-view-invoice-${inv.id}`}
                                     >
                                       <Eye className="w-3 h-3 mr-1" /> {t('dashboard.admin.invoicesSection.view')}

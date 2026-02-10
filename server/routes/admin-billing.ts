@@ -7,7 +7,7 @@ import { asyncHandler, db, storage, isAdmin, logAudit, getCachedData, setCachedD
 import { createLogger } from "../lib/logger";
 
 const log = createLogger('admin-billing');
-import { users as usersTable, maintenanceApplications, newsletterSubscribers, messages as messagesTable, orderEvents, userNotifications, orders as ordersTable, llcApplications as llcApplicationsTable, applicationDocuments as applicationDocumentsTable, discountCodes, accountingTransactions, auditLogs, standaloneInvoices } from "@shared/schema";
+import { users as usersTable, maintenanceApplications, newsletterSubscribers, messages as messagesTable, orderEvents, userNotifications, orders as ordersTable, llcApplications as llcApplicationsTable, applicationDocuments as applicationDocumentsTable, discountCodes, accountingTransactions, auditLogs, standaloneInvoices, paymentAccounts } from "@shared/schema";
 
 export function registerAdminBillingRoutes(app: Express) {
   app.post("/api/admin/orders/create", isAdmin, asyncHandler(async (req: Request, res: Response) => {
@@ -664,13 +664,44 @@ export function registerAdminBillingRoutes(app: Express) {
     }
   });
 
+  app.get("/api/admin/invoices/:id/download", isAdmin, async (req, res) => {
+    try {
+      const invoiceId = parseInt(req.params.id);
+      const [invoice] = await db.select().from(standaloneInvoices).where(eq(standaloneInvoices.id, invoiceId)).limit(1);
+      if (!invoice || !invoice.fileUrl) {
+        return res.status(404).json({ message: "Invoice not found" });
+      }
+
+      if (invoice.fileUrl.startsWith('data:application/pdf;base64,')) {
+        const base64 = invoice.fileUrl.replace('data:application/pdf;base64,', '');
+        const pdfBuffer = Buffer.from(base64, 'base64');
+        res.setHeader('Content-Type', 'application/pdf');
+        res.setHeader('Content-Disposition', `inline; filename="${invoice.invoiceNumber}.pdf"`);
+        res.send(pdfBuffer);
+      } else if (invoice.fileUrl.startsWith('data:text/html;base64,')) {
+        const base64 = invoice.fileUrl.replace('data:text/html;base64,', '');
+        const html = Buffer.from(base64, 'base64').toString('utf-8');
+        res.setHeader('Content-Type', 'text/html; charset=utf-8');
+        res.setHeader('Content-Disposition', `inline; filename="${invoice.invoiceNumber}.html"`);
+        res.send(html);
+      } else {
+        return res.status(400).json({ message: "Invalid invoice format" });
+      }
+    } catch (error) {
+      log.error("Error downloading invoice", error);
+      res.status(500).json({ message: "Error downloading invoice" });
+    }
+  });
+
   // Create standalone invoice for user (not tied to order)
   app.post("/api/admin/invoices/create", isAdmin, asyncHandler(async (req: Request, res: Response) => {
-    const { userId, concept, amount, currency } = z.object({
+    const { userId, concept, amount, currency, invoiceDate, paymentAccountIds } = z.object({
       userId: z.string(),
       concept: z.string().min(1),
       amount: z.number().min(1),
-      currency: z.enum(["EUR", "USD"]).default("EUR")
+      currency: z.enum(["EUR", "USD"]).default("EUR"),
+      invoiceDate: z.string().optional(),
+      paymentAccountIds: z.array(z.number()).optional(),
     }).parse(req.body);
     
     const currencySymbol = currency === "USD" ? "$" : "€";
@@ -682,89 +713,54 @@ export function registerAdminBillingRoutes(app: Express) {
 
     const { generateUniqueInvoiceNumber } = await import("../lib/id-generator");
     const invoiceNumber = await generateUniqueInvoiceNumber();
-    
-    // Generate invoice HTML
-    const invoiceHtml = `
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <title>Factura ${invoiceNumber}</title>
-  <style>
-    body { font-family: 'Inter', Arial, sans-serif; margin: 0; padding: 40px; color: #0A0A0A; }
-    .header { display: flex; justify-content: space-between; margin-bottom: 40px; }
-    .logo { font-size: 24px; font-weight: 900; color: #0A0A0A; }
-    .logo span { color: #6EDC8A; }
-    .invoice-title { font-size: 32px; font-weight: 900; text-align: right; }
-    .invoice-number { font-size: 14px; color: #6B7280; text-align: right; }
-    .details { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-bottom: 40px; }
-    .section-title { font-size: 12px; color: #6B7280; text-transform: uppercase; margin-bottom: 8px; }
-    .section-content { font-size: 14px; line-height: 1.6; }
-    .items { margin: 40px 0; }
-    .items-header { display: grid; grid-template-columns: 3fr 1fr 1fr; padding: 12px 0; border-bottom: 2px solid #0A0A0A; font-weight: 700; font-size: 12px; text-transform: uppercase; }
-    .items-row { display: grid; grid-template-columns: 3fr 1fr 1fr; padding: 16px 0; border-bottom: 1px solid #E6E9EC; font-size: 14px; }
-    .total-section { text-align: right; margin-top: 24px; }
-    .total-row { font-size: 14px; margin-bottom: 8px; }
-    .total-final { font-size: 24px; font-weight: 900; color: #0A0A0A; }
-    .footer { margin-top: 60px; padding-top: 20px; border-top: 1px solid #E6E9EC; font-size: 11px; color: #6B7280; text-align: center; }
-  </style>
-</head>
-<body>
-  <div class="header">
-    <div>
-      <div class="logo">EASY<span>US</span></div>
-      <p style="font-size: 11px; color: #6B7280;">Fortuny Consulting LLC</p>
-    </div>
-    <div>
-      <div class="invoice-title">FACTURA</div>
-      <div class="invoice-number">${invoiceNumber}</div>
-      <div class="invoice-number">${new Date().toLocaleDateString('es-ES')}</div>
-    </div>
-  </div>
-  <div class="details">
-    <div>
-      <div class="section-title">Facturado a</div>
-      <div class="section-content">
-        <strong>${user.firstName} ${user.lastName}</strong><br>
-        ${user.email}<br>
-        ${user.phone || ''}
-      </div>
-    </div>
-    <div>
-      <div class="section-title">Emitido por</div>
-      <div class="section-content">
-        <strong>Fortuny Consulting LLC</strong><br>
-        1209 Mountain Road Pl NE Ste R<br>
-        Albuquerque, NM 87110
-      </div>
-    </div>
-  </div>
-  <div class="items">
-    <div class="items-header">
-      <span>Concepto</span>
-      <span style="text-align:right;">Cantidad</span>
-      <span style="text-align:right;">Importe</span>
-    </div>
-    <div class="items-row">
-      <span>${concept}</span>
-      <span style="text-align:right;">1</span>
-      <span style="text-align:right;">${(amount / 100).toFixed(2)} ${currencySymbol}</span>
-    </div>
-  </div>
-  <div class="total-section">
-    <div class="total-row">Subtotal: ${(amount / 100).toFixed(2)} ${currencySymbol}</div>
-    <div class="total-row">IVA (0%): 0.00 ${currencySymbol}</div>
-    <div class="total-final">Total: ${(amount / 100).toFixed(2)} ${currencySymbol}</div>
-  </div>
-  <div class="footer">
-    <p>Fortuny Consulting LLC - EIN: 99-1877254</p>
-    <p>1209 Mountain Road Pl NE Ste R, Albuquerque, NM 87110, USA</p>
-    <p>hola@easyusllc.com | www.easyusllc.com</p>
-  </div>
-</body>
-</html>`;
 
-    const fileUrl = `data:text/html;base64,${Buffer.from(invoiceHtml).toString('base64')}`;
+    let selectedBankAccounts: import("../lib/pdf-generator").BankAccountInfo[] | undefined;
+    if (paymentAccountIds && paymentAccountIds.length > 0) {
+      const accounts = await db.select().from(paymentAccounts)
+        .where(sql`${paymentAccounts.id} IN (${sql.join(paymentAccountIds.map(id => sql`${id}`), sql`, `)})`);
+      if (accounts.length > 0) {
+        selectedBankAccounts = accounts.map(a => ({
+          label: a.label,
+          holder: a.holder,
+          bankName: a.bankName,
+          accountType: a.accountType,
+          accountNumber: a.accountNumber,
+          routingNumber: a.routingNumber,
+          iban: a.iban,
+          swift: a.swift,
+          address: a.address,
+        }));
+      }
+    }
+
+    const dateStr = invoiceDate || new Date().toISOString().split('T')[0];
+
+    const { generateCustomInvoicePdf } = await import("../lib/pdf-generator");
+    const pdfBuffer = await generateCustomInvoicePdf({
+      invoiceNumber,
+      date: dateStr,
+      customer: {
+        name: `${user.firstName || ''} ${user.lastName || ''}`.trim(),
+        email: user.email || '',
+        phone: user.phone || undefined,
+        idType: user.idType || undefined,
+        idNumber: user.idNumber || undefined,
+        address: user.address || undefined,
+        streetType: user.streetType || undefined,
+        city: user.city || undefined,
+        province: user.province || undefined,
+        postalCode: user.postalCode || undefined,
+        country: user.country || undefined,
+        clientId: user.clientId || undefined,
+      },
+      concept,
+      amount,
+      currency,
+      status: 'pending',
+      bankAccounts: selectedBankAccounts,
+    });
+
+    const fileUrl = `data:application/pdf;base64,${pdfBuffer.toString('base64')}`;
 
     const [invoice] = await db.insert(standaloneInvoices).values({
       invoiceNumber,
@@ -785,7 +781,7 @@ export function registerAdminBillingRoutes(app: Express) {
       description: `Factura ${invoiceNumber}: ${concept}`,
       reference: invoiceNumber,
       userId,
-      transactionDate: new Date(),
+      transactionDate: new Date(dateStr),
       notes: `Cliente: ${user.firstName} ${user.lastName} (${user.email})`,
       createdBy: (req as any).session?.userId || null,
     });
