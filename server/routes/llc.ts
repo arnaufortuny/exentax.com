@@ -6,6 +6,7 @@ import { api } from "@shared/routes";
 import { insertLlcApplicationSchema, insertApplicationDocumentSchema, contactOtps, users as usersTable, orders as ordersTable, llcApplications as llcApplicationsTable, applicationDocuments as applicationDocumentsTable, discountCodes, userNotifications, messages as messagesTable } from "@shared/schema";
 import { sendEmail, getWelcomeEmailTemplate, getConfirmationEmailTemplate, getAdminLLCOrderTemplate } from "../lib/email";
 import { EmailLanguage, getWelcomeEmailSubject } from "../lib/email-translations";
+import { validateEmail } from "../lib/security";
 import { createLogger } from "../lib/logger";
 
 const log = createLogger('llc');
@@ -18,6 +19,10 @@ export function registerLlcRoutes(app: Express) {
       
       if (!applicationId || !email || !password) {
         return res.status(400).json({ message: "Email and password are required." });
+      }
+
+      if (!validateEmail(email)) {
+        return res.status(400).json({ message: "Invalid email format." });
       }
       
       if (password.length < 8) {

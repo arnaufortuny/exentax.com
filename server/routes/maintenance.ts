@@ -4,6 +4,7 @@ import { db, storage, isAuthenticated, isNotUnderReview, logAudit, getClientIp, 
 import { contactOtps, users as usersTable, orders as ordersTable, maintenanceApplications, discountCodes, userNotifications } from "@shared/schema";
 import { sendEmail, getWelcomeEmailTemplate, getConfirmationEmailTemplate, getAdminMaintenanceOrderTemplate, getAccountPendingVerificationTemplate } from "../lib/email";
 import { EmailLanguage, getVerifyEmailSubject, getWelcomeEmailSubject } from "../lib/email-translations";
+import { validateEmail } from "../lib/security";
 import { createLogger } from "../lib/logger";
 
 const log = createLogger('maintenance');
@@ -16,6 +17,10 @@ export function registerMaintenanceRoutes(app: Express) {
       
       if (!applicationId || !email || !password) {
         return res.status(400).json({ message: "Email and password are required." });
+      }
+
+      if (!validateEmail(email)) {
+        return res.status(400).json({ message: "Invalid email format." });
       }
       
       if (password.length < 8) {
@@ -152,6 +157,10 @@ export function registerMaintenanceRoutes(app: Express) {
       } else {
         if (!email || !password) {
           return res.status(400).json({ message: "Email and password are required to place an order." });
+        }
+
+        if (!validateEmail(email)) {
+          return res.status(400).json({ message: "Invalid email format." });
         }
         
         if (password.length < 8) {

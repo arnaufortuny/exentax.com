@@ -5,6 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useTranslation } from "react-i18next";
 import { getWhatsAppUrl } from "@/lib/whatsapp";
+import { validateEmail } from "@/lib/validation";
 import { usePageTitle } from "@/hooks/use-page-title";
 import { PRICING, getFormationPriceFormatted } from "@shared/config/pricing";
 
@@ -380,7 +381,7 @@ export default function LlcFormation() {
   // Send OTP for email verification
   const sendOtp = async () => {
     const email = form.getValues("ownerEmail");
-    if (!email) {
+    if (!validateEmail(email)) {
       setFormMessage({ type: 'error', text: t("application.messages.emailMissing") + ". " + t("application.messages.emailNeeded") });
       return;
     }

@@ -5,6 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useTranslation } from "react-i18next";
 import { PRICING } from "@shared/config/pricing";
+import { validateEmail } from "@/lib/validation";
 
 import { Check, Loader2, Eye, EyeOff, CheckCircle2 } from "@/components/icons";
 import { Navbar } from "@/components/layout/navbar";
@@ -264,7 +265,7 @@ export default function MaintenanceApplication() {
   // Send OTP for email verification
   const sendOtp = async () => {
     const email = form.getValues("ownerEmail");
-    if (!email) {
+    if (!validateEmail(email)) {
       setFormMessage({ type: 'error', text: `${t("toast.emailMissing")}. ${t("toast.emailMissingDesc")}` });
       return;
     }

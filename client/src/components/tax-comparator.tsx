@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { useLocation } from "wouter";
 import { apiRequest } from "@/lib/queryClient";
 import { getLocale } from "@/lib/utils";
+import { validateEmail } from "@/lib/validation";
 import moneyIcon from "@/assets/icons/money-icon.svg";
 import { SpainFlag, UKFlag, GermanyFlag, FranceFlag, BulgariaFlag, USAFlag } from "@/components/ui/flags";
 
@@ -280,11 +281,6 @@ export function TaxComparator() {
       currency: 'EUR',
       maximumFractionDigits: 0
     }).format(amount);
-  };
-  
-  const validateEmail = (email: string) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
   };
   
   const handleCalculate = async () => {

@@ -4,6 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useTranslation } from "react-i18next";
 import { getWhatsAppUrl } from "@/lib/whatsapp";
+import { validateEmail } from "@/lib/validation";
 import { usePageTitle } from "@/hooks/use-page-title";
 
 import { Loader2, Mail } from "@/components/icons";
@@ -156,7 +157,7 @@ export default function Contacto() {
   const sendOtp = async () => {
     setFormMessage(null);
     const email = form.getValues("email");
-    if (!email || !email.includes("@")) {
+    if (!validateEmail(email)) {
       setFormMessage({ type: 'error', text: `${t("toast.invalidEmail")}. ${t("toast.checkEmailFormat")}` });
       return;
     }

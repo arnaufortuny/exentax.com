@@ -7,6 +7,7 @@ import { contactOtps, users as usersTable, orderEvents, userNotifications, order
 import { sendEmail, getWelcomeEmailTemplate } from "../lib/email";
 import { EmailLanguage, getWelcomeEmailSubject } from "../lib/email-translations";
 import { generateOrderInvoice } from "../lib/pdf-generator";
+import { validateEmail } from "../lib/security";
 import { createLogger } from "../lib/logger";
 
 const log = createLogger('orders');
@@ -104,6 +105,10 @@ export function registerOrderRoutes(app: Express) {
         // Require email, password and OTP verification for new users
         if (!email || !password) {
           return res.status(400).json({ message: "Email and password are required to place an order." });
+        }
+
+        if (!validateEmail(email)) {
+          return res.status(400).json({ message: "Invalid email format." });
         }
         
         if (password.length < 8) {

@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useTranslation } from "react-i18next";
 import { getCsrfToken } from "@/lib/queryClient";
+import { validateEmail } from "@/lib/validation";
 
 import { useAuth } from "@/hooks/use-auth";
 
@@ -28,7 +29,10 @@ export function NewsletterSection() {
 
   const handleSubscribe = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!email) return;
+    if (!validateEmail(email)) {
+      setFormMessage({ type: 'error', text: t("validation.invalidEmail") });
+      return;
+    }
 
     setFormMessage(null);
     setLoading(true);
