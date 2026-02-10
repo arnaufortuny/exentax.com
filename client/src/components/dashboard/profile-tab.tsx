@@ -228,8 +228,8 @@ export function ProfileTab({
         </div>
         <p className="text-xs text-muted-foreground mb-4">{t('profile.infoDescription')}</p>
         {!canEdit && (
-          <div className={`mb-4 p-3 rounded-lg ${user?.accountStatus === 'pending' ? 'bg-orange-50 dark:bg-orange-900/20 border border-orange-200 dark:border-orange-800' : 'bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800'}`}>
-            <p className={`text-sm ${user?.accountStatus === 'pending' ? 'text-orange-700 dark:text-orange-400' : 'text-red-700 dark:text-red-400'}`}>
+          <div className={`mb-4 p-3 rounded-lg ${user?.accountStatus === 'pending' ? 'bg-accent/5 dark:bg-accent/10 border border-accent/30 dark:border-accent/30' : 'bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800'}`}>
+            <p className={`text-sm ${user?.accountStatus === 'pending' ? 'text-accent dark:text-accent' : 'text-red-700 dark:text-red-400'}`}>
               {user?.accountStatus === 'pending' 
                 ? t('dashboard.accountStatus.pendingReview.message')
                 : t('dashboard.accountStatus.deactivated.message')}
@@ -293,7 +293,7 @@ export function ProfileTab({
                 )}
               </div>
               {!user?.emailVerified && (
-                <p className="text-[10px] text-orange-600 dark:text-orange-400">{t('dashboard.accountStatus.pendingReview.description')}</p>
+                <p className="text-[10px] text-accent dark:text-accent">{t('dashboard.accountStatus.pendingReview.description')}</p>
               )}
               <p className="text-[10px] text-muted-foreground mt-1">{t('profile.changeEmailContact')}</p>
             </div>

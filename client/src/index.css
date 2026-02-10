@@ -213,7 +213,7 @@ html.dark body {
     line-height: 0.95;
     font-size: clamp(2.8rem, 6vw, 5.5rem);
   }
-  .bg-brand-green {
+  .bg-brand-accent {
     background-color: hsl(var(--accent));
   }
   .bg-brand-gray {
@@ -228,7 +228,7 @@ html.dark body {
   .text-brand-gray {
     color: #6B7280;
   }
-  .border-brand-green {
+  .border-brand-accent {
     border-color: hsl(var(--accent));
   }
   

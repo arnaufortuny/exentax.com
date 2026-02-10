@@ -139,12 +139,12 @@ export function StateComparison() {
                   </ul>
                 </div>
 
-                <div className="border border-orange-200 dark:border-orange-800/30 rounded-2xl p-5 text-left" data-testid={`card-considerations-${active.key}`}>
+                <div className="border border-accent/30 dark:border-accent/20 rounded-2xl p-5 text-left" data-testid={`card-considerations-${active.key}`}>
                   <h4 className="font-black text-base text-foreground tracking-tight mb-3">{t("stateComparison.cons")}</h4>
                   <ul className="space-y-2.5">
                     {cons.map((con, idx) => (
                       <li key={idx} className="flex items-start gap-2.5 text-base text-foreground" data-testid={`text-consideration-${active.key}-${idx}`}>
-                        <AlertCircle className="w-4 h-4 text-orange-500 dark:text-orange-400 flex-shrink-0 mt-1" />
+                        <AlertCircle className="w-4 h-4 text-accent dark:text-accent flex-shrink-0 mt-1" />
                         <span className="leading-snug">{con}</span>
                       </li>
                     ))}

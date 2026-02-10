@@ -88,7 +88,7 @@ const ACTION_COLORS: Record<string, string> = {
   document_upload: "bg-teal-100 text-teal-800 dark:bg-teal-900/40 dark:text-teal-300",
   document_request: "bg-teal-100 text-teal-800 dark:bg-teal-900/40 dark:text-teal-300",
   identity_doc_uploaded: "bg-cyan-100 text-cyan-800 dark:bg-cyan-900/40 dark:text-cyan-300",
-  identity_verification_requested: "bg-orange-100 text-orange-800 dark:bg-orange-900/40 dark:text-orange-300",
+  identity_verification_requested: "bg-accent/10 text-accent dark:bg-accent/20 dark:text-accent",
   identity_verification_approved: "bg-accent/10 text-accent dark:bg-accent/20 dark:text-accent",
   identity_verification_rejected: "bg-red-100 text-red-800 dark:bg-red-900/40 dark:text-red-300",
   account_locked: "bg-red-100 text-red-800 dark:bg-red-900/40 dark:text-red-300",
