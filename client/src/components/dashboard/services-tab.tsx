@@ -12,6 +12,7 @@ interface ServicesTabProps {
   orders: any[] | undefined;
   draftOrders: any[];
   activeOrders: any[];
+  userName?: string;
 }
 
 function getAgentStatusBadge(status: string | null | undefined, t: any) {
@@ -40,7 +41,7 @@ function getBoiStatusBadge(status: string | null | undefined, t: any) {
   }
 }
 
-export function ServicesTab({ orders, draftOrders, activeOrders }: ServicesTabProps) {
+export function ServicesTab({ orders, draftOrders, activeOrders, userName }: ServicesTabProps) {
   const { t } = useTranslation();
   
   const completedOrders = orders?.filter(o => o.status === 'completed' && o.application) || [];
@@ -50,6 +51,11 @@ export function ServicesTab({ orders, draftOrders, activeOrders }: ServicesTabPr
 
   return (
     <div key="services" className="space-y-6">
+      {userName && (
+        <h1 className="text-xl sm:text-2xl md:text-3xl font-black text-foreground tracking-tight" data-testid="text-welcome-greeting">
+          {t('dashboard.welcome', { name: userName })}
+        </h1>
+      )}
       <div className="mb-4 md:mb-6">
         <h2 className="text-base sm:text-xl md:text-2xl font-black text-foreground tracking-tight">{t('dashboard.services.title')}</h2>
         <p className="text-base text-muted-foreground mt-1">{t('dashboard.services.subtitle')}</p>

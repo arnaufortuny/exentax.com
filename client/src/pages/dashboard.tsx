@@ -1241,13 +1241,6 @@ export default function Dashboard() {
         </div>
 
         <header className="mb-2 md:mb-4 animate-fade-in-up">
-          {!user?.isAdmin && user && (
-            <div className="mb-3">
-              <h1 className="text-lg md:text-2xl font-black text-foreground tracking-tight" data-testid="text-welcome-greeting">
-                {t('dashboard.welcome', { name: user.firstName || user.fullName?.split(' ')[0] || '' })}
-              </h1>
-            </div>
-          )}
           {!user?.emailVerified && (
             <Card className="mt-4 p-4 rounded-2xl border-2 border-accent/30 bg-accent/5 dark:bg-accent/10 dark:border-accent/30">
               <div className="flex items-center gap-3">
@@ -1291,7 +1284,8 @@ export default function Dashboard() {
                 <ServicesTab 
                   orders={orders} 
                   draftOrders={draftOrders} 
-                  activeOrders={activeOrders} 
+                  activeOrders={activeOrders}
+                  userName={user?.firstName || ''}
                 />
                 {showTrustpilotCard && (
                   <Card className="rounded-2xl border border-accent/20 shadow-sm p-5 pr-10 bg-white dark:bg-card mt-4 relative" data-testid="card-trustpilot-review">
