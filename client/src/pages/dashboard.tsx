@@ -278,7 +278,7 @@ function translateI18nText(text: string, t: (key: string, params?: Record<string
 export default function Dashboard() {
   const [, setLocation] = useLocation();
   const searchString = useSearch();
-  const { user, isAuthenticated, isLoading: authLoading } = useAuth();
+  const { user, isAuthenticated, isLoading: authLoading, error: authError, refetch: refetchAuth } = useAuth();
   const { t, i18n } = useTranslation();
   usePageTitle();
   const tabFromUrl = new URLSearchParams(searchString).get('tab') as Tab | null;
@@ -1279,7 +1279,50 @@ export default function Dashboard() {
     });
   }, [adminDocuments, adminSearchQuery, adminSearchFilter]);
 
-  if (authLoading || !isAuthenticated) {
+  if (authLoading) {
+    return <LoadingScreen />;
+  }
+
+  if (authError && !user) {
+    return (
+      <div className="min-h-screen bg-background font-sans flex flex-col">
+        <Navbar />
+        <main className="flex-1 flex items-center justify-center px-4 sm:px-6">
+          <div className="w-full max-w-md text-center">
+            <div className="mb-6">
+              <AlertCircle className="w-16 h-16 text-red-500 mx-auto mb-4" />
+              <h1 className="text-xl font-bold text-foreground" data-testid="text-dashboard-error">
+                {t("errors.connectionError", "Connection error")}
+              </h1>
+              <p className="text-muted-foreground mt-2 text-sm">
+                {t("errors.network", "Could not load your session.")}
+              </p>
+            </div>
+            <div className="flex flex-col gap-3 items-center">
+              <Button
+                onClick={() => refetchAuth()}
+                className="w-full sm:w-auto px-8 font-bold rounded-full"
+                data-testid="button-retry-dashboard"
+              >
+                {t("common.retry", "Retry")}
+              </Button>
+              <Button
+                variant="ghost"
+                onClick={() => setLocation("/auth/login")}
+                className="w-full sm:w-auto px-8 font-bold rounded-full"
+                data-testid="button-back-login"
+              >
+                {t("auth.login.title", "Log in")}
+              </Button>
+            </div>
+          </div>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
+
+  if (!isAuthenticated) {
     return <LoadingScreen />;
   }
 

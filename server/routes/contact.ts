@@ -13,18 +13,34 @@ import { EmailLanguage, getOtpSubject } from "../lib/email-translations";
 export function registerContactRoutes(app: Express) {
   // Newsletter
   app.get("/api/newsletter/status", isAuthenticated, async (req: any, res) => {
-    const isSubscribed = await storage.isSubscribedToNewsletter(req.session.email);
-    res.json({ isSubscribed });
+    try {
+      const isSubscribed = await storage.isSubscribedToNewsletter(req.session.email);
+      res.json({ isSubscribed });
+    } catch (err) {
+      console.error("Error fetching newsletter status:", err);
+      res.status(500).json({ message: "Error fetching newsletter status" });
+    }
   });
 
   app.post("/api/newsletter/unsubscribe", isAuthenticated, async (req: any, res) => {
-    await db.delete(newsletterSubscribers).where(eq(newsletterSubscribers.email, req.session.email));
-    res.json({ success: true });
+    try {
+      await db.delete(newsletterSubscribers).where(eq(newsletterSubscribers.email, req.session.email));
+      res.json({ success: true });
+    } catch (err) {
+      console.error("Error unsubscribing from newsletter:", err);
+      res.status(500).json({ message: "Error unsubscribing" });
+    }
   });
 
   // Newsletter Subscription
   app.post("/api/newsletter/subscribe", async (req: any, res) => {
     try {
+      const ip = getClientIp(req);
+      const rateCheck = checkRateLimit('contact', ip);
+      if (!rateCheck.allowed) {
+        return res.status(429).json({ message: "Too many requests. Please try again later." });
+      }
+
       const { email } = z.object({ email: z.string().email().optional() }).parse(req.body);
       
       // If no email provided, try to use authenticated user's email

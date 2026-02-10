@@ -19,7 +19,12 @@ export function registerAdminRoleRoutes(app: Express) {
   });
 
   app.get("/api/admin/roles/permissions", isAdmin, async (req, res) => {
-    res.json(STAFF_PERMISSIONS);
+    try {
+      res.json(STAFF_PERMISSIONS);
+    } catch (err) {
+      console.error("Error fetching permissions:", err);
+      res.status(500).json({ message: "Error fetching permissions" });
+    }
   });
 
   app.post("/api/admin/roles", isAdmin, async (req, res) => {

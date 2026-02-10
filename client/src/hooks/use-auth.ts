@@ -31,10 +31,11 @@ export function useAuth() {
   const queryClient = useQueryClient();
   const languageSynced = useRef(false);
 
-  const { data: user, isLoading, refetch } = useQuery<User | null>({
+  const { data: user, isLoading, error, refetch } = useQuery<User | null>({
     queryKey: ["/api/auth/user"],
     queryFn: fetchUser,
-    retry: false,
+    retry: 1,
+    retryDelay: 1000,
     staleTime: 1000 * 15,
     refetchInterval: 1000 * 30,
     refetchOnWindowFocus: true,
@@ -61,6 +62,7 @@ export function useAuth() {
   return {
     user,
     isLoading,
+    error,
     isAuthenticated: !!user,
     logout: logoutMutation.mutate,
     isLoggingOut: logoutMutation.isPending,

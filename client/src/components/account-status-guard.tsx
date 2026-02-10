@@ -15,7 +15,8 @@ interface AccountStatusGuardProps {
 }
 
 export function AccountStatusGuard({ children, allowPending = false }: AccountStatusGuardProps) {
-  const { user, isLoading: authLoading, isAuthenticated } = useAuth();
+  const { user, isLoading: authLoading, error, isAuthenticated, refetch } = useAuth();
+  const { t } = useTranslation();
   const [, setLocation] = useLocation();
 
   useEffect(() => {
@@ -26,6 +27,49 @@ export function AccountStatusGuard({ children, allowPending = false }: AccountSt
 
   if (authLoading) {
     return <LoadingScreen />;
+  }
+
+  if (error && !user) {
+    return (
+      <div className="min-h-screen bg-background font-sans flex flex-col">
+        <Navbar />
+        <main className="flex-1 flex items-center justify-center px-4 sm:px-6">
+          <div className="w-full max-w-md text-center">
+            <div className="mb-6">
+              <svg width="64" height="64" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" className="mx-auto mb-4">
+                <circle cx="60" cy="60" r="50" fill="#FEE2E2" stroke="#DC2626" strokeWidth="4"/>
+                <path d="M60 35V65" stroke="#DC2626" strokeWidth="6" strokeLinecap="round"/>
+                <circle cx="60" cy="80" r="5" fill="#DC2626"/>
+              </svg>
+              <h1 className="text-xl font-bold text-foreground" data-testid="text-connection-error">
+                {t("errors.connectionError", "Connection error")}
+              </h1>
+              <p className="text-muted-foreground mt-2 text-sm">
+                {t("errors.network", "Could not load your session. Please try again.")}
+              </p>
+            </div>
+            <div className="flex flex-col gap-3 items-center">
+              <Button
+                onClick={() => refetch()}
+                className="w-full sm:w-auto px-8 font-bold rounded-full"
+                data-testid="button-retry-auth"
+              >
+                {t("common.retry", "Retry")}
+              </Button>
+              <Button
+                variant="ghost"
+                onClick={() => window.location.href = "/"}
+                className="w-full sm:w-auto px-8 font-bold rounded-full"
+                data-testid="button-go-home"
+              >
+                {t("common.back", "Go back")}
+              </Button>
+            </div>
+          </div>
+        </main>
+        <Footer />
+      </div>
+    );
   }
 
   if (!isAuthenticated || !user) {

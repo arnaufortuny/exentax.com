@@ -561,12 +561,17 @@ export function registerAdminDocumentsRoutes(app: Express) {
 
   // Admin invoice preview
   app.get("/api/admin/invoice/:id", isAdmin, async (req, res) => {
-    const orderId = Number(req.params.id);
-    const order = await storage.getOrder(orderId);
-    if (!order) return res.status(404).json({ message: "Order not found" });
-    
-    res.setHeader('Content-Type', 'text/html');
-    res.send(generateInvoiceHtml(order));
+    try {
+      const orderId = Number(req.params.id);
+      const order = await storage.getOrder(orderId);
+      if (!order) return res.status(404).json({ message: "Order not found" });
+      
+      res.setHeader('Content-Type', 'text/html');
+      res.send(generateInvoiceHtml(order));
+    } catch (err) {
+      console.error("Error fetching admin invoice:", err);
+      res.status(500).json({ message: "Error fetching invoice" });
+    }
   });
 
   // Add order event (admin only)

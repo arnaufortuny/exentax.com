@@ -3,6 +3,7 @@ import type { Request, Response } from "express";
 import { z } from "zod";
 import { desc, eq, sql } from "drizzle-orm";
 import { db, storage, isAdmin, isAdminOrSupport, getClientIp, asyncHandler } from "./shared";
+import { checkRateLimit } from "../lib/security";
 import { createLogger } from "../lib/logger";
 
 const log = createLogger('admin-comms');
@@ -34,6 +35,12 @@ export function registerAdminCommsRoutes(app: Express) {
   // Calculator consultations - Save consultation + guest record
   app.post("/api/calculator/consultation", async (req, res) => {
     try {
+      const ip = getClientIp(req);
+      const rateCheck = checkRateLimit('consultation', ip);
+      if (!rateCheck.allowed) {
+        return res.status(429).json({ message: "Too many requests. Please try again later." });
+      }
+
       const { email, income, country, activity, savings } = z.object({
         email: z.string().email(),
         income: z.number().min(1),
@@ -94,6 +101,12 @@ export function registerAdminCommsRoutes(app: Express) {
 
   app.post("/api/guest/track", async (req, res) => {
     try {
+      const ip = getClientIp(req);
+      const rateCheck = checkRateLimit('general', ip);
+      if (!rateCheck.allowed) {
+        return res.status(429).json({ message: "Too many requests" });
+      }
+
       const data = z.object({
         email: z.string().email().optional(),
         source: z.string().min(1),

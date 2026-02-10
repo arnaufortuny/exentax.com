@@ -3,7 +3,8 @@ import type { Request, Response } from "express";
 import { z } from "zod";
 import { and, or, eq, desc, sql } from "drizzle-orm";
 import { alias } from "drizzle-orm/pg-core";
-import { asyncHandler, db, storage, isAdmin, logAudit, getCachedData, setCachedData } from "./shared";
+import { asyncHandler, db, storage, isAdmin, logAudit, getCachedData, setCachedData, getClientIp } from "./shared";
+import { checkRateLimit } from "../lib/security";
 import { createLogger } from "../lib/logger";
 
 const log = createLogger('admin-billing');
@@ -548,6 +549,12 @@ export function registerAdminBillingRoutes(app: Express) {
   // Validate discount code (public - for checkout)
   app.post("/api/discount-codes/validate", async (req, res) => {
     try {
+      const ip = getClientIp(req);
+      const rateCheck = checkRateLimit('general', ip);
+      if (!rateCheck.allowed) {
+        return res.status(429).json({ valid: false, message: "Too many requests" });
+      }
+
       const { code, orderAmount } = req.body;
       
       if (!code) {
