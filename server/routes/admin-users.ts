@@ -2,7 +2,7 @@ import type { Express } from "express";
 import type { Request, Response } from "express";
 import { z } from "zod";
 import { eq, desc, inArray, and, sql } from "drizzle-orm";
-import { asyncHandler, db, isAdmin, isAdminOrSupport, logAudit, logActivity } from "./shared";
+import { asyncHandler, db, isAdmin, isAdminOrSupport, logAudit, logActivity, getClientIp } from "./shared";
 import { createLogger } from "../lib/logger";
 
 const log = createLogger('admin-users');
@@ -473,6 +473,8 @@ export function registerAdminUserRoutes(app: Express) {
       "Notes": notes || "No notes"
     });
     
+    logAudit({ action: 'identity_verification_requested', userId: (req as any).session?.userId, targetId: userId, ip: getClientIp(req), details: { email: user.email, notes } });
+    
     res.json({ success: true, message: "Identity verification requested" });
   }));
 
@@ -514,6 +516,8 @@ export function registerAdminUserRoutes(app: Express) {
       "Target User": userId,
       "Email": user.email
     });
+    
+    logAudit({ action: 'identity_verification_approved', userId: (req as any).session?.userId, targetId: userId, ip: getClientIp(req), details: { email: user.email } });
     
     res.json({ success: true, message: "Identity verification approved" });
   }));
@@ -560,6 +564,8 @@ export function registerAdminUserRoutes(app: Express) {
       "Email": user.email,
       "Reason": reason || "No reason provided"
     });
+    
+    logAudit({ action: 'identity_verification_rejected', userId: (req as any).session?.userId, targetId: userId, ip: getClientIp(req), details: { email: user.email, reason } });
     
     res.json({ success: true, message: "Identity verification rejected" });
   }));

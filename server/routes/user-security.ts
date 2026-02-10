@@ -1,7 +1,7 @@
 import type { Express } from "express";
 import { z } from "zod";
 import { and, eq, gt } from "drizzle-orm";
-import { db, isAuthenticated, isNotUnderReview, getClientIp } from "./shared";
+import { db, isAuthenticated, isNotUnderReview, getClientIp, logAudit } from "./shared";
 import { contactOtps, users as usersTable } from "@shared/schema";
 import { sendEmail, getOtpEmailTemplate, getWelcomeEmailTemplate, getPasswordChangeOtpTemplate } from "../lib/email";
 import { EmailLanguage, getOtpSubject } from "../lib/email-translations";
@@ -65,6 +65,8 @@ export function registerUserSecurityRoutes(app: Express) {
         html: getWelcomeEmailTemplate(user.firstName || undefined, activeLang)
       }).catch((err: any) => log.error('Failed to send welcome email', err));
       
+      logAudit({ action: 'email_verified', userId, ip: getClientIp(req), details: { email: user.email } });
+      
       res.json({ success: true, message: "Email verified successfully. Your account is active." });
     } catch (error) {
       log.error("Verify email error", error);
@@ -111,6 +113,8 @@ export function registerUserSecurityRoutes(app: Express) {
         html: getOtpEmailTemplate(otp, user.firstName || undefined, vpLang)
       }).catch((err: any) => log.error('Failed to send verification OTP email', err));
       
+      logAudit({ action: 'send_verification_otp', userId, ip, details: { email: userEmail, type: 'account_verification' } });
+      
       res.json({ success: true, message: "OTP code sent to your email" });
     } catch (error) {
       log.error("Send verification OTP error", error);
@@ -144,6 +148,8 @@ export function registerUserSecurityRoutes(app: Express) {
         subject: getOtpSubject(pwLang),
         html: getPasswordChangeOtpTemplate(user.firstName || '', otp, pwLang)
       });
+      
+      logAudit({ action: 'otp_sent', userId: req.session.userId, ip: getClientIp(req), details: { email: user.email, type: 'password_change' } });
       
       res.json({ success: true });
     } catch (error) {
@@ -191,6 +197,8 @@ export function registerUserSecurityRoutes(app: Express) {
       
       const newHash = await hashPassword(newPassword);
       await db.update(usersTable).set({ passwordHash: newHash, updatedAt: new Date() }).where(eq(usersTable.id, req.session.userId));
+      
+      logAudit({ action: 'password_change', userId: req.session.userId, ip: getClientIp(req), details: { email: user.email } });
       
       res.json({ success: true });
     } catch (error) {

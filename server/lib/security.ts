@@ -118,7 +118,14 @@ export type AuditAction =
   | 'accounting_transaction_deleted'
   | 'admin_documents_download'
   | 'account_review'
-  | 'order_updated';
+  | 'order_updated'
+  | 'email_verified'
+  | 'otp_sent'
+  | 'identity_doc_uploaded'
+  | 'identity_verification_approved'
+  | 'identity_verification_rejected'
+  | 'identity_verification_requested'
+  | 'send_verification_otp';
 
 interface AuditLogEntry {
   action: AuditAction;

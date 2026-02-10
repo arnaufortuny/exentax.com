@@ -1,6 +1,6 @@
 import type { Express } from "express";
 import { and, eq, desc, inArray } from "drizzle-orm";
-import { db, isAuthenticated, isNotUnderReview, logActivity } from "./shared";
+import { db, isAuthenticated, isNotUnderReview, logActivity, logAudit, getClientIp } from "./shared";
 import { users as usersTable, orders as ordersTable, llcApplications as llcApplicationsTable, applicationDocuments as applicationDocumentsTable } from "@shared/schema";
 import { createLogger } from "../lib/logger";
 
@@ -339,6 +339,8 @@ export function registerUserDocumentRoutes(app: Express) {
             "File": originalName,
             "Hash": fileHash
           });
+          
+          logAudit({ action: 'identity_doc_uploaded', userId, ip: getClientIp(req), details: { email: user.email, fileName: originalName, fileHash } });
           
           res.json({ success: true, message: "Document uploaded successfully" });
         } catch (err) {

@@ -1280,8 +1280,8 @@ export default function Dashboard() {
                 {formMessage.text}
               </div>
             )}
-            <div className="flex flex-col xl:grid xl:grid-cols-3 gap-6 lg:gap-8">
-              <div className="xl:col-span-2 space-y-6 order-2 xl:order-1">
+            <div className={`flex flex-col ${isAdmin ? '' : 'xl:grid xl:grid-cols-3'} gap-6 lg:gap-8`}>
+              <div className={`${isAdmin ? '' : 'xl:col-span-2'} space-y-6 ${isAdmin ? '' : 'order-2 xl:order-1'}`}>
             
               {activeTab === 'services' && (
                 <>
