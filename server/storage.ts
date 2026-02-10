@@ -302,6 +302,57 @@ export class DatabaseStorage implements IStorage {
   async deletePaymentAccount(id: number): Promise<void> {
     await db.delete(paymentAccounts).where(eq(paymentAccounts.id, id));
   }
+
+  async seedDefaultPaymentAccounts(): Promise<void> {
+    const existing = await db.select({ id: paymentAccounts.id }).from(paymentAccounts).limit(1);
+    if (existing.length > 0) return;
+
+    const defaults: InsertPaymentAccount[] = [
+      {
+        label: "Mercury Business Checking (USD)",
+        holder: "Fortuny Consulting LLC",
+        bankName: "Mercury",
+        accountType: "checking",
+        accountNumber: "2302 0484 4756",
+        routingNumber: "084106768",
+        iban: null,
+        swift: "MCRYUS33",
+        address: "Fortuny Consulting LLC, 4801 Lang Ave NE Ste 110, Albuquerque, NM 87109",
+        isActive: true,
+        sortOrder: 0,
+      },
+      {
+        label: "Wise Business (EUR)",
+        holder: "Fortuny Consulting LLC",
+        bankName: "Wise (TransferWise)",
+        accountType: "iban",
+        accountNumber: null,
+        routingNumber: null,
+        iban: "BE13 9052 3",
+        swift: "TRWIBEB1XXX",
+        address: "Fortuny Consulting LLC, Avenue Louise 54, Room S52, 1050 Brussels, Belgium",
+        isActive: true,
+        sortOrder: 1,
+      },
+      {
+        label: "Wise Business (USD)",
+        holder: "Fortuny Consulting LLC",
+        bankName: "Wise (TransferWise)",
+        accountType: "checking",
+        accountNumber: "9600 0105 2809 72",
+        routingNumber: "026073150",
+        iban: null,
+        swift: "CMFGUS33",
+        address: "Fortuny Consulting LLC, 30 W. 26th Street, Sixth Floor, New York, NY 10010",
+        isActive: true,
+        sortOrder: 2,
+      },
+    ];
+
+    for (const account of defaults) {
+      await db.insert(paymentAccounts).values(account);
+    }
+  }
 }
 
 export const storage = new DatabaseStorage();

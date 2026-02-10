@@ -145,6 +145,14 @@ app.use((req, res, next) => {
 });
 
 (async () => {
+  const { storage } = await import("./storage");
+  try {
+    await storage.seedDefaultPaymentAccounts();
+    serverLog.info("Payment accounts seed check completed");
+  } catch (e) {
+    serverLog.error("Payment accounts seed error", e);
+  }
+
   await registerRoutes(httpServer, app);
   
   setupSitemapRoute(app);
