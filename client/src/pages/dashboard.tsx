@@ -1235,19 +1235,6 @@ export default function Dashboard() {
         </div>
 
         <header className="mb-2 md:mb-4 animate-fade-in-up">
-          {activeTab === 'services' && (
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 md:gap-6">
-            <div>
-              <h1 className="text-lg sm:text-2xl md:text-4xl font-black text-foreground tracking-tight leading-tight">
-                {t('dashboard.welcome', { name: (user?.firstName || t('dashboard.defaultName')).charAt(0).toUpperCase() + (user?.firstName || t('dashboard.defaultName')).slice(1).toLowerCase() })}
-              </h1>
-              <p className="text-muted-foreground text-base md:text-lg mt-1 md:mt-2">
-                {t('dashboard.subtitle')}
-              </p>
-            </div>
-          </div>
-          )}
-
           {!user?.emailVerified && (
             <Card className="mt-4 p-4 rounded-2xl border-2 border-accent/30 bg-accent/5 dark:bg-accent/10 dark:border-accent/30">
               <div className="flex items-center gap-3">
