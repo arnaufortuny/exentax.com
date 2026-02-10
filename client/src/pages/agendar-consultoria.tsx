@@ -350,7 +350,7 @@ export default function AsesoriaGratis() {
   return (
     <div className="min-h-screen flex flex-col bg-background">
       <Navbar />
-      <main className="flex-1 px-4 pt-10 pb-8 md:pt-16 md:pb-8">
+      <main className="flex-1 px-4 pt-14 pb-8 sm:pt-20 md:pb-8">
         <div className="max-w-2xl mx-auto">
           <div className="text-center mb-8 md:mb-10 flex flex-col items-center justify-center">
             <h1 className="text-3xl md:text-5xl font-black tracking-tight mb-4" style={{ fontFamily: 'var(--font-display)' }} data-testid="text-page-title">
