@@ -33,8 +33,6 @@ export default function Login() {
   const [formMessage, setFormMessage] = useState<{ type: 'error' | 'success' | 'info', text: string } | null>(null);
   const [requiresSecurityOtp, setRequiresSecurityOtp] = useState(false);
   const [securityOtp, setSecurityOtp] = useState("");
-  const [isAccountDeactivated, setIsAccountDeactivated] = useState(false);
-
   const loginSchema = useMemo(() => createLoginSchema(t), [t]);
 
   const form = useForm<LoginFormValues>({
@@ -70,10 +68,6 @@ export default function Login() {
       const result = await res.json();
       
       if (!res.ok) {
-        if (res.status === 403) {
-          setIsAccountDeactivated(true);
-          return;
-        }
         if (res.status === 401 && result.hint === "no_account") {
           setFormMessage({ type: 'info', text: t("auth.login.noAccountFound") + '. ' + t("auth.login.redirectToRegister") });
           setTimeout(() => {
@@ -105,32 +99,6 @@ export default function Login() {
       setIsLoading(false);
     }
   };
-
-  if (isAccountDeactivated) {
-    return (
-      <div className="min-h-screen bg-background font-sans">
-        <Navbar />
-        <main className="pt-6 md:pt-10 pb-12 md:pb-16 px-4 sm:px-6 flex flex-col items-center justify-center min-h-[80vh]">
-          <div className="w-full max-w-md text-center">
-            <div className="mb-8">
-              <svg width="80" height="80" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" className="mx-auto mb-6">
-                <circle cx="60" cy="60" r="50" fill="#FEE2E2" stroke="#EF4444" strokeWidth="4"/>
-                <path d="M60 35V65" stroke="#EF4444" strokeWidth="6" strokeLinecap="round"/>
-                <circle cx="60" cy="80" r="5" fill="#EF4444"/>
-              </svg>
-              <h1 className="text-2xl sm:text-3xl font-black text-foreground tracking-tight">
-                {t("auth.accountDeactivated.title")}
-              </h1>
-              <p className="text-muted-foreground mt-4 text-sm sm:text-base">
-                {t("auth.accountDeactivated.description")}
-              </p>
-            </div>
-          </div>
-        </main>
-        <Footer />
-      </div>
-    );
-  }
 
   const infoFeatureKeys = [
     { titleKey: "auth.login.infoCard.feature1.title", descKey: "auth.login.infoCard.feature1.desc" },

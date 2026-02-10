@@ -186,19 +186,7 @@ export function setupCustomAuth(app: Express) {
           });
         }
 
-        if (user.accountStatus === 'deactivated') {
-          const deactMsgs: Record<string, string> = {
-            es: "Tu cuenta ha sido desactivada. Contacta con nuestro equipo de soporte para más información.",
-            en: "Your account has been deactivated. Contact our support team for more information.",
-            ca: "El teu compte ha estat desactivat. Contacta amb el nostre equip de suport.",
-            fr: "Votre compte a été désactivé. Contactez notre équipe d'assistance.",
-            de: "Ihr Konto wurde deaktiviert. Kontaktieren Sie unser Support-Team.",
-            it: "Il tuo account è stato disattivato. Contatta il nostro team di supporto.",
-            pt: "Sua conta foi desativada. Entre em contato com nossa equipe de suporte.",
-          };
-          const userLang = (user.preferredLanguage || 'es') as string;
-          return res.status(403).json({ message: deactMsgs[userLang] || deactMsgs.es, code: "ACCOUNT_DEACTIVATED" });
-        }
+        
 
         // Check if user has organization docs (skip security OTP if they do)
         const { applicationDocuments: appDocsTable, orders: ordersTable } = await import("@shared/schema");

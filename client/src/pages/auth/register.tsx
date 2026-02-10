@@ -66,7 +66,6 @@ export default function Register() {
   const verifyTopRef = useRef<HTMLDivElement>(null);
   const [acceptedAge, setAcceptedAge] = useState(false);
   const [selectedLanguage, setSelectedLanguage] = useState(i18n.language?.split('-')[0] || 'es');
-  const [isAccountDeactivated, setIsAccountDeactivated] = useState(false);
   const [isCheckingEmail, setIsCheckingEmail] = useState(false);
   const [formMessage, setFormMessage] = useState<{ type: 'error' | 'success' | 'info', text: string } | null>(null);
 
@@ -157,22 +156,10 @@ export default function Register() {
           const res = await apiRequest("POST", "/api/auth/check-email", { email: form.getValues("email") });
           const result = await res.json();
           if (result.exists) {
-            if (result.deactivated) {
-              setIsAccountDeactivated(true);
-              return;
-            }
-            setLocation(`/login?email=${encodeURIComponent(form.getValues("email"))}`);
+            setLocation(`/auth/login?email=${encodeURIComponent(form.getValues("email"))}`);
             return;
           }
         } catch (err: any) {
-          try {
-            const errorData = err.message ? JSON.parse(err.message) : {};
-            if (errorData.code === "ACCOUNT_DEACTIVATED") {
-              setIsAccountDeactivated(true);
-              return;
-            }
-          } catch {
-          }
         } finally {
           setIsCheckingEmail(false);
         }
@@ -269,32 +256,6 @@ export default function Register() {
       }, 100);
     }
   }, [isRegistered]);
-
-  if (isAccountDeactivated) {
-    return (
-      <div className="min-h-screen bg-background font-sans">
-        <Navbar />
-        <main className="pt-6 md:pt-10 pb-12 md:pb-16 px-4 sm:px-6 flex flex-col items-center justify-center min-h-[80vh]">
-          <div className="w-full max-w-md text-center">
-            <div className="mb-8">
-              <svg width="80" height="80" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" className="mx-auto mb-6">
-                <circle cx="60" cy="60" r="50" fill="#FEE2E2" stroke="#EF4444" strokeWidth="4"/>
-                <path d="M60 35V65" stroke="#EF4444" strokeWidth="6" strokeLinecap="round"/>
-                <circle cx="60" cy="80" r="5" fill="#EF4444"/>
-              </svg>
-              <h1 className="text-2xl sm:text-3xl font-black text-foreground tracking-tight">
-                {t("auth.accountDeactivated.title")}
-              </h1>
-              <p className="text-muted-foreground mt-4 text-sm sm:text-base">
-                {t("auth.accountDeactivated.description")}
-              </p>
-            </div>
-          </div>
-        </main>
-        <Footer />
-      </div>
-    );
-  }
 
   if (isRegistered) {
     return (

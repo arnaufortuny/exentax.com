@@ -9,7 +9,8 @@ import { useAuth } from "@/hooks/use-auth";
 import { apiRequest } from "@/lib/queryClient";
 import { useQuery } from "@tanstack/react-query";
 
-import { Loader2, Calendar, Clock, User, Mail, Briefcase, CheckCircle2, ChevronLeft, ChevronRight, Globe, FileText } from "@/components/icons";
+import { Loader2, Calendar, Clock, User, Mail, Briefcase, ChevronLeft, ChevronRight, Globe, FileText } from "@/components/icons";
+import { SuccessCheckmark } from "@/components/ui/success-checkmark";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { Button } from "@/components/ui/button";
@@ -311,9 +312,7 @@ export default function AsesoriaGratis() {
           >
             <Card className="max-w-lg w-full">
               <CardContent className="p-8 text-center space-y-6">
-                <div className="mx-auto w-16 h-16 rounded-full bg-accent/10 flex items-center justify-center">
-                  <CheckCircle2 className="w-8 h-8 text-accent" />
-                </div>
+                <SuccessCheckmark size={100} />
                 <h2 className="text-2xl font-bold" data-testid="text-booking-confirmed">
                   {t("freeConsultation.success.title")}
                 </h2>

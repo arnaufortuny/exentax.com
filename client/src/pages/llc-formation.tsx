@@ -9,7 +9,8 @@ import { validateEmail } from "@/lib/validation";
 import { usePageTitle } from "@/hooks/use-page-title";
 import { PRICING, getFormationPriceFormatted } from "@shared/config/pricing";
 
-import { Check, Loader2, Eye, EyeOff, CheckCircle2 } from "@/components/icons";
+import { Check, Loader2, Eye, EyeOff } from "@/components/icons";
+import { SuccessCheckmark } from "@/components/ui/success-checkmark";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { Button } from "@/components/ui/button";
@@ -1489,9 +1490,7 @@ export default function LlcFormation() {
             {step === 16 && (
               <div key={"step-" + step} className="space-y-6 text-left">
                 <div className="text-center mb-6">
-                  <div className="w-16 h-16 bg-accent/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <CheckCircle2 className="w-8 h-8 text-accent" />
-                  </div>
+                  <SuccessCheckmark size={100} className="mx-auto mb-4" />
                   <h2 className="text-xl md:text-2xl font-black text-foreground leading-tight">{t("application.reviewTitle")}</h2>
                   <p className="text-sm text-muted-foreground mt-2">{t("application.reviewSubtitle")}</p>
                 </div>

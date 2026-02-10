@@ -21,6 +21,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { useAuth } from "@/hooks/use-auth";
 import { StepProgress } from "@/components/ui/step-progress";
+import { SuccessCheckmark } from "@/components/ui/success-checkmark";
 
 const createFormSchema = (t: (key: string) => string) => z.object({
   nombre: z.string().min(1, t("validation.required")),
@@ -233,19 +234,7 @@ export default function Contacto() {
         <Navbar />
         <main className="min-h-[calc(100vh-80px)] pt-6 sm:pt-12 pb-12 px-4 flex flex-col items-center justify-center text-center max-w-3xl mx-auto">
           <div className="space-y-5 sm:space-y-6 w-full">
-            <div className="flex items-center justify-center mx-auto">
-              <svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <defs>
-                  <radialGradient id="successGlowContact" cx="50%" cy="50%" r="60%">
-                    <stop offset="0%" stopColor="#2C5F8A" stopOpacity="0.35"/>
-                    <stop offset="100%" stopColor="#2C5F8A" stopOpacity="0"/>
-                  </radialGradient>
-                </defs>
-                <circle cx="60" cy="60" r="50" fill="url(#successGlowContact)"/>
-                <circle cx="60" cy="60" r="34" fill="#1A1F26" stroke="#2C5F8A" strokeWidth="3"/>
-                <path d="M45 62 L55 72 L78 48" stroke="#2C5F8A" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-            </div>
+            <SuccessCheckmark size={120} />
             
             <div className="space-y-2 sm:space-y-3">
               <h1 className="text-2xl sm:text-3xl md:text-4xl font-black tracking-tighter text-foreground leading-tight">

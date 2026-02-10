@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { Link } from "wouter";
-import { Loader2, Eye, EyeOff, CheckCircle2, ArrowLeft } from "@/components/icons";
+import { Loader2, Eye, EyeOff, ArrowLeft } from "@/components/icons";
 import { useTranslation } from "react-i18next";
 
 import { Navbar } from "@/components/layout/navbar";
@@ -13,6 +13,7 @@ import { Form } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { apiRequest } from "@/lib/queryClient";
 import { FormInput } from "@/components/forms";
+import { SuccessCheckmark } from "@/components/ui/success-checkmark";
 import { PasswordStrength } from "@/components/ui/password-strength";
 import { usePageTitle } from "@/hooks/use-page-title";
 
@@ -137,17 +138,7 @@ export default function ForgotPassword() {
         <Navbar />
         <main className="flex-1 flex flex-col items-center justify-center px-5 sm:px-6">
           <div className="w-full max-w-md flex flex-col items-center text-center">
-            <svg width="100" height="100" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" className="mb-4">
-              <defs>
-                <radialGradient id="successGlow" cx="50%" cy="50%" r="60%">
-                  <stop offset="0%" stopColor="#2C5F8A" stopOpacity="0.35"/>
-                  <stop offset="100%" stopColor="#2C5F8A" stopOpacity="0"/>
-                </radialGradient>
-              </defs>
-              <circle cx="60" cy="60" r="50" fill="url(#successGlow)"/>
-              <circle cx="60" cy="60" r="34" fill="#1A1F26" stroke="#2C5F8A" strokeWidth="3"/>
-              <path d="M45 62 L55 72 L78 48" stroke="#2C5F8A" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
+            <SuccessCheckmark size={100} className="mb-4" />
             <h1 className="text-2xl sm:text-3xl font-black text-primary tracking-tight mb-3">
               {t("auth.forgotPassword.successTitle")} <span className="text-accent">{t("auth.forgotPassword.successTitleHighlight")}</span>
             </h1>
