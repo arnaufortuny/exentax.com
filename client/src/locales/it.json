@@ -3628,6 +3628,8 @@
   },
   "freeConsultation": {
     "title": "Consulenza Gratuita",
+    "titleFree": "Consulenza",
+    "titleConsultation": "Gratuita",
     "subtitle": "Prenota una sessione di 20 minuti con il nostro team di esperti. Senza impegno.",
     "duration": "20 minuti · Gratuita · Senza impegno",
     "error": "Errore nella prenotazione. Riprova.",

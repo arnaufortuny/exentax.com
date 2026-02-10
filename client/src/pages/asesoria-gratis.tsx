@@ -24,49 +24,26 @@ import { motion, AnimatePresence } from "framer-motion";
 
 const TOTAL_STEPS = 5;
 
-const PHONE_PREFIXES = [
-  { code: '+34', country: 'ES', label: 'Spain (+34)' },
-  { code: '+1', country: 'US', label: 'USA (+1)' },
-  { code: '+44', country: 'GB', label: 'UK (+44)' },
-  { code: '+33', country: 'FR', label: 'France (+33)' },
-  { code: '+49', country: 'DE', label: 'Germany (+49)' },
-  { code: '+39', country: 'IT', label: 'Italy (+39)' },
-  { code: '+351', country: 'PT', label: 'Portugal (+351)' },
-  { code: '+52', country: 'MX', label: 'Mexico (+52)' },
-  { code: '+54', country: 'AR', label: 'Argentina (+54)' },
-  { code: '+57', country: 'CO', label: 'Colombia (+57)' },
-  { code: '+56', country: 'CL', label: 'Chile (+56)' },
-  { code: '+55', country: 'BR', label: 'Brazil (+55)' },
-  { code: '+593', country: 'EC', label: 'Ecuador (+593)' },
-  { code: '+51', country: 'PE', label: 'Peru (+51)' },
-  { code: '+58', country: 'VE', label: 'Venezuela (+58)' },
-  { code: '+502', country: 'GT', label: 'Guatemala (+502)' },
-  { code: '+506', country: 'CR', label: 'Costa Rica (+506)' },
-  { code: '+507', country: 'PA', label: 'Panama (+507)' },
-  { code: '+598', country: 'UY', label: 'Uruguay (+598)' },
-  { code: '+595', country: 'PY', label: 'Paraguay (+595)' },
-  { code: '+591', country: 'BO', label: 'Bolivia (+591)' },
-  { code: '+503', country: 'SV', label: 'El Salvador (+503)' },
-  { code: '+504', country: 'HN', label: 'Honduras (+504)' },
-  { code: '+505', country: 'NI', label: 'Nicaragua (+505)' },
-  { code: '+353', country: 'IE', label: 'Ireland (+353)' },
-  { code: '+31', country: 'NL', label: 'Netherlands (+31)' },
-  { code: '+32', country: 'BE', label: 'Belgium (+32)' },
-  { code: '+41', country: 'CH', label: 'Switzerland (+41)' },
-  { code: '+43', country: 'AT', label: 'Austria (+43)' },
-  { code: '+48', country: 'PL', label: 'Poland (+48)' },
-  { code: '+46', country: 'SE', label: 'Sweden (+46)' },
-  { code: '+47', country: 'NO', label: 'Norway (+47)' },
-  { code: '+45', country: 'DK', label: 'Denmark (+45)' },
-  { code: '+358', country: 'FI', label: 'Finland (+358)' },
-];
+const INPUT_CLASS = "h-11 md:h-12 px-5 border-2 border-gray-200 dark:border-[#2A2A2A] focus:border-accent bg-white dark:bg-[#1A1A1A] transition-colors font-medium text-foreground dark:text-white text-base placeholder:text-muted-foreground rounded-full";
+const SELECT_CLASS = "w-full rounded-full h-11 md:h-12 px-5 border-2 border-gray-200 dark:border-[#2A2A2A] focus:border-accent bg-white dark:bg-[#1A1A1A] transition-colors font-medium text-foreground text-base appearance-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-accent/20";
+const TEXTAREA_CLASS = "px-5 py-3 border-2 border-gray-200 dark:border-[#2A2A2A] focus:border-accent bg-white dark:bg-[#1A1A1A] transition-colors font-medium text-foreground dark:text-white text-base placeholder:text-muted-foreground rounded-2xl";
+const LABEL_CLASS = "text-xs md:text-sm font-bold text-foreground";
 
 const createFormSchema = (t: (key: string) => string) => z.object({
   firstName: z.string().min(1, t("validation.required")),
   lastName: z.string().min(1, t("validation.required")),
   email: z.string().email(t("validation.invalidEmail")),
-  phonePrefix: z.string().min(1, t("validation.required")),
-  phone: z.string().min(6, t("validation.required")).max(15),
+  phone: z.string()
+    .min(1, t("validation.required"))
+    .refine(
+      (val) => {
+        if (!val.startsWith('+')) return false;
+        if (/[a-zA-Z]/.test(val)) return false;
+        const digitsOnly = val.replace(/\D/g, '');
+        return digitsOnly.length >= 6;
+      },
+      { message: t("validation.phoneFormat") }
+    ),
   countryOfResidence: z.string().min(1, t("validation.required")),
   scheduledDate: z.string().min(1, t("validation.required")),
   scheduledTime: z.string().min(1, t("validation.required")),
@@ -110,7 +87,6 @@ export default function AsesoriaGratis() {
       firstName: "",
       lastName: "",
       email: "",
-      phonePrefix: "+34",
       phone: "",
       countryOfResidence: "",
       scheduledDate: "",
@@ -198,7 +174,7 @@ export default function AsesoriaGratis() {
 
   const nextStep = async () => {
     const validations: Record<number, (keyof FormValues)[]> = {
-      0: ["firstName", "lastName", "email", "phonePrefix", "phone", "countryOfResidence"],
+      0: ["firstName", "lastName", "email", "phone", "countryOfResidence"],
       1: ["scheduledDate", "scheduledTime"],
       2: ["mainTopic"],
       3: [],
@@ -245,12 +221,11 @@ export default function AsesoriaGratis() {
     setIsSubmitting(true);
     setFormMessage(null);
     try {
-      const fullPhone = values.phonePrefix + ' ' + values.phone;
       const res = await apiRequest("POST", "/api/consultations/book-free", {
         firstName: values.firstName,
         lastName: values.lastName,
         email: values.email,
-        phone: fullPhone,
+        phone: values.phone,
         countryOfResidence: values.countryOfResidence,
         scheduledDate: values.scheduledDate,
         scheduledTime: values.scheduledTime,
@@ -352,9 +327,10 @@ export default function AsesoriaGratis() {
       <Navbar />
       <main className="flex-1 px-4 py-8 md:py-16">
         <div className="max-w-2xl mx-auto">
-          <div className="text-center mb-10 pt-4">
+          <div className="text-center mb-10 pt-4 flex flex-col items-center justify-center">
             <h1 className="text-3xl md:text-5xl font-black tracking-tight mb-4" style={{ fontFamily: 'var(--font-display)' }} data-testid="text-page-title">
-              {t("freeConsultation.title")}
+              <span className="text-accent">{t("freeConsultation.titleFree")}</span>{" "}
+              <span className="text-foreground">{t("freeConsultation.titleConsultation")}</span>
             </h1>
             <p className="text-muted-foreground text-lg md:text-xl max-w-xl mx-auto">
               {t("freeConsultation.subtitle")}
@@ -383,30 +359,25 @@ export default function AsesoriaGratis() {
                     >
                       {step === 0 && (
                         <div className="space-y-6">
-                          <div className="flex items-center gap-3 mb-6">
-                            <div className="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center">
-                              <User className="w-5 h-5 text-accent" />
-                            </div>
-                            <div>
-                              <h2 className="text-xl font-semibold">{t("freeConsultation.steps.personal.title")}</h2>
-                              <p className="text-sm text-muted-foreground">{t("freeConsultation.steps.personal.subtitle")}</p>
-                            </div>
+                          <div className="mb-6">
+                            <h2 className="text-xl font-semibold">{t("freeConsultation.steps.personal.title")}</h2>
+                            <p className="text-sm text-muted-foreground">{t("freeConsultation.steps.personal.subtitle")}</p>
                           </div>
                           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <FormField control={form.control} name="firstName" render={({ field }) => (
                               <FormItem>
-                                <FormLabel>{t("freeConsultation.fields.firstName")}</FormLabel>
+                                <FormLabel className={LABEL_CLASS}>{t("freeConsultation.fields.firstName")}</FormLabel>
                                 <FormControl>
-                                  <Input data-testid="input-first-name" placeholder={t("freeConsultation.fields.firstNamePlaceholder")} {...field} />
+                                  <Input data-testid="input-first-name" placeholder={t("freeConsultation.fields.firstNamePlaceholder")} {...field} className={INPUT_CLASS} style={{ fontFamily: 'Inter, system-ui, sans-serif', fontSize: '16px' }} />
                                 </FormControl>
                                 <FormMessage />
                               </FormItem>
                             )} />
                             <FormField control={form.control} name="lastName" render={({ field }) => (
                               <FormItem>
-                                <FormLabel>{t("freeConsultation.fields.lastName")}</FormLabel>
+                                <FormLabel className={LABEL_CLASS}>{t("freeConsultation.fields.lastName")}</FormLabel>
                                 <FormControl>
-                                  <Input data-testid="input-last-name" placeholder={t("freeConsultation.fields.lastNamePlaceholder")} {...field} />
+                                  <Input data-testid="input-last-name" placeholder={t("freeConsultation.fields.lastNamePlaceholder")} {...field} className={INPUT_CLASS} style={{ fontFamily: 'Inter, system-ui, sans-serif', fontSize: '16px' }} />
                                 </FormControl>
                                 <FormMessage />
                               </FormItem>
@@ -414,40 +385,35 @@ export default function AsesoriaGratis() {
                           </div>
                           <FormField control={form.control} name="email" render={({ field }) => (
                             <FormItem>
-                              <FormLabel>{t("freeConsultation.fields.email")}</FormLabel>
+                              <FormLabel className={LABEL_CLASS}>{t("freeConsultation.fields.email")}</FormLabel>
                               <FormControl>
-                                <Input data-testid="input-email" type="email" placeholder={t("freeConsultation.fields.emailPlaceholder")} {...field} />
+                                <Input data-testid="input-email" type="email" placeholder={t("freeConsultation.fields.emailPlaceholder")} {...field} className={INPUT_CLASS} style={{ fontFamily: 'Inter, system-ui, sans-serif', fontSize: '16px' }} />
                               </FormControl>
                               <FormMessage />
                             </FormItem>
                           )} />
                           <FormField control={form.control} name="phone" render={({ field }) => (
                             <FormItem>
-                              <FormLabel>{t("freeConsultation.fields.phone")} *</FormLabel>
-                              <div className="flex gap-2">
-                                <FormField control={form.control} name="phonePrefix" render={({ field: prefixField }) => (
-                                  <select
-                                    {...prefixField}
-                                    data-testid="select-phone-prefix"
-                                    className="flex h-9 min-w-[100px] max-w-[120px] rounded-md border border-input bg-background px-2 py-1 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                                  >
-                                    {PHONE_PREFIXES.map(p => (
-                                      <option key={p.code} value={p.code}>{p.code} {p.country}</option>
-                                    ))}
-                                  </select>
-                                )} />
-                                <FormControl>
-                                  <Input data-testid="input-phone" type="tel" placeholder="612 345 678" {...field} className="flex-1" />
-                                </FormControl>
-                              </div>
+                              <FormLabel className={LABEL_CLASS}>{t("freeConsultation.fields.phone")}</FormLabel>
+                              <FormControl>
+                                <Input
+                                  {...field}
+                                  type="tel"
+                                  inputMode="tel"
+                                  placeholder={t("auth.register.phonePlaceholder")}
+                                  className={INPUT_CLASS}
+                                  style={{ fontFamily: 'Inter, system-ui, sans-serif', fontSize: '16px' }}
+                                  data-testid="input-phone"
+                                />
+                              </FormControl>
                               <FormMessage />
                             </FormItem>
                           )} />
                           <FormField control={form.control} name="countryOfResidence" render={({ field }) => (
                             <FormItem>
-                              <FormLabel>{t("freeConsultation.fields.country")}</FormLabel>
+                              <FormLabel className={LABEL_CLASS}>{t("freeConsultation.fields.country")}</FormLabel>
                               <FormControl>
-                                <Input data-testid="input-country" placeholder={t("freeConsultation.fields.countryPlaceholder")} {...field} />
+                                <Input data-testid="input-country" placeholder={t("freeConsultation.fields.countryPlaceholder")} {...field} className={INPUT_CLASS} style={{ fontFamily: 'Inter, system-ui, sans-serif', fontSize: '16px' }} />
                               </FormControl>
                               <FormMessage />
                             </FormItem>
@@ -457,14 +423,9 @@ export default function AsesoriaGratis() {
 
                       {step === 1 && (
                         <div className="space-y-6">
-                          <div className="flex items-center gap-3 mb-6">
-                            <div className="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center">
-                              <Calendar className="w-5 h-5 text-accent" />
-                            </div>
-                            <div>
-                              <h2 className="text-xl font-semibold">{t("freeConsultation.steps.schedule.title")}</h2>
-                              <p className="text-sm text-muted-foreground">{t("freeConsultation.steps.schedule.subtitle")}</p>
-                            </div>
+                          <div className="mb-6">
+                            <h2 className="text-xl font-semibold">{t("freeConsultation.steps.schedule.title")}</h2>
+                            <p className="text-sm text-muted-foreground">{t("freeConsultation.steps.schedule.subtitle")}</p>
                           </div>
 
                           <div>
@@ -572,19 +533,14 @@ export default function AsesoriaGratis() {
 
                       {step === 2 && (
                         <div className="space-y-6">
-                          <div className="flex items-center gap-3 mb-6">
-                            <div className="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center">
-                              <Briefcase className="w-5 h-5 text-accent" />
-                            </div>
-                            <div>
-                              <h2 className="text-xl font-semibold">{t("freeConsultation.steps.questionnaire.title")}</h2>
-                              <p className="text-sm text-muted-foreground">{t("freeConsultation.steps.questionnaire.subtitle")}</p>
-                            </div>
+                          <div className="mb-6">
+                            <h2 className="text-xl font-semibold">{t("freeConsultation.steps.questionnaire.title")}</h2>
+                            <p className="text-sm text-muted-foreground">{t("freeConsultation.steps.questionnaire.subtitle")}</p>
                           </div>
 
                           <FormField control={form.control} name="mainTopic" render={({ field }) => (
                             <FormItem>
-                              <FormLabel>{t("freeConsultation.fields.mainTopic")}</FormLabel>
+                              <FormLabel className={LABEL_CLASS}>{t("freeConsultation.fields.mainTopic")}</FormLabel>
                               <FormControl>
                                 <NativeSelect data-testid="select-main-topic" placeholder={t("freeConsultation.fields.mainTopicPlaceholder")} value={field.value} onValueChange={field.onChange}>
                                   <NativeSelectItem value="llc_formation">{t("freeConsultation.topics.llcFormation")}</NativeSelectItem>
@@ -601,7 +557,7 @@ export default function AsesoriaGratis() {
 
                           <FormField control={form.control} name="hasExistingBusiness" render={({ field }) => (
                             <FormItem>
-                              <FormLabel>{t("freeConsultation.fields.hasExistingBusiness")}</FormLabel>
+                              <FormLabel className={LABEL_CLASS}>{t("freeConsultation.fields.hasExistingBusiness")}</FormLabel>
                               <FormControl>
                                 <NativeSelect data-testid="select-has-business" placeholder={t("freeConsultation.fields.select")} value={field.value} onValueChange={field.onChange}>
                                   <NativeSelectItem value="yes">{t("freeConsultation.fields.yes")}</NativeSelectItem>
@@ -615,9 +571,9 @@ export default function AsesoriaGratis() {
 
                           <FormField control={form.control} name="businessActivity" render={({ field }) => (
                             <FormItem>
-                              <FormLabel>{t("freeConsultation.fields.businessActivity")}</FormLabel>
+                              <FormLabel className={LABEL_CLASS}>{t("freeConsultation.fields.businessActivity")}</FormLabel>
                               <FormControl>
-                                <Input data-testid="input-business-activity" placeholder={t("freeConsultation.fields.businessActivityPlaceholder")} {...field} />
+                                <Input data-testid="input-business-activity" placeholder={t("freeConsultation.fields.businessActivityPlaceholder")} {...field} className={INPUT_CLASS} style={{ fontFamily: 'Inter, system-ui, sans-serif', fontSize: '16px' }} />
                               </FormControl>
                               <FormMessage />
                             </FormItem>
@@ -625,7 +581,7 @@ export default function AsesoriaGratis() {
 
                           <FormField control={form.control} name="estimatedRevenue" render={({ field }) => (
                             <FormItem>
-                              <FormLabel>{t("freeConsultation.fields.estimatedRevenue")}</FormLabel>
+                              <FormLabel className={LABEL_CLASS}>{t("freeConsultation.fields.estimatedRevenue")}</FormLabel>
                               <FormControl>
                                 <NativeSelect data-testid="select-revenue" placeholder={t("freeConsultation.fields.select")} value={field.value} onValueChange={field.onChange}>
                                   <NativeSelectItem value="0-10k">$0 - $10,000</NativeSelectItem>
@@ -641,7 +597,7 @@ export default function AsesoriaGratis() {
 
                           <FormField control={form.control} name="preferredState" render={({ field }) => (
                             <FormItem>
-                              <FormLabel>{t("freeConsultation.fields.preferredState")}</FormLabel>
+                              <FormLabel className={LABEL_CLASS}>{t("freeConsultation.fields.preferredState")}</FormLabel>
                               <FormControl>
                                 <NativeSelect data-testid="select-state" placeholder={t("freeConsultation.fields.select")} value={field.value} onValueChange={field.onChange}>
                                   <NativeSelectItem value="new_mexico">New Mexico</NativeSelectItem>
@@ -658,24 +614,19 @@ export default function AsesoriaGratis() {
 
                       {step === 3 && (
                         <div className="space-y-6">
-                          <div className="flex items-center gap-3 mb-6">
-                            <div className="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center">
-                              <FileText className="w-5 h-5 text-accent" />
-                            </div>
-                            <div>
-                              <h2 className="text-xl font-semibold">{t("freeConsultation.steps.notes.title")}</h2>
-                              <p className="text-sm text-muted-foreground">{t("freeConsultation.steps.notes.subtitle")}</p>
-                            </div>
+                          <div className="mb-6">
+                            <h2 className="text-xl font-semibold">{t("freeConsultation.steps.notes.title")}</h2>
+                            <p className="text-sm text-muted-foreground">{t("freeConsultation.steps.notes.subtitle")}</p>
                           </div>
 
                           <FormField control={form.control} name="additionalNotes" render={({ field }) => (
                             <FormItem>
-                              <FormLabel>{t("freeConsultation.fields.additionalNotes")}</FormLabel>
+                              <FormLabel className={LABEL_CLASS}>{t("freeConsultation.fields.additionalNotes")}</FormLabel>
                               <FormControl>
                                 <Textarea
                                   data-testid="textarea-notes"
                                   placeholder={t("freeConsultation.fields.additionalNotesPlaceholder")}
-                                  className="min-h-[120px] resize-none"
+                                  className={`min-h-[120px] resize-none ${TEXTAREA_CLASS}`}
                                   {...field}
                                 />
                               </FormControl>
@@ -721,14 +672,9 @@ export default function AsesoriaGratis() {
 
                       {step === 4 && (
                         <div className="space-y-6">
-                          <div className="flex items-center gap-3 mb-6">
-                            <div className="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center">
-                              <CheckCircle2 className="w-5 h-5 text-accent" />
-                            </div>
-                            <div>
-                              <h2 className="text-xl font-semibold">{t("freeConsultation.steps.confirm.title")}</h2>
-                              <p className="text-sm text-muted-foreground">{t("freeConsultation.steps.confirm.subtitle")}</p>
-                            </div>
+                          <div className="mb-6">
+                            <h2 className="text-xl font-semibold">{t("freeConsultation.steps.confirm.title")}</h2>
+                            <p className="text-sm text-muted-foreground">{t("freeConsultation.steps.confirm.subtitle")}</p>
                           </div>
 
                           <div className="bg-muted rounded-md p-6 space-y-4">
@@ -783,7 +729,7 @@ export default function AsesoriaGratis() {
 
                   <div className="flex items-center justify-between gap-3 mt-8">
                     {step > 0 ? (
-                      <Button type="button" variant="outline" onClick={prevStep} data-testid="button-prev-step">
+                      <Button type="button" variant="outline" onClick={prevStep} data-testid="button-prev-step" className="rounded-full font-bold h-12 border-border">
                         <ChevronLeft className="w-4 h-4 mr-1" />
                         {t("freeConsultation.navigation.back")}
                       </Button>
@@ -791,12 +737,12 @@ export default function AsesoriaGratis() {
                       <div />
                     )}
                     {step < TOTAL_STEPS - 1 ? (
-                      <Button type="button" onClick={nextStep} data-testid="button-next-step">
+                      <Button type="button" onClick={nextStep} data-testid="button-next-step" className="bg-accent text-white font-bold rounded-full h-12 shadow-lg shadow-accent/20">
                         {t("freeConsultation.navigation.next")}
                         <ChevronRight className="w-4 h-4 ml-1" />
                       </Button>
                     ) : (
-                      <Button type="submit" disabled={isSubmitting} data-testid="button-submit-booking">
+                      <Button type="submit" disabled={isSubmitting} data-testid="button-submit-booking" className="bg-accent text-white font-bold rounded-full h-12 shadow-lg shadow-accent/20 disabled:opacity-50">
                         {isSubmitting && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
                         {t("freeConsultation.navigation.confirm")}
                       </Button>

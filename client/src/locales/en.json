@@ -3628,6 +3628,8 @@
   },
   "freeConsultation": {
     "title": "Free Consultation",
+    "titleFree": "Free",
+    "titleConsultation": "Consultation",
     "subtitle": "Book a 20-minute session with our expert team. No commitment required.",
     "duration": "20 minutes · Free · No commitment",
     "error": "Error booking consultation. Please try again.",
