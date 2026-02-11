@@ -382,7 +382,7 @@ export default function InvoiceGenerator() {
           <div className={`p-3 rounded-xl text-sm font-medium mb-4 ${
             formMessage.type === 'error' ? 'bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-400 border border-red-200 dark:border-red-800' :
             formMessage.type === 'success' ? 'bg-accent/5 dark:bg-accent/10 text-accent dark:text-accent border border-accent/30 dark:border-accent/30' :
-            'bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400 border border-blue-200 dark:border-blue-800'
+            'bg-accent/5 dark:bg-accent/10 text-accent dark:text-accent border border-accent/20 dark:border-accent/30'
           }`} data-testid="form-message">
             {formMessage.text}
           </div>

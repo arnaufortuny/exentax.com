@@ -84,7 +84,7 @@ html.dark body {
   --secondary-foreground: 157 51% 8%;
 
   --accent: 152 100% 45%;
-  --accent-foreground: 157 51% 8%;
+  --accent-foreground: 0 0% 100%;
 
   --muted: 150 25% 92%;
   --muted-foreground: 150 10% 42%;
@@ -137,13 +137,13 @@ html.dark body {
   --foreground: 150 20% 93%;
 
   --primary: 163 100% 42%;
-  --primary-foreground: 157 51% 8%;
+  --primary-foreground: 0 0% 100%;
 
   --secondary: 82 81% 65%;
   --secondary-foreground: 157 51% 8%;
 
   --accent: 152 100% 50%;
-  --accent-foreground: 157 51% 8%;
+  --accent-foreground: 0 0% 100%;
 
   --muted: 150 32% 15%;
   --muted-foreground: 150 15% 55%;
@@ -168,12 +168,12 @@ html.dark body {
   --sidebar-border: 150 30% 16%;
   --sidebar-ring: 163 100% 42%;
   --sidebar-primary: 163 100% 42%;
-  --sidebar-primary-foreground: 157 51% 8%;
+  --sidebar-primary-foreground: 0 0% 100%;
   --sidebar-accent: 163 100% 42%;
-  --sidebar-accent-foreground: 157 51% 8%;
+  --sidebar-accent-foreground: 0 0% 100%;
 
   --cta: 163 100% 42%;
-  --cta-foreground: 157 51% 8%;
+  --cta-foreground: 0 0% 100%;
   --neon: 152 100% 50%;
   --lima: 82 81% 65%;
   --primary-dark: 163 100% 30%;

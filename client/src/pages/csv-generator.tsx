@@ -331,7 +331,7 @@ export default function CsvGenerator() {
                         className={`text-[10px] ${
                           transaction.type === 'income' ? 'bg-accent/10 text-accent dark:bg-accent/15 dark:text-accent' :
                           transaction.type === 'expense' ? 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400' :
-                          'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400'
+                          'bg-accent/10 text-accent dark:bg-accent/20 dark:text-accent'
                         }`}
                       >
                         {transaction.type === 'income' ? t("tools.csvGenerator.income") : 

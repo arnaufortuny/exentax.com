@@ -8,7 +8,7 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-[#00C48C] text-white hover:bg-[#00855F] shadow-md hover:shadow-lg hover:shadow-[#00C48C]/30 border-0 font-semibold",
+        default: "bg-[#00C48C] text-white hover:bg-[#00855F] shadow-md hover:shadow-lg hover:shadow-[#00C48C]/30 border-0 font-semibold [&]:text-white",
         destructive:
           "bg-destructive text-destructive-foreground hover:bg-destructive/90 border-0",
         outline:
@@ -17,9 +17,9 @@ const buttonVariants = cva(
           "bg-[#B4ED50] text-[#0A1F17] hover:bg-[#A0D444] font-semibold border-0 transition-all duration-200",
         ghost: "hover:bg-[#00C48C]/10 hover:text-[#00C48C] text-muted-foreground border-0 transition-all duration-200",
         link: "text-[#00C48C] underline-offset-4 hover:underline border-0",
-        cta: "bg-[#00C48C] text-white hover:bg-[#00E57A] shadow-lg hover:shadow-[#00C48C]/40 border-0 font-bold tracking-wide",
+        cta: "bg-[#00C48C] text-white hover:bg-[#00E57A] shadow-lg hover:shadow-[#00C48C]/40 border-0 font-bold tracking-wide [&]:text-white",
         neon: "bg-[#00E57A] text-[#0A1F17] hover:bg-[#00C48C] font-bold shadow-md hover:shadow-[#00E57A]/40 border-0",
-        premium: "bg-[#00C48C] text-white shadow-lg border-0 hover:bg-[#00855F]",
+        premium: "bg-[#00C48C] text-white shadow-lg border-0 hover:bg-[#00855F] [&]:text-white",
       },
       size: {
         default: "h-12 px-6 py-2",

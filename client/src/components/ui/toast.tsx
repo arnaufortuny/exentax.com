@@ -31,7 +31,7 @@ const toastVariants = cva(
         destructive: "bg-white dark:bg-card text-foreground shadow-xl shadow-red-500/10 border-l-4 border-l-red-500 border border-red-100 dark:border-red-900/50",
         success: "bg-white dark:bg-card text-foreground shadow-xl shadow-[#00C48C]/10 border-l-4 border-l-[#00C48C] border border-[#00C48C]/20 dark:border-[#00C48C]/10",
         warning: "bg-white dark:bg-card text-foreground shadow-xl shadow-yellow-500/10 border-l-4 border-l-yellow-500 border border-yellow-100 dark:border-yellow-900/50",
-        info: "bg-white dark:bg-card text-foreground shadow-xl shadow-blue-500/10 border-l-4 border-l-blue-500 border border-blue-100 dark:border-blue-900/50",
+        info: "bg-white dark:bg-card text-foreground shadow-xl shadow-accent/10 border-l-4 border-l-accent border border-accent/10 dark:border-accent/20",
       },
     },
     defaultVariants: {
@@ -123,7 +123,7 @@ function ToastIcon({ variant }: { variant?: string }) {
     case "warning":
       return <AlertTriangle className={cn(iconClass, "text-yellow-500")} />
     case "info":
-      return <Info className={cn(iconClass, "text-blue-500")} />
+      return <Info className={cn(iconClass, "text-accent")} />
     default:
       return <CheckCircle2 className={cn(iconClass, "text-[#00C48C]")} />
   }

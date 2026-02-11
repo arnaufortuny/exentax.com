@@ -180,10 +180,10 @@ export default function PriceCalculator() {
             <Card className="rounded-xl border-0 shadow-sm">
               <CardContent className="p-3 md:p-4">
                 <div className="flex items-center gap-2 mb-1">
-                  <Percent className="w-4 h-4 text-blue-600 dark:text-blue-400" />
+                  <Percent className="w-4 h-4 text-accent dark:text-accent" />
                   <span className="text-xs text-muted-foreground">ROI</span>
                 </div>
-                <p className="text-lg md:text-xl font-bold text-blue-600 dark:text-blue-400" data-testid="text-summary-roi">
+                <p className="text-lg md:text-xl font-bold text-accent dark:text-accent" data-testid="text-summary-roi">
                   {formatNumber(calculations.roi)}%
                 </p>
               </CardContent>

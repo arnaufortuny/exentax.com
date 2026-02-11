@@ -36,7 +36,7 @@ function getBoiStatusBadge(status: string | null | undefined, t: any) {
     case 'update_required':
       return <Badge className="bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400 text-[9px]" data-testid="badge-boi-update"><AlertTriangle className="w-3 h-3 mr-1" />{t('dashboard.llcDetails.boiUpdateRequired')}</Badge>;
     case 'exempt':
-      return <Badge className="bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400 text-[9px]" data-testid="badge-boi-exempt"><Shield className="w-3 h-3 mr-1" />{t('dashboard.llcDetails.boiExempt')}</Badge>;
+      return <Badge className="bg-accent/10 text-accent dark:bg-accent/20 dark:text-accent text-[9px]" data-testid="badge-boi-exempt"><Shield className="w-3 h-3 mr-1" />{t('dashboard.llcDetails.boiExempt')}</Badge>;
     default:
       return <Badge className="bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-400 text-[9px]" data-testid="badge-boi-pending"><Clock className="w-3 h-3 mr-1" />{t('dashboard.llcDetails.boiPending')}</Badge>;
   }
@@ -280,7 +280,7 @@ export const ServicesTab = memo(function ServicesTab({ orders, draftOrders, acti
                             {getOrderStatusLabel(order.status, t).label}
                           </Badge>
                           {order.status === 'completed' && order.application?.ein && (
-                            <Badge className="bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400 text-[8px] px-1.5 py-0" data-testid={`badge-ein-${order.id}`}>
+                            <Badge className="bg-accent/10 text-accent dark:bg-accent/20 dark:text-accent text-[8px] px-1.5 py-0" data-testid={`badge-ein-${order.id}`}>
                               EIN: {order.application.ein}
                             </Badge>
                           )}

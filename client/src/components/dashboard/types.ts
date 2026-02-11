@@ -38,7 +38,7 @@ export interface ConsultationBooking {
 export function getConsultationStatusLabel(status: string, t: (key: string) => string): { label: string; className: string } {
   const statusMap: Record<string, { label: string; className: string }> = {
     pending: { label: t('consultations.status.pending'), className: 'bg-yellow-100 dark:bg-yellow-900/50 text-yellow-800 dark:text-yellow-300' },
-    confirmed: { label: t('consultations.status.confirmed'), className: 'bg-blue-100 dark:bg-blue-900/50 text-blue-800 dark:text-blue-300' },
+    confirmed: { label: t('consultations.status.confirmed'), className: 'bg-accent/10 dark:bg-accent/20 text-accent dark:text-accent' },
     completed: { label: t('consultations.status.completed'), className: 'bg-accent/10 dark:bg-accent/20 text-accent dark:text-accent' },
     cancelled: { label: t('consultations.status.cancelled'), className: 'bg-red-100 dark:bg-red-900/50 text-red-700 dark:text-red-400' },
     no_show: { label: t('consultations.status.noShow'), className: 'bg-gray-100 dark:bg-muted text-gray-600 dark:text-gray-300' },

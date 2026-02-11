@@ -71,7 +71,7 @@ const ACTION_ICONS: Record<string, typeof Shield> = {
 };
 
 const ACTION_COLORS: Record<string, string> = {
-  user_login: "bg-blue-100 text-blue-800 dark:bg-blue-900/40 dark:text-blue-300",
+  user_login: "bg-accent/10 text-accent dark:bg-accent/20 dark:text-accent",
   user_logout: "bg-gray-100 text-gray-700 dark:bg-gray-800/40 dark:text-gray-300",
   user_register: "bg-accent/10 text-accent dark:bg-accent/20 dark:text-accent",
   password_change: "bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300",
@@ -96,7 +96,7 @@ const ACTION_COLORS: Record<string, string> = {
   account_status_change: "bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300",
   account_flagged_for_review: "bg-red-100 text-red-800 dark:bg-red-900/40 dark:text-red-300",
   admin_send_email: "bg-purple-100 text-purple-800 dark:bg-purple-900/40 dark:text-purple-300",
-  admin_user_update: "bg-blue-100 text-blue-800 dark:bg-blue-900/40 dark:text-blue-300",
+  admin_user_update: "bg-accent/10 text-accent dark:bg-accent/20 dark:text-accent",
   consultation_booked: "bg-violet-100 text-violet-800 dark:bg-violet-900/40 dark:text-violet-300",
   consultation_cancelled: "bg-red-100 text-red-800 dark:bg-red-900/40 dark:text-red-300",
   ip_order_blocked: "bg-red-100 text-red-800 dark:bg-red-900/40 dark:text-red-300",

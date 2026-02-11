@@ -142,7 +142,7 @@ export function ConsultationsTab({ setActiveTab }: ConsultationsTabProps) {
             ? 'bg-destructive/10 border border-destructive/20 text-destructive' 
             : formMessage.type === 'success'
             ? 'bg-accent/10 border border-accent/20 text-accent'
-            : 'bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-800 text-blue-700 dark:text-blue-300'
+            : 'bg-accent/5 dark:bg-accent/10 border border-accent/20 dark:border-accent/30 text-accent dark:text-accent'
         }`} data-testid="form-message">
           {formMessage.text}
         </div>
@@ -363,11 +363,11 @@ export function ConsultationsTab({ setActiveTab }: ConsultationsTabProps) {
                         </div>
                         <div className="space-y-1 text-sm text-muted-foreground">
                           <div className="flex items-center gap-2">
-                            <Calendar className="w-4 h-4 text-blue-600 dark:text-blue-400" />
+                            <Calendar className="w-4 h-4 text-accent dark:text-accent" />
                             <span>{formatDate(booking.scheduledDate)}</span>
                           </div>
                           <div className="flex items-center gap-2">
-                            <Clock className="w-4 h-4 text-blue-600 dark:text-blue-400" />
+                            <Clock className="w-4 h-4 text-accent dark:text-accent" />
                             <span>{booking.scheduledTime} ({booking.duration} min)</span>
                           </div>
                           <div className="text-xs mt-2">

@@ -29,7 +29,7 @@ Easy US LLC is a full-stack SaaS platform designed to simplify US LLC formation 
 - **Theme:** Full dark/light mode with CSS custom properties and localStorage persistence. Inspired by relayfi.com aesthetic.
 - **Animations:** Framer Motion with page transitions
 - **Navbar:** Glassmorphism (backdrop-blur-md, bg-white/95 light, bg-[#0A1F17]/95 dark) with green accents
-- **Footer:** Dark green design (bg-[#0A1F17]) with #00C48C hover links, #6B7280 text, #112B1E separators
+- **Footer:** Dark green design (bg-[#0A1F17]) with #00C48C hover links, white/80 text, #112B1E separators
 - **Button Variants:** default (green), cta (green), secondary (lima), neon, outline (green border), ghost, destructive, link, premium
 - **Badge Variants:** default, pending, processing, completed, cancelled, paid, documentsReady, active, inactive, draft, submitted, filed, vip
 - **Components:** shadcn/ui with custom elevation utilities.

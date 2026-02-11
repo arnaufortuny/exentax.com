@@ -230,7 +230,7 @@ export const MessagesTab = memo(function MessagesTab({
                     {msg.messageId && (
                       <Badge variant="outline" className="text-[10px] font-bold">#{msg.messageId}</Badge>
                     )}
-                    <Badge variant="secondary" className={`no-default-hover-elevate no-default-active-elevate text-[10px] font-bold ${msg.status === 'replied' ? 'bg-accent/5 dark:bg-accent/10 text-accent dark:text-accent' : msg.status === 'read' ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400' : 'bg-yellow-50 dark:bg-yellow-900/20 text-yellow-700 dark:text-yellow-400'}`}>
+                    <Badge variant="secondary" className={`no-default-hover-elevate no-default-active-elevate text-[10px] font-bold ${msg.status === 'replied' ? 'bg-accent/5 dark:bg-accent/10 text-accent dark:text-accent' : msg.status === 'read' ? 'bg-accent/5 dark:bg-accent/10 text-accent dark:text-accent' : 'bg-yellow-50 dark:bg-yellow-900/20 text-yellow-700 dark:text-yellow-400'}`}>
                       {msg.status === 'replied' ? t('dashboard.support.statusReplied') : msg.status === 'read' ? t('dashboard.support.statusRead') : t('dashboard.support.statusPending')}
                     </Badge>
                   </div>

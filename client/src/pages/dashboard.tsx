@@ -1561,7 +1561,7 @@ export default function Dashboard() {
                   ? 'bg-destructive/10 border border-destructive/20 text-destructive' 
                   : formMessage.type === 'success'
                   ? 'bg-accent/10 border border-accent/20 text-accent'
-                  : 'bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-800 text-blue-700 dark:text-blue-300'
+                  : 'bg-accent/5 dark:bg-accent/10 border border-accent/20 dark:border-accent/30 text-accent dark:text-accent'
               }`} data-testid="form-message">
                 {formMessage.text}
               </div>
@@ -1652,12 +1652,12 @@ export default function Dashboard() {
                     
                     if ((hasActionRequired || hasDocInReview) && user?.accountStatus !== 'deactivated') {
                       return (
-                        <Card className={`rounded-2xl shadow-sm p-4 mb-4 ${hasActionRequired ? 'border-2 border-red-300 dark:border-red-800 bg-red-50 dark:bg-red-950/30' : 'border-2 border-blue-300 dark:border-blue-800 bg-blue-50 dark:bg-blue-950/30'}`} data-testid="card-doc-action-required">
+                        <Card className={`rounded-2xl shadow-sm p-4 mb-4 ${hasActionRequired ? 'border-2 border-red-300 dark:border-red-800 bg-red-50 dark:bg-red-950/30' : 'border-2 border-accent/30 dark:border-accent/30 bg-accent/5 dark:bg-accent/10'}`} data-testid="card-doc-action-required">
                           <div className="flex items-start gap-3">
                             {hasActionRequired ? (
                               <FileUp className="w-5 h-5 text-red-600 dark:text-red-400 mt-0.5" />
                             ) : (
-                              <Clock className="w-5 h-5 text-blue-500 mt-0.5" />
+                              <Clock className="w-5 h-5 text-accent mt-0.5" />
                             )}
                             <div className="flex-1">
                               {hasActionRequired ? (
@@ -2021,7 +2021,7 @@ export default function Dashboard() {
                         const stateHasAnnualReport = ['Wyoming', 'Delaware', 'WY', 'DE'].includes(app.state);
                         const dates = [
                           { label: t('dashboard.calendar.creation'), fullLabel: t('dashboard.calendar.creationFull'), date: app.llcCreatedDate, icon: Building2, bgColor: 'bg-accent/10', textColor: 'text-accent', borderColor: 'border-accent/20' },
-                          { label: t('dashboard.calendar.agent'), fullLabel: t('dashboard.calendar.agentFull'), date: app.agentRenewalDate, icon: UserCheck, bgColor: 'bg-blue-50 dark:bg-blue-900/20', textColor: 'text-blue-600 dark:text-blue-400', borderColor: 'border-blue-200 dark:border-blue-800' },
+                          { label: t('dashboard.calendar.agent'), fullLabel: t('dashboard.calendar.agentFull'), date: app.agentRenewalDate, icon: UserCheck, bgColor: 'bg-accent/5 dark:bg-accent/10', textColor: 'text-accent dark:text-accent', borderColor: 'border-accent/20 dark:border-accent/30' },
                           { label: 'IRS 1120', fullLabel: t('dashboard.calendar.irs1120'), date: app.irs1120DueDate, icon: FileText, bgColor: 'bg-accent/5 dark:bg-accent/10', textColor: 'text-accent dark:text-accent', borderColor: 'border-accent/30 dark:border-accent/30' },
                           { label: 'IRS 5472', fullLabel: t('dashboard.calendar.irs5472'), date: app.irs5472DueDate, icon: FileText, bgColor: 'bg-red-50 dark:bg-red-900/20', textColor: 'text-red-600 dark:text-red-400', borderColor: 'border-red-200 dark:border-red-800' },
                           ...(stateHasAnnualReport ? [{ label: t('dashboard.calendar.annual'), fullLabel: `${t('dashboard.calendar.annualFull')} ${app.state}`, date: app.annualReportDueDate, icon: Newspaper, bgColor: 'bg-purple-50 dark:bg-purple-900/20', textColor: 'text-purple-600 dark:text-purple-400', borderColor: 'border-purple-200 dark:border-purple-800' }] : []),
@@ -2757,11 +2757,11 @@ export default function Dashboard() {
                               />
                             </div>
                           </div>
-                          <div className="p-3 bg-blue-50 dark:bg-blue-900/20 rounded-xl border border-blue-200 dark:border-blue-800">
+                          <div className="p-3 bg-accent/5 dark:bg-accent/10 rounded-xl border border-accent/20 dark:border-accent/30">
                             <div className="flex items-center justify-between">
                               <div>
-                                <p className="text-xs font-black text-blue-700 dark:text-blue-300">{t('dashboard.admin.supportPermissions')}</p>
-                                <p className="text-[10px] text-blue-600 dark:text-blue-400">{t('dashboard.admin.supportPermissionsDesc')}</p>
+                                <p className="text-xs font-black text-accent dark:text-accent">{t('dashboard.admin.supportPermissions')}</p>
+                                <p className="text-[10px] text-accent dark:text-accent">{t('dashboard.admin.supportPermissionsDesc')}</p>
                               </div>
                               <Switch
                                 checked={editingUser.isSupport || false}
@@ -3594,21 +3594,21 @@ export default function Dashboard() {
                       <div data-testid="section-sales">
                         <h3 className="font-black text-lg tracking-tight mb-3" data-testid="heading-sales">{t('dashboard.admin.metrics.sales')}</h3>
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                          <Card className="p-4 rounded-2xl border border-blue-200 dark:border-blue-800/40 shadow-sm bg-blue-50 dark:bg-blue-950/20">
-                            <p className="text-[11px] md:text-xs text-blue-700 dark:text-blue-400 font-semibold leading-tight mb-2">{t('dashboard.admin.metrics.totalSales')}</p>
-                            <p className="text-lg md:text-2xl font-black text-blue-800 dark:text-blue-300 truncate" data-testid="stat-total-sales">{((adminStats?.totalSales || 0) / 100).toLocaleString(getLocale(), { style: 'currency', currency: 'EUR' })}</p>
+                          <Card className="p-4 rounded-2xl border border-accent/20 dark:border-accent/20 shadow-sm bg-accent/5 dark:bg-accent/10">
+                            <p className="text-[11px] md:text-xs text-accent dark:text-accent font-semibold leading-tight mb-2">{t('dashboard.admin.metrics.totalSales')}</p>
+                            <p className="text-lg md:text-2xl font-black text-accent dark:text-accent truncate" data-testid="stat-total-sales">{((adminStats?.totalSales || 0) / 100).toLocaleString(getLocale(), { style: 'currency', currency: 'EUR' })}</p>
                           </Card>
-                          <Card className="p-4 rounded-2xl border border-blue-200 dark:border-blue-800/40 shadow-sm bg-blue-50 dark:bg-blue-950/20">
-                            <p className="text-[11px] md:text-xs text-blue-700 dark:text-blue-400 font-semibold leading-tight mb-2">{t('dashboard.admin.metrics.pendingCollection')}</p>
-                            <p className="text-lg md:text-2xl font-black text-blue-800 dark:text-blue-300 truncate" data-testid="stat-pending-sales">{((adminStats?.pendingSales || 0) / 100).toLocaleString(getLocale(), { style: 'currency', currency: 'EUR' })}</p>
+                          <Card className="p-4 rounded-2xl border border-accent/20 dark:border-accent/20 shadow-sm bg-accent/5 dark:bg-accent/10">
+                            <p className="text-[11px] md:text-xs text-accent dark:text-accent font-semibold leading-tight mb-2">{t('dashboard.admin.metrics.pendingCollection')}</p>
+                            <p className="text-lg md:text-2xl font-black text-accent dark:text-accent truncate" data-testid="stat-pending-sales">{((adminStats?.pendingSales || 0) / 100).toLocaleString(getLocale(), { style: 'currency', currency: 'EUR' })}</p>
                           </Card>
-                          <Card className="p-4 rounded-2xl border border-blue-200 dark:border-blue-800/40 shadow-sm bg-blue-50 dark:bg-blue-950/20">
-                            <p className="text-[11px] md:text-xs text-blue-700 dark:text-blue-400 font-semibold leading-tight mb-2">{t('dashboard.admin.metrics.totalOrders')}</p>
-                            <p className="text-lg md:text-2xl font-black text-blue-800 dark:text-blue-300" data-testid="stat-total-orders">{adminStats?.orderCount || 0}</p>
+                          <Card className="p-4 rounded-2xl border border-accent/20 dark:border-accent/20 shadow-sm bg-accent/5 dark:bg-accent/10">
+                            <p className="text-[11px] md:text-xs text-accent dark:text-accent font-semibold leading-tight mb-2">{t('dashboard.admin.metrics.totalOrders')}</p>
+                            <p className="text-lg md:text-2xl font-black text-accent dark:text-accent" data-testid="stat-total-orders">{adminStats?.orderCount || 0}</p>
                           </Card>
-                          <Card className="p-4 rounded-2xl border border-blue-200 dark:border-blue-800/40 shadow-sm bg-blue-50 dark:bg-blue-950/20">
-                            <p className="text-[11px] md:text-xs text-blue-700 dark:text-blue-400 font-semibold leading-tight mb-2">{t('dashboard.admin.metrics.conversion')}</p>
-                            <p className="text-lg md:text-2xl font-black text-blue-800 dark:text-blue-300" data-testid="stat-conversion">{adminStats?.conversionRate || 0}%</p>
+                          <Card className="p-4 rounded-2xl border border-accent/20 dark:border-accent/20 shadow-sm bg-accent/5 dark:bg-accent/10">
+                            <p className="text-[11px] md:text-xs text-accent dark:text-accent font-semibold leading-tight mb-2">{t('dashboard.admin.metrics.conversion')}</p>
+                            <p className="text-lg md:text-2xl font-black text-accent dark:text-accent" data-testid="stat-conversion">{adminStats?.conversionRate || 0}%</p>
                           </Card>
                         </div>
                       </div>
@@ -3616,26 +3616,26 @@ export default function Dashboard() {
                       <div data-testid="section-orders">
                         <h3 className="font-black text-lg tracking-tight mb-3" data-testid="heading-orders">{t('dashboard.admin.metrics.orderStatus')}</h3>
                         <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                          <Card className="p-4 rounded-2xl border border-blue-200 dark:border-blue-800/40 shadow-sm bg-blue-50 dark:bg-blue-950/20">
+                          <Card className="p-4 rounded-2xl border border-accent/20 dark:border-accent/20 shadow-sm bg-accent/5 dark:bg-accent/10">
                             <div className="flex items-center gap-2 mb-2">
                               <span className="w-2 h-2 rounded-full bg-amber-500 flex-shrink-0" />
-                              <p className="text-[11px] md:text-xs text-blue-700 dark:text-blue-400 font-semibold">{t('dashboard.admin.metrics.pending')}</p>
+                              <p className="text-[11px] md:text-xs text-accent dark:text-accent font-semibold">{t('dashboard.admin.metrics.pending')}</p>
                             </div>
-                            <p className="text-xl md:text-3xl font-black text-blue-800 dark:text-blue-300" data-testid="stat-pending-orders">{adminStats?.pendingOrders || 0}</p>
+                            <p className="text-xl md:text-3xl font-black text-accent dark:text-accent" data-testid="stat-pending-orders">{adminStats?.pendingOrders || 0}</p>
                           </Card>
-                          <Card className="p-4 rounded-2xl border border-blue-200 dark:border-blue-800/40 shadow-sm bg-blue-50 dark:bg-blue-950/20">
-                            <div className="flex items-center gap-2 mb-2">
-                              <span className="w-2 h-2 rounded-full bg-blue-500 flex-shrink-0" />
-                              <p className="text-[11px] md:text-xs text-blue-700 dark:text-blue-400 font-semibold">{t('dashboard.admin.metrics.inProcess')}</p>
-                            </div>
-                            <p className="text-xl md:text-3xl font-black text-blue-800 dark:text-blue-300" data-testid="stat-processing-orders">{adminStats?.processingOrders || 0}</p>
-                          </Card>
-                          <Card className="p-4 rounded-2xl border border-blue-200 dark:border-blue-800/40 shadow-sm bg-blue-50 dark:bg-blue-950/20">
+                          <Card className="p-4 rounded-2xl border border-accent/20 dark:border-accent/20 shadow-sm bg-accent/5 dark:bg-accent/10">
                             <div className="flex items-center gap-2 mb-2">
                               <span className="w-2 h-2 rounded-full bg-accent flex-shrink-0" />
-                              <p className="text-[11px] md:text-xs text-blue-700 dark:text-blue-400 font-semibold">{t('dashboard.admin.metrics.completed')}</p>
+                              <p className="text-[11px] md:text-xs text-accent dark:text-accent font-semibold">{t('dashboard.admin.metrics.inProcess')}</p>
                             </div>
-                            <p className="text-xl md:text-3xl font-black text-blue-800 dark:text-blue-300" data-testid="stat-completed-orders">{adminStats?.completedOrders || 0}</p>
+                            <p className="text-xl md:text-3xl font-black text-accent dark:text-accent" data-testid="stat-processing-orders">{adminStats?.processingOrders || 0}</p>
+                          </Card>
+                          <Card className="p-4 rounded-2xl border border-accent/20 dark:border-accent/20 shadow-sm bg-accent/5 dark:bg-accent/10">
+                            <div className="flex items-center gap-2 mb-2">
+                              <span className="w-2 h-2 rounded-full bg-accent flex-shrink-0" />
+                              <p className="text-[11px] md:text-xs text-accent dark:text-accent font-semibold">{t('dashboard.admin.metrics.completed')}</p>
+                            </div>
+                            <p className="text-xl md:text-3xl font-black text-accent dark:text-accent" data-testid="stat-completed-orders">{adminStats?.completedOrders || 0}</p>
                           </Card>
                         </div>
                       </div>
@@ -3643,37 +3643,37 @@ export default function Dashboard() {
                       <div data-testid="section-crm">
                         <h3 className="font-black text-lg tracking-tight mb-3" data-testid="heading-crm">{t('dashboard.admin.metrics.clients')}</h3>
                         <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
-                          <Card className="p-4 rounded-2xl border border-blue-200 dark:border-blue-800/40 shadow-sm bg-blue-50 dark:bg-blue-950/20">
-                            <p className="text-[11px] md:text-xs text-blue-700 dark:text-blue-400 font-semibold mb-2">{t('dashboard.admin.metrics.totalUsers')}</p>
-                            <p className="text-xl md:text-3xl font-black text-blue-800 dark:text-blue-300" data-testid="stat-total-users">{adminStats?.userCount || 0}</p>
+                          <Card className="p-4 rounded-2xl border border-accent/20 dark:border-accent/20 shadow-sm bg-accent/5 dark:bg-accent/10">
+                            <p className="text-[11px] md:text-xs text-accent dark:text-accent font-semibold mb-2">{t('dashboard.admin.metrics.totalUsers')}</p>
+                            <p className="text-xl md:text-3xl font-black text-accent dark:text-accent" data-testid="stat-total-users">{adminStats?.userCount || 0}</p>
                           </Card>
-                          <Card className="p-4 rounded-2xl border border-blue-200 dark:border-blue-800/40 shadow-sm bg-blue-50 dark:bg-blue-950/20">
+                          <Card className="p-4 rounded-2xl border border-accent/20 dark:border-accent/20 shadow-sm bg-accent/5 dark:bg-accent/10">
                             <div className="flex items-center gap-2 mb-2">
                               <span className="w-2 h-2 rounded-full bg-accent flex-shrink-0" />
-                              <p className="text-[11px] md:text-xs text-blue-700 dark:text-blue-400 font-semibold">{t('dashboard.admin.metrics.active')}</p>
+                              <p className="text-[11px] md:text-xs text-accent dark:text-accent font-semibold">{t('dashboard.admin.metrics.active')}</p>
                             </div>
-                            <p className="text-xl md:text-3xl font-black text-blue-800 dark:text-blue-300" data-testid="stat-active-users">{adminStats?.activeAccounts || 0}</p>
+                            <p className="text-xl md:text-3xl font-black text-accent dark:text-accent" data-testid="stat-active-users">{adminStats?.activeAccounts || 0}</p>
                           </Card>
-                          <Card className="p-4 rounded-2xl border border-blue-200 dark:border-blue-800/40 shadow-sm bg-blue-50 dark:bg-blue-950/20">
+                          <Card className="p-4 rounded-2xl border border-accent/20 dark:border-accent/20 shadow-sm bg-accent/5 dark:bg-accent/10">
                             <div className="flex items-center gap-2 mb-2">
                               <span className="w-2 h-2 rounded-full bg-yellow-500 flex-shrink-0" />
-                              <p className="text-[11px] md:text-xs text-blue-700 dark:text-blue-400 font-semibold">VIP</p>
+                              <p className="text-[11px] md:text-xs text-accent dark:text-accent font-semibold">VIP</p>
                             </div>
-                            <p className="text-xl md:text-3xl font-black text-blue-800 dark:text-blue-300" data-testid="stat-vip-users">{adminStats?.vipAccounts || 0}</p>
+                            <p className="text-xl md:text-3xl font-black text-accent dark:text-accent" data-testid="stat-vip-users">{adminStats?.vipAccounts || 0}</p>
                           </Card>
-                          <Card className="p-4 rounded-2xl border border-blue-200 dark:border-blue-800/40 shadow-sm bg-blue-50 dark:bg-blue-950/20">
+                          <Card className="p-4 rounded-2xl border border-accent/20 dark:border-accent/20 shadow-sm bg-accent/5 dark:bg-accent/10">
                             <div className="flex items-center gap-2 mb-2">
                               <span className="w-2 h-2 rounded-full bg-amber-500 flex-shrink-0" />
-                              <p className="text-[11px] md:text-xs text-blue-700 dark:text-blue-400 font-semibold">{t('dashboard.admin.metrics.inReview')}</p>
+                              <p className="text-[11px] md:text-xs text-accent dark:text-accent font-semibold">{t('dashboard.admin.metrics.inReview')}</p>
                             </div>
-                            <p className="text-xl md:text-3xl font-black text-blue-800 dark:text-blue-300" data-testid="stat-pending-accounts">{adminStats?.pendingAccounts || 0}</p>
+                            <p className="text-xl md:text-3xl font-black text-accent dark:text-accent" data-testid="stat-pending-accounts">{adminStats?.pendingAccounts || 0}</p>
                           </Card>
-                          <Card className="p-4 rounded-2xl border border-blue-200 dark:border-blue-800/40 shadow-sm bg-blue-50 dark:bg-blue-950/20">
+                          <Card className="p-4 rounded-2xl border border-accent/20 dark:border-accent/20 shadow-sm bg-accent/5 dark:bg-accent/10">
                             <div className="flex items-center gap-2 mb-2">
                               <span className="w-2 h-2 rounded-full bg-red-500 flex-shrink-0" />
-                              <p className="text-[11px] md:text-xs text-blue-700 dark:text-blue-400 font-semibold">{t('dashboard.admin.metrics.deactivated')}</p>
+                              <p className="text-[11px] md:text-xs text-accent dark:text-accent font-semibold">{t('dashboard.admin.metrics.deactivated')}</p>
                             </div>
-                            <p className="text-xl md:text-3xl font-black text-blue-800 dark:text-blue-300" data-testid="stat-deactivated-users">{adminStats?.deactivatedAccounts || 0}</p>
+                            <p className="text-xl md:text-3xl font-black text-accent dark:text-accent" data-testid="stat-deactivated-users">{adminStats?.deactivatedAccounts || 0}</p>
                           </Card>
                         </div>
                       </div>
@@ -3681,17 +3681,17 @@ export default function Dashboard() {
                       <div data-testid="section-guests">
                         <h3 className="font-black text-lg tracking-tight mb-3" data-testid="heading-guests">{t('dashboard.admin.guestSection.guests')}</h3>
                         <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-                          <Card className="p-4 rounded-2xl border border-blue-200 dark:border-blue-800/40 shadow-sm bg-blue-50 dark:bg-blue-950/20">
-                            <p className="text-[11px] md:text-xs text-blue-700 dark:text-blue-400 font-semibold mb-2">{t('dashboard.admin.guestSection.totalVisitors')}</p>
-                            <p className="text-xl md:text-3xl font-black text-blue-800 dark:text-blue-300" data-testid="stat-total-guests">{(guestVisitors as any[])?.length || 0}</p>
+                          <Card className="p-4 rounded-2xl border border-accent/20 dark:border-accent/20 shadow-sm bg-accent/5 dark:bg-accent/10">
+                            <p className="text-[11px] md:text-xs text-accent dark:text-accent font-semibold mb-2">{t('dashboard.admin.guestSection.totalVisitors')}</p>
+                            <p className="text-xl md:text-3xl font-black text-accent dark:text-accent" data-testid="stat-total-guests">{(guestVisitors as any[])?.length || 0}</p>
                           </Card>
-                          <Card className="p-4 rounded-2xl border border-blue-200 dark:border-blue-800/40 shadow-sm bg-blue-50 dark:bg-blue-950/20">
-                            <p className="text-[11px] md:text-xs text-blue-700 dark:text-blue-400 font-semibold mb-2">{t('dashboard.admin.guestSection.withEmail')}</p>
-                            <p className="text-xl md:text-3xl font-black text-blue-800 dark:text-blue-300" data-testid="stat-guests-with-email">{(guestVisitors as any[])?.filter((g: any) => g.email)?.length || 0}</p>
+                          <Card className="p-4 rounded-2xl border border-accent/20 dark:border-accent/20 shadow-sm bg-accent/5 dark:bg-accent/10">
+                            <p className="text-[11px] md:text-xs text-accent dark:text-accent font-semibold mb-2">{t('dashboard.admin.guestSection.withEmail')}</p>
+                            <p className="text-xl md:text-3xl font-black text-accent dark:text-accent" data-testid="stat-guests-with-email">{(guestVisitors as any[])?.filter((g: any) => g.email)?.length || 0}</p>
                           </Card>
-                          <Card className="p-4 rounded-2xl border border-blue-200 dark:border-blue-800/40 shadow-sm bg-blue-50 dark:bg-blue-950/20">
-                            <p className="text-[11px] md:text-xs text-blue-700 dark:text-blue-400 font-semibold mb-2">{t('dashboard.admin.guestSection.calculator')}</p>
-                            <p className="text-xl md:text-3xl font-black text-blue-800 dark:text-blue-300" data-testid="stat-calculator-guests">{(guestVisitors as any[])?.filter((g: any) => g.source === 'calculator')?.length || 0}</p>
+                          <Card className="p-4 rounded-2xl border border-accent/20 dark:border-accent/20 shadow-sm bg-accent/5 dark:bg-accent/10">
+                            <p className="text-[11px] md:text-xs text-accent dark:text-accent font-semibold mb-2">{t('dashboard.admin.guestSection.calculator')}</p>
+                            <p className="text-xl md:text-3xl font-black text-accent dark:text-accent" data-testid="stat-calculator-guests">{(guestVisitors as any[])?.filter((g: any) => g.source === 'calculator')?.length || 0}</p>
                           </Card>
                         </div>
                         <Card className="rounded-xl border border-border/50 shadow-sm mt-3 p-0 overflow-hidden">
@@ -3723,7 +3723,7 @@ export default function Dashboard() {
                                         </span>
                                       )}
                                       {meta.country && (
-                                        <span className="text-[9px] bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400 px-1.5 py-0.5 rounded-full font-medium">
+                                        <span className="text-[9px] bg-accent/5 dark:bg-accent/10 text-accent dark:text-accent px-1.5 py-0.5 rounded-full font-medium">
                                           {meta.country}
                                         </span>
                                       )}
@@ -3774,27 +3774,27 @@ export default function Dashboard() {
                       <div data-testid="section-communications">
                         <h3 className="font-black text-lg tracking-tight mb-3" data-testid="heading-communications">{t('dashboard.admin.metrics.communications')}</h3>
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                          <Card className="p-4 rounded-2xl border border-blue-200 dark:border-blue-800/40 shadow-sm bg-blue-50 dark:bg-blue-950/20">
-                            <p className="text-[11px] md:text-xs text-blue-700 dark:text-blue-400 font-semibold mb-2">{t('dashboard.admin.metrics.newsletterSubs')}</p>
-                            <p className="text-xl md:text-3xl font-black text-blue-800 dark:text-blue-300" data-testid="stat-subscribers">{adminStats?.subscriberCount || 0}</p>
+                          <Card className="p-4 rounded-2xl border border-accent/20 dark:border-accent/20 shadow-sm bg-accent/5 dark:bg-accent/10">
+                            <p className="text-[11px] md:text-xs text-accent dark:text-accent font-semibold mb-2">{t('dashboard.admin.metrics.newsletterSubs')}</p>
+                            <p className="text-xl md:text-3xl font-black text-accent dark:text-accent" data-testid="stat-subscribers">{adminStats?.subscriberCount || 0}</p>
                           </Card>
-                          <Card className="p-4 rounded-2xl border border-blue-200 dark:border-blue-800/40 shadow-sm bg-blue-50 dark:bg-blue-950/20">
-                            <p className="text-[11px] md:text-xs text-blue-700 dark:text-blue-400 font-semibold mb-2">{t('dashboard.admin.metrics.totalMessages')}</p>
-                            <p className="text-xl md:text-3xl font-black text-blue-800 dark:text-blue-300" data-testid="stat-total-messages">{adminStats?.totalMessages || 0}</p>
+                          <Card className="p-4 rounded-2xl border border-accent/20 dark:border-accent/20 shadow-sm bg-accent/5 dark:bg-accent/10">
+                            <p className="text-[11px] md:text-xs text-accent dark:text-accent font-semibold mb-2">{t('dashboard.admin.metrics.totalMessages')}</p>
+                            <p className="text-xl md:text-3xl font-black text-accent dark:text-accent" data-testid="stat-total-messages">{adminStats?.totalMessages || 0}</p>
                           </Card>
-                          <Card className="p-4 rounded-2xl border border-blue-200 dark:border-blue-800/40 shadow-sm bg-blue-50 dark:bg-blue-950/20">
+                          <Card className="p-4 rounded-2xl border border-accent/20 dark:border-accent/20 shadow-sm bg-accent/5 dark:bg-accent/10">
                             <div className="flex items-center gap-2 mb-2">
                               <span className="w-2 h-2 rounded-full bg-amber-500 flex-shrink-0" />
-                              <p className="text-[11px] md:text-xs text-blue-700 dark:text-blue-400 font-semibold">{t('dashboard.admin.metrics.pendingMessages')}</p>
+                              <p className="text-[11px] md:text-xs text-accent dark:text-accent font-semibold">{t('dashboard.admin.metrics.pendingMessages')}</p>
                             </div>
-                            <p className="text-xl md:text-3xl font-black text-blue-800 dark:text-blue-300" data-testid="stat-pending-messages">{adminStats?.pendingMessages || 0}</p>
+                            <p className="text-xl md:text-3xl font-black text-accent dark:text-accent" data-testid="stat-pending-messages">{adminStats?.pendingMessages || 0}</p>
                           </Card>
-                          <Card className="p-4 rounded-2xl border border-blue-200 dark:border-blue-800/40 shadow-sm bg-blue-50 dark:bg-blue-950/20">
+                          <Card className="p-4 rounded-2xl border border-accent/20 dark:border-accent/20 shadow-sm bg-accent/5 dark:bg-accent/10">
                             <div className="flex items-center gap-2 mb-2">
                               <span className="w-2 h-2 rounded-full bg-amber-500 flex-shrink-0" />
-                              <p className="text-[11px] md:text-xs text-blue-700 dark:text-blue-400 font-semibold">{t('dashboard.admin.metrics.pendingDocs')}</p>
+                              <p className="text-[11px] md:text-xs text-accent dark:text-accent font-semibold">{t('dashboard.admin.metrics.pendingDocs')}</p>
                             </div>
-                            <p className="text-xl md:text-3xl font-black text-blue-800 dark:text-blue-300" data-testid="stat-pending-docs">{adminStats?.pendingDocs || 0}</p>
+                            <p className="text-xl md:text-3xl font-black text-accent dark:text-accent" data-testid="stat-pending-docs">{adminStats?.pendingDocs || 0}</p>
                           </Card>
                         </div>
                       </div>
@@ -3833,7 +3833,7 @@ export default function Dashboard() {
                                     <NativeSelectItem value="filed">{t('dashboard.admin.orders.filed')}</NativeSelectItem>
                                     <NativeSelectItem value="cancelled">{t('dashboard.admin.orders.cancelled')}</NativeSelectItem>
                                   </NativeSelect>
-                                  <Badge className={`text-[9px] ${isMaintenance ? 'bg-blue-100 text-blue-700' : 'bg-accent/10 text-accent'}`}>
+                                  <Badge className={`text-[9px] ${isMaintenance ? 'bg-accent/10 text-accent' : 'bg-accent/10 text-accent'}`}>
                                     {isMaintenance ? t('dashboard.admin.orders.maintenance') : 'LLC'}
                                   </Badge>
                                   {!isFormComplete && <Badge className="text-[9px] bg-accent/10 text-accent">{t('dashboard.admin.orders.formIncomplete')}</Badge>}
@@ -4114,7 +4114,7 @@ export default function Dashboard() {
                               <div className="flex justify-between items-start gap-3">
                                 <div className="flex-1 min-w-0">
                                   <div className="flex items-center gap-2 flex-wrap mb-1">
-                                    <Badge className={`text-[9px] ${app.type === 'maintenance' ? 'bg-blue-100 text-blue-700' : 'bg-accent/10 text-accent'}`}>
+                                    <Badge className={`text-[9px] ${app.type === 'maintenance' ? 'bg-accent/10 text-accent' : 'bg-accent/10 text-accent'}`}>
                                       {app.type === 'maintenance' ? t('dashboard.admin.orders.maintenance') : 'LLC'}
                                     </Badge>
                                     <Badge className="text-[9px] bg-accent/10 text-accent">{t('dashboard.admin.incomplete.incomplete')}</Badge>
@@ -5212,8 +5212,8 @@ export default function Dashboard() {
                     </div>
                   ))}
                   {notifications?.filter((n: any) => n.type === 'info' && (n.title || '').includes('docInReview')).map((n: any) => (
-                    <div key={n.id} className="flex items-start gap-3 rounded-xl bg-blue-50 dark:bg-blue-950/20 p-3" data-testid={`action-item-doc-review-${n.id}`}>
-                      <Clock className="w-4 h-4 text-blue-500 mt-0.5 shrink-0" />
+                    <div key={n.id} className="flex items-start gap-3 rounded-xl bg-accent/5 dark:bg-accent/10 p-3" data-testid={`action-item-doc-review-${n.id}`}>
+                      <Clock className="w-4 h-4 text-accent mt-0.5 shrink-0" />
                       <div className="flex-1 min-w-0">
                         <p className="text-xs font-bold text-foreground">{t('dashboard.documents.underReview')}</p>
                         <p className="text-[10px] text-muted-foreground">{t('dashboard.documents.underReviewDesc')}</p>

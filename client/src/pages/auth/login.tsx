@@ -134,12 +134,12 @@ export default function Login() {
                 ? 'bg-destructive/10 border border-destructive/20' 
                 : formMessage.type === 'success'
                 ? 'bg-accent/10 border border-accent/20'
-                : 'bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-800'
+                : 'bg-accent/5 dark:bg-accent/10 border border-accent/20 dark:border-accent/30'
             }`} data-testid="form-message">
               <p className={`font-medium text-xs md:text-sm ${
                 formMessage.type === 'error' ? 'text-destructive' 
                 : formMessage.type === 'success' ? 'text-accent'
-                : 'text-blue-700 dark:text-blue-300'
+                : 'text-accent dark:text-accent'
               }`}>{formMessage.text}</p>
             </div>
           )}

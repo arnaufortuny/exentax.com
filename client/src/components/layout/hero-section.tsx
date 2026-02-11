@@ -19,7 +19,7 @@ export function HeroSection({
 }: HeroSectionProps) {
   return (
     <section 
-      className={`relative overflow-hidden pb-6 sm:pb-16 lg:pb-20 flex flex-col items-center justify-center text-center bg-gradient-to-br from-[#F5FBF8] via-white to-[#E8F5EF] dark:from-[#0A1F17] dark:via-[#0D2418] dark:to-[#0A1F17] ${mobilePaddingTop} ${className}`}
+      className={`relative overflow-hidden pb-6 sm:pb-16 lg:pb-20 flex flex-col items-center justify-center text-center bg-background ${mobilePaddingTop} ${className}`}
     >
       <div className="container max-w-7xl mx-auto px-4 sm:px-8 relative z-10 flex flex-col items-center justify-center text-center">
         <div className="w-full text-center flex flex-col items-center justify-center">

@@ -305,25 +305,25 @@ export function AdminConsultationsPanel({ searchQuery = '' }: AdminConsultations
             ? 'bg-destructive/10 border border-destructive/20 text-destructive' 
             : formMessage.type === 'success'
             ? 'bg-accent/10 border border-accent/20 text-accent'
-            : 'bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-800 text-blue-700 dark:text-blue-300'
+            : 'bg-accent/5 dark:bg-accent/10 border border-accent/20 dark:border-accent/30 text-accent dark:text-accent'
         }`} data-testid="form-message">
           {formMessage.text}
         </div>
       )}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-        <Card className="p-3 border-2 border-blue-500/30 rounded-xl" data-testid="stat-pending">
+        <Card className="p-3 border-2 border-accent/30 rounded-xl" data-testid="stat-pending">
           <div className="text-xs text-muted-foreground">{t('consultations.admin.stats.pending')}</div>
           <div className="text-2xl font-black text-yellow-600">{stats?.pending || 0}</div>
         </Card>
-        <Card className="p-3 border-2 border-blue-500/30 rounded-xl" data-testid="stat-confirmed">
+        <Card className="p-3 border-2 border-accent/30 rounded-xl" data-testid="stat-confirmed">
           <div className="text-xs text-muted-foreground">{t('consultations.admin.stats.confirmed')}</div>
-          <div className="text-2xl font-black text-blue-600">{stats?.confirmed || 0}</div>
+          <div className="text-2xl font-black text-accent">{stats?.confirmed || 0}</div>
         </Card>
-        <Card className="p-3 border-2 border-blue-500/30 rounded-xl" data-testid="stat-completed">
+        <Card className="p-3 border-2 border-accent/30 rounded-xl" data-testid="stat-completed">
           <div className="text-xs text-muted-foreground">{t('consultations.admin.stats.completed')}</div>
-          <div className="text-2xl font-black text-blue-600">{stats?.completed || 0}</div>
+          <div className="text-2xl font-black text-accent">{stats?.completed || 0}</div>
         </Card>
-        <Card className="p-3 border-2 border-blue-500/30 rounded-xl" data-testid="stat-total">
+        <Card className="p-3 border-2 border-accent/30 rounded-xl" data-testid="stat-total">
           <div className="text-xs text-muted-foreground">{t('consultations.admin.stats.total')}</div>
           <div className="text-2xl font-black">{stats?.total || 0}</div>
         </Card>
@@ -389,7 +389,7 @@ export function AdminConsultationsPanel({ searchQuery = '' }: AdminConsultations
                             <Button
                               size="sm"
                               variant="outline"
-                              className="text-blue-600 border-blue-600 rounded-full"
+                              className="text-accent border-accent rounded-full"
                               onClick={() => updateBookingMutation.mutate({ id: booking.id, data: { status: 'confirmed' } })}
                             >
                               <CheckCircle className="w-4 h-4 mr-1" />
