@@ -1316,6 +1316,12 @@
     }
   },
   "dashboard": {
+    "errors": {
+      "invalidOtp": "Ungültiger OTP-Code",
+      "failedToCancel": "Abbrechen fehlgeschlagen",
+      "couldNotUpdateOrder": "Bestellung konnte nicht aktualisiert werden",
+      "connectionError": "Verbindungsfehler"
+    },
     "title": "Dashboard",
     "welcome": "Willkommen, {{name}}",
     "subtitle": "Verwalten Sie Ihre LLC und greifen Sie auf alle Ihre Dienstleistungen an einem Ort zu.",

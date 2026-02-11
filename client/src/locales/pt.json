@@ -1316,6 +1316,12 @@
     }
   },
   "dashboard": {
+    "errors": {
+      "invalidOtp": "Código OTP inválido",
+      "failedToCancel": "Não foi possível cancelar",
+      "couldNotUpdateOrder": "Não foi possível atualizar o pedido",
+      "connectionError": "Erro de ligação"
+    },
     "title": "A Minha Área",
     "welcome": "Bem-vindo, {{name}}",
     "subtitle": "Gere a tua LLC e acede a todos os teus serviços num único lugar.",

@@ -1316,6 +1316,12 @@
     }
   },
   "dashboard": {
+    "errors": {
+      "invalidOtp": "Codice OTP non valido",
+      "failedToCancel": "Impossibile annullare",
+      "couldNotUpdateOrder": "Impossibile aggiornare l'ordine",
+      "connectionError": "Errore di connessione"
+    },
     "title": "La Mia Area",
     "welcome": "Benvenuto, {{name}}",
     "subtitle": "Gestisci la tua LLC e accedi a tutti i tuoi servizi in un unico posto.",

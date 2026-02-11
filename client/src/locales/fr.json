@@ -1316,6 +1316,12 @@
     }
   },
   "dashboard": {
+    "errors": {
+      "invalidOtp": "Code OTP invalide",
+      "failedToCancel": "Échec de l'annulation",
+      "couldNotUpdateOrder": "Impossible de mettre à jour la commande",
+      "connectionError": "Erreur de connexion"
+    },
     "title": "Dashboard",
     "welcome": "Bienvenue, {{name}}",
     "subtitle": "Gérez votre LLC et accédez à tous vos services en un seul endroit.",

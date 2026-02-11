@@ -1316,6 +1316,12 @@
     }
   },
   "dashboard": {
+    "errors": {
+      "invalidOtp": "Codi OTP invàlid",
+      "failedToCancel": "No s'ha pogut cancel·lar",
+      "couldNotUpdateOrder": "No s'ha pogut actualitzar la comanda",
+      "connectionError": "Error de connexió"
+    },
     "title": "La Meva Àrea",
     "welcome": "Benvingut, {{name}}",
     "subtitle": "Gestiona la teva LLC i accedeix a tots els teus serveis en un sol lloc.",

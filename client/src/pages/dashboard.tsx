@@ -546,7 +546,7 @@ export default function Dashboard() {
   const confirmProfileWithOtp = useMutation({
     mutationFn: async () => {
       setFormMessage(null);
-      if (!profileOtp || profileOtp.length !== 6) throw new Error("Invalid OTP code");
+      if (!profileOtp || profileOtp.length !== 6) throw new Error(t("dashboard.errors.invalidOtp"));
       const res = await apiRequest("POST", "/api/user/profile/confirm-otp", { otpCode: profileOtp });
       if (!res.ok) {
         const err = await res.json().catch(() => ({}));
@@ -579,7 +579,7 @@ export default function Dashboard() {
   const cancelPendingChanges = useMutation({
     mutationFn: async () => {
       const res = await apiRequest("POST", "/api/user/profile/cancel-pending");
-      if (!res.ok) throw new Error("Failed to cancel");
+      if (!res.ok) throw new Error(t("dashboard.errors.failedToCancel"));
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/auth/user"] });
@@ -595,7 +595,7 @@ export default function Dashboard() {
       const res = await apiRequest("POST", "/api/user/profile/resend-otp");
       if (!res.ok) {
         const err = await res.json().catch(() => ({}));
-        throw new Error(err.message || "Error");
+        throw new Error(err.message || t("common.error"));
       }
     },
     onSuccess: () => {
@@ -976,7 +976,7 @@ export default function Dashboard() {
       const payload: Record<string, unknown> = { ...data };
       if (data.amount) payload.amount = parseFloat(data.amount);
       const res = await apiRequest("PATCH", `/api/admin/orders/${orderId}/inline`, payload);
-      if (!res.ok) throw new Error("Could not update order");
+      if (!res.ok) throw new Error(t("dashboard.errors.couldNotUpdateOrder"));
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/admin/orders"] });
@@ -1313,7 +1313,7 @@ export default function Dashboard() {
             <div className="mb-6">
               <AlertCircle className="w-16 h-16 text-red-500 mx-auto mb-4" />
               <h1 className="text-xl font-bold text-foreground" data-testid="text-dashboard-error">
-                {t("errors.connectionError", "Connection error")}
+                {t("dashboard.errors.connectionError")}
               </h1>
               <p className="text-muted-foreground mt-2 text-sm">
                 {t("errors.network", "Could not load your session.")}

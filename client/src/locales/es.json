@@ -1316,6 +1316,12 @@
     }
   },
   "dashboard": {
+    "errors": {
+      "invalidOtp": "Código OTP inválido",
+      "failedToCancel": "No se pudo cancelar",
+      "couldNotUpdateOrder": "No se pudo actualizar el pedido",
+      "connectionError": "Error de conexión"
+    },
     "title": "Mi Área",
     "welcome": "Bienvenido, {{name}}",
     "subtitle": "Gestiona tu LLC y accede a todos tus servicios en un solo lugar.",
