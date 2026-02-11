@@ -372,6 +372,30 @@ button {
   background-clip: text;
 }
 
+.footer-dark {
+  background-color: #0A1F17;
+}
+
+.dark .footer-dark {
+  background-color: #0a0a0a;
+}
+
+.dark.forest .footer-dark {
+  background-color: #0A1F17;
+}
+
+.footer-separator {
+  border-color: #112B1E;
+}
+
+.dark .footer-separator {
+  border-color: #1a1a1a;
+}
+
+.dark.forest .footer-separator {
+  border-color: #112B1E;
+}
+
 .badge-vip {
   background: linear-gradient(135deg, #B4ED50, #00C48C);
   color: #0A1F17;
