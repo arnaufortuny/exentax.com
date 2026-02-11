@@ -2,6 +2,7 @@ import { db } from "../db";
 import { llcApplications, maintenanceApplications, orders, users } from "@shared/schema";
 import { eq, and, lt, isNull, isNotNull, or } from "drizzle-orm";
 import { sendEmail, getAbandonedApplicationReminderTemplate } from "./email";
+import type { EmailLanguage } from "./email-translations";
 import { createLogger } from "./logger";
 
 const log = createLogger('abandoned-service');
@@ -9,6 +10,35 @@ const log = createLogger('abandoned-service');
 const ABANDONMENT_THRESHOLD_HOURS = 48;
 const REMINDER_INTERVAL_HOURS = 12;
 const MAX_REMINDERS = 3;
+
+async function getUserLanguage(orderId: number): Promise<EmailLanguage> {
+  try {
+    const [order] = await db.select({ userId: orders.userId })
+      .from(orders)
+      .where(eq(orders.id, orderId))
+      .limit(1);
+    if (order?.userId) {
+      const [user] = await db.select({ preferredLanguage: users.preferredLanguage })
+        .from(users)
+        .where(eq(users.id, order.userId))
+        .limit(1);
+      if (user?.preferredLanguage) {
+        return user.preferredLanguage as EmailLanguage;
+      }
+    }
+  } catch {}
+  return 'es';
+}
+
+const subjectByLang: Record<string, { llc: string; maintenance: string }> = {
+  es: { llc: 'Tu solicitud de LLC está pendiente - Complétala ahora', maintenance: 'Tu solicitud de mantenimiento está pendiente - Complétala ahora' },
+  en: { llc: 'Your LLC application is pending - Complete it now', maintenance: 'Your maintenance application is pending - Complete it now' },
+  ca: { llc: 'La teva sol·licitud de LLC està pendent - Completa-la ara', maintenance: 'La teva sol·licitud de manteniment està pendent - Completa-la ara' },
+  fr: { llc: 'Votre demande de LLC est en attente - Complétez-la maintenant', maintenance: 'Votre demande de maintenance est en attente - Complétez-la maintenant' },
+  de: { llc: 'Ihr LLC-Antrag ist ausstehend - Vervollständigen Sie ihn jetzt', maintenance: 'Ihr Wartungsantrag ist ausstehend - Vervollständigen Sie ihn jetzt' },
+  it: { llc: 'La tua richiesta di LLC è in sospeso - Completala ora', maintenance: 'La tua richiesta di manutenzione è in sospeso - Completala ora' },
+  pt: { llc: 'O seu pedido de LLC está pendente - Complete-o agora', maintenance: 'O seu pedido de manutenção está pendente - Complete-o agora' },
+};
 
 async function markAsAbandoned() {
   const cutoffDate = new Date(Date.now() - 24 * 60 * 60 * 1000);
@@ -66,14 +96,16 @@ async function sendReminders() {
     
     if (hoursRemaining <= 0) continue;
     
-    const name = app.ownerFullName || "Cliente";
-    const state = app.state || "EE.UU.";
+    const lang = await getUserLanguage(app.orderId);
+    const name = app.ownerFullName || (lang === 'en' ? "Client" : "Cliente");
+    const state = app.state || (lang === 'en' ? "USA" : "EE.UU.");
     
-    const html = getAbandonedApplicationReminderTemplate(name, 'llc', state, hoursRemaining);
+    const html = getAbandonedApplicationReminderTemplate(name, 'llc', state, hoursRemaining, lang);
+    const subjects = subjectByLang[lang] || subjectByLang.es;
     
     await sendEmail({
       to: app.ownerEmail,
-      subject: `Tu solicitud de LLC está pendiente - Complétala ahora`,
+      subject: subjects.llc,
       html,
     });
     
@@ -116,14 +148,16 @@ async function sendReminders() {
     
     if (hoursRemaining <= 0) continue;
     
-    const name = app.ownerFullName || "Cliente";
-    const state = app.state || "EE.UU.";
+    const lang = await getUserLanguage(app.orderId);
+    const name = app.ownerFullName || (lang === 'en' ? "Client" : "Cliente");
+    const state = app.state || (lang === 'en' ? "USA" : "EE.UU.");
     
-    const html = getAbandonedApplicationReminderTemplate(name, 'maintenance', state, hoursRemaining);
+    const html = getAbandonedApplicationReminderTemplate(name, 'maintenance', state, hoursRemaining, lang);
+    const subjects = subjectByLang[lang] || subjectByLang.es;
     
     await sendEmail({
       to: app.ownerEmail,
-      subject: `Tu solicitud de mantenimiento está pendiente - Complétala ahora`,
+      subject: subjects.maintenance,
       html,
     });
     

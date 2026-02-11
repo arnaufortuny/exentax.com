@@ -542,7 +542,7 @@ export function registerAdminDocumentsRoutes(app: Express) {
         await db.insert(messagesTable).values({
           userId,
           name: "Exentax (Soporte)",
-          email: "soporte@exentax.com",
+          email: "hola@exentax.com",
           subject: `i18n:ntf.docRequest.subject::{"docType":"${reqDocKey}"}`,
           content: message,
           encryptedContent: encrypt(message),

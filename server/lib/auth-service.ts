@@ -238,7 +238,7 @@ export async function loginUser(email: string, password: string): Promise<typeof
         await db.insert(messagesTable).values({
           userId: user.id,
           name: "Sistema de Seguridad",
-          email: "seguridad@exentax.com",
+          email: "hola@exentax.com",
           subject: "Cuenta Desactivada - 4 Intentos Fallidos",
           content: `Cuenta desactivada permanentemente por seguridad tras 4 intentos fallidos de inicio de sesión. Se requiere verificación de identidad para reactivar. Ticket ID: ${msgId}`,
           status: "unread",

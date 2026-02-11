@@ -1493,7 +1493,9 @@
       "statusPending": "In sospeso",
       "statusRead": "Letto",
       "statusReplied": "Risposto",
-      "hide": "Nascondi"
+      "hide": "Nascondi",
+      "statusClosed": "Chiuso",
+      "statusResolved": "Risolto"
     },
     "payments": {
       "title": "Storico Pagamenti",
@@ -2935,13 +2937,13 @@
         "intro": "Questo Operating Agreement è stato preparato da Exentax, in qualità di fornitore di servizi di costituzione e conformità societaria, per conto del proprio cliente, e entra in vigore a partire da:",
         "effectiveDate": "Data Effettiva",
         "page": "Pagina",
-        "footer1": "Exentax - www.exentax.com - info@exentax.com",
+        "footer1": "Exentax - www.exentax.com - hola@exentax.com",
         "easyUsLlc": "Exentax",
         "registeredAddressLine1": "1209 Mountain Road Place NE",
         "registeredAddressLine2": "STE R",
         "registeredAddressLine3": "Albuquerque, NM 87110",
         "unitedStates": "United States",
-        "contactEmail": "info@exentax.com",
+        "contactEmail": "hola@exentax.com",
         "contactPhone": "+34 614 916 910",
         "section1Title": "Descrizione Generale della Società",
         "section1Content": "Questo Accordo conferma la struttura interna, la proprietà e i principi operativi di {{companyName}}, una Società a Responsabilità Limitata legalmente costituita secondo le leggi dello Stato di {{state}}. La Società è stata creata per operare come un'entità commerciale legittima, fornendo servizi e svolgendo attività commerciali negli Stati Uniti e a livello internazionale.",

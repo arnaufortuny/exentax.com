@@ -39,7 +39,7 @@ const links = [
   },
   {
     label: "Instagram",
-    href: "https://instagram.com/exentax",
+    href: "https://instagram.com/exentax.global",
     icon: Instagram,
     external: true
   }
@@ -140,7 +140,7 @@ export default function LinktreePage() {
         <Share2 className="w-5 h-5" />
       </Button>
 
-      <div className="flex-1 flex flex-col items-center justify-start px-4 pt-36 pb-8 sm:pt-44 sm:pb-12">
+      <div className="flex-1 flex flex-col items-center justify-start px-4 pt-44 pb-8 sm:pt-52 sm:pb-12">
         <div className="w-full max-w-md mx-auto">
           {formMessage && (
             <div className={`mb-4 p-3 rounded-xl text-center text-sm font-medium ${

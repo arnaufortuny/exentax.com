@@ -230,8 +230,8 @@ export const MessagesTab = memo(function MessagesTab({
                     {msg.messageId && (
                       <Badge variant="outline" className="text-[10px] font-bold">#{msg.messageId}</Badge>
                     )}
-                    <Badge variant="secondary" className={`no-default-hover-elevate no-default-active-elevate text-[10px] font-bold ${msg.status === 'replied' ? 'bg-accent/5 dark:bg-accent/10 text-accent dark:text-accent' : msg.status === 'read' ? 'bg-accent/5 dark:bg-accent/10 text-accent dark:text-accent' : 'bg-yellow-50 dark:bg-yellow-900/20 text-yellow-700 dark:text-yellow-400'}`}>
-                      {msg.status === 'replied' ? t('dashboard.support.statusReplied') : msg.status === 'read' ? t('dashboard.support.statusRead') : t('dashboard.support.statusPending')}
+                    <Badge variant="secondary" className={`no-default-hover-elevate no-default-active-elevate text-[10px] font-bold ${msg.status === 'replied' ? 'bg-accent/5 dark:bg-accent/10 text-accent dark:text-accent' : msg.status === 'read' ? 'bg-accent/5 dark:bg-accent/10 text-accent dark:text-accent' : msg.status === 'closed' || msg.status === 'resolved' ? 'bg-muted text-muted-foreground' : 'bg-yellow-50 dark:bg-yellow-900/20 text-yellow-700 dark:text-yellow-400'}`}>
+                      {msg.status === 'replied' ? t('dashboard.support.statusReplied') : msg.status === 'read' ? t('dashboard.support.statusRead') : msg.status === 'closed' ? t('dashboard.support.statusClosed') : msg.status === 'resolved' ? t('dashboard.support.statusResolved') : t('dashboard.support.statusPending')}
                     </Badge>
                   </div>
                 </div>
