@@ -230,8 +230,10 @@ export function Navbar() {
         </div>
       </div>
 
+    </header>
+
       {isOpen && (
-        <div className="md:hidden fixed inset-0 bg-white dark:bg-[#0A1F17] z-[99] flex flex-col pt-20">
+        <div className="md:hidden fixed inset-0 bg-white dark:bg-[#0A1F17] z-[105] flex flex-col pt-20" data-testid="mobile-menu-overlay">
           <div className="flex flex-col bg-transparent p-6 justify-between items-stretch overflow-y-auto overscroll-contain flex-1" style={{ maxHeight: 'calc(100dvh - 5rem)', WebkitOverflowScrolling: 'touch' }}>
               <div className="flex flex-col gap-0.5 items-stretch text-left">
                 <button
@@ -311,7 +313,6 @@ export function Navbar() {
           </div>
         </div>
       )}
-    </header>
     </>
   );
 }
