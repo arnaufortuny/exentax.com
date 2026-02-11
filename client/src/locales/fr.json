@@ -3846,11 +3846,20 @@
       }
     },
     "steps": {
-      "title": "Trois étapes pour commencer",
-      "subtitle": "Le chemin vers votre LLC américaine est plus facile que vous ne le pensez.",
-      "calculate": "Calculez vos économies fiscales avec notre outil",
-      "consult": "Réservez une consultation gratuite avec un expert",
-      "launch": "Lancez votre LLC et commencez à opérer"
+      "title": "Commencez en 3 étapes simples",
+      "subtitle": "Nous voulons que vous compreniez tout dès le début et que vous preniez vos décisions en toute sérénité. Sans jargon, sans pression et avec quelqu'un pour vous guider à chaque étape.",
+      "s1": {
+        "title": "Dites-nous comment fonctionne votre entreprise",
+        "desc": "Nous voulons comprendre comment vous travaillez, où vous vendez, comment vous êtes payé et quels sont vos objectifs. Nous analysons votre situation de manière réaliste et vous dirons honnêtement si vous pouvez optimiser votre fiscalité légalement et si cette structure vous convient. Si ce n'est pas pour vous, nous vous le dirons aussi."
+      },
+      "s2": {
+        "title": "Nous discutons avec vous sans engagement",
+        "desc": "Vous aurez une conversation directe avec notre équipe où vous pourrez poser toutes vos questions. Nous vous expliquerons comment votre structure fonctionnerait, ses avantages, les obligations existantes et comment se passerait le quotidien. Nous voulons que vous ayez une clarté totale avant de prendre une décision."
+      },
+      "s3": {
+        "title": "Nous nous occupons de tout",
+        "desc": "Si vous décidez d'avancer, nous prenons en charge l'ensemble du processus pour que vous n'ayez pas à vous soucier des formalités, de la documentation ou des démarches complexes. Nous créons votre entreprise, organisons la partie administrative et vous accompagnons jusqu'à ce que vous puissiez opérer en toute sécurité, clarté et sérénité. Et nous restons à vos côtés ensuite, pour que votre structure fonctionne correctement sur le long terme."
+      }
     },
     "cta": {
       "title": "Prêt à franchir le pas ?",

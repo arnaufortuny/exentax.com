@@ -3846,11 +3846,20 @@
       }
     },
     "steps": {
-      "title": "Three steps to get started",
-      "subtitle": "The path to your US LLC is easier than you think.",
-      "calculate": "Calculate your tax savings with our tool",
-      "consult": "Book a free consultation with an expert",
-      "launch": "Launch your LLC and start operating"
+      "title": "Get started in 3 simple steps",
+      "subtitle": "We want you to understand everything from the start and make decisions with peace of mind. No jargon, no pressure, and someone guiding you every step of the way.",
+      "s1": {
+        "title": "Tell us how your business works",
+        "desc": "We want to understand how you work, where you sell, how you get paid, and what your goals are. We analyze your situation realistically and will tell you honestly whether you can legally optimize your taxes and if this structure is right for you. If it's not for you, we'll tell you that too."
+      },
+      "s2": {
+        "title": "We talk with you, no strings attached",
+        "desc": "You'll have a direct conversation with our team where you can ask everything you need. We'll explain how your structure would work, its advantages, existing obligations, and how day-to-day operations would look. We want you to have complete clarity before making any decision."
+      },
+      "s3": {
+        "title": "We take care of everything",
+        "desc": "If you decide to move forward, we handle the entire process so you don't have to worry about paperwork, documentation, or complex procedures. We form your company, organize the administrative side, and guide you until you can start operating with confidence, clarity, and peace of mind. And we stay with you afterward, so your structure works correctly long-term."
+      }
     },
     "cta": {
       "title": "Ready to take the step?",

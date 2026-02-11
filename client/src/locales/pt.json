@@ -3846,11 +3846,20 @@
       }
     },
     "steps": {
-      "title": "Três passos para começar",
-      "subtitle": "O caminho para sua LLC americana é mais fácil do que você imagina.",
-      "calculate": "Calcule sua economia fiscal com nossa ferramenta",
-      "consult": "Agende uma consulta gratuita com um especialista",
-      "launch": "Lance sua LLC e comece a operar"
+      "title": "Comece em 3 passos simples",
+      "subtitle": "Queremos que entenda tudo desde o início e que tome decisões com tranquilidade. Sem tecnicismos, sem pressão e com alguém a guiá-lo em cada passo.",
+      "s1": {
+        "title": "Conte-nos como funciona o seu negócio",
+        "desc": "Queremos entender como trabalha, onde vende, como recebe e quais são os seus objetivos. Analisamos a sua situação de forma realista e diremos com total honestidade se pode otimizar a sua fiscalidade de forma legal e se esta estrutura se adequa a si. Se não for para si, também lhe diremos."
+      },
+      "s2": {
+        "title": "Falamos consigo sem compromisso",
+        "desc": "Terá uma conversa direta com a nossa equipa onde poderá perguntar tudo o que precisar. Explicaremos como funcionaria a sua estrutura, que vantagens tem, que obrigações existem e como seria a operação no seu dia a dia. Queremos que tenha clareza total antes de tomar qualquer decisão."
+      },
+      "s3": {
+        "title": "Nós tratamos de tudo",
+        "desc": "Se decidir avançar, tratamos de todo o processo para que não tenha de se preocupar com trâmites, documentação ou gestões complexas. Constituímos a sua empresa, organizamos a parte administrativa e acompanhamo-lo até poder começar a operar com segurança, clareza e tranquilidade. E continuamos consigo depois, para que a sua estrutura funcione corretamente a longo prazo."
+      }
     },
     "cta": {
       "title": "Pronto para dar o passo?",

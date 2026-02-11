@@ -3846,11 +3846,20 @@
       }
     },
     "steps": {
-      "title": "Drei Schritte zum Start",
-      "subtitle": "Der Weg zu Ihrer US-LLC ist einfacher als Sie denken.",
-      "calculate": "Berechnen Sie Ihre Steuerersparnis mit unserem Tool",
-      "consult": "Buchen Sie eine kostenlose Beratung mit einem Experten",
-      "launch": "Starten Sie Ihre LLC und beginnen Sie zu arbeiten"
+      "title": "Starten Sie in 3 einfachen Schritten",
+      "subtitle": "Wir möchten, dass Sie von Anfang an alles verstehen und Entscheidungen in Ruhe treffen. Ohne Fachjargon, ohne Druck und mit jemandem, der Sie bei jedem Schritt begleitet.",
+      "s1": {
+        "title": "Erzählen Sie uns, wie Ihr Geschäft funktioniert",
+        "desc": "Wir möchten verstehen, wie Sie arbeiten, wo Sie verkaufen, wie Sie bezahlt werden und was Ihre Ziele sind. Wir analysieren Ihre Situation realistisch und sagen Ihnen ehrlich, ob Sie Ihre Steuern legal optimieren können und ob diese Struktur zu Ihnen passt. Wenn es nicht für Sie ist, sagen wir Ihnen das auch."
+      },
+      "s2": {
+        "title": "Wir sprechen unverbindlich mit Ihnen",
+        "desc": "Sie haben ein direktes Gespräch mit unserem Team, in dem Sie alles fragen können, was Sie brauchen. Wir erklären Ihnen, wie Ihre Struktur funktionieren würde, welche Vorteile sie hat, welche Pflichten bestehen und wie der Alltag aussehen würde. Wir möchten, dass Sie vollständige Klarheit haben, bevor Sie eine Entscheidung treffen."
+      },
+      "s3": {
+        "title": "Wir kümmern uns um alles",
+        "desc": "Wenn Sie sich entscheiden weiterzumachen, übernehmen wir den gesamten Prozess, damit Sie sich nicht um Formalitäten, Dokumentation oder komplexe Verwaltungsaufgaben kümmern müssen. Wir gründen Ihr Unternehmen, organisieren die Verwaltung und begleiten Sie, bis Sie sicher, klar und beruhigt operieren können. Und wir bleiben danach an Ihrer Seite, damit Ihre Struktur langfristig korrekt funktioniert."
+      }
     },
     "cta": {
       "title": "Bereit für den nächsten Schritt?",

@@ -3846,11 +3846,20 @@
       }
     },
     "steps": {
-      "title": "Tres passos per començar",
-      "subtitle": "El camí cap a la teva LLC americana és més fàcil del que penses.",
-      "calculate": "Calcula el teu estalvi fiscal amb la nostra eina",
-      "consult": "Agenda una consulta gratuïta amb un expert",
-      "launch": "Llança la teva LLC i comença a operar"
+      "title": "Comença en 3 passos molt simples",
+      "subtitle": "Volem que ho entenguis tot des del principi i que prenguis decisions amb tranquil·litat. Sense tecnicismes, sense pressió i amb algú guiant-te a cada pas.",
+      "s1": {
+        "title": "Explica'ns com funciona el teu negoci",
+        "desc": "Volem entendre com treballes, on vens, com cobres i quins són els teus objectius. Analitzem la teva situació de forma realista i et direm amb total honestedat si pots optimitzar la teva fiscalitat de forma legal i si aquesta estructura encaixa amb tu. Si no és per a tu, també t'ho direm."
+      },
+      "s2": {
+        "title": "Parlem amb tu sense compromís",
+        "desc": "Tindràs una conversa directa amb el nostre equip on podràs preguntar tot el que necessitis. T'explicarem com funcionaria la teva estructura, quins avantatges té, quines obligacions existeixen i com seria l'operativa en el teu dia a dia. Volem que tinguis claredat total abans de prendre qualsevol decisió."
+      },
+      "s3": {
+        "title": "Nosaltres ens encarreguem de tot",
+        "desc": "Si decideixes avançar, ens ocupem de tot el procés perquè no hagis de preocupar-te per tràmits, documentació o gestions complexes. Constituïm la teva empresa, organitzem la part administrativa i t'acompanyem fins que puguis començar a operar amb seguretat, claredat i tranquil·litat. I seguim amb tu després, perquè la teva estructura funcioni correctament a llarg termini."
+      }
     },
     "cta": {
       "title": "Preparat per fer el pas?",

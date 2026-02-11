@@ -14,9 +14,9 @@ export default function StartPage() {
   usePageTitle(t("start.seo.title"));
 
   const steps = [
-    { num: "1", key: "start.steps.calculate" },
-    { num: "2", key: "start.steps.consult" },
-    { num: "3", key: "start.steps.launch" },
+    { num: "1", titleKey: "start.steps.s1.title", descKey: "start.steps.s1.desc" },
+    { num: "2", titleKey: "start.steps.s2.title", descKey: "start.steps.s2.desc" },
+    { num: "3", titleKey: "start.steps.s3.title", descKey: "start.steps.s3.desc" },
   ];
 
   return (
@@ -65,28 +65,37 @@ export default function StartPage() {
         </div>
       </section>
 
-      <section className="py-12 md:py-16">
-        <div className="container mx-auto px-4 text-center mb-10">
-          <h2 className="text-2xl md:text-3xl font-bold text-foreground font-[Space_Grotesk] mb-3" data-testid="text-steps-title">
+      <section className="py-16 md:py-24">
+        <div className="container mx-auto px-4 text-center mb-12">
+          <h2 className="text-2xl md:text-3xl font-bold text-foreground font-[Space_Grotesk] mb-4" data-testid="text-steps-title">
             {t("start.steps.title")}
           </h2>
-          <p className="text-muted-foreground max-w-xl mx-auto">{t("start.steps.subtitle")}</p>
+          <p className="text-muted-foreground max-w-2xl mx-auto text-base md:text-lg leading-relaxed">{t("start.steps.subtitle")}</p>
         </div>
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+          <div className="max-w-3xl mx-auto space-y-8">
             {steps.map((s, i) => (
               <motion.div
                 key={i}
-                className="text-center"
+                className="flex gap-5 md:gap-6"
                 initial={{ opacity: 0, y: 15 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.15, duration: 0.4 }}
               >
-                <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-accent text-white font-bold text-lg mb-4" data-testid={`text-step-number-${s.num}`}>
-                  {s.num}
+                <div className="flex-shrink-0">
+                  <div className="inline-flex items-center justify-center w-10 h-10 md:w-12 md:h-12 rounded-full bg-accent text-white font-bold text-base md:text-lg" data-testid={`text-step-number-${s.num}`}>
+                    {s.num}
+                  </div>
                 </div>
-                <p className="font-medium text-foreground" data-testid={`text-step-${s.num}`}>{t(s.key)}</p>
+                <div className="text-left">
+                  <h3 className="text-lg md:text-xl font-semibold text-foreground mb-2 font-[Inter]" data-testid={`text-step-title-${s.num}`}>
+                    {t(s.titleKey)}
+                  </h3>
+                  <p className="text-muted-foreground leading-relaxed" data-testid={`text-step-desc-${s.num}`}>
+                    {t(s.descKey)}
+                  </p>
+                </div>
               </motion.div>
             ))}
           </div>
