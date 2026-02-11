@@ -6,20 +6,12 @@ import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { TaxComparator } from "@/components/tax-comparator";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { ArrowRight, Shield, Globe, Clock, CheckCircle2 } from "@/components/icons";
+import { ArrowRight } from "@/components/icons";
 
 export default function StartPage() {
   const { t } = useTranslation();
   const [, setLocation] = useLocation();
   usePageTitle(t("start.seo.title"));
-
-  const benefits = [
-    { icon: Shield, titleKey: "start.benefits.tax.title", descKey: "start.benefits.tax.desc" },
-    { icon: Globe, titleKey: "start.benefits.global.title", descKey: "start.benefits.global.desc" },
-    { icon: Clock, titleKey: "start.benefits.fast.title", descKey: "start.benefits.fast.desc" },
-    { icon: CheckCircle2, titleKey: "start.benefits.support.title", descKey: "start.benefits.support.desc" },
-  ];
 
   const steps = [
     { num: "1", key: "start.steps.calculate" },
@@ -43,10 +35,10 @@ export default function StartPage() {
             <span className="inline-block px-4 py-1.5 mb-6 text-xs font-bold tracking-wider uppercase bg-accent/10 text-accent rounded-full" data-testid="badge-start-hero">
               {t("start.hero.badge")}
             </span>
-            <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold text-foreground leading-tight mb-6 font-[Space_Grotesk]" data-testid="text-start-title">
+            <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold text-foreground leading-tight mb-6 font-[Space_Grotesk] whitespace-pre-line" data-testid="text-start-title">
               {t("start.hero.title")}
             </h1>
-            <p className="text-lg md:text-xl text-muted-foreground mb-8 max-w-2xl mx-auto" data-testid="text-start-subtitle">
+            <p className="text-lg md:text-xl text-muted-foreground mb-8 max-w-2xl mx-auto whitespace-pre-line" data-testid="text-start-subtitle">
               {t("start.hero.subtitle")}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -73,30 +65,6 @@ export default function StartPage() {
         </div>
       </section>
 
-      <section className="py-12 md:py-16 bg-muted/30">
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-            {benefits.map((b, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 15 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1, duration: 0.4 }}
-              >
-                <Card className="h-full" data-testid={`card-benefit-${i}`}>
-                  <CardContent className="p-5 md:p-6">
-                    <b.icon className="h-8 w-8 text-accent mb-3" />
-                    <h3 className="font-semibold text-foreground mb-1.5">{t(b.titleKey)}</h3>
-                    <p className="text-sm text-muted-foreground">{t(b.descKey)}</p>
-                  </CardContent>
-                </Card>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       <section className="py-12 md:py-16">
         <div className="container mx-auto px-4 text-center mb-10">
           <h2 className="text-2xl md:text-3xl font-bold text-foreground font-[Space_Grotesk] mb-3" data-testid="text-steps-title">
@@ -115,10 +83,10 @@ export default function StartPage() {
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.15, duration: 0.4 }}
               >
-                <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-accent text-white font-bold text-lg mb-4">
+                <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-accent text-white font-bold text-lg mb-4" data-testid={`text-step-number-${s.num}`}>
                   {s.num}
                 </div>
-                <p className="font-medium text-foreground">{t(s.key)}</p>
+                <p className="font-medium text-foreground" data-testid={`text-step-${s.num}`}>{t(s.key)}</p>
               </motion.div>
             ))}
           </div>

@@ -3821,11 +3821,11 @@
       "title": "Starten Sie Ihre US-LLC | Exentax"
     },
     "hero": {
-      "badge": "Starten Sie heute",
-      "title": "Gründen Sie Ihre US-LLC und zahlen Sie weniger Steuern",
-      "subtitle": "Berechnen Sie, wie viel Sie mit einer US-LLC sparen können, und buchen Sie eine kostenlose Beratung.",
-      "ctaCalculate": "Ersparnis berechnen",
-      "ctaConsult": "Kostenlose Beratung"
+      "badge": "Für digitale Unternehmer mit globalen Aktivitäten",
+      "title": "Sie brauchen kein weiteres Unternehmen.\nSie brauchen die richtige Struktur.",
+      "subtitle": "Die meisten Online-Unternehmen zahlen zu viel Steuern, einfach weil sie mit der falschen Struktur arbeiten.\nWir helfen Ihnen, das legal und sicher zu korrigieren.",
+      "ctaCalculate": "Prüfen Sie Ihren Fall in 2 Minuten",
+      "ctaConsult": "Kostenlose Beratung buchen"
     },
     "benefits": {
       "tax": {
@@ -3854,7 +3854,7 @@
     },
     "cta": {
       "title": "Bereit für den nächsten Schritt?",
-      "subtitle": "Buchen Sie eine kostenlose Beratung und lassen Sie sich von einem Experten beraten.",
+      "subtitle": "Buchen Sie eine kostenlose Beratung und klären Sie alle Ihre Fragen mit einem Experten für US-Unternehmensgründung.",
       "button": "Kostenlose Beratung buchen",
       "services": "Alle Dienstleistungen ansehen"
     }

@@ -3821,11 +3821,11 @@
       "title": "Créez votre LLC aux USA | Exentax"
     },
     "hero": {
-      "badge": "Commencez aujourd'hui",
-      "title": "Créez votre LLC aux USA et payez moins d'impôts",
-      "subtitle": "Calculez combien vous pouvez économiser avec une LLC américaine et réservez une consultation gratuite.",
-      "ctaCalculate": "Calculez vos économies",
-      "ctaConsult": "Consultation gratuite"
+      "badge": "Pour les entrepreneurs numériques opérant à l'international",
+      "title": "Vous n'avez pas besoin d'une autre entreprise.\nVous avez besoin de la bonne structure.",
+      "subtitle": "La plupart des entreprises en ligne paient trop d'impôts simplement parce qu'elles opèrent avec la mauvaise structure.\nNous vous aidons à corriger cela légalement et en toute sécurité.",
+      "ctaCalculate": "Vérifiez votre cas en 2 minutes",
+      "ctaConsult": "Réservez une consultation gratuite"
     },
     "benefits": {
       "tax": {
@@ -3854,7 +3854,7 @@
     },
     "cta": {
       "title": "Prêt à franchir le pas ?",
-      "subtitle": "Réservez une consultation gratuite et obtenez toutes les réponses à vos questions.",
+      "subtitle": "Réservez une consultation gratuite et obtenez toutes les réponses à vos questions avec un expert en création d'entreprises aux États-Unis.",
       "button": "Réserver une consultation gratuite",
       "services": "Voir tous les services"
     }
