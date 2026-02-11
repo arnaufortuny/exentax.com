@@ -199,7 +199,7 @@ function BenefitsCards() {
                 src={card.image} 
                 alt="" 
                 className="w-full h-full object-cover"
-                loading="eager"
+                loading="lazy"
                 decoding="async"
               />
             </div>
@@ -347,7 +347,7 @@ function HowWeWorkSection() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="bg-background rounded-2xl shadow-sm border border-border flex flex-col text-left overflow-hidden">
               <div className="w-full aspect-[16/9] overflow-hidden">
-                <img src={llcFormationImg} alt="LLC Formation" className="w-full h-full object-cover" loading="eager" decoding="async" />
+                <img src={llcFormationImg} alt="LLC Formation" className="w-full h-full object-cover" loading="lazy" decoding="async" />
               </div>
               <div className="p-6 sm:p-8">
                 <h3 className="text-xl font-black mb-3 text-left">{t("timing.steps.step1.title")}</h3>
@@ -357,7 +357,7 @@ function HowWeWorkSection() {
 
             <div className="bg-background rounded-2xl shadow-sm border border-border flex flex-col text-left overflow-hidden">
               <div className="w-full aspect-[16/9] overflow-hidden">
-                <img src={einIncludedImg} alt="EIN Included" className="w-full h-full object-cover" loading="eager" decoding="async" />
+                <img src={einIncludedImg} alt="EIN Included" className="w-full h-full object-cover" loading="lazy" decoding="async" />
               </div>
               <div className="p-6 sm:p-8">
                 <h3 className="text-xl font-black mb-3 text-left">{t("timing.steps.step2.title")}</h3>
@@ -375,7 +375,7 @@ function HowWeWorkSection() {
 
             <div className="bg-background rounded-2xl shadow-sm border border-border flex flex-col text-left overflow-hidden">
               <div className="w-full aspect-[16/9] overflow-hidden">
-                <img src={bankAccountImg} alt="Bank Account" className="w-full h-full object-cover" loading="eager" decoding="async" />
+                <img src={bankAccountImg} alt="Bank Account" className="w-full h-full object-cover" loading="lazy" decoding="async" />
               </div>
               <div className="p-6 sm:p-8">
                 <h3 className="text-xl font-black mb-3 text-left">{t("timing.steps.step3.title")}</h3>
@@ -453,7 +453,7 @@ function PorQueEasyUSLLC() {
                     src={feature.image} 
                     alt="" 
                     className="w-full h-full object-cover"
-                    loading="eager"
+                    loading="lazy"
                     decoding="async"
                   />
                 </div>

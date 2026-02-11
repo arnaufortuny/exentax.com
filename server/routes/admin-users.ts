@@ -16,7 +16,20 @@ export function registerAdminUserRoutes(app: Express) {
   app.get("/api/admin/users", isAdmin, async (req, res) => {
     try {
       const users = await db.select().from(usersTable).orderBy(desc(usersTable.createdAt));
-      res.json(users);
+      const search = (req.query.search as string || '').toLowerCase().trim();
+      const limit = Math.min(Number(req.query.limit) || 500, 500);
+      
+      let filtered = users;
+      if (search) {
+        filtered = users.filter((u: any) => {
+          const name = `${u.firstName || ''} ${u.lastName || ''}`.toLowerCase();
+          const email = (u.email || '').toLowerCase();
+          const phone = (u.phone || '').toLowerCase();
+          return name.includes(search) || email.includes(search) || phone.includes(search);
+        });
+      }
+      
+      res.json(filtered.slice(0, limit));
     } catch (error) {
       res.status(500).json({ message: "Error fetching users" });
     }

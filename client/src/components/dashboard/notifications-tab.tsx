@@ -1,3 +1,4 @@
+import { memo, useCallback } from "react";
 import { X } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -5,7 +6,6 @@ import { Badge } from "@/components/ui/badge";
 import type { Tab } from "./types";
 import { useTranslation } from "react-i18next";
 import { formatDate } from "@/lib/utils";
-import { useCallback } from "react";
 
 function translateNotifText(text: string, t: ReturnType<typeof useTranslation>['t']): string {
   if (!text || !text.startsWith('i18n:')) return text;
@@ -46,7 +46,7 @@ interface NotificationsTabProps {
 }
 
 
-export function NotificationsTab({ 
+export const NotificationsTab = memo(function NotificationsTab({ 
   notifications, 
   notificationsLoading,
   user,
@@ -167,4 +167,4 @@ export function NotificationsTab({
       )}
     </div>
   );
-}
+});

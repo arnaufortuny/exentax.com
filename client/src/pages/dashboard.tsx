@@ -467,6 +467,21 @@ export default function Dashboard() {
     }
   }, [user]);
 
+  const [isTabFocused, setIsTabFocused] = useState(() => typeof document !== 'undefined' ? document.hasFocus() : true);
+  useEffect(() => {
+    const onFocus = () => setIsTabFocused(true);
+    const onBlur = () => setIsTabFocused(false);
+    const onVisChange = () => setIsTabFocused(!document.hidden);
+    window.addEventListener('focus', onFocus);
+    window.addEventListener('blur', onBlur);
+    document.addEventListener('visibilitychange', onVisChange);
+    return () => {
+      window.removeEventListener('focus', onFocus);
+      window.removeEventListener('blur', onBlur);
+      document.removeEventListener('visibilitychange', onVisChange);
+    };
+  }, []);
+
   const updateProfile = useMutation({
     retry: false,
     mutationFn: async (data: typeof profileData) => {
@@ -606,7 +621,7 @@ export default function Dashboard() {
   const { data: clientInvoices } = useQuery<any[]>({
     queryKey: ["/api/user/invoices"],
     enabled: isAuthenticated && !user?.isAdmin,
-    refetchInterval: 30000,
+    refetchInterval: isTabFocused && activeTab === 'payments' ? 30000 : false,
   });
 
   const { data: messagesData, isLoading: messagesLoading } = useQuery<any[]>({
@@ -651,7 +666,7 @@ export default function Dashboard() {
   const { data: notifications, isLoading: notificationsLoading } = useQuery<any[]>({
     queryKey: ["/api/user/notifications"],
     enabled: isAuthenticated,
-    refetchInterval: 30000,
+    refetchInterval: isTabFocused && activeTab === 'notifications' ? 30000 : false,
   });
 
   const markNotificationRead = useMutation({
@@ -717,6 +732,7 @@ export default function Dashboard() {
   const { data: adminNewsletterSubs, refetch: refetchNewsletterSubs } = useQuery<any[]>({
     queryKey: ["/api/admin/newsletter"],
     enabled: !!user?.isAdmin,
+    staleTime: 1000 * 60 * 2,
   });
 
   const { data: adminDocuments } = useQuery<any[]>({
@@ -728,7 +744,7 @@ export default function Dashboard() {
   const { data: adminInvoices } = useQuery<any[]>({
     queryKey: ["/api/admin/invoices"],
     enabled: !!user?.isAdmin,
-    refetchInterval: 30000,
+    refetchInterval: isTabFocused && adminSubTab === 'billing' ? 30000 : false,
   });
 
   const { data: adminStats } = useQuery<{
@@ -758,21 +774,25 @@ export default function Dashboard() {
   const { data: adminMessages } = useQuery<any[]>({
     queryKey: ["/api/admin/messages"],
     enabled: !!user?.isAdmin || !!user?.isSupport,
+    staleTime: 1000 * 60 * 2,
   });
 
   const { data: discountCodes, refetch: refetchDiscountCodes } = useQuery<DiscountCode[]>({
     queryKey: ["/api/admin/discount-codes"],
     enabled: !!user?.isAdmin,
+    staleTime: 1000 * 60 * 2,
   });
 
   const { data: guestVisitors, refetch: refetchGuests } = useQuery({
     queryKey: ['/api/admin/guests'],
     enabled: !!user?.isAdmin,
+    staleTime: 1000 * 60 * 2,
   });
 
   const { data: paymentAccountsList, refetch: refetchPaymentAccounts } = useQuery<any[]>({
     queryKey: ['/api/admin/payment-accounts'],
     enabled: !!user?.isAdmin,
+    staleTime: 1000 * 60 * 2,
   });
   const [paymentAccountDialog, setPaymentAccountDialog] = useState<{ open: boolean; account: any | null }>({ open: false, account: null });
   const [paymentAccountForm, setPaymentAccountForm] = useState({
@@ -802,6 +822,7 @@ export default function Dashboard() {
   const { data: userDocuments } = useQuery<any[]>({
     queryKey: ["/api/user/documents"],
     enabled: isAuthenticated,
+    staleTime: 1000 * 60 * 2,
   });
 
   const uploadDocMutation = useMutation({
@@ -3594,7 +3615,7 @@ export default function Dashboard() {
 
                       <div data-testid="section-orders">
                         <h3 className="font-black text-lg tracking-tight mb-3" data-testid="heading-orders">{t('dashboard.admin.metrics.orderStatus')}</h3>
-                        <div className="grid grid-cols-3 gap-3">
+                        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                           <Card className="p-4 rounded-2xl border border-blue-200 dark:border-blue-800/40 shadow-sm bg-blue-50 dark:bg-blue-950/20">
                             <div className="flex items-center gap-2 mb-2">
                               <span className="w-2 h-2 rounded-full bg-amber-500 flex-shrink-0" />

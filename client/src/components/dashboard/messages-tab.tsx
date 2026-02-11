@@ -1,3 +1,4 @@
+import { memo, useState, useCallback } from "react";
 import { MessageSquare, Loader2, Eye, MessageCircle, Send, PlusCircle, X } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -6,7 +7,6 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { NativeSelect, NativeSelectItem } from "@/components/ui/native-select";
 import { Badge } from "@/components/ui/badge";
-import { useState, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { formatDate } from "@/lib/utils";
 import { useMutation } from "@tanstack/react-query";
@@ -52,7 +52,7 @@ interface MessagesTabProps {
   setFormMessage: (msg: { type: 'error' | 'success' | 'info', text: string } | null) => void;
 }
 
-export function MessagesTab({ 
+export const MessagesTab = memo(function MessagesTab({ 
   messagesData, 
   selectedMessage, 
   setSelectedMessage,
@@ -287,4 +287,4 @@ export function MessagesTab({
       </div>
     </div>
   );
-}
+});

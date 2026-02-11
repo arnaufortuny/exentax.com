@@ -225,7 +225,8 @@ export function registerAdminCommsRoutes(app: Express) {
   app.get("/api/admin/messages", isAdminOrSupport, async (req, res) => {
     try {
       const allMessages = await storage.getAllMessages();
-      res.json(allMessages);
+      const limit = Math.min(Number(req.query.limit) || 300, 500);
+      res.json(allMessages.slice(0, limit));
     } catch (error) {
       res.status(500).json({ message: "Error" });
     }

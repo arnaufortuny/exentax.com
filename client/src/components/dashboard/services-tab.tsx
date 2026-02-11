@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { Link } from "wouter";
 import { useTranslation } from "react-i18next";
 import { AlertCircle, ChevronRight, Calendar, FileText, CheckCircle2, Clock, AlertTriangle, Building2, MapPin, Users, Shield, Package } from "@/components/icons";
@@ -41,7 +42,7 @@ function getBoiStatusBadge(status: string | null | undefined, t: any) {
   }
 }
 
-export function ServicesTab({ orders, draftOrders, activeOrders, userName }: ServicesTabProps) {
+export const ServicesTab = memo(function ServicesTab({ orders, draftOrders, activeOrders, userName }: ServicesTabProps) {
   const { t } = useTranslation();
   
   const completedOrders = orders?.filter(o => o.status === 'completed' && o.application) || [];
@@ -343,4 +344,4 @@ export function ServicesTab({ orders, draftOrders, activeOrders, userName }: Ser
       )}
     </div>
   );
-}
+});

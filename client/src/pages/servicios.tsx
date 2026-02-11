@@ -72,7 +72,7 @@ const SupportIcon = ({ className }: { className?: string }) => (
 
 import mercuryLogo from "@assets/mercury-logo.png";
 const MercuryIcon = ({ className }: { className?: string }) => (
-  <img src={mercuryLogo} alt="Mercury" className={className} style={{ objectFit: "contain" }} />
+  <img src={mercuryLogo} alt="Mercury" className={className} style={{ objectFit: "contain" }} loading="lazy" />
 );
 
 const RelayIcon = ({ className }: { className?: string }) => (

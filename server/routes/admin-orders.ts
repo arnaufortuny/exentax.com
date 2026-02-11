@@ -15,7 +15,22 @@ export function registerAdminOrderRoutes(app: Express) {
   app.get("/api/admin/orders", isAdminOrSupport, async (req, res) => {
     try {
       const allOrders = await storage.getAllOrders();
-      res.json(allOrders);
+      const search = (req.query.search as string || '').toLowerCase().trim();
+      const limit = Math.min(Number(req.query.limit) || 500, 500);
+      
+      let filtered = allOrders;
+      if (search) {
+        filtered = allOrders.filter((o: any) => {
+          const userName = `${o.user?.firstName || ''} ${o.user?.lastName || ''}`.toLowerCase();
+          const email = (o.user?.email || '').toLowerCase();
+          const company = (o.application?.companyName || o.maintenanceApplication?.companyName || '').toLowerCase();
+          const code = (o.application?.requestCode || o.maintenanceApplication?.requestCode || '').toLowerCase();
+          const invoice = (o.invoiceNumber || '').toLowerCase();
+          return userName.includes(search) || email.includes(search) || company.includes(search) || code.includes(search) || invoice.includes(search);
+        });
+      }
+      
+      res.json(filtered.slice(0, limit));
     } catch (error) {
       log.error("Admin orders error", error);
       res.status(500).json({ message: "Error fetching orders" });
