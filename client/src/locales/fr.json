@@ -3862,10 +3862,18 @@
       }
     },
     "cta": {
-      "title": "Prêt à franchir le pas ?",
-      "subtitle": "Réservez une consultation gratuite et obtenez toutes les réponses à vos questions avec un expert en création d'entreprises aux États-Unis.",
-      "button": "Réserver une consultation gratuite",
-      "services": "Voir tous les services"
+      "title": "Vous voulez savoir si cette structure vous convient ?",
+      "subtitle": "Réservez une consultation gratuite et nous examinerons votre cas avec vous personnellement.\nNous répondrons à vos questions, analyserons votre situation et vous dirons clairement si vous pouvez optimiser votre fiscalité légalement.",
+      "note": "Sans engagement. Sans pression. Juste des informations claires pour prendre la meilleure décision.",
+      "button": "Réservez votre consultation gratuite",
+      "services": "Découvrez nos services"
+    },
+    "taxCalc": {
+      "titlePart1": "DÉCOUVREZ COMBIEN",
+      "titlePart2": "VOUS PAIERIEZ LÉGALEMENT",
+      "titlePart3": "AVEC NOTRE",
+      "titlePart4": "STRUCTURE",
+      "subtitle": "Simulez votre cas en moins de 60 secondes selon votre pays, revenus et activité."
     }
   }
 }

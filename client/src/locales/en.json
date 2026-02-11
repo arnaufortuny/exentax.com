@@ -3862,10 +3862,18 @@
       }
     },
     "cta": {
-      "title": "Ready to take the step?",
-      "subtitle": "Book a free consultation and get all your questions answered by a US business formation expert.",
-      "button": "Book free consultation",
-      "services": "View all services"
+      "title": "Want to know if this structure fits you?",
+      "subtitle": "Book a free consultation and we'll review your case with you personally.\nWe'll answer your questions, analyze your situation, and tell you clearly whether you can legally optimize your taxes.",
+      "note": "No commitment. No pressure. Just clear information so you can make the best decision.",
+      "button": "Book your free consultation",
+      "services": "Discover our services"
+    },
+    "taxCalc": {
+      "titlePart1": "DISCOVER HOW MUCH",
+      "titlePart2": "YOU WOULD LEGALLY PAY",
+      "titlePart3": "WITH OUR",
+      "titlePart4": "STRUCTURE",
+      "subtitle": "Simulate your case in less than 60 seconds based on your country, income and activity."
     }
   }
 }

@@ -140,7 +140,7 @@ export default function LinktreePage() {
         <Share2 className="w-5 h-5" />
       </Button>
 
-      <div className="flex-1 flex flex-col items-center justify-start px-4 pt-24 pb-8 sm:pt-28 sm:pb-12 sm:justify-center">
+      <div className="flex-1 flex flex-col items-center justify-start px-4 pt-32 pb-8 sm:pt-40 sm:pb-12">
         <div className="w-full max-w-md mx-auto">
           {formMessage && (
             <div className={`mb-4 p-3 rounded-xl text-center text-sm font-medium ${
@@ -154,14 +154,6 @@ export default function LinktreePage() {
             </div>
           )}
           <div className="text-center mb-10">
-            <h1 className="text-xl sm:text-2xl font-bold leading-snug mb-4 text-white drop-shadow-sm max-w-sm mx-auto">
-              Si tu negocio es digital, probablemente estés pagando más impuestos de los necesarios.
-            </h1>
-            
-            <p className="text-sm sm:text-base mb-8 leading-relaxed text-white/85 max-w-sm mx-auto">
-              Creamos estructuras internacionales legales adaptadas a tu actividad y te guiamos en todo el proceso. Reserva tu asesoría gratuita y descúbrelo en 15 minutos.
-            </p>
-
             <div className="flex justify-center mb-6">
               <div className="w-20 h-20 rounded-full bg-white shadow-xl flex items-center justify-center">
                 <img 
@@ -171,6 +163,14 @@ export default function LinktreePage() {
                 />
               </div>
             </div>
+
+            <h1 className="text-xl sm:text-2xl font-bold leading-snug mb-4 text-white drop-shadow-sm max-w-sm mx-auto">
+              Si tu negocio es digital, probablemente estés pagando más impuestos de los necesarios.
+            </h1>
+            
+            <p className="text-sm sm:text-base mb-4 leading-relaxed text-white/85 max-w-sm mx-auto">
+              Creamos estructuras internacionales legales adaptadas a tu actividad y te guiamos en todo el proceso. Reserva tu asesoría gratuita y descúbrelo en 15 minutos.
+            </p>
           </div>
 
           <div className="space-y-3">

@@ -3862,10 +3862,18 @@
       }
     },
     "cta": {
-      "title": "Pronto a fare il passo?",
-      "subtitle": "Prenota una consulenza gratuita e risolvi tutti i tuoi dubbi con un esperto in costituzione di aziende negli USA.",
-      "button": "Prenotare consulenza gratuita",
-      "services": "Vedi tutti i servizi"
+      "title": "Vuoi sapere se questa struttura fa per te?",
+      "subtitle": "Prenota una consulenza gratuita e analizzeremo il tuo caso personalmente.\nRisolveremo i tuoi dubbi, analizzeremo la tua situazione e ti diremo con totale chiarezza se puoi ottimizzare la tua fiscalità in modo legale.",
+      "note": "Senza impegno. Senza pressioni. Solo informazioni chiare per prendere la decisione migliore.",
+      "button": "Prenota la tua consulenza gratuita",
+      "services": "Scopri i nostri servizi"
+    },
+    "taxCalc": {
+      "titlePart1": "SCOPRI QUANTO",
+      "titlePart2": "PAGHERESTI LEGALMENTE",
+      "titlePart3": "CON LA NOSTRA",
+      "titlePart4": "STRUTTURA",
+      "subtitle": "Simula il tuo caso in meno di 60 secondi in base al tuo paese, reddito e attività."
     }
   }
 }

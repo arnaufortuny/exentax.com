@@ -103,7 +103,15 @@ export default function StartPage() {
       </section>
 
       <section id="tax-calculator" className="py-12 md:py-20 scroll-mt-20">
-        <TaxComparator />
+        <TaxComparator
+          titleOverride={{
+            part1: t("start.taxCalc.titlePart1"),
+            part2: t("start.taxCalc.titlePart2"),
+            part3: t("start.taxCalc.titlePart3"),
+            part4: t("start.taxCalc.titlePart4"),
+          }}
+          subtitleOverride={t("start.taxCalc.subtitle")}
+        />
       </section>
 
       <section className="py-16 md:py-24 bg-accent/5 dark:bg-accent/10">
@@ -118,7 +126,8 @@ export default function StartPage() {
             <h2 className="text-2xl md:text-4xl font-bold text-foreground font-[Space_Grotesk] mb-4" data-testid="text-cta-title">
               {t("start.cta.title")}
             </h2>
-            <p className="text-muted-foreground mb-8 text-lg">{t("start.cta.subtitle")}</p>
+            <p className="text-muted-foreground mb-8 text-base md:text-lg leading-relaxed max-w-xl mx-auto whitespace-pre-line">{t("start.cta.subtitle")}</p>
+            <p className="text-muted-foreground/70 mb-8 text-sm italic">{t("start.cta.note")}</p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button
                 size="lg"

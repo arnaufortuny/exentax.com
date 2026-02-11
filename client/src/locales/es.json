@@ -3862,10 +3862,18 @@
       }
     },
     "cta": {
-      "title": "¿Listo para dar el paso?",
-      "subtitle": "Agenda una consulta gratuita y resuelve todas tus dudas con un experto en formación de empresas en EE.UU.",
-      "button": "Agendar consulta gratuita",
-      "services": "Ver todos los servicios"
+      "title": "¿Quieres saber si esta estructura encaja contigo?",
+      "subtitle": "Agenda una consultoría gratuita y revisaremos tu caso contigo personalmente.\nResolveremos tus dudas, analizaremos tu situación y te diremos con total claridad si puedes optimizar tu fiscalidad de forma legal.",
+      "note": "Sin compromiso. Sin presión. Solo información clara para que tomes la mejor decisión.",
+      "button": "Agenda tu consultoría gratuita",
+      "services": "Conoce nuestros servicios"
+    },
+    "taxCalc": {
+      "titlePart1": "DESCUBRE CUÁNTO",
+      "titlePart2": "PAGARÍAS LEGALMENTE",
+      "titlePart3": "CON NUESTRA",
+      "titlePart4": "ESTRUCTURA",
+      "subtitle": "Simula tu caso en menos de 60 segundos según tu país, ingresos y actividad."
     }
   }
 }

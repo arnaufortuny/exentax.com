@@ -3862,10 +3862,18 @@
       }
     },
     "cta": {
-      "title": "Preparat per fer el pas?",
-      "subtitle": "Agenda una consulta gratuïta i resol tots els teus dubtes amb un expert en formació d'empreses als EUA.",
-      "button": "Agendar consulta gratuïta",
-      "services": "Veure tots els serveis"
+      "title": "Vols saber si aquesta estructura encaixa amb tu?",
+      "subtitle": "Agenda una consultoria gratuïta i revisarem el teu cas amb tu personalment.\nResoldrem els teus dubtes, analitzarem la teva situació i et direm amb total claredat si pots optimitzar la teva fiscalitat de forma legal.",
+      "note": "Sense compromís. Sense pressió. Només informació clara perquè prenguis la millor decisió.",
+      "button": "Agenda la teva consultoria gratuïta",
+      "services": "Coneix els nostres serveis"
+    },
+    "taxCalc": {
+      "titlePart1": "DESCOBREIX QUANT",
+      "titlePart2": "PAGARIES LEGALMENT",
+      "titlePart3": "AMB LA NOSTRA",
+      "titlePart4": "ESTRUCTURA",
+      "subtitle": "Simula el teu cas en menys de 60 segons segons el teu país, ingressos i activitat."
     }
   }
 }

@@ -251,7 +251,12 @@ function calculateUSLLCTaxes(grossIncome: number, activity: ActivityType): TaxBr
   };
 }
 
-export function TaxComparator() {
+interface TaxComparatorProps {
+  titleOverride?: { part1: string; part2: string; part3: string; part4: string };
+  subtitleOverride?: string;
+}
+
+export function TaxComparator({ titleOverride, subtitleOverride }: TaxComparatorProps = {}) {
   const { t } = useTranslation();
   const [, setLocation] = useLocation();
   const [income, setIncome] = useState(50000);
@@ -345,10 +350,10 @@ export function TaxComparator() {
             viewport={{ once: true, amount: 0.3 }}
             transition={{ duration: 0.25, ease: "easeOut" }}
           >
-            <span className="text-foreground">{t("taxComparator.titlePart1")}</span><br/>
-            <span className="text-foreground">{t("taxComparator.titlePart2")}</span><br/>
-            <span className="text-accent">{t("taxComparator.titlePart3")}</span><br/>
-            <span className="text-accent">{t("taxComparator.titlePart4")}</span>
+            <span className="text-foreground">{titleOverride?.part1 ?? t("taxComparator.titlePart1")}</span><br/>
+            <span className="text-foreground">{titleOverride?.part2 ?? t("taxComparator.titlePart2")}</span><br/>
+            <span className="text-accent">{titleOverride?.part3 ?? t("taxComparator.titlePart3")}</span><br/>
+            <span className="text-accent">{titleOverride?.part4 ?? t("taxComparator.titlePart4")}</span>
           </motion.h2>
           <motion.p 
             className="text-muted-foreground text-base sm:text-lg lg:text-sm mt-4 text-center max-w-2xl lg:max-w-lg"
@@ -357,7 +362,7 @@ export function TaxComparator() {
             viewport={{ once: true, amount: 0.3 }}
             transition={{ duration: 0.2, ease: "easeOut" }}
           >
-            {t("taxComparator.subtitle")}
+            {subtitleOverride ?? t("taxComparator.subtitle")}
           </motion.p>
           <motion.div 
             className="w-24 h-1 bg-accent mt-6 lg:mt-4 rounded-full"

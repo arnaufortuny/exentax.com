@@ -3862,10 +3862,18 @@
       }
     },
     "cta": {
-      "title": "Bereit für den nächsten Schritt?",
-      "subtitle": "Buchen Sie eine kostenlose Beratung und klären Sie alle Ihre Fragen mit einem Experten für US-Unternehmensgründung.",
-      "button": "Kostenlose Beratung buchen",
-      "services": "Alle Dienstleistungen ansehen"
+      "title": "Möchten Sie wissen, ob diese Struktur zu Ihnen passt?",
+      "subtitle": "Buchen Sie eine kostenlose Beratung und wir werden Ihren Fall persönlich mit Ihnen besprechen.\nWir beantworten Ihre Fragen, analysieren Ihre Situation und sagen Ihnen klar, ob Sie Ihre Steuern legal optimieren können.",
+      "note": "Ohne Verpflichtung. Ohne Druck. Nur klare Informationen, damit Sie die beste Entscheidung treffen.",
+      "button": "Buchen Sie Ihre kostenlose Beratung",
+      "services": "Entdecken Sie unsere Dienstleistungen"
+    },
+    "taxCalc": {
+      "titlePart1": "ENTDECKEN SIE, WIE VIEL",
+      "titlePart2": "SIE LEGAL ZAHLEN WÜRDEN",
+      "titlePart3": "MIT UNSERER",
+      "titlePart4": "STRUKTUR",
+      "subtitle": "Simulieren Sie Ihren Fall in weniger als 60 Sekunden basierend auf Ihrem Land, Einkommen und Tätigkeit."
     }
   }
 }
