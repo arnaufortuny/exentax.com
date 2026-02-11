@@ -2464,6 +2464,7 @@
     "title": "Preferences",
     "light": "Light mode",
     "dark": "Dark mode",
+    "forest": "Forest mode",
     "system": "System"
   },
   "mobile": {

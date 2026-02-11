@@ -549,7 +549,7 @@ export default function MaintenanceApplication() {
                                 className={`flex items-center justify-between gap-3 p-4 rounded-full border-2 cursor-pointer transition-colors ${
                                   field.value === opt.value 
                                     ? 'border-accent bg-accent/10 dark:bg-accent/20' 
-                                    : 'border-border dark:border-border bg-white dark:bg-[#112B1E] hover:border-accent/50'
+                                    : 'border-border dark:border-border bg-white dark:bg-card hover:border-accent/50'
                                 }`}
                               >
                                 <span className="font-bold text-foreground text-sm md:text-base">{opt.label}</span>
@@ -574,7 +574,7 @@ export default function MaintenanceApplication() {
                         <Button type="button"
                           variant="outline"
                           onClick={() => window.location.href = '/api/auth/google'}
-                          className="w-full h-12 rounded-full border-2 border-border dark:border-border bg-white dark:bg-[#112B1E] hover:bg-muted dark:hover:bg-muted transition-colors font-bold flex items-center justify-center gap-3"
+                          className="w-full h-12 rounded-full border-2 border-border dark:border-border bg-white dark:bg-card hover:bg-muted dark:hover:bg-muted transition-colors font-bold flex items-center justify-center gap-3"
                         >
                           <svg className="w-5 h-5" viewBox="0 0 24 24">
                             <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
@@ -605,7 +605,7 @@ export default function MaintenanceApplication() {
                         <FormLabel className="text-sm md:text-base font-bold text-foreground flex items-center gap-2">
                           {t("maintenance.steps.fullNameLabel")}
                         </FormLabel>
-                        <FormControl><Input {...field} className="h-12 px-5 border-2 border-border dark:border-border focus:border-accent bg-white dark:bg-[#112B1E] transition-colors font-medium text-foreground text-base rounded-full"  /></FormControl>
+                        <FormControl><Input {...field} className="h-12 px-5 border-2 border-border dark:border-border focus:border-accent bg-white dark:bg-card transition-colors font-medium text-foreground text-base rounded-full"  /></FormControl>
                         <FormMessage />
                       </FormItem>
                     )} />
@@ -628,7 +628,7 @@ export default function MaintenanceApplication() {
                         <FormLabel className="text-sm md:text-base font-bold text-foreground flex items-center gap-2">
                           {t("maintenance.steps.phoneLabel")}
                         </FormLabel>
-                        <FormControl><Input {...field} className="h-12 px-5 border-2 border-border dark:border-border focus:border-accent bg-white dark:bg-[#112B1E] transition-colors font-medium text-foreground text-base rounded-full"  /></FormControl>
+                        <FormControl><Input {...field} className="h-12 px-5 border-2 border-border dark:border-border focus:border-accent bg-white dark:bg-card transition-colors font-medium text-foreground text-base rounded-full"  /></FormControl>
                         <FormMessage />
                       </FormItem>
                     )} />
@@ -651,7 +651,7 @@ export default function MaintenanceApplication() {
                         <FormLabel className="text-sm md:text-base font-bold text-foreground flex items-center gap-2">
                           {t("maintenance.steps.emailLabel")}
                         </FormLabel>
-                        <FormControl><Input {...field} type="email" inputMode="email" className="h-12 px-5 border-2 border-border dark:border-border focus:border-accent bg-white dark:bg-[#112B1E] transition-colors font-medium text-foreground text-base rounded-full"  /></FormControl>
+                        <FormControl><Input {...field} type="email" inputMode="email" className="h-12 px-5 border-2 border-border dark:border-border focus:border-accent bg-white dark:bg-card transition-colors font-medium text-foreground text-base rounded-full"  /></FormControl>
                         <FormMessage />
                       </FormItem>
                     )} />
@@ -674,7 +674,7 @@ export default function MaintenanceApplication() {
                         <FormLabel className="text-sm md:text-base font-bold text-foreground flex items-center gap-2">
                           {t("maintenance.steps.companyNameLabel")}
                         </FormLabel>
-                        <FormControl><Input {...field} className="h-12 px-5 border-2 border-border dark:border-border focus:border-accent bg-white dark:bg-[#112B1E] transition-colors font-medium text-foreground text-base rounded-full"  /></FormControl>
+                        <FormControl><Input {...field} className="h-12 px-5 border-2 border-border dark:border-border focus:border-accent bg-white dark:bg-card transition-colors font-medium text-foreground text-base rounded-full"  /></FormControl>
                         <FormMessage />
                       </FormItem>
                     )} />
@@ -697,7 +697,7 @@ export default function MaintenanceApplication() {
                         <FormLabel className="text-sm md:text-base font-bold text-foreground flex items-center gap-2">
                           {t("maintenance.steps.einLabel")}
                         </FormLabel>
-                        <FormControl><Input {...field} className="h-12 px-5 border-2 border-border dark:border-border focus:border-accent bg-white dark:bg-[#112B1E] transition-colors font-medium text-foreground text-base rounded-full"  /></FormControl>
+                        <FormControl><Input {...field} className="h-12 px-5 border-2 border-border dark:border-border focus:border-accent bg-white dark:bg-card transition-colors font-medium text-foreground text-base rounded-full"  /></FormControl>
                         <FormMessage />
                       </FormItem>
                     )} />
@@ -738,7 +738,7 @@ export default function MaintenanceApplication() {
                       <FormItem>
                         <FormLabel className="text-sm md:text-base font-bold text-foreground">{t("maintenance.steps.creationYearLabel")}</FormLabel>
                         <FormControl>
-                          <Input {...field} className="h-12 px-5 border-2 border-border dark:border-border focus:border-accent bg-white dark:bg-[#112B1E] transition-colors font-medium text-foreground text-base rounded-full" />
+                          <Input {...field} className="h-12 px-5 border-2 border-border dark:border-border focus:border-accent bg-white dark:bg-card transition-colors font-medium text-foreground text-base rounded-full" />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -752,7 +752,7 @@ export default function MaintenanceApplication() {
                             value={field.value || ""} 
                             onValueChange={field.onChange}
                             placeholder={t("maintenance.steps.selectBankAccount")}
-                            className="rounded-full h-12 px-5 border-2 border-border dark:border-border bg-white dark:bg-[#112B1E]"
+                            className="rounded-full h-12 px-5 border-2 border-border dark:border-border bg-white dark:bg-card"
                           >
                             <NativeSelectItem value="Mercury">Mercury</NativeSelectItem>
                             <NativeSelectItem value="Relay">Relay</NativeSelectItem>
@@ -771,7 +771,7 @@ export default function MaintenanceApplication() {
                             value={field.value || ""} 
                             onValueChange={field.onChange}
                             placeholder={t("maintenance.steps.selectPaymentGateway")}
-                            className="rounded-full h-12 px-5 border-2 border-border dark:border-border bg-white dark:bg-[#112B1E]"
+                            className="rounded-full h-12 px-5 border-2 border-border dark:border-border bg-white dark:bg-card"
                           >
                             <NativeSelectItem value="Stripe">Stripe</NativeSelectItem>
                             <NativeSelectItem value="PayPal">PayPal</NativeSelectItem>
@@ -873,7 +873,7 @@ export default function MaintenanceApplication() {
                                 className={`flex items-center justify-between gap-3 p-4 rounded-full border-2 cursor-pointer transition-colors ${
                                   field.value === opt.value 
                                     ? 'border-accent bg-accent/10 dark:bg-accent/20' 
-                                    : 'border-border dark:border-border bg-white dark:bg-[#112B1E] hover:border-accent/50'
+                                    : 'border-border dark:border-border bg-white dark:bg-card hover:border-accent/50'
                                 }`}
                               >
                                 <span className="font-bold text-foreground text-sm md:text-base">{opt.label}</span>
@@ -934,7 +934,7 @@ export default function MaintenanceApplication() {
                         {/* Step 1: Email verification with OTP */}
                         {!isOtpVerified && (
                           <div className="space-y-4">
-                            <div className="bg-muted dark:bg-[#112B1E] rounded-2xl p-5">
+                            <div className="bg-muted dark:bg-card rounded-2xl p-5">
                               <p className="text-xs font-black text-foreground tracking-widest mb-2">{t("common.yourEmail")}</p>
                               <p className="text-lg font-bold text-foreground">{form.getValues("ownerEmail")}</p>
                             </div>
@@ -1162,7 +1162,7 @@ export default function MaintenanceApplication() {
                     
                     <div className="space-y-4">
                       <FormField control={form.control} name="authorizedManagement" render={({ field }) => (
-                        <FormItem className="flex flex-row items-start space-x-3 space-y-0 p-4 rounded-2xl bg-muted dark:bg-[#112B1E]">
+                        <FormItem className="flex flex-row items-start space-x-3 space-y-0 p-4 rounded-2xl bg-muted dark:bg-card">
                           <FormControl><Checkbox checked={field.value} onCheckedChange={field.onChange} /></FormControl>
                           <div className="space-y-1 leading-none">
                             <FormLabel className="text-xs md:text-sm font-medium">{t("maintenance.confirmation.authorizedManagement")}</FormLabel>
@@ -1171,7 +1171,7 @@ export default function MaintenanceApplication() {
                         </FormItem>
                       )} />
                       <FormField control={form.control} name="dataProcessingConsent" render={({ field }) => (
-                        <FormItem className="flex flex-row items-start space-x-3 space-y-0 p-4 rounded-2xl bg-muted dark:bg-[#112B1E]">
+                        <FormItem className="flex flex-row items-start space-x-3 space-y-0 p-4 rounded-2xl bg-muted dark:bg-card">
                           <FormControl><Checkbox checked={field.value} onCheckedChange={field.onChange} /></FormControl>
                           <div className="space-y-1 leading-none">
                             <FormLabel className="text-xs md:text-sm font-medium">{t("maintenance.confirmation.dataProcessing")}</FormLabel>
@@ -1180,7 +1180,7 @@ export default function MaintenanceApplication() {
                         </FormItem>
                       )} />
                       <FormField control={form.control} name="termsConsent" render={({ field }) => (
-                        <FormItem className="flex flex-row items-start space-x-3 space-y-0 p-4 rounded-2xl bg-muted dark:bg-[#112B1E]">
+                        <FormItem className="flex flex-row items-start space-x-3 space-y-0 p-4 rounded-2xl bg-muted dark:bg-card">
                           <FormControl><Checkbox checked={field.value} onCheckedChange={field.onChange} /></FormControl>
                           <div className="space-y-1 leading-none">
                             <FormLabel className="text-xs md:text-sm font-medium">{t("maintenance.confirmation.termsConsent")}</FormLabel>
@@ -1219,7 +1219,7 @@ export default function MaintenanceApplication() {
                       </p>
                     </div>
 
-                    <div className="bg-muted dark:bg-[#112B1E] rounded-2xl p-5">
+                    <div className="bg-muted dark:bg-card rounded-2xl p-5">
                       <p className="text-xs font-black text-foreground tracking-widest mb-2">{t("common.yourEmail")}</p>
                       <p className="text-lg font-bold text-foreground">{form.getValues("ownerEmail")}</p>
                     </div>
@@ -1230,7 +1230,7 @@ export default function MaintenanceApplication() {
                         <Input type={showPassword ? "text" : "password"}
                           value={form.getValues("password") || ""}
                           onChange={(e) => form.setValue("password", e.target.value)}
-                          className="h-12 px-5 pr-12 border-2 border-border dark:border-[#1a3a2a] focus:border-accent bg-white dark:bg-[#112B1E] rounded-full font-medium text-foreground text-base"
+                          className="h-12 px-5 pr-12 border-2 border-border dark:border-border focus:border-accent bg-white dark:bg-card rounded-full font-medium text-foreground text-base"
                           style={{ fontFamily: 'Inter, system-ui, sans-serif', fontSize: '16px' }}
                           data-testid="input-login-password"
                         />

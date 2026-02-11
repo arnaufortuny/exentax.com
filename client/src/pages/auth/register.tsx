@@ -300,7 +300,7 @@ export default function Register() {
                 <label className="text-sm font-black text-primary block mb-2">{t("auth.verify.codeLabel")}</label>
                 <Input value={verificationCode}
                   onChange={(e) => setVerificationCode(e.target.value.replace(/\D/g, ""))}
-                  className="h-12 text-center text-2xl font-black border-2 border-border dark:border-border focus:border-accent tracking-[0.5em] bg-white dark:bg-[#112B1E] rounded-full"
+                  className="h-12 text-center text-2xl font-black border-2 border-border dark:border-border focus:border-accent tracking-[0.5em] bg-white dark:bg-card rounded-full"
                   maxLength={6}
                   inputMode="numeric"
                   autoComplete="one-time-code"
@@ -417,7 +417,7 @@ export default function Register() {
                             <Input
                               {...field}
                               placeholder={t("auth.register.firstNamePlaceholder")}
-                              className="h-11 md:h-12 px-5 border-2 border-border dark:border-[#1a3a2a] focus:border-accent bg-white dark:bg-[#112B1E] transition-colors font-medium text-foreground dark:text-white text-base placeholder:text-muted-foreground rounded-full"
+                              className="h-11 md:h-12 px-5 border-2 border-border dark:border-border focus:border-accent bg-white dark:bg-card transition-colors font-medium text-foreground dark:text-white text-base placeholder:text-muted-foreground rounded-full"
                               
                               data-testid="input-firstName"
                             />
@@ -437,7 +437,7 @@ export default function Register() {
                             <Input
                               {...field}
                               placeholder={t("auth.register.lastNamePlaceholder")}
-                              className="h-11 md:h-12 px-5 border-2 border-border dark:border-[#1a3a2a] focus:border-accent bg-white dark:bg-[#112B1E] transition-colors font-medium text-foreground dark:text-white text-base placeholder:text-muted-foreground rounded-full"
+                              className="h-11 md:h-12 px-5 border-2 border-border dark:border-border focus:border-accent bg-white dark:bg-card transition-colors font-medium text-foreground dark:text-white text-base placeholder:text-muted-foreground rounded-full"
                               
                               data-testid="input-lastName"
                             />
@@ -467,7 +467,7 @@ export default function Register() {
                               {...field}
                               type="email"
                               inputMode="email"
-                              className="h-11 md:h-12 px-5 border-2 border-border dark:border-[#1a3a2a] focus:border-accent bg-white dark:bg-[#112B1E] transition-colors font-medium text-foreground dark:text-white text-base placeholder:text-muted-foreground rounded-full"
+                              className="h-11 md:h-12 px-5 border-2 border-border dark:border-border focus:border-accent bg-white dark:bg-card transition-colors font-medium text-foreground dark:text-white text-base placeholder:text-muted-foreground rounded-full"
                               
                               data-testid="input-email"
                             />
@@ -498,7 +498,7 @@ export default function Register() {
                               type="tel"
                               inputMode="tel"
                               placeholder={t("auth.register.phonePlaceholder")}
-                              className="h-11 md:h-12 px-5 border-2 border-border dark:border-[#1a3a2a] focus:border-accent bg-white dark:bg-[#112B1E] transition-colors font-medium text-foreground dark:text-white text-base placeholder:text-muted-foreground rounded-full"
+                              className="h-11 md:h-12 px-5 border-2 border-border dark:border-border focus:border-accent bg-white dark:bg-card transition-colors font-medium text-foreground dark:text-white text-base placeholder:text-muted-foreground rounded-full"
                               
                               data-testid="input-phone"
                             />
@@ -529,7 +529,7 @@ export default function Register() {
                           <FormControl>
                             <select
                               {...field}
-                              className="w-full rounded-full h-11 md:h-12 px-5 border-2 border-border dark:border-[#1a3a2a] focus:border-accent bg-white dark:bg-[#112B1E] transition-colors font-medium text-foreground text-base appearance-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-accent/20"
+                              className="w-full rounded-full h-11 md:h-12 px-5 border-2 border-border dark:border-border focus:border-accent bg-white dark:bg-card transition-colors font-medium text-foreground text-base appearance-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-accent/20"
                               data-testid="select-businessActivity"
                             >
                               <option value="">{t("common.select")}</option>
@@ -566,7 +566,7 @@ export default function Register() {
                                 {...field}
                                 type={showPassword ? "text" : "password"}
                                 autoComplete="new-password"
-                                className="h-11 md:h-12 px-5 pr-12 border-2 border-border dark:border-[#1a3a2a] focus:border-accent bg-white dark:bg-[#112B1E] transition-colors font-medium text-foreground dark:text-white text-base placeholder:text-muted-foreground rounded-full"
+                                className="h-11 md:h-12 px-5 pr-12 border-2 border-border dark:border-border focus:border-accent bg-white dark:bg-card transition-colors font-medium text-foreground dark:text-white text-base placeholder:text-muted-foreground rounded-full"
                                 
                                 data-testid="input-password"
                               />
@@ -602,7 +602,7 @@ export default function Register() {
                               {...field}
                               type={showPassword ? "text" : "password"}
                               autoComplete="new-password"
-                              className="h-11 md:h-12 px-5 border-2 border-border dark:border-[#1a3a2a] focus:border-accent bg-white dark:bg-[#112B1E] transition-colors font-medium text-foreground dark:text-white text-base placeholder:text-muted-foreground rounded-full"
+                              className="h-11 md:h-12 px-5 border-2 border-border dark:border-border focus:border-accent bg-white dark:bg-card transition-colors font-medium text-foreground dark:text-white text-base placeholder:text-muted-foreground rounded-full"
                               
                               data-testid="input-confirmPassword"
                             />
@@ -621,7 +621,7 @@ export default function Register() {
                       <p className="text-xs text-muted-foreground">{t("auth.register.step5Subtitle")}</p>
                     </div>
 
-                    <div className="space-y-4 p-4 bg-muted dark:bg-[#112B1E] rounded-2xl">
+                    <div className="space-y-4 p-4 bg-muted dark:bg-card rounded-2xl">
                       <div className="flex justify-between items-center py-2 border-b border-border dark:border-border">
                         <span className="text-sm text-muted-foreground">{t("auth.register.reviewName")}</span>
                         <span className="font-medium text-primary">{form.getValues("firstName")} {form.getValues("lastName")}</span>

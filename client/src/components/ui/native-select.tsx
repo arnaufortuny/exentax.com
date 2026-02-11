@@ -21,7 +21,7 @@ const NativeSelect = React.forwardRef<HTMLSelectElement, NativeSelectProps>(
           value={value || ""}
           onChange={handleChange}
           className={cn(
-            "flex min-h-[44px] md:min-h-[36px] w-full appearance-none items-center rounded-full border border-border bg-white dark:bg-[#112B1E] px-4 py-3 md:py-2 pr-10 text-base md:text-sm text-foreground ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
+            "flex min-h-[44px] md:min-h-[36px] w-full appearance-none items-center rounded-full border border-border bg-white dark:bg-card px-4 py-3 md:py-2 pr-10 text-base md:text-sm text-foreground ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
             !value && "text-muted-foreground",
             className
           )}

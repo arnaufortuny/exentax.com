@@ -24,9 +24,9 @@ Easy US LLC is a full-stack SaaS platform designed to simplify US LLC formation 
 - **Internationalization:** react-i18next (7 languages: ES, EN, CA, FR, DE, IT, PT)
 
 ### Design System
-- **Colors:** Green Primary (#00C48C), Green Neon (#00E57A), Green Lima (#B4ED50), Dark Base (#0A1F17), Card Dark (#112B1E), Deep Green (#00855F). Light bg #F5FBF8, dark bg #0A1F17. Status labels: amber (pending), purple (processing), green (completed/active/paid), red (cancelled/error), lime (documents_ready/filed). VIP badge uses lima-to-green gradient.
+- **Colors:** Green Primary (#00C48C), Green Neon (#00E57A), Green Lima (#B4ED50), Dark Base (#0A1F17), Card Dark (#112B1E), Deep Green (#00855F). Light bg #F5FBF8, dark bg #050505, forest bg #0A1F17. Status labels: amber (pending), purple (processing), green (completed/active/paid), red (cancelled/error), lime (documents_ready/filed). VIP badge uses lima-to-green gradient.
 - **Typography:** Space Grotesk (h1/h2 hero headings), Inter (h3/h4 section headings), DM Sans (body/UI)
-- **Theme:** Full dark/light mode with CSS custom properties and localStorage persistence. Inspired by relayfi.com aesthetic.
+- **Theme:** Three modes: Light, Dark (pure black AMOLED), Forest (green dark). CSS class system: `.dark` for black mode, `.dark.forest` for green mode. Both share `.dark` class so all `dark:` Tailwind utilities apply to both. System auto-detection maps to dark/light. Stored in localStorage key `ui-theme`. Inspired by relayfi.com aesthetic.
 - **Animations:** Framer Motion with page transitions
 - **Navbar:** Glassmorphism (backdrop-blur-md, bg-white/95 light, bg-[#0A1F17]/95 dark) with green accents
 - **Footer:** Dark green design (bg-[#0A1F17]) with #00C48C hover links, white/80 text, #112B1E separators

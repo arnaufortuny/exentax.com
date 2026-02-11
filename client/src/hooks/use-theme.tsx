@@ -1,11 +1,11 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
 
-type Theme = "light" | "dark" | "system";
+type Theme = "light" | "dark" | "forest" | "system";
 
 interface ThemeContextType {
   theme: Theme;
   setTheme: (theme: Theme) => void;
-  resolvedTheme: "light" | "dark";
+  resolvedTheme: "light" | "dark" | "forest";
 }
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
@@ -24,21 +24,25 @@ export function ThemeProvider({
   const [theme, setThemeState] = useState<Theme>(() => {
     if (typeof window !== "undefined") {
       const stored = localStorage.getItem(storageKey);
-      if (stored === "light" || stored === "dark" || stored === "system") {
+      if (stored === "light" || stored === "dark" || stored === "forest" || stored === "system") {
         return stored;
       }
     }
     return defaultTheme;
   });
 
-  const [resolvedTheme, setResolvedTheme] = useState<"light" | "dark">("light");
+  const [resolvedTheme, setResolvedTheme] = useState<"light" | "dark" | "forest">("light");
 
   useEffect(() => {
     const root = document.documentElement;
     
-    const applyTheme = (t: "light" | "dark") => {
-      root.classList.remove("light", "dark");
-      root.classList.add(t);
+    const applyTheme = (t: "light" | "dark" | "forest") => {
+      root.classList.remove("light", "dark", "forest");
+      if (t === "forest") {
+        root.classList.add("dark", "forest");
+      } else {
+        root.classList.add(t);
+      }
       setResolvedTheme(t);
     };
 

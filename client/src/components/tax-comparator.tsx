@@ -416,7 +416,7 @@ export function TaxComparator() {
                     value={formatInputCurrency(income)}
                     onChange={(e) => handleIncomeChange(e.target.value)}
                     placeholder="50.000"
-                    className="w-full px-6 py-3 lg:px-4 lg:py-2 text-2xl sm:text-3xl lg:text-xl font-black text-accent text-center bg-white dark:bg-[#112B1E] border-2 border-accent/30 rounded-full focus:border-accent outline-none transition-colors"
+                    className="w-full px-6 py-3 lg:px-4 lg:py-2 text-2xl sm:text-3xl lg:text-xl font-black text-accent text-center bg-white dark:bg-card border-2 border-accent/30 rounded-full focus:border-accent outline-none transition-colors"
                     data-testid="input-income"
                   />
                   <span className="absolute right-6 top-1/2 -translate-y-1/2 text-xl font-black text-accent/60">€</span>
@@ -449,7 +449,7 @@ export function TaxComparator() {
                 <select
                   value={selectedActivity}
                   onChange={(e) => setSelectedActivity(e.target.value as ActivityType)}
-                  className="w-full max-w-xs sm:max-w-md px-5 py-3 lg:px-4 lg:py-2 text-sm font-bold bg-white dark:bg-[#112B1E] border-2 border-accent/30 rounded-full focus:border-accent outline-none transition-colors text-foreground text-center appearance-none cursor-pointer"
+                  className="w-full max-w-xs sm:max-w-md px-5 py-3 lg:px-4 lg:py-2 text-sm font-bold bg-white dark:bg-card border-2 border-accent/30 rounded-full focus:border-accent outline-none transition-colors text-foreground text-center appearance-none cursor-pointer"
                   data-testid="select-activity-type"
                 >
                   {activityTypes.map((act) => (
@@ -493,7 +493,7 @@ export function TaxComparator() {
                             emailError 
                               ? 'border-destructive focus:border-destructive' 
                               : 'border-accent/30 focus:border-accent'
-                          } bg-white dark:bg-[#112B1E] text-foreground font-medium text-center outline-none transition-colors`}
+                          } bg-white dark:bg-card text-foreground font-medium text-center outline-none transition-colors`}
                           data-testid="input-email-calculator"
                         />
                         {emailError && (

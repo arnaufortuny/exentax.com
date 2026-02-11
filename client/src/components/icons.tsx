@@ -745,6 +745,17 @@ export function Monitor({ className, ...props }: IconProps) {
   );
 }
 
+export function TreePine({ className, ...props }: IconProps) {
+  return (
+    <Icon className={className} {...props}>
+      <path d="M17 22v-2" />
+      <path d="M7 22v-2" />
+      <path d="M12 2L7 7h3L6 12h3l-4 5h14l-4-5h3l-4-5h3z" />
+      <path d="M12 22v-3" />
+    </Icon>
+  );
+}
+
 export function MoreHorizontal({ className, ...props }: IconProps) {
   return (
     <Icon className={className} {...props}>

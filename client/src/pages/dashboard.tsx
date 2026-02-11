@@ -1740,7 +1740,7 @@ export default function Dashboard() {
                       </label>
                     ) : (
                       <div className="space-y-4">
-                        <div className="flex items-center gap-3 p-3 bg-white dark:bg-[#112B1E] rounded-xl">
+                        <div className="flex items-center gap-3 p-3 bg-white dark:bg-card rounded-xl">
                           <FileUp className="w-8 h-8 text-accent shrink-0" />
                           <div className="flex-1 min-w-0">
                             <p className="font-medium text-sm truncate text-foreground">{uploadDialog.file.name}</p>
@@ -1762,7 +1762,7 @@ export default function Dashboard() {
                           <NativeSelect 
                             value={uploadDocType} 
                             onValueChange={setUploadDocType}
-                            className="w-full rounded-full h-11 px-4 border border-border dark:border-border bg-white dark:bg-[#112B1E]"
+                            className="w-full rounded-full h-11 px-4 border border-border dark:border-border bg-white dark:bg-card"
                             data-testid="select-upload-doc-type-inline"
                           >
                             <NativeSelectItem value="passport">{t('dashboard.documents.passport')}</NativeSelectItem>
@@ -1778,7 +1778,7 @@ export default function Dashboard() {
                             <Textarea value={uploadNotes} 
                               onChange={(e) => setUploadNotes(e.target.value)} 
                               placeholder={t('dashboard.documents.describePlaceholder')}
-                              className="min-h-[70px] rounded-2xl border-border bg-background dark:bg-[#112B1E] text-base"
+                              className="min-h-[70px] rounded-2xl border-border bg-background dark:bg-card text-base"
                               style={{ fontSize: '16px' }}
                               data-testid="input-upload-notes-inline"
                             />
@@ -2269,7 +2269,7 @@ export default function Dashboard() {
                           <Label className="text-sm font-semibold text-foreground block mb-2">{t('dashboard.profile.verificationCode')}</Label>
                           <Input value={emailVerificationCode}
                             onChange={(e) => setEmailVerificationCode(e.target.value.replace(/\D/g, ""))}
-                            className="rounded-xl text-center text-2xl font-black border-border bg-background dark:bg-[#112B1E] h-14 tracking-[0.5em]"
+                            className="rounded-xl text-center text-2xl font-black border-border bg-background dark:bg-card h-14 tracking-[0.5em]"
                             maxLength={6}
                             inputMode="numeric"
                             autoComplete="one-time-code"
@@ -2395,7 +2395,7 @@ export default function Dashboard() {
                         <Input placeholder={t('dashboard.admin.searchPlaceholder')}
                           value={adminSearchQuery}
                           onChange={(e) => setAdminSearchQuery(e.target.value)}
-                          className="pl-10 pr-12 h-11 rounded-full text-sm bg-white dark:bg-[#112B1E] border-border w-full"
+                          className="pl-10 pr-12 h-11 rounded-full text-sm bg-white dark:bg-card border-border w-full"
                           data-testid="input-admin-search"
                         />
                         {adminSearchQuery && (
@@ -2413,7 +2413,7 @@ export default function Dashboard() {
                           <NativeSelect
                             value={adminSearchFilter}
                             onValueChange={(val) => setAdminSearchFilter(val as typeof adminSearchFilter)}
-                            className="rounded-full h-11 text-sm border-border bg-white dark:bg-[#112B1E]"
+                            className="rounded-full h-11 text-sm border-border bg-white dark:bg-card"
                             data-testid="select-admin-search-filter"
                           >
                             <option value="all">{t('dashboard.admin.searchFilters.all')}</option>
@@ -2434,11 +2434,11 @@ export default function Dashboard() {
                     </div>
                     {isAdmin && (
                     <div className="flex flex-wrap gap-2">
-                      <Button variant="ghost" size="sm" className={`rounded-full text-xs font-black shadow-sm border ${createUserDialog ? 'bg-accent text-accent-foreground border-accent' : 'bg-white dark:bg-[#112B1E] border-accent/50'}`} onClick={() => setCreateUserDialog(!createUserDialog)} data-testid="button-create-user">
+                      <Button variant="ghost" size="sm" className={`rounded-full text-xs font-black shadow-sm border ${createUserDialog ? 'bg-accent text-accent-foreground border-accent' : 'bg-white dark:bg-card border-accent/50'}`} onClick={() => setCreateUserDialog(!createUserDialog)} data-testid="button-create-user">
                         <Plus className="w-3 h-3 mr-1" />
                         {t('dashboard.admin.newClient')}
                       </Button>
-                      <Button variant="ghost" size="sm" className={`rounded-full text-xs font-black shadow-sm border ${createOrderDialog ? 'bg-accent text-accent-foreground border-accent' : 'bg-white dark:bg-[#112B1E] border-accent/50'}`} onClick={() => setCreateOrderDialog(!createOrderDialog)} data-testid="button-create-order">
+                      <Button variant="ghost" size="sm" className={`rounded-full text-xs font-black shadow-sm border ${createOrderDialog ? 'bg-accent text-accent-foreground border-accent' : 'bg-white dark:bg-card border-accent/50'}`} onClick={() => setCreateOrderDialog(!createOrderDialog)} data-testid="button-create-order">
                         <Plus className="w-3 h-3 mr-1" />
                         {t('dashboard.admin.newOrder')}
                       </Button>
@@ -2462,24 +2462,24 @@ export default function Dashboard() {
                         <div className="grid grid-cols-2 gap-3">
                           <div>
                             <Label className="text-sm font-semibold text-foreground mb-2 block">{t('dashboard.admin.firstName')}</Label>
-                            <Input value={newUserData.firstName} onChange={e => setNewUserData(p => ({ ...p, firstName: e.target.value }))} placeholder={t('dashboard.admin.firstName')} className="rounded-full h-11 px-4 border border-border dark:border-border bg-white dark:bg-[#112B1E]" data-testid="input-create-user-firstname" />
+                            <Input value={newUserData.firstName} onChange={e => setNewUserData(p => ({ ...p, firstName: e.target.value }))} placeholder={t('dashboard.admin.firstName')} className="rounded-full h-11 px-4 border border-border dark:border-border bg-white dark:bg-card" data-testid="input-create-user-firstname" />
                           </div>
                           <div>
                             <Label className="text-sm font-semibold text-foreground mb-2 block">{t('dashboard.admin.lastName')}</Label>
-                            <Input value={newUserData.lastName} onChange={e => setNewUserData(p => ({ ...p, lastName: e.target.value }))} placeholder={t('dashboard.admin.lastName')} className="rounded-full h-11 px-4 border border-border dark:border-border bg-white dark:bg-[#112B1E]" data-testid="input-create-user-lastname" />
+                            <Input value={newUserData.lastName} onChange={e => setNewUserData(p => ({ ...p, lastName: e.target.value }))} placeholder={t('dashboard.admin.lastName')} className="rounded-full h-11 px-4 border border-border dark:border-border bg-white dark:bg-card" data-testid="input-create-user-lastname" />
                           </div>
                         </div>
                         <div>
                           <Label className="text-sm font-semibold text-foreground mb-2 block">{t('dashboard.admin.email')}</Label>
-                          <Input type="email" value={newUserData.email} onChange={e => setNewUserData(p => ({ ...p, email: e.target.value }))} placeholder={t('dashboard.admin.email')} className="rounded-full h-11 px-4 border border-border dark:border-border bg-white dark:bg-[#112B1E]" data-testid="input-create-user-email" />
+                          <Input type="email" value={newUserData.email} onChange={e => setNewUserData(p => ({ ...p, email: e.target.value }))} placeholder={t('dashboard.admin.email')} className="rounded-full h-11 px-4 border border-border dark:border-border bg-white dark:bg-card" data-testid="input-create-user-email" />
                         </div>
                         <div>
                           <Label className="text-sm font-semibold text-foreground mb-2 block">{t('dashboard.admin.phone')}</Label>
-                          <Input value={newUserData.phone} onChange={e => setNewUserData(p => ({ ...p, phone: e.target.value }))} placeholder="+34 600 000 000" className="rounded-full h-11 px-4 border border-border dark:border-border bg-white dark:bg-[#112B1E]" data-testid="input-create-user-phone" />
+                          <Input value={newUserData.phone} onChange={e => setNewUserData(p => ({ ...p, phone: e.target.value }))} placeholder="+34 600 000 000" className="rounded-full h-11 px-4 border border-border dark:border-border bg-white dark:bg-card" data-testid="input-create-user-phone" />
                         </div>
                         <div>
                           <Label className="text-sm font-semibold text-foreground mb-2 block">{t('dashboard.admin.password')}</Label>
-                          <Input type="password" value={newUserData.password} onChange={e => setNewUserData(p => ({ ...p, password: e.target.value }))} placeholder={t('dashboard.admin.minChars')} className="rounded-full h-11 px-4 border border-border dark:border-border bg-white dark:bg-[#112B1E]" data-testid="input-create-user-password" />
+                          <Input type="password" value={newUserData.password} onChange={e => setNewUserData(p => ({ ...p, password: e.target.value }))} placeholder={t('dashboard.admin.minChars')} className="rounded-full h-11 px-4 border border-border dark:border-border bg-white dark:bg-card" data-testid="input-create-user-password" />
                         </div>
                       </div>
                       <div className="flex flex-col sm:flex-row gap-3 mt-6 pt-4 border-t">
@@ -2520,7 +2520,7 @@ export default function Dashboard() {
                               }
                             }}
                             placeholder={t('dashboard.admin.selectOrderType')}
-                            className="w-full rounded-full h-11 px-4 border border-border dark:border-border bg-white dark:bg-[#112B1E]"
+                            className="w-full rounded-full h-11 px-4 border border-border dark:border-border bg-white dark:bg-card"
                             data-testid="select-order-type"
                           >
                             <NativeSelectItem value="llc">{t('dashboard.admin.llcCreation')}</NativeSelectItem>
@@ -2534,7 +2534,7 @@ export default function Dashboard() {
                             value={newOrderData.userId} 
                             onValueChange={val => setNewOrderData(p => ({ ...p, userId: val }))}
                             placeholder={t('dashboard.admin.selectClient')}
-                            className="w-full rounded-full h-11 px-4 border border-border dark:border-border bg-white dark:bg-[#112B1E]"
+                            className="w-full rounded-full h-11 px-4 border border-border dark:border-border bg-white dark:bg-card"
                             data-testid="select-order-user"
                           >
                             {adminUsers?.map((u: any) => (
@@ -2548,7 +2548,7 @@ export default function Dashboard() {
                             <Input value={newOrderData.concept} 
                               onChange={e => setNewOrderData(p => ({ ...p, concept: e.target.value }))} 
                               placeholder={t('dashboard.admin.conceptPlaceholder')} 
-                              className="rounded-full h-11 px-4 border border-border dark:border-border bg-white dark:bg-[#112B1E]" 
+                              className="rounded-full h-11 px-4 border border-border dark:border-border bg-white dark:bg-card" 
                               data-testid="input-order-concept" 
                             />
                           </div>
@@ -2564,7 +2564,7 @@ export default function Dashboard() {
                                 setNewOrderData(p => ({ ...p, state: val, amount }));
                               }}
                               placeholder={t('dashboard.admin.selectState')}
-                              className="w-full rounded-full h-11 px-4 border border-border dark:border-border bg-white dark:bg-[#112B1E]"
+                              className="w-full rounded-full h-11 px-4 border border-border dark:border-border bg-white dark:bg-card"
                               data-testid="select-order-state"
                             >
                               {newOrderData.orderType === 'maintenance' ? (
@@ -2585,7 +2585,7 @@ export default function Dashboard() {
                         )}
                         <div>
                           <Label className="text-sm font-semibold text-foreground mb-2 block">{t('dashboard.admin.amount')} (€)</Label>
-                          <Input type="number" value={newOrderData.amount} onChange={e => setNewOrderData(p => ({ ...p, amount: e.target.value }))} placeholder="899" className="rounded-full h-11 px-4 border border-border dark:border-border bg-white dark:bg-[#112B1E]" data-testid="input-order-amount" />
+                          <Input type="number" value={newOrderData.amount} onChange={e => setNewOrderData(p => ({ ...p, amount: e.target.value }))} placeholder="899" className="rounded-full h-11 px-4 border border-border dark:border-border bg-white dark:bg-card" data-testid="input-order-amount" />
                         </div>
                       </div>
                       <div className="flex flex-col sm:flex-row gap-3 mt-6 pt-4 border-t">
@@ -2612,11 +2612,11 @@ export default function Dashboard() {
                       <div className="space-y-4">
                         <div>
                           <Label className="text-sm font-semibold text-foreground mb-2 block">{t('dashboard.admin.messageTitle')}</Label>
-                          <Input value={noteTitle} onChange={e => setNoteTitle(e.target.value)} placeholder={t('dashboard.admin.messageTitlePlaceholder')} className="w-full rounded-full h-11 px-4 border border-border dark:border-border bg-white dark:bg-[#112B1E]" data-testid="input-note-title" />
+                          <Input value={noteTitle} onChange={e => setNoteTitle(e.target.value)} placeholder={t('dashboard.admin.messageTitlePlaceholder')} className="w-full rounded-full h-11 px-4 border border-border dark:border-border bg-white dark:bg-card" data-testid="input-note-title" />
                         </div>
                         <div>
                           <Label className="text-sm font-semibold text-foreground mb-2 block">{t('dashboard.admin.message')}</Label>
-                          <Textarea value={noteMessage} onChange={e => setNoteMessage(e.target.value)} placeholder={t('dashboard.admin.messagePlaceholder')} rows={4} className="w-full rounded-2xl border-border bg-background dark:bg-[#112B1E]" data-testid="input-note-message" />
+                          <Textarea value={noteMessage} onChange={e => setNoteMessage(e.target.value)} placeholder={t('dashboard.admin.messagePlaceholder')} rows={4} className="w-full rounded-2xl border-border bg-background dark:bg-card" data-testid="input-note-message" />
                         </div>
                       </div>
                       <div className="flex flex-col sm:flex-row gap-3 mt-6 pt-4 border-t">
@@ -2644,20 +2644,20 @@ export default function Dashboard() {
                         <div className="grid grid-cols-2 gap-3">
                           <div>
                             <Label className="text-xs font-semibold text-foreground mb-1.5 block">{t('dashboard.admin.firstName')}</Label>
-                            <Input value={editingUser.firstName || ''} onChange={e => setEditingUser({...editingUser, firstName: e.target.value})} className="rounded-full h-10 px-3 border border-border dark:border-border text-sm bg-white dark:bg-[#112B1E]" data-testid="input-edit-firstname" />
+                            <Input value={editingUser.firstName || ''} onChange={e => setEditingUser({...editingUser, firstName: e.target.value})} className="rounded-full h-10 px-3 border border-border dark:border-border text-sm bg-white dark:bg-card" data-testid="input-edit-firstname" />
                           </div>
                           <div>
                             <Label className="text-xs font-semibold text-foreground mb-1.5 block">{t('dashboard.admin.lastName')}</Label>
-                            <Input value={editingUser.lastName || ''} onChange={e => setEditingUser({...editingUser, lastName: e.target.value})} className="rounded-full h-10 px-3 border border-border dark:border-border text-sm bg-white dark:bg-[#112B1E]" data-testid="input-edit-lastname" />
+                            <Input value={editingUser.lastName || ''} onChange={e => setEditingUser({...editingUser, lastName: e.target.value})} className="rounded-full h-10 px-3 border border-border dark:border-border text-sm bg-white dark:bg-card" data-testid="input-edit-lastname" />
                           </div>
                         </div>
                         <div>
                           <Label className="text-xs font-semibold text-foreground mb-1.5 block">{t('dashboard.admin.email')}</Label>
-                          <Input value={editingUser.email || ''} onChange={e => setEditingUser({...editingUser, email: e.target.value})} className="rounded-full h-10 px-3 border border-border dark:border-border text-sm bg-white dark:bg-[#112B1E]" data-testid="input-edit-email" />
+                          <Input value={editingUser.email || ''} onChange={e => setEditingUser({...editingUser, email: e.target.value})} className="rounded-full h-10 px-3 border border-border dark:border-border text-sm bg-white dark:bg-card" data-testid="input-edit-email" />
                         </div>
                         <div>
                           <Label className="text-xs font-semibold text-foreground mb-1.5 block">{t('dashboard.admin.phone')}</Label>
-                          <Input value={editingUser.phone || ''} onChange={e => setEditingUser({...editingUser, phone: e.target.value})} className="rounded-full h-10 px-3 border border-border dark:border-border text-sm bg-white dark:bg-[#112B1E]" data-testid="input-edit-phone" />
+                          <Input value={editingUser.phone || ''} onChange={e => setEditingUser({...editingUser, phone: e.target.value})} className="rounded-full h-10 px-3 border border-border dark:border-border text-sm bg-white dark:bg-card" data-testid="input-edit-phone" />
                         </div>
                         <div className="grid grid-cols-2 gap-3">
                           <div>
@@ -2666,7 +2666,7 @@ export default function Dashboard() {
                               value={editingUser.idType || ''} 
                               onValueChange={val => setEditingUser({...editingUser, idType: val})}
                               placeholder={t('dashboard.admin.select')}
-                              className="w-full rounded-xl h-10 px-3 border border-border dark:border-border text-sm bg-white dark:bg-[#112B1E]"
+                              className="w-full rounded-xl h-10 px-3 border border-border dark:border-border text-sm bg-white dark:bg-card"
                             >
                               <NativeSelectItem value="dni">DNI</NativeSelectItem>
                               <NativeSelectItem value="nie">NIE</NativeSelectItem>
@@ -2675,12 +2675,12 @@ export default function Dashboard() {
                           </div>
                           <div>
                             <Label className="text-xs font-semibold text-foreground mb-1.5 block">{t('dashboard.admin.idNumber')}</Label>
-                            <Input value={editingUser.idNumber || ''} onChange={e => setEditingUser({...editingUser, idNumber: e.target.value})} className="rounded-full h-10 px-3 border border-border dark:border-border text-sm bg-white dark:bg-[#112B1E]" data-testid="input-edit-idnumber" />
+                            <Input value={editingUser.idNumber || ''} onChange={e => setEditingUser({...editingUser, idNumber: e.target.value})} className="rounded-full h-10 px-3 border border-border dark:border-border text-sm bg-white dark:bg-card" data-testid="input-edit-idnumber" />
                           </div>
                         </div>
                         <div>
                           <Label className="text-xs font-semibold text-foreground mb-1.5 block">{t('dashboard.admin.birthDate')}</Label>
-                          <Input type="date" value={editingUser.birthDate || ''} onChange={e => setEditingUser({...editingUser, birthDate: e.target.value})} className="rounded-full h-10 px-3 border border-border dark:border-border text-sm bg-white dark:bg-[#112B1E]" data-testid="input-edit-birthdate" />
+                          <Input type="date" value={editingUser.birthDate || ''} onChange={e => setEditingUser({...editingUser, birthDate: e.target.value})} className="rounded-full h-10 px-3 border border-border dark:border-border text-sm bg-white dark:bg-card" data-testid="input-edit-birthdate" />
                         </div>
                         <div>
                           <Label className="text-xs font-semibold text-foreground mb-1.5 block">{t('dashboard.admin.businessActivity')}</Label>
@@ -2688,7 +2688,7 @@ export default function Dashboard() {
                             value={editingUser.businessActivity || ''} 
                             onValueChange={val => setEditingUser({...editingUser, businessActivity: val})}
                             placeholder={t("common.select")}
-                            className="rounded-xl h-10 px-3 border border-border dark:border-border text-sm bg-white dark:bg-[#112B1E]"
+                            className="rounded-xl h-10 px-3 border border-border dark:border-border text-sm bg-white dark:bg-card"
                             data-testid="select-edit-activity"
                           >
                             <NativeSelectItem value="ecommerce">{t("auth.register.businessActivities.ecommerce")}</NativeSelectItem>
@@ -2716,31 +2716,31 @@ export default function Dashboard() {
                         </div>
                         <div>
                           <Label className="text-xs font-semibold text-foreground mb-1.5 block">{t('dashboard.admin.address')}</Label>
-                          <Input value={editingUser.address || ''} onChange={e => setEditingUser({...editingUser, address: e.target.value})} placeholder={t('dashboard.admin.streetAndNumber')} className="rounded-full h-10 px-3 border border-border dark:border-border text-sm bg-white dark:bg-[#112B1E]" data-testid="input-edit-address" />
+                          <Input value={editingUser.address || ''} onChange={e => setEditingUser({...editingUser, address: e.target.value})} placeholder={t('dashboard.admin.streetAndNumber')} className="rounded-full h-10 px-3 border border-border dark:border-border text-sm bg-white dark:bg-card" data-testid="input-edit-address" />
                         </div>
                         <div className="grid grid-cols-2 gap-3">
                           <div>
                             <Label className="text-xs font-semibold text-foreground mb-1.5 block">{t('dashboard.admin.city')}</Label>
-                            <Input value={editingUser.city || ''} onChange={e => setEditingUser({...editingUser, city: e.target.value})} className="rounded-full h-10 px-3 border border-border dark:border-border text-sm bg-white dark:bg-[#112B1E]" data-testid="input-edit-city" />
+                            <Input value={editingUser.city || ''} onChange={e => setEditingUser({...editingUser, city: e.target.value})} className="rounded-full h-10 px-3 border border-border dark:border-border text-sm bg-white dark:bg-card" data-testid="input-edit-city" />
                           </div>
                           <div>
                             <Label className="text-xs font-semibold text-foreground mb-1.5 block">{t('dashboard.admin.postalCode')}</Label>
-                            <Input value={editingUser.postalCode || ''} onChange={e => setEditingUser({...editingUser, postalCode: e.target.value})} className="rounded-full h-10 px-3 border border-border dark:border-border text-sm bg-white dark:bg-[#112B1E]" data-testid="input-edit-postal" />
+                            <Input value={editingUser.postalCode || ''} onChange={e => setEditingUser({...editingUser, postalCode: e.target.value})} className="rounded-full h-10 px-3 border border-border dark:border-border text-sm bg-white dark:bg-card" data-testid="input-edit-postal" />
                           </div>
                         </div>
                         <div className="grid grid-cols-2 gap-3">
                           <div>
                             <Label className="text-xs font-semibold text-foreground mb-1.5 block">{t('dashboard.admin.province')}</Label>
-                            <Input value={editingUser.province || ''} onChange={e => setEditingUser({...editingUser, province: e.target.value})} className="rounded-full h-10 px-3 border border-border dark:border-border text-sm bg-white dark:bg-[#112B1E]" data-testid="input-edit-province" />
+                            <Input value={editingUser.province || ''} onChange={e => setEditingUser({...editingUser, province: e.target.value})} className="rounded-full h-10 px-3 border border-border dark:border-border text-sm bg-white dark:bg-card" data-testid="input-edit-province" />
                           </div>
                           <div>
                             <Label className="text-xs font-semibold text-foreground mb-1.5 block">{t('dashboard.admin.country')}</Label>
-                            <Input value={editingUser.country || ''} onChange={e => setEditingUser({...editingUser, country: e.target.value})} className="rounded-full h-10 px-3 border border-border dark:border-border text-sm bg-white dark:bg-[#112B1E]" data-testid="input-edit-country" />
+                            <Input value={editingUser.country || ''} onChange={e => setEditingUser({...editingUser, country: e.target.value})} className="rounded-full h-10 px-3 border border-border dark:border-border text-sm bg-white dark:bg-card" data-testid="input-edit-country" />
                           </div>
                         </div>
                         <div>
                           <Label className="text-xs font-semibold text-foreground mb-1.5 block">{t('dashboard.admin.internalNotes')}</Label>
-                          <Textarea value={editingUser.internalNotes || ''} onChange={e => setEditingUser({...editingUser, internalNotes: e.target.value})} rows={2} className="rounded-2xl border-border bg-background dark:bg-[#112B1E] text-sm" data-testid="input-edit-notes" />
+                          <Textarea value={editingUser.internalNotes || ''} onChange={e => setEditingUser({...editingUser, internalNotes: e.target.value})} rows={2} className="rounded-2xl border-border bg-background dark:bg-card text-sm" data-testid="input-edit-notes" />
                         </div>
                         {user?.email === 'afortuny07@gmail.com' && (
                           <>
@@ -2846,7 +2846,7 @@ export default function Dashboard() {
                             step="0.01" 
                             value={orderInvoiceAmount} 
                             onChange={e => setOrderInvoiceAmount(e.target.value)}
-                            className="rounded-xl h-11 px-4 border border-border dark:border-border bg-white dark:bg-[#112B1E]" 
+                            className="rounded-xl h-11 px-4 border border-border dark:border-border bg-white dark:bg-card" 
                             placeholder="899.00"
                             data-testid="input-invoice-amount"
                           />
@@ -2856,7 +2856,7 @@ export default function Dashboard() {
                           <NativeSelect 
                             value={orderInvoiceCurrency} 
                             onValueChange={setOrderInvoiceCurrency}
-                            className="w-full rounded-xl h-11 px-4 border border-border dark:border-border bg-white dark:bg-[#112B1E]"
+                            className="w-full rounded-xl h-11 px-4 border border-border dark:border-border bg-white dark:bg-card"
                           >
                             <NativeSelectItem value="EUR">EUR (€)</NativeSelectItem>
                             <NativeSelectItem value="USD">USD ($)</NativeSelectItem>
@@ -2923,7 +2923,7 @@ export default function Dashboard() {
                             value={docType} 
                             onValueChange={setDocType}
                             placeholder={t('dashboard.admin.selectDocType')}
-                            className="w-full rounded-xl h-11 px-4 border border-border dark:border-border bg-white dark:bg-[#112B1E]"
+                            className="w-full rounded-xl h-11 px-4 border border-border dark:border-border bg-white dark:bg-card"
                           >
                             <NativeSelectItem value="passport">{t('dashboard.admin.docPassport')}</NativeSelectItem>
                             <NativeSelectItem value="address_proof">{t('dashboard.admin.docAddressProof')}</NativeSelectItem>
@@ -2933,7 +2933,7 @@ export default function Dashboard() {
                         </div>
                         <div>
                           <Label className="text-sm font-semibold text-foreground mb-2 block">{t('dashboard.admin.message')}</Label>
-                          <Textarea value={docMessage} onChange={e => setDocMessage(e.target.value)} placeholder={t('dashboard.admin.messageForClient')} rows={3} className="w-full rounded-2xl border-border bg-background dark:bg-[#112B1E]" data-testid="input-doc-message" />
+                          <Textarea value={docMessage} onChange={e => setDocMessage(e.target.value)} placeholder={t('dashboard.admin.messageForClient')} rows={3} className="w-full rounded-2xl border-border bg-background dark:bg-card" data-testid="input-doc-message" />
                         </div>
                       </div>
                       <div className="flex flex-col sm:flex-row gap-3 mt-6 pt-4 border-t">
@@ -2986,7 +2986,7 @@ export default function Dashboard() {
                           <Input value={invoiceConcept} 
                             onChange={e => setInvoiceConcept(e.target.value)} 
                             placeholder={t('dashboard.admin.conceptPlaceholder')} 
-                            className="w-full rounded-full h-11 px-4 border border-border dark:border-border bg-white dark:bg-[#112B1E]"
+                            className="w-full rounded-full h-11 px-4 border border-border dark:border-border bg-white dark:bg-card"
                             data-testid="input-invoice-concept"
                           />
                         </div>
@@ -2997,7 +2997,7 @@ export default function Dashboard() {
                               value={invoiceAmount} 
                               onChange={e => setInvoiceAmount(e.target.value)} 
                               placeholder="899" 
-                              className="w-full rounded-full h-11 px-4 border border-border dark:border-border bg-white dark:bg-[#112B1E]"
+                              className="w-full rounded-full h-11 px-4 border border-border dark:border-border bg-white dark:bg-card"
                               data-testid="input-invoice-amount"
                             />
                           </div>
@@ -3006,7 +3006,7 @@ export default function Dashboard() {
                             <NativeSelect 
                               value={invoiceCurrency} 
                               onValueChange={setInvoiceCurrency}
-                              className="w-full rounded-full h-11 px-3 border border-border dark:border-border bg-white dark:bg-[#112B1E]"
+                              className="w-full rounded-full h-11 px-3 border border-border dark:border-border bg-white dark:bg-card"
                               data-testid="select-invoice-currency"
                             >
                               <NativeSelectItem value="EUR">EUR</NativeSelectItem>
@@ -3018,7 +3018,7 @@ export default function Dashboard() {
                             <Input type="date" 
                               value={invoiceDate} 
                               onChange={e => setInvoiceDate(e.target.value)} 
-                              className="w-full rounded-full h-11 px-4 border border-border dark:border-border bg-white dark:bg-[#112B1E]"
+                              className="w-full rounded-full h-11 px-4 border border-border dark:border-border bg-white dark:bg-card"
                               data-testid="input-invoice-date"
                             />
                           </div>
@@ -3090,7 +3090,7 @@ export default function Dashboard() {
                           <Label className="text-sm font-semibold text-foreground mb-2 block">{t('dashboard.admin.code')}</Label>
                           <Input value={newDiscountCode.code} 
                             onChange={e => setNewDiscountCode(p => ({ ...p, code: e.target.value.toUpperCase() }))} 
-                            className="rounded-xl h-11 px-4 border border-border dark:border-border uppercase bg-white dark:bg-[#112B1E]" 
+                            className="rounded-xl h-11 px-4 border border-border dark:border-border uppercase bg-white dark:bg-card" 
                             disabled={!!discountCodeDialog.code}
                             data-testid="input-discount-code" 
                           />
@@ -3101,7 +3101,7 @@ export default function Dashboard() {
                             <NativeSelect 
                               value={newDiscountCode.discountType} 
                               onValueChange={(val) => setNewDiscountCode(p => ({ ...p, discountType: val as 'percentage' | 'fixed' }))}
-                              className="w-full rounded-xl h-11 px-3 border border-border dark:border-border bg-white dark:bg-[#112B1E]"
+                              className="w-full rounded-xl h-11 px-3 border border-border dark:border-border bg-white dark:bg-card"
                               data-testid="select-discount-type"
                             >
                               <NativeSelectItem value="percentage">{t('dashboard.admin.percentage')}</NativeSelectItem>
@@ -3115,7 +3115,7 @@ export default function Dashboard() {
                             <Input type="number" 
                               value={newDiscountCode.discountValue} 
                               onChange={e => setNewDiscountCode(p => ({ ...p, discountValue: e.target.value }))} 
-                              className="rounded-xl h-11 px-4 border border-border dark:border-border bg-white dark:bg-[#112B1E]" 
+                              className="rounded-xl h-11 px-4 border border-border dark:border-border bg-white dark:bg-card" 
                               data-testid="input-discount-value" 
                             />
                           </div>
@@ -3126,7 +3126,7 @@ export default function Dashboard() {
                             <Input type="number" 
                               value={newDiscountCode.minOrderAmount} 
                               onChange={e => setNewDiscountCode(p => ({ ...p, minOrderAmount: e.target.value }))} 
-                              className="rounded-xl h-11 px-4 border border-border dark:border-border bg-white dark:bg-[#112B1E]" 
+                              className="rounded-xl h-11 px-4 border border-border dark:border-border bg-white dark:bg-card" 
                               data-testid="input-discount-min-amount" 
                             />
                           </div>
@@ -3135,7 +3135,7 @@ export default function Dashboard() {
                             <Input type="number" 
                               value={newDiscountCode.maxUses} 
                               onChange={e => setNewDiscountCode(p => ({ ...p, maxUses: e.target.value }))} 
-                              className="rounded-xl h-11 px-4 border border-border dark:border-border bg-white dark:bg-[#112B1E]" 
+                              className="rounded-xl h-11 px-4 border border-border dark:border-border bg-white dark:bg-card" 
                               data-testid="input-discount-max-uses" 
                             />
                           </div>
@@ -3146,7 +3146,7 @@ export default function Dashboard() {
                             <Input type="date" 
                               value={newDiscountCode.validFrom} 
                               onChange={e => setNewDiscountCode(p => ({ ...p, validFrom: e.target.value }))} 
-                              className="rounded-xl h-11 px-4 border border-border dark:border-border bg-white dark:bg-[#112B1E]" 
+                              className="rounded-xl h-11 px-4 border border-border dark:border-border bg-white dark:bg-card" 
                               data-testid="input-discount-valid-from" 
                             />
                           </div>
@@ -3155,7 +3155,7 @@ export default function Dashboard() {
                             <Input type="date" 
                               value={newDiscountCode.validUntil} 
                               onChange={e => setNewDiscountCode(p => ({ ...p, validUntil: e.target.value }))} 
-                              className="rounded-xl h-11 px-4 border border-border dark:border-border bg-white dark:bg-[#112B1E]" 
+                              className="rounded-xl h-11 px-4 border border-border dark:border-border bg-white dark:bg-card" 
                               data-testid="input-discount-valid-until" 
                             />
                           </div>
@@ -3224,7 +3224,7 @@ export default function Dashboard() {
                           <Input value={paymentLinkUrl}
                             onChange={(e) => setPaymentLinkUrl(e.target.value)}
                             placeholder="https://..."
-                            className="rounded-xl h-11 px-4 border border-border dark:border-border bg-white dark:bg-[#112B1E]"
+                            className="rounded-xl h-11 px-4 border border-border dark:border-border bg-white dark:bg-card"
                             data-testid="input-payment-link-url"
                           />
                         </div>
@@ -3233,7 +3233,7 @@ export default function Dashboard() {
                           <Input value={paymentLinkAmount}
                             onChange={(e) => setPaymentLinkAmount(e.target.value)}
                             placeholder={t('dashboard.admin.paymentAmountPlaceholder')}
-                            className="rounded-xl h-11 px-4 border border-border dark:border-border bg-white dark:bg-[#112B1E]"
+                            className="rounded-xl h-11 px-4 border border-border dark:border-border bg-white dark:bg-card"
                             data-testid="input-payment-link-amount"
                           />
                         </div>
@@ -3242,7 +3242,7 @@ export default function Dashboard() {
                           <Textarea value={paymentLinkMessage}
                             onChange={(e) => setPaymentLinkMessage(e.target.value)}
                             placeholder={t('dashboard.admin.paymentMessagePlaceholder')}
-                            className="rounded-xl border-border bg-background dark:bg-[#112B1E]"
+                            className="rounded-xl border-border bg-background dark:bg-card"
                             rows={3}
                             data-testid="input-payment-link-message"
                           />
@@ -3307,7 +3307,7 @@ export default function Dashboard() {
                           <NativeSelect
                             value={adminDocType}
                             onValueChange={setAdminDocType}
-                            className="w-full rounded-xl h-11 px-4 border border-border dark:border-border bg-white dark:bg-[#112B1E]"
+                            className="w-full rounded-xl h-11 px-4 border border-border dark:border-border bg-white dark:bg-card"
                           >
                             <NativeSelectItem value="articles_of_organization">{t('dashboard.admin.articlesOfOrg')}</NativeSelectItem>
                             <NativeSelectItem value="certificate_of_formation">{t('dashboard.admin.certOfFormation')}</NativeSelectItem>
@@ -3412,7 +3412,7 @@ export default function Dashboard() {
                             value={newAdminPassword}
                             onChange={(e) => setNewAdminPassword(e.target.value)}
                             placeholder={t('dashboard.admin.minChars')}
-                            className="rounded-xl h-12 border-border bg-background dark:bg-[#112B1E]"
+                            className="rounded-xl h-12 border-border bg-background dark:bg-card"
                             data-testid="input-admin-new-password"
                           />
                         </div>
@@ -4384,7 +4384,7 @@ export default function Dashboard() {
                           if (!app) return null;
                           const fiscalOrderCode = app?.requestCode || order.invoiceNumber;
                           return (
-                            <div key={order.id} className="border-2 rounded-2xl p-4 md:p-5 bg-muted/50 dark:bg-[#112B1E]/50">
+                            <div key={order.id} className="border-2 rounded-2xl p-4 md:p-5 bg-muted/50 dark:bg-card/50">
                               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
                                 <div>
                                   <p className="font-black text-base md:text-lg">{app.companyName || t('dashboard.admin.calendar.llcPending')}</p>
@@ -5280,7 +5280,7 @@ export default function Dashboard() {
               <div className="space-y-5">
                 {orders && orders.length > 0 ? (
                   <>
-                    <div className="rounded-xl bg-muted dark:bg-[#112B1E] p-3 mb-4">
+                    <div className="rounded-xl bg-muted dark:bg-card p-3 mb-4">
                       <div className="flex items-start justify-between gap-2">
                         <div className="min-w-0 flex-1">
                           <p className="text-[9px] font-bold text-accent uppercase tracking-wider mb-0.5">{t('dashboard.tracking.order')}: {orders[0]?.application?.requestCode || orders[0]?.maintenanceApplication?.requestCode || orders[0]?.invoiceNumber || orders[0]?.id}</p>

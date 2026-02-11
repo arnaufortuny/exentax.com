@@ -9,6 +9,10 @@ html {
 }
 
 html.dark {
+  background: #050505;
+}
+
+html.dark.forest {
   background: #0A1F17;
 }
 
@@ -19,6 +23,10 @@ body {
 }
 
 html.dark body {
+  background: #050505;
+}
+
+html.dark.forest body {
   background: #0A1F17;
 }
 
@@ -133,27 +141,63 @@ html.dark body {
 }
 
 .dark {
-  --background: 157 51% 8%;
-  --foreground: 150 20% 93%;
+  --background: 0 0% 2%;
+  --foreground: 0 0% 93%;
 
   --primary: 163 100% 42%;
   --primary-foreground: 0 0% 100%;
 
   --secondary: 82 81% 65%;
-  --secondary-foreground: 157 51% 8%;
+  --secondary-foreground: 0 0% 8%;
 
   --accent: 152 100% 50%;
   --accent-foreground: 0 0% 100%;
 
-  --muted: 150 32% 15%;
-  --muted-foreground: 150 15% 55%;
+  --muted: 0 0% 10%;
+  --muted-foreground: 0 0% 55%;
 
   --destructive: 0 72% 51%;
   --destructive-foreground: 0 0% 100%;
 
+  --border: 0 0% 16%;
+  --input: 0 0% 10%;
+  --ring: 163 100% 42%;
+
+  --card: 0 0% 7%;
+  --card-foreground: 0 0% 93%;
+  --card-border: 0 0% 16%;
+
+  --popover: 0 0% 7%;
+  --popover-foreground: 0 0% 93%;
+  --popover-border: 0 0% 18%;
+
+  --sidebar: 0 0% 4%;
+  --sidebar-foreground: 0 0% 93%;
+  --sidebar-border: 0 0% 14%;
+  --sidebar-ring: 163 100% 42%;
+  --sidebar-primary: 163 100% 42%;
+  --sidebar-primary-foreground: 0 0% 100%;
+  --sidebar-accent: 163 100% 42%;
+  --sidebar-accent-foreground: 0 0% 100%;
+
+  --cta: 163 100% 42%;
+  --cta-foreground: 0 0% 100%;
+  --neon: 152 100% 50%;
+  --lima: 82 81% 65%;
+  --primary-dark: 163 100% 30%;
+}
+
+.dark.forest {
+  --background: 157 51% 8%;
+  --foreground: 150 20% 93%;
+
+  --secondary-foreground: 157 51% 8%;
+
+  --muted: 150 32% 15%;
+  --muted-foreground: 150 15% 55%;
+
   --border: 150 30% 18%;
   --input: 150 30% 15%;
-  --ring: 163 100% 42%;
 
   --card: 150 43% 12%;
   --card-foreground: 150 20% 93%;
@@ -166,17 +210,6 @@ html.dark body {
   --sidebar: 157 51% 7%;
   --sidebar-foreground: 150 20% 93%;
   --sidebar-border: 150 30% 16%;
-  --sidebar-ring: 163 100% 42%;
-  --sidebar-primary: 163 100% 42%;
-  --sidebar-primary-foreground: 0 0% 100%;
-  --sidebar-accent: 163 100% 42%;
-  --sidebar-accent-foreground: 0 0% 100%;
-
-  --cta: 163 100% 42%;
-  --cta-foreground: 0 0% 100%;
-  --neon: 152 100% 50%;
-  --lima: 82 81% 65%;
-  --primary-dark: 163 100% 30%;
 }
 
 @layer base {
@@ -272,6 +305,10 @@ button {
 }
 
 .dark .bg-gradient-main {
+  background: linear-gradient(180deg, #050505 0%, #0a0a0a 100%);
+}
+
+.dark.forest .bg-gradient-main {
   background: linear-gradient(180deg, #0A1F17 0%, #0D2418 100%);
 }
 
@@ -317,6 +354,12 @@ button {
 }
 
 .dark .card-glass {
+  background: rgba(18, 18, 18, 0.7);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.dark.forest .card-glass {
   background: rgba(17, 43, 30, 0.7);
   backdrop-filter: blur(12px);
   border: 1px solid rgba(0, 196, 140, 0.12);
@@ -529,8 +572,8 @@ select option {
 }
 
 .dark select option {
-  background-color: #112B1E;
-  color: white;
+  background-color: hsl(var(--card));
+  color: hsl(var(--foreground));
 }
 
 button, a, [role="button"] {
