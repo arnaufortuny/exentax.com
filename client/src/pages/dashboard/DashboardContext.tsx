@@ -5,7 +5,7 @@ import { useLocation } from "wouter";
 import { useDashboardNavigation, type DashboardNavigationState } from "./hooks/useDashboardNavigation";
 import { useDashboardSearch, type DashboardSearchState } from "./hooks/useDashboardSearch";
 import { useQuery, useMutation } from "@tanstack/react-query";
-import { queryClient, apiRequest, getCsrfToken } from "@/lib/queryClient";
+import { queryClient, apiRequest, getCsrfToken, setStoredAuthToken } from "@/lib/queryClient";
 import { useConfirmDialog } from "@/components/ui/confirm-dialog";
 import type { Tab, AdminUserData, DiscountCode } from "@/components/dashboard/types";
 
@@ -124,6 +124,7 @@ export function DashboardProvider({ children }: { children: React.ReactNode }) {
   }, [t]);
 
   const handleLogout = useCallback(() => {
+    setStoredAuthToken(null);
     apiRequest("POST", "/api/auth/logout").then(() => window.location.href = "/");
   }, []);
 

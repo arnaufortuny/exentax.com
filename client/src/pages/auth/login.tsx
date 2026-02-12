@@ -12,7 +12,7 @@ import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
-import { apiRequest, queryClient } from "@/lib/queryClient";
+import { apiRequest, queryClient, setStoredAuthToken, getStoredAuthToken } from "@/lib/queryClient";
 import { FormInput } from "@/components/forms";
 import { SocialLogin } from "@/components/auth/social-login";
 import { usePageTitle } from "@/hooks/use-page-title";
@@ -51,9 +51,11 @@ export default function Login() {
     setIsLoading(true);
     setFormMessage(null);
     try {
-      const token = await (await import("@/lib/queryClient")).getCsrfToken();
+      const csrfToken = await (await import("@/lib/queryClient")).getCsrfToken();
       const headers: Record<string, string> = { "Content-Type": "application/json" };
-      if (token) headers["X-CSRF-Token"] = token;
+      if (csrfToken) headers["X-CSRF-Token"] = csrfToken;
+      const storedToken = getStoredAuthToken();
+      if (storedToken) headers["Authorization"] = `Bearer ${storedToken}`;
       
       const res = await fetch("/api/auth/login", {
         method: "POST",
@@ -86,6 +88,9 @@ export default function Login() {
       }
       
       if (result.success) {
+        if (result.token) {
+          setStoredAuthToken(result.token);
+        }
         if (result.user?.preferredLanguage && result.user.preferredLanguage !== i18n.language) {
           await i18n.changeLanguage(result.user.preferredLanguage);
           localStorage.setItem('i18nextLng', result.user.preferredLanguage);

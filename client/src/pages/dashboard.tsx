@@ -6,7 +6,7 @@ import { useTranslation } from "react-i18next";
 import { getWhatsAppUrl } from "@/lib/whatsapp";
 import { formatDate, formatDateShort } from "@/lib/utils";
 import { useQuery, useMutation } from "@tanstack/react-query";
-import { queryClient, apiRequest, getCsrfToken } from "@/lib/queryClient";
+import { queryClient, apiRequest, getCsrfToken, setStoredAuthToken } from "@/lib/queryClient";
 import { FileText, Clock, User as UserIcon, Package, CreditCard, Mail, BellRing, CheckCircle2, AlertCircle, MessageSquare, Send, Shield, ShieldCheck, Users, Edit, FileUp, Loader2, Receipt, Plus, Calendar, DollarSign, BarChart3, UserCheck, Upload, Tag, X, Calculator, Key, Search, LogOut, ClipboardList } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -1271,6 +1271,7 @@ export default function Dashboard() {
   }, [isAdmin, adminMenuItems, userMenuItems, isPendingAccount]);
   
   const handleLogout = useCallback(() => {
+    setStoredAuthToken(null);
     apiRequest("POST", "/api/auth/logout").then(() => window.location.href = "/");
   }, []);
 

@@ -12,7 +12,7 @@ import { Footer } from "@/components/layout/footer";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, FormDescription } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { apiRequest, queryClient } from "@/lib/queryClient";
+import { apiRequest, queryClient, setStoredAuthToken } from "@/lib/queryClient";
 import { SocialLogin } from "@/components/auth/social-login";
 import { StepProgress } from "@/components/ui/step-progress";
 import { PasswordStrength } from "@/components/ui/password-strength";
@@ -201,6 +201,9 @@ export default function Register() {
       const result = await res.json();
       
       if (result.success) {
+        if (result.token) {
+          setStoredAuthToken(result.token);
+        }
         await queryClient.refetchQueries({ queryKey: ["/api/auth/user"] });
         setIsRegistered(true);
         setFormMessage({ type: 'success', text: t("auth.register.accountCreated") });

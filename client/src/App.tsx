@@ -1,5 +1,5 @@
 import { Switch, Route, useLocation } from "wouter";
-import { queryClient } from "./lib/queryClient";
+import { queryClient, setStoredAuthToken } from "./lib/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { ThemeProvider } from "@/hooks/use-theme";
@@ -216,10 +216,38 @@ function usePrefetchCriticalRoutes() {
   }, []);
 }
 
+function useOAuthTokenCapture() {
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const authCode = params.get("authCode");
+    if (authCode) {
+      params.delete("authCode");
+      const newSearch = params.toString();
+      const newUrl = window.location.pathname + (newSearch ? `?${newSearch}` : "");
+      window.history.replaceState({}, "", newUrl);
+
+      fetch("/api/auth/exchange-code", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ code: authCode }),
+        credentials: "include",
+      })
+        .then(res => res.ok ? res.json() : null)
+        .then(data => {
+          if (data?.token) {
+            setStoredAuthToken(data.token);
+            queryClient.invalidateQueries({ queryKey: ["/api/auth/user"] });
+          }
+        })
+        .catch(() => {});
+    }
+  }, []);
+}
+
 function App() {
   usePrefetchCriticalRoutes();
+  useOAuthTokenCapture();
   
-  // Main website
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider defaultTheme="system" storageKey="exentax-theme">

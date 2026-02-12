@@ -7,6 +7,7 @@ import crypto from "crypto";
 import { isAdminEmail } from "./lib/auth-service";
 import { generateUniqueClientId } from "./lib/id-generator";
 import { createLogger } from "./lib/logger";
+import { signAuthToken, createAuthCode } from "./lib/token-auth";
 
 const log = createLogger('oauth');
 
@@ -203,7 +204,9 @@ export function setupOAuth(app: Express) {
         });
       });
 
-      return res.redirect("/dashboard");
+      const authToken = signAuthToken({ id: user.id, email: user.email!, isAdmin: user.isAdmin || false, isSupport: (user as any).isSupport || false });
+      const authCode = createAuthCode(authToken);
+      return res.redirect(`/dashboard?authCode=${encodeURIComponent(authCode)}`);
     } catch (error) {
       log.error("Google OAuth callback error", error);
       return res.redirect("/login?error=auth_failed");
@@ -258,8 +261,11 @@ export function setupOAuth(app: Express) {
         });
       });
 
+      const authToken = signAuthToken({ id: user.id, email: user.email!, isAdmin: user.isAdmin || false, isSupport: (user as any).isSupport || false });
+
       return res.json({
         message: "Login successful",
+        token: authToken,
         user: {
           id: user.id,
           email: user.email,

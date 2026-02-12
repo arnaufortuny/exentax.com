@@ -10,7 +10,6 @@ async function throwIfResNotOk(res: Response) {
         message = json.message;
       }
     } catch {
-      // Not JSON, use raw text
     }
     throw new Error(message);
   }
@@ -21,7 +20,36 @@ const CACHE_TTL = 5000;
 
 let csrfToken: string | null = null;
 
+const AUTH_TOKEN_KEY = "exentax_auth_token";
+
+export function getStoredAuthToken(): string | null {
+  try {
+    return localStorage.getItem(AUTH_TOKEN_KEY);
+  } catch {
+    return null;
+  }
+}
+
+export function setStoredAuthToken(token: string | null) {
+  try {
+    if (token) {
+      localStorage.setItem(AUTH_TOKEN_KEY, token);
+    } else {
+      localStorage.removeItem(AUTH_TOKEN_KEY);
+    }
+  } catch {
+  }
+}
+
+function addAuthHeader(headers: Record<string, string>) {
+  const token = getStoredAuthToken();
+  if (token) {
+    headers["Authorization"] = `Bearer ${token}`;
+  }
+}
+
 export async function getCsrfToken(forceRefresh = false): Promise<string> {
+  if (getStoredAuthToken()) return '';
   if (csrfToken && !forceRefresh) return csrfToken;
   csrfToken = null;
   try {
@@ -58,7 +86,9 @@ export async function apiRequest(
   const headers: Record<string, string> = {};
   if (data) headers["Content-Type"] = "application/json";
   
-  if (method !== 'GET' && method !== 'HEAD' && method !== 'OPTIONS') {
+  addAuthHeader(headers);
+
+  if (method !== 'GET' && method !== 'HEAD' && method !== 'OPTIONS' && !headers["Authorization"]) {
     const token = await getCsrfToken();
     if (token) headers["X-CSRF-Token"] = token;
   }
@@ -76,13 +106,14 @@ export async function apiRequest(
       const body = await cloned.json();
       if (body.code === 'ACCOUNT_UNDER_REVIEW' || body.code === 'ACCOUNT_DEACTIVATED') {
         queryClient.invalidateQueries({ queryKey: ["/api/auth/user"] });
-      } else if (body.code === 'CSRF_INVALID') {
+      } else if (body.code === 'CSRF_INVALID' && !headers["Authorization"]) {
         csrfToken = null;
         const newToken = await getCsrfToken(true);
         if (newToken) {
           const retryHeaders: Record<string, string> = {};
           if (data) retryHeaders["Content-Type"] = "application/json";
           retryHeaders["X-CSRF-Token"] = newToken;
+          addAuthHeader(retryHeaders);
           const retryRes = await fetch(url, {
             method,
             headers: retryHeaders,
@@ -116,8 +147,12 @@ export const getQueryFn: <T>(options: {
 }) => QueryFunction<T> =
   ({ on401: unauthorizedBehavior }) =>
   async ({ queryKey }) => {
+    const headers: Record<string, string> = {};
+    addAuthHeader(headers);
+
     const res = await fetch(queryKey.join("/") as string, {
       credentials: "include",
+      headers: Object.keys(headers).length > 0 ? headers : undefined,
     });
 
     if (unauthorizedBehavior === "returnNull" && res.status === 401) {

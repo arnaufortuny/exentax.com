@@ -4,7 +4,7 @@ import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { Button } from "@/components/ui/button";
 import { LoadingScreen } from "@/components/loading-screen";
-import { apiRequest } from "@/lib/queryClient";
+import { apiRequest, setStoredAuthToken } from "@/lib/queryClient";
 import { useEffect, type ReactNode } from "react";
 import { useLocation } from "wouter";
 import { LogOut } from "@/components/icons";
@@ -112,7 +112,7 @@ function DeactivatedPage() {
             variant="destructive"
             className="w-full sm:w-auto px-8 font-black rounded-full shadow-lg"
             size="lg"
-            onClick={() => apiRequest("POST", "/api/auth/logout").then(() => window.location.href = "/")}
+            onClick={() => { setStoredAuthToken(null); apiRequest("POST", "/api/auth/logout").then(() => window.location.href = "/"); }}
             data-testid="button-deactivated-logout"
           >
             <LogOut className="w-4 h-4 mr-2" />

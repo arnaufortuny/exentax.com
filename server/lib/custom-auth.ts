@@ -13,6 +13,7 @@ import { createLogger } from "./logger";
 const log = createLogger('auth');
 import { EmailLanguage, getWelcomeNotificationTitle, getWelcomeNotificationMessage, getWelcomeEmailSubject, getDefaultClientName, getSecurityOtpSubject } from "./email-translations";
 import { checkRateLimit, logAudit, getClientIp } from "./security";
+import { signAuthToken, tokenAuthMiddleware } from "./token-auth";
 import {
   createUser,
   loginUser,
@@ -79,6 +80,8 @@ export function setupCustomAuth(app: Express) {
   app.use(express.urlencoded({ extended: true, limit: '1mb' }));
   
   app.use(getSession());
+
+  app.use(tokenAuthMiddleware);
 
   app.use((req: any, res, next) => {
     if (req.session?.userId) {
@@ -155,6 +158,8 @@ export function setupCustomAuth(app: Express) {
         req.session.isAdmin = user.isAdmin;
         req.session.isSupport = user.isSupport;
 
+        const authToken = signAuthToken({ id: user.id, email: user.email!, isAdmin: user.isAdmin, isSupport: user.isSupport });
+
         req.session.save((err) => {
           if (err) {
             log.error("Session save error", err);
@@ -163,6 +168,7 @@ export function setupCustomAuth(app: Express) {
           
           res.json({
             success: true,
+            token: authToken,
             user: {
               id: user.id,
               email: user.email,
@@ -316,6 +322,8 @@ export function setupCustomAuth(app: Express) {
           req.session.isAdmin = user.isAdmin;
           req.session.isSupport = user.isSupport;
 
+          const authToken = signAuthToken({ id: user.id, email: user.email!, isAdmin: user.isAdmin, isSupport: user.isSupport });
+
           req.session.save((err) => {
             if (err) {
               log.error("Session save error", err);
@@ -325,6 +333,7 @@ export function setupCustomAuth(app: Express) {
             logAudit({ action: 'user_login', userId: user.id, ip, details: { email, success: true, loginCount: newLoginCount } });
             res.json({
               success: true,
+              token: authToken,
               user: {
                 id: user.id,
                 email: user.email,

@@ -2,10 +2,18 @@ import { useEffect, useRef } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import type { User } from "@shared/models/auth";
 import i18n from "@/lib/i18n";
+import { getStoredAuthToken, setStoredAuthToken } from "@/lib/queryClient";
 
 async function fetchUser(): Promise<User | null> {
+  const headers: Record<string, string> = {};
+  const token = getStoredAuthToken();
+  if (token) {
+    headers["Authorization"] = `Bearer ${token}`;
+  }
+
   const response = await fetch("/api/auth/user", {
     credentials: "include",
+    headers: Object.keys(headers).length > 0 ? headers : undefined,
   });
 
   if (response.status === 401) {
@@ -20,10 +28,17 @@ async function fetchUser(): Promise<User | null> {
 }
 
 async function logout(): Promise<void> {
+  const headers: Record<string, string> = {};
+  const token = getStoredAuthToken();
+  if (token) {
+    headers["Authorization"] = `Bearer ${token}`;
+  }
   await fetch("/api/auth/logout", {
     method: "POST",
     credentials: "include",
+    headers: Object.keys(headers).length > 0 ? headers : undefined,
   });
+  setStoredAuthToken(null);
   window.location.href = "/auth/login";
 }
 

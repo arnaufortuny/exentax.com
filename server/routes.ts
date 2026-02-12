@@ -14,6 +14,7 @@ import { checkAndSendReminders } from "./calendar-service";
 import { processAbandonedApplications } from "./lib/abandoned-service";
 import { startBackupService } from "./lib/backup-service";
 import { csrfMiddleware, getCsrfToken, validateCsrf } from "./lib/csrf";
+import { isTokenAuth, exchangeAuthCode } from "./lib/token-auth";
 import { checkRateLimit as checkApiRateLimit } from "./lib/rate-limiter";
 import { registerObjectStorageRoutes } from "./replit_integrations/object_storage";
 import { startIpTrackerCleanup } from "./routes/shared";
@@ -101,6 +102,7 @@ export async function registerRoutes(
     "/api/contact",
     "/api/messages",
     "/api/newsletter/subscribe",
+    "/api/auth/exchange-code",
   ];
   
   app.use((req, res, next) => {
@@ -108,10 +110,22 @@ export async function registerRoutes(
     const isMutatingMethod = !["GET", "HEAD", "OPTIONS"].includes(req.method);
     const isApiRoute = req.path.startsWith("/api/");
     
-    if (isApiRoute && isMutatingMethod && !isExempt) {
+    if (isApiRoute && isMutatingMethod && !isExempt && !isTokenAuth(req)) {
       return validateCsrf(req, res, next);
     }
     next();
+  });
+
+  app.post("/api/auth/exchange-code", (req, res) => {
+    const { code } = req.body;
+    if (!code || typeof code !== "string") {
+      return res.status(400).json({ message: "Code required" });
+    }
+    const token = exchangeAuthCode(code);
+    if (!token) {
+      return res.status(401).json({ message: "Invalid or expired code" });
+    }
+    res.json({ token });
   });
 
   // Schedule compliance reminder checks every hour
