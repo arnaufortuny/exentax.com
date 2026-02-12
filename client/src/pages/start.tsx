@@ -1,12 +1,15 @@
+import { lazy, Suspense } from "react";
 import { useTranslation } from "react-i18next";
 import { usePageTitle } from "@/hooks/use-page-title";
 import { useLocation } from "wouter";
 import { motion } from "framer-motion";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
-import { TaxComparator } from "@/components/tax-comparator";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "@/components/icons";
+import { Skeleton } from "@/components/ui/skeleton";
+
+const TaxComparator = lazy(() => import("@/components/tax-comparator").then(m => ({ default: m.TaxComparator })));
 
 export default function StartPage() {
   const { t } = useTranslation();
@@ -99,15 +102,17 @@ export default function StartPage() {
       </section>
 
       <section id="tax-calculator" className="py-12 md:py-20 scroll-mt-20">
-        <TaxComparator
-          titleOverride={{
-            part1: t("start.taxCalc.titlePart1"),
-            part2: t("start.taxCalc.titlePart2"),
-            part3: t("start.taxCalc.titlePart3"),
-            part4: t("start.taxCalc.titlePart4"),
-          }}
-          subtitleOverride={t("start.taxCalc.subtitle")}
-        />
+        <Suspense fallback={<div className="container mx-auto px-4 max-w-4xl"><Skeleton className="h-[400px] w-full rounded-lg" /></div>}>
+          <TaxComparator
+            titleOverride={{
+              part1: t("start.taxCalc.titlePart1"),
+              part2: t("start.taxCalc.titlePart2"),
+              part3: t("start.taxCalc.titlePart3"),
+              part4: t("start.taxCalc.titlePart4"),
+            }}
+            subtitleOverride={t("start.taxCalc.subtitle")}
+          />
+        </Suspense>
       </section>
 
       <section className="py-16 md:py-24 bg-accent/5 dark:bg-accent/10">
