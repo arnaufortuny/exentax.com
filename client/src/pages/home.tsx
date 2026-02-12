@@ -133,7 +133,7 @@ export default function Home() {
         </div>
       </section>
 
-      <PorQueEasyUSLLC />
+      <PorQueExentax />
 
       <HowWeWorkSection />
 
@@ -390,7 +390,7 @@ function HowWeWorkSection() {
   );
 }
 
-function PorQueEasyUSLLC() {
+function PorQueExentax() {
   const { t } = useTranslation();
   
   const whyUsFeatures = [

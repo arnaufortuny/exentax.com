@@ -1,5 +1,5 @@
-# Easy US LLC - Robots.txt
-# Last updated: 2026-01-30
+# Exentax - Robots.txt
+# Last updated: 2026-02-12
 
 # Default rules for all bots
 User-agent: *
@@ -9,6 +9,9 @@ Allow: /faq
 Allow: /contacto
 Allow: /llc/formation
 Allow: /llc/maintenance
+Allow: /start
+Allow: /agendar-consultoria
+Allow: /links
 Allow: /auth/login
 Allow: /auth/register
 Allow: /legal/
@@ -87,8 +90,8 @@ User-agent: BLEXBot
 Disallow: /
 
 # Sitemaps
-Sitemap: https://easyusllc.com/sitemap.xml
-Sitemap: https://easyusllc.com/sitemap-images.xml
+Sitemap: https://exentax.com/sitemap.xml
+Sitemap: https://exentax.com/sitemap-images.xml
 
 # Host directive
-Host: https://easyusllc.com
+Host: https://exentax.com
