@@ -1929,7 +1929,8 @@
         "modify": "Modificar",
         "viewInvoice": "Veure Factura",
         "generateInvoice": "Generar Factura",
-        "deleteBtn": "Eliminar"
+        "deleteBtn": "Eliminar",
+        "noResults": "No s'han trobat comandes"
       },
       "incomplete": {
         "title": "Sol·licituds Incompletes",

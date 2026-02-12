@@ -1929,7 +1929,8 @@
         "modify": "Ändern",
         "viewInvoice": "Rechnung anzeigen",
         "generateInvoice": "Rechnung erstellen",
-        "deleteBtn": "Löschen"
+        "deleteBtn": "Löschen",
+        "noResults": "Keine Bestellungen gefunden"
       },
       "incomplete": {
         "title": "Unvollständige Anträge",

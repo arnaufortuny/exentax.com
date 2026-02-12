@@ -1931,7 +1931,8 @@
         "modify": "Modify",
         "viewInvoice": "View Invoice",
         "generateInvoice": "Generate Invoice",
-        "deleteBtn": "Delete"
+        "deleteBtn": "Delete",
+        "noResults": "No orders found"
       },
       "incomplete": {
         "title": "Incomplete Applications",

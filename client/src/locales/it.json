@@ -1878,7 +1878,8 @@
         "modify": "Modifica",
         "viewInvoice": "Vedi Fattura",
         "generateInvoice": "Genera Fattura",
-        "deleteBtn": "Elimina"
+        "deleteBtn": "Elimina",
+        "noResults": "Nessun ordine trovato"
       },
       "incomplete": {
         "title": "Richieste Incomplete",

@@ -1929,7 +1929,8 @@
         "modify": "Modificar",
         "viewInvoice": "Ver Fatura",
         "generateInvoice": "Gerar Fatura",
-        "deleteBtn": "Eliminar"
+        "deleteBtn": "Eliminar",
+        "noResults": "Nenhum pedido encontrado"
       },
       "incomplete": {
         "title": "Candidaturas Incompletas",

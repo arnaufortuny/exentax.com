@@ -1471,7 +1471,7 @@ export default function Dashboard() {
 
         {/* Mobile Navigation - Sticky horizontal scroll buttons */}
         <div className="flex flex-col gap-2 mb-4 lg:hidden sticky top-0 z-50 bg-background pt-3 pb-2 -mt-2 shadow-sm">
-          <div className="flex overflow-x-auto pb-2 gap-3 no-scrollbar mobile-tab-bar pl-4 pr-4 sm:pl-5 sm:pr-5">
+          <div className="flex overflow-x-auto pb-2 gap-2 no-scrollbar mobile-tab-bar pl-3 pr-3 sm:pl-5 sm:pr-5">
             {isAdmin ? (
               adminMenuItems.map((item: any) => {
                 const isActive = activeTab === 'admin' && adminSubTab === item.subTab;
@@ -1479,14 +1479,14 @@ export default function Dashboard() {
                   <Button key={item.id}
                     variant={isActive ? "default" : "ghost"}
                     onClick={() => { setActiveTab('admin' as Tab); setAdminSubTab(item.subTab); }}
-                    className={`flex items-center gap-2 rounded-full font-bold text-sm tracking-normal whitespace-nowrap shrink-0 min-h-12 px-6 transition-all duration-200 animate-press ${
+                    className={`flex items-center gap-1.5 rounded-full font-bold text-xs tracking-normal whitespace-nowrap shrink-0 min-h-9 px-4 transition-all duration-200 animate-press ${
                       isActive 
                       ? 'bg-accent text-accent-foreground shadow-md scale-[1.02]' 
                       : 'bg-card text-muted-foreground'
                     }`}
                     data-testid={`button-tab-${item.id}`}
                   >
-                    <item.icon className="w-5 h-5" />
+                    <item.icon className="w-4 h-4" />
                     <span>{item.label}</span>
                   </Button>
                 );
@@ -1497,7 +1497,7 @@ export default function Dashboard() {
                   <Button key={item.id}
                     variant={activeTab === item.id ? "default" : "ghost"}
                     onClick={() => setActiveTab(item.id as Tab)}
-                    className={`flex items-center gap-2 rounded-full font-bold text-sm tracking-normal whitespace-nowrap shrink-0 min-h-12 px-6 transition-all duration-200 animate-press ${
+                    className={`flex items-center gap-1.5 rounded-full font-bold text-xs tracking-normal whitespace-nowrap shrink-0 min-h-9 px-4 transition-all duration-200 animate-press ${
                       activeTab === item.id 
                       ? 'bg-accent text-accent-foreground shadow-md scale-[1.02]' 
                       : 'bg-card text-muted-foreground'
@@ -1505,7 +1505,7 @@ export default function Dashboard() {
                     data-testid={`button-tab-${item.id}`}
                     {...('tour' in item && item.tour ? { 'data-tour': item.tour } : {})}
                   >
-                    <item.icon className="w-5 h-5" />
+                    <item.icon className="w-4 h-4" />
                     <span>{item.label}</span>
                   </Button>
                 ))}
