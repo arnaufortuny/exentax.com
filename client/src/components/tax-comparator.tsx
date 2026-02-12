@@ -498,7 +498,7 @@ export function TaxComparator({ titleOverride, subtitleOverride }: TaxComparator
                             emailError 
                               ? 'border-destructive focus:border-destructive' 
                               : 'border-accent/30 focus:border-accent'
-                          } bg-white dark:bg-card text-foreground font-medium text-center outline-none transition-colors`}
+                          } bg-white dark:bg-card text-foreground font-medium text-left outline-none transition-colors`}
                           data-testid="input-email-calculator"
                         />
                         {emailError && (
