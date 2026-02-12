@@ -209,6 +209,7 @@ export const messageReplies = pgTable("message_replies", {
   content: text("content").notNull(),
   encryptedContent: text("encrypted_content"),
   isAdmin: boolean("is_admin").notNull().default(false),
+  fromName: text("from_name"),
   createdAt: timestamp("created_at").defaultNow(),
   createdBy: varchar("created_by").references(() => users.id),
 }, (table) => ({

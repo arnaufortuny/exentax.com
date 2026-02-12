@@ -8,7 +8,7 @@ import { createLogger } from "../lib/logger";
 
 const log = createLogger('admin-comms');
 import { newsletterSubscribers, calculatorConsultations, messages as messagesTable, messageReplies } from "@shared/schema";
-import { sendEmail } from "../lib/email";
+import { sendEmail, getNewsletterBroadcastTemplate } from "../lib/email";
 
 export function registerAdminCommsRoutes(app: Express) {
   // Admin Newsletter
@@ -196,17 +196,7 @@ export function registerAdminCommsRoutes(app: Express) {
     }).parse(req.body);
 
     const subscribers = await db.select().from(newsletterSubscribers);
-    
-    const html = `
-      <div style="font-family: Inter, sans-serif; max-width: 600px; margin: 0 auto; padding: 40px 20px; background: #f7f7f5;">
-        <div style="background: white; padding: 32px; border-radius: 16px;">
-          <h1 style="font-size: 24px; font-weight: 900; color: #0A0A0A; margin: 0 0 24px 0;">${subject}</h1>
-          <div style="font-size: 15px; line-height: 1.6; color: #333;">${message.replace(/\n/g, '<br>')}</div>
-          <hr style="border: none; border-top: 1px solid #E6E9EC; margin: 32px 0;" />
-          <p style="font-size: 12px; color: #6B7280; margin: 0;">Exentax - Formación de empresas en USA</p>
-        </div>
-      </div>
-    `;
+    const html = getNewsletterBroadcastTemplate(subject, message);
 
     let sent = 0;
     for (const sub of subscribers) {
@@ -214,7 +204,7 @@ export function registerAdminCommsRoutes(app: Express) {
         await sendEmail({ to: sub.email, subject, html });
         sent++;
       } catch (e) {
-        // Email error silenced
+        log.warn("Failed to send newsletter email", { to: sub.email, error: (e as any)?.message });
       }
     }
 

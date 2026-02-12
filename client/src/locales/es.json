@@ -2072,7 +2072,8 @@
         "clientLabel": "Cliente",
         "replyPlaceholder": "Escribe tu respuesta al cliente...",
         "sendReply": "Enviar respuesta",
-        "noMessages": "No hay mensajes"
+        "noMessages": "No hay mensajes",
+        "fromNamePlaceholder": "Nombre visible en la respuesta (ej: María, Equipo Exentax...)"
       },
       "invoicesSection": {
         "title": "Facturas para Contabilidad",

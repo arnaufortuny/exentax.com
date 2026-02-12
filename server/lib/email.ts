@@ -1220,6 +1220,15 @@ export function getIdentityVerificationRejectedTemplate(name: string, reason?: s
   return getEmailWrapper(content, lang);
 }
 
+// Newsletter broadcast template (uses standard wrapper)
+export function getNewsletterBroadcastTemplate(subject: string, message: string, lang: EmailLanguage = 'es') {
+  const content = `
+    <h2 style="font-size: 22px; font-weight: 800; color: #0A0A0A; margin: 0 0 25px 0; line-height: 1.4;">${subject}</h2>
+    <div style="font-size: 15px; line-height: 1.7; color: #444;">${message.replace(/\n/g, '<br>')}</div>
+  `;
+  return getEmailWrapper(content, lang);
+}
+
 // Transporter configuration
 const transporter = nodemailer.createTransport({
   host: process.env.SMTP_HOST || "smtp.ionos.es",

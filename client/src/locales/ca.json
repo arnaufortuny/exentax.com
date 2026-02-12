@@ -2070,7 +2070,8 @@
         "clientLabel": "Client",
         "replyPlaceholder": "Escriu la teva resposta al client...",
         "sendReply": "Enviar resposta",
-        "noMessages": "No hi ha missatges"
+        "noMessages": "No hi ha missatges",
+        "fromNamePlaceholder": "Nom visible a la resposta (ex: Maria, Equip Exentax...)"
       },
       "invoicesSection": {
         "title": "Factures per a Comptabilitat",

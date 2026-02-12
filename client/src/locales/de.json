@@ -2070,7 +2070,8 @@
         "clientLabel": "Kunde",
         "replyPlaceholder": "Schreiben Sie Ihre Antwort an den Kunden...",
         "sendReply": "Antwort senden",
-        "noMessages": "Keine Nachrichten"
+        "noMessages": "Keine Nachrichten",
+        "fromNamePlaceholder": "Anzeigename für die Antwort (z.B.: Maria, Team Exentax...)"
       },
       "invoicesSection": {
         "title": "Rechnungen für die Buchhaltung",

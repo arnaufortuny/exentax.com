@@ -60,10 +60,16 @@ export function registerMaintenanceRoutes(app: Express) {
         return res.status(400).json({ message: "Please verify your email before continuing." });
       }
       
-      // Get the maintenance application to find the order
       const [application] = await db.select().from(maintenanceApplications).where(eq(maintenanceApplications.id, applicationId)).limit(1);
       if (!application) {
         return res.status(404).json({ message: "Request not found." });
+      }
+      
+      if (application.orderId) {
+        const [existingOrder] = await db.select().from(ordersTable).where(eq(ordersTable.id, application.orderId)).limit(1);
+        if (existingOrder && existingOrder.userId) {
+          return res.status(400).json({ message: "This order is already associated with an account. Please log in." });
+        }
       }
       
       // Create new user with verified email

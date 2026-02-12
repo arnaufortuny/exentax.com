@@ -2019,7 +2019,8 @@
         "clientLabel": "Cliente",
         "replyPlaceholder": "Scrivi la tua risposta al cliente...",
         "sendReply": "Invia risposta",
-        "noMessages": "Nessun messaggio"
+        "noMessages": "Nessun messaggio",
+        "fromNamePlaceholder": "Nome visibile nella risposta (es: Maria, Team Exentax...)"
       },
       "invoicesSection": {
         "title": "Fatture per la Contabilità",

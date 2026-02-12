@@ -132,6 +132,7 @@ export function registerMessageRoutes(app: Express) {
         messageId: messageReplies.messageId,
         content: messageReplies.content,
         isAdmin: messageReplies.isAdmin,
+        fromName: messageReplies.fromName,
         createdAt: messageReplies.createdAt,
         createdBy: messageReplies.createdBy,
         authorFirstName: usersTable.firstName,
@@ -150,9 +151,9 @@ export function registerMessageRoutes(app: Express) {
         isFromAdmin: r.isAdmin,
         createdAt: r.createdAt,
         createdBy: r.createdBy,
-        authorName: r.authorFirstName || r.authorLastName 
+        authorName: r.fromName || (r.authorFirstName || r.authorLastName 
           ? `${r.authorFirstName || ''} ${r.authorLastName || ''}`.trim() 
-          : null,
+          : null),
       }));
       
       res.json(replies);
@@ -166,7 +167,7 @@ export function registerMessageRoutes(app: Express) {
   app.post("/api/messages/:id/reply", isAuthenticated, isNotUnderReview, asyncHandler(async (req: any, res: Response) => {
     try {
       const messageId = Number(req.params.id);
-      const { content } = req.body;
+      const { content, fromName } = req.body;
       
       // Verify message belongs to user or user is admin
       const [existingMessage] = await db.select().from(messagesTable).where(eq(messagesTable.id, messageId)).limit(1);
@@ -178,13 +179,15 @@ export function registerMessageRoutes(app: Express) {
       }
       
       if (!content || typeof content !== 'string' || !content.trim()) {
-        return res.status(400).json({ message: "El contenido de la respuesta es requerido" });
+        return res.status(400).json({ message: "Reply content is required" });
       }
       
+      const isAdminReply = req.session.isAdmin || req.session.isSupport || false;
       const [reply] = await db.insert(messageReplies).values({
         messageId,
         content,
-        isAdmin: req.session.isAdmin || req.session.isSupport || false,
+        isAdmin: isAdminReply,
+        fromName: isAdminReply && fromName ? fromName.trim().substring(0, 100) : null,
         createdBy: req.session.userId,
       }).returning();
       

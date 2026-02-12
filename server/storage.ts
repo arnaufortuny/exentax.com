@@ -241,7 +241,7 @@ export class DatabaseStorage implements IStorage {
       encryptedContent: undefined,
       replies: (msg.replies || []).map((r: any) => ({
         ...r,
-        authorName: r.author ? `${r.author.firstName || ''} ${r.author.lastName || ''}`.trim() || null : null,
+        authorName: r.fromName || (r.author ? `${r.author.firstName || ''} ${r.author.lastName || ''}`.trim() || null : null),
         isFromAdmin: r.isAdmin,
         author: undefined
       }))
@@ -265,7 +265,7 @@ export class DatabaseStorage implements IStorage {
       ...msg,
       replies: (msg.replies || []).map((r: any) => ({
         ...r,
-        authorName: r.author ? `${r.author.firstName || ''} ${r.author.lastName || ''}`.trim() || null : null,
+        authorName: r.fromName || (r.author ? `${r.author.firstName || ''} ${r.author.lastName || ''}`.trim() || null : null),
         author: undefined
       }))
     }));

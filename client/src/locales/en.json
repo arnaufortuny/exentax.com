@@ -2072,7 +2072,8 @@
         "clientLabel": "Client",
         "replyPlaceholder": "Write your reply to the client...",
         "sendReply": "Send reply",
-        "noMessages": "No messages"
+        "noMessages": "No messages",
+        "fromNamePlaceholder": "Display name for the reply (e.g.: Maria, Exentax Team...)"
       },
       "invoicesSection": {
         "title": "Invoices for Accounting",

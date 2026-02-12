@@ -5,6 +5,7 @@ import { formatDate, getLocale } from "@/lib/utils";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Archive, Trash2, Send, Loader2 } from "@/components/icons";
 import { apiRequest, queryClient } from "@/lib/queryClient";
@@ -38,13 +39,14 @@ export function AdminCommsPanel({
   const { t } = useTranslation();
   const [selectedMessage, setSelectedMessage] = useState<any>(null);
   const [replyContent, setReplyContent] = useState("");
+  const [replyFromName, setReplyFromName] = useState("");
   const [formMessage, setFormMessage] = useState<{ type: 'error' | 'success'; text: string } | null>(null);
   const { confirm: showConfirm, dialogProps: confirmDialogProps } = useConfirmDialog();
 
   const sendReplyMutation = useMutation({
     mutationFn: async (messageId: number) => {
       setFormMessage(null);
-      const res = await apiRequest("POST", `/api/messages/${messageId}/reply`, { content: replyContent });
+      const res = await apiRequest("POST", `/api/messages/${messageId}/reply`, { content: replyContent, fromName: replyFromName || undefined });
       if (!res.ok) {
         const data = await res.json().catch(() => ({}));
         throw new Error(data.message || t("dashboard.toasts.couldNotSend"));
@@ -53,6 +55,7 @@ export function AdminCommsPanel({
     },
     onSuccess: () => {
       setReplyContent("");
+      setReplyFromName("");
       setSelectedMessage(null);
       queryClient.invalidateQueries({ queryKey: ["/api/messages"] });
       queryClient.invalidateQueries({ queryKey: ["/api/admin/messages"] });
@@ -180,6 +183,14 @@ export function AdminCommsPanel({
                 
                 {selectedMessage?.id === msg.id && (
                   <div className="space-y-2 pt-3 border-t mt-2" onClick={(e) => e.stopPropagation()}>
+                    <Input 
+                      value={replyFromName} 
+                      onChange={(e) => setReplyFromName(e.target.value)} 
+                      placeholder={t('dashboard.admin.inboxSection.fromNamePlaceholder')} 
+                      className="rounded-2xl text-sm"
+                      maxLength={100}
+                      data-testid="input-admin-from-name"
+                    />
                     <Textarea value={replyContent} 
                       onChange={(e) => setReplyContent(e.target.value)} 
                       placeholder={t('dashboard.admin.inboxSection.replyPlaceholder')} 
