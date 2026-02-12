@@ -179,16 +179,16 @@ function MainRouter() {
             <Route path="/auth/login" component={Login} />
             <Route path="/auth/register" component={Register} />
             <Route path="/auth/forgot-password" component={ForgotPassword} />
+            <Route path="/contacto" component={Contacto} />
+            <Route path="/llc/maintenance" component={MaintenancePage} />
+            <Route path="/llc/formation" component={LlcFormation} />
+            <Route path="/tools/invoice" component={InvoiceGenerator} />
+            <Route path="/tools/price-calculator" component={PriceCalculator} />
+            <Route path="/tools/operating-agreement" component={OperatingAgreement} />
+            <Route path="/tools/csv-generator" component={CsvGenerator} />
 
             {/* Protected routes - blocked for deactivated/pending accounts */}
-            <Route path="/contacto">{() => <GuardedRoute component={Contacto} />}</Route>
-            <Route path="/llc/maintenance">{() => <GuardedRoute component={MaintenancePage} />}</Route>
-            <Route path="/llc/formation">{() => <GuardedRoute component={LlcFormation} />}</Route>
             <Route path="/dashboard">{() => <GuardedRoute component={Dashboard} allowPending />}</Route>
-            <Route path="/tools/invoice">{() => <GuardedRoute component={InvoiceGenerator} />}</Route>
-            <Route path="/tools/price-calculator">{() => <GuardedRoute component={PriceCalculator} />}</Route>
-            <Route path="/tools/operating-agreement">{() => <GuardedRoute component={OperatingAgreement} />}</Route>
-            <Route path="/tools/csv-generator">{() => <GuardedRoute component={CsvGenerator} />}</Route>
             <Route component={NotFound} />
           </Switch>
         </div>

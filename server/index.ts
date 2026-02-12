@@ -32,6 +32,11 @@ const httpServer = createServer((req, res) => {
     res.writeHead(200, { "Content-Type": "text/plain" });
     return res.end("ok");
   }
+  const url = req.url || "/";
+  if (url.startsWith("/api/") || url.startsWith("/ws/")) {
+    res.writeHead(503, { "Content-Type": "application/json", "Retry-After": "5" });
+    return res.end(JSON.stringify({ message: "Service starting, please retry shortly" }));
+  }
   const html = cachedIndexHtml || "<!DOCTYPE html><html><head><title>Exentax</title></head><body><p>Loading...</p><script>setTimeout(function(){location.reload()},1000)</script></body></html>";
   res.writeHead(200, { "Content-Type": "text/html", "Cache-Control": "no-cache, no-store, must-revalidate" });
   res.end(html);

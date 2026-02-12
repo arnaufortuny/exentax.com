@@ -5,7 +5,7 @@ import { Footer } from "@/components/layout/footer";
 import { Button } from "@/components/ui/button";
 import { LoadingScreen } from "@/components/loading-screen";
 import { apiRequest, setStoredAuthToken } from "@/lib/queryClient";
-import { useEffect, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import { useLocation } from "wouter";
 import { LogOut } from "@/components/icons";
 
@@ -18,6 +18,15 @@ export function AccountStatusGuard({ children, allowPending = false }: AccountSt
   const { user, isLoading: authLoading, error, isAuthenticated, refetch } = useAuth();
   const { t } = useTranslation();
   const [, setLocation] = useLocation();
+  const [loadingTimeout, setLoadingTimeout] = useState(false);
+
+  useEffect(() => {
+    if (authLoading) {
+      const timer = setTimeout(() => setLoadingTimeout(true), 3000);
+      return () => clearTimeout(timer);
+    }
+    setLoadingTimeout(false);
+  }, [authLoading]);
 
   useEffect(() => {
     if (!authLoading && isAuthenticated && user?.accountStatus === 'pending' && !allowPending) {
@@ -25,8 +34,12 @@ export function AccountStatusGuard({ children, allowPending = false }: AccountSt
     }
   }, [authLoading, isAuthenticated, user?.accountStatus, allowPending, setLocation]);
 
-  if (authLoading) {
+  if (authLoading && !loadingTimeout) {
     return <LoadingScreen />;
+  }
+
+  if (authLoading && loadingTimeout) {
+    return <>{children}</>;
   }
 
   if (error && !user) {
