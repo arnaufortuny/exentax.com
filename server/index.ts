@@ -3,6 +3,8 @@ import { setupStaticFiles, setupSPAFallback } from "./static";
 import { createServer } from "http";
 import compression from "compression";
 import { createLogger } from "./lib/logger";
+import fs from "fs";
+import path from "path";
 
 const serverLog = createLogger('server');
 
@@ -20,7 +22,39 @@ let lazyRecordApiMetric: ((method: string, path: string, durationMs: number, sta
 
 const httpServer = createServer(app);
 
-app.use(compression());
+let cachedIndexHtml: string | null = null;
+if (isProduction) {
+  try {
+    const distCandidates = [
+      path.resolve(process.cwd(), "dist", "public", "index.html"),
+      path.resolve(__dirname, "public", "index.html"),
+      path.resolve(__dirname, "..", "dist", "public", "index.html"),
+    ];
+    for (const candidate of distCandidates) {
+      if (fs.existsSync(candidate)) {
+        cachedIndexHtml = fs.readFileSync(candidate, "utf-8");
+        serverLog.info(`Cached index.html from ${candidate}`);
+        break;
+      }
+    }
+  } catch (e) {
+    serverLog.error("Failed to pre-cache index.html", e);
+  }
+}
+
+app.get("/_health", (_req, res) => {
+  res.status(200).send("ok");
+});
+
+app.get("/", (_req, res, next) => {
+  if (cachedIndexHtml) {
+    res.status(200).setHeader("Content-Type", "text/html").setHeader("Cache-Control", "no-cache, no-store, must-revalidate").send(cachedIndexHtml);
+  } else if (isProduction) {
+    res.status(200).setHeader("Content-Type", "text/html").send("<!DOCTYPE html><html><head><title>Exentax</title></head><body><p>Starting...</p><script>setTimeout(()=>location.reload(),1000)</script></body></html>");
+  } else {
+    next();
+  }
+});
 
 export function log(message: string, source = "express") {
   const formattedTime = new Date().toLocaleTimeString("en-US", {
@@ -33,15 +67,7 @@ export function log(message: string, source = "express") {
   console.log(`${formattedTime} [${source}] ${message}`);
 }
 
-app.get("/_health", (_req, res) => {
-  res.status(200).json({ status: "ok", timestamp: new Date().toISOString(), uptime: process.uptime() });
-});
-
-let staticRootReady = false;
-app.get("/", (req, res, next) => {
-  if (staticRootReady) return next();
-  res.status(200).setHeader("Content-Type", "text/html").send("<!DOCTYPE html><html><head><title>Exentax</title><meta charset='utf-8'/></head><body><p>Loading...</p><script>setTimeout(()=>location.reload(),2000)</script></body></html>");
-});
+app.use(compression());
 
 function getCSP(): string {
   const baseCSP = {
@@ -171,8 +197,7 @@ serverLog.info(`Starting server in ${isProduction ? 'production' : 'development'
 if (isProduction) {
   try {
     setupStaticFiles(app);
-    staticRootReady = true;
-    serverLog.info("Static files configured (index.html cached in memory)");
+    serverLog.info("Static files setup complete");
   } catch (e) {
     serverLog.error("Failed to setup static files (fallback active)", e);
   }
@@ -260,17 +285,34 @@ httpServer.listen(
     serverLog.info("Application fully initialized and ready");
 
     if (isProduction) {
-      const { scheduleBackups } = await import("./lib/backup");
-      scheduleBackups();
-      const { cleanupDbRateLimits } = await import("./lib/rate-limiter");
-      const { runWatchedTask } = await import("./lib/task-watchdog");
-      runWatchedTask("rate-limit-cleanup", 300000, cleanupDbRateLimits);
-      const { processConsultationReminders } = await import("./routes/consultations");
-      runWatchedTask("consultation-reminders", 600000, processConsultationReminders);
+      try {
+        const { scheduleBackups } = await import("./lib/backup");
+        scheduleBackups();
+      } catch (e) {
+        serverLog.error("Backup scheduling failed (non-fatal)", e);
+      }
+      try {
+        const { cleanupDbRateLimits } = await import("./lib/rate-limiter");
+        const { runWatchedTask } = await import("./lib/task-watchdog");
+        runWatchedTask("rate-limit-cleanup", 300000, cleanupDbRateLimits);
+      } catch (e) {
+        serverLog.error("Rate limit cleanup setup failed (non-fatal)", e);
+      }
+      try {
+        const { processConsultationReminders } = await import("./routes/consultations");
+        const { runWatchedTask } = await import("./lib/task-watchdog");
+        runWatchedTask("consultation-reminders", 600000, processConsultationReminders);
+      } catch (e) {
+        serverLog.error("Consultation reminders setup failed (non-fatal)", e);
+      }
     } else {
-      const { processConsultationReminders } = await import("./routes/consultations");
-      const { runWatchedTask } = await import("./lib/task-watchdog");
-      runWatchedTask("consultation-reminders", 600000, processConsultationReminders);
+      try {
+        const { processConsultationReminders } = await import("./routes/consultations");
+        const { runWatchedTask } = await import("./lib/task-watchdog");
+        runWatchedTask("consultation-reminders", 600000, processConsultationReminders);
+      } catch (e) {
+        serverLog.error("Consultation reminders setup failed (non-fatal)", e);
+      }
     }
   } catch (error) {
     serverLog.error("Fatal error during application initialization", error);
