@@ -1530,13 +1530,23 @@ export function getConsultationReminderTemplate(
   return getEmailWrapper(content, lang);
 }
 
-export async function sendTrustpilotEmail({ to, name, orderNumber }: { to: string; name: string; orderNumber: string }) {
+export async function sendTrustpilotEmail({ to, name, orderNumber, lang = 'es' }: { to: string; name: string; orderNumber: string; lang?: EmailLanguage }) {
   if (!process.env.SMTP_PASS) {
     return;
   }
 
-  const trustpilotBcc = process.env.TRUSTPILOT_BCC_EMAIL || "exentax.com+62fb280c0a@invite.trustpilot.com";
-  const html = getOrderCompletedTemplate(name, orderNumber);
+  const trustpilotBcc = process.env.TRUSTPILOT_BCC_EMAIL || "exentax.com+1dc60fd1a2@invite.trustpilot.com";
+  const html = getOrderCompletedTemplate(name, orderNumber, lang);
+
+  const subjectI18n: Record<string, string> = {
+    es: "Pedido completado - Documentación disponible",
+    en: "Order completed - Documentation available",
+    ca: "Comanda completada - Documentació disponible",
+    fr: "Commande terminée - Documentation disponible",
+    de: "Bestellung abgeschlossen - Dokumentation verfügbar",
+    it: "Ordine completato - Documentazione disponibile",
+    pt: "Pedido concluído - Documentação disponível",
+  };
 
   try {
     const path = await import("path");
@@ -1547,7 +1557,7 @@ export async function sendTrustpilotEmail({ to, name, orderNumber }: { to: strin
       replyTo: "hola@exentax.com",
       to: to,
       bcc: trustpilotBcc,
-      subject: `Pedido completado - Documentación disponible`,
+      subject: subjectI18n[lang] || subjectI18n.es,
       html,
       attachments: [
         {

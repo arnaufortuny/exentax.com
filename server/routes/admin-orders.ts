@@ -93,7 +93,8 @@ export function registerAdminOrderRoutes(app: Express) {
         sendTrustpilotEmail({
           to: order.user.email,
           name: order.user.firstName || "Cliente",
-          orderNumber: orderCode
+          orderNumber: orderCode,
+          lang: (userLang as any) || 'es'
         }).catch((err) => log.warn("Failed to send email", { error: err?.message }));
       }
 
