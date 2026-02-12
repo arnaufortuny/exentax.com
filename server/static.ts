@@ -20,22 +20,36 @@ function findDistPublic(): string {
   );
 }
 
-export function serveStatic(app: Express) {
-  const distPath = findDistPublic();
+let cachedIndexHtml: string | null = null;
+let distPublicPath: string | null = null;
 
-  app.use(express.static(distPath, {
+export function setupStaticFiles(app: Express) {
+  distPublicPath = findDistPublic();
+  cachedIndexHtml = fs.readFileSync(path.join(distPublicPath, "index.html"), "utf-8");
+
+  app.get("/", (_req, res) => {
+    res.setHeader("Content-Type", "text/html");
+    res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+    res.status(200).send(cachedIndexHtml);
+  });
+
+  app.use(express.static(distPublicPath, {
     maxAge: '1y',
     immutable: true,
     index: false,
     etag: true,
-    lastModified: true
+    lastModified: true,
   }));
+}
 
+export function setupSPAFallback(app: Express) {
   app.use("*", (_req, res) => {
-    res.sendFile(path.resolve(distPath, "index.html"), {
-      headers: {
-        'Cache-Control': 'no-cache, no-store, must-revalidate'
-      }
-    });
+    if (cachedIndexHtml) {
+      res.setHeader("Content-Type", "text/html");
+      res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+      res.status(200).send(cachedIndexHtml);
+    } else {
+      res.status(503).send("Application starting...");
+    }
   });
 }

@@ -1,6 +1,6 @@
 import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
-import { serveStatic } from "./static";
+import { setupStaticFiles, setupSPAFallback } from "./static";
 import { createServer } from "http";
 import compression from "compression";
 import { initServerSentry, sentryRequestHandler, sentryErrorHandler } from "./lib/sentry";
@@ -180,8 +180,21 @@ const port = parseInt(process.env.PORT || "5000", 10);
 serverLog.info(`Starting server in ${isProduction ? 'production' : 'development'} mode on port ${port}`);
 
 if (isProduction) {
-  serveStatic(app);
+  try {
+    setupStaticFiles(app);
+    serverLog.info("Static files configured (index.html cached in memory)");
+  } catch (e) {
+    serverLog.error("Failed to setup static files", e);
+  }
 }
+
+httpServer.listen(
+  { port, host: "0.0.0.0", reusePort: true },
+  () => {
+    log(`serving on port ${port}`);
+    serverLog.info(`Server listening on 0.0.0.0:${port}`);
+  },
+);
 
 (async () => {
   try {
@@ -236,6 +249,10 @@ if (isProduction) {
       serverLog.error(`Request error [${status}]`, err, { status, message });
     });
 
+    if (isProduction) {
+      setupSPAFallback(app);
+    }
+
     serverLog.info("Application fully initialized and ready");
 
     if (isProduction) {
@@ -248,11 +265,3 @@ if (isProduction) {
     console.error("FATAL: Application initialization failed:", error);
   }
 })();
-
-httpServer.listen(
-  { port, host: "0.0.0.0", reusePort: true },
-  () => {
-    log(`serving on port ${port}`);
-    serverLog.info(`Server listening on 0.0.0.0:${port}`);
-  },
-);
