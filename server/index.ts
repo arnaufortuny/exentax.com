@@ -14,6 +14,14 @@ const serverLog = createLogger('server');
 
 initServerSentry();
 
+process.on('unhandledRejection', (reason, promise) => {
+  serverLog.error('Unhandled Promise Rejection', reason, { promise: String(promise) });
+});
+
+process.on('uncaughtException', (error) => {
+  serverLog.error('Uncaught Exception - server will continue', error);
+});
+
 const app = express();
 const isProduction = process.env.NODE_ENV === "production";
 

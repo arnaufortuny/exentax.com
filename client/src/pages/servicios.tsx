@@ -125,6 +125,7 @@ export default function Servicios() {
 
   const { data: products } = useQuery<Product[]>({
     queryKey: ["/api/products"],
+    staleTime: 1000 * 60 * 10,
   });
 
   const handleSelectProduct = (stateName: string) => {

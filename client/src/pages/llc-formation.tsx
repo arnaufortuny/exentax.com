@@ -109,6 +109,7 @@ export default function LlcFormation() {
 
   const { data: products } = useQuery<{ id: number; name: string; price: number }[]>({
     queryKey: ['/api/products'],
+    staleTime: 1000 * 60 * 10,
   });
 
   const getProductIdForState = (stateName: string): number => {

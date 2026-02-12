@@ -38,6 +38,7 @@ export default function Home() {
 
   const { data: products } = useQuery<Product[]>({
     queryKey: ["/api/products"],
+    staleTime: 1000 * 60 * 10,
   });
 
   return (

@@ -696,15 +696,18 @@ export default function Dashboard() {
     }
   });
 
+  const isAdminTab = activeTab === 'admin';
+  const isStaffUser = !!user?.isAdmin || !!user?.isSupport;
+
   const { data: adminOrders } = useQuery<any[]>({
     queryKey: ["/api/admin/orders"],
-    enabled: !!user?.isAdmin || !!user?.isSupport,
+    enabled: isStaffUser && (isAdminTab && (adminSubTab === 'orders' || adminSubTab === 'dashboard')),
     staleTime: 1000 * 60 * 2,
   });
 
   const { data: incompleteApps } = useQuery<{ llc: any[]; maintenance: any[] }>({
     queryKey: ["/api/admin/incomplete-applications"],
-    enabled: !!user?.isAdmin,
+    enabled: !!user?.isAdmin && isAdminTab && adminSubTab === 'incomplete',
     staleTime: 1000 * 60 * 2,
   });
 
@@ -726,25 +729,25 @@ export default function Dashboard() {
 
   const { data: adminUsers } = useQuery<any[]>({
     queryKey: ["/api/admin/users"],
-    enabled: !!user?.isAdmin,
+    enabled: !!user?.isAdmin && isAdminTab && (adminSubTab === 'users' || adminSubTab === 'dashboard'),
     staleTime: 1000 * 60 * 3,
   });
 
   const { data: adminNewsletterSubs, refetch: refetchNewsletterSubs } = useQuery<any[]>({
     queryKey: ["/api/admin/newsletter"],
-    enabled: !!user?.isAdmin,
+    enabled: !!user?.isAdmin && isAdminTab && adminSubTab === 'communications',
     staleTime: 1000 * 60 * 2,
   });
 
   const { data: adminDocuments } = useQuery<any[]>({
     queryKey: ["/api/admin/documents"],
-    enabled: !!user?.isAdmin || !!user?.isSupport,
+    enabled: isStaffUser && isAdminTab && (adminSubTab === 'docs' || adminSubTab === 'dashboard'),
     staleTime: 1000 * 60 * 2,
   });
 
   const { data: adminInvoices } = useQuery<any[]>({
     queryKey: ["/api/admin/invoices"],
-    enabled: !!user?.isAdmin,
+    enabled: !!user?.isAdmin && isAdminTab && adminSubTab === 'billing',
     refetchInterval: isTabFocused && adminSubTab === 'billing' ? 30000 : false,
   });
 
@@ -768,31 +771,31 @@ export default function Dashboard() {
     conversionRate: number;
   }>({
     queryKey: ["/api/admin/system-stats"],
-    enabled: !!user?.isAdmin,
+    enabled: !!user?.isAdmin && isAdminTab && adminSubTab === 'dashboard',
     staleTime: 1000 * 60 * 2,
   });
 
   const { data: adminMessages } = useQuery<any[]>({
     queryKey: ["/api/admin/messages"],
-    enabled: !!user?.isAdmin || !!user?.isSupport,
+    enabled: isStaffUser && isAdminTab && (adminSubTab === 'communications' || adminSubTab === 'dashboard'),
     staleTime: 1000 * 60 * 2,
   });
 
   const { data: discountCodes, refetch: refetchDiscountCodes } = useQuery<DiscountCode[]>({
     queryKey: ["/api/admin/discount-codes"],
-    enabled: !!user?.isAdmin,
+    enabled: !!user?.isAdmin && isAdminTab && adminSubTab === 'descuentos',
     staleTime: 1000 * 60 * 2,
   });
 
   const { data: guestVisitors, refetch: refetchGuests } = useQuery({
-    queryKey: ['/api/admin/guests'],
-    enabled: !!user?.isAdmin,
+    queryKey: ["/api/admin/guests"],
+    enabled: !!user?.isAdmin && isAdminTab && adminSubTab === 'dashboard',
     staleTime: 1000 * 60 * 2,
   });
 
   const { data: paymentAccountsList, refetch: refetchPaymentAccounts } = useQuery<any[]>({
-    queryKey: ['/api/admin/payment-accounts'],
-    enabled: !!user?.isAdmin,
+    queryKey: ["/api/admin/payment-accounts"],
+    enabled: !!user?.isAdmin && isAdminTab && adminSubTab === 'billing',
     staleTime: 1000 * 60 * 2,
   });
   const [paymentAccountDialog, setPaymentAccountDialog] = useState<{ open: boolean; account: any | null }>({ open: false, account: null });
