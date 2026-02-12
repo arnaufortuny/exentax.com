@@ -854,8 +854,8 @@
       "sendErrorDesc": "Der Code konnte nicht gesendet werden"
     },
     "forgotPassword": {
-      "title": "Passwort",
-      "titleHighlight": "zurücksetzen",
+      "title": "Reset",
+      "titleHighlight": "Password",
       "descriptionEmail": "Wir senden Ihnen einen Bestätigungscode, um den Zugang zu Ihrem Konto sicher wiederherzustellen.",
       "descriptionOtp": "Geben Sie den 6-stelligen Code ein, den wir an Ihre E-Mail gesendet haben",
       "descriptionPassword": "Erstellen Sie ein neues sicheres Passwort für Ihr Konto",
@@ -887,13 +887,15 @@
       "errorResetPassword": "Das Passwort konnte nicht zurückgesetzt werden",
       "nameRequired": "Der vollständige Name ist erforderlich",
       "fullNameLabel": "Vollständiger Name",
-      "fullNamePlaceholder": "Ihr vollständiger Name wie in Ihrem Konto hinterlegt",
+      "fullNamePlaceholder": "Ihr vollständiger Name",
       "fullNameHelp": "Geben Sie den genauen Namen ein, den Sie bei der Kontoerstellung verwendet haben, um Ihre Identität zu bestätigen.",
       "nameChecking": "Identität wird überprüft...",
       "nameExact": "Identität erfolgreich verifiziert",
       "namePartial": "Teilweise Übereinstimmung: Bitte überprüfen Sie den genauen Namen",
       "nameNoMatch": "Der Name stimmt nicht mit unseren Aufzeichnungen überein",
-      "nameError": "Überprüfungsfehler. Bitte versuchen Sie es erneut."
+      "nameError": "Überprüfungsfehler. Bitte versuchen Sie es erneut.",
+      "nameNoMatchIdentity": "Wir können Ihre Identität nicht überprüfen. Der Name stimmt nicht mit unseren Aufzeichnungen überein.",
+      "contactTeam": "Unser Team kontaktieren"
     },
     "otp": {
       "title": "E-Mail bestätigen",

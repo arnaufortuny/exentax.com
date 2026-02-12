@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { Link } from "wouter";
-import { Loader2, Eye, EyeOff, ArrowLeft, CheckCircle2, AlertTriangle, XCircle } from "@/components/icons";
+import { Loader2, Eye, EyeOff, ArrowLeft, CheckCircle2, AlertTriangle, XCircle, MessageCircle } from "@/components/icons";
 import { useTranslation } from "react-i18next";
 
 import { Navbar } from "@/components/layout/navbar";
@@ -210,9 +210,22 @@ export default function ForgotPassword() {
     }
     if (nameMatch === 'none') {
       return (
-        <div className="flex items-center gap-2 text-xs text-destructive mt-1.5 px-1" data-testid="status-name-none">
-          <XCircle className="w-3.5 h-3.5" />
-          <span>{t("auth.forgotPassword.nameNoMatch")}</span>
+        <div className="mt-2 p-3 rounded-xl bg-destructive/10 border border-destructive/20" data-testid="status-name-none">
+          <div className="flex items-center gap-2 text-xs text-destructive font-medium">
+            <XCircle className="w-3.5 h-3.5 shrink-0" />
+            <span>{t("auth.forgotPassword.nameNoMatchIdentity")}</span>
+          </div>
+          <Link href="/contacto">
+            <Button
+              type="button"
+              variant="outline"
+              className="w-full mt-2.5 rounded-full text-xs font-bold gap-1.5 border-destructive/30 text-destructive hover:bg-destructive/10"
+              data-testid="button-contact-team"
+            >
+              <MessageCircle className="w-3.5 h-3.5" />
+              {t("auth.forgotPassword.contactTeam")}
+            </Button>
+          </Link>
         </div>
       );
     }
@@ -249,11 +262,12 @@ export default function ForgotPassword() {
   return (
     <div className="min-h-screen bg-background font-sans">
       <Navbar />
-      <main className="pt-20 sm:pt-20 pb-12 md:pb-16 px-4 sm:px-6 flex flex-col items-center justify-center min-h-[80vh]">
+      <main className="pt-24 sm:pt-24 pb-12 md:pb-16 px-4 sm:px-6 flex flex-col items-center justify-center min-h-[80vh]">
         <div className="w-full max-w-sm md:max-w-md">
           <div className="text-center mb-6 md:mb-8 mx-auto">
-            <h1 className="text-2xl sm:text-3xl md:text-4xl font-black text-primary tracking-tight text-center">
-              {t("auth.forgotPassword.title")} <span className="text-accent">{t("auth.forgotPassword.titleHighlight")}</span>
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-black tracking-tight text-center">
+              <span className="text-foreground">{t("auth.forgotPassword.title")}</span>{" "}
+              <span className="text-accent">{t("auth.forgotPassword.titleHighlight")}</span>
             </h1>
             <p className="text-muted-foreground mt-3 text-sm md:text-base text-center max-w-sm mx-auto">
               {step === 'email' && t("auth.forgotPassword.descriptionEmail")}
@@ -311,6 +325,19 @@ export default function ForgotPassword() {
                   >
                     {isLoading ? <Loader2 className="animate-spin w-4 h-4" /> : t("auth.forgotPassword.sendCode")}
                   </Button>
+                  {nameMatch === 'none' && (
+                    <Link href="/contacto">
+                      <Button
+                        type="button"
+                        variant="outline"
+                        className="w-full mt-3 rounded-full text-sm font-bold gap-2"
+                        data-testid="button-contact-team-bottom"
+                      >
+                        <MessageCircle className="w-4 h-4" />
+                        {t("auth.forgotPassword.contactTeam")}
+                      </Button>
+                    </Link>
+                  )}
                 </form>
               </Form>
             )}

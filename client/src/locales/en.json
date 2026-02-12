@@ -887,13 +887,15 @@
       "errorResetPassword": "Could not reset password",
       "nameRequired": "Full name is required",
       "fullNameLabel": "Full name",
-      "fullNamePlaceholder": "Your full name as it appears on your account",
+      "fullNamePlaceholder": "Your full name",
       "fullNameHelp": "Enter the exact name you used when creating your account to verify your identity.",
       "nameChecking": "Verifying identity...",
       "nameExact": "Identity verified successfully",
       "namePartial": "Partial match: please check your name is exact",
       "nameNoMatch": "The name does not match our records",
-      "nameError": "Verification error. Please try again."
+      "nameError": "Verification error. Please try again.",
+      "nameNoMatchIdentity": "We cannot verify your identity. The name does not match our records.",
+      "contactTeam": "Contact our team"
     },
     "otp": {
       "title": "Verify Email",

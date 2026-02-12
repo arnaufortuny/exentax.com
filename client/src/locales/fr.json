@@ -854,8 +854,8 @@
       "sendErrorDesc": "Impossible d'envoyer le code"
     },
     "forgotPassword": {
-      "title": "Réinitialiser le",
-      "titleHighlight": "mot de passe",
+      "title": "Reset",
+      "titleHighlight": "Password",
       "descriptionEmail": "Nous vous enverrons un code de vérification pour restaurer l'accès à votre compte en toute sécurité.",
       "descriptionOtp": "Saisissez le code à 6 chiffres que nous avons envoyé à votre email",
       "descriptionPassword": "Créez un nouveau mot de passe sécurisé pour votre compte",
@@ -887,13 +887,15 @@
       "errorResetPassword": "Impossible de réinitialiser le mot de passe",
       "nameRequired": "Le nom complet est requis",
       "fullNameLabel": "Nom complet",
-      "fullNamePlaceholder": "Votre nom complet tel qu'il figure sur votre compte",
+      "fullNamePlaceholder": "Votre nom complet",
       "fullNameHelp": "Saisissez le nom exact que vous avez utilisé lors de la création de votre compte pour vérifier votre identité.",
       "nameChecking": "Vérification de l'identité...",
       "nameExact": "Identité vérifiée avec succès",
       "namePartial": "Correspondance partielle : vérifiez que le nom est exact",
       "nameNoMatch": "Le nom ne correspond pas à nos registres",
-      "nameError": "Erreur de vérification. Veuillez réessayer."
+      "nameError": "Erreur de vérification. Veuillez réessayer.",
+      "nameNoMatchIdentity": "Nous ne pouvons pas vérifier votre identité. Le nom ne correspond pas à nos registres.",
+      "contactTeam": "Contacter notre équipe"
     },
     "otp": {
       "title": "Vérifier l'email",

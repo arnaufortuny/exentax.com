@@ -854,7 +854,7 @@
       "sendErrorDesc": "Non è stato possibile inviare il codice"
     },
     "forgotPassword": {
-      "title": "Recupera",
+      "title": "Reset",
       "titleHighlight": "Password",
       "descriptionEmail": "Ti invieremo un codice di verifica per ripristinare l'accesso al tuo account in modo sicuro.",
       "descriptionOtp": "Inserisci il codice di 6 cifre che abbiamo inviato alla tua email",
@@ -887,13 +887,15 @@
       "errorResetPassword": "Errore nel ripristino della password",
       "nameRequired": "Il nome completo è obbligatorio",
       "fullNameLabel": "Nome completo",
-      "fullNamePlaceholder": "Il tuo nome completo come risulta nel tuo account",
+      "fullNamePlaceholder": "Il tuo nome completo",
       "fullNameHelp": "Inserisci il nome esatto che hai usato durante la creazione del tuo account per verificare la tua identità.",
       "nameChecking": "Verifica dell'identità...",
       "nameExact": "Identità verificata con successo",
       "namePartial": "Corrispondenza parziale: verifica che il nome sia esatto",
       "nameNoMatch": "Il nome non corrisponde ai nostri registri",
-      "nameError": "Errore di verifica. Riprova."
+      "nameError": "Errore di verifica. Riprova.",
+      "nameNoMatchIdentity": "Non possiamo verificare la tua identità. Il nome non corrisponde ai nostri registri.",
+      "contactTeam": "Contatta il nostro team"
     },
     "otp": {
       "title": "Verifica Email",

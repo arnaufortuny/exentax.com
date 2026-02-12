@@ -149,11 +149,35 @@ export function registerAuthExtRoutes(app: Express) {
         fullName: z.string().min(2).max(200)
       }).parse(req.body);
 
-      const normalize = (s: string) => s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/\s+/g, " ").trim();
+      const normalize = (s: string) => s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9\s]/g, "").replace(/\s+/g, " ").trim();
+
+      const levenshtein = (a: string, b: string): number => {
+        const m = a.length, n = b.length;
+        if (m === 0) return n;
+        if (n === 0) return m;
+        const dp: number[][] = Array.from({ length: m + 1 }, () => Array(n + 1).fill(0));
+        for (let i = 0; i <= m; i++) dp[i][0] = i;
+        for (let j = 0; j <= n; j++) dp[0][j] = j;
+        for (let i = 1; i <= m; i++) {
+          for (let j = 1; j <= n; j++) {
+            dp[i][j] = Math.min(
+              dp[i - 1][j] + 1,
+              dp[i][j - 1] + 1,
+              dp[i - 1][j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1)
+            );
+          }
+        }
+        return dp[m][n];
+      };
+
+      const fuzzyMatch = (a: string, b: string): boolean => {
+        if (a === b) return true;
+        const maxDist = Math.max(1, Math.floor(Math.max(a.length, b.length) * 0.25));
+        return levenshtein(a, b) <= maxDist;
+      };
       
       const [existingUser] = await db.select().from(usersTable).where(eq(usersTable.email, email)).limit(1);
       
-      // Uniform response for non-existent accounts (same as "exact" to prevent enumeration)
       if (!existingUser) {
         return res.json({ match: "exact" });
       }
@@ -165,7 +189,6 @@ export function registerAuthExtRoutes(app: Express) {
       const accountFullName = normalize(`${existingUser.firstName || ""} ${existingUser.lastName || ""}`);
       const inputName = normalize(fullName);
       
-      // No name on file - allow through (can't verify what doesn't exist)
       if (!accountFullName || accountFullName.length < 2) {
         return res.json({ match: "exact" });
       }
@@ -174,11 +197,18 @@ export function registerAuthExtRoutes(app: Express) {
         return res.json({ match: "exact" });
       }
 
+      if (fuzzyMatch(accountFullName, inputName)) {
+        return res.json({ match: "exact" });
+      }
+
       const accountParts = accountFullName.split(" ").filter(Boolean);
       const inputParts = inputName.split(" ").filter(Boolean);
-      const matchingParts = inputParts.filter(part => accountParts.includes(part));
+
+      const fuzzyMatchingParts = inputParts.filter(part => 
+        accountParts.some(aPart => fuzzyMatch(part, aPart))
+      );
       
-      if (matchingParts.length > 0 && matchingParts.length >= Math.min(accountParts.length, inputParts.length) * 0.5) {
+      if (fuzzyMatchingParts.length > 0 && fuzzyMatchingParts.length >= Math.min(accountParts.length, inputParts.length) * 0.5) {
         return res.json({ match: "partial" });
       }
 
@@ -216,16 +246,37 @@ export function registerAuthExtRoutes(app: Express) {
         return res.json({ success: true, deactivated: true });
       }
 
-      const normalize = (s: string) => s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/\s+/g, " ").trim();
+      const normalize = (s: string) => s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9\s]/g, "").replace(/\s+/g, " ").trim();
+      const levenshtein = (a: string, b: string): number => {
+        const m = a.length, n = b.length;
+        if (m === 0) return n;
+        if (n === 0) return m;
+        const dp: number[][] = Array.from({ length: m + 1 }, () => Array(n + 1).fill(0));
+        for (let i = 0; i <= m; i++) dp[i][0] = i;
+        for (let j = 0; j <= n; j++) dp[0][j] = j;
+        for (let i = 1; i <= m; i++) {
+          for (let j = 1; j <= n; j++) {
+            dp[i][j] = Math.min(dp[i - 1][j] + 1, dp[i][j - 1] + 1, dp[i - 1][j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1));
+          }
+        }
+        return dp[m][n];
+      };
+      const fuzzyMatch = (a: string, b: string): boolean => {
+        if (a === b) return true;
+        return levenshtein(a, b) <= Math.max(1, Math.floor(Math.max(a.length, b.length) * 0.25));
+      };
+
       const accountFullName = normalize(`${existingUser.firstName || ""} ${existingUser.lastName || ""}`);
       const inputName = normalize(fullName);
       
       if (accountFullName && accountFullName.length >= 2) {
         const accountParts = accountFullName.split(" ").filter(Boolean);
         const inputParts = inputName.split(" ").filter(Boolean);
-        const matchingParts = inputParts.filter(part => accountParts.includes(part));
+        const fuzzyMatchingParts = inputParts.filter(part => 
+          accountParts.some(aPart => fuzzyMatch(part, aPart))
+        );
         
-        if (matchingParts.length === 0) {
+        if (fuzzyMatchingParts.length === 0) {
           logAudit({ action: 'password_reset_blocked_name', ip, details: { email } });
           return res.status(403).json({ message: "Identity verification failed. The name does not match our records." });
         }

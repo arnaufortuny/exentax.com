@@ -69,6 +69,8 @@ const ACTION_ICONS: Record<string, typeof Shield> = {
   backup_failed: Globe,
   security_otp_required: Shield,
   ip_order_blocked: Shield,
+  password_reset_name_mismatch: Shield,
+  password_reset_blocked_name: Shield,
 };
 
 const ACTION_COLORS: Record<string, string> = {
@@ -103,6 +105,8 @@ const ACTION_COLORS: Record<string, string> = {
   ip_order_blocked: "bg-red-100 text-red-800 dark:bg-red-900/40 dark:text-red-300",
   backup_completed: "bg-accent/10 text-accent dark:bg-accent/20 dark:text-accent",
   backup_failed: "bg-red-100 text-red-800 dark:bg-red-900/40 dark:text-red-300",
+  password_reset_name_mismatch: "bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300",
+  password_reset_blocked_name: "bg-red-100 text-red-800 dark:bg-red-900/40 dark:text-red-300",
 };
 
 export function ActivityLogPanel() {

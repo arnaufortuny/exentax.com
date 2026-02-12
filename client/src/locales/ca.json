@@ -854,8 +854,8 @@
       "sendErrorDesc": "No s'ha pogut enviar el codi"
     },
     "forgotPassword": {
-      "title": "Recuperar",
-      "titleHighlight": "Contrasenya",
+      "title": "Reset",
+      "titleHighlight": "Password",
       "descriptionEmail": "T'enviarem un codi de verificació per restablir l'accés al teu compte de forma segura.",
       "descriptionOtp": "Introdueix el codi de 6 dígits que hem enviat al teu email",
       "descriptionPassword": "Crea una nova contrasenya segura per al teu compte",
@@ -887,13 +887,15 @@
       "errorResetPassword": "No s'ha pogut restablir la contrasenya",
       "nameRequired": "El nom complet és obligatori",
       "fullNameLabel": "Nom complet",
-      "fullNamePlaceholder": "El teu nom i cognoms tal com consten al teu compte",
+      "fullNamePlaceholder": "El teu nom complet",
       "fullNameHelp": "Introdueix el nom exacte que vas fer servir en crear el teu compte per verificar la teva identitat.",
       "nameChecking": "Verificant identitat...",
       "nameExact": "Identitat verificada correctament",
       "namePartial": "Coincidència parcial: revisa que el nom sigui exacte",
       "nameNoMatch": "El nom no coincideix amb els nostres registres",
-      "nameError": "Error en la verificació. Torna-ho a provar."
+      "nameError": "Error en la verificació. Torna-ho a provar.",
+      "nameNoMatchIdentity": "No podem verificar la teva identitat. El nom no coincideix amb els nostres registres.",
+      "contactTeam": "Contactar amb el nostre equip"
     },
     "otp": {
       "title": "Verificar correu",

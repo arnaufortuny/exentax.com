@@ -854,8 +854,8 @@
       "sendErrorDesc": "No se pudo enviar el código"
     },
     "forgotPassword": {
-      "title": "Recuperar",
-      "titleHighlight": "Contraseña",
+      "title": "Reset",
+      "titleHighlight": "Password",
       "descriptionEmail": "Te enviaremos un código de verificación para restablecer el acceso a tu cuenta de forma segura.",
       "descriptionOtp": "Ingresa el código de 6 dígitos que enviamos a tu email",
       "descriptionPassword": "Crea una nueva contraseña segura para tu cuenta",
@@ -887,13 +887,15 @@
       "errorResetPassword": "No se pudo restablecer la contraseña",
       "nameRequired": "El nombre completo es obligatorio",
       "fullNameLabel": "Nombre completo",
-      "fullNamePlaceholder": "Tu nombre y apellidos tal como están en tu cuenta",
+      "fullNamePlaceholder": "Tu nombre completo",
       "fullNameHelp": "Introduce el nombre exacto que usaste al crear tu cuenta para verificar tu identidad.",
       "nameChecking": "Verificando identidad...",
       "nameExact": "Identidad verificada correctamente",
       "namePartial": "Coincidencia parcial: revisa que el nombre sea exacto",
       "nameNoMatch": "El nombre no coincide con nuestros registros",
-      "nameError": "Error al verificar. Inténtalo de nuevo."
+      "nameError": "Error al verificar. Inténtalo de nuevo.",
+      "nameNoMatchIdentity": "No podemos verificar tu identidad. El nombre no coincide con nuestros registros.",
+      "contactTeam": "Contactar con nuestro equipo"
     },
     "otp": {
       "title": "Verificar Email",
