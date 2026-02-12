@@ -544,7 +544,7 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       viewClientArea: "Ver Mi Área Cliente"
     },
     adminNote: {
-      messageAbout: "Tienes un mensaje importante sobre tu solicitud:",
+      messageAbout: "Tienes un mensaje importante:",
       viewTicket: "Ver Ticket",
       viewClientArea: "Ver Mi Área Cliente"
     },
@@ -948,7 +948,7 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       viewClientArea: "View My Client Area"
     },
     adminNote: {
-      messageAbout: "You have an important message about your request:",
+      messageAbout: "You have an important message:",
       viewTicket: "View Ticket",
       viewClientArea: "View My Client Area"
     },
@@ -1352,7 +1352,7 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       viewClientArea: "Veure la Meva Àrea Client"
     },
     adminNote: {
-      messageAbout: "Tens un missatge important sobre la teva sol·licitud:",
+      messageAbout: "Tens un missatge important:",
       viewTicket: "Veure Ticket",
       viewClientArea: "Veure la Meva Àrea Client"
     },
@@ -1756,7 +1756,7 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       viewClientArea: "Voir Mon Espace Client"
     },
     adminNote: {
-      messageAbout: "Vous avez un message important concernant votre demande :",
+      messageAbout: "Vous avez un message important :",
       viewTicket: "Voir le ticket",
       viewClientArea: "Voir Mon Espace Client"
     },
@@ -2160,7 +2160,7 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       viewClientArea: "Meinen Kundenbereich anzeigen"
     },
     adminNote: {
-      messageAbout: "Sie haben eine wichtige Nachricht zu Ihrer Anfrage:",
+      messageAbout: "Sie haben eine wichtige Nachricht:",
       viewTicket: "Ticket anzeigen",
       viewClientArea: "Meinen Kundenbereich anzeigen"
     },
@@ -2564,7 +2564,7 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       viewClientArea: "Visualizza la Mia Area Cliente"
     },
     adminNote: {
-      messageAbout: "Hai un messaggio importante riguardo alla tua richiesta:",
+      messageAbout: "Hai un messaggio importante:",
       viewTicket: "Visualizza ticket",
       viewClientArea: "Visualizza la Mia Area Cliente"
     },
@@ -2968,7 +2968,7 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       viewClientArea: "Ver a Minha Área de Cliente"
     },
     adminNote: {
-      messageAbout: "Tem uma mensagem importante sobre o seu pedido:",
+      messageAbout: "Tem uma mensagem importante:",
       viewTicket: "Ver ticket",
       viewClientArea: "Ver a Minha Área de Cliente"
     },

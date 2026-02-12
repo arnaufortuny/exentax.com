@@ -1,7 +1,7 @@
 import type { Express, Response } from "express";
 import { and, eq, desc, inArray } from "drizzle-orm";
 import { db, isAuthenticated, isNotUnderReview, logActivity, logAudit, getClientIp , asyncHandler } from "./shared";
-import { users as usersTable, orders as ordersTable, llcApplications as llcApplicationsTable, applicationDocuments as applicationDocumentsTable } from "@shared/schema";
+import { users as usersTable, orders as ordersTable, llcApplications as llcApplicationsTable, applicationDocuments as applicationDocumentsTable, documentRequests as documentRequestsTable, userNotifications } from "@shared/schema";
 import { createLogger } from "../lib/logger";
 
 const log = createLogger('user-documents');
@@ -492,6 +492,145 @@ export function registerUserDocumentRoutes(app: Express) {
     } catch (error) {
       log.error("Error serving client doc", error);
       res.status(500).json({ message: "Error serving file" });
+    }
+  }));
+
+  app.get("/api/user/document-requests", isAuthenticated, asyncHandler(async (req: any, res: Response) => {
+    try {
+      const userId = req.session.userId;
+      const requests = await db.select().from(documentRequestsTable)
+        .where(and(
+          eq(documentRequestsTable.userId, userId),
+        ))
+        .orderBy(desc(documentRequestsTable.createdAt));
+      
+      res.json(requests);
+    } catch (error) {
+      log.error("Error fetching document requests", error);
+      res.status(500).json({ message: "Error fetching document requests" });
+    }
+  }));
+
+  app.post("/api/user/document-requests/:requestId/upload", isAuthenticated, isNotUnderReview, asyncHandler(async (req: any, res: Response) => {
+    try {
+      const userId = req.session.userId;
+      const { requestId } = req.params;
+
+      const [docRequest] = await db.select().from(documentRequestsTable)
+        .where(and(
+          eq(documentRequestsTable.requestId, requestId),
+          eq(documentRequestsTable.userId, userId)
+        ))
+        .limit(1);
+
+      if (!docRequest) {
+        return res.status(404).json({ message: "Request not found" });
+      }
+
+      if (docRequest.status === 'completed' || docRequest.status === 'approved') {
+        return res.status(400).json({ message: "This request has already been fulfilled" });
+      }
+
+      const MAX_FILE_SIZE_BYTES = 10 * 1024 * 1024;
+      const busboy = (await import('busboy')).default;
+      const bb = busboy({ headers: req.headers, limits: { fileSize: MAX_FILE_SIZE_BYTES } });
+
+      let fileName = '';
+      let fileBuffer: Buffer | null = null;
+      let fileTruncated = false;
+
+      const ALLOWED_EXTENSIONS = ['pdf', 'jpg', 'jpeg', 'png'];
+      const ALLOWED_MIMES = ['application/pdf', 'image/jpeg', 'image/png'];
+      let detectedMime = '';
+
+      bb.on('file', (_name: string, file: any, info: any) => {
+        fileName = info.filename || `doc_${Date.now()}`;
+        detectedMime = info.mimeType || '';
+        const chunks: Buffer[] = [];
+        file.on('data', (data: Buffer) => chunks.push(data));
+        file.on('limit', () => { fileTruncated = true; });
+        file.on('end', () => { fileBuffer = Buffer.concat(chunks); });
+      });
+
+      bb.on('finish', async () => {
+        if (fileTruncated) {
+          return res.status(413).json({ message: "File exceeds the 10MB size limit" });
+        }
+        if (!fileBuffer) {
+          return res.status(400).json({ message: "No file received" });
+        }
+
+        const ext = fileName.toLowerCase().split('.').pop() || '';
+        if (!ALLOWED_EXTENSIONS.includes(ext)) {
+          return res.status(400).json({ message: "File type not allowed. Only: PDF, JPG, JPEG, PNG" });
+        }
+        if (!ALLOWED_MIMES.includes(detectedMime)) {
+          return res.status(400).json({ message: "Invalid file format" });
+        }
+
+        const fs = await import('fs/promises');
+        const path = await import('path');
+        const uploadDir = path.join(process.cwd(), 'uploads', 'client-docs');
+        await fs.mkdir(uploadDir, { recursive: true });
+
+        const safeFileName = `${userId}_${Date.now()}_${fileName.replace(/[^a-zA-Z0-9.-]/g, '_')}`;
+        const filePath = path.join(uploadDir, safeFileName);
+        await fs.writeFile(filePath, fileBuffer);
+
+        const mimeTypesMap: Record<string, string> = {
+          'pdf': 'application/pdf', 'jpg': 'image/jpeg', 'jpeg': 'image/jpeg', 'png': 'image/png'
+        };
+        const detectedFileType = mimeTypesMap[ext] || 'application/octet-stream';
+
+        const userOrders = await db.select().from(ordersTable).where(eq(ordersTable.userId, userId)).limit(1);
+        const targetOrderId = userOrders.length > 0 ? userOrders[0].id : (docRequest.id ? null : null);
+
+        const [doc] = await db.insert(applicationDocumentsTable).values({
+          orderId: targetOrderId,
+          userId: userId,
+          fileName: fileName,
+          fileType: detectedFileType,
+          fileUrl: `/uploads/client-docs/${safeFileName}`,
+          documentType: docRequest.documentType,
+          reviewStatus: 'pending',
+          uploadedBy: userId
+        }).returning();
+
+        await db.update(documentRequestsTable)
+          .set({
+            status: 'uploaded',
+            linkedDocumentId: doc.id,
+            updatedAt: new Date()
+          })
+          .where(eq(documentRequestsTable.id, docRequest.id));
+
+        await db.update(userNotifications)
+          .set({ isRead: true })
+          .where(and(
+            eq(userNotifications.userId, userId),
+            eq(userNotifications.type, 'action_required'),
+            eq(userNotifications.isRead, false)
+          ));
+
+        logActivity("Document Uploaded via Request", {
+          "User": userId,
+          "Request": requestId,
+          "DocType": docRequest.documentType,
+          "File": fileName
+        });
+
+        res.json({ success: true, documentId: doc.id });
+      });
+
+      bb.on('error', (err: any) => {
+        log.error("Upload error", err);
+        res.status(500).json({ message: "Error uploading file" });
+      });
+
+      req.pipe(bb);
+    } catch (error) {
+      log.error("Document request upload error", error);
+      res.status(500).json({ message: "Error uploading document" });
     }
   }));
 

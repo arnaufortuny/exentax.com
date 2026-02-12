@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
-import { useMutation } from "@tanstack/react-query";
+import { useQuery, useMutation } from "@tanstack/react-query";
 import { queryClient, apiRequest, getCsrfToken } from "@/lib/queryClient";
-import { FileText, Clock, Download, Send, FileUp, Upload, X, Trash2 } from "@/components/icons";
+import { FileText, Clock, Download, Send, FileUp, Upload, X, Trash2, CheckCircle2, AlertCircle } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useState } from "react";
@@ -20,11 +20,154 @@ interface DocumentsPanelProps {
   formatDate: (date: string | Date) => string;
 }
 
+function RequestUploadCard({ request, setFormMessage, formatDate }: { request: any; setFormMessage: any; formatDate: (date: string | Date) => string }) {
+  const { t } = useTranslation();
+  const [file, setFile] = useState<File | null>(null);
+  const [uploading, setUploading] = useState(false);
+
+  const docTypeLabels: Record<string, string> = {
+    passport: t('dashboard.documents.passport'),
+    address_proof: t('dashboard.documents.addressProof'),
+    tax_id: t('dashboard.documents.taxId'),
+    other: t('dashboard.documents.otherDocument'),
+  };
+
+  const isPending = request.status === 'sent' || request.status === 'pending_upload';
+  const isUploaded = request.status === 'uploaded';
+  const isApproved = request.status === 'approved' || request.status === 'completed';
+  const isRejected = request.status === 'rejected';
+
+  const statusConfig: Record<string, { label: string; className: string }> = {
+    sent: { label: t('dashboard.documents.requestPending'), className: 'bg-yellow-50 dark:bg-yellow-900/20 text-yellow-700 dark:text-yellow-400' },
+    pending_upload: { label: t('dashboard.documents.requestPending'), className: 'bg-yellow-50 dark:bg-yellow-900/20 text-yellow-700 dark:text-yellow-400' },
+    uploaded: { label: t('dashboard.documents.requestUploaded'), className: 'bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400' },
+    approved: { label: t('dashboard.documents.statusApproved'), className: 'bg-accent/5 dark:bg-accent/10 text-accent dark:text-accent' },
+    completed: { label: t('dashboard.documents.statusApproved'), className: 'bg-accent/5 dark:bg-accent/10 text-accent dark:text-accent' },
+    rejected: { label: t('dashboard.documents.statusRejected'), className: 'bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-400' },
+  };
+  const status = statusConfig[request.status] || statusConfig.sent;
+
+  const handleUpload = async () => {
+    if (!file) return;
+    setUploading(true);
+    try {
+      const formData = new FormData();
+      formData.append('file', file);
+      const csrfToken = await getCsrfToken();
+      const res = await fetch(`/api/user/document-requests/${request.requestId}/upload`, {
+        method: 'POST',
+        headers: { 'X-CSRF-Token': csrfToken },
+        body: formData,
+        credentials: 'include'
+      });
+      if (res.ok) {
+        setFormMessage({ type: 'success', text: t("dashboard.toasts.documentUploadedClient") });
+        queryClient.invalidateQueries({ queryKey: ['/api/user/document-requests'] });
+        queryClient.invalidateQueries({ queryKey: ['/api/user/documents'] });
+        queryClient.invalidateQueries({ queryKey: ['/api/user/notifications'] });
+        setFile(null);
+      } else {
+        const data = await res.json();
+        setFormMessage({ type: 'error', text: data.message || t("dashboard.toasts.couldNotUpload") });
+      }
+    } catch {
+      setFormMessage({ type: 'error', text: t("dashboard.toasts.connectionError") });
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  return (
+    <Card className={`rounded-xl md:rounded-2xl shadow-sm ${isPending || isRejected ? 'border-2 border-red-300 dark:border-red-800 bg-red-50/50 dark:bg-red-950/20' : isUploaded ? 'border border-blue-200 dark:border-blue-800 bg-blue-50/30 dark:bg-blue-950/10' : 'border border-accent/30 bg-accent/5 dark:bg-accent/10'}`} data-testid={`card-doc-request-${request.id}`}>
+      <CardContent className="p-4 md:p-5">
+        <div className="flex items-start gap-3">
+          <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${isPending || isRejected ? 'bg-red-100 dark:bg-red-900/30' : isUploaded ? 'bg-blue-100 dark:bg-blue-900/30' : 'bg-accent/20'}`}>
+            {isApproved ? <CheckCircle2 className="w-5 h-5 text-accent" /> : isPending || isRejected ? <AlertCircle className="w-5 h-5 text-red-500 dark:text-red-400" /> : <FileUp className="w-5 h-5 text-blue-600 dark:text-blue-400" />}
+          </div>
+          <div className="flex-1 min-w-0">
+            <div className="flex items-center justify-between gap-2 mb-1 flex-wrap">
+              <h4 className="font-black text-foreground text-xs sm:text-sm">{docTypeLabels[request.documentType] || request.documentType}</h4>
+              <Badge variant="secondary" className={`no-default-hover-elevate no-default-active-elevate text-[10px] font-bold shrink-0 ${status.className}`}>
+                {status.label}
+              </Badge>
+            </div>
+            {request.notes && (
+              <p className="text-xs text-muted-foreground mb-2">{request.notes}</p>
+            )}
+            <p className="text-[10px] text-muted-foreground mb-3">{formatDate(request.createdAt)}</p>
+
+            {(isPending || isRejected) && (
+              <>
+                {!file ? (
+                  <label className="cursor-pointer block">
+                    <input
+                      type="file"
+                      className="hidden"
+                      accept=".pdf,.jpg,.jpeg,.png"
+                      onChange={(e) => {
+                        const f = e.target.files?.[0];
+                        if (f) setFile(f);
+                      }}
+                      data-testid={`input-request-upload-${request.id}`}
+                    />
+                    <Button variant="default" className="rounded-full font-bold text-xs w-full sm:w-auto" asChild>
+                      <span><FileUp className="w-3 h-3 mr-1" /> {t('dashboard.documents.uploadRequestedDoc')}</span>
+                    </Button>
+                  </label>
+                ) : (
+                  <div className="space-y-3">
+                    <div className="flex items-center gap-3 p-3 bg-white dark:bg-card rounded-xl">
+                      <FileUp className="w-6 h-6 text-accent shrink-0" />
+                      <div className="flex-1 min-w-0">
+                        <p className="font-medium text-xs truncate text-foreground">{file.name}</p>
+                        <p className="text-[10px] text-muted-foreground">{(file.size / 1024 / 1024).toFixed(2)} MB</p>
+                      </div>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => setFile(null)}
+                        className="shrink-0 text-muted-foreground"
+                        data-testid={`button-clear-request-file-${request.id}`}
+                      >
+                        <X className="w-4 h-4" />
+                      </Button>
+                    </div>
+                    <Button
+                      onClick={handleUpload}
+                      disabled={uploading}
+                      className="w-full bg-accent text-accent-foreground font-black rounded-full"
+                      data-testid={`button-send-request-doc-${request.id}`}
+                    >
+                      <Send className="w-4 h-4 mr-2" /> {uploading ? t('common.loading') : t('dashboard.documents.sendDocument')}
+                    </Button>
+                  </div>
+                )}
+              </>
+            )}
+
+            {isUploaded && (
+              <p className="text-xs text-blue-600 dark:text-blue-400 font-semibold">{t('dashboard.documents.requestUnderReview')}</p>
+            )}
+          </div>
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
+
 export function DocumentsPanel({ user, notifications, userDocuments, canEdit, setFormMessage, tn, formatDate }: DocumentsPanelProps) {
   const { t } = useTranslation();
   const [uploadDialog, setUploadDialog] = useState<{ open: boolean; file: File | null }>({ open: false, file: null });
   const [uploadDocType, setUploadDocType] = useState("passport");
   const [uploadNotes, setUploadNotes] = useState("");
+
+  const { data: documentRequests } = useQuery<any[]>({
+    queryKey: ['/api/user/document-requests'],
+    enabled: !user?.isAdmin,
+  });
+
+  const pendingRequests = documentRequests?.filter((r: any) => r.status === 'sent' || r.status === 'pending_upload' || r.status === 'rejected') || [];
+  const otherRequests = documentRequests?.filter((r: any) => r.status === 'uploaded' || r.status === 'approved' || r.status === 'completed') || [];
 
   const deleteDocMutation = useMutation({
     mutationFn: async (docId: number) => {
@@ -43,74 +186,46 @@ export function DocumentsPanel({ user, notifications, userDocuments, canEdit, se
     }
   });
 
+  const docInReviewNotifs = notifications?.filter((n: any) => n.type === 'info' && (n.title || '').includes('docInReview')) || [];
+  const hasDocInReview = docInReviewNotifs.length > 0;
+
   return (
     <div key="documents" className="space-y-6">
       <div className="mb-4 md:mb-6">
         <h2 className="text-base sm:text-xl md:text-2xl font-black text-foreground tracking-tight">{t('dashboard.documents.title')}</h2>
         <p className="text-base text-muted-foreground mt-1">{t('dashboard.documents.subtitle')}</p>
       </div>
+
+      {pendingRequests.length > 0 && user?.accountStatus !== 'deactivated' && (
+        <div className="space-y-3">
+          <h3 className="text-sm font-black text-foreground">{t('dashboard.documents.requestedDocuments')}</h3>
+          <p className="text-xs text-muted-foreground">{t('dashboard.documents.requestedDocsDesc')}</p>
+          {pendingRequests.map((req: any) => (
+            <RequestUploadCard key={req.id} request={req} setFormMessage={setFormMessage} formatDate={formatDate} />
+          ))}
+        </div>
+      )}
+
+      {otherRequests.length > 0 && (
+        <div className="space-y-3">
+          {otherRequests.map((req: any) => (
+            <RequestUploadCard key={req.id} request={req} setFormMessage={setFormMessage} formatDate={formatDate} />
+          ))}
+        </div>
+      )}
+
+      {hasDocInReview && user?.accountStatus !== 'deactivated' && (
+        <Card className="rounded-2xl shadow-sm p-4 mb-4 border-2 border-accent/30 dark:border-accent/30 bg-accent/5 dark:bg-accent/10" data-testid="card-doc-under-review">
+          <div className="flex items-start gap-3">
+            <Clock className="w-5 h-5 text-accent mt-0.5" />
+            <div className="flex-1">
+              <h4 className="font-black text-foreground text-sm">{t('dashboard.documents.underReview')}</h4>
+              <p className="text-xs text-muted-foreground mt-2">{t('dashboard.documents.underReviewDesc')}</p>
+            </div>
+          </div>
+        </Card>
+      )}
       
-      {(() => {
-        const actionRequiredNotifs = notifications?.filter((n: any) => n.type === 'action_required') || [];
-        const docInReviewNotifs = notifications?.filter((n: any) => n.type === 'info' && (n.title || '').includes('docInReview')) || [];
-        const hasActionRequired = actionRequiredNotifs.length > 0;
-        const hasDocInReview = docInReviewNotifs.length > 0;
-        
-        if ((hasActionRequired || hasDocInReview) && user?.accountStatus !== 'deactivated') {
-          return (
-            <Card className={`rounded-2xl shadow-sm p-4 mb-4 ${hasActionRequired ? 'border-2 border-red-300 dark:border-red-800 bg-red-50 dark:bg-red-950/30' : 'border-2 border-accent/30 dark:border-accent/30 bg-accent/5 dark:bg-accent/10'}`} data-testid="card-doc-action-required">
-              <div className="flex items-start gap-3">
-                {hasActionRequired ? (
-                  <FileUp className="w-5 h-5 text-red-600 dark:text-red-400 mt-0.5" />
-                ) : (
-                  <Clock className="w-5 h-5 text-accent mt-0.5" />
-                )}
-                <div className="flex-1">
-                  {hasActionRequired ? (
-                    <>
-                      <h4 className="font-black text-foreground text-sm">{t('dashboard.documents.requestedDocuments')}</h4>
-                      <div className="mt-2 space-y-1">
-                        {actionRequiredNotifs.map((n: any) => (
-                          <p key={n.id} className="text-xs text-muted-foreground">{tn(n.message)}</p>
-                        ))}
-                      </div>
-                      <div className="mt-3">
-                        <label className="cursor-pointer">
-                          <input 
-                            type="file" 
-                            className="hidden" 
-                            accept=".pdf,.jpg,.jpeg,.png"
-                            onChange={(e) => {
-                              const file = e.target.files?.[0];
-                              if (file) {
-                                setUploadDialog({ open: false, file });
-                                setUploadDocType("other");
-                                setUploadNotes("");
-                              }
-                            }}
-                            data-testid="input-upload-document"
-                          />
-                          <Button variant="outline" className="rounded-full text-xs border-accent/50 dark:border-accent text-accent dark:text-accent" asChild>
-                            <span><FileUp className="w-3 h-3 mr-1" /> {t('dashboard.documents.uploadDocument')}</span>
-                          </Button>
-                        </label>
-                      </div>
-                    </>
-                  ) : (
-                    <>
-                      <h4 className="font-black text-foreground text-sm">{t('dashboard.documents.underReview')}</h4>
-                      <p className="text-xs text-muted-foreground mt-2">{t('dashboard.documents.underReviewDesc')}</p>
-                    </>
-                  )}
-                </div>
-              </div>
-            </Card>
-          );
-        }
-        return null;
-      })()}
-      
-      {/* Subir documento inline sin dialogo */}
       <Card className="rounded-2xl border-2 border-dashed border-accent/50 bg-accent/5 p-4 md:p-6 mb-4">
         {!uploadDialog.file ? (
           <label className="cursor-pointer w-full block">
@@ -156,7 +271,7 @@ export function DocumentsPanel({ user, notifications, userDocuments, canEdit, se
                 variant="ghost" 
                 size="icon" 
                 onClick={() => setUploadDialog({ open: false, file: null })}
-                className="shrink-0 text-muted-foreground hover:text-red-500"
+                className="shrink-0 text-muted-foreground"
                 data-testid="button-clear-file"
               >
                 <X className="w-4 h-4" />
