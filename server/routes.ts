@@ -35,6 +35,7 @@ import { registerMessageRoutes } from "./routes/messages";
 import { registerContactRoutes } from "./routes/contact";
 import { registerAuthExtRoutes } from "./routes/auth-ext";
 import { registerAdminRoleRoutes } from "./routes/admin-roles";
+import { registerPushRoutes } from "./routes/push";
 
 export async function registerRoutes(
   httpServer: Server,
@@ -213,6 +214,9 @@ export async function registerRoutes(
 
   // Consultation Booking System (extracted to server/routes/consultations.ts)
   registerConsultationRoutes(app);
+
+  // Push Notifications
+  registerPushRoutes(app);
 
   // Accounting (extracted to server/routes/accounting.ts)
   registerAccountingRoutes(app);

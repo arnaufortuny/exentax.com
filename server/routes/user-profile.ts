@@ -2,7 +2,7 @@ import type { Express, Response } from "express";
 import { z } from "zod";
 import { and, eq, gt, desc, sql } from "drizzle-orm";
 import { db, storage, isAuthenticated, isNotUnderReview, isAdmin, logAudit, getClientIp, logActivity , asyncHandler } from "./shared";
-import { contactOtps, users as usersTable, userNotifications, orders as ordersTable, llcApplications as llcApplicationsTable, standaloneInvoices } from "@shared/schema";
+import { contactOtps, users as usersTable, userNotifications, orders as ordersTable, llcApplications as llcApplicationsTable, standaloneInvoices, messages, messageReplies, applicationDocuments, maintenanceApplications, consultationBookings, accountingTransactions, pushSubscriptions } from "@shared/schema";
 import { sendEmail, getProfileChangeOtpTemplate, getAdminProfileChangesTemplate, getAccountDeactivatedByUserTemplate } from "../lib/email";
 import { getEmailTranslations, EmailLanguage } from "../lib/email-translations";
 import { checkRateLimit } from "../lib/security";
@@ -613,5 +613,98 @@ export function registerUserProfileRoutes(app: Express) {
     } catch (error) {
       res.status(500).json({ message: "Error deleting notification" });
     }
+  }));
+
+  app.get("/api/user/data-export", isAuthenticated, asyncHandler(async (req: any, res: Response) => {
+    const userId = req.session.userId;
+    const rateCheck = await checkRateLimit("general", `gdpr-export:${userId}`);
+    if (!rateCheck.allowed) {
+      return res.status(429).json({ message: "Too many export requests. Please wait before trying again." });
+    }
+
+    const [user] = await db.select().from(usersTable).where(eq(usersTable.id, userId)).limit(1);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    const { passwordHash, loginAttempts, lockUntil, lastLoginIp, pendingProfileChanges, pendingChangesExpiresAt, internalNotes, ...safeUser } = user;
+
+    const userOrders = await db.select().from(ordersTable).where(eq(ordersTable.userId, userId));
+    const orderIds = userOrders.map(o => o.id);
+
+    let userApplications: any[] = [];
+    if (orderIds.length > 0) {
+      for (const oid of orderIds) {
+        const apps = await db.select().from(llcApplicationsTable).where(eq(llcApplicationsTable.orderId, oid));
+        userApplications.push(...apps);
+      }
+    }
+
+    let userMaintenanceApps: any[] = [];
+    if (orderIds.length > 0) {
+      for (const oid of orderIds) {
+        const mApps = await db.select().from(maintenanceApplications).where(eq(maintenanceApplications.orderId, oid));
+        userMaintenanceApps.push(...mApps);
+      }
+    }
+
+    const userDocuments = await db.select({
+      id: applicationDocuments.id,
+      applicationId: applicationDocuments.applicationId,
+      orderId: applicationDocuments.orderId,
+      documentType: applicationDocuments.documentType,
+      fileName: applicationDocuments.fileName,
+      uploadedAt: applicationDocuments.uploadedAt,
+    }).from(applicationDocuments).where(eq(applicationDocuments.userId, userId));
+
+    const userMessages = await db.select().from(messages).where(eq(messages.userId, userId));
+    const messageIds = userMessages.map(m => m.id);
+    let userReplies: any[] = [];
+    if (messageIds.length > 0) {
+      for (const mid of messageIds) {
+        const replies = await db.select({
+          id: messageReplies.id,
+          messageId: messageReplies.messageId,
+          content: messageReplies.content,
+          isAdmin: messageReplies.isAdmin,
+          fromName: messageReplies.fromName,
+          createdAt: messageReplies.createdAt,
+        }).from(messageReplies).where(eq(messageReplies.messageId, mid));
+        userReplies.push(...replies);
+      }
+    }
+
+    const userConsultations = await db.select().from(consultationBookings).where(eq(consultationBookings.userId, userId));
+
+    const userNotifs = await db.select({
+      id: userNotifications.id,
+      type: userNotifications.type,
+      title: userNotifications.title,
+      message: userNotifications.message,
+      isRead: userNotifications.isRead,
+      createdAt: userNotifications.createdAt,
+    }).from(userNotifications).where(eq(userNotifications.userId, userId));
+
+    const userInvoices = await db.select().from(standaloneInvoices).where(eq(standaloneInvoices.userId, userId));
+
+    const exportData = {
+      exportDate: new Date().toISOString(),
+      profile: safeUser,
+      orders: userOrders.map(({ stripeSessionId, ...o }) => o),
+      llcApplications: userApplications,
+      maintenanceApplications: userMaintenanceApps,
+      documents: userDocuments,
+      messages: userMessages.map(({ encryptedContent, ...m }) => m),
+      messageReplies: userReplies,
+      consultations: userConsultations,
+      notifications: userNotifs,
+      invoices: userInvoices,
+    };
+
+    await logActivity(userId, "gdpr_data_export", getClientIp(req));
+
+    res.setHeader("Content-Type", "application/json");
+    res.setHeader("Content-Disposition", `attachment; filename="exentax-data-export-${new Date().toISOString().slice(0, 10)}.json"`);
+    res.json(exportData);
   }));
 }

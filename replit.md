@@ -14,6 +14,12 @@ Exentax (formerly Easy US LLC) is a full-stack SaaS platform designed to simplif
 - **Security Hardening (Feb 2026):** Claim-order endpoints (LLC + maintenance) now verify order is unclaimed before association, preventing order hijacking. Full security audit of all user-facing routes confirmed proper data isolation.
 - **Admin Reply fromName (Feb 2026):** Admin can set custom display name when replying to client messages (fromName field in messageReplies table, Input in AdminCommsPanel)
 - **Email Consistency (Feb 2026):** Newsletter broadcast now uses standard getEmailWrapper template. All email templates use consistent branded wrapper.
+- **Web Push Notifications (Feb 2026):** VAPID key-based push notifications with service worker (sw-push.js), subscription management (push-service.ts), client hook (use-push-notifications.ts), and API endpoints (/api/push/*). Stale subscriptions auto-cleaned on 404/410.
+- **GDPR Data Export (Feb 2026):** /api/user/data-export endpoint exports all user data (profile, orders, applications, documents, messages, consultations, notifications, invoices) as downloadable JSON. Rate-limited, strips sensitive fields (passwordHash, internalNotes, etc.), logged as audit activity.
+- **Session Auto-Expire (Feb 2026):** 2-hour inactivity timeout destroys sessions via lastActivity middleware tracking.
+- **Persistent Rate Limiting (Feb 2026):** PostgreSQL-backed rate limiting with in-memory fallback (10K entry cap per type, auto-cleanup).
+- **Task Watchdog (Feb 2026):** Monitors scheduled tasks (rate-limit-cleanup, consultation-reminders) with health reporting via /api/admin/system-stats.
+- **API Metrics (Feb 2026):** Response time tracking with path normalization, slowest routes analysis, admin dashboard endpoint /api/admin/api-metrics.
 
 ## User Preferences
 - Clear, concise communication without technical jargon
