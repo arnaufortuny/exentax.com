@@ -701,7 +701,7 @@ export default function Dashboard() {
 
   const { data: adminOrders } = useQuery<any[]>({
     queryKey: ["/api/admin/orders"],
-    enabled: isStaffUser && (isAdminTab && (adminSubTab === 'orders' || adminSubTab === 'dashboard')),
+    enabled: isStaffUser && (isAdminTab && (adminSubTab === 'orders' || adminSubTab === 'dashboard' || adminSubTab === 'calendar')),
     staleTime: 1000 * 60 * 2,
   });
 
@@ -729,7 +729,7 @@ export default function Dashboard() {
 
   const { data: adminUsers } = useQuery<any[]>({
     queryKey: ["/api/admin/users"],
-    enabled: !!user?.isAdmin && isAdminTab && (adminSubTab === 'users' || adminSubTab === 'dashboard'),
+    enabled: !!user?.isAdmin && isAdminTab && (adminSubTab === 'users' || adminSubTab === 'dashboard' || adminSubTab === 'orders'),
     staleTime: 1000 * 60 * 3,
   });
 
@@ -747,7 +747,7 @@ export default function Dashboard() {
 
   const { data: adminInvoices } = useQuery<any[]>({
     queryKey: ["/api/admin/invoices"],
-    enabled: !!user?.isAdmin && isAdminTab && adminSubTab === 'billing',
+    enabled: !!user?.isAdmin && isAdminTab && (adminSubTab === 'billing' || adminSubTab === 'orders'),
     refetchInterval: isTabFocused && adminSubTab === 'billing' ? 30000 : false,
   });
 
@@ -795,7 +795,7 @@ export default function Dashboard() {
 
   const { data: paymentAccountsList, refetch: refetchPaymentAccounts } = useQuery<any[]>({
     queryKey: ["/api/admin/payment-accounts"],
-    enabled: !!user?.isAdmin && isAdminTab && adminSubTab === 'billing',
+    enabled: !!user?.isAdmin && isAdminTab && (adminSubTab === 'billing' || adminSubTab === 'orders'),
     staleTime: 1000 * 60 * 2,
   });
   const [paymentAccountDialog, setPaymentAccountDialog] = useState<{ open: boolean; account: any | null }>({ open: false, account: null });
