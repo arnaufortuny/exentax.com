@@ -2835,10 +2835,19 @@
     "annualIncome": "Rendimentos anuais brutos",
     "minIncome": "20.000€",
     "maxIncome": "200.000€",
+    "selectStructure": "Como declaras impostos atualmente?",
+    "incomeTaxLabel": "IRS / Imposto sobre rendimento",
     "corporateTax": "Imposto sobre sociedades",
     "dividendTax": "IRS dividendos",
     "socialSecurity": "Contribuições trabalhador independente",
     "vat": "IVA",
+    "structures": {
+      "spain": { "autonomo": "Autónomo", "company": "Sociedade (SL)" },
+      "uk": { "autonomo": "Sole Trader", "company": "Limited (Ltd)" },
+      "germany": { "autonomo": "Freiberufler", "company": "GmbH" },
+      "france": { "autonomo": "Auto-entrepreneur", "company": "SARL / SAS" },
+      "bulgaria": { "autonomo": "Trabalhador independente", "company": "EOOD" }
+    },
     "countries": {
       "spain": {
         "title": "Espanha",

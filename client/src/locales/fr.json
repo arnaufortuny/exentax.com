@@ -2835,10 +2835,19 @@
     "annualIncome": "Revenu annuel brut",
     "minIncome": "20 000 €",
     "maxIncome": "200 000 €",
+    "selectStructure": "Comment déclarez-vous vos impôts ?",
+    "incomeTaxLabel": "Impôt sur le revenu",
     "corporateTax": "Impôt sur les sociétés",
     "dividendTax": "Impôt sur les dividendes",
     "socialSecurity": "Cotisations sociales",
     "vat": "TVA",
+    "structures": {
+      "spain": { "autonomo": "Autónomo", "company": "Société (SL)" },
+      "uk": { "autonomo": "Sole Trader", "company": "Limited (Ltd)" },
+      "germany": { "autonomo": "Freiberufler", "company": "GmbH" },
+      "france": { "autonomo": "Auto-entrepreneur", "company": "SARL / SAS" },
+      "bulgaria": { "autonomo": "Indépendant", "company": "EOOD" }
+    },
     "countries": {
       "spain": {
         "title": "Espagne",

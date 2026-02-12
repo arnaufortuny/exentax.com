@@ -2835,10 +2835,19 @@
     "annualIncome": "Gross annual income",
     "minIncome": "€20,000",
     "maxIncome": "€200,000",
+    "selectStructure": "How do you currently file taxes?",
+    "incomeTaxLabel": "Income tax / Personal tax",
     "corporateTax": "Corporate tax",
     "dividendTax": "Dividend tax",
     "socialSecurity": "Social security",
     "vat": "VAT",
+    "structures": {
+      "spain": { "autonomo": "Autónomo", "company": "Company (SL)" },
+      "uk": { "autonomo": "Sole Trader", "company": "Limited (Ltd)" },
+      "germany": { "autonomo": "Freiberufler", "company": "GmbH" },
+      "france": { "autonomo": "Auto-entrepreneur", "company": "SARL / SAS" },
+      "bulgaria": { "autonomo": "Sole Proprietor", "company": "EOOD" }
+    },
     "countries": {
       "spain": {
         "title": "Spain",

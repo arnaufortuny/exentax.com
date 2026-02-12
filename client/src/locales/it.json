@@ -2835,10 +2835,19 @@
     "annualIncome": "Reddito annuo lordo",
     "minIncome": "20.000€",
     "maxIncome": "200.000€",
+    "selectStructure": "Come dichiari attualmente le tasse?",
+    "incomeTaxLabel": "IRPEF / Imposta sul reddito",
     "corporateTax": "Imposta sulle società",
     "dividendTax": "IRPEF dividendi",
     "socialSecurity": "Contributi previdenziali",
     "vat": "IVA",
+    "structures": {
+      "spain": { "autonomo": "Autónomo", "company": "Società (SL)" },
+      "uk": { "autonomo": "Sole Trader", "company": "Limited (Ltd)" },
+      "germany": { "autonomo": "Freiberufler", "company": "GmbH" },
+      "france": { "autonomo": "Auto-entrepreneur", "company": "SARL / SAS" },
+      "bulgaria": { "autonomo": "Lavoratore autonomo", "company": "EOOD" }
+    },
     "countries": {
       "spain": {
         "title": "Spagna",

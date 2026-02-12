@@ -2835,10 +2835,19 @@
     "annualIncome": "Ingressos anuals bruts",
     "minIncome": "20.000€",
     "maxIncome": "200.000€",
+    "selectStructure": "Com tributes actualment?",
+    "incomeTaxLabel": "IRPF / Renda personal",
     "corporateTax": "Impost de societats",
     "dividendTax": "IRPF dividends",
     "socialSecurity": "Quota autònoms",
     "vat": "IVA",
+    "structures": {
+      "spain": { "autonomo": "Autònom", "company": "Societat (SL)" },
+      "uk": { "autonomo": "Sole Trader", "company": "Limited (Ltd)" },
+      "germany": { "autonomo": "Freiberufler", "company": "GmbH" },
+      "france": { "autonomo": "Auto-entrepreneur", "company": "SARL / SAS" },
+      "bulgaria": { "autonomo": "Treballador autònom", "company": "EOOD" }
+    },
     "countries": {
       "spain": {
         "title": "Espanya",

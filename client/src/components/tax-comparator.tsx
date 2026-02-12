@@ -24,6 +24,7 @@ interface TaxBreakdown {
 
 type Country = "spain" | "uk" | "germany" | "france" | "bulgaria";
 type ActivityType = "ecommerce" | "dropshipping" | "consulting" | "marketing" | "software" | "saas" | "apps" | "ai" | "investments" | "tradingEducation" | "financial" | "crypto" | "realestate" | "import" | "coaching" | "content" | "affiliate" | "freelance" | "gaming" | "digitalProducts" | "other";
+type StructureType = "autonomo" | "company";
 
 interface CountryInfo {
   id: Country;
@@ -66,6 +67,140 @@ function getDeductibleExpenses(grossIncome: number, activity: ActivityType): num
     other: 0.15,
   };
   return grossIncome * (rates[activity] || 0.15);
+}
+
+function calculateTaxesAutonomo(grossIncome: number, country: Country, activity: ActivityType): TaxBreakdown {
+  let incomeTax = 0;
+  let socialSecurity = 0;
+  let vatRate = 0;
+
+  const expenses = getDeductibleExpenses(grossIncome, activity);
+  const taxableIncome = Math.max(grossIncome - expenses, 0);
+
+  switch (country) {
+    case "spain": {
+      const monthlyIncome = taxableIncome / 12;
+      let monthlyQuota: number;
+      if (monthlyIncome <= 670) monthlyQuota = 230;
+      else if (monthlyIncome <= 900) monthlyQuota = 260;
+      else if (monthlyIncome <= 1166.70) monthlyQuota = 275;
+      else if (monthlyIncome <= 1300) monthlyQuota = 291;
+      else if (monthlyIncome <= 1500) monthlyQuota = 294;
+      else if (monthlyIncome <= 1700) monthlyQuota = 294;
+      else if (monthlyIncome <= 1850) monthlyQuota = 310;
+      else if (monthlyIncome <= 2030) monthlyQuota = 315;
+      else if (monthlyIncome <= 2330) monthlyQuota = 320;
+      else if (monthlyIncome <= 2760) monthlyQuota = 330;
+      else if (monthlyIncome <= 3190) monthlyQuota = 350;
+      else if (monthlyIncome <= 3620) monthlyQuota = 370;
+      else if (monthlyIncome <= 4050) monthlyQuota = 390;
+      else if (monthlyIncome <= 6000) monthlyQuota = 400;
+      else monthlyQuota = 530;
+      socialSecurity = monthlyQuota * 12;
+
+      const base = Math.max(taxableIncome - socialSecurity, 0);
+      let irpf = 0;
+      let rest = base;
+      if (rest > 0) { const t1 = Math.min(rest, 12450); irpf += t1 * 0.19; rest -= t1; }
+      if (rest > 0) { const t2 = Math.min(rest, 7750); irpf += t2 * 0.24; rest -= t2; }
+      if (rest > 0) { const t3 = Math.min(rest, 15000); irpf += t3 * 0.30; rest -= t3; }
+      if (rest > 0) { const t4 = Math.min(rest, 24800); irpf += t4 * 0.37; rest -= t4; }
+      if (rest > 0) { const t5 = Math.min(rest, 240000); irpf += t5 * 0.45; rest -= t5; }
+      if (rest > 0) { irpf += rest * 0.47; }
+      incomeTax = irpf;
+      vatRate = 0.21;
+      break;
+    }
+    case "uk": {
+      const class2NI = 3.45 * 52;
+      const profitsForNI = Math.max(Math.min(taxableIncome, 50270) - 12570, 0);
+      const class4NI = profitsForNI * 0.06;
+      const upperNI = Math.max(taxableIncome - 50270, 0) * 0.02;
+      socialSecurity = class2NI + class4NI + upperNI;
+
+      let tax = 0;
+      let rest = Math.max(taxableIncome - 12570, 0);
+      if (rest > 0) { const b = Math.min(rest, 37700); tax += b * 0.20; rest -= b; }
+      if (rest > 0) { const h = Math.min(rest, 87440); tax += h * 0.40; rest -= h; }
+      if (rest > 0) { tax += rest * 0.45; }
+      incomeTax = tax;
+      vatRate = 0.20;
+      break;
+    }
+    case "germany": {
+      const beitragsBemessungsgrenze = 90600;
+      const healthInsBase = Math.min(taxableIncome, 62100);
+      const pensionBase = Math.min(taxableIncome, beitragsBemessungsgrenze);
+      const healthIns = healthInsBase * 0.146 * 0.5 + healthInsBase * 0.017;
+      const pensionIns = pensionBase * 0.186 * 0.5;
+      const unemploymentIns = Math.min(taxableIncome, beitragsBemessungsgrenze) * 0.026 * 0.5;
+      socialSecurity = healthIns + pensionIns + unemploymentIns;
+
+      let tax = 0;
+      const zvE = Math.max(taxableIncome - socialSecurity, 0);
+      if (zvE <= 11604) { tax = 0; }
+      else if (zvE <= 17005) { const y = (zvE - 11604) / 10000; tax = (922.98 * y + 1400) * y; }
+      else if (zvE <= 66760) { const z = (zvE - 17005) / 10000; tax = (181.19 * z + 2397) * z + 1025.38; }
+      else if (zvE <= 277825) { tax = zvE * 0.42 - 10602.13; }
+      else { tax = zvE * 0.45 - 18936.88; }
+      tax += tax * 0.055;
+      incomeTax = Math.max(tax, 0);
+      vatRate = 0.19;
+      break;
+    }
+    case "france": {
+      const csgsNonDeductible = taxableIncome * 0.024;
+      const csgDeductible = taxableIncome * 0.068;
+      const crds = taxableIncome * 0.005;
+      const maladie = taxableIncome * 0.065;
+      const retraiteBase = Math.min(taxableIncome, 46368) * 0.1775;
+      const retraiteCompl = taxableIncome * 0.07;
+      const allocFamiliales = taxableIncome > 46368 ? taxableIncome * 0.031 : 0;
+      const formationPro = taxableIncome * 0.0025;
+      socialSecurity = csgsNonDeductible + csgDeductible + crds + maladie + retraiteBase + retraiteCompl + allocFamiliales + formationPro;
+
+      const baseImposable = Math.max(taxableIncome - socialSecurity, 0);
+      let tax = 0;
+      let rest = baseImposable;
+      if (rest > 0) { const t1 = Math.min(rest, 11294); tax += t1 * 0; rest -= t1; }
+      if (rest > 0) { const t2 = Math.min(rest, 17468); tax += t2 * 0.11; rest -= t2; }
+      if (rest > 0) { const t3 = Math.min(rest, 52818); tax += t3 * 0.30; rest -= t3; }
+      if (rest > 0) { const t4 = Math.min(rest, 96420); tax += t4 * 0.41; rest -= t4; }
+      if (rest > 0) { tax += rest * 0.45; }
+      incomeTax = tax;
+      vatRate = 0.20;
+      break;
+    }
+    case "bulgaria": {
+      const maxSSBase = 3750 * 12;
+      const minSSBase = 933 * 12;
+      const ssIncome = Math.min(Math.max(taxableIncome, minSSBase), maxSSBase);
+      const pension = ssIncome * 0.1958;
+      const health = ssIncome * 0.032;
+      const unemployment = ssIncome * 0.004;
+      socialSecurity = pension + health + unemployment;
+
+      incomeTax = Math.max(taxableIncome - socialSecurity, 0) * 0.10;
+      vatRate = 0.20;
+      break;
+    }
+  }
+
+  const vat = grossIncome * vatRate;
+  const total = incomeTax + socialSecurity + vat;
+  const netIncome = grossIncome - total;
+  const effectiveRate = grossIncome > 0 ? (total / grossIncome) * 100 : 0;
+
+  return {
+    income: grossIncome,
+    corporateTax: 0,
+    incomeTax: Math.round(incomeTax),
+    socialSecurity: Math.round(socialSecurity),
+    vat: Math.round(vat),
+    total: Math.round(total),
+    netIncome: Math.round(netIncome),
+    effectiveRate: Math.round(effectiveRate * 10) / 10
+  };
 }
 
 function calculateTaxes(grossIncome: number, country: Country, activity: ActivityType): TaxBreakdown {
@@ -262,6 +397,7 @@ export function TaxComparator({ titleOverride, subtitleOverride }: TaxComparator
   const [income, setIncome] = useState(50000);
   const [selectedCountry, setSelectedCountry] = useState<Country>("spain");
   const [selectedActivity, setSelectedActivity] = useState<ActivityType>("ecommerce");
+  const [selectedStructure, setSelectedStructure] = useState<StructureType>("autonomo");
   const [showDetails, setShowDetails] = useState(false);
   const [email, setEmail] = useState("");
   const [isCalculating, setIsCalculating] = useState(false);
@@ -273,7 +409,12 @@ export function TaxComparator({ titleOverride, subtitleOverride }: TaxComparator
     [t]
   );
   
-  const countryTaxes = useMemo(() => calculateTaxes(income, selectedCountry, selectedActivity), [income, selectedCountry, selectedActivity]);
+  const countryTaxes = useMemo(() => 
+    selectedStructure === "autonomo" 
+      ? calculateTaxesAutonomo(income, selectedCountry, selectedActivity)
+      : calculateTaxes(income, selectedCountry, selectedActivity), 
+    [income, selectedCountry, selectedActivity, selectedStructure]
+  );
   const usLLCTaxes = useMemo(() => calculateUSLLCTaxes(income, selectedActivity), [income, selectedActivity]);
   const savings = countryTaxes.total - usLLCTaxes.total;
   const savingsPercentage = countryTaxes.income > 0 ? (savings / countryTaxes.income) * 100 : 0;
@@ -311,6 +452,7 @@ export function TaxComparator({ titleOverride, subtitleOverride }: TaxComparator
         income,
         country: selectedCountry,
         activity: selectedActivity,
+        structure: selectedStructure,
         savings: countryTaxes.total - usLLCTaxes.total
       });
     } catch (error) {
@@ -393,7 +535,7 @@ export function TaxComparator({ titleOverride, subtitleOverride }: TaxComparator
                     onClick={() => setSelectedCountry(country.id)}
                     className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-bold transition-colors flex items-center gap-1.5 ${
                       selectedCountry === country.id
-                        ? 'bg-accent text-primary shadow-md shadow-accent/30'
+                        ? 'bg-accent text-accent-foreground shadow-md shadow-accent/30'
                         : 'bg-background text-foreground border-2 border-accent/20 hover:border-accent/40 hover:bg-accent/5'
                     }`}
                     data-testid={`button-country-${country.id}`}
@@ -405,11 +547,42 @@ export function TaxComparator({ titleOverride, subtitleOverride }: TaxComparator
               </div>
             </div>
             
+            {/* Business Structure Selection */}
+            <div className="p-6 sm:p-8 lg:p-5 border-b border-accent/10">
+              <h3 className="text-xl sm:text-2xl lg:text-lg font-black text-foreground mb-4 lg:mb-3 text-center">
+                {t("taxComparator.selectStructure")}
+              </h3>
+              <div className="flex justify-center gap-2">
+                <button
+                  onClick={() => setSelectedStructure("autonomo")}
+                  className={`px-4 sm:px-5 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-bold transition-colors ${
+                    selectedStructure === "autonomo"
+                      ? 'bg-accent text-accent-foreground shadow-md shadow-accent/30'
+                      : 'bg-background text-foreground border-2 border-accent/20 hover:border-accent/40 hover:bg-accent/5'
+                  }`}
+                  data-testid="button-structure-autonomo"
+                >
+                  {t(`taxComparator.structures.${selectedCountry}.autonomo`)}
+                </button>
+                <button
+                  onClick={() => setSelectedStructure("company")}
+                  className={`px-4 sm:px-5 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-bold transition-colors ${
+                    selectedStructure === "company"
+                      ? 'bg-accent text-accent-foreground shadow-md shadow-accent/30'
+                      : 'bg-background text-foreground border-2 border-accent/20 hover:border-accent/40 hover:bg-accent/5'
+                  }`}
+                  data-testid="button-structure-company"
+                >
+                  {t(`taxComparator.structures.${selectedCountry}.company`)}
+                </button>
+              </div>
+            </div>
+
             {/* Income Selection */}
             <div className="p-6 sm:p-8 lg:p-5 bg-background">
-              <div className="flex flex-col items-center gap-4 lg:gap-3">
+              <div className="flex flex-col items-center gap-3 lg:gap-2">
                 <div className="flex items-center gap-3 lg:gap-2">
-                  <img src={moneyIcon} alt="" className="w-10 h-10 lg:w-8 lg:h-8" />
+                  <img src={moneyIcon} alt="" className="w-8 h-8 lg:w-7 lg:h-7" />
                   <label className="text-base lg:text-sm font-black text-foreground">
                     {t("taxComparator.annualIncome")}
                   </label>
@@ -420,11 +593,10 @@ export function TaxComparator({ titleOverride, subtitleOverride }: TaxComparator
                     inputMode="numeric"
                     value={formatInputCurrency(income)}
                     onChange={(e) => handleIncomeChange(e.target.value)}
-                    placeholder="50.000"
-                    className="w-full px-6 py-3 lg:px-4 lg:py-2 text-2xl sm:text-3xl lg:text-xl font-black text-accent text-center bg-white dark:bg-card border-2 border-accent/30 rounded-full focus:border-accent outline-none transition-colors"
+                    className="w-full px-6 py-2 lg:px-4 lg:py-1.5 text-xl sm:text-2xl lg:text-lg font-black text-accent text-center bg-white dark:bg-card border-2 border-accent/30 rounded-full focus:border-accent outline-none transition-colors"
                     data-testid="input-income"
                   />
-                  <span className="absolute right-6 top-1/2 -translate-y-1/2 text-xl font-black text-accent/60">€</span>
+                  <span className="absolute right-6 top-1/2 -translate-y-1/2 text-lg font-black text-accent/60">€</span>
                 </div>
                 <div className="w-full max-w-xs sm:max-w-md px-2">
                   <input
@@ -507,7 +679,7 @@ export function TaxComparator({ titleOverride, subtitleOverride }: TaxComparator
                       </div>
                       <Button
                         onClick={handleCalculate}
-                        className="w-full bg-accent text-primary font-black text-sm rounded-full h-11 shadow-lg shadow-accent/30 transition-all"
+                        className="w-full bg-accent text-accent-foreground font-black text-sm rounded-full h-11 shadow-lg shadow-accent/30 transition-all"
                         data-testid="button-calculate"
                       >
                         {t("taxComparator.calculateButton")} →
@@ -610,8 +782,8 @@ export function TaxComparator({ titleOverride, subtitleOverride }: TaxComparator
                       </div>
                       
                       <div className="bg-accent rounded-2xl p-5 mt-6 shadow-lg shadow-accent/20">
-                        <p className="text-sm text-primary/80 mb-1 font-black">{t("taxComparator.netIncome")}</p>
-                        <p className="font-black text-primary text-3xl">{formatCurrency(usLLCTaxes.netIncome)}</p>
+                        <p className="text-sm text-accent-foreground/80 mb-1 font-black">{t("taxComparator.netIncome")}</p>
+                        <p className="font-black text-accent-foreground text-3xl">{formatCurrency(usLLCTaxes.netIncome)}</p>
                       </div>
                     </div>
                     
@@ -624,7 +796,7 @@ export function TaxComparator({ titleOverride, subtitleOverride }: TaxComparator
                           </div>
                           <div className="text-left">
                             <h3 className="font-black text-foreground text-xl">{t(`taxComparator.countries.${selectedCountry}.title`)}</h3>
-                            <p className="text-sm text-muted-foreground font-bold">{t(`taxComparator.countries.${selectedCountry}.subtitle`)}</p>
+                            <p className="text-sm text-muted-foreground font-bold">{t(`taxComparator.structures.${selectedCountry}.${selectedStructure}`)}</p>
                           </div>
                         </div>
                         <div className="px-3 py-1.5 rounded-full bg-destructive/15 border border-destructive/30 shrink-0">
@@ -635,14 +807,23 @@ export function TaxComparator({ titleOverride, subtitleOverride }: TaxComparator
                       </div>
                       
                       <div className="space-y-3">
-                        <div className="flex justify-between items-center py-3 border-b border-border/50">
-                          <span className="text-sm text-muted-foreground font-black">{t("taxComparator.corporateTax")} ({selectedCountryInfo.corporateTaxRate}%)</span>
-                          <span className="font-black text-destructive text-lg">-{formatCurrency(countryTaxes.corporateTax)}</span>
-                        </div>
-                        <div className="flex justify-between items-center py-3 border-b border-border/50">
-                          <span className="text-sm text-muted-foreground font-black">{t("taxComparator.dividendTax")}</span>
-                          <span className="font-black text-destructive text-lg">-{formatCurrency(countryTaxes.incomeTax)}</span>
-                        </div>
+                        {selectedStructure === "company" ? (
+                          <>
+                            <div className="flex justify-between items-center py-3 border-b border-border/50">
+                              <span className="text-sm text-muted-foreground font-black">{t("taxComparator.corporateTax")} ({selectedCountryInfo.corporateTaxRate}%)</span>
+                              <span className="font-black text-destructive text-lg">-{formatCurrency(countryTaxes.corporateTax)}</span>
+                            </div>
+                            <div className="flex justify-between items-center py-3 border-b border-border/50">
+                              <span className="text-sm text-muted-foreground font-black">{t("taxComparator.dividendTax")}</span>
+                              <span className="font-black text-destructive text-lg">-{formatCurrency(countryTaxes.incomeTax)}</span>
+                            </div>
+                          </>
+                        ) : (
+                          <div className="flex justify-between items-center py-3 border-b border-border/50">
+                            <span className="text-sm text-muted-foreground font-black">{t("taxComparator.incomeTaxLabel")}</span>
+                            <span className="font-black text-destructive text-lg">-{formatCurrency(countryTaxes.incomeTax)}</span>
+                          </div>
+                        )}
                         <div className="flex justify-between items-center py-3 border-b border-border/50">
                           <span className="text-sm text-muted-foreground font-black">{t("taxComparator.socialSecurity")}</span>
                           <span className="font-black text-destructive text-lg">-{formatCurrency(countryTaxes.socialSecurity)}</span>
@@ -683,7 +864,7 @@ export function TaxComparator({ titleOverride, subtitleOverride }: TaxComparator
                       </div>
                       <Button
                         onClick={() => setLocation("/llc/formation")}
-                        className="bg-accent text-primary font-black text-base rounded-full px-10 h-14 w-full md:w-auto shadow-xl shadow-accent/30 transition-colors"
+                        className="bg-accent text-accent-foreground font-black text-base rounded-full px-10 h-14 w-full md:w-auto shadow-xl shadow-accent/30 transition-colors"
                         data-testid="button-start-llc-comparator"
                       >
                         {t("taxComparator.cta")} →
