@@ -1961,6 +1961,22 @@
         "details": "Dettagli",
         "savingsLabel": "Risparmio"
       },
+      "crm": {
+        "monthlyRevenue": "Entrate Mensili",
+        "conversionFunnel": "Imbuto di Conversione",
+        "topClients": "Top Clienti",
+        "dailyActivity": "Attività Giornaliera",
+        "noData": "Nessun dato disponibile",
+        "orders": "ordini",
+        "funnelSubscribers": "Iscritti",
+        "funnelRegistered": "Registrati",
+        "funnelStartedOrder": "Ordine iniziato",
+        "funnelCompletedOrder": "Ordine completato",
+        "funnelRepeat": "Clienti ricorrenti",
+        "logins": "Accessi",
+        "newOrders": "Nuovi ordini",
+        "registrations": "Registrazioni"
+      },
       "communicationsSubTabs": {
         "inbox": "Posta in arrivo",
         "agenda": "Agenda"
@@ -2053,7 +2069,11 @@
         "searchPlaceholder": "Cerca IP, utente, dettagli...",
         "allActions": "Tutte le azioni",
         "noLogs": "Nessun registro di attività trovato",
-        "user": "Utente"
+        "user": "Utente",
+        "filters": "Filtri",
+        "from": "Da",
+        "to": "A",
+        "clearFilters": "Cancella filtri"
       },
       "select": "Seleziona",
       "passport": "Passaporto",

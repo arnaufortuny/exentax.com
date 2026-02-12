@@ -2012,6 +2012,22 @@
         "details": "Detalls",
         "savingsLabel": "Estalvi"
       },
+      "crm": {
+        "monthlyRevenue": "Ingressos Mensuals",
+        "conversionFunnel": "Embut de Conversió",
+        "topClients": "Top Clients",
+        "dailyActivity": "Activitat Diària",
+        "noData": "Sense dades disponibles",
+        "orders": "comandes",
+        "funnelSubscribers": "Subscriptors",
+        "funnelRegistered": "Registrats",
+        "funnelStartedOrder": "Van iniciar comanda",
+        "funnelCompletedOrder": "Van completar comanda",
+        "funnelRepeat": "Clients recurrents",
+        "logins": "Inicis sessió",
+        "newOrders": "Noves comandes",
+        "registrations": "Registres"
+      },
       "communicationsSubTabs": {
         "inbox": "Safata",
         "agenda": "Agenda"
@@ -2104,7 +2120,11 @@
         "searchPlaceholder": "Cercar IP, usuari, detalls...",
         "allActions": "Totes les accions",
         "noLogs": "No s'han trobat registres",
-        "user": "Usuari"
+        "user": "Usuari",
+        "filters": "Filtres",
+        "from": "Des de",
+        "to": "Fins a",
+        "clearFilters": "Netejar filtres"
       },
       "select": "Seleccionar",
       "passport": "Passaport",

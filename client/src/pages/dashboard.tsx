@@ -30,6 +30,7 @@ import {
 import { PRICING, getFormationPriceFormatted, getMaintenancePriceFormatted } from "@shared/config/pricing";
 import { ServicesTab } from "@/components/dashboard/services-tab";
 import { ActivityLogPanel } from "@/components/dashboard/activity-log-panel";
+import { CrmMetricsSection } from "@/components/dashboard/crm-metrics-section";
 import AdminRolesPanel from "@/components/dashboard/admin-roles-panel";
 import { NotificationsTab } from "@/components/dashboard/notifications-tab";
 import { MessagesTab } from "@/components/dashboard/messages-tab";
@@ -3798,6 +3799,8 @@ export default function Dashboard() {
                           </Card>
                         </div>
                       </div>
+
+                      <CrmMetricsSection />
 
                     </div>
                   )}

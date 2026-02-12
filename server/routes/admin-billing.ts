@@ -313,10 +313,13 @@ export function registerAdminBillingRoutes(app: Express) {
   // Audit logs endpoint (persistent from database)
   app.get("/api/admin/audit-logs", isAdmin, asyncHandler(async (req: Request, res: Response) => {
     try {
-      const limit = Math.min(parseInt(req.query.limit as string) || 100, 500);
-      const offset = parseInt(req.query.offset as string) || 0;
+      const format = req.query.format as string | undefined;
+      const limit = format === 'csv' ? 10000 : Math.min(parseInt(req.query.limit as string) || 100, 500);
+      const offset = format === 'csv' ? 0 : (parseInt(req.query.offset as string) || 0);
       const action = req.query.action as string | undefined;
       const search = req.query.search as string | undefined;
+      const dateFrom = req.query.dateFrom as string | undefined;
+      const dateTo = req.query.dateTo as string | undefined;
       
       const conditions: any[] = [];
       
@@ -332,6 +335,15 @@ export function registerAdminBillingRoutes(app: Express) {
             sql`${auditLogs.details}::text ILIKE ${'%' + search + '%'}`
           )
         );
+      }
+      
+      if (dateFrom) {
+        conditions.push(sql`${auditLogs.createdAt} >= ${new Date(dateFrom)}`);
+      }
+      if (dateTo) {
+        const endDate = new Date(dateTo);
+        endDate.setHours(23, 59, 59, 999);
+        conditions.push(sql`${auditLogs.createdAt} <= ${endDate}`);
       }
       
       const whereClause = conditions.length > 0 ? and(...conditions) : undefined;
@@ -370,12 +382,179 @@ export function registerAdminBillingRoutes(app: Express) {
       const [logs, countResult] = await Promise.all([logsQuery, countQuery]);
       const total = Number(countResult[0]?.count || 0);
       
+      if (format === 'csv') {
+        const csvHeader = 'ID,Fecha,Acción,Usuario,Email Usuario,IP,Objetivo,Email Objetivo,Detalles\n';
+        const csvRows = logs.map((l: any) => {
+          const details = l.details ? JSON.stringify(l.details).replace(/"/g, '""') : '';
+          return `${l.id},"${new Date(l.createdAt).toISOString()}","${l.action}","${l.userName || ''}","${l.userEmail || ''}","${l.ip || ''}","${l.targetName || ''}","${l.targetEmail || ''}","${details}"`;
+        }).join('\n');
+        res.setHeader('Content-Type', 'text/csv; charset=utf-8');
+        res.setHeader('Content-Disposition', `attachment; filename=audit-logs-${new Date().toISOString().split('T')[0]}.csv`);
+        return res.send('\uFEFF' + csvHeader + csvRows);
+      }
+      
       const distinctActions = await db.selectDistinct({ action: auditLogs.action }).from(auditLogs).orderBy(auditLogs.action);
       
       res.json({ logs, total, limit, offset, actions: distinctActions.map(a => a.action) });
     } catch (error) {
       log.error("Audit logs error", error);
       res.status(500).json({ message: "Error fetching audit logs" });
+    }
+  }));
+
+  // ============== CRM METRICS ==============
+  
+  app.get("/api/admin/metrics/monthly", isAdmin, asyncHandler(async (req: Request, res: Response) => {
+    try {
+      const cached = getCachedData<any>('metrics-monthly');
+      if (cached) return res.json(cached);
+      
+      const months = parseInt(req.query.months as string) || 12;
+      
+      const [revenueByMonth, ordersByMonth, usersByMonth] = await Promise.all([
+        db.execute(sql`
+          SELECT 
+            TO_CHAR(created_at, 'YYYY-MM') as month,
+            COALESCE(SUM(CASE WHEN status = 'completed' THEN amount ELSE 0 END), 0) as revenue,
+            COALESCE(SUM(CASE WHEN status = 'pending' THEN amount ELSE 0 END), 0) as pending_revenue,
+            COUNT(*) as total_orders,
+            COUNT(CASE WHEN status = 'completed' THEN 1 END) as completed_orders,
+            COUNT(CASE WHEN status = 'pending' THEN 1 END) as pending_orders,
+            COUNT(CASE WHEN status = 'processing' THEN 1 END) as processing_orders,
+            COUNT(CASE WHEN status = 'cancelled' THEN 1 END) as cancelled_orders
+          FROM orders
+          WHERE created_at >= NOW() - INTERVAL '${sql.raw(String(months))} months'
+          GROUP BY TO_CHAR(created_at, 'YYYY-MM')
+          ORDER BY month ASC
+        `),
+        db.execute(sql`
+          SELECT 
+            TO_CHAR(created_at, 'YYYY-MM') as month,
+            COUNT(*) as new_orders,
+            COUNT(DISTINCT user_id) as unique_clients
+          FROM orders
+          WHERE created_at >= NOW() - INTERVAL '${sql.raw(String(months))} months'
+          GROUP BY TO_CHAR(created_at, 'YYYY-MM')
+          ORDER BY month ASC
+        `),
+        db.execute(sql`
+          SELECT 
+            TO_CHAR(created_at, 'YYYY-MM') as month,
+            COUNT(*) as new_users
+          FROM users
+          WHERE created_at >= NOW() - INTERVAL '${sql.raw(String(months))} months'
+          GROUP BY TO_CHAR(created_at, 'YYYY-MM')
+          ORDER BY month ASC
+        `)
+      ]);
+
+      const data = {
+        revenue: (revenueByMonth as any).rows || revenueByMonth,
+        orders: (ordersByMonth as any).rows || ordersByMonth,
+        users: (usersByMonth as any).rows || usersByMonth,
+      };
+      
+      setCachedData('metrics-monthly', data);
+      res.json(data);
+    } catch (error) {
+      log.error("Monthly metrics error", error);
+      res.status(500).json({ message: "Error fetching monthly metrics" });
+    }
+  }));
+  
+  app.get("/api/admin/metrics/funnel", isAdmin, asyncHandler(async (req: Request, res: Response) => {
+    try {
+      const cached = getCachedData<any>('metrics-funnel');
+      if (cached) return res.json(cached);
+      
+      const [
+        totalVisitors,
+        totalRegistered,
+        startedApplication,
+        completedApplication,
+        paidOrders,
+        repeatClients,
+        vipClients
+      ] = await Promise.all([
+        db.select({ count: sql<number>`count(*)` }).from(newsletterSubscribers),
+        db.select({ count: sql<number>`count(*)` }).from(usersTable),
+        db.select({ count: sql<number>`count(DISTINCT user_id)` }).from(ordersTable),
+        db.select({ count: sql<number>`count(DISTINCT user_id)` }).from(ordersTable).where(eq(ordersTable.status, 'completed')),
+        db.select({ count: sql<number>`count(*)` }).from(ordersTable).where(eq(ordersTable.status, 'completed')),
+        db.execute(sql`SELECT COUNT(*) as count FROM (SELECT user_id FROM orders WHERE status = 'completed' AND user_id IS NOT NULL GROUP BY user_id HAVING COUNT(*) > 1) sub`),
+        db.select({ count: sql<number>`count(*)` }).from(usersTable).where(eq(usersTable.accountStatus, 'vip'))
+      ]);
+
+      const data = {
+        visitors: Number(totalVisitors[0]?.count || 0),
+        registered: Number(totalRegistered[0]?.count || 0),
+        startedOrder: Number(startedApplication[0]?.count || 0),
+        completedOrder: Number(completedApplication[0]?.count || 0),
+        totalPaidOrders: Number(paidOrders[0]?.count || 0),
+        repeatClients: Number(((repeatClients as any).rows?.[0] || (repeatClients as any)[0])?.count || 0),
+        vipClients: Number(vipClients[0]?.count || 0),
+      };
+      
+      setCachedData('metrics-funnel', data);
+      res.json(data);
+    } catch (error) {
+      log.error("Funnel metrics error", error);
+      res.status(500).json({ message: "Error fetching funnel metrics" });
+    }
+  }));
+  
+  app.get("/api/admin/metrics/lifecycle", isAdmin, asyncHandler(async (req: Request, res: Response) => {
+    try {
+      const cached = getCachedData<any>('metrics-lifecycle');
+      if (cached) return res.json(cached);
+      
+      const [statusBreakdown, topClients, recentActivity] = await Promise.all([
+        db.execute(sql`
+          SELECT 
+            account_status,
+            COUNT(*) as count,
+            COUNT(CASE WHEN identity_verified = true THEN 1 END) as verified,
+            COUNT(CASE WHEN is_newsletter_subscriber = true THEN 1 END) as subscribers
+          FROM users
+          GROUP BY account_status
+        `),
+        db.execute(sql`
+          SELECT 
+            u.id, u.first_name, u.last_name, u.email, u.account_status, u.client_id,
+            COUNT(o.id) as order_count,
+            COALESCE(SUM(CASE WHEN o.status = 'completed' THEN o.amount ELSE 0 END), 0) as total_spent
+          FROM users u
+          LEFT JOIN orders o ON o.user_id = u.id
+          GROUP BY u.id, u.first_name, u.last_name, u.email, u.account_status, u.client_id
+          HAVING COUNT(o.id) > 0
+          ORDER BY total_spent DESC
+          LIMIT 20
+        `),
+        db.execute(sql`
+          SELECT 
+            DATE(created_at) as day,
+            COUNT(CASE WHEN action IN ('user_login') THEN 1 END) as logins,
+            COUNT(CASE WHEN action IN ('order_created') THEN 1 END) as orders_created,
+            COUNT(CASE WHEN action IN ('order_completed') THEN 1 END) as orders_completed,
+            COUNT(CASE WHEN action IN ('user_register') THEN 1 END) as registrations
+          FROM audit_logs
+          WHERE created_at >= NOW() - INTERVAL '30 days'
+          GROUP BY DATE(created_at)
+          ORDER BY day ASC
+        `)
+      ]);
+
+      const data = {
+        statusBreakdown: (statusBreakdown as any).rows || statusBreakdown,
+        topClients: (topClients as any).rows || topClients,
+        recentActivity: (recentActivity as any).rows || recentActivity,
+      };
+      
+      setCachedData('metrics-lifecycle', data);
+      res.json(data);
+    } catch (error) {
+      log.error("Lifecycle metrics error", error);
+      res.status(500).json({ message: "Error fetching lifecycle metrics" });
     }
   }));
 

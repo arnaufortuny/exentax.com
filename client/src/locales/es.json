@@ -2014,6 +2014,22 @@
         "details": "Detalles",
         "savingsLabel": "Ahorro"
       },
+      "crm": {
+        "monthlyRevenue": "Ingresos Mensuales",
+        "conversionFunnel": "Embudo de Conversión",
+        "topClients": "Top Clientes",
+        "dailyActivity": "Actividad Diaria",
+        "noData": "Sin datos disponibles",
+        "orders": "pedidos",
+        "funnelSubscribers": "Suscriptores",
+        "funnelRegistered": "Registrados",
+        "funnelStartedOrder": "Iniciaron pedido",
+        "funnelCompletedOrder": "Completaron pedido",
+        "funnelRepeat": "Clientes recurrentes",
+        "logins": "Inicios sesión",
+        "newOrders": "Nuevos pedidos",
+        "registrations": "Registros"
+      },
       "communicationsSubTabs": {
         "inbox": "Bandeja",
         "agenda": "Agenda"
@@ -2106,7 +2122,11 @@
         "searchPlaceholder": "Buscar IP, usuario, detalles...",
         "allActions": "Todas las acciones",
         "noLogs": "No se encontraron registros",
-        "user": "Usuario"
+        "user": "Usuario",
+        "filters": "Filtros",
+        "from": "Desde",
+        "to": "Hasta",
+        "clearFilters": "Limpiar filtros"
       },
       "select": "Seleccionar",
       "passport": "Pasaporte",

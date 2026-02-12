@@ -1,11 +1,12 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
 import { NativeSelect, NativeSelectItem } from "@/components/ui/native-select";
-import { ChevronRight, ChevronLeft, Loader2, Clock, Shield, Mail, FileText, CreditCard, Package, UserCheck, MessageSquare, Calendar, Upload, Key, Globe, Bell, Users, Eye } from "@/components/icons";
+import { ChevronRight, ChevronLeft, Loader2, Clock, Shield, Mail, FileText, CreditCard, Package, UserCheck, MessageSquare, Calendar, Upload, Key, Globe, Bell, Users, Eye, Search, Download, X, Filter } from "@/components/icons";
 import { getLocale } from "@/lib/utils";
 
 type AuditLog = {
@@ -108,7 +109,13 @@ export function ActivityLogPanel() {
   const { t } = useTranslation();
   const [page, setPage] = useState(0);
   const [actionFilter, setActionFilter] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [activeSearch, setActiveSearch] = useState("");
+  const [dateFrom, setDateFrom] = useState("");
+  const [dateTo, setDateTo] = useState("");
   const [expandedLog, setExpandedLog] = useState<number | null>(null);
+  const [showFilters, setShowFilters] = useState(false);
+  const [isExporting, setIsExporting] = useState(false);
   const limit = 50;
 
   const { data, isLoading, isFetching } = useQuery<{
@@ -116,12 +123,15 @@ export function ActivityLogPanel() {
     total: number;
     actions: string[];
   }>({
-    queryKey: ["/api/admin/audit-logs", page, actionFilter],
+    queryKey: ["/api/admin/audit-logs", page, actionFilter, activeSearch, dateFrom, dateTo],
     queryFn: async () => {
       const params = new URLSearchParams();
       params.set("limit", String(limit));
       params.set("offset", String(page * limit));
       if (actionFilter) params.set("action", actionFilter);
+      if (activeSearch) params.set("search", activeSearch);
+      if (dateFrom) params.set("dateFrom", dateFrom);
+      if (dateTo) params.set("dateTo", dateTo);
       const res = await fetch(`/api/admin/audit-logs?${params}`, { credentials: "include" });
       if (!res.ok) throw new Error(t('errors.fetchFailed'));
       return res.json();
@@ -130,6 +140,46 @@ export function ActivityLogPanel() {
   });
 
   const totalPages = Math.ceil((data?.total || 0) / limit);
+
+  const handleSearch = useCallback(() => {
+    setActiveSearch(searchQuery);
+    setPage(0);
+  }, [searchQuery]);
+
+  const handleExportCSV = useCallback(async () => {
+    setIsExporting(true);
+    try {
+      const params = new URLSearchParams();
+      params.set("format", "csv");
+      if (actionFilter) params.set("action", actionFilter);
+      if (activeSearch) params.set("search", activeSearch);
+      if (dateFrom) params.set("dateFrom", dateFrom);
+      if (dateTo) params.set("dateTo", dateTo);
+      const res = await fetch(`/api/admin/audit-logs?${params}`, { credentials: "include" });
+      if (!res.ok) throw new Error("Export failed");
+      const blob = await res.blob();
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `audit-logs-${new Date().toISOString().split("T")[0]}.csv`;
+      a.click();
+      URL.revokeObjectURL(url);
+    } catch {
+    } finally {
+      setIsExporting(false);
+    }
+  }, [actionFilter, activeSearch, dateFrom, dateTo]);
+
+  const clearFilters = useCallback(() => {
+    setActionFilter("");
+    setSearchQuery("");
+    setActiveSearch("");
+    setDateFrom("");
+    setDateTo("");
+    setPage(0);
+  }, []);
+
+  const hasActiveFilters = actionFilter || activeSearch || dateFrom || dateTo;
 
   const formatAction = (action: string) => {
     return action.replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase());
@@ -219,26 +269,111 @@ export function ActivityLogPanel() {
     <div className="space-y-3" data-testid="admin-activity-log">
       <div className="flex items-center justify-between gap-2 flex-wrap">
         <h3 className="font-black text-lg whitespace-nowrap">{t('dashboard.admin.activityLog.title')}</h3>
-        <div className="flex items-center gap-2 ml-auto">
+        <div className="flex items-center gap-2 ml-auto flex-wrap">
           {data?.total !== undefined && (
             <Badge variant="secondary" className="text-[10px]">{data.total}</Badge>
           )}
           {isFetching && <Loader2 className="w-3 h-3 animate-spin text-accent" />}
-          <NativeSelect
-            value={actionFilter}
-            onValueChange={(val) => { setActionFilter(val); setPage(0); }}
-            className="text-xs rounded-full w-48"
-            data-testid="select-activity-filter"
+          <Button
+            variant={showFilters ? "default" : "outline"}
+            size="sm"
+            className="rounded-full text-xs font-bold gap-1"
+            onClick={() => setShowFilters(!showFilters)}
+            data-testid="button-toggle-filters"
           >
-          <NativeSelectItem value="">{t('dashboard.admin.activityLog.allActions')}</NativeSelectItem>
-          {data?.actions?.map((action) => (
-            <NativeSelectItem key={action} value={action}>
-              {formatAction(action)}
-            </NativeSelectItem>
-          ))}
-        </NativeSelect>
+            <Filter className="w-3 h-3" />
+            {t('dashboard.admin.activityLog.filters')}
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            className="rounded-full text-xs font-bold gap-1"
+            onClick={handleExportCSV}
+            disabled={isExporting}
+            data-testid="button-export-csv"
+          >
+            {isExporting ? <Loader2 className="w-3 h-3 animate-spin" /> : <Download className="w-3 h-3" />}
+            CSV
+          </Button>
         </div>
       </div>
+
+      {showFilters && (
+        <Card className="p-3 space-y-3">
+          <div className="flex items-center gap-2 flex-wrap">
+            <div className="flex-1 min-w-[200px]">
+              <div className="relative">
+                <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-muted-foreground" />
+                <Input
+                  placeholder={t('dashboard.admin.activityLog.searchPlaceholder')}
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+                  className="pl-8 text-xs h-9"
+                  data-testid="input-activity-search"
+                />
+              </div>
+            </div>
+            <Button
+              variant="default"
+              size="sm"
+              className="rounded-full text-xs font-bold"
+              onClick={handleSearch}
+              data-testid="button-activity-search"
+            >
+              <Search className="w-3 h-3" />
+            </Button>
+          </div>
+
+          <div className="flex items-center gap-2 flex-wrap">
+            <NativeSelect
+              value={actionFilter}
+              onValueChange={(val) => { setActionFilter(val); setPage(0); }}
+              className="text-xs rounded-full flex-1 min-w-[160px]"
+              data-testid="select-activity-filter"
+            >
+              <NativeSelectItem value="">{t('dashboard.admin.activityLog.allActions')}</NativeSelectItem>
+              {data?.actions?.map((action) => (
+                <NativeSelectItem key={action} value={action}>
+                  {formatAction(action)}
+                </NativeSelectItem>
+              ))}
+            </NativeSelect>
+            <div className="flex items-center gap-1.5">
+              <span className="text-[10px] text-muted-foreground font-semibold shrink-0">{t('dashboard.admin.activityLog.from')}:</span>
+              <Input
+                type="date"
+                value={dateFrom}
+                onChange={(e) => { setDateFrom(e.target.value); setPage(0); }}
+                className="text-xs h-9 w-[140px]"
+                data-testid="input-date-from"
+              />
+            </div>
+            <div className="flex items-center gap-1.5">
+              <span className="text-[10px] text-muted-foreground font-semibold shrink-0">{t('dashboard.admin.activityLog.to')}:</span>
+              <Input
+                type="date"
+                value={dateTo}
+                onChange={(e) => { setDateTo(e.target.value); setPage(0); }}
+                className="text-xs h-9 w-[140px]"
+                data-testid="input-date-to"
+              />
+            </div>
+            {hasActiveFilters && (
+              <Button
+                variant="ghost"
+                size="sm"
+                className="rounded-full text-xs font-bold gap-1 text-red-500"
+                onClick={clearFilters}
+                data-testid="button-clear-filters"
+              >
+                <X className="w-3 h-3" />
+                {t('dashboard.admin.activityLog.clearFilters')}
+              </Button>
+            )}
+          </div>
+        </Card>
+      )}
 
       {isLoading ? (
         <div className="flex items-center justify-center py-16">
