@@ -30,9 +30,19 @@ export function ErrorPanel({
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center py-16">
-        <Loader2 className="w-6 h-6 animate-spin text-accent" />
-      </div>
+      <Card className="rounded-2xl shadow-sm overflow-hidden">
+        <div className="space-y-3 p-4" data-testid="skeleton-panel-loading">
+          {Array.from({ length: 4 }).map((_, i) => (
+            <div key={i} className="flex items-center gap-3 animate-pulse">
+              <div className="h-10 w-10 rounded-full bg-muted" />
+              <div className="space-y-2 flex-1">
+                <div className="h-4 bg-muted rounded" style={{ width: `${60 + Math.random() * 20}%` }} />
+                <div className="h-3 bg-muted rounded" style={{ width: `${30 + Math.random() * 30}%` }} />
+              </div>
+            </div>
+          ))}
+        </div>
+      </Card>
     );
   }
 

@@ -36,7 +36,7 @@ export function registerAdminCommsRoutes(app: Express) {
   app.post("/api/calculator/consultation", asyncHandler(async (req: Request, res: Response) => {
     try {
       const ip = getClientIp(req);
-      const rateCheck = checkRateLimit('consultation', ip);
+      const rateCheck = await checkRateLimit('consultation', ip);
       if (!rateCheck.allowed) {
         return res.status(429).json({ message: "Too many requests. Please try again later." });
       }
@@ -102,7 +102,7 @@ export function registerAdminCommsRoutes(app: Express) {
   app.post("/api/guest/track", asyncHandler(async (req: Request, res: Response) => {
     try {
       const ip = getClientIp(req);
-      const rateCheck = checkRateLimit('general', ip);
+      const rateCheck = await checkRateLimit('general', ip);
       if (!rateCheck.allowed) {
         return res.status(429).json({ message: "Too many requests" });
       }

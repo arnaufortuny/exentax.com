@@ -657,3 +657,16 @@ export const staffRoles = pgTable("staff_roles", {
 export const insertStaffRoleSchema = createInsertSchema(staffRoles).omit({ id: true, createdAt: true, updatedAt: true });
 export type StaffRole = typeof staffRoles.$inferSelect;
 export type InsertStaffRole = z.infer<typeof insertStaffRoleSchema>;
+
+export const pushSubscriptions = pgTable("push_subscriptions", {
+  id: serial("id").primaryKey(),
+  userId: text("user_id").notNull(),
+  endpoint: text("endpoint").notNull(),
+  p256dh: text("p256dh").notNull(),
+  auth: text("auth").notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertPushSubscriptionSchema = createInsertSchema(pushSubscriptions).omit({ id: true, createdAt: true });
+export type PushSubscription = typeof pushSubscriptions.$inferSelect;
+export type InsertPushSubscription = z.infer<typeof insertPushSubscriptionSchema>;

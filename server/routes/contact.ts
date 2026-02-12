@@ -36,7 +36,7 @@ export function registerContactRoutes(app: Express) {
   app.post("/api/newsletter/subscribe", asyncHandler(async (req: any, res: Response) => {
     try {
       const ip = getClientIp(req);
-      const rateCheck = checkRateLimit('contact', ip);
+      const rateCheck = await checkRateLimit('contact', ip);
       if (!rateCheck.allowed) {
         return res.status(429).json({ message: "Too many requests. Please try again later." });
       }
@@ -110,7 +110,7 @@ export function registerContactRoutes(app: Express) {
   app.post("/api/contact/send-otp", asyncHandler(async (req: any, res: Response) => {
     try {
       const ip = getClientIp(req);
-      const rateCheck = checkRateLimit('contact', ip);
+      const rateCheck = await checkRateLimit('contact', ip);
       if (!rateCheck.allowed) {
         return res.status(429).json({ 
           message: `Too many attempts. Wait ${rateCheck.retryAfter} seconds.` 

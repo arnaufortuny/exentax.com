@@ -1,13 +1,13 @@
 import { db } from "../db";
 import { sql, desc } from "drizzle-orm";
-import { checkRateLimitInMemory, checkRateLimit as checkRateLimitAuto } from "./rate-limiter";
+import { checkRateLimitInMemory, checkRateLimit as checkRateLimitPersistent } from "./rate-limiter";
 import { auditLogs } from "@shared/schema";
 import { createLogger } from "./logger";
 
 const log = createLogger('security');
 
-export { checkRateLimitInMemory as checkRateLimit };
-export { checkRateLimitAuto };
+export { checkRateLimitPersistent as checkRateLimit };
+export { checkRateLimitInMemory };
 
 export function sanitizeHtml(input: string): string {
   if (!input || typeof input !== 'string') return '';

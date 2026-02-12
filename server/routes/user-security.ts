@@ -89,7 +89,7 @@ export function registerUserSecurityRoutes(app: Express) {
       }
       
       const ip = getClientIp(req);
-      const rateCheck = checkRateLimit('otp', ip);
+      const rateCheck = await checkRateLimit('otp', ip);
       if (!rateCheck.allowed) {
         return res.status(429).json({ message: `Too many attempts. Wait ${rateCheck.retryAfter} seconds.` });
       }

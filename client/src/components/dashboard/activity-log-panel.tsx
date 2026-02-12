@@ -380,9 +380,20 @@ export function ActivityLogPanel() {
       )}
 
       {isLoading ? (
-        <div className="flex items-center justify-center py-16">
-          <Loader2 className="w-6 h-6 animate-spin text-accent" />
-        </div>
+        <Card className="rounded-2xl shadow-sm overflow-hidden">
+          <div className="space-y-3 p-4" data-testid="skeleton-activity-log">
+            {Array.from({ length: 5 }).map((_, i) => (
+              <div key={i} className="flex items-center gap-3 animate-pulse">
+                <div className="h-9 w-9 rounded-full bg-muted" />
+                <div className="space-y-2 flex-1">
+                  <div className="h-4 w-3/4 bg-muted rounded" />
+                  <div className="h-3 w-1/2 bg-muted rounded" />
+                </div>
+                <div className="h-5 w-16 bg-muted rounded" />
+              </div>
+            ))}
+          </div>
+        </Card>
       ) : (
         <>
           <Card className="rounded-2xl shadow-sm overflow-hidden">

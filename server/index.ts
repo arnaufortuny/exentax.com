@@ -9,6 +9,8 @@ import { cleanupDbRateLimits } from "./lib/rate-limiter";
 import { processConsultationReminders } from "./routes/consultations";
 import { setupSitemapRoute } from "./sitemap";
 import { createLogger } from "./lib/logger";
+import { runWatchedTask, getTaskHealthStatus } from "./lib/task-watchdog";
+import { recordApiMetric } from "./lib/api-metrics";
 
 const serverLog = createLogger('server');
 
@@ -158,6 +160,14 @@ app.use((req, res, next) => {
     res.setHeader('Expires', '0');
   }
   
+  if (req.path.startsWith('/api/')) {
+    const start = process.hrtime.bigint();
+    res.on('finish', () => {
+      const durationMs = Number(process.hrtime.bigint() - start) / 1e6;
+      recordApiMetric(req.method, req.path, Math.round(durationMs), res.statusCode);
+    });
+  }
+  
   next();
 });
 
@@ -236,21 +246,9 @@ app.use((req, res, next) => {
         scheduleBackups();
       }
       if (process.env.NODE_ENV === "production") {
-        setInterval(async () => {
-          try {
-            await cleanupDbRateLimits();
-          } catch (e) {
-            serverLog.error("Rate limit cleanup error", e);
-          }
-        }, 300000);
+        runWatchedTask("rate-limit-cleanup", 300000, cleanupDbRateLimits);
       }
-      setInterval(async () => {
-        try {
-          await processConsultationReminders();
-        } catch (e) {
-          serverLog.error("Consultation reminder error", e);
-        }
-      }, 600000);
+      runWatchedTask("consultation-reminders", 600000, processConsultationReminders);
     },
   );
 })();

@@ -6,6 +6,8 @@ import { alias } from "drizzle-orm/pg-core";
 import { asyncHandler, db, storage, isAdmin, logAudit, getCachedData, setCachedData, getClientIp } from "./shared";
 import { checkRateLimit } from "../lib/security";
 import { createLogger } from "../lib/logger";
+import { getTaskHealthStatus } from "../lib/task-watchdog";
+import { getApiMetrics } from "../lib/api-metrics";
 
 const log = createLogger('admin-billing');
 import { users as usersTable, maintenanceApplications, newsletterSubscribers, messages as messagesTable, orderEvents, userNotifications, orders as ordersTable, llcApplications as llcApplicationsTable, applicationDocuments as applicationDocumentsTable, discountCodes, accountingTransactions, auditLogs, standaloneInvoices, paymentAccounts } from "@shared/schema";
@@ -265,30 +267,24 @@ export function registerAdminBillingRoutes(app: Express) {
       const conversionRate = userCount > 0 ? (orderCount / userCount) * 100 : 0;
 
       const statsData = { 
-        // Sales
         totalSales,
         pendingSales,
-        // Orders
         orderCount,
         pendingOrders,
         completedOrders,
         processingOrders,
-        // Users
         userCount,
         pendingAccounts,
         activeAccounts,
         vipAccounts,
         deactivatedAccounts,
-        // Newsletter
         subscriberCount,
-        // Messages
         totalMessages,
         pendingMessages,
-        // Documents
         totalDocs,
         pendingDocs,
-        // Metrics
-        conversionRate: Number(conversionRate.toFixed(2))
+        conversionRate: Number(conversionRate.toFixed(2)),
+        scheduledTasks: getTaskHealthStatus(),
       };
       
       // Cache the result for 30 seconds
@@ -308,6 +304,10 @@ export function registerAdminBillingRoutes(app: Express) {
     } catch (error) {
       res.status(500).json({ message: "Error fetching stats" });
     }
+  }));
+
+  app.get("/api/admin/api-metrics", isAdmin, asyncHandler(async (_req: Request, res: Response) => {
+    res.json(getApiMetrics());
   }));
 
   // Audit logs endpoint (persistent from database)
@@ -729,7 +729,7 @@ export function registerAdminBillingRoutes(app: Express) {
   app.post("/api/discount-codes/validate", asyncHandler(async (req: Request, res: Response) => {
     try {
       const ip = getClientIp(req);
-      const rateCheck = checkRateLimit('general', ip);
+      const rateCheck = await checkRateLimit('general', ip);
       if (!rateCheck.allowed) {
         return res.status(429).json({ valid: false, message: "Too many requests" });
       }

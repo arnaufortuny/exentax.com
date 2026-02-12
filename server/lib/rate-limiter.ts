@@ -21,6 +21,7 @@ const RATE_LIMITS: Record<string, RateLimitConfig> = {
 };
 
 const inMemoryStore = new Map<string, Map<string, number[]>>();
+const IN_MEMORY_MAX_ENTRIES_PER_TYPE = 10000;
 
 Object.keys(RATE_LIMITS).forEach(key => {
   inMemoryStore.set(key, new Map());
@@ -35,6 +36,24 @@ export function checkRateLimitInMemory(
   
   const store = inMemoryStore.get(type)!;
   const now = Date.now();
+  
+  if (store.size >= IN_MEMORY_MAX_ENTRIES_PER_TYPE) {
+    const entries = Array.from(store.entries());
+    for (const [ip, ts] of entries) {
+      const valid = ts.filter((t: number) => now - t < config.windowMs);
+      if (valid.length === 0) {
+        store.delete(ip);
+      }
+    }
+    if (store.size >= IN_MEMORY_MAX_ENTRIES_PER_TYPE) {
+      const sorted = Array.from(store.entries())
+        .sort((a, b) => Math.max(...a[1]) - Math.max(...b[1]));
+      const toRemove = Math.ceil(store.size * 0.25);
+      for (let i = 0; i < toRemove; i++) {
+        store.delete(sorted[i][0]);
+      }
+    }
+  }
   
   const timestamps = store.get(identifier) || [];
   const validTimestamps = timestamps.filter(t => now - t < config.windowMs);

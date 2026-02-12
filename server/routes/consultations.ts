@@ -3,6 +3,7 @@ import { z } from "zod";
 import { db, isAuthenticated, isNotUnderReview, isAdmin, isAdminOrSupport, logAudit, getClientIp , asyncHandler } from "./shared";
 import { createLogger } from "../lib/logger";
 import { checkRateLimit } from "../lib/security";
+import { DateTime } from "luxon";
 
 const log = createLogger('consultations');
 import { consultationTypes, consultationAvailability, consultationBlockedDates, consultationBookings, consultationSettings, users as usersTable } from "@shared/schema";
@@ -47,13 +48,9 @@ function getNextAvailableBusinessDays(count: number, allowWeekends: boolean, blo
   return result;
 }
 
-function getMadridOffset(date: Date): number {
-  const jan = new Date(date.getFullYear(), 0, 1);
-  const jul = new Date(date.getFullYear(), 6, 1);
-  const stdOffset = Math.max(jan.getTimezoneOffset(), jul.getTimezoneOffset());
-  const isDST = date.getTimezoneOffset() < stdOffset;
-  const utcOffsetMinutes = isDST ? 120 : 60;
-  return utcOffsetMinutes + date.getTimezoneOffset();
+function getMadridOffset(_date: Date): number {
+  const madridNow = DateTime.now().setZone("Europe/Madrid");
+  return madridNow.offset + new Date().getTimezoneOffset();
 }
 
 export function registerConsultationRoutes(app: Express) {
@@ -243,7 +240,7 @@ export function registerConsultationRoutes(app: Express) {
   app.post("/api/consultations/book-free", asyncHandler(async (req: any, res: Response) => {
     try {
       const clientIpCheck = getClientIp(req);
-      const rateCheck = checkRateLimit('consultation', clientIpCheck);
+      const rateCheck = await checkRateLimit('consultation', clientIpCheck);
       if (!rateCheck.allowed) {
         return res.status(429).json({ message: "Too many booking requests. Please try again later.", retryAfter: rateCheck.retryAfter });
       }

@@ -234,7 +234,7 @@ export default function MaintenanceApplication() {
       const res = await apiRequest("POST", "/api/auth/check-email", { email });
       const data = await res.json();
       setEmailExists(data.exists);
-      setExistingUserName(data.firstName || "");
+      setExistingUserName("");
       return data.exists;
     } catch {
       return false;

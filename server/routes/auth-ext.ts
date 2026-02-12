@@ -11,19 +11,27 @@ import { createLogger } from "../lib/logger";
 const log = createLogger('auth');
 
 export function registerAuthExtRoutes(app: Express) {
-  // Check if email already exists (for form flow to detect existing users)
   app.post("/api/auth/check-email", asyncHandler(async (req: any, res: Response) => {
     try {
+      const ip = getClientIp(req);
+      const rateCheck = await checkRateLimit('general', ip);
+      if (!rateCheck.allowed) {
+        return res.status(429).json({ message: `Too many attempts. Wait ${rateCheck.retryAfter} seconds.` });
+      }
+
       const { email } = z.object({ email: z.string().email() }).parse(req.body);
       
-      const [existingUser] = await db.select().from(usersTable).where(eq(usersTable.email, email)).limit(1);
+      const [existingUser] = await db.select({
+        id: usersTable.id,
+        isActive: usersTable.isActive,
+        accountStatus: usersTable.accountStatus,
+      }).from(usersTable).where(eq(usersTable.email, email.trim().toLowerCase())).limit(1);
       
       const isDeactivated = existingUser ? (existingUser.isActive === false || existingUser.accountStatus === 'deactivated') : false;
       
       res.json({ 
         exists: !!existingUser,
         deactivated: isDeactivated,
-        firstName: existingUser?.firstName || null
       });
     } catch (err) {
       res.status(400).json({ message: "Invalid email" });
@@ -34,7 +42,7 @@ export function registerAuthExtRoutes(app: Express) {
   app.post("/api/register/send-otp", asyncHandler(async (req: any, res: Response) => {
     try {
       const ip = getClientIp(req);
-      const rateCheck = checkRateLimit('register', ip);
+      const rateCheck = await checkRateLimit('register', ip);
       if (!rateCheck.allowed) {
         return res.status(429).json({ 
           message: `Too many attempts. Wait ${rateCheck.retryAfter} seconds.` 
@@ -137,7 +145,7 @@ export function registerAuthExtRoutes(app: Express) {
   app.post("/api/password-reset/verify-name", asyncHandler(async (req: any, res: Response) => {
     try {
       const ip = getClientIp(req);
-      const rateCheck = checkRateLimit('passwordReset', ip);
+      const rateCheck = await checkRateLimit('passwordReset', ip);
       if (!rateCheck.allowed) {
         return res.status(429).json({ 
           message: `Too many attempts. Wait ${rateCheck.retryAfter} seconds.` 
@@ -224,7 +232,7 @@ export function registerAuthExtRoutes(app: Express) {
   app.post("/api/password-reset/send-otp", asyncHandler(async (req: any, res: Response) => {
     try {
       const ip = getClientIp(req);
-      const rateCheck = checkRateLimit('passwordReset', ip);
+      const rateCheck = await checkRateLimit('passwordReset', ip);
       if (!rateCheck.allowed) {
         return res.status(429).json({ 
           message: `Too many attempts. Wait ${rateCheck.retryAfter} seconds.` 

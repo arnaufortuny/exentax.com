@@ -66,8 +66,11 @@ declare module "express-session" {
     isSupport: boolean;
     staffRoleId: number | null;
     staffPermissions: string[];
+    lastActivity: number;
   }
 }
+
+const SESSION_INACTIVITY_LIMIT = 2 * 60 * 60 * 1000; // 2 hours
 
 export function setupCustomAuth(app: Express) {
   app.set("trust proxy", 1);
@@ -76,6 +79,25 @@ export function setupCustomAuth(app: Express) {
   app.use(express.urlencoded({ extended: true, limit: '1mb' }));
   
   app.use(getSession());
+
+  app.use((req: any, res, next) => {
+    if (req.session?.userId) {
+      const now = Date.now();
+      const lastActivity = req.session.lastActivity || now;
+      if (now - lastActivity > SESSION_INACTIVITY_LIMIT) {
+        return req.session.destroy((err: any) => {
+          if (err) log.error("Session destroy error on inactivity", err);
+          res.clearCookie("connect.sid");
+          if (req.path.startsWith('/api/')) {
+            return res.status(401).json({ message: "Session expired due to inactivity" });
+          }
+          next();
+        });
+      }
+      req.session.lastActivity = now;
+    }
+    next();
+  });
 
   // Register endpoint
   app.post("/api/auth/register", async (req, res) => {
@@ -162,7 +184,7 @@ export function setupCustomAuth(app: Express) {
   app.post("/api/auth/login", async (req, res) => {
       try {
         const ip = getClientIp(req);
-        const rateCheck = checkRateLimit('login', ip);
+        const rateCheck = await checkRateLimit('login', ip);
         if (!rateCheck.allowed) {
           return res.status(429).json({ 
             message: `Too many attempts. Wait ${rateCheck.retryAfter} seconds.` 
