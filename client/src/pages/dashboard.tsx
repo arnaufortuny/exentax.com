@@ -4,12 +4,12 @@ import { useAuth } from "@/hooks/use-auth";
 import { usePageTitle } from "@/hooks/use-page-title";
 import { useTranslation } from "react-i18next";
 import { getWhatsAppUrl } from "@/lib/whatsapp";
-import { formatDate, formatDateShort, formatDateLong, formatDateCompact, getLocale } from "@/lib/utils";
+import { formatDate, formatDateShort } from "@/lib/utils";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { queryClient, apiRequest, getCsrfToken } from "@/lib/queryClient";
-import { Building2, FileText, Clock, ChevronRight, User as UserIcon, Package, CreditCard, PlusCircle, Download, Mail, BellRing, CheckCircle2, AlertCircle, MessageSquare, Send, Shield, ShieldCheck, Users, Edit, Edit2, Trash2, FileUp, Newspaper, Loader2, CheckCircle, Receipt, Plus, Calendar, DollarSign, BarChart3, UserCheck, Eye, Upload, XCircle, Tag, X, Calculator, Archive, Key, Search, LogOut, ShieldAlert, ClipboardList, Bell, Globe } from "@/components/icons";
+import { FileText, Clock, User as UserIcon, Package, CreditCard, Mail, BellRing, CheckCircle2, AlertCircle, MessageSquare, Send, Shield, ShieldCheck, Users, Edit, FileUp, Loader2, Receipt, Plus, Calendar, DollarSign, BarChart3, UserCheck, Upload, Tag, X, Calculator, Key, Search, LogOut, ClipboardList } from "@/components/icons";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { useEffect, useState, useMemo, useCallback, useRef } from "react";
 import { Link, useLocation, useSearch } from "wouter";
 import { Switch } from "@/components/ui/switch";
@@ -18,8 +18,6 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { NativeSelect, NativeSelectItem } from "@/components/ui/native-select";
-import { SocialLogin } from "@/components/auth/social-login";
-import { LLCProgressWidget } from "@/components/llc-progress-widget";
 import { DashboardTour } from "@/components/dashboard-tour";
 import { 
   Tab, 
@@ -941,7 +939,7 @@ export default function Dashboard() {
   });
 
   const updateLlcDatesMutation = useMutation({
-    mutationFn: async ({ appId, field, value }: { appId: number, field: string, value: string }) => {
+    mutationFn: async ({ appId, field, value }: { appId: number, field: string, value: string | null }) => {
       setFormMessage(null);
       const res = await apiRequest("PATCH", `/api/admin/llc/${appId}/dates`, { field, value });
       if (!res.ok) throw new Error(t("dashboard.toasts.couldNotUpdate"));
@@ -1645,8 +1643,8 @@ export default function Dashboard() {
               {activeTab === 'documents' && (
                 <DocumentsPanel
                   user={user}
-                  notifications={notifications}
-                  userDocuments={userDocuments}
+                  notifications={notifications || []}
+                  userDocuments={userDocuments || []}
                   canEdit={canEdit}
                   setFormMessage={setFormMessage}
                   tn={tn}
@@ -3043,10 +3041,10 @@ export default function Dashboard() {
                   {adminSubTab === 'dashboard' && (
                     <AdminDashboardPanel
                       adminStats={adminStats}
-                      adminOrders={adminOrders}
-                      adminUsers={adminUsers}
-                      adminMessages={adminMessages}
-                      adminDocuments={adminDocuments}
+                      adminOrders={adminOrders || []}
+                      adminUsers={adminUsers || []}
+                      adminMessages={adminMessages || []}
+                      adminDocuments={adminDocuments || []}
                       guestVisitors={guestVisitors}
                       setAdminSubTab={setAdminSubTab}
                       refetchGuests={refetchGuests}
@@ -3057,7 +3055,7 @@ export default function Dashboard() {
                   
                   {adminSubTab === 'orders' && (
                     <AdminOrdersPanel
-                      filteredAdminOrders={filteredAdminOrders}
+                      filteredAdminOrders={filteredAdminOrders || []}
                       adminSearchQuery={adminSearchQuery}
                       adminUsers={adminUsers || []}
                       paymentAccountsList={paymentAccountsList || []}
@@ -3084,7 +3082,7 @@ export default function Dashboard() {
                     <AdminCommsPanel
                       commSubTab={commSubTab}
                       setCommSubTab={setCommSubTab}
-                      filteredAdminMessages={filteredAdminMessages}
+                      filteredAdminMessages={filteredAdminMessages || []}
                       adminSearchQuery={adminSearchQuery}
                       onSelectMessage={(msg) => setSelectedMessage(msg)}
                       onDeleteMessage={(msgId) => {}}
@@ -3102,11 +3100,11 @@ export default function Dashboard() {
                   )}
                   {adminSubTab === 'users' && (
                     <AdminUsersPanel
-                      filteredAdminUsers={filteredAdminUsers}
+                      filteredAdminUsers={filteredAdminUsers || []}
                       adminSearchQuery={adminSearchQuery}
                       usersSubTab={usersSubTab}
                       setUsersSubTab={setUsersSubTab}
-                      adminNewsletterSubs={adminNewsletterSubs}
+                      adminNewsletterSubs={adminNewsletterSubs || []}
                       onEditUser={(u) => setEditingUser(u)}
                       onViewOrders={(userId) => { setAdminSubTab('orders'); }}
                       onResetPassword={(userId) => { const u = adminUsers?.find((x: any) => x.id === userId); if (u) setResetPasswordDialog({ open: true, user: u }); }}
