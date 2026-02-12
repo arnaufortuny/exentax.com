@@ -44,6 +44,13 @@ export function ThemeProvider({
         root.classList.add(t);
       }
       setResolvedTheme(t);
+      const themeColors: Record<string, string> = { light: "#ffffff", dark: "#050505", forest: "#0A1F17" };
+      const metaTags = document.querySelectorAll('meta[name="theme-color"]');
+      metaTags.forEach(meta => meta.remove());
+      const meta = document.createElement("meta");
+      meta.name = "theme-color";
+      meta.content = themeColors[t];
+      document.head.appendChild(meta);
     };
 
     if (theme === "system") {
