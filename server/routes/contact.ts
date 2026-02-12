@@ -117,7 +117,7 @@ export function registerContactRoutes(app: Express) {
         });
       }
 
-      const { email } = z.object({ email: z.string().email() }).parse(req.body);
+      const { email, name } = z.object({ email: z.string().email(), name: z.string().optional() }).parse(req.body);
       const otp = Math.floor(100000 + Math.random() * 900000).toString();
       const expiresAt = new Date(Date.now() + 10 * 60 * 1000); // 10 mins
 
@@ -133,7 +133,7 @@ export function registerContactRoutes(app: Express) {
       await sendEmail({
         to: email,
         subject: getOtpSubject(contactLang),
-        html: getOtpEmailTemplate(otp, undefined, contactLang),
+        html: getOtpEmailTemplate(otp, name || undefined, contactLang),
       });
 
       res.json({ success: true });

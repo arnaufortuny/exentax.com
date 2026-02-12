@@ -164,7 +164,8 @@ export default function Contacto() {
     }
     setIsLoading(true);
     try {
-      await apiRequest("POST", "/api/contact/send-otp", { email });
+      const nombre = form.getValues("nombre");
+      await apiRequest("POST", "/api/contact/send-otp", { email, name: nombre || undefined });
       setIsOtpSent(true);
       setFormMessage({ type: 'success', text: `${t("toast.codeSent")}. ${t("toast.checkEmail")}` });
     } catch (err) {
@@ -183,7 +184,7 @@ export default function Contacto() {
       await apiRequest("POST", "/api/contact/verify-otp", { email, otp });
       setIsOtpVerified(true);
       setFormMessage({ type: 'success', text: `${t("toast.emailVerified")}. ${t("toast.canContinue")}` });
-      setStep(7);
+      setStep(8);
     } catch (err) {
       setFormMessage({ type: 'error', text: `${t("toast.invalidCode")}. ${t("toast.codeExpiredOrInvalid")}` });
     } finally {
