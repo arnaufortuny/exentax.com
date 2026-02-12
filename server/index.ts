@@ -42,6 +42,10 @@ export function log(message: string, source = "express") {
   console.log(`${formattedTime} [${source}] ${message}`);
 }
 
+app.get("/_health", (_req, res) => {
+  res.status(200).json({ status: "ok", timestamp: new Date().toISOString(), uptime: process.uptime() });
+});
+
 app.use(sentryRequestHandler());
 
 function getCSP(): string {
@@ -171,84 +175,92 @@ app.use((req, res, next) => {
   next();
 });
 
-(async () => {
-  const { storage } = await import("./storage");
+const port = parseInt(process.env.PORT || "5000", 10);
+
+async function startServer() {
+  serverLog.info(`Starting server in ${isProduction ? 'production' : 'development'} mode on port ${port}`);
+
   try {
-    await storage.seedDefaultPaymentAccounts();
-    serverLog.info("Payment accounts seed check completed");
-  } catch (e) {
-    serverLog.error("Payment accounts seed error", e);
-  }
-
-  await registerRoutes(httpServer, app);
-  
-  setupSitemapRoute(app);
-
-  // Simple WebSocket logging for admin panel
-  const { WebSocketServer } = await import('ws');
-  const wss = new WebSocketServer({ noServer: true });
-
-  httpServer.on('upgrade', (request, socket, head) => {
-    const { pathname } = new URL(request.url!, `http://${request.headers.host}`);
-    if (pathname === '/ws/logs') {
-      wss.handleUpgrade(request, socket, head, (ws) => {
-        wss.emit('connection', ws, request);
-      });
+    const { storage } = await import("./storage");
+    try {
+      await storage.seedDefaultPaymentAccounts();
+      serverLog.info("Payment accounts seed check completed");
+    } catch (e) {
+      serverLog.error("Payment accounts seed error (non-fatal)", e);
     }
-  });
 
-  const originalLog = console.log;
-  console.log = (...args) => {
-    originalLog(...args);
-    const msg = args.map(arg => typeof arg === 'object' ? JSON.stringify(arg) : arg).join(' ');
-    wss.clients.forEach(client => {
-      if (client.readyState === 1) client.send(msg);
-    });
-  };
-
-  app.use(sentryErrorHandler());
-
-  app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
-    const status = err.status || err.statusCode || 500;
-    const message = err.message || "Internal Server Error";
-
-    if (!res.headersSent) {
-      res.status(status).json({ message });
-    }
+    await registerRoutes(httpServer, app);
     
-    serverLog.error(`Request error [${status}]`, err, { status, message });
-  });
+    setupSitemapRoute(app);
 
-  // importantly only setup vite in development and after
-  // setting up all the other routes so the catch-all route
-  // doesn't interfere with the other routes
-  if (process.env.NODE_ENV === "production") {
-    serveStatic(app);
-  } else {
-    const { setupVite } = await import("./vite");
-    await setupVite(httpServer, app);
+    const { WebSocketServer } = await import('ws');
+    const wss = new WebSocketServer({ noServer: true });
+
+    httpServer.on('upgrade', (request, socket, head) => {
+      const { pathname } = new URL(request.url!, `http://${request.headers.host}`);
+      if (pathname === '/ws/logs') {
+        wss.handleUpgrade(request, socket, head, (ws) => {
+          wss.emit('connection', ws, request);
+        });
+      }
+    });
+
+    const originalLog = console.log;
+    console.log = (...args) => {
+      originalLog(...args);
+      const msg = args.map(arg => typeof arg === 'object' ? JSON.stringify(arg) : arg).join(' ');
+      wss.clients.forEach(client => {
+        if (client.readyState === 1) client.send(msg);
+      });
+    };
+
+    app.use(sentryErrorHandler());
+
+    app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
+      const status = err.status || err.statusCode || 500;
+      const message = err.message || "Internal Server Error";
+
+      if (!res.headersSent) {
+        res.status(status).json({ message });
+      }
+      
+      serverLog.error(`Request error [${status}]`, err, { status, message });
+    });
+
+    if (isProduction) {
+      serveStatic(app);
+    } else {
+      const { setupVite } = await import("./vite");
+      await setupVite(httpServer, app);
+    }
+
+    httpServer.listen(
+      {
+        port,
+        host: "0.0.0.0",
+        reusePort: true,
+      },
+      () => {
+        log(`serving on port ${port}`);
+        serverLog.info(`Server ready and listening on 0.0.0.0:${port}`);
+        if (isProduction) {
+          scheduleBackups();
+          runWatchedTask("rate-limit-cleanup", 300000, cleanupDbRateLimits);
+        }
+        runWatchedTask("consultation-reminders", 600000, processConsultationReminders);
+      },
+    );
+  } catch (error) {
+    serverLog.error("Fatal error during server startup", error);
+    console.error("FATAL: Server failed to start:", error);
+
+    httpServer.listen(
+      { port, host: "0.0.0.0", reusePort: true },
+      () => {
+        serverLog.error(`Server started in degraded mode on port ${port} - initialization failed`);
+      },
+    );
   }
+}
 
-  // ALWAYS serve the app on the port specified in the environment variable PORT
-  // Other ports are firewalled. Default to 5000 if not specified.
-  // this serves both the API and the client.
-  // It is the only port that is not firewalled.
-  const port = parseInt(process.env.PORT || "5000", 10);
-  httpServer.listen(
-    {
-      port,
-      host: "0.0.0.0",
-      reusePort: true,
-    },
-    () => {
-      log(`serving on port ${port}`);
-      if (process.env.NODE_ENV === "production") {
-        scheduleBackups();
-      }
-      if (process.env.NODE_ENV === "production") {
-        runWatchedTask("rate-limit-cleanup", 300000, cleanupDbRateLimits);
-      }
-      runWatchedTask("consultation-reminders", 600000, processConsultationReminders);
-    },
-  );
-})();
+startServer();
