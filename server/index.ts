@@ -191,8 +191,9 @@ app.use((req, res, next) => {
 });
 
 const port = parseInt(process.env.PORT || "5000", 10);
+const isBootMode = process.env.BOOT_SERVER === "1";
 
-serverLog.info(`Starting server in ${isProduction ? 'production' : 'development'} mode on port ${port}`);
+serverLog.info(`Starting server in ${isProduction ? 'production' : 'development'} mode on port ${port}${isBootMode ? ' (boot mode)' : ''}`);
 
 if (isProduction) {
   try {
@@ -203,13 +204,18 @@ if (isProduction) {
   }
 }
 
-httpServer.listen(
-  { port, host: "0.0.0.0", reusePort: true },
-  () => {
-    log(`serving on port ${port}`);
-    serverLog.info(`Server listening on 0.0.0.0:${port}`);
-  },
-);
+if (!isBootMode) {
+  httpServer.listen(
+    { port, host: "0.0.0.0", reusePort: true },
+    () => {
+      log(`serving on port ${port}`);
+      serverLog.info(`Server listening on 0.0.0.0:${port}`);
+    },
+  );
+}
+
+export const __expressApp = app;
+export const __httpServer = httpServer;
 
 (async () => {
   try {
