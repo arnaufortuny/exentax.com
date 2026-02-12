@@ -225,8 +225,29 @@ export function registerAdminCommsRoutes(app: Express) {
   app.get("/api/admin/messages", isAdminOrSupport, asyncHandler(async (req: Request, res: Response) => {
     try {
       const allMessages = await storage.getAllMessages();
-      const limit = Math.min(Number(req.query.limit) || 300, 500);
-      res.json(allMessages.slice(0, limit));
+      const search = (req.query.search as string || '').toLowerCase().trim();
+      const page = Math.max(1, Number(req.query.page) || 1);
+      const pageSize = Math.min(Math.max(1, Number(req.query.pageSize) || 50), 200);
+      
+      let filtered = allMessages;
+      if (search) {
+        filtered = allMessages.filter((m: any) => {
+          const name = (m.senderName || m.name || '').toLowerCase();
+          const email = (m.senderEmail || m.email || '').toLowerCase();
+          const subject = (m.subject || '').toLowerCase();
+          return name.includes(search) || email.includes(search) || subject.includes(search);
+        });
+      }
+      
+      const total = filtered.length;
+      const totalPages = Math.ceil(total / pageSize);
+      const offset = (page - 1) * pageSize;
+      const paginatedMessages = filtered.slice(offset, offset + pageSize);
+      
+      res.json({
+        data: paginatedMessages,
+        pagination: { page, pageSize, total, totalPages },
+      });
     } catch (error) {
       res.status(500).json({ message: "Error" });
     }

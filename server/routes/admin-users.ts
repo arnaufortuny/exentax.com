@@ -17,7 +17,9 @@ export function registerAdminUserRoutes(app: Express) {
     try {
       const users = await db.select().from(usersTable).orderBy(desc(usersTable.createdAt));
       const search = (req.query.search as string || '').toLowerCase().trim();
-      const limit = Math.min(Number(req.query.limit) || 500, 500);
+      const page = Math.max(1, Number(req.query.page) || 1);
+      const pageSize = Math.min(Math.max(1, Number(req.query.pageSize) || 50), 200);
+      const statusFilter = (req.query.accountStatus as string || '').toLowerCase().trim();
       
       let filtered = users;
       if (search) {
@@ -25,11 +27,23 @@ export function registerAdminUserRoutes(app: Express) {
           const name = `${u.firstName || ''} ${u.lastName || ''}`.toLowerCase();
           const email = (u.email || '').toLowerCase();
           const phone = (u.phone || '').toLowerCase();
-          return name.includes(search) || email.includes(search) || phone.includes(search);
+          const clientId = (u.clientId || '').toLowerCase();
+          return name.includes(search) || email.includes(search) || phone.includes(search) || clientId.includes(search);
         });
       }
+      if (statusFilter) {
+        filtered = filtered.filter((u: any) => (u.accountStatus || '').toLowerCase() === statusFilter);
+      }
       
-      res.json(filtered.slice(0, limit));
+      const total = filtered.length;
+      const totalPages = Math.ceil(total / pageSize);
+      const offset = (page - 1) * pageSize;
+      const paginatedUsers = filtered.slice(offset, offset + pageSize);
+      
+      res.json({
+        data: paginatedUsers,
+        pagination: { page, pageSize, total, totalPages },
+      });
     } catch (error) {
       res.status(500).json({ message: "Error fetching users" });
     }

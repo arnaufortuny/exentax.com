@@ -16,7 +16,9 @@ export function registerAdminOrderRoutes(app: Express) {
     try {
       const allOrders = await storage.getAllOrders();
       const search = (req.query.search as string || '').toLowerCase().trim();
-      const limit = Math.min(Number(req.query.limit) || 500, 500);
+      const page = Math.max(1, Number(req.query.page) || 1);
+      const pageSize = Math.min(Math.max(1, Number(req.query.pageSize) || 50), 200);
+      const status = (req.query.status as string || '').toLowerCase().trim();
       
       let filtered = allOrders;
       if (search) {
@@ -26,11 +28,23 @@ export function registerAdminOrderRoutes(app: Express) {
           const company = (o.application?.companyName || o.maintenanceApplication?.companyName || '').toLowerCase();
           const code = (o.application?.requestCode || o.maintenanceApplication?.requestCode || '').toLowerCase();
           const invoice = (o.invoiceNumber || '').toLowerCase();
-          return userName.includes(search) || email.includes(search) || company.includes(search) || code.includes(search) || invoice.includes(search);
+          const clientId = (o.user?.clientId || '').toLowerCase();
+          return userName.includes(search) || email.includes(search) || company.includes(search) || code.includes(search) || invoice.includes(search) || clientId.includes(search);
         });
       }
+      if (status) {
+        filtered = filtered.filter((o: any) => o.status === status);
+      }
       
-      res.json(filtered.slice(0, limit));
+      const total = filtered.length;
+      const totalPages = Math.ceil(total / pageSize);
+      const offset = (page - 1) * pageSize;
+      const paginatedOrders = filtered.slice(offset, offset + pageSize);
+      
+      res.json({
+        data: paginatedOrders,
+        pagination: { page, pageSize, total, totalPages },
+      });
     } catch (error) {
       log.error("Admin orders error", error);
       res.status(500).json({ message: "Error fetching orders" });

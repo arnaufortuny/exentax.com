@@ -10,6 +10,7 @@ Exentax (formerly Easy US LLC) is a full-stack SaaS platform designed to simplif
 - **Linktree → /links:** Moved linktree content from separate domain to /links route on main site
 - **Sitemap Cleanup:** Removed LINKTREE_ROUTES, added /start, /links, /agendar-consultoria routes
 - **Theme Storage Key:** Updated from easyusllc-theme to exentax-theme
+- **Dashboard Refactor (Feb 2026):** Modular panel extraction (18 new files), URL-based tab/subtab navigation via query params (?tab=admin&subtab=orders), server-side pagination on admin endpoints (orders, users, messages) with page/pageSize/total/totalPages, reusable PaginationControls component, admin search delegated to server
 
 ## User Preferences
 - Clear, concise communication without technical jargon
