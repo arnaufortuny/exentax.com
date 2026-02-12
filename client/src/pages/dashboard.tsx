@@ -7,7 +7,7 @@ import { getWhatsAppUrl } from "@/lib/whatsapp";
 import { formatDate, formatDateShort } from "@/lib/utils";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { queryClient, apiRequest, getCsrfToken, setStoredAuthToken } from "@/lib/queryClient";
-import { FileText, Clock, User as UserIcon, Package, CreditCard, Mail, BellRing, CheckCircle2, AlertCircle, MessageSquare, Send, Shield, ShieldCheck, Users, Edit, FileUp, Loader2, Receipt, Plus, Calendar, DollarSign, BarChart3, UserCheck, Upload, Tag, X, Calculator, Key, Search, LogOut, ClipboardList } from "@/components/icons";
+import { FileText, Clock, User as UserIcon, Package, CreditCard, Mail, BellRing, CheckCircle2, AlertCircle, MessageSquare, Send, Shield, ShieldCheck, Users, Edit, FileUp, Loader2, Receipt, Plus, Calendar, DollarSign, BarChart3, UserCheck, Upload, Tag, X, Calculator, Search, LogOut, ClipboardList } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useEffect, useState, useMemo, useCallback, useRef, lazy, Suspense } from "react";
@@ -27,9 +27,7 @@ import {
 } from "@/components/dashboard";
 import { PRICING, getFormationPriceFormatted, getMaintenancePriceFormatted } from "@shared/config/pricing";
 import { ServicesTab } from "@/components/dashboard/services-tab";
-const ActivityLogPanel = lazy(() => import("@/components/dashboard/activity-log-panel").then(m => ({ default: m.ActivityLogPanel })));
 const CrmMetricsSection = lazy(() => import("@/components/dashboard/crm-metrics-section").then(m => ({ default: m.CrmMetricsSection })));
-const AdminRolesPanel = lazy(() => import("@/components/dashboard/admin-roles-panel"));
 import { NotificationsTab } from "@/components/dashboard/notifications-tab";
 import { MessagesTab } from "@/components/dashboard/messages-tab";
 import { ProfileTab } from "@/components/dashboard/profile-tab";
@@ -1266,8 +1264,6 @@ export default function Dashboard() {
       { id: 'admin-calendar', subTab: 'calendar', label: t('dashboard.calendar.dates'), icon: Calendar, mobileLabel: t('dashboard.calendar.dates'), adminOnly: false },
       { id: 'admin-docs', subTab: 'docs', label: t('dashboard.admin.tabs.docs'), icon: FileText, mobileLabel: t('dashboard.admin.tabs.docs'), adminOnly: false },
       { id: 'admin-discounts', subTab: 'descuentos', label: t('dashboard.admin.tabs.discounts'), icon: Tag, mobileLabel: t('dashboard.admin.tabs.discounts'), adminOnly: true },
-      { id: 'admin-activity', subTab: 'activity', label: t('dashboard.admin.tabs.activity'), icon: ClipboardList, mobileLabel: t('dashboard.admin.tabs.activity'), adminOnly: true },
-      { id: 'admin-roles', subTab: 'roles', label: t('dashboard.admin.tabs.roles') || 'Roles', icon: Key, mobileLabel: t('dashboard.admin.tabs.roles') || 'Roles', adminOnly: true },
     ];
     return allItems.filter(item => isAdmin || !item.adminOnly);
   }, [t, isAdmin]);
@@ -1967,7 +1963,7 @@ export default function Dashboard() {
                       editingUser={editingUser}
                       setEditingUser={setEditingUser}
                       updateUserMutation={updateUserMutation}
-                      currentUserEmail={user?.email}
+                      currentUserEmail={user?.email ?? undefined}
                       onClose={() => setEditingUser(null)}
                     />
                   )}
@@ -2606,17 +2602,6 @@ export default function Dashboard() {
                   )}
 
 
-                  {adminSubTab === 'activity' && (
-                    <PanelErrorBoundary panelName="activity-log">
-                      <ActivityLogPanel />
-                    </PanelErrorBoundary>
-                  )}
-
-                  {adminSubTab === 'roles' && (
-                    <PanelErrorBoundary panelName="admin-roles">
-                      <AdminRolesPanel />
-                    </PanelErrorBoundary>
-                  )}
 
                   {adminSubTab === 'descuentos' && (
                     <PanelErrorBoundary panelName="admin-discounts">

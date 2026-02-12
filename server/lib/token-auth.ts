@@ -97,7 +97,7 @@ export function exchangeAuthCode(code: string): string | null {
 
 setInterval(() => {
   const now = Date.now();
-  for (const [code, entry] of authCodes) {
+  authCodes.forEach((entry, code) => {
     if (now > entry.expiresAt) authCodes.delete(code);
-  }
+  });
 }, 60000);

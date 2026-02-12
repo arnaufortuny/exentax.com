@@ -9,7 +9,6 @@ const log = createLogger('backup-service');
 const UPLOADS_DIR = path.join(process.cwd(), "uploads");
 const BACKUP_INTERVAL = 60 * 60 * 1000; // 1 hour
 const BACKUP_TRACKING_FILE = path.join(process.cwd(), ".backup-state.json");
-const BACKUP_TEMP_FILE = path.join(process.cwd(), ".backup-state.json.tmp");
 
 interface BackupFileState {
   size: number;
@@ -40,13 +39,15 @@ function loadBackupState(): BackupState {
 function saveBackupStateAtomic(state: BackupState): void {
   try {
     const content = JSON.stringify(state, null, 2);
-    fs.writeFileSync(BACKUP_TEMP_FILE, content, "utf-8");
-    fs.renameSync(BACKUP_TEMP_FILE, BACKUP_TRACKING_FILE);
+    const tempFile = BACKUP_TRACKING_FILE + ".tmp";
+    fs.writeFileSync(tempFile, content, "utf-8");
+    fs.renameSync(tempFile, BACKUP_TRACKING_FILE);
   } catch (error) {
     log.error("Error saving backup state", error);
     try {
-      if (fs.existsSync(BACKUP_TEMP_FILE)) {
-        fs.unlinkSync(BACKUP_TEMP_FILE);
+      const tempFile = BACKUP_TRACKING_FILE + ".tmp";
+      if (fs.existsSync(tempFile)) {
+        fs.unlinkSync(tempFile);
       }
     } catch {}
   }
