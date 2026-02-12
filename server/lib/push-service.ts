@@ -1,7 +1,7 @@
 import webpush from "web-push";
 import { db } from "../db";
 import { pushSubscriptions } from "@shared/schema";
-import { eq } from "drizzle-orm";
+import { eq, and } from "drizzle-orm";
 import { createLogger } from "./logger";
 
 const log = createLogger('push');
@@ -23,6 +23,11 @@ export async function saveSubscription(userId: string, subscription: { endpoint:
     .limit(1);
   
   if (existing.length > 0) {
+    if (existing[0].userId !== userId) {
+      await db.update(pushSubscriptions)
+        .set({ userId, p256dh: subscription.keys.p256dh, auth: subscription.keys.auth })
+        .where(eq(pushSubscriptions.endpoint, subscription.endpoint));
+    }
     return existing[0];
   }
 
@@ -34,6 +39,12 @@ export async function saveSubscription(userId: string, subscription: { endpoint:
   }).returning();
 
   return saved;
+}
+
+export async function removeSubscriptionForUser(userId: string, endpoint: string) {
+  await db.delete(pushSubscriptions).where(
+    and(eq(pushSubscriptions.endpoint, endpoint), eq(pushSubscriptions.userId, userId))
+  );
 }
 
 export async function removeSubscription(endpoint: string) {

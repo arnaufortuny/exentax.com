@@ -627,7 +627,7 @@ export function registerUserProfileRoutes(app: Express) {
       return res.status(404).json({ message: "User not found" });
     }
 
-    const { passwordHash, loginAttempts, lockUntil, lastLoginIp, pendingProfileChanges, pendingChangesExpiresAt, internalNotes, ...safeUser } = user;
+    const { passwordHash, loginAttempts, lockUntil, lastLoginIp, pendingProfileChanges, pendingChangesExpiresAt, internalNotes, googleId, securityOtpRequired, lastSecurityOtpAt, identityVerificationDocumentKey, staffRoleId, loginCount, ...safeUser } = user;
 
     const userOrders = await db.select().from(ordersTable).where(eq(ordersTable.userId, userId));
     const orderIds = userOrders.map(o => o.id);

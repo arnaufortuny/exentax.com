@@ -3,8 +3,10 @@ import { createLogger } from "../lib/logger";
 
 const log = createLogger('encryption');
 
-const ALGORITHM = "aes-256-cbc";
-const IV_LENGTH = 16;
+const ALGORITHM_GCM = "aes-256-gcm";
+const ALGORITHM_CBC = "aes-256-cbc";
+const GCM_IV_LENGTH = 12;
+const CBC_IV_LENGTH = 16;
 const HASH_ALGORITHM = "sha256";
 
 function getEncryptionKey(): Buffer {
@@ -29,39 +31,72 @@ function getEncryptionKey(): Buffer {
 
 export function encrypt(text: string): string {
   if (!text) return "";
-  const iv = crypto.randomBytes(IV_LENGTH);
-  const cipher = crypto.createCipheriv(ALGORITHM, getEncryptionKey(), iv);
+  const iv = crypto.randomBytes(GCM_IV_LENGTH);
+  const cipher = crypto.createCipheriv(ALGORITHM_GCM, getEncryptionKey(), iv) as crypto.CipherGCM;
   let encrypted = cipher.update(text, "utf8");
   encrypted = Buffer.concat([encrypted, cipher.final()]);
-  return iv.toString("hex") + ":" + encrypted.toString("hex");
+  const authTag = cipher.getAuthTag();
+  return iv.toString("hex") + ":" + authTag.toString("hex") + ":" + encrypted.toString("hex");
 }
 
 export function decrypt(text: string): string {
   if (!text || !text.includes(":")) return text;
-  try {
-    const textParts = text.split(":");
-    const iv = Buffer.from(textParts.shift()!, "hex");
-    const encryptedText = Buffer.from(textParts.join(":"), "hex");
-    const decipher = crypto.createDecipheriv(ALGORITHM, getEncryptionKey(), iv);
+  const parts = text.split(":");
+
+  if (parts.length === 3 && /^[a-f0-9]+$/.test(parts[0]) && /^[a-f0-9]{32}$/.test(parts[1])) {
+    const iv = Buffer.from(parts[0], "hex");
+    const authTag = Buffer.from(parts[1], "hex");
+    const encryptedText = Buffer.from(parts[2], "hex");
+    const decipher = crypto.createDecipheriv(ALGORITHM_GCM, getEncryptionKey(), iv) as crypto.DecipherGCM;
+    decipher.setAuthTag(authTag);
     let decrypted = decipher.update(encryptedText);
     decrypted = Buffer.concat([decrypted, decipher.final()]);
     return decrypted.toString("utf8");
-  } catch (error) {
-    log.error("Decrypt error - returning original text", error);
-    return text;
+  }
+
+  if (parts.length === 2 && /^[a-f0-9]{32}$/.test(parts[0])) {
+    try {
+      const iv = Buffer.from(parts[0], "hex");
+      const encryptedText = Buffer.from(parts[1], "hex");
+      const decipher = crypto.createDecipheriv(ALGORITHM_CBC, getEncryptionKey(), iv);
+      let decrypted = decipher.update(encryptedText);
+      decrypted = Buffer.concat([decrypted, decipher.final()]);
+      return decrypted.toString("utf8");
+    } catch (error) {
+      log.error("Legacy CBC decrypt error", error);
+      throw new Error("Decryption failed: data may be corrupted or tampered with");
+    }
+  }
+
+  return text;
+}
+
+export function decryptSafe(text: string): string | null {
+  try {
+    return decrypt(text);
+  } catch {
+    return null;
   }
 }
 
-export function encryptBuffer(buffer: Buffer): { encrypted: Buffer; iv: string } {
-  const iv = crypto.randomBytes(IV_LENGTH);
-  const cipher = crypto.createCipheriv(ALGORITHM, getEncryptionKey(), iv);
+export function encryptBuffer(buffer: Buffer): { encrypted: Buffer; iv: string; authTag: string } {
+  const iv = crypto.randomBytes(GCM_IV_LENGTH);
+  const cipher = crypto.createCipheriv(ALGORITHM_GCM, getEncryptionKey(), iv) as crypto.CipherGCM;
   const encrypted = Buffer.concat([cipher.update(buffer), cipher.final()]);
-  return { encrypted, iv: iv.toString("hex") };
+  const authTag = cipher.getAuthTag();
+  return { encrypted, iv: iv.toString("hex"), authTag: authTag.toString("hex") };
 }
 
-export function decryptBuffer(encryptedBuffer: Buffer, ivHex: string): Buffer {
+export function decryptBuffer(encryptedBuffer: Buffer, ivHex: string, authTagHex?: string): Buffer {
   const iv = Buffer.from(ivHex, "hex");
-  const decipher = crypto.createDecipheriv(ALGORITHM, getEncryptionKey(), iv);
+
+  if (authTagHex) {
+    const decipher = crypto.createDecipheriv(ALGORITHM_GCM, getEncryptionKey(), iv) as crypto.DecipherGCM;
+    decipher.setAuthTag(Buffer.from(authTagHex, "hex"));
+    return Buffer.concat([decipher.update(encryptedBuffer), decipher.final()]);
+  }
+
+  const decipher = crypto.createDecipheriv(ALGORITHM_CBC, getEncryptionKey(), iv);
   return Buffer.concat([decipher.update(encryptedBuffer), decipher.final()]);
 }
 
@@ -81,7 +116,12 @@ export function encryptSensitiveField(value: string | null | undefined): string 
 
 export function decryptSensitiveField(value: string | null | undefined): string | null {
   if (!value) return null;
-  return decrypt(value);
+  try {
+    return decrypt(value);
+  } catch (error) {
+    log.error("Failed to decrypt sensitive field", error);
+    return null;
+  }
 }
 
 export interface EncryptedFileMetadata {
@@ -89,6 +129,7 @@ export interface EncryptedFileMetadata {
   hash: string;
   originalSize: number;
   encryptedAt: string;
+  authTag?: string;
 }
 
 export function encryptFileWithMetadata(buffer: Buffer): { 
@@ -96,7 +137,7 @@ export function encryptFileWithMetadata(buffer: Buffer): {
   metadata: EncryptedFileMetadata;
 } {
   const hash = generateFileHash(buffer);
-  const { encrypted, iv } = encryptBuffer(buffer);
+  const { encrypted, iv, authTag } = encryptBuffer(buffer);
   
   return {
     encryptedBuffer: encrypted,
@@ -104,7 +145,8 @@ export function encryptFileWithMetadata(buffer: Buffer): {
       iv,
       hash,
       originalSize: buffer.length,
-      encryptedAt: new Date().toISOString()
+      encryptedAt: new Date().toISOString(),
+      authTag,
     }
   };
 }
@@ -113,7 +155,7 @@ export function decryptFileWithVerification(
   encryptedBuffer: Buffer, 
   metadata: EncryptedFileMetadata
 ): { buffer: Buffer; verified: boolean } {
-  const decrypted = decryptBuffer(encryptedBuffer, metadata.iv);
+  const decrypted = decryptBuffer(encryptedBuffer, metadata.iv, metadata.authTag);
   const verified = verifyFileIntegrity(decrypted, metadata.hash);
   
   if (!verified) {
@@ -131,6 +173,7 @@ export function maskSensitiveData(value: string, visibleChars: number = 4): stri
 export function isEncrypted(text: string): boolean {
   if (!text) return false;
   const parts = text.split(":");
-  if (parts.length !== 2) return false;
-  return /^[a-f0-9]{32}$/.test(parts[0]);
+  if (parts.length === 3) return /^[a-f0-9]+$/.test(parts[0]) && /^[a-f0-9]{32}$/.test(parts[1]);
+  if (parts.length === 2) return /^[a-f0-9]{32}$/.test(parts[0]);
+  return false;
 }
