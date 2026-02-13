@@ -866,7 +866,7 @@ export function TaxComparator({ titleOverride, subtitleOverride }: TaxComparator
                       </div>
                       <Button
                         onClick={() => setLocation("/agendar-consultoria")}
-                        className="bg-accent text-accent-foreground font-black text-base rounded-full px-10 h-14 w-full md:w-auto shadow-xl shadow-accent/30 transition-colors"
+                        className="bg-accent text-accent-foreground font-black text-sm rounded-full px-10 h-11 w-full md:w-auto shadow-xl shadow-accent/30 transition-colors"
                         data-testid="button-book-consultation-comparator"
                       >
                         {t("taxComparator.cta")} →
