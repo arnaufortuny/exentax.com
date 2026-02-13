@@ -4,6 +4,8 @@
     "subtitle": "Gérez vos informations personnelles et les paramètres de votre compte.",
     "personalData": "Données personnelles",
     "infoDescription": "Ces informations nous aident à mieux vous accompagner et à respecter les exigences légales si nécessaire.",
+    "idNumberMin": "Le numéro d'ID doit comporter au moins 5 caractères",
+    "verifiedField": "Vérifié - contactez l'admin pour modifier",
     "notProvided": "Non renseigné",
     "verifyEmail": "Vérifier l'email",
     "saveChanges": "Enregistrer les modifications",

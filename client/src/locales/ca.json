@@ -4,6 +4,8 @@
     "subtitle": "Gestiona la teva informació personal i la configuració del teu compte.",
     "personalData": "Dades Personals",
     "infoDescription": "Aquesta informació ens permet acompanyar-te millor i complir amb els requisits legals quan sigui necessari.",
+    "idNumberMin": "El número d'ID ha de tenir almenys 5 caràcters",
+    "verifiedField": "Verificat - contacta amb admin per modificar",
     "notProvided": "No proporcionat",
     "verifyEmail": "Verificar correu",
     "saveChanges": "Desar canvis",

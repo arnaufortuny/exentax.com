@@ -4,6 +4,8 @@
     "subtitle": "Manage your personal information and account settings.",
     "personalData": "Personal Data",
     "infoDescription": "This information helps us assist you better and comply with legal requirements when necessary.",
+    "idNumberMin": "ID number must be at least 5 characters",
+    "verifiedField": "Verified - contact admin to modify",
     "notProvided": "Not provided",
     "verifyEmail": "Verify email",
     "saveChanges": "Save changes",

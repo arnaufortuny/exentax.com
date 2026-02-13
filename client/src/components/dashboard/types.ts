@@ -66,6 +66,7 @@ export interface User {
   businessActivity?: string | null;
   isAdmin?: boolean;
   accountStatus?: 'active' | 'pending' | 'deactivated' | 'vip' | string;
+  identityVerificationStatus?: string | null;
   emailVerified?: boolean;
   googleId?: string | null;
 }

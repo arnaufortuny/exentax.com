@@ -511,7 +511,6 @@ export default function AsesoriaGratis() {
                                 );
                               })}
                             </div>
-                          </div>
 
                           {selectedDate && (
                             <div className="mt-6">

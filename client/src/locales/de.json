@@ -4,6 +4,8 @@
     "subtitle": "Verwalten Sie Ihre persönlichen Daten und Kontoeinstellungen.",
     "personalData": "Persönliche Daten",
     "infoDescription": "Diese Informationen helfen uns, Sie besser zu unterstützen und bei Bedarf gesetzliche Anforderungen zu erfüllen.",
+    "idNumberMin": "Die ID-Nummer muss mindestens 5 Zeichen lang sein",
+    "verifiedField": "Verifiziert - Admin kontaktieren zum Ändern",
     "notProvided": "Nicht angegeben",
     "verifyEmail": "E-Mail bestätigen",
     "saveChanges": "Änderungen speichern",

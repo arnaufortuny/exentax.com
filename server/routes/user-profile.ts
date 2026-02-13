@@ -120,7 +120,7 @@ export function registerUserProfileRoutes(app: Express) {
     birthDate: z.string().optional(),
   });
   
-  // Sensitive fields that require OTP: name, ID/passport, phone only
+  // Sensitive fields that require OTP: name, ID/passport, phone
   const sensitiveFields = ['firstName', 'lastName', 'idNumber', 'idType', 'phone'];
   
   app.patch("/api/user/profile", isAuthenticated, isNotUnderReview, asyncHandler(async (req: any, res: Response) => {
@@ -132,6 +132,19 @@ export function registerUserProfileRoutes(app: Express) {
       const [currentUser] = await db.select().from(usersTable).where(eq(usersTable.id, userId)).limit(1);
       if (!currentUser || !currentUser.email) {
         return res.status(404).json({ message: "User not found" });
+      }
+      
+      // Block idNumber/idType changes if identity is verified
+      const idvStatus = (currentUser as any).identityVerificationStatus;
+      if (idvStatus === 'approved' && (validatedData.idNumber !== undefined || validatedData.idType !== undefined)) {
+        const currentIdNumber = (currentUser as any).idNumber;
+        const currentIdType = (currentUser as any).idType;
+        if (validatedData.idNumber !== undefined && validatedData.idNumber !== currentIdNumber) {
+          return res.status(403).json({ message: "Your ID/passport number cannot be modified after identity verification. Contact admin for changes." });
+        }
+        if (validatedData.idType !== undefined && validatedData.idType !== currentIdType) {
+          return res.status(403).json({ message: "Your ID/passport type cannot be modified after identity verification. Contact admin for changes." });
+        }
       }
       
       const currentUserEmail = currentUser.email;

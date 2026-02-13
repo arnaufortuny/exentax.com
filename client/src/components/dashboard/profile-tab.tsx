@@ -307,30 +307,29 @@ export function ProfileTab({
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
             <div className="space-y-1">
               <Label className="text-xs font-bold text-muted-foreground">{t('profile.fields.idType')}</Label>
-              {isEditing && canEdit ? (
-                <NativeSelect 
-                  value={profileData.idType} 
-                  onValueChange={val => setProfileData({...profileData, idType: val})}
-                  placeholder={t('profile.placeholders.idType')}
-                  className={selectClass}
-                  data-testid="select-idtype"
-                >
+              {isEditing && canEdit && user?.identityVerificationStatus !== 'approved' ? (
+                <NativeSelect value={profileData.idType} onValueChange={v => setProfileData({...profileData, idType: v})} className={inputClass} data-testid="select-id-type">
+                  <NativeSelectItem value="">{t('profile.notProvided')}</NativeSelectItem>
                   <NativeSelectItem value="dni">DNI</NativeSelectItem>
                   <NativeSelectItem value="nie">NIE</NativeSelectItem>
                   <NativeSelectItem value="passport">{t('profile.idTypes.passport')}</NativeSelectItem>
                 </NativeSelect>
-              ) : <div className={readOnlyClass}>{user?.idType === 'dni' ? 'DNI' : user?.idType === 'nie' ? 'NIE' : user?.idType === 'passport' ? t('profile.idTypes.passport') : t('profile.notProvided')}</div>}
+              ) : (
+                <div className={readOnlyClass}>{user?.idType === 'dni' ? 'DNI' : user?.idType === 'nie' ? 'NIE' : user?.idType === 'passport' ? t('profile.idTypes.passport') : t('profile.notProvided')}</div>
+              )}
+              {isEditing && canEdit && user?.identityVerificationStatus === 'approved' && <p className="text-[10px] text-muted-foreground mt-0.5">{t('profile.verifiedField', 'Verified - contact admin to modify')}</p>}
             </div>
             <div className="space-y-1">
               <Label className="text-xs font-bold text-muted-foreground">{t('profile.fields.idNumber')}</Label>
-              {isEditing && canEdit ? (
+              {isEditing && canEdit && user?.identityVerificationStatus !== 'approved' ? (
                 <>
-                  <Input value={profileData.idNumber} onChange={e => setProfileData({...profileData, idNumber: e.target.value})} placeholder={t('profile.placeholders.idNumber')} className={`${inputClass} ${profileData.idNumber && (profileData.idNumber.replace(/\D/g, '').length > 0 && profileData.idNumber.replace(/\D/g, '').length < 7) ? 'border-red-400 dark:border-red-500' : ''}`} data-testid="input-idnumber" />
-                  {profileData.idNumber && profileData.idNumber.replace(/\D/g, '').length > 0 && profileData.idNumber.replace(/\D/g, '').length < 7 && (
-                    <p className="text-xs text-red-500 dark:text-red-400 mt-1">{t('validation.idNumberMinDigits')}</p>
-                  )}
+                  <Input value={profileData.idNumber} onChange={e => setProfileData({...profileData, idNumber: e.target.value})} placeholder={t('profile.placeholders.idNumber', 'Enter your ID or passport number')} className={inputClass} data-testid="input-id-number" />
+                  {profileData.idNumber && profileData.idNumber.length < 5 && <p className="text-[10px] text-destructive mt-0.5">{t('profile.validation.idNumberMin', 'ID number must be at least 5 characters')}</p>}
                 </>
-              ) : <div className={readOnlyClass}>{user?.idNumber || t('profile.notProvided')}</div>}
+              ) : (
+                <div className={readOnlyClass}>{user?.idNumber || t('profile.notProvided')}</div>
+              )}
+              {isEditing && canEdit && user?.identityVerificationStatus === 'approved' && <p className="text-[10px] text-muted-foreground mt-0.5">{t('profile.verifiedField', 'Verified - contact admin to modify')}</p>}
             </div>
             <div className="space-y-1">
               <Label className="text-xs font-bold text-muted-foreground">{t('profile.fields.birthDate')}</Label>
