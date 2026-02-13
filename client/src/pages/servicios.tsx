@@ -123,7 +123,7 @@ export default function Servicios() {
 
   const [openFaq, setOpenFaq] = useState<number | null>(null);
 
-  const { data: products, isLoading: isLoadingProducts } = useQuery<Product[]>({
+  const { data: products } = useQuery<Product[]>({
     queryKey: ["/api/products"],
     staleTime: 1000 * 60 * 10,
   });
@@ -368,14 +368,7 @@ export default function Servicios() {
             />
           </div>
           
-          {isLoadingProducts ? (
-            <div className="flex items-center justify-center py-16" data-testid="loading-pricing">
-              <div className="flex flex-col items-center gap-3">
-                <div className="w-10 h-10 border-4 border-accent/20 border-t-accent rounded-full animate-spin" />
-                <p className="text-muted-foreground text-sm font-medium">{t("common.loading", "Cargando...")}</p>
-              </div>
-            </div>
-          ) : (<>
+          <>
           <div className="flex md:grid md:grid-cols-3 gap-6 sm:gap-8 max-w-5xl mx-auto px-6 sm:px-0 overflow-x-auto md:overflow-x-visible snap-x snap-mandatory scroll-smooth pb-4 md:pb-0 no-scrollbar">
             {/* New Mexico */}
             <div className="border-[2px] border-accent rounded-2xl overflow-hidden relative bg-background shadow-lg flex flex-col h-full group min-w-[280px] w-[85vw] md:w-auto md:min-w-0 flex-shrink-0 md:flex-shrink snap-center">
@@ -507,7 +500,7 @@ export default function Servicios() {
             <span className="text-accent font-black text-sm">{t("common.swipeHint", "Desliza para ver más")}</span>
             <ArrowRight className="w-4 h-4 text-accent" />
           </div>
-          </>)}
+          </>
           
           <div className="mt-12 sm:mt-16 flex justify-center">
             <Button onClick={() => {
