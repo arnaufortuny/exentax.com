@@ -497,7 +497,7 @@ export function TaxComparator({ titleOverride, subtitleOverride }: TaxComparator
             <span className="text-accent">{titleOverride?.part4 ?? t("taxComparator.titlePart4")}</span>
           </motion.h2>
           <motion.p 
-            className="text-muted-foreground text-base sm:text-lg lg:text-sm mt-4 text-center max-w-2xl lg:max-w-lg"
+            className="text-muted-foreground text-base sm:text-lg mt-4 text-center max-w-2xl"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true, amount: 0.3 }}
@@ -506,7 +506,7 @@ export function TaxComparator({ titleOverride, subtitleOverride }: TaxComparator
             {subtitleOverride ?? t("taxComparator.subtitle")}
           </motion.p>
           <motion.div 
-            className="w-24 h-1 bg-accent mt-6 lg:mt-4 rounded-full"
+            className="w-24 h-1 bg-accent mt-6 rounded-full"
             initial={{ scaleX: 0 }}
             whileInView={{ scaleX: 1 }}
             viewport={{ once: true, amount: 0.3 }}
@@ -515,7 +515,7 @@ export function TaxComparator({ titleOverride, subtitleOverride }: TaxComparator
         </div>
         
         <motion.div 
-          className="max-w-4xl lg:max-w-xl mx-auto"
+          className="max-w-4xl mx-auto"
           initial={{ opacity: 0, y: 10 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.2 }}
@@ -523,8 +523,8 @@ export function TaxComparator({ titleOverride, subtitleOverride }: TaxComparator
         >
           <div className="bg-background rounded-3xl border-2 border-accent/20 shadow-2xl shadow-accent/10 overflow-hidden">
             {/* Country Selection */}
-            <div className="p-6 sm:p-8 lg:p-5 border-b border-accent/10">
-              <h3 className="text-xl sm:text-2xl lg:text-lg font-black text-foreground mb-4 lg:mb-3 text-center">
+            <div className="p-6 sm:p-8 border-b border-accent/10">
+              <h3 className="text-xl sm:text-2xl font-black text-foreground mb-4 text-center">
                 {t("taxComparator.selectCountry")}
               </h3>
               <div className="flex flex-wrap justify-center gap-2">
@@ -547,8 +547,8 @@ export function TaxComparator({ titleOverride, subtitleOverride }: TaxComparator
             </div>
             
             {/* Business Structure Selection */}
-            <div className="p-6 sm:p-8 lg:p-5 border-b border-accent/10">
-              <h3 className="text-xl sm:text-2xl lg:text-lg font-black text-foreground mb-4 lg:mb-3 text-center uppercase">
+            <div className="p-6 sm:p-8 border-b border-accent/10">
+              <h3 className="text-xl sm:text-2xl font-black text-foreground mb-4 text-center uppercase">
                 {t("taxComparator.selectStructure")}
               </h3>
               <div className="flex justify-center gap-3">
@@ -578,11 +578,11 @@ export function TaxComparator({ titleOverride, subtitleOverride }: TaxComparator
             </div>
 
             {/* Income Selection */}
-            <div className="p-6 sm:p-8 lg:p-5 bg-background">
-              <div className="flex flex-col items-center gap-3 lg:gap-2">
-                <div className="flex items-center gap-3 lg:gap-2">
-                  <img src={moneyIcon} alt="" className="w-8 h-8 lg:w-7 lg:h-7" />
-                  <label className="text-base lg:text-sm font-black text-foreground">
+            <div className="p-6 sm:p-8 bg-background">
+              <div className="flex flex-col items-center gap-3">
+                <div className="flex items-center gap-3">
+                  <img src={moneyIcon} alt="" className="w-8 h-8" />
+                  <label className="text-base font-black text-foreground">
                     {t("taxComparator.annualIncome")}
                   </label>
                 </div>
@@ -592,7 +592,7 @@ export function TaxComparator({ titleOverride, subtitleOverride }: TaxComparator
                     inputMode="numeric"
                     value={formatInputCurrency(income)}
                     onChange={(e) => handleIncomeChange(e.target.value)}
-                    className="w-full px-6 py-2 lg:px-4 lg:py-1.5 text-xl sm:text-2xl lg:text-lg font-black text-accent text-center bg-white dark:bg-card border-2 border-accent/30 rounded-full focus:border-accent outline-none transition-colors"
+                    className="w-full px-6 py-2 text-xl sm:text-2xl font-black text-accent text-center bg-white dark:bg-card border-2 border-accent/30 rounded-full focus:border-accent outline-none transition-colors"
                     data-testid="input-income"
                   />
                   <span className="absolute right-6 top-1/2 -translate-y-1/2 text-lg font-black text-accent/60">€</span>
@@ -617,15 +617,15 @@ export function TaxComparator({ titleOverride, subtitleOverride }: TaxComparator
             </div>
             
             {/* Activity Type Selection */}
-            <div className="p-6 sm:p-8 lg:p-5 bg-background border-t border-accent/10">
+            <div className="p-6 sm:p-8 bg-background border-t border-accent/10">
               <div className="flex flex-col items-center gap-3">
-                <label className="text-base lg:text-sm font-black text-foreground">
+                <label className="text-base font-black text-foreground">
                   {t("taxComparator.activityType")}
                 </label>
                 <select
                   value={selectedActivity}
                   onChange={(e) => setSelectedActivity(e.target.value as ActivityType)}
-                  className="w-full max-w-xs sm:max-w-md px-5 py-3 lg:px-4 lg:py-2 text-sm font-bold bg-white dark:bg-card border-2 border-accent/30 rounded-full focus:border-accent outline-none transition-colors text-foreground text-center appearance-none cursor-pointer"
+                  className="w-full max-w-xs sm:max-w-md px-5 py-3 text-sm font-bold bg-white dark:bg-card border-2 border-accent/30 rounded-full focus:border-accent outline-none transition-colors text-foreground text-center appearance-none cursor-pointer"
                   data-testid="select-activity-type"
                 >
                   {activityTypes.map((act) => (
@@ -645,7 +645,7 @@ export function TaxComparator({ titleOverride, subtitleOverride }: TaxComparator
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.2, ease: "easeOut" }}
-                  className="p-6 sm:p-8 lg:p-5 bg-background flex items-center justify-center min-h-[280px] lg:min-h-[220px] w-full"
+                  className="p-6 sm:p-8 bg-background flex items-center justify-center min-h-[280px] w-full"
                 >
                   <div className="max-w-md sm:max-w-lg w-full mx-auto text-center flex flex-col items-center">
                     <h3 className="text-lg sm:text-xl font-black text-foreground mb-1 text-center w-full">
