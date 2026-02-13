@@ -102,6 +102,7 @@ export async function registerRoutes(
     "/api/messages",
     "/api/newsletter/subscribe",
     "/api/auth/exchange-code",
+    "/api/calculator/consultation",
   ];
   
   app.use((req, res, next) => {

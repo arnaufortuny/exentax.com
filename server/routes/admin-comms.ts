@@ -41,12 +41,13 @@ export function registerAdminCommsRoutes(app: Express) {
         return res.status(429).json({ message: "Too many requests. Please try again later." });
       }
 
-      const { email, income, country, activity, savings } = z.object({
+      const { email, income, country, activity, savings, structure } = z.object({
         email: z.string().email(),
         income: z.number().min(1),
         country: z.string(),
         activity: z.string().optional(),
-        savings: z.number().optional()
+        savings: z.number().optional(),
+        structure: z.string().optional()
       }).parse(req.body);
 
       await db.insert(calculatorConsultations).values({
@@ -66,7 +67,7 @@ export function registerAdminCommsRoutes(app: Express) {
         language: req.headers['accept-language']?.split(',')[0] || null,
         page: '/tools/price-calculator',
         referrer: req.headers['referer'] || null,
-        metadata: JSON.stringify({ income, country, activity: activity || null, savings: savings || 0 }),
+        metadata: JSON.stringify({ income, country, activity: activity || null, savings: savings || 0, structure: structure || null }),
       });
 
       res.json({ success: true });

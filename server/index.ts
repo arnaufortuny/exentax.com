@@ -63,6 +63,7 @@ async function initializeApp() {
     const compression = (await import("compression")).default;
     const { createLogger } = await import("./lib/logger");
     const { setupStaticFiles, setupSPAFallback } = await import("./static");
+    const { ZodError } = await import("zod");
 
     const serverLog = createLogger('server');
 
@@ -251,6 +252,14 @@ async function initializeApp() {
     app.use(sentryErrorHandler());
 
     app.use((err: any, _req: any, res: any, _next: any) => {
+      if (err instanceof ZodError) {
+        const message = err.errors.map(e => `${e.path.join('.')}: ${e.message}`).join(', ');
+        if (!res.headersSent) {
+          res.status(400).json({ message: `Validation error: ${message}` });
+        }
+        return;
+      }
+
       const status = err.status || err.statusCode || 500;
       const message = err.message || "Internal Server Error";
       if (!res.headersSent) {
