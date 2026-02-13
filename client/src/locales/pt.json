@@ -1477,6 +1477,8 @@
     "tracking": {
       "title": "Acompanhamento",
       "subtitle": "O progresso da tua LLC, passo a passo",
+      "order": "Pedido",
+      "created": "Criado",
       "empty": "Não há trâmites em curso",
       "emptyDescription": "Quando contratares um serviço, aqui poderás acompanhar todo o processo.",
       "orderReceived": "Pedido Recebido",

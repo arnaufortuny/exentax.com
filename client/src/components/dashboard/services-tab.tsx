@@ -80,7 +80,7 @@ export const ServicesTab = memo(function ServicesTab({ orders, draftOrders, acti
                     {order.maintenanceApplication 
                       ? `${t('dashboard.services.maintenance')} ${order.maintenanceApplication.state || ''}`
                       : order.application?.companyName 
-                        ? `${order.application.companyName} LLC`
+                        ? (order.application.companyName.trim().toUpperCase().endsWith('LLC') ? order.application.companyName : `${order.application.companyName} LLC`)
                         : `${order.application?.state || t('dashboard.services.yourLLC')}`
                     }
                     {hoursRemaining !== null && (
@@ -136,7 +136,7 @@ export const ServicesTab = memo(function ServicesTab({ orders, draftOrders, acti
                         <div>
                           <div className="flex items-center gap-2 mb-1">
                             <CheckCircle2 className="w-5 h-5 text-accent dark:text-accent" />
-                            <h4 className="text-lg font-black text-foreground" data-testid={`text-company-name-${order.id}`}>{app.companyName} LLC</h4>
+                            <h4 className="text-lg font-black text-foreground" data-testid={`text-company-name-${order.id}`}>{app.companyName?.trim().toUpperCase().endsWith('LLC') ? app.companyName : `${app.companyName} LLC`}</h4>
                           </div>
                           <p className="text-xs text-muted-foreground" data-testid={`text-llc-info-${order.id}`}>
                             <span data-testid={`text-state-${order.id}`}>{app.state}</span> · {t('dashboard.llcDetails.orderCode')}: <span data-testid={`text-order-code-${order.id}`}>{app.requestCode}</span>
@@ -289,7 +289,7 @@ export const ServicesTab = memo(function ServicesTab({ orders, draftOrders, acti
                           {order.maintenanceApplication 
                             ? `${t('dashboard.services.maintenance')} ${order.maintenanceApplication.state || ''}`
                             : order.application?.companyName 
-                              ? `${order.application.companyName} LLC`
+                              ? (order.application.companyName.trim().toUpperCase().endsWith('LLC') ? order.application.companyName : `${order.application.companyName} LLC`)
                               : order.product?.name || t('dashboard.services.pendingLLC')
                           }
                         </p>
@@ -329,7 +329,7 @@ export const ServicesTab = memo(function ServicesTab({ orders, draftOrders, acti
                       order.maintenanceApplication 
                         ? `${t('dashboard.services.maintenance')} ${order.maintenanceApplication.state || order.product?.name?.replace(' LLC', '') || ''}`
                         : order.application?.companyName 
-                          ? `${order.application.companyName} LLC`
+                          ? (order.application.companyName.trim().toUpperCase().endsWith('LLC') ? order.application.companyName : `${order.application.companyName} LLC`)
                           : order.product?.name || t('dashboard.services.yourLLC')
                     }
                     state={order.application?.state || order.maintenanceApplication?.state}

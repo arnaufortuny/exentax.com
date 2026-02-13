@@ -1533,6 +1533,8 @@
     "tracking": {
       "title": "Suivi",
       "subtitle": "L'avancement de votre LLC, étape par étape",
+      "order": "Commande",
+      "created": "Créé",
       "empty": "Aucune demande en cours",
       "emptyDescription": "Lorsque vous souscrivez un service, vous pourrez suivre l'intégralité du processus ici.",
       "orderReceived": "Commande reçue",

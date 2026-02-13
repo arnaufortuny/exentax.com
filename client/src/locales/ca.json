@@ -1477,6 +1477,8 @@
     "tracking": {
       "title": "Seguiment",
       "subtitle": "El progrés de la teva LLC, pas a pas",
+      "order": "Comanda",
+      "created": "Creat",
       "empty": "No hi ha tràmits en curs",
       "emptyDescription": "Quan contractis un servei, aquí podràs seguir tot el procés.",
       "orderReceived": "Sol·licitud Rebuda",

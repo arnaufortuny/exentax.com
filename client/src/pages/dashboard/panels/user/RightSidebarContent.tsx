@@ -198,7 +198,7 @@ export function RightSidebarContent({
                       {orders[0]?.maintenanceApplication
                         ? `${t('dashboard.services.maintenance')} ${orders[0]?.maintenanceApplication?.state || ''}`
                         : orders[0]?.application?.companyName
-                          ? `${orders[0]?.application?.companyName} LLC`
+                          ? (orders[0]?.application?.companyName.trim().toUpperCase().endsWith('LLC') ? orders[0]?.application?.companyName : `${orders[0]?.application?.companyName} LLC`)
                           : orders[0]?.product?.name || 'LLC'}
                     </p>
                     <p className="text-[10px] text-muted-foreground">{orders[0]?.application?.state || orders[0]?.maintenanceApplication?.state || ''}</p>

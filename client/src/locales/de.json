@@ -1477,6 +1477,8 @@
     "tracking": {
       "title": "Verfolgung",
       "subtitle": "Ihr LLC-Fortschritt, Schritt für Schritt",
+      "order": "Bestellung",
+      "created": "Erstellt",
       "empty": "Keine Anträge in Bearbeitung",
       "emptyDescription": "Wenn Sie einen Service beauftragen, können Sie den gesamten Prozess hier verfolgen.",
       "orderReceived": "Bestellung eingegangen",

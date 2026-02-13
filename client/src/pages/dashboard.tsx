@@ -502,7 +502,7 @@ export default function Dashboard() {
   });
 
   useEffect(() => {
-    if (user) {
+    if (user && !isEditing) {
       setProfileData({
         firstName: user.firstName || '',
         lastName: user.lastName || '',
@@ -519,7 +519,7 @@ export default function Dashboard() {
         birthDate: user.birthDate || ''
       });
     }
-  }, [user]);
+  }, [user, isEditing]);
 
   const [isTabFocused, setIsTabFocused] = useState(() => typeof document !== 'undefined' ? document.hasFocus() : true);
   useEffect(() => {
@@ -2748,7 +2748,7 @@ export default function Dashboard() {
                             {orders[0]?.maintenanceApplication 
                               ? `${t('dashboard.services.maintenance')} ${orders[0]?.maintenanceApplication?.state || ''}`
                               : orders[0]?.application?.companyName 
-                                ? `${orders[0]?.application?.companyName} LLC`
+                                ? (orders[0]?.application?.companyName.trim().toUpperCase().endsWith('LLC') ? orders[0]?.application?.companyName : `${orders[0]?.application?.companyName} LLC`)
                                 : orders[0]?.product?.name || 'LLC'}
                           </p>
                           <p className="text-[10px] text-muted-foreground">{orders[0]?.application?.state || orders[0]?.maintenanceApplication?.state || ''}</p>

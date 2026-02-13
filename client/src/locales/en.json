@@ -1477,6 +1477,8 @@
     "tracking": {
       "title": "Tracking",
       "subtitle": "Your LLC progress, step by step",
+      "order": "Order",
+      "created": "Created",
       "empty": "No applications in progress",
       "emptyDescription": "When you hire a service, you'll be able to track the entire process here.",
       "orderReceived": "Order Received",
