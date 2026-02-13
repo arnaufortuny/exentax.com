@@ -2676,7 +2676,13 @@
     "unauthorized": "Não tens permissão para realizar esta ação.",
     "notFound": "O recurso solicitado não existe.",
     "validation": "Por favor, verifica os campos do formulário.",
-    "fetchFailed": "Falha ao buscar dados"
+    "fetchFailed": "Falha ao buscar dados",
+    "errorInPanel": "Erro em {{panel}}",
+    "somethingWentWrong": "Algo correu mal",
+    "unexpectedError": "Ocorreu um erro inesperado nesta secção.",
+    "retry": "Tentar novamente",
+    "reloadPage": "Recarregar página",
+    "networkError": "Erro de rede. Por favor, verifica a tua conexão."
   },
   "progress": {
     "step": "Passo {{current}} de {{total}}",
@@ -3973,5 +3979,21 @@
       "titlePart4": "ESTRUTURA",
       "subtitle": "Simule o seu caso em menos de 60 segundos com base no seu país, rendimento e atividade."
     }
+  },
+  "linktree": {
+    "startNow": "Começar agora",
+    "viewPrices": "Ver preços",
+    "ourServices": "Os nossos serviços",
+    "faq": "Perguntas frequentes",
+    "taxCalculator": "Calculadora fiscal",
+    "heading": "Se o teu negócio é digital, provavelmente estás a pagar mais impostos do que o necessário.",
+    "subheading": "Criamos estruturas internacionais legais adaptadas à tua atividade e guiamos-te em todo o processo. Reserva a tua consultoria gratuita e descobre em 15 minutos.",
+    "shareText": "Otimiza os teus impostos com uma LLC nos EUA.",
+    "linkCopied": "Link copiado. O link foi copiado para a área de transferência.",
+    "pageTitle": "Exentax | Otimiza os teus impostos com uma LLC nos EUA",
+    "metaDescription": "Se o teu negócio é digital, provavelmente estás a pagar mais impostos do que o necessário. Criamos estruturas internacionais legais adaptadas à tua atividade.",
+    "metaKeywords": "LLC Estados Unidos, criar LLC, empresa EUA, otimização fiscal, LLC para freelancers, LLC empreendedores, abrir empresa EUA",
+    "ogDescription": "Se o teu negócio é digital, provavelmente estás a pagar mais impostos do que o necessário.",
+    "twitterTitle": "Exentax | LLC nos EUA"
   }
 }

@@ -40,7 +40,19 @@ Key architectural patterns include:
 - **PDF Generation (Server-side):** pdfkit
 - **PDF Generation (Client-side):** jspdf
 
+## Configuration
+- **Admin Email:** Centralized in `server/lib/config.ts` via `ADMIN_EMAIL` env var (fallback: afortuny07@gmail.com)
+- **Contact Phone:** Centralized in `client/src/lib/constants.ts` as `CONTACT_PHONE` / `CONTACT_PHONE_DISPLAY`
+- **Self-Healing:** QueryClient has auto-retry (3x queries, 2x mutations) with exponential backoff, skips retry on 401/403/404. CSRF auto-refresh on 403. PanelErrorBoundary auto-retries (3x with 5s delay, 30s cooldown reset). Backend returns 503+Retry-After for DB errors. Health check at `/_health` includes DB status.
+
 ## Recent Changes
+- **2026-02-13:** Self-healing system: PanelErrorBoundary auto-retries (3x, 5s delay, 30s cooldown reset, deterministic error detection). QueryClient skips retry on 401/403/404. Global toast for network errors. Backend returns 503+Retry-After for DB errors. Health check includes DB status.
+- **2026-02-13:** Admin email centralized in `server/lib/config.ts` (env-based). Phone number centralized in `client/src/lib/constants.ts`. Removed 9 hardcoded email and 8 hardcoded phone instances.
+- **2026-02-13:** Page titles now i18n-aware (use-page-title.ts). Linktree page fully translated. Form-select placeholder uses t().
+- **2026-02-13:** Audit logging added for: document uploads (llc.ts, user-documents.ts), invoice create/delete/status-change, order deletion, document review.
+- **2026-02-13:** Removed unused code: products queries in home/servicios, DashboardContext system (4 files), StrategyIcon/ContinuousIcon, dead imports.
+- **2026-02-13:** Admin data tables have mobile horizontal scroll. DocumentsPanel has loading skeleton.
+- **2026-02-13:** Global error handler: ZodError→400 with details, DB errors→503, no stack trace leaks.
 - **2026-02-13:** Comprehensive security audit: CSRF protection hardened (fixed startsWith matching), rate limiting added to OTP/registration/password-reset, input sanitization added to messages/LLC/maintenance routes, global error handler hardened (no stack traces leaked).
 - **2026-02-13:** PDF invoice generator constrained to 1 page max for admin invoices. Added text truncation, item limits, and fixed footer positioning.
 - **2026-02-13:** Order/payment status transition validation added with explicit state machine rules. Transaction safety added for cascade deletes.

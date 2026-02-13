@@ -3,50 +3,52 @@ import { FaWhatsapp } from "react-icons/fa";
 import { Button } from "@/components/ui/button";
 import { getWhatsAppUrl } from "@/lib/whatsapp";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import logoIcon from "@/assets/logo-icon.png";
 
-const links = [
-  {
-    label: "Empezar ahora",
-    href: "whatsapp:linktree",
-    icon: FaWhatsapp,
-    external: true,
-    primary: true
-  },
-  {
-    label: "Ver precios",
-    href: "https://exentax.com/servicios#pricing",
-    icon: Package,
-    external: true
-  },
-  {
-    label: "Nuestros servicios",
-    href: "https://exentax.com/servicios",
-    icon: Briefcase,
-    external: true
-  },
-  {
-    label: "Preguntas frecuentes",
-    href: "https://exentax.com/faq",
-    icon: HelpCircle,
-    external: true
-  },
-  {
-    label: "Calculadora fiscal",
-    href: "https://exentax.com/start#tax-calculator",
-    icon: Calculator,
-    external: true
-  },
-  {
-    label: "Instagram",
-    href: "https://instagram.com/exentax.global",
-    icon: Instagram,
-    external: true
-  }
-];
-
 export default function LinktreePage() {
+  const { t, i18n } = useTranslation();
   const [formMessage, setFormMessage] = useState<{ type: 'error' | 'success' | 'info', text: string } | null>(null);
+
+  const links = [
+    {
+      label: t("linktree.startNow"),
+      href: "whatsapp:linktree",
+      icon: FaWhatsapp,
+      external: true,
+      primary: true
+    },
+    {
+      label: t("linktree.viewPrices"),
+      href: "https://exentax.com/servicios#pricing",
+      icon: Package,
+      external: true
+    },
+    {
+      label: t("linktree.ourServices"),
+      href: "https://exentax.com/servicios",
+      icon: Briefcase,
+      external: true
+    },
+    {
+      label: t("linktree.faq"),
+      href: "https://exentax.com/faq",
+      icon: HelpCircle,
+      external: true
+    },
+    {
+      label: t("linktree.taxCalculator"),
+      href: "https://exentax.com/start#tax-calculator",
+      icon: Calculator,
+      external: true
+    },
+    {
+      label: "Instagram",
+      href: "https://instagram.com/exentax.global",
+      icon: Instagram,
+      external: true
+    }
+  ];
 
   useEffect(() => {
     if (formMessage) {
@@ -59,7 +61,7 @@ export default function LinktreePage() {
     setFormMessage(null);
     const shareData = {
       title: 'Exentax',
-      text: 'Optimiza tus impuestos con una LLC en EE. UU.',
+      text: t("linktree.shareText"),
       url: 'https://exentax.com/links'
     };
 
@@ -71,12 +73,12 @@ export default function LinktreePage() {
       }
     } else {
       await navigator.clipboard.writeText('https://exentax.com/links');
-      setFormMessage({ type: 'success', text: 'Enlace copiado. El enlace ha sido copiado al portapapeles' });
+      setFormMessage({ type: 'success', text: t("linktree.linkCopied") });
     }
   };
 
   useEffect(() => {
-    document.title = "Exentax | Optimiza tus impuestos con una LLC en EEUU";
+    document.title = t("linktree.pageTitle");
     
     const setMeta = (name: string, content: string, isProperty = false) => {
       const selector = isProperty ? `meta[property="${name}"]` : `meta[name="${name}"]`;
@@ -89,21 +91,21 @@ export default function LinktreePage() {
       tag.setAttribute('content', content);
     };
 
-    setMeta('description', 'Si tu negocio es digital, probablemente estés pagando más impuestos de los necesarios. Creamos estructuras internacionales legales adaptadas a tu actividad.');
-    setMeta('keywords', 'LLC Estados Unidos, crear LLC, empresa USA, optimizar impuestos, LLC para autonomos, LLC emprendedores, abrir empresa EEUU');
+    setMeta('description', t("linktree.metaDescription"));
+    setMeta('keywords', t("linktree.metaKeywords"));
     setMeta('robots', 'index, follow');
     setMeta('author', 'Exentax');
 
-    setMeta('og:title', 'Exentax | Optimiza tus impuestos con una LLC en EEUU', true);
-    setMeta('og:description', 'Si tu negocio es digital, probablemente estés pagando más impuestos de los necesarios.', true);
+    setMeta('og:title', t("linktree.pageTitle"), true);
+    setMeta('og:description', t("linktree.ogDescription"), true);
     setMeta('og:type', 'website', true);
     setMeta('og:url', 'https://exentax.com/links', true);
     setMeta('og:site_name', 'Exentax', true);
     setMeta('og:image', 'https://exentax.com/logo-icon.png', true);
 
     setMeta('twitter:card', 'summary');
-    setMeta('twitter:title', 'Exentax | LLC en EEUU');
-    setMeta('twitter:description', 'Si tu negocio es digital, probablemente estés pagando más impuestos de los necesarios.');
+    setMeta('twitter:title', t("linktree.twitterTitle"));
+    setMeta('twitter:description', t("linktree.ogDescription"));
 
     let canonical = document.querySelector('link[rel="canonical"]');
     if (!canonical) {
@@ -121,7 +123,7 @@ export default function LinktreePage() {
     }
     favicon.setAttribute('href', 'https://exentax.com/logo-icon.png');
     favicon.setAttribute('type', 'image/png');
-  }, []);
+  }, [i18n.language, t]);
 
   return (
     <div 
@@ -165,11 +167,11 @@ export default function LinktreePage() {
             </div>
 
             <h1 className="text-xl sm:text-2xl font-bold leading-snug mb-4 text-white drop-shadow-sm max-w-sm mx-auto">
-              Si tu negocio es digital, probablemente estés pagando más impuestos de los necesarios.
+              {t("linktree.heading")}
             </h1>
             
             <p className="text-sm sm:text-base mb-4 leading-relaxed text-white/85 max-w-sm mx-auto">
-              Creamos estructuras internacionales legales adaptadas a tu actividad y te guiamos en todo el proceso. Reserva tu asesoría gratuita y descúbrelo en 15 minutos.
+              {t("linktree.subheading")}
             </p>
           </div>
 
@@ -181,13 +183,13 @@ export default function LinktreePage() {
                 target={link.external ? "_blank" : undefined}
                 rel={link.external ? "noopener noreferrer" : undefined}
                 className="block w-full"
-                data-testid={`link-${link.label.toLowerCase().replace(/\s+/g, '-').replace(/[?¿]/g, '')}`}
+                data-testid={`link-linktree-${index}`}
               >
                 <Button
                   className="w-full font-bold text-base rounded-full flex items-center justify-center gap-3 shadow-lg bg-white/20 backdrop-blur-sm text-white border-2 border-white/30"
                   variant="outline"
                   size="lg"
-                  data-testid={`button-${link.label.toLowerCase().replace(/\s+/g, '-').replace(/[?¿]/g, '')}`}
+                  data-testid={`button-linktree-${index}`}
                 >
                   <link.icon className="w-5 h-5" />
                   {link.label}

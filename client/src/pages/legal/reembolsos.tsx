@@ -1,6 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { LegalPageLayout, LegalSection, LegalSubSection, LegalList, LegalHighlightBox } from "@/components/legal/legal-page-layout";
 import { usePageTitle } from "@/hooks/use-page-title";
+import { CONTACT_PHONE_DISPLAY } from "@/lib/constants";
 
 export default function Reembolsos() {
   const { t } = useTranslation();
@@ -66,7 +67,7 @@ export default function Reembolsos() {
         <p>{t("legalRefunds.s06p1")}</p>
         <LegalHighlightBox>
           <p>Email: hola@exentax.com</p>
-          <p>WhatsApp: +34 614 916 910</p>
+          <p>WhatsApp: {CONTACT_PHONE_DISPLAY}</p>
           <p className="mt-4 text-sm opacity-70">{t("legalRefunds.s06p2")}</p>
         </LegalHighlightBox>
         <p className="mt-4">{t("legalRefunds.s06p3")}</p>

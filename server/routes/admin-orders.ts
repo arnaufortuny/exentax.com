@@ -353,6 +353,15 @@ export function registerAdminOrderRoutes(app: Express) {
       await tx.delete(ordersTable).where(eq(ordersTable.id, orderId));
     });
     
+    logAudit({
+      action: 'admin_order_update',
+      userId: req.session?.userId,
+      targetId: String(orderId),
+      details: { action: 'delete', invoiceNumber: order.invoiceNumber, status: order.status },
+      ip: req.headers['x-forwarded-for']?.toString().split(',')[0] || req.ip || 'unknown',
+      userAgent: req.headers['user-agent'] || undefined,
+    });
+
     res.json({ success: true, message: "Order deleted successfully" });
     } catch (error) {
       log.error("Error deleting order", error);
@@ -448,6 +457,15 @@ export function registerAdminOrderRoutes(app: Express) {
       return res.status(400).json({ message: "Invalid request type" });
     }
     
+    logAudit({
+      action: 'admin_order_update',
+      userId: req.session?.userId,
+      targetId: String(appId),
+      details: { action: 'delete_incomplete', type },
+      ip: req.headers['x-forwarded-for']?.toString().split(',')[0] || req.ip || 'unknown',
+      userAgent: req.headers['user-agent'] || undefined,
+    });
+
     res.json({ success: true, message: "Incomplete request deleted" });
     } catch (error) {
       log.error("Error deleting incomplete application", error);

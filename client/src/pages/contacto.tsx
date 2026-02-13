@@ -4,6 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useTranslation } from "react-i18next";
 import { getWhatsAppUrl } from "@/lib/whatsapp";
+import { CONTACT_PHONE_DISPLAY } from "@/lib/constants";
 import { validateEmail } from "@/lib/validation";
 import { usePageTitle } from "@/hooks/use-page-title";
 
@@ -648,7 +649,7 @@ export default function Contacto() {
                 </svg>
               </div>
               <div className="text-left">
-                <p className="text-lg font-black text-primary">+34 614 91 69 10</p>
+                <p className="text-lg font-black text-primary">{CONTACT_PHONE_DISPLAY}</p>
               </div>
             </a>
 

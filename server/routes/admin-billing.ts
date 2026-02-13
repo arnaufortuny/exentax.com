@@ -73,6 +73,15 @@ export function registerAdminBillingRoutes(app: Express) {
       isRead: false
     });
     
+    logAudit({
+      action: 'order_created',
+      userId: req.session?.userId,
+      targetId: String(order.id),
+      details: { userId, state, amount: amountCents, invoiceNumber },
+      ip: getClientIp(req),
+      userAgent: req.headers['user-agent'] || undefined,
+    });
+
     res.json({ success: true, orderId: order.id, invoiceNumber });
   }));
 
@@ -822,7 +831,18 @@ export function registerAdminBillingRoutes(app: Express) {
   app.delete("/api/admin/invoices/:id", isAdmin, asyncHandler(async (req: Request, res: Response) => {
     try {
       const invoiceId = parseInt(req.params.id);
+      const [deletedInvoice] = await db.select({ invoiceNumber: standaloneInvoices.invoiceNumber }).from(standaloneInvoices).where(eq(standaloneInvoices.id, invoiceId)).limit(1);
       await db.delete(standaloneInvoices).where(eq(standaloneInvoices.id, invoiceId));
+
+      logAudit({
+        action: 'accounting_transaction_deleted',
+        userId: (req as any).session?.userId,
+        targetId: String(invoiceId),
+        details: { invoiceNumber: deletedInvoice?.invoiceNumber },
+        ip: getClientIp(req),
+        userAgent: req.headers['user-agent'] || undefined,
+      });
+
       res.json({ success: true, message: "Invoice deleted" });
     } catch (error) {
       log.error("Error deleting invoice", error);
@@ -837,11 +857,22 @@ export function registerAdminBillingRoutes(app: Express) {
         status: z.enum(['pending', 'paid', 'completed', 'cancelled', 'refunded'])
       }).parse(req.body);
 
+      const [existingInvoice] = await db.select({ status: standaloneInvoices.status, invoiceNumber: standaloneInvoices.invoiceNumber }).from(standaloneInvoices).where(eq(standaloneInvoices.id, invoiceId)).limit(1);
+
       const updateData: any = { status, updatedAt: new Date() };
       if (status === 'paid') updateData.paidAt = new Date();
 
       await db.update(standaloneInvoices).set(updateData)
         .where(eq(standaloneInvoices.id, invoiceId));
+
+      logAudit({
+        action: 'accounting_transaction_updated',
+        userId: (req as any).session?.userId,
+        targetId: String(invoiceId),
+        details: { invoiceNumber: existingInvoice?.invoiceNumber, previousStatus: existingInvoice?.status, newStatus: status },
+        ip: getClientIp(req),
+        userAgent: req.headers['user-agent'] || undefined,
+      });
 
       res.json({ success: true, message: "Status updated" });
     } catch (error) {
@@ -993,6 +1024,15 @@ export function registerAdminBillingRoutes(app: Express) {
       title: `i18n:dashboard.notifications.invoice.created.title`,
       message: `i18n:dashboard.notifications.invoice.created.message::${JSON.stringify({ number: invoiceNumber, amount: (amount / 100).toFixed(2), currency: currencySymbol })}`,
       type: 'info',
+    });
+
+    logAudit({
+      action: 'accounting_transaction_created',
+      userId: (req as any).session?.userId,
+      targetId: String(invoice.id),
+      details: { invoiceNumber, userId, concept, amount, currency },
+      ip: getClientIp(req),
+      userAgent: req.headers['user-agent'] || undefined,
     });
 
     res.json({ success: true, invoiceNumber, invoiceId: invoice.id });

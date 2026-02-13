@@ -42,3 +42,19 @@ pool.on('connect', () => {
 });
 
 export const db = drizzle(pool, { schema });
+
+export async function checkDatabaseHealth(): Promise<{ healthy: boolean; latencyMs?: number; error?: string }> {
+  const start = Date.now();
+  try {
+    const client = await pool.connect();
+    try {
+      await client.query('SELECT 1');
+      return { healthy: true, latencyMs: Date.now() - start };
+    } finally {
+      client.release();
+    }
+  } catch (err: any) {
+    log.error('Database health check failed', err);
+    return { healthy: false, latencyMs: Date.now() - start, error: err.message };
+  }
+}

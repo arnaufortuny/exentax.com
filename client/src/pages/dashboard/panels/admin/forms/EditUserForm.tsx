@@ -133,7 +133,7 @@ export function EditUserForm({ editingUser, setEditingUser, updateUserMutation, 
           <Label className="text-xs font-semibold text-foreground mb-1.5 block">{t('dashboard.admin.internalNotes')}</Label>
           <Textarea value={editingUser.internalNotes || ''} onChange={e => setEditingUser({...editingUser, internalNotes: e.target.value})} rows={2} className="rounded-2xl border-border bg-background dark:bg-card text-sm" data-testid="input-edit-notes" />
         </div>
-        {currentUserEmail === 'afortuny07@gmail.com' && (
+        {currentUserEmail === (import.meta.env.VITE_ADMIN_EMAIL || 'afortuny07@gmail.com') && (
           <>
           <div className="p-3 bg-purple-50 dark:bg-purple-900/20 rounded-xl border border-purple-200 dark:border-purple-800">
             <div className="flex items-center justify-between">

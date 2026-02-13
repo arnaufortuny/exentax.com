@@ -1,7 +1,7 @@
 import type { Express, Response } from "express";
 import { z } from "zod";
 import { and, eq, desc, inArray, or, sql } from "drizzle-orm";
-import { db, storage, isAdmin, isAdminOrSupport , asyncHandler } from "./shared";
+import { db, storage, isAdmin, isAdminOrSupport, asyncHandler, logAudit, getClientIp } from "./shared";
 import { createLogger } from "../lib/logger";
 
 const log = createLogger('admin-documents');
@@ -365,6 +365,15 @@ export function registerAdminDocumentsRoutes(app: Express) {
         }
       }
       
+      logAudit({
+        action: 'account_review',
+        userId: req.session?.userId,
+        targetId: String(docId),
+        details: { reviewStatus, rejectionReason, documentType: docWithOrder?.doc?.documentType, fileName: docWithOrder?.doc?.fileName },
+        ip: getClientIp(req),
+        userAgent: req.headers['user-agent'] || undefined,
+      });
+
       if (reviewStatus === 'approved' || reviewStatus === 'rejected') {
         const linkedRequests = await db.select().from(documentRequestsTable)
           .where(eq(documentRequestsTable.linkedDocumentId, docId));

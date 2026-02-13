@@ -2676,7 +2676,13 @@
     "unauthorized": "No tienes permiso para realizar esta acción.",
     "notFound": "El recurso solicitado no existe.",
     "validation": "Por favor, revisa los campos del formulario.",
-    "fetchFailed": "Error al obtener los datos"
+    "fetchFailed": "Error al obtener los datos",
+    "errorInPanel": "Error en {{panel}}",
+    "somethingWentWrong": "Algo salió mal",
+    "unexpectedError": "Ocurrió un error inesperado en esta sección.",
+    "retry": "Reintentar",
+    "reloadPage": "Recargar página",
+    "networkError": "Error de red. Por favor, verifica tu conexión."
   },
   "progress": {
     "step": "Paso {{current}} de {{total}}",
@@ -3973,5 +3979,21 @@
       "titlePart4": "ESTRUCTURA",
       "subtitle": "Simula tu caso en menos de 60 segundos según tu país, ingresos y actividad."
     }
+  },
+  "linktree": {
+    "startNow": "Empezar ahora",
+    "viewPrices": "Ver precios",
+    "ourServices": "Nuestros servicios",
+    "faq": "Preguntas frecuentes",
+    "taxCalculator": "Calculadora fiscal",
+    "heading": "Si tu negocio es digital, probablemente estés pagando más impuestos de los necesarios.",
+    "subheading": "Creamos estructuras internacionales legales adaptadas a tu actividad y te guiamos en todo el proceso. Reserva tu asesoría gratuita y descúbrelo en 15 minutos.",
+    "shareText": "Optimiza tus impuestos con una LLC en EE. UU.",
+    "linkCopied": "Enlace copiado. El enlace ha sido copiado al portapapeles.",
+    "pageTitle": "Exentax | Optimiza tus impuestos con una LLC en EEUU",
+    "metaDescription": "Si tu negocio es digital, probablemente estés pagando más impuestos de los necesarios. Creamos estructuras internacionales legales adaptadas a tu actividad.",
+    "metaKeywords": "LLC Estados Unidos, crear LLC, empresa USA, optimizar impuestos, LLC para autónomos, LLC emprendedores, abrir empresa EEUU",
+    "ogDescription": "Si tu negocio es digital, probablemente estés pagando más impuestos de los necesarios.",
+    "twitterTitle": "Exentax | LLC en EEUU"
   }
 }

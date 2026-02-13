@@ -80,8 +80,24 @@ async function initializeApp() {
 
     app.use(compression());
 
-    app.get("/_health", (_req: any, res: any) => {
-      res.status(200).send("ok");
+    app.get("/_health", async (_req: any, res: any) => {
+      try {
+        const { checkDatabaseHealth } = await import("./db");
+        const dbHealth = await checkDatabaseHealth();
+        if (!dbHealth.healthy) {
+          res.status(503).setHeader('Retry-After', '5').json({
+            status: 'unhealthy',
+            database: { healthy: false, error: dbHealth.error },
+          });
+          return;
+        }
+        res.status(200).json({
+          status: 'healthy',
+          database: { healthy: true, latencyMs: dbHealth.latencyMs },
+        });
+      } catch {
+        res.status(200).send("ok");
+      }
     });
 
     const getCSP = (): string => {
@@ -252,20 +268,57 @@ async function initializeApp() {
     app.use(sentryErrorHandler());
 
     app.use((err: any, _req: any, res: any, _next: any) => {
+      if (res.headersSent) return;
+
       if (err instanceof ZodError) {
-        const message = err.errors.map(e => `${e.path.join('.')}: ${e.message}`).join(', ');
-        if (!res.headersSent) {
-          res.status(400).json({ message: `Validation error: ${message}` });
-        }
+        const details = err.errors.map(e => ({
+          path: e.path.join('.'),
+          message: e.message,
+        }));
+        res.status(400).json({
+          message: 'Validation error',
+          code: 'VALIDATION_ERROR',
+          details,
+        });
+        return;
+      }
+
+      const errMsg = (err.message || '').toLowerCase();
+      const isDbConnectionError =
+        err.code === 'ECONNREFUSED' ||
+        err.code === 'ETIMEDOUT' ||
+        err.code === 'ENOTFOUND' ||
+        errMsg.includes('connection terminated') ||
+        errMsg.includes('connection refused') ||
+        errMsg.includes('too many clients') ||
+        errMsg.includes('cannot acquire') ||
+        (errMsg.includes('database') && errMsg.includes('unavailable'));
+
+      if (isDbConnectionError) {
+        res.setHeader('Retry-After', '5');
+        res.status(503).json({
+          message: 'Service temporarily unavailable. Please try again shortly.',
+          code: 'SERVICE_UNAVAILABLE',
+        });
+        serverLog.error('Database connection error', err);
         return;
       }
 
       const status = err.status || err.statusCode || 500;
-      const message = status >= 500 ? "Internal Server Error" : (err.message || "Internal Server Error");
-      if (!res.headersSent) {
-        res.status(status).json({ message });
+      const message = status >= 500
+        ? 'Internal Server Error'
+        : (err.message || 'Internal Server Error');
+
+      const response: { message: string; code?: string } = { message };
+      if (err.code && typeof err.code === 'string') {
+        response.code = err.code;
       }
-      serverLog.error(`Request error [${status}]`, err);
+
+      res.status(status).json(response);
+
+      if (status >= 500) {
+        serverLog.error(`Request error [${status}]`, err);
+      }
     });
 
     if (isProduction) {

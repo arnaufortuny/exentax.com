@@ -2676,7 +2676,13 @@
     "unauthorized": "Vous n'avez pas la permission d'effectuer cette action.",
     "notFound": "La ressource demandée n'existe pas.",
     "validation": "Veuillez vérifier les champs du formulaire.",
-    "fetchFailed": "Échec de récupération des données"
+    "fetchFailed": "Échec de récupération des données",
+    "errorInPanel": "Erreur dans {{panel}}",
+    "somethingWentWrong": "Une erreur est survenue",
+    "unexpectedError": "Une erreur inattendue s'est produite dans cette section.",
+    "retry": "Réessayer",
+    "reloadPage": "Recharger la page",
+    "networkError": "Erreur réseau. Veuillez vérifier votre connexion."
   },
   "progress": {
     "step": "Étape {{current}} sur {{total}}",
@@ -3973,5 +3979,21 @@
       "titlePart4": "STRUCTURE",
       "subtitle": "Simulez votre cas en moins de 60 secondes selon votre pays, revenus et activité."
     }
+  },
+  "linktree": {
+    "startNow": "Commencer maintenant",
+    "viewPrices": "Voir les tarifs",
+    "ourServices": "Nos services",
+    "faq": "Questions fréquentes",
+    "taxCalculator": "Calculateur fiscal",
+    "heading": "Si votre activité est digitale, vous payez probablement plus d'impôts que nécessaire.",
+    "subheading": "Nous créons des structures internationales légales adaptées à votre activité et vous accompagnons tout au long du processus. Réservez votre consultation gratuite et découvrez-le en 15 minutes.",
+    "shareText": "Optimisez vos impôts avec une LLC aux États-Unis.",
+    "linkCopied": "Lien copié. Le lien a été copié dans le presse-papiers.",
+    "pageTitle": "Exentax | Optimisez vos impôts avec une LLC aux États-Unis",
+    "metaDescription": "Si votre activité est digitale, vous payez probablement plus d'impôts que nécessaire. Nous créons des structures internationales légales adaptées à votre activité.",
+    "metaKeywords": "LLC États-Unis, créer LLC, entreprise USA, optimisation fiscale, LLC freelances, LLC entrepreneurs, ouvrir entreprise USA",
+    "ogDescription": "Si votre activité est digitale, vous payez probablement plus d'impôts que nécessaire.",
+    "twitterTitle": "Exentax | LLC aux États-Unis"
   }
 }

@@ -2676,7 +2676,13 @@
     "unauthorized": "You don't have permission to perform this action.",
     "notFound": "The requested resource doesn't exist.",
     "validation": "Please check the form fields.",
-    "fetchFailed": "Failed to fetch data"
+    "fetchFailed": "Failed to fetch data",
+    "errorInPanel": "Error in {{panel}}",
+    "somethingWentWrong": "Something went wrong",
+    "unexpectedError": "An unexpected error occurred in this section.",
+    "retry": "Retry",
+    "reloadPage": "Reload page",
+    "networkError": "Network error. Please check your connection."
   },
   "progress": {
     "step": "Step {{current}} of {{total}}",
@@ -3973,5 +3979,21 @@
       "titlePart4": "STRUCTURE",
       "subtitle": "Simulate your case in less than 60 seconds based on your country, income and activity."
     }
+  },
+  "linktree": {
+    "startNow": "Get started",
+    "viewPrices": "View pricing",
+    "ourServices": "Our services",
+    "faq": "Frequently asked questions",
+    "taxCalculator": "Tax calculator",
+    "heading": "If your business is digital, you're probably paying more taxes than necessary.",
+    "subheading": "We create legal international structures tailored to your business and guide you through the entire process. Book your free consultation and find out in 15 minutes.",
+    "shareText": "Optimize your taxes with a US LLC.",
+    "linkCopied": "Link copied. The link has been copied to your clipboard.",
+    "pageTitle": "Exentax | Optimize your taxes with a US LLC",
+    "metaDescription": "If your business is digital, you're probably paying more taxes than necessary. We create legal international structures tailored to your business.",
+    "metaKeywords": "US LLC, create LLC, US company, tax optimization, LLC for freelancers, LLC entrepreneurs, open US business",
+    "ogDescription": "If your business is digital, you're probably paying more taxes than necessary.",
+    "twitterTitle": "Exentax | US LLC"
   }
 }

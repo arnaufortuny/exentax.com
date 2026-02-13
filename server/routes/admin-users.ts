@@ -75,8 +75,8 @@ export function registerAdminUserRoutes(app: Express) {
     });
     const data = updateSchema.parse(req.body);
     
-    // Only afortuny07@gmail.com can assign admin/support privileges
-    const SUPER_ADMIN_EMAIL = "afortuny07@gmail.com";
+    // Only super admin can assign admin/support privileges
+    const { SUPER_ADMIN_EMAIL } = await import("../lib/config");
     if (data.isAdmin !== undefined || data.isSupport !== undefined) {
       const [currentAdmin] = await db.select().from(usersTable).where(eq(usersTable.id, req.session?.userId || '')).limit(1);
       if (!currentAdmin || currentAdmin.email !== SUPER_ADMIN_EMAIL) {

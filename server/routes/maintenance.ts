@@ -354,7 +354,7 @@ export function registerMaintenanceRoutes(app: Express) {
         const orderAmount = order ? (order.amount / 100).toFixed(2) : 'N/A';
         
         // Email notification to admin about completed maintenance order
-        const adminEmail = process.env.ADMIN_EMAIL || "afortuny07@gmail.com";
+        const { ADMIN_EMAIL: adminEmail } = await import("../lib/config");
         const maintPaymentMethodLabel = updatedApp.paymentMethod === 'transfer' ? 'Transferencia Bancaria' : updatedApp.paymentMethod === 'link' ? 'Link de Pago' : 'No especificado';
         
         sendEmail({

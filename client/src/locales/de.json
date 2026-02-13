@@ -2676,7 +2676,13 @@
     "unauthorized": "Sie haben keine Berechtigung, diese Aktion durchzuführen.",
     "notFound": "Die angeforderte Ressource existiert nicht.",
     "validation": "Bitte überprüfen Sie die Formularfelder.",
-    "fetchFailed": "Fehler beim Abrufen der Daten"
+    "fetchFailed": "Fehler beim Abrufen der Daten",
+    "errorInPanel": "Fehler in {{panel}}",
+    "somethingWentWrong": "Etwas ist schiefgelaufen",
+    "unexpectedError": "Ein unerwarteter Fehler ist in diesem Bereich aufgetreten.",
+    "retry": "Erneut versuchen",
+    "reloadPage": "Seite neu laden",
+    "networkError": "Netzwerkfehler. Bitte überprüfen Sie Ihre Verbindung."
   },
   "progress": {
     "step": "Schritt {{current}} von {{total}}",
@@ -3973,5 +3979,21 @@
       "titlePart4": "STRUKTUR",
       "subtitle": "Simulieren Sie Ihren Fall in weniger als 60 Sekunden basierend auf Ihrem Land, Einkommen und Tätigkeit."
     }
+  },
+  "linktree": {
+    "startNow": "Jetzt starten",
+    "viewPrices": "Preise ansehen",
+    "ourServices": "Unsere Dienstleistungen",
+    "faq": "Häufig gestellte Fragen",
+    "taxCalculator": "Steuerrechner",
+    "heading": "Wenn Ihr Geschäft digital ist, zahlen Sie wahrscheinlich mehr Steuern als nötig.",
+    "subheading": "Wir schaffen legale internationale Strukturen, die auf Ihre Tätigkeit zugeschnitten sind, und begleiten Sie durch den gesamten Prozess. Buchen Sie Ihre kostenlose Beratung und erfahren Sie es in 15 Minuten.",
+    "shareText": "Optimieren Sie Ihre Steuern mit einer US LLC.",
+    "linkCopied": "Link kopiert. Der Link wurde in die Zwischenablage kopiert.",
+    "pageTitle": "Exentax | Optimieren Sie Ihre Steuern mit einer US LLC",
+    "metaDescription": "Wenn Ihr Geschäft digital ist, zahlen Sie wahrscheinlich mehr Steuern als nötig. Wir schaffen legale internationale Strukturen, die auf Ihre Tätigkeit zugeschnitten sind.",
+    "metaKeywords": "US LLC, LLC gründen, US-Unternehmen, Steueroptimierung, LLC für Freiberufler, LLC Unternehmer, US-Firma eröffnen",
+    "ogDescription": "Wenn Ihr Geschäft digital ist, zahlen Sie wahrscheinlich mehr Steuern als nötig.",
+    "twitterTitle": "Exentax | US LLC"
   }
 }

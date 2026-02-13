@@ -2676,7 +2676,13 @@
     "unauthorized": "No tens permís per realitzar aquesta acció.",
     "notFound": "El recurs sol·licitat no existeix.",
     "validation": "Si us plau, revisa els camps del formulari.",
-    "fetchFailed": "Error en obtenir les dades"
+    "fetchFailed": "Error en obtenir les dades",
+    "errorInPanel": "Error a {{panel}}",
+    "somethingWentWrong": "Alguna cosa ha anat malament",
+    "unexpectedError": "S'ha produït un error inesperat en aquesta secció.",
+    "retry": "Torna-ho a intentar",
+    "reloadPage": "Recarregar la pàgina",
+    "networkError": "Error de xarxa. Si us plau, verifica la teva connexió."
   },
   "progress": {
     "step": "Pas {{current}} de {{total}}",
@@ -3973,5 +3979,21 @@
       "titlePart4": "ESTRUCTURA",
       "subtitle": "Simula el teu cas en menys de 60 segons segons el teu país, ingressos i activitat."
     }
+  },
+  "linktree": {
+    "startNow": "Començar ara",
+    "viewPrices": "Veure preus",
+    "ourServices": "Els nostres serveis",
+    "faq": "Preguntes freqüents",
+    "taxCalculator": "Calculadora fiscal",
+    "heading": "Si el teu negoci és digital, probablement estàs pagant més impostos dels necessaris.",
+    "subheading": "Creem estructures internacionals legals adaptades a la teva activitat i et guiem en tot el procés. Reserva la teva assessoria gratuïta i descobreix-ho en 15 minuts.",
+    "shareText": "Optimitza els teus impostos amb una LLC als EUA.",
+    "linkCopied": "Enllaç copiat. L'enllaç ha estat copiat al porta-retalls.",
+    "pageTitle": "Exentax | Optimitza els teus impostos amb una LLC als EUA",
+    "metaDescription": "Si el teu negoci és digital, probablement estàs pagant més impostos dels necessaris. Creem estructures internacionals legals adaptades a la teva activitat.",
+    "metaKeywords": "LLC Estats Units, crear LLC, empresa EUA, optimització fiscal, LLC per a autònoms, LLC emprenedors, obrir empresa EUA",
+    "ogDescription": "Si el teu negoci és digital, probablement estàs pagant més impostos dels necessaris.",
+    "twitterTitle": "Exentax | LLC als EUA"
   }
 }

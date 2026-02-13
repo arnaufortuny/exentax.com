@@ -1,6 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { LegalPageLayout, LegalSection, LegalSubSection, LegalList, LegalHighlightBox } from "@/components/legal/legal-page-layout";
 import { usePageTitle } from "@/hooks/use-page-title";
+import { CONTACT_PHONE_DISPLAY } from "@/lib/constants";
 
 export default function Privacidad() {
   const { t } = useTranslation();
@@ -22,7 +23,7 @@ export default function Privacidad() {
             <p>{t("legalPrivacy.s01TradeName")}: Exentax</p>
             <p>{t("legalPrivacy.s01RegisteredAddress")}: 1209 Mountain Road Pl NE, STE R, Albuquerque, New Mexico 87110, {t("legalPrivacy.s01Country")}</p>
             <p>Email: hola@exentax.com</p>
-            <p>WhatsApp: +34 614 916 910</p>
+            <p>WhatsApp: {CONTACT_PHONE_DISPLAY}</p>
           </LegalHighlightBox>
         </LegalSubSection>
 
@@ -148,7 +149,7 @@ export default function Privacidad() {
         <LegalHighlightBox variant="dark">
           <p>{t("legalPrivacy.s08p1")}</p>
           <p className="mt-4">Email: hola@exentax.com</p>
-          <p>WhatsApp: +34 614 916 910</p>
+          <p>WhatsApp: {CONTACT_PHONE_DISPLAY}</p>
         </LegalHighlightBox>
       </LegalSection>
     </LegalPageLayout>

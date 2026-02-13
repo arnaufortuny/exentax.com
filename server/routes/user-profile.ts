@@ -20,8 +20,9 @@ export function registerUserProfileRoutes(app: Express) {
   // Protected admin seeding - requires existing admin authentication
   app.post("/api/seed-admin", isAdmin, asyncHandler(async (req: any, res: Response) => {
     try {
+      const { ADMIN_EMAIL } = await import("../lib/config");
       const { email } = req.body;
-      const adminEmail = email || process.env.ADMIN_EMAIL || "afortuny07@gmail.com";
+      const adminEmail = email || ADMIN_EMAIL;
       
       const [existingUser] = await db.select().from(usersTable).where(eq(usersTable.email, adminEmail)).limit(1);
       if (!existingUser) {
@@ -266,7 +267,7 @@ export function registerUserProfileRoutes(app: Express) {
           }
         });
         
-        const adminEmail = process.env.ADMIN_EMAIL || "afortuny07@gmail.com";
+        const { ADMIN_EMAIL: adminEmail } = await import("../lib/config");
         sendEmail({
           to: adminEmail,
           subject: `[ALERTA] Cambios de perfil verificados - Cliente ${currentUser.clientId}`,
@@ -396,7 +397,7 @@ export function registerUserProfileRoutes(app: Express) {
         }
       });
       
-      const adminEmail = process.env.ADMIN_EMAIL || "afortuny07@gmail.com";
+      const { ADMIN_EMAIL: adminEmail } = await import("../lib/config");
       sendEmail({
         to: adminEmail,
         subject: `[ALERTA] Cambios de perfil verificados - Cliente ${user.clientId}`,

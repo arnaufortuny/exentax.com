@@ -16,10 +16,10 @@ const SALT_ROUNDS = 12;
 const OTP_EXPIRY_MINUTES = 15;
 const PASSWORD_RESET_EXPIRY_HOURS = 24;
 
-// Admin emails - ADMIN_EMAIL env var + fallback
+import { ADMIN_EMAIL } from "./config";
+
 const ADMIN_EMAILS = [
-  process.env.ADMIN_EMAIL?.toLowerCase(),
-  "afortuny07@gmail.com"
+  ADMIN_EMAIL.toLowerCase()
 ].filter(Boolean) as string[];
 
 export function isAdminEmail(email: string): boolean {
@@ -111,7 +111,7 @@ export async function createUser(data: {
     });
 
     // Email notification to admin about new registration
-    const adminEmail = process.env.ADMIN_EMAIL || "afortuny07@gmail.com";
+    const adminEmail = ADMIN_EMAIL;
     await sendEmail({
       to: adminEmail,
       subject: `[NUEVA CUENTA] ${data.firstName} ${data.lastName}`,

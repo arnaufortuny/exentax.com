@@ -1,4 +1,14 @@
-import { QueryClient, QueryFunction } from "@tanstack/react-query";
+import { QueryClient, QueryFunction, QueryCache, MutationCache } from "@tanstack/react-query";
+import { toast } from "@/hooks/use-toast";
+
+class ApiError extends Error {
+  status: number;
+  constructor(message: string, status: number) {
+    super(message);
+    this.status = status;
+    this.name = 'ApiError';
+  }
+}
 
 async function throwIfResNotOk(res: Response) {
   if (!res.ok) {
@@ -11,8 +21,23 @@ async function throwIfResNotOk(res: Response) {
       }
     } catch {
     }
-    throw new Error(message);
+    throw new ApiError(message, res.status);
   }
+}
+
+function isNetworkError(error: unknown): boolean {
+  if (error instanceof TypeError && (error.message.includes('fetch') || error.message.includes('network') || error.message.includes('Failed to fetch'))) {
+    return true;
+  }
+  const msg = (error as Error)?.message?.toLowerCase() || '';
+  return msg.includes('network') || msg.includes('failed to fetch') || msg.includes('load failed');
+}
+
+function isNonRetryableStatus(error: unknown): boolean {
+  if (error instanceof ApiError) {
+    return [401, 403, 404].includes(error.status);
+  }
+  return false;
 }
 
 const requestCache = new Map<string, { data: any; timestamp: number }>();
@@ -181,6 +206,28 @@ function retryDelayFn(attempt: number): number {
 }
 
 export const queryClient = new QueryClient({
+  queryCache: new QueryCache({
+    onError: (error) => {
+      if (isNetworkError(error)) {
+        toast({
+          title: 'Connection error',
+          description: 'Please check your internet connection and try again.',
+          variant: 'destructive',
+        });
+      }
+    },
+  }),
+  mutationCache: new MutationCache({
+    onError: (error) => {
+      if (isNetworkError(error)) {
+        toast({
+          title: 'Connection error',
+          description: 'Please check your internet connection and try again.',
+          variant: 'destructive',
+        });
+      }
+    },
+  }),
   defaultOptions: {
     queries: {
       queryFn: getQueryFn({ on401: "throw" }),
@@ -188,12 +235,16 @@ export const queryClient = new QueryClient({
       refetchOnWindowFocus: false,
       staleTime: 1000 * 60 * 2,
       gcTime: 1000 * 60 * 10,
-      retry: 3,
+      retry: (failureCount, error) => {
+        if (isNonRetryableStatus(error)) return false;
+        return failureCount < 3;
+      },
       retryDelay: retryDelayFn,
       networkMode: 'offlineFirst',
     },
     mutations: {
       retry: (failureCount, error) => {
+        if (isNonRetryableStatus(error)) return false;
         const msg = (error as Error)?.message?.toLowerCase() || '';
         if (msg.includes('csrf') || msg.includes('authenticated') || msg.includes('session') || msg.includes('expired')) {
           return false;
