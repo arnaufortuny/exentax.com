@@ -1478,7 +1478,7 @@ export default function Dashboard() {
 
         {/* Mobile Navigation - Fixed above scroll area, never hides on scroll */}
         <div className="flex flex-col gap-2 lg:hidden bg-background pt-3 pb-2 shadow-sm shrink-0 z-[60] border-b border-border/30 sticky top-0">
-          <div className="flex overflow-x-auto pb-2 gap-2 no-scrollbar mobile-tab-bar pl-3 pr-3 sm:pl-5 sm:pr-5">
+          <div className="flex overflow-x-auto pb-2 gap-2 no-scrollbar mobile-tab-bar pl-4 pr-4 sm:pl-5 sm:pr-5">
             {isAdmin ? (
               adminMenuItems.map((item: any) => {
                 const isActive = activeTab === 'admin' && adminSubTab === item.subTab;

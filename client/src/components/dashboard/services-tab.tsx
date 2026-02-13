@@ -285,7 +285,7 @@ export const ServicesTab = memo(function ServicesTab({ orders, draftOrders, acti
                             </Badge>
                           )}
                         </div>
-                        <p className="text-sm md:text-base font-black text-primary truncate">
+                        <p className="text-sm md:text-base font-black text-primary break-words">
                           {order.maintenanceApplication 
                             ? `${t('dashboard.services.maintenance')} ${order.maintenanceApplication.state || ''}`
                             : order.application?.companyName 
