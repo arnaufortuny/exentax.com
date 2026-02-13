@@ -18,7 +18,7 @@ import { NativeSelect, NativeSelectItem } from "@/components/ui/native-select";
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Card, CardContent } from "@/components/ui/card";
-import { apiRequest } from "@/lib/queryClient";
+import { apiRequest, getCsrfToken } from "@/lib/queryClient";
 import { insertMaintenanceApplicationSchema } from "@shared/schema";
 import { useAuth } from "@/hooks/use-auth";
 import { Link } from "wouter";
@@ -463,6 +463,7 @@ export default function MaintenanceApplication() {
     if (isSubmitting) return;
     setIsSubmitting(true);
     setFormMessage(null);
+    await getCsrfToken(true);
     
     try {
       const productId = stateFromUrl.includes("Wyoming") ? 2 : stateFromUrl.includes("Delaware") ? 3 : 1;

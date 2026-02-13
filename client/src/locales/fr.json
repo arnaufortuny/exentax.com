@@ -14,7 +14,7 @@
     "passwordMismatch": "Les mots de passe ne correspondent pas",
     "sendCode": "Envoyer le code",
     "enterCode": "Saisissez le code à 6 chiffres envoyé à votre email",
-    "deleteAccountDesc": "Cette action est irréversible. Toutes vos données seront supprimées.",
+    "deleteAccountDesc": "Votre compte sera désactivé. Vos données seront conservées. Contactez le support pour le réactiver.",
     "status": "Statut",
     "statusValues": {
       "verified": "Vérifié",
@@ -2332,10 +2332,10 @@
       "verifyEmailDesc": "Nous vous avons envoyé un code de vérification pour confirmer votre email",
       "verificationCode": "Code de vérification",
       "resendCode": "Renvoyer le code",
-      "deleteAccount": "Supprimer mon compte",
-      "deleteAccountWarning": "Cette action est permanente et ne peut pas être annulée",
-      "deleteAccountConfirm": "Êtes-vous sûr de vouloir supprimer définitivement votre compte ? Toutes vos données seront supprimées.",
-      "deleteAccountDesc": "Cette action est irréversible. Toutes vos données seront supprimées."
+      "deleteAccount": "Désactiver mon compte",
+      "deleteAccountWarning": "Votre compte sera désactivé mais vos données seront conservées",
+      "deleteAccountConfirm": "Êtes-vous sûr de vouloir désactiver votre compte ? Vos données seront conservées et vous pourrez contacter le support pour le réactiver.",
+      "deleteAccountDesc": "Votre compte sera désactivé. Vos données seront conservées. Contactez le support pour le réactiver."
     },
     "toasts": {
       "preferencesUpdated": "Vos préférences sont enregistrées !",
@@ -2373,8 +2373,8 @@
       "orderCreated": "Commande enregistrée !",
       "orderCreatedDesc": "Commande {{number}} créée avec succès",
       "documentDeleted": "Document supprimé",
-      "accountDeleted": "Compte supprimé",
-      "accountDeletedDesc": "Votre compte a été supprimé avec succès",
+      "accountDeleted": "Compte désactivé",
+      "accountDeletedDesc": "Votre compte a été désactivé. Vos données sont conservées.",
       "codeSent": "Code envoyé !",
       "codeSentDesc": "Vérifiez votre email pour le code de vérification",
       "passwordUpdated": "Mot de passe mis à jour !",
@@ -2395,7 +2395,7 @@
       "incorrectCodeDesc": "Le code saisi n'est pas valide",
       "amountMustBeGreater": "Le montant doit être supérieur à 0",
       "connectionError": "Erreur de connexion",
-      "couldNotDelete": "Impossible de supprimer",
+      "couldNotDelete": "Impossible de désactiver le compte",
       "couldNotSend": "Impossible d'envoyer",
       "couldNotUpdate": "Impossible de mettre à jour",
       "couldNotUpload": "Impossible de télécharger le document",

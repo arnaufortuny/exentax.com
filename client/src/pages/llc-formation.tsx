@@ -19,7 +19,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, FormDes
 import { NativeSelect, NativeSelectItem } from "@/components/ui/native-select";
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
-import { apiRequest } from "@/lib/queryClient";
+import { apiRequest, getCsrfToken } from "@/lib/queryClient";
 import { useQuery } from "@tanstack/react-query";
 import { insertLlcApplicationSchema } from "@shared/schema";
 import { useAuth } from "@/hooks/use-auth";
@@ -598,6 +598,7 @@ export default function LlcFormation() {
   const onSubmit = async (data: FormValues) => {
     setFormMessage(null);
     setIsSubmitting(true);
+    await getCsrfToken(true);
     try {
       if (isEditMode) {
         await apiRequest("PUT", `/api/llc/${appId}`, data);

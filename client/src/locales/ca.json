@@ -14,7 +14,7 @@
     "passwordMismatch": "Les contrasenyes no coincideixen",
     "sendCode": "Enviar codi",
     "enterCode": "Introdueix el codi de 6 dígits enviat al teu email",
-    "deleteAccountDesc": "Aquesta acció és irreversible. S'eliminaran totes les teves dades.",
+    "deleteAccountDesc": "El teu compte serà desactivat. Les teves dades es conservaran. Contacta amb suport per reactivar-lo.",
     "status": "Estat",
     "statusValues": {
       "verified": "Verificat",
@@ -2332,10 +2332,10 @@
       "verifyEmailDesc": "T'hem enviat un codi de verificació per confirmar el teu correu electrònic",
       "verificationCode": "Codi de verificació",
       "resendCode": "Reenviar codi",
-      "deleteAccount": "Eliminar el meu compte",
-      "deleteAccountWarning": "Aquesta acció és permanent i no es pot desfer",
-      "deleteAccountConfirm": "Estàs segur que vols eliminar el teu compte permanentment? Totes les teves dades seran eliminades.",
-      "deleteAccountDesc": "Aquesta acció és irreversible. S'eliminaran totes les teves dades."
+      "deleteAccount": "Desactivar el meu compte",
+      "deleteAccountWarning": "El teu compte serà desactivat però les teves dades es conservaran",
+      "deleteAccountConfirm": "Estàs segur que vols desactivar el teu compte? Les teves dades es conservaran i podràs contactar amb suport per reactivar-lo.",
+      "deleteAccountDesc": "El teu compte serà desactivat. Les teves dades es conservaran. Contacta amb suport per reactivar-lo."
     },
     "toasts": {
       "preferencesUpdated": "Genial, les teves preferències estan desades!",
@@ -2373,8 +2373,8 @@
       "orderCreated": "Sol·licitud registrada!",
       "orderCreatedDesc": "Sol·licitud {{number}} creada correctament",
       "documentDeleted": "Document eliminat",
-      "accountDeleted": "Compte eliminat",
-      "accountDeletedDesc": "El teu compte ha estat eliminat correctament",
+      "accountDeleted": "Compte desactivat",
+      "accountDeletedDesc": "El teu compte ha estat desactivat. Les teves dades es conserven.",
       "codeSent": "Codi enviat!",
       "codeSentDesc": "Revisa el teu email per obtenir el codi",
       "passwordUpdated": "Contrasenya actualitzada!",
@@ -2395,7 +2395,7 @@
       "incorrectCodeDesc": "El codi introduït no és vàlid",
       "amountMustBeGreater": "L'import ha de ser major que 0",
       "connectionError": "Error de connexió",
-      "couldNotDelete": "No s'ha pogut eliminar",
+      "couldNotDelete": "No s'ha pogut desactivar el compte",
       "couldNotSend": "No s'ha pogut enviar",
       "couldNotUpdate": "No s'ha pogut actualitzar",
       "couldNotUpload": "No s'ha pogut pujar el document",

@@ -14,7 +14,7 @@
     "passwordMismatch": "Passwords do not match",
     "sendCode": "Send code",
     "enterCode": "Enter the 6-digit code sent to your email",
-    "deleteAccountDesc": "This action is irreversible. All your data will be deleted.",
+    "deleteAccountDesc": "Your account will be deactivated. Your data will be preserved. Contact support to reactivate.",
     "status": "Status",
     "statusValues": {
       "verified": "Verified",
@@ -2332,10 +2332,10 @@
       "verifyEmailDesc": "We've sent you a verification code to confirm your email",
       "verificationCode": "Verification code",
       "resendCode": "Resend code",
-      "deleteAccount": "Delete my account",
-      "deleteAccountWarning": "This action is permanent and cannot be undone",
-      "deleteAccountConfirm": "Are you sure you want to permanently delete your account? All your data will be deleted.",
-      "deleteAccountDesc": "This action is irreversible. All your data will be deleted."
+      "deleteAccount": "Deactivate my account",
+      "deleteAccountWarning": "Your account will be deactivated but your data will be preserved",
+      "deleteAccountConfirm": "Are you sure you want to deactivate your account? Your data will be preserved and you can contact support to reactivate it.",
+      "deleteAccountDesc": "Your account will be deactivated. Your data will be preserved. Contact support to reactivate."
     },
     "toasts": {
       "preferencesUpdated": "Great, your preferences are saved!",
@@ -2373,8 +2373,8 @@
       "orderCreated": "Order registered!",
       "orderCreatedDesc": "Order {{number}} created successfully",
       "documentDeleted": "Document deleted",
-      "accountDeleted": "Account deleted",
-      "accountDeletedDesc": "Your account has been deleted successfully",
+      "accountDeleted": "Account deactivated",
+      "accountDeletedDesc": "Your account has been deactivated. Your data is preserved.",
       "codeSent": "Code sent!",
       "codeSentDesc": "Check your email for the verification code",
       "passwordUpdated": "Password updated!",
@@ -2395,7 +2395,7 @@
       "incorrectCodeDesc": "The code you entered is not valid",
       "amountMustBeGreater": "Amount must be greater than 0",
       "connectionError": "Connection error",
-      "couldNotDelete": "Could not delete",
+      "couldNotDelete": "Could not deactivate account",
       "couldNotSend": "Could not send",
       "couldNotUpdate": "Could not update",
       "couldNotUpload": "Could not upload the document",

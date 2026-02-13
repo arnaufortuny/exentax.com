@@ -66,6 +66,10 @@ export async function getCsrfToken(forceRefresh = false): Promise<string> {
   return '';
 }
 
+export async function refreshCsrfToken(): Promise<string> {
+  return getCsrfToken(true);
+}
+
 export async function apiRequest(
   method: string,
   url: string,
@@ -120,16 +124,25 @@ export async function apiRequest(
             body: data ? JSON.stringify(data) : undefined,
             credentials: "include",
           });
-          if (!retryRes.ok) {
-            await throwIfResNotOk(retryRes);
-          }
+          await throwIfResNotOk(retryRes);
           return retryRes;
         }
       }
-    } catch (parseErr) {
-      console.warn('[API] Could not parse 403 response:', parseErr);
+    } catch (retryErr) {
+      throw retryErr;
     }
     csrfToken = null;
+  }
+
+  if (res.status === 403) {
+    try {
+      const body = await res.clone().json();
+      if (body.code === 'CSRF_INVALID') {
+        throw new Error("Session expired. Please reload the page.");
+      }
+    } catch (e) {
+      if (e instanceof Error && e.message.includes('Session expired')) throw e;
+    }
   }
 
   await throwIfResNotOk(res);
@@ -180,7 +193,13 @@ export const queryClient = new QueryClient({
       networkMode: 'offlineFirst',
     },
     mutations: {
-      retry: 2,
+      retry: (failureCount, error) => {
+        const msg = (error as Error)?.message?.toLowerCase() || '';
+        if (msg.includes('csrf') || msg.includes('authenticated') || msg.includes('session') || msg.includes('expired')) {
+          return false;
+        }
+        return failureCount < 2;
+      },
       retryDelay: retryDelayFn,
       networkMode: 'offlineFirst',
     },

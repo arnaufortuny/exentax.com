@@ -14,7 +14,7 @@
     "passwordMismatch": "Le password non corrispondono",
     "sendCode": "Invia codice",
     "enterCode": "Inserisci il codice di 6 cifre inviato alla tua email",
-    "deleteAccountDesc": "Questa azione è irreversibile. Tutti i tuoi dati verranno eliminati.",
+    "deleteAccountDesc": "Il tuo account verrà disattivato. I tuoi dati saranno conservati. Contatta il supporto per riattivarlo.",
     "status": "Stato",
     "statusValues": {
       "verified": "Verificato",
@@ -2276,10 +2276,10 @@
       "verifyEmailDesc": "Ti abbiamo inviato un codice di verifica per confermare il tuo indirizzo email",
       "verificationCode": "Codice di verifica",
       "resendCode": "Invia di nuovo il codice",
-      "deleteAccount": "Elimina il mio account",
-      "deleteAccountWarning": "Questa azione è permanente e non può essere annullata",
-      "deleteAccountConfirm": "Sei sicuro di voler eliminare il tuo account definitivamente? Tutti i tuoi dati verranno eliminati.",
-      "deleteAccountDesc": "Questa azione è irreversibile. Tutti i tuoi dati verranno eliminati."
+      "deleteAccount": "Disattiva il mio account",
+      "deleteAccountWarning": "Il tuo account verrà disattivato ma i tuoi dati saranno conservati",
+      "deleteAccountConfirm": "Sei sicuro di voler disattivare il tuo account? I tuoi dati saranno conservati e potrai contattare il supporto per riattivarlo.",
+      "deleteAccountDesc": "Il tuo account verrà disattivato. I tuoi dati saranno conservati. Contatta il supporto per riattivarlo."
     },
     "toasts": {
       "preferencesUpdated": "Le tue preferenze sono state salvate!",
@@ -2317,8 +2317,8 @@
       "orderCreated": "Ordine registrato!",
       "orderCreatedDesc": "Ordine {{number}} creato correttamente",
       "documentDeleted": "Documento eliminato",
-      "accountDeleted": "Account eliminato",
-      "accountDeletedDesc": "Il tuo account è stato eliminato correttamente",
+      "accountDeleted": "Account disattivato",
+      "accountDeletedDesc": "Il tuo account è stato disattivato. I tuoi dati sono conservati.",
       "codeSent": "Codice inviato!",
       "codeSentDesc": "Controlla la tua email per ottenere il codice",
       "passwordUpdated": "Password aggiornata!",
@@ -2339,7 +2339,7 @@
       "incorrectCodeDesc": "Il codice inserito non è valido",
       "amountMustBeGreater": "L'importo deve essere maggiore di 0",
       "connectionError": "Errore di connessione",
-      "couldNotDelete": "Impossibile eliminare",
+      "couldNotDelete": "Impossibile disattivare l'account",
       "couldNotSend": "Impossibile inviare",
       "couldNotUpdate": "Impossibile aggiornare",
       "couldNotUpload": "Impossibile caricare il documento",

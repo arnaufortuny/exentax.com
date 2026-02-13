@@ -14,7 +14,7 @@
     "passwordMismatch": "Passwörter stimmen nicht überein",
     "sendCode": "Code senden",
     "enterCode": "Geben Sie den 6-stelligen Code ein, der an Ihre E-Mail gesendet wurde",
-    "deleteAccountDesc": "Diese Aktion ist unwiderruflich. Alle Ihre Daten werden gelöscht.",
+    "deleteAccountDesc": "Ihr Konto wird deaktiviert. Ihre Daten bleiben erhalten. Kontaktieren Sie den Support zur Reaktivierung.",
     "status": "Status",
     "statusValues": {
       "verified": "Verifiziert",
@@ -2332,10 +2332,10 @@
       "verifyEmailDesc": "Wir haben Ihnen einen Bestätigungscode zur Bestätigung Ihrer E-Mail gesendet",
       "verificationCode": "Bestätigungscode",
       "resendCode": "Code erneut senden",
-      "deleteAccount": "Mein Konto löschen",
-      "deleteAccountWarning": "Diese Aktion ist dauerhaft und kann nicht rückgängig gemacht werden",
-      "deleteAccountConfirm": "Sind Sie sicher, dass Sie Ihr Konto dauerhaft löschen möchten? Alle Ihre Daten werden gelöscht.",
-      "deleteAccountDesc": "Diese Aktion ist unwiderruflich. Alle Ihre Daten werden gelöscht."
+      "deleteAccount": "Mein Konto deaktivieren",
+      "deleteAccountWarning": "Ihr Konto wird deaktiviert, aber Ihre Daten bleiben erhalten",
+      "deleteAccountConfirm": "Sind Sie sicher, dass Sie Ihr Konto deaktivieren möchten? Ihre Daten bleiben erhalten und Sie können den Support kontaktieren, um es zu reaktivieren.",
+      "deleteAccountDesc": "Ihr Konto wird deaktiviert. Ihre Daten bleiben erhalten. Kontaktieren Sie den Support zur Reaktivierung."
     },
     "toasts": {
       "preferencesUpdated": "Sehr gut, Ihre Einstellungen sind gespeichert!",
@@ -2373,8 +2373,8 @@
       "orderCreated": "Bestellung registriert!",
       "orderCreatedDesc": "Bestellung {{number}} erfolgreich erstellt",
       "documentDeleted": "Dokument gelöscht",
-      "accountDeleted": "Konto gelöscht",
-      "accountDeletedDesc": "Ihr Konto wurde erfolgreich gelöscht",
+      "accountDeleted": "Konto deaktiviert",
+      "accountDeletedDesc": "Ihr Konto wurde deaktiviert. Ihre Daten bleiben erhalten.",
       "codeSent": "Code gesendet!",
       "codeSentDesc": "Überprüfen Sie Ihre E-Mail auf den Bestätigungscode",
       "passwordUpdated": "Passwort aktualisiert!",
@@ -2395,7 +2395,7 @@
       "incorrectCodeDesc": "Der eingegebene Code ist ungültig",
       "amountMustBeGreater": "Betrag muss größer als 0 sein",
       "connectionError": "Verbindungsfehler",
-      "couldNotDelete": "Konnte nicht gelöscht werden",
+      "couldNotDelete": "Konto konnte nicht deaktiviert werden",
       "couldNotSend": "Konnte nicht gesendet werden",
       "couldNotUpdate": "Konnte nicht aktualisiert werden",
       "couldNotUpload": "Dokument konnte nicht hochgeladen werden",

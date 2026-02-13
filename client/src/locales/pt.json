@@ -14,7 +14,7 @@
     "passwordMismatch": "As palavras-passe não coincidem",
     "sendCode": "Enviar código",
     "enterCode": "Introduz o código de 6 dígitos enviado para o teu email",
-    "deleteAccountDesc": "Esta ação é irreversível. Todos os teus dados serão eliminados.",
+    "deleteAccountDesc": "A tua conta será desativada. Os teus dados serão conservados. Contacta o suporte para reativá-la.",
     "status": "Estado",
     "statusValues": {
       "verified": "Verificado",
@@ -2332,10 +2332,10 @@
       "verifyEmailDesc": "Enviámos-te um código de verificação para confirmar o teu correio eletrónico",
       "verificationCode": "Código de verificação",
       "resendCode": "Reenviar código",
-      "deleteAccount": "Eliminar a minha conta",
-      "deleteAccountWarning": "Esta ação é permanente e não pode ser desfeita",
-      "deleteAccountConfirm": "Tens a certeza de que desejas eliminar a tua conta permanentemente? Todos os teus dados serão eliminados.",
-      "deleteAccountDesc": "Esta ação é irreversível. Todos os seus dados serão eliminados."
+      "deleteAccount": "Desativar a minha conta",
+      "deleteAccountWarning": "A tua conta será desativada mas os teus dados serão conservados",
+      "deleteAccountConfirm": "Tens a certeza de que desejas desativar a tua conta? Os teus dados serão conservados e poderás contactar o suporte para reativá-la.",
+      "deleteAccountDesc": "A tua conta será desativada. Os teus dados serão conservados. Contacta o suporte para reativá-la."
     },
     "toasts": {
       "preferencesUpdated": "As tuas preferências foram guardadas!",
@@ -2373,8 +2373,8 @@
       "orderCreated": "Pedido registado!",
       "orderCreatedDesc": "Pedido {{number}} criado corretamente",
       "documentDeleted": "Documento eliminado",
-      "accountDeleted": "Conta eliminada",
-      "accountDeletedDesc": "A tua conta foi eliminada corretamente",
+      "accountDeleted": "Conta desativada",
+      "accountDeletedDesc": "A tua conta foi desativada. Os teus dados são conservados.",
       "codeSent": "Código enviado!",
       "codeSentDesc": "Verifica o teu email para obter o código",
       "passwordUpdated": "Palavra-passe atualizada!",
@@ -2395,7 +2395,7 @@
       "incorrectCodeDesc": "O código introduzido não é válido",
       "amountMustBeGreater": "O montante deve ser superior a 0",
       "connectionError": "Erro de conexão",
-      "couldNotDelete": "Não foi possível eliminar",
+      "couldNotDelete": "Não foi possível desativar a conta",
       "couldNotSend": "Não foi possível enviar",
       "couldNotUpdate": "Não foi possível atualizar",
       "couldNotUpload": "Não foi possível carregar o documento",
