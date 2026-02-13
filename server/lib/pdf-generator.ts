@@ -313,12 +313,13 @@ export function generateInvoicePdf(data: InvoiceData): Promise<Buffer> {
       y += 18;
 
       const accounts = data.bankAccounts && data.bankAccounts.length > 0 ? data.bankAccounts : DEFAULT_BANK_ACCOUNTS;
-      doc.font('Helvetica-Bold').fontSize(8).fillColor(black).text('PAYMENT DETAILS', left, y);
-      y += 14;
+      doc.font('Helvetica-Bold').fontSize(7.5).fillColor(black).text('PAYMENT DETAILS', left, y);
+      y += 12;
 
-      for (const account of accounts) {
-        doc.font('Helvetica-Bold').fontSize(7.5).fillColor(dark).text(account.label.toUpperCase(), left, y);
-        y += 11;
+      for (let ai = 0; ai < accounts.length; ai++) {
+        const account = accounts[ai];
+        doc.font('Helvetica-Bold').fontSize(7).fillColor(dark).text(account.label.toUpperCase(), left, y);
+        y += 9;
 
         const colW = contentW / 4;
         const fields: [string, string][] = [];
@@ -333,26 +334,29 @@ export function generateInvoicePdf(data: InvoiceData): Promise<Buffer> {
         let fRow = 0;
         for (const [label, value] of fields) {
           if (fX + colW > right + 10) { fX = left; fRow++; }
-          const fY = y + fRow * 18;
-          doc.font('Helvetica').fontSize(6.5).fillColor(light).text(label.toUpperCase(), fX, fY);
-          doc.font('Helvetica').fontSize(7.5).fillColor(dark).text(value, fX, fY + 8);
+          const fY = y + fRow * 15;
+          doc.font('Helvetica').fontSize(6).fillColor(light).text(label.toUpperCase(), fX, fY);
+          doc.font('Helvetica').fontSize(7).fillColor(dark).text(value, fX, fY + 7);
           fX += colW;
         }
-        y += (fRow + 1) * 18 + 6;
-        doc.moveTo(left, y).lineTo(right, y).strokeColor(faint).lineWidth(0.5).stroke();
-        y += 8;
+        y += (fRow + 1) * 15 + 4;
+        if (ai < accounts.length - 1) {
+          doc.moveTo(left, y).lineTo(right, y).strokeColor(faint).lineWidth(0.5).stroke();
+          y += 5;
+        }
       }
 
       if (data.status === 'pending' && data.paymentLink) {
         y += 4;
-        doc.font('Helvetica-Bold').fontSize(8).fillColor(black).text('ONLINE PAYMENT', left, y);
-        y += 12;
-        doc.font('Helvetica').fontSize(8.5).fillColor(mid).text(data.paymentLink, left, y, { link: data.paymentLink, underline: true });
-        y += 16;
+        doc.font('Helvetica-Bold').fontSize(7.5).fillColor(black).text('ONLINE PAYMENT', left, y);
+        y += 10;
+        doc.font('Helvetica').fontSize(8).fillColor(mid).text(data.paymentLink, left, y, { link: data.paymentLink, underline: true });
+        y += 14;
       }
 
-      doc.moveTo(left, 790).lineTo(right, 790).strokeColor(line).lineWidth(0.5).stroke();
-      doc.font('Helvetica').fontSize(7).fillColor(light).text('Exentax is a brand of Exentax Holdings LLC. 1209 Mountain Road Place NE, STE R, Albuquerque, NM 87110, USA', left, 798, { align: 'center', width: contentW });
+      const footerY = Math.max(y + 10, 780);
+      doc.moveTo(left, footerY).lineTo(right, footerY).strokeColor(line).lineWidth(0.5).stroke();
+      doc.font('Helvetica').fontSize(6.5).fillColor(light).text('Exentax is a brand of Exentax Holdings LLC. 1209 Mountain Road Place NE, STE R, Albuquerque, NM 87110, USA', left, footerY + 6, { align: 'center', width: contentW });
 
       doc.end();
     } catch (error) {
@@ -456,12 +460,13 @@ export function generateCustomInvoicePdf(data: CustomInvoiceData): Promise<Buffe
       y += 18;
 
       const customAccounts = data.bankAccounts && data.bankAccounts.length > 0 ? data.bankAccounts : DEFAULT_BANK_ACCOUNTS;
-      doc.font('Helvetica-Bold').fontSize(8).fillColor(black).text('PAYMENT DETAILS', left, y);
-      y += 14;
+      doc.font('Helvetica-Bold').fontSize(7.5).fillColor(black).text('PAYMENT DETAILS', left, y);
+      y += 12;
 
-      for (const account of customAccounts) {
-        doc.font('Helvetica-Bold').fontSize(7.5).fillColor(dark).text(account.label.toUpperCase(), left, y);
-        y += 11;
+      for (let ai = 0; ai < customAccounts.length; ai++) {
+        const account = customAccounts[ai];
+        doc.font('Helvetica-Bold').fontSize(7).fillColor(dark).text(account.label.toUpperCase(), left, y);
+        y += 9;
         const colW = contentW / 4;
         const fields: [string, string][] = [];
         fields.push(['Holder', account.holder]);
@@ -475,25 +480,28 @@ export function generateCustomInvoicePdf(data: CustomInvoiceData): Promise<Buffe
         let fRow = 0;
         for (const [label, value] of fields) {
           if (fX + colW > right + 10) { fX = left; fRow++; }
-          const fY = y + fRow * 18;
-          doc.font('Helvetica').fontSize(6.5).fillColor(light).text(label.toUpperCase(), fX, fY);
-          doc.font('Helvetica').fontSize(7.5).fillColor(dark).text(value, fX, fY + 8);
+          const fY = y + fRow * 15;
+          doc.font('Helvetica').fontSize(6).fillColor(light).text(label.toUpperCase(), fX, fY);
+          doc.font('Helvetica').fontSize(7).fillColor(dark).text(value, fX, fY + 7);
           fX += colW;
         }
-        y += (fRow + 1) * 18 + 6;
-        doc.moveTo(left, y).lineTo(right, y).strokeColor('#F5F5F5').lineWidth(0.5).stroke();
-        y += 8;
+        y += (fRow + 1) * 15 + 4;
+        if (ai < customAccounts.length - 1) {
+          doc.moveTo(left, y).lineTo(right, y).strokeColor('#F5F5F5').lineWidth(0.5).stroke();
+          y += 5;
+        }
       }
 
       if (data.notes) {
-        y += 8;
-        doc.font('Helvetica-Bold').fontSize(8).fillColor(black).text('NOTES', left, y);
-        y += 12;
-        doc.font('Helvetica').fontSize(8.5).fillColor(mid).text(data.notes, left, y, { width: contentW });
+        y += 6;
+        doc.font('Helvetica-Bold').fontSize(7.5).fillColor(black).text('NOTES', left, y);
+        y += 10;
+        doc.font('Helvetica').fontSize(8).fillColor(mid).text(data.notes, left, y, { width: contentW });
       }
 
-      doc.moveTo(left, 790).lineTo(right, 790).strokeColor(line).lineWidth(0.5).stroke();
-      doc.font('Helvetica').fontSize(7).fillColor(light).text('Exentax is a brand of Exentax Holdings LLC. 1209 Mountain Road Place NE, STE R, Albuquerque, NM 87110, USA', left, 798, { align: 'center', width: contentW });
+      const footerY = Math.max(y + 10, 780);
+      doc.moveTo(left, footerY).lineTo(right, footerY).strokeColor(line).lineWidth(0.5).stroke();
+      doc.font('Helvetica').fontSize(6.5).fillColor(light).text('Exentax is a brand of Exentax Holdings LLC. 1209 Mountain Road Place NE, STE R, Albuquerque, NM 87110, USA', left, footerY + 6, { align: 'center', width: contentW });
 
       doc.end();
     } catch (error) {
