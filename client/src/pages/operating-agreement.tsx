@@ -195,7 +195,7 @@ export default function OperatingAgreementGenerator() {
         doc.setFontSize(10);
         doc.setTextColor(accentColor[0], accentColor[1], accentColor[2]);
         doc.setFont('helvetica', 'bold');
-        doc.text(tPdf("tools.operatingAgreement.pdf.easyUsLlc"), pageWidth / 2, 47, { align: 'center' });
+        doc.text(tPdf("tools.operatingAgreement.pdf.exentax"), pageWidth / 2, 47, { align: 'center' });
       }
       
       let yPos = 80;
@@ -493,7 +493,7 @@ export default function OperatingAgreementGenerator() {
       doc.setFontSize(12);
       doc.setTextColor(accentColor[0], accentColor[1], accentColor[2]);
       doc.setFont('helvetica', 'bold');
-      doc.text(tPdf("tools.operatingAgreement.pdf.easyUsLlc"), margin + 8, yPos + 20);
+      doc.text(tPdf("tools.operatingAgreement.pdf.exentax"), margin + 8, yPos + 20);
       
       doc.setFontSize(8);
       doc.setFont('helvetica', 'normal');
