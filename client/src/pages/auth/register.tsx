@@ -735,11 +735,11 @@ export default function Register() {
                   <Button
                     type="button"
                     onClick={nextStep}
+                    disabled={isCheckingEmail}
                     className="flex-1 bg-accent text-accent-foreground font-black rounded-full h-12 text-sm shadow-lg shadow-accent/20"
                     data-testid="button-next"
                   >
-                    {t("common.next")}
-                    <ArrowRight className="w-4 h-4 ml-2" />
+                    {isCheckingEmail ? <Loader2 className="w-5 h-5 animate-spin" /> : <>{t("common.next")} <ArrowRight className="w-4 h-4 ml-2" /></>}
                   </Button>
                 ) : (
                   <Button

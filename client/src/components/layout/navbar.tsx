@@ -80,7 +80,7 @@ export function Navbar() {
   return (
     <>
     <div className="h-20 sm:h-24 w-full shrink-0" aria-hidden="true" />
-    <header className="fixed top-0 left-0 right-0 z-[110] bg-white dark:bg-background border-b border-[#E8F0EC] dark:border-border shadow-sm transition-shadow h-20 sm:h-24 flex items-center w-full" data-mobile-menu-open={isOpen}>
+    <header className="fixed top-0 left-0 right-0 z-[110] bg-background border-b border-border shadow-sm transition-shadow h-20 sm:h-24 flex items-center w-full" data-mobile-menu-open={isOpen}>
       <div className="w-full px-5 sm:px-8">
         <div className="flex items-center justify-between w-full">
           <Link href="/" className="flex items-center gap-3 shrink-0 relative z-[110]" onClick={() => { setIsOpen(false); resetScrollLock(); window.scrollTo(0, 0); }}>
@@ -189,7 +189,7 @@ export function Navbar() {
             {isAuthenticated && location.startsWith("/dashboard") ? (
               <Button 
                 variant="outline"
-                className="border-2 border-red-500 text-red-500 bg-white dark:bg-card dark:text-red-400 dark:border-red-400 rounded-full px-3 text-sm flex items-center gap-1.5"
+                className="border-2 border-red-500 text-red-500 bg-card dark:text-red-400 dark:border-red-400 rounded-full px-3 text-sm flex items-center gap-1.5"
                 size="sm"
                 onClick={() => { setIsOpen(false); resetScrollLock(); logout(); }}
                 data-testid="button-mobile-logout-header"
@@ -201,7 +201,7 @@ export function Navbar() {
               <Link href={isAuthenticated ? "/dashboard" : "/auth/login"} onClick={() => { setIsOpen(false); resetScrollLock(); }}>
                 <Button 
                   variant="outline"
-                  className="border-2 border-[#00C48C] text-[#00C48C] bg-white dark:bg-card dark:text-[#00C48C] dark:border-[#00C48C] rounded-full px-3 text-sm flex items-center gap-1.5"
+                  className="border-2 border-[#00C48C] text-[#00C48C] bg-card rounded-full px-3 text-sm flex items-center gap-1.5"
                   size="sm"
                   data-testid={isAuthenticated ? "link-mobile-dashboard" : "button-mobile-login"}
                 >
@@ -243,7 +243,7 @@ export function Navbar() {
     </header>
 
       {isOpen && (
-        <div className="md:hidden fixed inset-0 bg-white dark:bg-background z-[105] flex flex-col pt-20" data-testid="mobile-menu-overlay">
+        <div className="md:hidden fixed inset-0 bg-background z-[105] flex flex-col pt-20" data-testid="mobile-menu-overlay">
           <div className="flex flex-col bg-transparent p-6 justify-between items-stretch overflow-y-auto overscroll-contain flex-1" style={{ maxHeight: 'calc(100dvh - 5rem)', WebkitOverflowScrolling: 'touch' }}>
               <div className="flex flex-col gap-0.5 items-stretch text-left">
                 <button

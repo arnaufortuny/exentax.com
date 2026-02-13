@@ -46,7 +46,7 @@ export function useAuth() {
   const queryClient = useQueryClient();
   const languageSynced = useRef(false);
 
-  const { data: user, isLoading, error, refetch } = useQuery<User | null>({
+  const { data: user, isLoading: queryIsLoading, isFetching, error, refetch } = useQuery<User | null>({
     queryKey: ["/api/auth/user"],
     queryFn: fetchUser,
     retry: 1,
@@ -55,6 +55,8 @@ export function useAuth() {
     refetchInterval: 1000 * 30,
     refetchOnWindowFocus: true,
   });
+
+  const isLoading = queryIsLoading && user === undefined;
 
   useEffect(() => {
     if (user?.preferredLanguage && !languageSynced.current) {
