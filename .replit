@@ -1,4 +1,4 @@
-modules = ["nodejs-20", "web", "postgresql-16"]
+modules = ["nodejs-20", "web"]
 [nix]
 channel = "stable-25_05"
 packages = ["unzip", "imagemagick"]
@@ -40,10 +40,6 @@ localPort = 5000
 externalPort = 80
 
 [[ports]]
-localPort = 9992
-externalPort = 6800
-
-[[ports]]
 localPort = 9993
 externalPort = 6000
 
@@ -73,7 +69,7 @@ externalPort = 3000
 
 [deployment]
 deploymentTarget = "autoscale"
-run = ["bash", "-c", "NODE_ENV=production node dist/index.cjs"]
+run = ["node", "./dist/index.cjs"]
 build = ["npm", "run", "build"]
 
 [userenv]
