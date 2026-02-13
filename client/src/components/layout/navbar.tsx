@@ -267,7 +267,7 @@ export function Navbar() {
                   <ChevronRight className="w-4 h-4 text-[#00C48C]/60" />
                 </button>
 
-              <div className="mt-6 px-1 flex flex-col gap-2.5">
+              <div className="mt-2.5 px-1 flex flex-col gap-2.5">
                 {isAuthenticated ? (
                   <Button
                     onClick={() => {
