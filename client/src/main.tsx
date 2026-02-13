@@ -8,4 +8,11 @@ import { initSentry } from "./lib/sentry";
 initSentry();
 registerServiceWorker();
 
-createRoot(document.getElementById("root")!).render(<App />);
+const root = createRoot(document.getElementById("root")!);
+root.render(<App />);
+
+setTimeout(() => {
+  if (typeof (window as any).__removeInitialLoader === 'function') {
+    (window as any).__removeInitialLoader();
+  }
+}, 300);

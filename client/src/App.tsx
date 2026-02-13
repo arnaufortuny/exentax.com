@@ -33,7 +33,7 @@ function lazyRetry<T extends { default: React.ComponentType<unknown> }>(
   });
 }
 
-const Home = lazy(() => lazyRetry(() => import("@/pages/home")));
+import Home from "@/pages/home";
 const Legal = lazy(() => lazyRetry(() => import("@/pages/legal/terminos")));
 const Servicios = lazy(() => lazyRetry(() => import("@/pages/servicios")));
 const Privacidad = lazy(() => lazyRetry(() => import("@/pages/legal/privacidad")));

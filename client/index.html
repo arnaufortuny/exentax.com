@@ -701,13 +701,12 @@
     <script>
       (function(){
         var removed=false;
-        function removeLoader(){
+        window.__removeInitialLoader=function(){
           if(removed)return;removed=true;
           var l=document.getElementById('initial-loader');
           if(l){l.style.opacity='0';l.style.transition='opacity 0.2s';setTimeout(function(){l.remove()},200)}
-        }
-        window.addEventListener('load',function(){setTimeout(removeLoader,50)});
-        setTimeout(removeLoader,3000);
+        };
+        setTimeout(window.__removeInitialLoader,6000);
       })();
     </script>
     <script type="module" src="/src/main.tsx"></script>
