@@ -207,8 +207,8 @@ export function Navbar() {
     </header>
 
       {isOpen && (
-        <div className="md:hidden fixed inset-0 bg-background z-[105] flex flex-col pt-20" data-testid="mobile-menu-overlay">
-          <div className="flex flex-col bg-transparent px-4 py-4 justify-between items-stretch overflow-y-auto overscroll-contain flex-1" style={{ maxHeight: 'calc(100dvh - 5rem)', WebkitOverflowScrolling: 'touch' }}>
+        <div className="md:hidden fixed inset-0 bg-background z-[105] flex flex-col pt-28" data-testid="mobile-menu-overlay">
+          <div className="flex flex-col bg-transparent px-4 py-5 justify-between items-stretch overflow-y-auto overscroll-contain flex-1" style={{ maxHeight: 'calc(100dvh - 7rem)', WebkitOverflowScrolling: 'touch' }}>
               <div className="flex flex-col gap-0 items-stretch text-left">
                 <button
                   onClick={() => handleNavClick("/")}
@@ -267,7 +267,7 @@ export function Navbar() {
                   <ChevronRight className="w-4 h-4 text-[#00C48C]/60" />
                 </button>
 
-              <div className="mt-3 px-1 flex flex-col gap-2.5">
+              <div className="mt-6 px-1 flex flex-col gap-2.5">
                 {isAuthenticated ? (
                   <Button
                     onClick={() => {
