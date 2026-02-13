@@ -39,3 +39,11 @@ Key architectural patterns include:
 - **Push Notifications:** web-push npm package
 - **PDF Generation (Server-side):** pdfkit
 - **PDF Generation (Client-side):** jspdf
+
+## Recent Changes
+- **2026-02-13:** Removed green shadow/outline animations from all buttons (default, cta, neon variants). Changed button focus ring to neutral color.
+- **2026-02-13:** Removed green hover shadow from Card component.
+- **2026-02-13:** Email templates: changed header from hard green gradient to soft green (#F0FAF5), footer updated to "Exentax Holdings LLC".
+- **2026-02-13:** Email sending address changed from no-reply@easyusllc.com to no-reply@exentax.com. SMTP credentials updated.
+- **2026-02-13:** All "Easy US LLC" references replaced with "Exentax" or "Exentax Holdings LLC" across README, service worker, and email templates.
+- **2026-02-13:** Contact email confirmed as hola@exentax.com across all pages and legal sections.

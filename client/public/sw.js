@@ -1,7 +1,7 @@
 const CACHE_VERSION = 'v3';
-const STATIC_CACHE = `easyusllc-static-${CACHE_VERSION}`;
-const DYNAMIC_CACHE = `easyusllc-dynamic-${CACHE_VERSION}`;
-const IMAGE_CACHE = `easyusllc-images-${CACHE_VERSION}`;
+const STATIC_CACHE = `exentax-static-${CACHE_VERSION}`;
+const DYNAMIC_CACHE = `exentax-dynamic-${CACHE_VERSION}`;
+const IMAGE_CACHE = `exentax-images-${CACHE_VERSION}`;
 
 const STATIC_ASSETS = [
   '/',
@@ -36,7 +36,7 @@ self.addEventListener('activate', (event) => {
         return Promise.all(
           cacheNames
             .filter((name) => {
-              return name.startsWith('easyusllc-') && 
+              return name.startsWith('exentax-') && 
                      name !== STATIC_CACHE && 
                      name !== DYNAMIC_CACHE && 
                      name !== IMAGE_CACHE;

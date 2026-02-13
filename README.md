@@ -1,11 +1,10 @@
-# Easy US LLC - Plataforma de Formación de LLCs
+# Exentax - Plataforma de Formación de LLCs
 
 ## Descripción
-Easy US LLC es una plataforma integral para la creación y gestión de empresas LLC en Estados Unidos, enfocada en emprendedores hispanohablantes. Ofrece servicios de formación empresarial en New Mexico, Wyoming y Delaware.
+Exentax es una plataforma integral para la creación y gestión de empresas LLC en Estados Unidos, enfocada en emprendedores hispanohablantes. Ofrece servicios de formación empresarial en New Mexico, Wyoming y Delaware.
 
 ## Dominios
-- **easyusllc.com** - Sitio principal con dashboard, formularios y gestión
-- **creamostullc.com** - Landing pages y funnel de ventas
+- **exentax.com** - Sitio principal con dashboard, formularios y gestión
 
 ## Tecnologías
 - **Frontend:** React + TypeScript + Vite
@@ -43,4 +42,4 @@ Todo cambio en el código debe ser solicitado explícitamente. No se deben hacer
 
 ---
 
-© Easy US LLC 2024
+© Exentax Holdings LLC 2024

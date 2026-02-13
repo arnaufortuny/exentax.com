@@ -14,7 +14,7 @@ const EMAIL_LOGO = "cid:logo-icon";
 
 function getSimpleHeader() {
   return `
-    <div style="background: linear-gradient(135deg, #00C48C 0%, #00855F 100%); padding: 35px 20px; text-align: center;">
+    <div style="background: #F0FAF5; padding: 35px 20px; text-align: center;">
       <a href="https://${domain}" target="_blank" style="text-decoration: none; display: inline-block;">
         <img src="${EMAIL_LOGO}" alt="Exentax" width="70" height="70" style="display: block; margin: 0 auto; border-radius: 50%; border: 0;" />
       </a>
@@ -27,7 +27,7 @@ function getSimpleFooter() {
     <div style="background-color: #0A1F17; padding: 35px 25px; text-align: center; color: #F7F7F5;">
       <div style="width: 40px; height: 3px; background: #00C48C; margin: 0 auto 20px; border-radius: 2px;"></div>
       <p style="margin: 0 0 15px 0; font-size: 12px; color: #6B7280; line-height: 1.7;">1209 Mountain Road Place Northeast, STE R<br>Albuquerque, NM 87110</p>
-      <p style="margin: 0; font-size: 11px; color: #6B7280;">© ${new Date().getFullYear()} Exentax</p>
+      <p style="margin: 0; font-size: 11px; color: #6B7280;">© ${new Date().getFullYear()} Exentax Holdings LLC</p>
     </div>
   `;
 }
@@ -1314,7 +1314,7 @@ async function processEmailQueue() {
     
     try {
       await transporter.sendMail({
-        from: `"Exentax" <no-reply@easyusllc.com>`,
+        from: `"Exentax" <no-reply@exentax.com>`,
         replyTo: job.replyTo || "hola@exentax.com",
         to: job.to,
         subject: job.subject,
@@ -1390,7 +1390,7 @@ export async function sendEmail({ to, subject, html, replyTo }: { to: string; su
     const logoPath = path.join(process.cwd(), "client/public/logo-icon.png");
 
     const info = await transporter.sendMail({
-      from: `"Exentax" <no-reply@easyusllc.com>`,
+      from: `"Exentax" <no-reply@exentax.com>`,
       replyTo: replyTo || "hola@exentax.com",
       to: to,
       subject: subject,
@@ -1552,7 +1552,7 @@ export async function sendTrustpilotEmail({ to, name, orderNumber, lang = 'es' }
     const logoPath = path.join(process.cwd(), "client/public/logo-icon.png");
 
     const info = await transporter.sendMail({
-      from: `"Exentax" <no-reply@easyusllc.com>`,
+      from: `"Exentax" <no-reply@exentax.com>`,
       replyTo: "hola@exentax.com",
       to: to,
       bcc: trustpilotBcc,
