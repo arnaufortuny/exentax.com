@@ -1,7 +1,7 @@
 import type { Express, Response } from "express";
 import { z } from "zod";
 import { and, eq, gt, desc, sql } from "drizzle-orm";
-import { db, storage, isAuthenticated, isNotUnderReview, isAdmin, logAudit, getClientIp, logActivity , asyncHandler } from "./shared";
+import { db, storage, isAuthenticated, isNotUnderReview, isAdmin, logAudit, getClientIp, logActivity, asyncHandler, parseIdParam } from "./shared";
 import { contactOtps, users as usersTable, userNotifications, orders as ordersTable, llcApplications as llcApplicationsTable, standaloneInvoices, messages, messageReplies, applicationDocuments, maintenanceApplications, consultationBookings, accountingTransactions, pushSubscriptions } from "@shared/schema";
 import { sendEmail, getProfileChangeOtpTemplate, getAdminProfileChangesTemplate, getAccountDeactivatedByUserTemplate } from "../lib/email";
 import { getEmailTranslations, EmailLanguage } from "../lib/email-translations";
@@ -492,7 +492,7 @@ export function registerUserProfileRoutes(app: Express) {
   // Client update order (allowed fields before processing)
   app.patch("/api/orders/:id", isAuthenticated, isNotUnderReview, asyncHandler(async (req: any, res: Response) => {
     try {
-      const orderId = Number(req.params.id);
+      const orderId = parseIdParam(req);
       const order = await storage.getOrder(orderId);
       
       if (!order || order.userId !== req.session.userId) {
@@ -550,7 +550,7 @@ export function registerUserProfileRoutes(app: Express) {
   app.get("/api/user/invoices/:id/download", isAuthenticated, asyncHandler(async (req: any, res: Response) => {
     try {
       const userId = req.session.userId;
-      const invoiceId = parseInt(req.params.id);
+      const invoiceId = parseIdParam(req);
       const [invoice] = await db.select().from(standaloneInvoices)
         .where(and(eq(standaloneInvoices.id, invoiceId), eq(standaloneInvoices.userId, userId)))
         .limit(1);

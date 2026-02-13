@@ -1,7 +1,7 @@
 import type { Express, Response } from "express";
 import { z } from "zod";
 import { eq, and, gt, sql } from "drizzle-orm";
-import { db, storage, isAuthenticated, isNotUnderReview, isAdmin, logAudit , asyncHandler } from "./shared";
+import { db, storage, isAuthenticated, isNotUnderReview, isAdmin, logAudit, asyncHandler, parseIdParam } from "./shared";
 import { api } from "@shared/routes";
 import { insertLlcApplicationSchema, insertApplicationDocumentSchema, contactOtps, users as usersTable, orders as ordersTable, llcApplications as llcApplicationsTable, applicationDocuments as applicationDocumentsTable, discountCodes, userNotifications, messages as messagesTable, documentRequests as documentRequestsTable } from "@shared/schema";
 import { sendEmail, getWelcomeEmailTemplate, getConfirmationEmailTemplate, getAdminLLCOrderTemplate } from "../lib/email";
@@ -139,7 +139,7 @@ export function registerLlcRoutes(app: Express) {
   // Client Update LLC Application Data
   app.patch("/api/llc/:id/data", isAuthenticated, isNotUnderReview, asyncHandler(async (req: any, res: Response) => {
     try {
-      const appId = Number(req.params.id);
+      const appId = parseIdParam(req);
       const updates = req.body;
       
       // Security: Check if EIN has been assigned - if so, data is locked
@@ -175,7 +175,7 @@ export function registerLlcRoutes(app: Express) {
     }
   }));
   app.get(api.llc.get.path, asyncHandler(async (req: any, res: Response) => {
-    const appId = Number(req.params.id);
+    const appId = parseIdParam(req);
     
     const application = await storage.getLlcApplication(appId);
     if (!application) {
@@ -200,7 +200,7 @@ export function registerLlcRoutes(app: Express) {
 
   app.put(api.llc.update.path, asyncHandler(async (req: any, res: Response) => {
     try {
-      const appId = Number(req.params.id);
+      const appId = parseIdParam(req);
       const updates = api.llc.update.input.parse(req.body);
 
       const application = await storage.getLlcApplication(appId);

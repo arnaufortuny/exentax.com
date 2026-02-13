@@ -122,6 +122,16 @@ export const logActivity = async (title: string, data: any, _req?: any) => {
   }
 };
 
+export function parseIdParam(req: any, paramName = 'id'): number {
+  const id = Number(req.params[paramName]);
+  if (isNaN(id) || id <= 0) {
+    const err: any = new Error(`Invalid ${paramName} parameter`);
+    err.status = 400;
+    throw err;
+  }
+  return id;
+}
+
 export const asyncHandler = (fn: any) => (req: any, res: any, next: any) => {
   Promise.resolve(fn(req, res, next)).catch(next);
 };

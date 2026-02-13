@@ -1,7 +1,7 @@
 import type { Express, Response } from "express";
 import { z } from "zod";
 import { eq, desc, sql, and, gt } from "drizzle-orm";
-import { db, storage, isAuthenticated, isNotUnderReview, logAudit, getClientIp, logActivity, isIpBlockedFromOrders, trackOrderByIp , asyncHandler } from "./shared";
+import { db, storage, isAuthenticated, isNotUnderReview, logAudit, getClientIp, logActivity, isIpBlockedFromOrders, trackOrderByIp, asyncHandler, parseIdParam } from "./shared";
 import { api } from "@shared/routes";
 import { contactOtps, users as usersTable, orderEvents, userNotifications, orders as ordersTable, llcApplications as llcApplicationsTable, maintenanceApplications, discountCodes } from "@shared/schema";
 import { sendEmail, getWelcomeEmailTemplate } from "../lib/email";
@@ -25,7 +25,7 @@ export function registerOrderRoutes(app: Express) {
   // Invoices
   app.get("/api/orders/:id/invoice", isAuthenticated, asyncHandler(async (req: any, res: Response) => {
     try {
-      const orderId = Number(req.params.id);
+      const orderId = parseIdParam(req);
       const order = await storage.getOrder(orderId);
       
       if (!order || (order.userId !== req.session.userId && !req.session.isAdmin && !req.session.isSupport)) {
@@ -270,7 +270,7 @@ export function registerOrderRoutes(app: Express) {
   // Order Events Timeline
   app.get("/api/orders/:id/events", isAuthenticated, asyncHandler(async (req: any, res: Response) => {
     try {
-      const orderId = Number(req.params.id);
+      const orderId = parseIdParam(req);
       const order = await storage.getOrder(orderId);
       
       if (!order) return res.status(404).json({ message: "Order not found" });

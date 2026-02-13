@@ -1,6 +1,6 @@
 import type { Express, Response } from "express";
 import { eq, and, gt, sql } from "drizzle-orm";
-import { db, storage, isAuthenticated, isNotUnderReview, logAudit, getClientIp, logActivity, isIpBlockedFromOrders, trackOrderByIp, detectSuspiciousOrderActivity, flagAccountForReview , asyncHandler } from "./shared";
+import { db, storage, isAuthenticated, isNotUnderReview, logAudit, getClientIp, logActivity, isIpBlockedFromOrders, trackOrderByIp, detectSuspiciousOrderActivity, flagAccountForReview, asyncHandler, parseIdParam } from "./shared";
 import { contactOtps, users as usersTable, orders as ordersTable, maintenanceApplications, discountCodes, userNotifications } from "@shared/schema";
 import { sendEmail, getWelcomeEmailTemplate, getConfirmationEmailTemplate, getAdminMaintenanceOrderTemplate, getAccountPendingVerificationTemplate } from "../lib/email";
 import { EmailLanguage, getVerifyEmailSubject, getWelcomeEmailSubject } from "../lib/email-translations";
@@ -312,7 +312,7 @@ export function registerMaintenanceRoutes(app: Express) {
   // Maintenance App Updates - Protected with ownership verification
   app.put("/api/maintenance/:id", isAuthenticated, isNotUnderReview, asyncHandler(async (req: any, res: Response) => {
     try {
-      const appId = Number(req.params.id);
+      const appId = parseIdParam(req);
       const updates = req.body;
       
       // First, get the application to verify ownership

@@ -1,6 +1,6 @@
 import type { Express, Response } from "express";
 import { and, eq, desc, inArray } from "drizzle-orm";
-import { db, isAuthenticated, isNotUnderReview, logActivity, logAudit, getClientIp , asyncHandler } from "./shared";
+import { db, isAuthenticated, isNotUnderReview, logActivity, logAudit, getClientIp, asyncHandler, parseIdParam } from "./shared";
 import { users as usersTable, orders as ordersTable, llcApplications as llcApplicationsTable, applicationDocuments as applicationDocumentsTable, documentRequests as documentRequestsTable, userNotifications } from "@shared/schema";
 import { createLogger } from "../lib/logger";
 
@@ -147,7 +147,7 @@ export function registerUserDocumentRoutes(app: Express) {
   app.delete("/api/user/documents/:id", isAuthenticated, isNotUnderReview, asyncHandler(async (req: any, res: Response) => {
     try {
       const userId = req.session.userId;
-      const docId = parseInt(req.params.id);
+      const docId = parseIdParam(req);
       
       const [user] = await db.select().from(usersTable).where(eq(usersTable.id, userId)).limit(1);
       if (!user) {
@@ -192,7 +192,7 @@ export function registerUserDocumentRoutes(app: Express) {
   app.get("/api/user/documents/:id/download", isAuthenticated, asyncHandler(async (req: any, res: Response) => {
     try {
       const userId = req.session.userId;
-      const docId = parseInt(req.params.id);
+      const docId = parseIdParam(req);
       
       const [doc] = await db.select().from(applicationDocumentsTable)
         .where(eq(applicationDocumentsTable.id, docId)).limit(1);

@@ -1,6 +1,6 @@
 import type { Express, Response } from "express";
 import { z } from "zod";
-import { db, storage, isAuthenticated, isNotUnderReview, logActivity, getClientIp , asyncHandler } from "./shared";
+import { db, storage, isAuthenticated, isNotUnderReview, logActivity, getClientIp, asyncHandler, parseIdParam } from "./shared";
 import { users as usersTable, messages as messagesTable, messageReplies, userNotifications } from "@shared/schema";
 import { eq } from "drizzle-orm";
 import { sendEmail, getAutoReplyTemplate, getMessageReplyTemplate } from "../lib/email";
@@ -116,7 +116,7 @@ export function registerMessageRoutes(app: Express) {
   // Message replies - secured: only message owner or admin can view
   app.get("/api/messages/:id/replies", isAuthenticated, asyncHandler(async (req: any, res: Response) => {
     try {
-      const messageId = Number(req.params.id);
+      const messageId = parseIdParam(req);
       
       // Verify message belongs to user or user is admin
       const [message] = await db.select().from(messagesTable).where(eq(messagesTable.id, messageId)).limit(1);
@@ -166,7 +166,7 @@ export function registerMessageRoutes(app: Express) {
   // Add reply to message - secured: only message owner or admin can reply
   app.post("/api/messages/:id/reply", isAuthenticated, isNotUnderReview, asyncHandler(async (req: any, res: Response) => {
     try {
-      const messageId = Number(req.params.id);
+      const messageId = parseIdParam(req);
       const { content, fromName } = req.body;
       
       // Verify message belongs to user or user is admin

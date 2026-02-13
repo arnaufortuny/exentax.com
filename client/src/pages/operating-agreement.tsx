@@ -90,7 +90,14 @@ export default function OperatingAgreementGenerator() {
   }, [selectedLLC]);
   
   if (authLoading) {
-    return <div className="min-h-screen bg-background" />;
+    return (
+      <div className="min-h-screen bg-background">
+        <Navbar />
+        <div className="flex items-center justify-center py-20">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-accent" />
+        </div>
+      </div>
+    );
   }
   
   if (!isAuthenticated || !user) {

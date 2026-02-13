@@ -436,7 +436,8 @@ export function TaxComparator({ titleOverride, subtitleOverride }: TaxComparator
       setEmailError(t("taxComparator.emailInvalid"));
       return;
     }
-    if (income < 1000) {
+    if (income < 10000) {
+      setEmailError(t("taxComparator.incomeMinimum", "El ingreso mínimo es de 10.000 €"));
       return;
     }
     
