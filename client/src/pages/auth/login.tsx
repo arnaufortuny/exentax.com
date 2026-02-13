@@ -91,6 +91,7 @@ export default function Login() {
         if (result.token) {
           setStoredAuthToken(result.token);
         }
+        localStorage.removeItem("i18n_nav_override");
         if (result.user?.preferredLanguage && result.user.preferredLanguage !== i18n.language) {
           await i18n.changeLanguage(result.user.preferredLanguage);
           localStorage.setItem('i18nextLng', result.user.preferredLanguage);

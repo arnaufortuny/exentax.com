@@ -60,8 +60,12 @@ export function useAuth() {
 
   useEffect(() => {
     if (user?.preferredLanguage && !languageSynced.current) {
-      i18n.changeLanguage(user.preferredLanguage);
-      localStorage.removeItem("i18n_nav_override");
+      const navOverride = localStorage.getItem("i18n_nav_override");
+      if (navOverride) {
+        i18n.changeLanguage(navOverride);
+      } else {
+        i18n.changeLanguage(user.preferredLanguage);
+      }
       languageSynced.current = true;
     }
     if (!user) {
@@ -72,6 +76,7 @@ export function useAuth() {
   const logoutMutation = useMutation({
     mutationFn: logout,
     onSuccess: () => {
+      localStorage.removeItem("i18n_nav_override");
       queryClient.setQueryData(["/api/auth/user"], null);
     },
   });

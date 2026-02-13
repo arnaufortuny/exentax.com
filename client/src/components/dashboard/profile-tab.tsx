@@ -96,6 +96,7 @@ export function ProfileTab({
   const handleLanguageChange = async (langCode: string) => {
     i18n.changeLanguage(langCode);
     localStorage.setItem('i18nextLng', langCode);
+    localStorage.removeItem("i18n_nav_override");
     try {
       await apiRequest("PATCH", "/api/user/language", { preferredLanguage: langCode });
       queryClient.invalidateQueries({ queryKey: ["/api/auth/user"] });
