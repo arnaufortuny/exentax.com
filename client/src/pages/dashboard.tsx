@@ -875,7 +875,7 @@ export default function Dashboard() {
                   />
                 </PanelErrorBoundary>
                 )}
-                {showTrustpilotCard && (
+                {showTrustpilotCard && !isPendingAccount && (
                   <Card className="rounded-2xl border border-accent/20 shadow-sm p-5 pr-10 bg-white dark:bg-card mt-4 relative" data-testid="card-trustpilot-review">
                     <button 
                       onClick={() => {
@@ -916,13 +916,13 @@ export default function Dashboard() {
                 </PanelErrorBoundary>
               )}
 
-              {activeTab === 'consultations' && (
+              {activeTab === 'consultations' && !isPendingAccount && (
                 <PanelErrorBoundary panelName="consultations">
                   <ConsultationsTab setActiveTab={setActiveTab} />
                 </PanelErrorBoundary>
               )}
 
-              {activeTab === 'messages' && (
+              {activeTab === 'messages' && !isPendingAccount && (
                 <PanelErrorBoundary panelName="messages">
                   <MessagesTab
                     messagesData={messagesData}
@@ -937,7 +937,7 @@ export default function Dashboard() {
                 </PanelErrorBoundary>
               )}
 
-              {activeTab === 'documents' && (
+              {activeTab === 'documents' && !isPendingAccount && (
                 <PanelErrorBoundary panelName="documents">
                   <DocumentsPanel
                     user={user}
@@ -952,19 +952,19 @@ export default function Dashboard() {
               )}
 
 
-              {activeTab === 'payments' && (
+              {activeTab === 'payments' && !isPendingAccount && (
                 <PanelErrorBoundary panelName="payments">
                   <PaymentsPanel orders={orders} clientInvoices={clientInvoices} />
                 </PanelErrorBoundary>
               )}
 
-              {activeTab === 'calendar' && (
+              {activeTab === 'calendar' && !isPendingAccount && (
                 <PanelErrorBoundary panelName="calendar">
                   <CalendarPanel orders={orders || []} />
                 </PanelErrorBoundary>
               )}
 
-              {activeTab === 'tools' && (
+              {activeTab === 'tools' && !isPendingAccount && (
                 <PanelErrorBoundary panelName="tools">
                   <ToolsPanel />
                 </PanelErrorBoundary>
