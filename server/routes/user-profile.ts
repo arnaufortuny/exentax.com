@@ -8,12 +8,17 @@ import { getEmailTranslations, EmailLanguage } from "../lib/email-translations";
 import { checkRateLimit } from "../lib/security";
 import { getUpcomingDeadlinesForUser } from "../calendar-service";
 import { createLogger } from "../lib/logger";
+import { getCached, setCache } from "../lib/cache";
 
 const log = createLogger('user-profile');
 
 export function registerUserProfileRoutes(app: Express) {
   app.get("/api/products", asyncHandler(async (req: any, res: Response) => {
+    const CACHE_KEY = 'products';
+    const cached = getCached<any>(CACHE_KEY);
+    if (cached) return res.json(cached);
     const products = await storage.getProducts();
+    setCache(CACHE_KEY, products, 5 * 60 * 1000);
     res.json(products);
   }));
 

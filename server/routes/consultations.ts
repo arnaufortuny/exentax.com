@@ -4,6 +4,7 @@ import { db, isAuthenticated, isNotUnderReview, isAdmin, isAdminOrSupport, logAu
 import { createLogger } from "../lib/logger";
 import { checkRateLimit } from "../lib/security";
 import { DateTime } from "luxon";
+import { getCached, setCache, invalidateCache } from "../lib/cache";
 
 const log = createLogger('consultations');
 import { consultationTypes, consultationAvailability, consultationBlockedDates, consultationBookings, consultationSettings, users as usersTable, orders as ordersTable } from "@shared/schema";
@@ -58,11 +59,14 @@ export function registerConsultationRoutes(app: Express) {
 
   app.get("/api/consultations/settings", asyncHandler(async (req: any, res: Response) => {
     try {
+      const CACHE_KEY = 'consultation_settings';
+      const cached = getCached<any>(CACHE_KEY);
+      if (cached) return res.json(cached);
       const settings = await getSettings();
       const blocked = await db.select().from(consultationBlockedDates);
       const blockedSet = new Set(blocked.map(b => new Date(b.date).toISOString().split('T')[0]));
       const availableDays = getNextAvailableBusinessDays(settings.availableDaysWindow, settings.allowWeekends, blockedSet);
-      res.json({
+      const result = {
         availableDaysWindow: settings.availableDaysWindow,
         slotStartHour: settings.slotStartHour,
         slotEndHour: settings.slotEndHour,
@@ -70,7 +74,9 @@ export function registerConsultationRoutes(app: Express) {
         allowWeekends: settings.allowWeekends,
         timezone: settings.timezone,
         availableDates: availableDays,
-      });
+      };
+      setCache(CACHE_KEY, result, 2 * 60 * 1000);
+      res.json(result);
     } catch (err) {
       log.error("Error fetching consultation settings", err);
       res.status(500).json({ message: "Error fetching settings" });
@@ -80,7 +86,11 @@ export function registerConsultationRoutes(app: Express) {
   // Get all active consultation types (public)
   app.get("/api/consultations/types", asyncHandler(async (req: any, res: Response) => {
     try {
+      const CACHE_KEY = 'consultation_types';
+      const cached = getCached<any>(CACHE_KEY);
+      if (cached) return res.json(cached);
       const types = await db.select().from(consultationTypes).where(eq(consultationTypes.isActive, true));
+      setCache(CACHE_KEY, types, 5 * 60 * 1000);
       res.json(types);
     } catch (err) {
       log.error("Error fetching consultation types", err);
@@ -772,6 +782,7 @@ export function registerConsultationRoutes(app: Express) {
       const data = schema.parse(req.body);
       
       const [type] = await db.insert(consultationTypes).values(data).returning();
+      invalidateCache('consultation_types');
       
       logAudit({
         action: 'consultation_type_created',
@@ -803,6 +814,7 @@ export function registerConsultationRoutes(app: Express) {
         return res.status(404).json({ message: "Type not found" });
       }
       
+      invalidateCache('consultation_types');
       res.json(updated);
     } catch (err) {
       log.error("Error updating consultation type", err);
@@ -815,6 +827,7 @@ export function registerConsultationRoutes(app: Express) {
     try {
       const typeId = parseInt(req.params.id);
       await db.delete(consultationTypes).where(eq(consultationTypes.id, typeId));
+      invalidateCache('consultation_types');
       res.json({ success: true });
     } catch (err) {
       log.error("Error deleting consultation type", err);
@@ -908,6 +921,7 @@ export function registerConsultationRoutes(app: Express) {
         reason: data.reason
       }).returning();
       
+      invalidateCache('consultation_settings');
       res.json(blocked);
     } catch (err: any) {
       log.error("Error creating blocked date", err);
@@ -920,6 +934,7 @@ export function registerConsultationRoutes(app: Express) {
     try {
       const dateId = parseInt(req.params.id);
       await db.delete(consultationBlockedDates).where(eq(consultationBlockedDates.id, dateId));
+      invalidateCache('consultation_settings');
       res.json({ success: true });
     } catch (err) {
       log.error("Error deleting blocked date", err);
@@ -1095,6 +1110,8 @@ export function registerConsultationRoutes(app: Express) {
         .set({ ...data, updatedAt: new Date() })
         .where(eq(consultationSettings.id, current.id))
         .returning();
+
+      invalidateCache('consultation_settings');
 
       logAudit({
         action: 'consultation_settings_updated',
