@@ -31,7 +31,7 @@ Key architectural patterns include:
 
 ## External Dependencies
 - **Database:** PostgreSQL (Neon-backed)
-- **Email Service:** IONOS SMTP
+- **Email Service:** Gmail API (via Replit google-mail connector, `server/lib/gmail-client.ts`)
 - **Authentication:** Google OAuth
 - **Storage:** Replit Object Storage
 - **Error Monitoring:** Sentry (optional)
@@ -68,3 +68,4 @@ Key architectural patterns include:
 - **2026-02-13:** Email sending address changed from no-reply@easyusllc.com to no-reply@exentax.com. SMTP credentials updated.
 - **2026-02-13:** All "Easy US LLC" references replaced with "Exentax" or "Exentax Holdings LLC" across README, service worker, and email templates.
 - **2026-02-13:** Contact email confirmed as hola@exentax.com across all pages and legal sections.
+- **2026-02-14:** Email system migrated from IONOS SMTP (nodemailer) to Gmail API via Replit google-mail connector. Created `server/lib/gmail-client.ts`. Removed SMTP env vars (SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS, SMTP_USER_SUPPORT, SMTP_USER_TRUSTPILOT, SMTP_USER_ADMIN). Email queue system preserved with Gmail backend. All email functions (sendEmail, queueEmail, sendTrustpilotEmail) now use Gmail API.

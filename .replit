@@ -5,7 +5,7 @@ packages = ["unzip", "imagemagick"]
 
 [agent]
 expertMode = true
-integrations = ["javascript_log_in_with_replit:2.0.0", "javascript_object_storage:2.0.0"]
+integrations = ["javascript_log_in_with_replit:2.0.0", "javascript_object_storage:2.0.0", "google-mail:1.0.0"]
 
 [workflows]
 runButton = "Project"
@@ -75,14 +75,7 @@ build = ["npm", "run", "build"]
 [userenv]
 
 [userenv.shared]
-SMTP_HOST = "smtp.ionos.es"
-SMTP_PORT = "587"
-SMTP_USER = "no-reply@exentax.com"
-SMTP_PASS = "VELFCasBED678900672*"
 ADMIN_EMAIL = "arnau@easyusllc.com"
-SMTP_USER_SUPPORT = "hola@easyusllc.com"
-SMTP_USER_TRUSTPILOT = "trustpilot@easyusllc.com"
-SMTP_USER_ADMIN = "arnau@easyusllc.com"
 TRUSTPILOT_BCC_EMAIL = "easyusllc.com+62fb280c0a@invite.trustpilot.com"
 VAPID_PUBLIC_KEY = "BI6cqP7xBPgDeYTQf2r78ceH7OSK5W-R2gWX9XawIHtK9t7Tu8NLmAmCH1NIhaNDrgLWJnGty0Jb1_x0v-3IriM"
 VAPID_PRIVATE_KEY = "TnrDf6Yv3Zii6ZdiwSmN3pP8fzvrpsqUssxdG5PvBVQ"

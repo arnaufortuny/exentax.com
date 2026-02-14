@@ -1,6 +1,8 @@
-import nodemailer from "nodemailer";
 import { EmailLanguage, getEmailTranslations, getCommonDoubtsText, getDefaultClientName } from "./email-translations";
 import { createLogger } from "./logger";
+import { sendGmailMessage } from "./gmail-client";
+import fs from "fs";
+import path from "path";
 
 const log = createLogger('email');
 
@@ -1229,30 +1231,26 @@ export function getNewsletterBroadcastTemplate(subject: string, message: string,
   return getEmailWrapper(content, lang);
 }
 
-// Transporter configuration
-const transporter = nodemailer.createTransport({
-  host: process.env.SMTP_HOST || "smtp.ionos.es",
-  port: parseInt(process.env.SMTP_PORT || "587"),
-  secure: false,
-  auth: {
-    user: process.env.SMTP_USER,
-    pass: process.env.SMTP_PASS,
-  },
-  tls: {
-    rejectUnauthorized: false
-  },
-  pool: true,
-  maxConnections: 5,
-  maxMessages: 100,
-});
+// ============== GMAIL-BASED EMAIL SYSTEM ==============
+// Integration: google-mail connector via Replit
 
-// ============== EMAIL QUEUE SYSTEM ==============
+function getLogoAttachment(): { filename: string; content: Buffer; cid: string } | null {
+  try {
+    const logoPath = path.join(process.cwd(), "client/public/logo-icon.png");
+    const content = fs.readFileSync(logoPath);
+    return { filename: 'logo-icon.png', content, cid: 'logo-icon' };
+  } catch {
+    return null;
+  }
+}
+
 interface EmailJob {
   id: string;
   to: string;
   subject: string;
   html: string;
   replyTo?: string;
+  bcc?: string;
   retries: number;
   maxRetries: number;
   createdAt: number;
@@ -1260,9 +1258,9 @@ interface EmailJob {
 
 const emailQueue: EmailJob[] = [];
 const MAX_RETRIES = 3;
-const MAX_QUEUE_SIZE = 100; // Prevent memory growth
-const EMAIL_TTL = 3600000; // 1 hour TTL for emails
-const QUEUE_PROCESS_INTERVAL = 2000; // Process every 2 seconds (with backoff)
+const MAX_QUEUE_SIZE = 100;
+const EMAIL_TTL = 3600000;
+const QUEUE_PROCESS_INTERVAL = 2000;
 let isProcessingQueue = false;
 let lastProcessTime = 0;
 
@@ -1270,7 +1268,6 @@ function generateEmailId(): string {
   return `email_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
 }
 
-// Clean up old emails from queue
 function cleanupStaleEmails() {
   const now = Date.now();
   let removed = 0;
@@ -1284,53 +1281,40 @@ function cleanupStaleEmails() {
 }
 
 async function processEmailQueue() {
-  // Skip if SMTP not configured
-  if (!process.env.SMTP_USER || !process.env.SMTP_PASS) {
-    // Clear queue when SMTP not configured
-    if (emailQueue.length > 0) {
-      emailQueue.length = 0;
-    }
-    return;
-  }
-  
   if (isProcessingQueue || emailQueue.length === 0) return;
-  
-  // Backoff: wait at least 1 second between processing attempts
+
   const now = Date.now();
   if (now - lastProcessTime < 1000) return;
-  
+
   isProcessingQueue = true;
   lastProcessTime = now;
-  
+
   try {
-    // Cleanup stale emails first
     cleanupStaleEmails();
-    
+
     const job = emailQueue[0];
     if (!job) {
       isProcessingQueue = false;
       return;
     }
-    
+
     try {
-      await transporter.sendMail({
-        from: `"Exentax" <no-reply@exentax.com>`,
-        replyTo: job.replyTo || "hola@exentax.com",
+      await sendGmailMessage({
         to: job.to,
         subject: job.subject,
         html: job.html,
+        replyTo: job.replyTo || "hola@exentax.com",
+        bcc: job.bcc,
       });
-      
-      // Success - remove from queue
+
       emailQueue.shift();
     } catch (error: any) {
       job.retries++;
-      
+
       if (job.retries >= job.maxRetries) {
         emailQueue.shift();
         log.error(`Email failed after ${job.maxRetries} retries`, error, { id: job.id, to: job.to, errorMessage: error?.message || 'Unknown error' });
       } else {
-        // Move to end of queue for retry (with delay via natural queue order)
         emailQueue.shift();
         emailQueue.push(job);
       }
@@ -1340,22 +1324,14 @@ async function processEmailQueue() {
   }
 }
 
-// Start queue processor
 setInterval(processEmailQueue, QUEUE_PROCESS_INTERVAL);
 
-// Queue an email for sending (with size limit)
 export function queueEmail({ to, subject, html, replyTo }: { to: string; subject: string; html: string; replyTo?: string }): string | null {
-  // Skip if SMTP not configured
-  if (!process.env.SMTP_USER || !process.env.SMTP_PASS) {
-    return null;
-  }
-  
-  // Prevent unbounded queue growth
   if (emailQueue.length >= MAX_QUEUE_SIZE) {
     log.warn(`Email queue full (${MAX_QUEUE_SIZE}), dropping email to: ${to}`);
     return null;
   }
-  
+
   const job: EmailJob = {
     id: generateEmailId(),
     to,
@@ -1366,12 +1342,11 @@ export function queueEmail({ to, subject, html, replyTo }: { to: string; subject
     maxRetries: MAX_RETRIES,
     createdAt: Date.now()
   };
-  
+
   emailQueue.push(job);
   return job.id;
 }
 
-// Get queue status
 export function getEmailQueueStatus() {
   return {
     pending: emailQueue.length,
@@ -1379,33 +1354,20 @@ export function getEmailQueueStatus() {
   };
 }
 
-// Direct send for critical emails (bypasses queue)
 export async function sendEmail({ to, subject, html, replyTo }: { to: string; subject: string; html: string; replyTo?: string }) {
-  if (!process.env.SMTP_USER || !process.env.SMTP_PASS) {
-    return;
-  }
-
   try {
-    const path = await import("path");
-    const logoPath = path.join(process.cwd(), "client/public/logo-icon.png");
+    const logo = getLogoAttachment();
+    const attachments = logo ? [logo] : undefined;
 
-    const info = await transporter.sendMail({
-      from: `"Exentax" <no-reply@exentax.com>`,
-      replyTo: replyTo || "hola@exentax.com",
-      to: to,
-      subject: subject,
+    const result = await sendGmailMessage({
+      to,
+      subject,
       html,
-      attachments: [
-        {
-          filename: 'logo-icon.png',
-          path: logoPath,
-          cid: 'logo-icon'
-        }
-      ]
+      replyTo: replyTo || "hola@exentax.com",
+      attachments,
     });
-    return info;
+    return result;
   } catch (error: any) {
-    // On failure, queue for retry
     queueEmail({ to, subject, html, replyTo });
     return null;
   }
@@ -1530,10 +1492,6 @@ export function getConsultationReminderTemplate(
 }
 
 export async function sendTrustpilotEmail({ to, name, orderNumber, lang = 'es' }: { to: string; name: string; orderNumber: string; lang?: EmailLanguage }) {
-  if (!process.env.SMTP_PASS) {
-    return;
-  }
-
   const trustpilotBcc = process.env.TRUSTPILOT_BCC_EMAIL || "exentax.com+1dc60fd1a2@invite.trustpilot.com";
   const html = getOrderCompletedTemplate(name, orderNumber, lang);
 
@@ -1548,25 +1506,18 @@ export async function sendTrustpilotEmail({ to, name, orderNumber, lang = 'es' }
   };
 
   try {
-    const path = await import("path");
-    const logoPath = path.join(process.cwd(), "client/public/logo-icon.png");
+    const logo = getLogoAttachment();
+    const attachments = logo ? [logo] : undefined;
 
-    const info = await transporter.sendMail({
-      from: `"Exentax" <no-reply@exentax.com>`,
-      replyTo: "hola@exentax.com",
-      to: to,
-      bcc: trustpilotBcc,
+    const result = await sendGmailMessage({
+      to,
       subject: subjectI18n[lang] || subjectI18n.es,
       html,
-      attachments: [
-        {
-          filename: 'logo-icon.png',
-          path: logoPath,
-          cid: 'logo-icon'
-        }
-      ]
+      replyTo: "hola@exentax.com",
+      bcc: trustpilotBcc,
+      attachments,
     });
-    return info;
+    return result;
   } catch (error: any) {
     return null;
   }
