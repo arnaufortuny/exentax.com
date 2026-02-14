@@ -18,8 +18,11 @@ export function usePrefetch() {
       "/dashboard": () => import("../pages/dashboard"),
       "/auth/login": () => import("../pages/auth/login"),
       "/auth/register": () => import("../pages/auth/register"),
+      "/auth/forgot-password": () => import("../pages/auth/forgot-password"),
       "/legal/terminos": () => import("../pages/legal/terminos"),
       "/legal/privacidad": () => import("../pages/legal/privacidad"),
+      "/agendar-consultoria": () => import("../pages/agendar-consultoria"),
+      "/start": () => import("../pages/start"),
     };
 
     timeoutRef.current = setTimeout(() => {

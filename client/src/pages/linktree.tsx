@@ -162,6 +162,8 @@ export default function LinktreePage() {
                   src={logoIcon} 
                   alt="Exentax" 
                   className="w-14 h-14 object-contain"
+                  loading="lazy"
+                  decoding="async"
                 />
               </div>
             </div>

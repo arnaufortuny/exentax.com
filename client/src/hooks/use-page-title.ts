@@ -105,6 +105,16 @@ const routeTitles: Record<string, PageTitleConfig> = {
     titleKey: "seo.asesoriaGratis.title",
     descriptionKey: "seo.asesoriaGratis.description",
     path: "/agendar-consultoria"
+  },
+  "/start": {
+    titleKey: "seo.start.title",
+    descriptionKey: "seo.start.description",
+    path: "/start"
+  },
+  "/links": {
+    titleKey: "seo.links.title",
+    descriptionKey: "seo.links.description",
+    path: "/links"
   }
 };
 

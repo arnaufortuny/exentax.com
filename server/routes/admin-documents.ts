@@ -4,12 +4,24 @@ import { and, eq, desc, inArray, or, sql } from "drizzle-orm";
 import { db, storage, isAdmin, isAdminOrSupport, asyncHandler, logAudit, getClientIp } from "./shared";
 import { createLogger } from "../lib/logger";
 import { compressImage } from "../lib/image-compress";
+import { sanitizeHtml } from "../lib/security";
+import { checkRateLimitInMemory } from "../lib/rate-limiter";
 
 const log = createLogger('admin-documents');
 import { orders as ordersTable, users as usersTable, maintenanceApplications, orderEvents, userNotifications, llcApplications as llcApplicationsTable, applicationDocuments as applicationDocumentsTable, messages as messagesTable, documentRequests as documentRequestsTable, auditLogs } from "@shared/schema";
 import { sendEmail, getDocumentUploadedTemplate, getAdminNoteTemplate, getPaymentRequestTemplate, getDocumentRequestTemplate, getOrderEventTemplate, getDocumentApprovedTemplate, getDocumentRejectedTemplate } from "../lib/email";
 import { EmailLanguage } from "../lib/email-translations";
 import { updateApplicationDeadlines } from "../calendar-service";
+
+const VALID_DOC_REQUEST_TRANSITIONS: Record<string, string[]> = {
+  sent: ['pending_upload', 'uploaded', 'cancelled'],
+  pending_upload: ['uploaded', 'cancelled'],
+  uploaded: ['approved', 'rejected'],
+  approved: [],
+  rejected: ['sent', 'pending_upload'],
+  completed: [],
+  cancelled: ['sent'],
+};
 
 const MAX_FILE_SIZE_MB = 5;
 const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 * 1024;
@@ -18,7 +30,14 @@ export function registerAdminDocumentsRoutes(app: Express) {
   // Document Management - Upload official docs by Admin
   app.post("/api/admin/documents", isAdminOrSupport, asyncHandler(async (req: any, res: Response) => {
     try {
-      const { orderId, fileName, fileUrl, documentType, applicationId } = req.body;
+      const docSchema = z.object({
+        orderId: z.number(),
+        fileName: z.string().min(1),
+        fileUrl: z.string().min(1),
+        documentType: z.string().optional(),
+        applicationId: z.number().optional()
+      });
+      const { orderId, fileName, fileUrl, documentType, applicationId } = docSchema.parse(req.body);
       const [doc] = await db.insert(applicationDocumentsTable).values({
         orderId,
         applicationId,
@@ -438,12 +457,16 @@ export function registerAdminDocumentsRoutes(app: Express) {
   // User notifications - Unified Note + Email System
   app.post("/api/admin/send-note", isAdmin, asyncHandler(async (req: any, res: Response) => {
     try {
-      const { userId, title, message, type } = z.object({
+      const parsed = z.object({
         userId: z.string(),
         title: z.string().min(1, "Title required"),
         message: z.string().min(1, "Mensaje requerido"),
         type: z.enum(['update', 'info', 'action_required'])
       }).parse(req.body);
+      const userId = parsed.userId;
+      const title = sanitizeHtml(parsed.title);
+      const message = sanitizeHtml(parsed.message);
+      const type = parsed.type;
 
       const [user] = await db.select().from(usersTable).where(eq(usersTable.id, userId)).limit(1);
       if (!user) return res.status(404).json({ message: "User not found" });
@@ -481,12 +504,15 @@ export function registerAdminDocumentsRoutes(app: Express) {
   // Admin Payment Link system
   app.post("/api/admin/send-payment-link", isAdmin, asyncHandler(async (req: any, res: Response) => {
     try {
-      const { userId, paymentLink, message, amount } = z.object({
+      const parsedPay = z.object({
         userId: z.string(),
         paymentLink: z.string().url(),
         message: z.string(),
         amount: z.string().optional()
       }).parse(req.body);
+      const { userId, paymentLink } = parsedPay;
+      const message = sanitizeHtml(parsedPay.message);
+      const amount = parsedPay.amount;
 
       const [user] = await db.select().from(usersTable).where(eq(usersTable.id, userId)).limit(1);
       if (!user || !user.email) return res.status(404).json({ message: "User or email not found" });
@@ -517,12 +543,16 @@ export function registerAdminDocumentsRoutes(app: Express) {
   // Request document from client
   app.post("/api/admin/request-document", isAdminOrSupport, asyncHandler(async (req: any, res: Response) => {
     try {
-      const { email, documentType, message, userId } = z.object({
+      const parsedDoc = z.object({
         email: z.string().email(),
         documentType: z.string(),
         message: z.string(),
         userId: z.string().optional()
       }).parse(req.body);
+      const email = parsedDoc.email;
+      const documentType = parsedDoc.documentType;
+      const message = sanitizeHtml(parsedDoc.message);
+      const userId = parsedDoc.userId;
 
       const { generateDocRequestId } = await import("../lib/id-generator");
       const msgId = generateDocRequestId();
@@ -628,19 +658,34 @@ export function registerAdminDocumentsRoutes(app: Express) {
       const id = Number(req.params.id);
       const { notes, status } = z.object({
         notes: z.string().optional(),
-        status: z.enum(["sent", "pending_upload", "uploaded", "approved", "rejected", "completed"]).optional(),
+        status: z.enum(["sent", "pending_upload", "uploaded", "approved", "rejected", "completed", "cancelled"]).optional(),
       }).parse(req.body);
       
+      const [existing] = await db.select().from(documentRequestsTable)
+        .where(eq(documentRequestsTable.id, id)).limit(1);
+      if (!existing) return res.status(404).json({ message: "Request not found" });
+      
+      if (status !== undefined) {
+        const currentStatus = existing.status || 'sent';
+        const allowedTransitions = VALID_DOC_REQUEST_TRANSITIONS[currentStatus] || [];
+        if (!allowedTransitions.includes(status)) {
+          return res.status(400).json({
+            message: `Invalid status transition from '${currentStatus}' to '${status}'. Allowed: ${allowedTransitions.join(', ') || 'none'}`
+          });
+        }
+        if (status === 'approved' && !existing.linkedDocumentId) {
+          return res.status(400).json({ message: "Cannot approve a request without a linked document" });
+        }
+      }
+      
       const updateData: any = { updatedAt: new Date() };
-      if (notes !== undefined) updateData.notes = notes;
+      if (notes !== undefined) updateData.notes = sanitizeHtml(notes);
       if (status !== undefined) updateData.status = status;
       
       const [updated] = await db.update(documentRequestsTable)
         .set(updateData)
         .where(eq(documentRequestsTable.id, id))
         .returning();
-      
-      if (!updated) return res.status(404).json({ message: "Request not found" });
       
       await db.insert(auditLogs).values({
         action: 'document_request_updated',
@@ -699,7 +744,19 @@ export function registerAdminDocumentsRoutes(app: Express) {
   app.post("/api/admin/orders/:id/events", isAdmin, asyncHandler(async (req: any, res: Response) => {
     try {
       const orderId = Number(req.params.id);
-      const { eventType, description } = req.body;
+      const { eventType: rawEventType, description: rawDescription } = req.body;
+      
+      if (!rawEventType || !rawDescription) {
+        return res.status(400).json({ message: "eventType and description are required" });
+      }
+      
+      const eventType = sanitizeHtml(rawEventType);
+      const description = sanitizeHtml(rawDescription);
+      
+      const order = await storage.getOrder(orderId);
+      if (!order) {
+        return res.status(404).json({ message: "Order not found" });
+      }
       
       const [event] = await db.insert(orderEvents).values({
         orderId,
@@ -708,8 +765,7 @@ export function registerAdminDocumentsRoutes(app: Express) {
         createdBy: req.session.userId,
       }).returning();
       
-      // Get order and user info for email notification
-      const order = await storage.getOrder(orderId);
+      // Send email notification to user
       if (order) {
         const [user] = await db.select().from(usersTable).where(eq(usersTable.id, order.userId)).limit(1);
         if (user?.email) {

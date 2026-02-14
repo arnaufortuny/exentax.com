@@ -1,7 +1,7 @@
 import type { Express } from "express";
 import type { Request, Response } from "express";
 import { z } from "zod";
-import { eq, desc, inArray, and, sql } from "drizzle-orm";
+import { eq, desc, inArray, and, sql, or, ilike } from "drizzle-orm";
 import { asyncHandler, db, isAdmin, isAdminOrSupport, logAudit, logActivity, getClientIp } from "./shared";
 import { createLogger } from "../lib/logger";
 
@@ -12,39 +12,53 @@ import { EmailLanguage, getOtpSubject } from "../lib/email-translations";
 import { validatePassword } from "../lib/security";
 
 export function registerAdminUserRoutes(app: Express) {
-  // Admin Users
+  // Admin Users - DB-level filtering, search, and pagination
   app.get("/api/admin/users", isAdmin, asyncHandler(async (req: Request, res: Response) => {
     try {
-      const users = await db.select().from(usersTable).orderBy(desc(usersTable.createdAt));
-      const search = (req.query.search as string || '').toLowerCase().trim();
+      const search = (req.query.search as string || '').trim();
       const page = Math.max(1, Number(req.query.page) || 1);
       const pageSize = Math.min(Math.max(1, Number(req.query.pageSize) || 50), 200);
-      const statusFilter = (req.query.accountStatus as string || '').toLowerCase().trim();
-      
-      let filtered = users;
-      if (search) {
-        filtered = users.filter((u: any) => {
-          const name = `${u.firstName || ''} ${u.lastName || ''}`.toLowerCase();
-          const email = (u.email || '').toLowerCase();
-          const phone = (u.phone || '').toLowerCase();
-          const clientId = (u.clientId || '').toLowerCase();
-          return name.includes(search) || email.includes(search) || phone.includes(search) || clientId.includes(search);
-        });
-      }
-      if (statusFilter) {
-        filtered = filtered.filter((u: any) => (u.accountStatus || '').toLowerCase() === statusFilter);
-      }
-      
-      const total = filtered.length;
-      const totalPages = Math.ceil(total / pageSize);
+      const statusFilter = (req.query.accountStatus as string || '').trim();
       const offset = (page - 1) * pageSize;
-      const paginatedUsers = filtered.slice(offset, offset + pageSize);
-      
+
+      const conditions: any[] = [];
+
+      if (search) {
+        const searchPattern = `%${search}%`;
+        conditions.push(
+          or(
+            ilike(usersTable.email, searchPattern),
+            ilike(usersTable.clientId, searchPattern),
+            ilike(usersTable.phone, searchPattern),
+            sql`(COALESCE(${usersTable.firstName}, '') || ' ' || COALESCE(${usersTable.lastName}, '')) ILIKE ${searchPattern}`
+          )
+        );
+      }
+
+      if (statusFilter) {
+        conditions.push(eq(usersTable.accountStatus, statusFilter));
+      }
+
+      const whereClause = conditions.length > 0 ? and(...conditions) : undefined;
+
+      const [usersResult, countResult] = await Promise.all([
+        whereClause
+          ? db.select().from(usersTable).where(whereClause).orderBy(desc(usersTable.createdAt)).limit(pageSize).offset(offset)
+          : db.select().from(usersTable).orderBy(desc(usersTable.createdAt)).limit(pageSize).offset(offset),
+        whereClause
+          ? db.select({ count: sql<number>`count(*)` }).from(usersTable).where(whereClause)
+          : db.select({ count: sql<number>`count(*)` }).from(usersTable),
+      ]);
+
+      const total = Number(countResult[0]?.count || 0);
+      const totalPages = Math.ceil(total / pageSize);
+
       res.json({
-        data: paginatedUsers,
+        data: usersResult,
         pagination: { page, pageSize, total, totalPages },
       });
     } catch (error) {
+      log.error("Error fetching users", error);
       res.status(500).json({ message: "Error fetching users" });
     }
   }));
@@ -234,6 +248,7 @@ export function registerAdminUserRoutes(app: Express) {
   }));
 
   app.post("/api/admin/users/create", isAdmin, asyncHandler(async (req: Request, res: Response) => {
+    try {
     const schema = z.object({
       firstName: z.string().optional(),
       lastName: z.string().optional(),
@@ -262,16 +277,20 @@ export function registerAdminUserRoutes(app: Express) {
     }).returning();
     
     res.json({ success: true, userId: newUser.id });
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({ message: error.errors[0].message });
+      }
+      log.error("Error creating user", error);
+      res.status(500).json({ message: "Error creating user" });
+    }
   }));
 
   // Admin reset client password
   app.post("/api/admin/users/:id/reset-password", isAdmin, asyncHandler(async (req: Request, res: Response) => {
+    try {
     const userId = req.params.id;
-    const { newPassword } = req.body;
-    
-    if (!newPassword) {
-      return res.status(400).json({ message: "Password is required" });
-    }
+    const { newPassword } = z.object({ newPassword: z.string().min(1, "Password is required") }).parse(req.body);
     
     const passwordValidation = validatePassword(newPassword);
     if (!passwordValidation.valid) {
@@ -309,6 +328,13 @@ export function registerAdminUserRoutes(app: Express) {
     }
     
     res.json({ success: true });
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({ message: error.errors[0].message });
+      }
+      log.error("Error resetting password", error);
+      res.status(500).json({ message: "Error resetting password" });
+    }
   }));
 
   // Download all user documents as ZIP
@@ -360,10 +386,13 @@ export function registerAdminUserRoutes(app: Express) {
 
   // Deactivate user account (for clients who don't renew)
   app.patch("/api/admin/users/:id/deactivate", isAdmin, asyncHandler(async (req: Request, res: Response) => {
+    try {
     const userId = req.params.id;
-    const { reason, confirmDeactivation } = req.body;
+    const { reason, confirmDeactivation } = z.object({
+      reason: z.string().max(500).optional(),
+      confirmDeactivation: z.boolean()
+    }).parse(req.body);
     
-    // Require explicit confirmation
     if (!confirmDeactivation) {
       return res.status(400).json({ message: "Explicit confirmation required (confirmDeactivation: true)" });
     }
@@ -417,12 +446,22 @@ export function registerAdminUserRoutes(app: Express) {
     });
     
     res.json({ success: true, message: "User deactivated successfully" });
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({ message: error.errors[0].message });
+      }
+      log.error("Error deactivating user", error);
+      res.status(500).json({ message: "Error deactivating user" });
+    }
   }));
   
   // Reactivate user account
   app.patch("/api/admin/users/:id/reactivate", isAdmin, asyncHandler(async (req: Request, res: Response) => {
+    try {
     const userId = req.params.id;
-    const { reason } = req.body;
+    const { reason } = z.object({
+      reason: z.string().max(500).optional()
+    }).parse(req.body);
     
     const [user] = await db.select().from(usersTable).where(eq(usersTable.id, userId)).limit(1);
     if (!user) {
@@ -433,7 +472,7 @@ export function registerAdminUserRoutes(app: Express) {
       return res.status(400).json({ message: "User is not deactivated" });
     }
     
-    const sanitizedReason = reason ? String(reason).slice(0, 500) : 'Reactivado por admin';
+    const sanitizedReason = reason || 'Reactivado por admin';
     
     await db.update(usersTable).set({
       accountStatus: 'active',
@@ -450,6 +489,13 @@ export function registerAdminUserRoutes(app: Express) {
     });
     
     res.json({ success: true, message: "User reactivated successfully" });
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({ message: error.errors[0].message });
+      }
+      log.error("Error reactivating user", error);
+      res.status(500).json({ message: "Error reactivating user" });
+    }
   }));
 
   // Admin: Request Identity Verification from a client

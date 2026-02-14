@@ -2,7 +2,7 @@ import type { Express } from "express";
 
 const BASE_URL = "https://exentax.com";
 
-const SUPPORTED_LANGS = ["es", "en", "fr"];
+const SUPPORTED_LANGS = ["es", "en", "fr", "de", "it", "pt", "ca"];
 
 const PUBLIC_ROUTES = [
   { path: "/", priority: 1.0, changefreq: "weekly" },
@@ -14,6 +14,7 @@ const PUBLIC_ROUTES = [
   { path: "/tools/price-calculator", priority: 0.7, changefreq: "monthly" },
   { path: "/tools/invoice", priority: 0.6, changefreq: "monthly" },
   { path: "/tools/operating-agreement", priority: 0.6, changefreq: "monthly" },
+  { path: "/tools/csv-generator", priority: 0.5, changefreq: "monthly" },
   { path: "/legal/terminos", priority: 0.4, changefreq: "yearly" },
   { path: "/legal/privacidad", priority: 0.4, changefreq: "yearly" },
   { path: "/legal/reembolsos", priority: 0.4, changefreq: "yearly" },
@@ -67,8 +68,11 @@ export function setupSitemapRoute(app: Express): void {
 Allow: /
 Disallow: /api/
 Disallow: /dashboard
+Disallow: /dashboard/*
 Disallow: /admin
-Disallow: /auth/
+Disallow: /admin/*
+Disallow: /auth/forgot-password
+Disallow: /uploads/
 Crawl-delay: 1
 
 User-agent: Googlebot
@@ -76,17 +80,51 @@ Allow: /
 Disallow: /api/
 Disallow: /dashboard
 Disallow: /admin
-Disallow: /auth/
+Crawl-delay: 0
+
+User-agent: Googlebot-Image
+Allow: /logo-icon.png
+Allow: /favicon.png
+Allow: /og-image.png
 
 User-agent: Bingbot
 Allow: /
 Disallow: /api/
 Disallow: /dashboard
 Disallow: /admin
-Disallow: /auth/
-Crawl-delay: 2
+Crawl-delay: 1
 
-Sitemap: ${BASE_URL}/sitemap.xml`;
+User-agent: facebookexternalhit
+Allow: /
+
+User-agent: Twitterbot
+Allow: /
+
+User-agent: LinkedInBot
+Allow: /
+
+User-agent: WhatsApp
+Allow: /
+
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: SemrushBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: DotBot
+Disallow: /
+
+User-agent: BLEXBot
+Disallow: /
+
+Sitemap: ${BASE_URL}/sitemap.xml
+Sitemap: ${BASE_URL}/sitemap-images.xml
+
+Host: ${BASE_URL}`;
     
     res.send(robotsContent);
   });

@@ -6,7 +6,7 @@ import { api } from "@shared/routes";
 import { insertLlcApplicationSchema, insertApplicationDocumentSchema, contactOtps, users as usersTable, orders as ordersTable, llcApplications as llcApplicationsTable, applicationDocuments as applicationDocumentsTable, discountCodes, userNotifications, messages as messagesTable, documentRequests as documentRequestsTable } from "@shared/schema";
 import { sendEmail, getWelcomeEmailTemplate, getConfirmationEmailTemplate, getAdminLLCOrderTemplate } from "../lib/email";
 import { EmailLanguage, getWelcomeEmailSubject } from "../lib/email-translations";
-import { validateEmail, normalizeEmail, checkRateLimit, sanitizeObject } from "../lib/security";
+import { validateEmail, normalizeEmail, checkRateLimit, sanitizeObject, sanitizeHtml } from "../lib/security";
 import { createLogger } from "../lib/logger";
 import { captureServerError } from "../lib/sentry";
 
@@ -387,7 +387,7 @@ export function registerLlcRoutes(app: Express) {
       
       bb.on('field', (name: string, val: string) => {
         if (name === 'documentType') documentType = val;
-        if (name === 'notes') notes = val;
+        if (name === 'notes') notes = sanitizeHtml(val);
       });
       
       // Allowed file extensions and MIME types for security
@@ -466,36 +466,40 @@ export function registerLlcRoutes(app: Express) {
         const fileExt = fileName.toLowerCase().split('.').pop() || '';
         const detectedFileType = mimeTypesMap[fileExt] || 'application/octet-stream';
         
-        const doc = await db.insert(applicationDocumentsTable).values({
-          orderId: targetOrderId,
-          userId: userId,
-          fileName: fileName,
-          fileType: detectedFileType,
-          fileUrl: `/uploads/client-docs/${safeFileName}`,
-          documentType: documentType,
-          reviewStatus: 'pending',
-          uploadedBy: userId
-        }).returning();
+        const doc = await db.transaction(async (tx) => {
+          const [insertedDoc] = await tx.insert(applicationDocumentsTable).values({
+            orderId: targetOrderId,
+            userId: userId,
+            fileName: fileName,
+            fileType: detectedFileType,
+            fileUrl: `/uploads/client-docs/${safeFileName}`,
+            documentType: documentType,
+            reviewStatus: 'pending',
+            uploadedBy: userId
+          }).returning();
 
-        if (doc[0]) {
-          const matchingRequests = await db.select().from(documentRequestsTable)
-            .where(and(
-              eq(documentRequestsTable.userId, userId),
-              eq(documentRequestsTable.documentType, documentType),
-              sql`${documentRequestsTable.status} IN ('sent', 'pending_upload')`
-            ))
-            .limit(1);
-          
-          if (matchingRequests.length > 0) {
-            await db.update(documentRequestsTable)
-              .set({ 
-                status: 'uploaded', 
-                linkedDocumentId: doc[0].id,
-                updatedAt: new Date() 
-              })
-              .where(eq(documentRequestsTable.id, matchingRequests[0].id));
+          if (insertedDoc) {
+            const matchingRequests = await tx.select().from(documentRequestsTable)
+              .where(and(
+                eq(documentRequestsTable.userId, userId),
+                eq(documentRequestsTable.documentType, documentType),
+                sql`${documentRequestsTable.status} IN ('sent', 'pending_upload')`
+              ))
+              .limit(1);
+            
+            if (matchingRequests.length > 0) {
+              await tx.update(documentRequestsTable)
+                .set({ 
+                  status: 'uploaded', 
+                  linkedDocumentId: insertedDoc.id,
+                  updatedAt: new Date() 
+                })
+                .where(eq(documentRequestsTable.id, matchingRequests[0].id));
+            }
           }
-        }
+          
+          return [insertedDoc];
+        });
 
         // Get user data for admin notification
         const userData = await db.select().from(usersTable).where(eq(usersTable.id, userId)).limit(1);

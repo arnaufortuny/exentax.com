@@ -539,6 +539,7 @@ export function registerUserProfileRoutes(app: Express) {
 
       res.json({ success: true });
     } catch (error) {
+      log.error("Error updating order", error);
       res.status(500).json({ message: "Error updating order" });
     }
   }));

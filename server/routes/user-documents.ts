@@ -4,8 +4,20 @@ import { db, isAuthenticated, isNotUnderReview, logActivity, logAudit, getClient
 import { users as usersTable, orders as ordersTable, llcApplications as llcApplicationsTable, applicationDocuments as applicationDocumentsTable, documentRequests as documentRequestsTable, userNotifications } from "@shared/schema";
 import { createLogger } from "../lib/logger";
 import { compressImage } from "../lib/image-compress";
+import { checkRateLimitInMemory } from "../lib/rate-limiter";
 
 const log = createLogger('user-documents');
+
+function getContentDisposition(fileName: string, fileType: string): string {
+  const isPdf = fileType === 'application/pdf' || fileName.toLowerCase().endsWith('.pdf');
+  const disposition = isPdf ? 'inline' : 'attachment';
+  const safeName = fileName.replace(/[^\w\s.-]/g, '_');
+  return `${disposition}; filename="${safeName}"`;
+}
+
+function generateETag(filePath: string, stats: { size: number; mtimeMs: number }): string {
+  return `"${stats.size.toString(16)}-${stats.mtimeMs.toString(16)}"`;
+}
 
 export function registerUserDocumentRoutes(app: Express) {
   // Get completed LLCs for user (for Operating Agreement generator)
@@ -193,6 +205,12 @@ export function registerUserDocumentRoutes(app: Express) {
   app.get("/api/user/documents/:id/download", isAuthenticated, asyncHandler(async (req: any, res: Response) => {
     try {
       const userId = req.session.userId;
+      const clientIp = req.headers['x-forwarded-for']?.toString().split(',')[0] || req.ip || 'unknown';
+      const rateCheck = checkRateLimitInMemory('api', `download:${clientIp}`);
+      if (!rateCheck.allowed) {
+        return res.status(429).json({ message: "Too many download requests. Please try again later." });
+      }
+      
       const docId = parseIdParam(req);
       
       const [doc] = await db.select().from(applicationDocumentsTable)
@@ -229,12 +247,21 @@ export function registerUserDocumentRoutes(app: Express) {
       const filePath = path.join(process.cwd(), doc.fileUrl.replace(/^\//, ''));
       
       if (!fs.existsSync(filePath)) {
-        return res.status(404).json({ message: "File not found" });
+        return res.status(404).json({ message: "File not found on server" });
       }
       
-      res.setHeader('Content-Disposition', `attachment; filename="${doc.fileName}"`);
+      const stats = fs.statSync(filePath);
+      const etag = generateETag(filePath, stats);
+      
+      if (req.headers['if-none-match'] === etag) {
+        return res.status(304).end();
+      }
+      
+      res.setHeader('Content-Disposition', getContentDisposition(doc.fileName, doc.fileType || ''));
+      res.setHeader('Content-Type', doc.fileType || 'application/octet-stream');
       res.setHeader('X-Content-Type-Options', 'nosniff');
-      res.setHeader('Cache-Control', 'private, no-cache');
+      res.setHeader('Cache-Control', 'private, max-age=86400');
+      res.setHeader('ETag', etag);
       
       res.sendFile(filePath);
     } catch (error) {
@@ -356,15 +383,18 @@ export function registerUserDocumentRoutes(app: Express) {
   app.get("/uploads/admin-docs/:filename", isAuthenticated, asyncHandler(async (req: any, res: Response) => {
     try {
       const filename = req.params.filename;
+      const clientIp = req.headers['x-forwarded-for']?.toString().split(',')[0] || req.ip || 'unknown';
+      const rateCheck = checkRateLimitInMemory('api', `download:${clientIp}`);
+      if (!rateCheck.allowed) {
+        return res.status(429).json({ message: "Too many download requests. Please try again later." });
+      }
       
-      // Security: Prevent path traversal attacks
       if (filename.includes('..') || filename.includes('/') || filename.includes('\\')) {
         return res.status(400).json({ message: "Invalid filename" });
       }
       
       const fileUrl = `/uploads/admin-docs/${filename}`;
       
-      // Check if user account is under review (non-admin only)
       if (!req.session.isAdmin && !req.session.isSupport) {
         const [user] = await db.select().from(usersTable).where(eq(usersTable.id, req.session.userId)).limit(1);
         if (user && user.accountStatus === 'pending') {
@@ -372,7 +402,6 @@ export function registerUserDocumentRoutes(app: Express) {
         }
       }
       
-      // Find document by URL
       const [doc] = await db.select().from(applicationDocumentsTable)
         .where(eq(applicationDocumentsTable.fileUrl, fileUrl)).limit(1);
       
@@ -380,7 +409,6 @@ export function registerUserDocumentRoutes(app: Express) {
         return res.status(404).json({ message: "Document not found" });
       }
       
-      // Check ownership: via orderId or direct userId assignment
       let hasAccess = req.session.isAdmin || req.session.isSupport;
       
       if (!hasAccess && doc.orderId) {
@@ -404,13 +432,21 @@ export function registerUserDocumentRoutes(app: Express) {
       const filePath = path.join(process.cwd(), 'uploads', 'admin-docs', filename);
       
       if (!fs.existsSync(filePath)) {
-        return res.status(404).json({ message: "File not found" });
+        return res.status(404).json({ message: "File not found on server" });
       }
       
-      // Security headers for file downloads
-      res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
+      const stats = fs.statSync(filePath);
+      const etag = generateETag(filePath, stats);
+      
+      if (req.headers['if-none-match'] === etag) {
+        return res.status(304).end();
+      }
+      
+      res.setHeader('Content-Disposition', getContentDisposition(doc.fileName, doc.fileType || ''));
+      res.setHeader('Content-Type', doc.fileType || 'application/octet-stream');
       res.setHeader('X-Content-Type-Options', 'nosniff');
-      res.setHeader('Cache-Control', 'private, no-cache');
+      res.setHeader('Cache-Control', 'private, max-age=86400');
+      res.setHeader('ETag', etag);
       
       res.sendFile(filePath);
     } catch (error) {
@@ -423,15 +459,18 @@ export function registerUserDocumentRoutes(app: Express) {
   app.get("/uploads/client-docs/:filename", isAuthenticated, asyncHandler(async (req: any, res: Response) => {
     try {
       const filename = req.params.filename;
+      const clientIp = req.headers['x-forwarded-for']?.toString().split(',')[0] || req.ip || 'unknown';
+      const rateCheck = checkRateLimitInMemory('api', `download:${clientIp}`);
+      if (!rateCheck.allowed) {
+        return res.status(429).json({ message: "Too many download requests. Please try again later." });
+      }
       
-      // Security: Prevent path traversal attacks
       if (filename.includes('..') || filename.includes('/') || filename.includes('\\')) {
         return res.status(400).json({ message: "Invalid filename" });
       }
       
       const fileUrl = `/uploads/client-docs/${filename}`;
       
-      // Check if user account is under review (non-admin/support only)
       if (!req.session.isAdmin && !req.session.isSupport) {
         const [user] = await db.select().from(usersTable).where(eq(usersTable.id, req.session.userId)).limit(1);
         if (user && user.accountStatus === 'pending') {
@@ -439,7 +478,6 @@ export function registerUserDocumentRoutes(app: Express) {
         }
       }
       
-      // Find document by URL
       const [doc] = await db.select().from(applicationDocumentsTable)
         .where(eq(applicationDocumentsTable.fileUrl, fileUrl)).limit(1);
       
@@ -447,7 +485,6 @@ export function registerUserDocumentRoutes(app: Express) {
         return res.status(404).json({ message: "Document not found" });
       }
       
-      // Check ownership: via orderId or direct userId assignment
       let hasAccess = req.session.isAdmin || req.session.isSupport;
       
       if (!hasAccess && doc.orderId) {
@@ -471,13 +508,21 @@ export function registerUserDocumentRoutes(app: Express) {
       const filePath = path.join(process.cwd(), 'uploads', 'client-docs', filename);
       
       if (!fs.existsSync(filePath)) {
-        return res.status(404).json({ message: "File not found" });
+        return res.status(404).json({ message: "File not found on server" });
       }
       
-      // Security headers for file downloads
-      res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
+      const stats = fs.statSync(filePath);
+      const etag = generateETag(filePath, stats);
+      
+      if (req.headers['if-none-match'] === etag) {
+        return res.status(304).end();
+      }
+      
+      res.setHeader('Content-Disposition', getContentDisposition(doc.fileName, doc.fileType || ''));
+      res.setHeader('Content-Type', doc.fileType || 'application/octet-stream');
       res.setHeader('X-Content-Type-Options', 'nosniff');
-      res.setHeader('Cache-Control', 'private, no-cache');
+      res.setHeader('Cache-Control', 'private, max-age=86400');
+      res.setHeader('ETag', etag);
       
       res.sendFile(filePath);
     } catch (error) {
@@ -577,24 +622,28 @@ export function registerUserDocumentRoutes(app: Express) {
         const userOrders = await db.select().from(ordersTable).where(eq(ordersTable.userId, userId)).limit(1);
         const targetOrderId = userOrders.length > 0 ? userOrders[0].id : (docRequest.id ? null : null);
 
-        const [doc] = await db.insert(applicationDocumentsTable).values({
-          orderId: targetOrderId,
-          userId: userId,
-          fileName: fileName,
-          fileType: detectedFileType,
-          fileUrl: `/uploads/client-docs/${safeFileName}`,
-          documentType: docRequest.documentType,
-          reviewStatus: 'pending',
-          uploadedBy: userId
-        }).returning();
+        const [doc] = await db.transaction(async (tx) => {
+          const [insertedDoc] = await tx.insert(applicationDocumentsTable).values({
+            orderId: targetOrderId,
+            userId: userId,
+            fileName: fileName,
+            fileType: detectedFileType,
+            fileUrl: `/uploads/client-docs/${safeFileName}`,
+            documentType: docRequest.documentType,
+            reviewStatus: 'pending',
+            uploadedBy: userId
+          }).returning();
 
-        await db.update(documentRequestsTable)
-          .set({
-            status: 'uploaded',
-            linkedDocumentId: doc.id,
-            updatedAt: new Date()
-          })
-          .where(eq(documentRequestsTable.id, docRequest.id));
+          await tx.update(documentRequestsTable)
+            .set({
+              status: 'uploaded',
+              linkedDocumentId: insertedDoc.id,
+              updatedAt: new Date()
+            })
+            .where(eq(documentRequestsTable.id, docRequest.id));
+          
+          return [insertedDoc];
+        });
 
         await db.update(userNotifications)
           .set({ isRead: true })

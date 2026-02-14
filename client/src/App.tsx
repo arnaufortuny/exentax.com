@@ -208,6 +208,8 @@ function usePrefetchCriticalRoutes() {
         () => import("@/pages/faq"),
         () => import("@/pages/auth/login.tsx"),
         () => import("@/pages/dashboard"),
+        () => import("@/pages/agendar-consultoria"),
+        () => import("@/pages/auth/register.tsx"),
       ];
       criticalRoutes.forEach(route => route().catch(() => {}));
     }, 1000);

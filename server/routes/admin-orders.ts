@@ -4,6 +4,7 @@ import { z } from "zod";
 import { and, eq, desc, sql, inArray, or, ilike } from "drizzle-orm";
 import { asyncHandler, db, storage, isAdmin, isAdminOrSupport, logAudit } from "./shared";
 import { createLogger } from "../lib/logger";
+import { sanitizeHtml } from "../lib/security";
 
 const log = createLogger('admin-orders');
 import { orders as ordersTable, users as usersTable, products as productsTable, maintenanceApplications, orderEvents, userNotifications, llcApplications as llcApplicationsTable, applicationDocuments as applicationDocumentsTable, documentRequests as documentRequestsTable } from "@shared/schema";
@@ -114,8 +115,12 @@ export function registerAdminOrderRoutes(app: Express) {
     
     const [updatedOrder] = await db.update(ordersTable)
       .set({ status })
-      .where(eq(ordersTable.id, orderId))
+      .where(and(eq(ordersTable.id, orderId), eq(ordersTable.status, currentStatus)))
       .returning();
+    
+    if (!updatedOrder) {
+      return res.status(409).json({ message: "Order status was modified by another operation. Please refresh and try again." });
+    }
     
     logAudit({ 
       action: 'order_status_change', 
@@ -252,13 +257,14 @@ export function registerAdminOrderRoutes(app: Express) {
       await db.update(ordersTable).set({ amount: body.amount }).where(eq(ordersTable.id, orderId));
     }
 
+    const textFieldsToSanitize = ['companyName', 'ownerFullName', 'businessCategory', 'notes'] as const;
     const appFields: Record<string, string | undefined> = {};
-    if (body.companyName !== undefined) appFields.companyName = body.companyName;
+    if (body.companyName !== undefined) appFields.companyName = sanitizeHtml(body.companyName);
     if (body.state !== undefined) appFields.state = body.state;
-    if (body.ownerFullName !== undefined) appFields.ownerFullName = body.ownerFullName;
+    if (body.ownerFullName !== undefined) appFields.ownerFullName = sanitizeHtml(body.ownerFullName);
     if (body.ownerEmail !== undefined) appFields.ownerEmail = body.ownerEmail;
     if (body.ownerPhone !== undefined) appFields.ownerPhone = body.ownerPhone;
-    if (body.businessCategory !== undefined) appFields.businessCategory = body.businessCategory;
+    if (body.businessCategory !== undefined) appFields.businessCategory = sanitizeHtml(body.businessCategory);
 
     if (Object.keys(appFields).length > 0) {
       const [llcApp] = await db.select().from(llcApplicationsTable).where(eq(llcApplicationsTable.orderId, orderId));

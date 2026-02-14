@@ -57,23 +57,41 @@ Exentax is a full-stack SaaS platform designed to simplify US LLC formation for 
 - **Compliance:** GDPR-compliant data handling, user consent tracking, environment variable for secrets.
 
 ### Performance Optimizations
-- **Server-Side Caching:** In-memory TTL cache (`server/lib/cache.ts`) for products (5 min), consultation types (5 min), and consultation settings (2 min). Cache auto-invalidated on admin mutations.
+- **Server-Side Caching:** In-memory TTL cache (`server/lib/cache.ts`) for products (5 min), consultation types (5 min), consultation settings (2 min), admin consultation types/availability/blocked-dates/settings (2 min). Cache auto-invalidated on admin mutations.
 - **Image Compression:** Uploaded images (JPG/PNG) are compressed via `sharp` before storage — max 2048px width, JPEG quality 80, PNG level 8. PDFs pass through unchanged.
-- **Admin Orders Query:** DB-level filtering with ILIKE search and SQL pagination instead of loading all orders into memory.
+- **Admin Queries:** Both admin orders and admin users use DB-level filtering with ILIKE search and SQL pagination instead of loading all records into memory.
+- **File Serving:** ETag-based caching with HTTP 304 support, proper Content-Disposition headers (inline PDFs, attachment for others), rate-limited downloads.
+- **API Compression:** gzip response compression via `compression` middleware.
+- **Route Prefetching:** Critical routes prefetched after 1s idle, additional routes prefetched on hover via `usePrefetch` hook.
 
 ### Error Handling & Recovery
-- **Self-Healing:** Query-level retries (3x query, 2x mutation with exponential backoff), CSRF auto-refresh.
-- **Error Boundaries:** `PanelErrorBoundary` for dashboard panels with auto-retry logic.
+- **Self-Healing:** Query-level retries (3x query, 2x mutation with exponential backoff up to 30s), CSRF auto-refresh.
+- **Error Boundaries:** `PanelErrorBoundary` for dashboard panels with auto-retry logic. Global `ErrorBoundary` with location-based reset.
 - **Global Handling:** Zod validation to 400, DB errors to 503 with `Retry-After` header.
 - **Health Checks:** `GET /_health` endpoint for database and pool connectivity status.
 - **Sentry Monitoring:** Optional Sentry integration (`SENTRY_DSN` env var) for error tracking in production. Captures unhandled exceptions, critical route errors (orders, billing, auth, LLC), and strips sensitive headers.
+- **Idempotency:** Order creation has double-submit protection. Order status updates use optimistic concurrency control to prevent race conditions.
+- **Document Flow Guards:** Document request status transitions enforced via state machine. Document-request linking uses atomic DB transactions.
+
+### Security Features (Extended)
+- **Auth & AuthZ:** bcrypt hashing, secure httpOnly cookies, RBAC, OTP, account lockout.
+- **Data Protection:** AES-256-GCM encryption, file hashing, TLS/HTTPS, token expirations.
+- **Request Security:** CSRF token validation, rate limiting on sensitive endpoints (login, registration, OTP, bookings, file downloads), input sanitization (HTML entity encoding on user text), Zod validation on ALL POST/PATCH/PUT endpoints.
+- **Audit & Logging:** Comprehensive audit logs for admin actions, document access, and IP tracking.
+- **Compliance:** GDPR-compliant data handling, user consent tracking, environment variable for secrets.
+- **Headers:** Content-Security-Policy, HSTS with preload, X-Content-Type-Options, X-Frame-Options, Referrer-Policy, Permissions-Policy, COOP, CORP.
 
 ### Automated Tests
 - **Framework:** Vitest with 40+ unit tests in `server/__tests__/api.test.ts`.
 - **Coverage:** Cache utility, image compression, ID generation, and Zod validation schemas.
 
 ### SEO Optimization
-- Dynamic sitemap, JSON-LD structured data, meta tags, hreflang attributes, mobile optimization, and dynamic i18n page titles.
+- Dynamic sitemap with all 7 language variants and hreflang cross-references for every URL.
+- JSON-LD structured data: Organization, WebSite, WebApplication, FAQPage, Service, Product, HowTo, ProfessionalService schemas.
+- Comprehensive meta tags: OG (with locale alternates), Twitter Cards, canonical URLs.
+- Enhanced robots.txt with bot-specific rules, social bot allowances, bad bot blocking.
+- Dynamic per-page titles and descriptions via `usePageTitle` hook.
+- Core Web Vitals: font-display:swap, lazy loading, explicit image dimensions, preconnect hints.
 
 ### Deployment & Scaling
 - **Platform:** Replit Autoscale.

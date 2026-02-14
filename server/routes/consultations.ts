@@ -754,7 +754,11 @@ export function registerConsultationRoutes(app: Express) {
   // Get all consultation types (admin)
   app.get("/api/admin/consultations/types", isAdmin, asyncHandler(async (req: any, res: Response) => {
     try {
+      const CACHE_KEY = 'admin_consultation_types';
+      const cached = getCached<any>(CACHE_KEY);
+      if (cached) return res.json(cached);
       const types = await db.select().from(consultationTypes).orderBy(desc(consultationTypes.createdAt));
+      setCache(CACHE_KEY, types, 2 * 60 * 1000);
       res.json(types);
     } catch (err) {
       log.error("Error fetching consultation types", err);
@@ -783,6 +787,7 @@ export function registerConsultationRoutes(app: Express) {
       
       const [type] = await db.insert(consultationTypes).values(data).returning();
       invalidateCache('consultation_types');
+      invalidateCache('admin_consultation_types');
       
       logAudit({
         action: 'consultation_type_created',
@@ -815,6 +820,7 @@ export function registerConsultationRoutes(app: Express) {
       }
       
       invalidateCache('consultation_types');
+      invalidateCache('admin_consultation_types');
       res.json(updated);
     } catch (err) {
       log.error("Error updating consultation type", err);
@@ -828,6 +834,7 @@ export function registerConsultationRoutes(app: Express) {
       const typeId = parseInt(req.params.id);
       await db.delete(consultationTypes).where(eq(consultationTypes.id, typeId));
       invalidateCache('consultation_types');
+      invalidateCache('admin_consultation_types');
       res.json({ success: true });
     } catch (err) {
       log.error("Error deleting consultation type", err);
@@ -838,7 +845,11 @@ export function registerConsultationRoutes(app: Express) {
   // Get availability schedule (admin)
   app.get("/api/admin/consultations/availability", isAdmin, asyncHandler(async (req: any, res: Response) => {
     try {
+      const CACHE_KEY = 'admin_consultation_availability';
+      const cached = getCached<any>(CACHE_KEY);
+      if (cached) return res.json(cached);
       const slots = await db.select().from(consultationAvailability).orderBy(consultationAvailability.dayOfWeek, consultationAvailability.startTime);
+      setCache(CACHE_KEY, slots, 2 * 60 * 1000);
       res.json(slots);
     } catch (err) {
       log.error("Error fetching availability", err);
@@ -859,6 +870,7 @@ export function registerConsultationRoutes(app: Express) {
       const data = schema.parse(req.body);
       
       const [slot] = await db.insert(consultationAvailability).values(data).returning();
+      invalidateCache('admin_consultation_availability');
       res.json(slot);
     } catch (err: any) {
       log.error("Error creating availability slot", err);
@@ -876,6 +888,7 @@ export function registerConsultationRoutes(app: Express) {
         .where(eq(consultationAvailability.id, slotId))
         .returning();
       
+      invalidateCache('admin_consultation_availability');
       res.json(updated);
     } catch (err) {
       log.error("Error updating availability", err);
@@ -888,6 +901,7 @@ export function registerConsultationRoutes(app: Express) {
     try {
       const slotId = parseInt(req.params.id);
       await db.delete(consultationAvailability).where(eq(consultationAvailability.id, slotId));
+      invalidateCache('admin_consultation_availability');
       res.json({ success: true });
     } catch (err) {
       log.error("Error deleting availability", err);
@@ -898,7 +912,11 @@ export function registerConsultationRoutes(app: Express) {
   // Get blocked dates (admin)
   app.get("/api/admin/consultations/blocked-dates", isAdmin, asyncHandler(async (req: any, res: Response) => {
     try {
+      const CACHE_KEY = 'admin_consultation_blocked_dates';
+      const cached = getCached<any>(CACHE_KEY);
+      if (cached) return res.json(cached);
       const dates = await db.select().from(consultationBlockedDates).orderBy(desc(consultationBlockedDates.date));
+      setCache(CACHE_KEY, dates, 2 * 60 * 1000);
       res.json(dates);
     } catch (err) {
       log.error("Error fetching blocked dates", err);
@@ -922,6 +940,7 @@ export function registerConsultationRoutes(app: Express) {
       }).returning();
       
       invalidateCache('consultation_settings');
+      invalidateCache('admin_consultation_blocked_dates');
       res.json(blocked);
     } catch (err: any) {
       log.error("Error creating blocked date", err);
@@ -935,6 +954,7 @@ export function registerConsultationRoutes(app: Express) {
       const dateId = parseInt(req.params.id);
       await db.delete(consultationBlockedDates).where(eq(consultationBlockedDates.id, dateId));
       invalidateCache('consultation_settings');
+      invalidateCache('admin_consultation_blocked_dates');
       res.json({ success: true });
     } catch (err) {
       log.error("Error deleting blocked date", err);
@@ -1079,7 +1099,11 @@ export function registerConsultationRoutes(app: Express) {
 
   app.get("/api/admin/consultations/settings", isAdmin, asyncHandler(async (req: any, res: Response) => {
     try {
+      const CACHE_KEY = 'admin_consultation_settings';
+      const cached = getCached<any>(CACHE_KEY);
+      if (cached) return res.json(cached);
       const settings = await getSettings();
+      setCache(CACHE_KEY, settings, 2 * 60 * 1000);
       res.json(settings);
     } catch (err) {
       log.error("Error fetching admin consultation settings", err);
@@ -1112,6 +1136,7 @@ export function registerConsultationRoutes(app: Express) {
         .returning();
 
       invalidateCache('consultation_settings');
+      invalidateCache('admin_consultation_settings');
 
       logAudit({
         action: 'consultation_settings_updated',

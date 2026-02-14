@@ -1,4 +1,5 @@
 import type { Express, Response } from "express";
+import { z } from "zod";
 import { eq, and, gt, sql } from "drizzle-orm";
 import { db, storage, isAuthenticated, isNotUnderReview, logAudit, getClientIp, logActivity, isIpBlockedFromOrders, trackOrderByIp, detectSuspiciousOrderActivity, flagAccountForReview, asyncHandler, parseIdParam } from "./shared";
 import { contactOtps, users as usersTable, orders as ordersTable, maintenanceApplications, discountCodes, userNotifications } from "@shared/schema";
@@ -19,21 +20,20 @@ export function registerMaintenanceRoutes(app: Express) {
         return res.status(429).json({ message: `Too many attempts. Wait ${rateCheck.retryAfter} seconds.` });
       }
 
-      let { applicationId, email, password, ownerFullName, paymentMethod, discountCode, discountAmount } = req.body;
-      
-      if (!applicationId || !email || !password) {
-        return res.status(400).json({ message: "Email and password are required." });
-      }
+      const claimSchema = z.object({
+        applicationId: z.number(),
+        email: z.string().email("Invalid email format."),
+        password: z.string().min(8, "Password must be at least 8 characters."),
+        ownerFullName: z.string().optional(),
+        paymentMethod: z.string().optional(),
+        discountCode: z.string().optional(),
+        discountAmount: z.number().optional(),
+        preferredLanguage: z.string().optional(),
+      });
+      const parsed = claimSchema.parse(req.body);
+      let { applicationId, email, password, ownerFullName, paymentMethod, discountCode, discountAmount } = parsed;
 
       email = normalizeEmail(email);
-
-      if (!validateEmail(email)) {
-        return res.status(400).json({ message: "Invalid email format." });
-      }
-      
-      if (password.length < 8) {
-        return res.status(400).json({ message: "Password must be at least 8 characters." });
-      }
       
       // Check if email already exists
       const [existingUser] = await db.select().from(usersTable).where(eq(usersTable.email, email)).limit(1);
@@ -135,7 +135,19 @@ export function registerMaintenanceRoutes(app: Express) {
 
   app.post("/api/maintenance/orders", asyncHandler(async (req: any, res: Response) => {
     try {
-      let { productId, state, email, password, ownerFullName, paymentMethod, discountCode, discountAmount } = req.body;
+      const orderSchema = z.object({
+        productId: z.number().optional(),
+        state: z.string().max(50).optional(),
+        email: z.string().email().optional(),
+        password: z.string().min(8).optional(),
+        ownerFullName: z.string().max(255).optional(),
+        paymentMethod: z.string().max(50).optional(),
+        discountCode: z.string().max(50).optional(),
+        discountAmount: z.number().optional(),
+        preferredLanguage: z.string().optional(),
+      });
+      const parsed = orderSchema.parse(req.body);
+      let { productId, state, email, password, ownerFullName, paymentMethod, discountCode, discountAmount } = parsed;
       if (email) email = normalizeEmail(email);
       
       // Check IP-based order creation limit first
@@ -319,7 +331,25 @@ export function registerMaintenanceRoutes(app: Express) {
   app.put("/api/maintenance/:id", isAuthenticated, isNotUnderReview, asyncHandler(async (req: any, res: Response) => {
     try {
       const appId = parseIdParam(req);
-      const updates = req.body;
+      const maintenanceUpdateSchema = z.object({
+        companyName: z.string().max(255).optional(),
+        businessActivity: z.string().max(500).optional(),
+        notes: z.string().max(2000).optional(),
+        ownerFullName: z.string().max(255).optional(),
+        ownerEmail: z.string().email().optional(),
+        ownerPhone: z.string().max(50).optional(),
+        expectedServices: z.string().max(1000).optional(),
+        status: z.string().max(50).optional(),
+        ein: z.string().max(50).optional(),
+        state: z.string().max(50).optional(),
+        creationSource: z.string().max(100).optional(),
+        creationYear: z.string().max(10).optional(),
+        bankAccount: z.string().max(100).optional(),
+        paymentGateway: z.string().max(100).optional(),
+        wantsDissolve: z.string().max(50).optional(),
+        paymentMethod: z.string().max(50).optional(),
+      }).passthrough();
+      const updates = maintenanceUpdateSchema.parse(req.body);
       
       // First, get the application to verify ownership
       const [existingApp] = await db.select().from(maintenanceApplications).where(eq(maintenanceApplications.id, appId)).limit(1);

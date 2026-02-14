@@ -7,18 +7,17 @@ import { contactOtps, users as usersTable, orderEvents, userNotifications, order
 import { sendEmail, getWelcomeEmailTemplate } from "../lib/email";
 import { EmailLanguage, getWelcomeEmailSubject } from "../lib/email-translations";
 import { generateOrderInvoice } from "../lib/pdf-generator";
-import { validateEmail, normalizeEmail } from "../lib/security";
+import { validateEmail, normalizeEmail, sanitizeHtml } from "../lib/security";
 import { createLogger } from "../lib/logger";
 import { captureServerError } from "../lib/sentry";
 
 const log = createLogger('orders');
 
+const pendingOrderCreations = new Set<string>();
+
 export function registerOrderRoutes(app: Express) {
   // Orders (Requires authentication)
-  app.get(api.orders.list.path, asyncHandler(async (req: any, res: Response) => {
-    if (!req.session.userId) {
-      return res.status(401).json({ message: "Unauthorized" });
-    }
+  app.get(api.orders.list.path, isAuthenticated, asyncHandler(async (req: any, res: Response) => {
     const orders = await storage.getOrders(req.session.userId);
     res.json(orders);
   }));
@@ -72,18 +71,27 @@ export function registerOrderRoutes(app: Express) {
     } catch (error) {
       log.error("Invoice error", error);
       captureServerError(error instanceof Error ? error : new Error(String(error)), { route: 'GET /api/orders/:id/invoice' });
-      res.status(500).send("Error generating invoice");
+      res.status(500).json({ message: "Error generating invoice" });
     }
   }));
   app.post(api.orders.create.path, asyncHandler(async (req: any, res: Response) => {
     try {
       let { productId, email, password, ownerFullName, paymentMethod, discountCode, discountAmount } = req.body;
       if (email) email = normalizeEmail(email);
+      if (ownerFullName) ownerFullName = sanitizeHtml(ownerFullName);
+      
+      const idempotencyKey = `${req.session?.userId || email || ''}_${productId}_${Date.now().toString().slice(0, -3)}`;
+      if (pendingOrderCreations.has(idempotencyKey)) {
+        return res.status(409).json({ message: "Order creation already in progress. Please wait." });
+      }
+      pendingOrderCreations.add(idempotencyKey);
+      setTimeout(() => pendingOrderCreations.delete(idempotencyKey), 10000);
       
       // Check IP-based order creation limit first
       const clientIp = getClientIp(req);
       const ipCheck = isIpBlockedFromOrders(clientIp);
       if (ipCheck.blocked) {
+        pendingOrderCreations.delete(idempotencyKey);
         logAudit({ action: 'ip_order_blocked', details: { ip: clientIp, ordersCount: ipCheck.ordersCount } });
         return res.status(429).json({ 
           message: "Request limit reached from this connection. Please try again later or contact support.",
@@ -261,6 +269,7 @@ export function registerOrderRoutes(app: Express) {
       // Return order with application
       res.status(201).json({ ...order, application: updatedApplication });
     } catch (err) {
+      pendingOrderCreations.delete(idempotencyKey);
       if (err instanceof z.ZodError) {
         return res.status(400).json({ message: err.errors[0].message });
       }

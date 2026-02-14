@@ -202,7 +202,7 @@ export const getQueryFn: <T>(options: {
   };
 
 function retryDelayFn(attempt: number): number {
-  return Math.min(1000 * Math.pow(2, attempt), 10000);
+  return Math.min(1000 * Math.pow(2, attempt), 30000);
 }
 
 export const queryClient = new QueryClient({
