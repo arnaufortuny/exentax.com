@@ -1,12 +1,12 @@
 import type { Express } from "express";
 import type { Request, Response } from "express";
 import { z } from "zod";
-import { and, eq, desc, sql, inArray } from "drizzle-orm";
+import { and, eq, desc, sql, inArray, or, ilike } from "drizzle-orm";
 import { asyncHandler, db, storage, isAdmin, isAdminOrSupport, logAudit } from "./shared";
 import { createLogger } from "../lib/logger";
 
 const log = createLogger('admin-orders');
-import { orders as ordersTable, users as usersTable, maintenanceApplications, orderEvents, userNotifications, llcApplications as llcApplicationsTable, applicationDocuments as applicationDocumentsTable, documentRequests as documentRequestsTable } from "@shared/schema";
+import { orders as ordersTable, users as usersTable, products as productsTable, maintenanceApplications, orderEvents, userNotifications, llcApplications as llcApplicationsTable, applicationDocuments as applicationDocumentsTable, documentRequests as documentRequestsTable } from "@shared/schema";
 import { sendEmail, sendTrustpilotEmail, getOrderUpdateTemplate } from "../lib/email";
 import { updateApplicationDeadlines } from "../calendar-service";
 
@@ -27,35 +27,65 @@ export function registerAdminOrderRoutes(app: Express) {
   // Admin Orders
   app.get("/api/admin/orders", isAdminOrSupport, asyncHandler(async (req: Request, res: Response) => {
     try {
-      const allOrders = await storage.getAllOrders();
       const search = (req.query.search as string || '').toLowerCase().trim();
       const page = Math.max(1, Number(req.query.page) || 1);
       const pageSize = Math.min(Math.max(1, Number(req.query.pageSize) || 50), 200);
       const status = (req.query.status as string || '').toLowerCase().trim();
-      
-      let filtered = allOrders;
-      if (search) {
-        filtered = allOrders.filter((o: any) => {
-          const userName = `${o.user?.firstName || ''} ${o.user?.lastName || ''}`.toLowerCase();
-          const email = (o.user?.email || '').toLowerCase();
-          const company = (o.application?.companyName || o.maintenanceApplication?.companyName || '').toLowerCase();
-          const code = (o.application?.requestCode || o.maintenanceApplication?.requestCode || '').toLowerCase();
-          const invoice = (o.invoiceNumber || '').toLowerCase();
-          const clientId = (o.user?.clientId || '').toLowerCase();
-          return userName.includes(search) || email.includes(search) || company.includes(search) || code.includes(search) || invoice.includes(search) || clientId.includes(search);
-        });
-      }
-      if (status) {
-        filtered = filtered.filter((o: any) => o.status === status);
-      }
-      
-      const total = filtered.length;
-      const totalPages = Math.ceil(total / pageSize);
       const offset = (page - 1) * pageSize;
-      const paginatedOrders = filtered.slice(offset, offset + pageSize);
-      
+
+      const conditions: any[] = [];
+      if (status) {
+        conditions.push(eq(ordersTable.status, status));
+      }
+      if (search) {
+        const searchPattern = `%${search}%`;
+        conditions.push(
+          or(
+            ilike(ordersTable.invoiceNumber, searchPattern),
+            sql`EXISTS (SELECT 1 FROM users u WHERE u.id = ${ordersTable.userId} AND (
+              u.first_name ILIKE ${searchPattern} OR
+              u.last_name ILIKE ${searchPattern} OR
+              u.email ILIKE ${searchPattern} OR
+              u.client_id ILIKE ${searchPattern} OR
+              (u.first_name || ' ' || u.last_name) ILIKE ${searchPattern}
+            ))`,
+            sql`EXISTS (SELECT 1 FROM llc_applications la WHERE la.order_id = ${ordersTable.id} AND (
+              la.request_code ILIKE ${searchPattern} OR
+              la.company_name ILIKE ${searchPattern}
+            ))`,
+            sql`EXISTS (SELECT 1 FROM maintenance_applications ma WHERE ma.order_id = ${ordersTable.id} AND (
+              ma.request_code ILIKE ${searchPattern} OR
+              ma.company_name ILIKE ${searchPattern}
+            ))`
+          )
+        );
+      }
+
+      const whereClause = conditions.length > 0 ? and(...conditions) : undefined;
+
+      const [countResult, ordersResult] = await Promise.all([
+        db.select({ count: sql<number>`count(*)` })
+          .from(ordersTable)
+          .where(whereClause),
+        db.query.orders.findMany({
+          with: {
+            product: true,
+            application: true,
+            maintenanceApplication: true,
+            user: true,
+          },
+          where: whereClause,
+          orderBy: desc(ordersTable.createdAt),
+          limit: pageSize,
+          offset,
+        }),
+      ]);
+
+      const total = Number(countResult[0]?.count || 0);
+      const totalPages = Math.ceil(total / pageSize);
+
       res.json({
-        data: paginatedOrders,
+        data: ordersResult,
         pagination: { page, pageSize, total, totalPages },
       });
     } catch (error) {

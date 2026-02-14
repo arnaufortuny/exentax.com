@@ -39,7 +39,7 @@ export function registerOrderRoutes(app: Express) {
       const pdfBuffer = await generateOrderInvoice({
         order: {
           id: order.id,
-          invoiceNumber: order.invoiceNumber,
+          invoiceNumber: llcApp?.requestCode || maintApp?.requestCode || order.invoiceNumber || `EXT-${order.id}`,
           amount: order.amount,
           originalAmount: order.originalAmount,
           discountCode: order.discountCode,
