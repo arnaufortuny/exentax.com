@@ -780,7 +780,7 @@ export default function Dashboard() {
               })
             ) : (
               <>
-                {userMenuItems.map((item) => (
+                {(isPendingAccount ? userMenuItems.filter(item => pendingAllowedTabs.includes(item.id)) : userMenuItems).map((item) => (
                   <Button key={item.id}
                     variant={activeTab === item.id ? "default" : "ghost"}
                     onClick={() => setActiveTab(item.id as Tab)}
