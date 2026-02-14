@@ -58,7 +58,7 @@ export const ServicesTab = memo(function ServicesTab({ orders, draftOrders, acti
         </h1>
       )}
       <div className="mb-4 md:mb-6">
-        <h2 className="text-base sm:text-xl md:text-2xl font-black text-foreground tracking-tight">{t('dashboard.services.title')}</h2>
+        <h2 className="text-xl md:text-2xl font-black text-foreground tracking-tight">{t('dashboard.services.title')}</h2>
         <p className="text-base text-muted-foreground mt-1">{t('dashboard.services.subtitle')}</p>
       </div>
       

@@ -60,7 +60,7 @@ export const NotificationsTab = memo(function NotificationsTab({
   return (
     <div key="notifications" className="space-y-6">
       <div className="mb-4 md:mb-6">
-        <h2 className="text-base sm:text-xl md:text-2xl font-black text-foreground tracking-tight">{t("dashboard.notifications.title")}</h2>
+        <h2 className="text-xl md:text-2xl font-black text-foreground tracking-tight">{t("dashboard.notifications.title")}</h2>
         <p className="text-base text-muted-foreground mt-1">{t("dashboard.notifications.subtitle")}</p>
       </div>
       {notificationsLoading ? (

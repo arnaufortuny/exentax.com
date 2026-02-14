@@ -115,7 +115,7 @@ export const MessagesTab = memo(function MessagesTab({
     <div key="messages" className="space-y-6">
       <div className="mb-4 md:mb-6 flex items-start justify-between gap-3">
         <div>
-          <h2 className="text-base sm:text-xl md:text-2xl font-black text-foreground tracking-tight">{t('dashboard.support.title')}</h2>
+          <h2 className="text-xl md:text-2xl font-black text-foreground tracking-tight">{t('dashboard.support.title')}</h2>
           <p className="text-base text-muted-foreground mt-1">{t('dashboard.support.subtitle')}</p>
         </div>
         {!showNewInquiry && (

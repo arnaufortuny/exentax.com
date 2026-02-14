@@ -17,7 +17,7 @@ export function CalendarPanel({ orders }: CalendarPanelProps) {
     <div key="calendar" className="space-y-4 md:space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-4 md:mb-6">
         <div>
-          <h2 className="text-base sm:text-xl md:text-2xl font-black text-foreground tracking-tight">{t('dashboard.calendar.title')}</h2>
+          <h2 className="text-xl md:text-2xl font-black text-foreground tracking-tight">{t('dashboard.calendar.title')}</h2>
           <p className="text-base text-muted-foreground mt-1">{t('dashboard.calendar.subtitle')}</p>
         </div>
       </div>
