@@ -2,7 +2,7 @@ import type { Express } from "express";
 
 const BASE_URL = "https://exentax.com";
 
-const SUPPORTED_LANGS = ["es", "en"];
+const SUPPORTED_LANGS = ["es", "en", "fr"];
 
 const PUBLIC_ROUTES = [
   { path: "/", priority: 1.0, changefreq: "weekly" },

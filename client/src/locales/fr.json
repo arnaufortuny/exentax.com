@@ -3230,52 +3230,52 @@
   },
   "seo": {
     "home": {
-      "title": "Créez votre LLC aux États-Unis avec optimisation fiscale | Tout compris | Exentax",
-      "description": "Créez votre LLC aux États-Unis avec optimisation fiscale internationale, structure juridique efficace et accompagnement expert. Chez Exentax, nous gérons l'intégralité du processus, incluant la conformité réglementaire, les services bancaires professionnels et le conseil stratégique pour les entreprises numériques et entrepreneurs internationaux."
+      "title": "Exentax | Fiscalité Internationale — Optimisez Votre Structure Fiscale Légalement",
+      "description": "Si vous facturez en ligne, vous payez probablement plus d'impôts que nécessaire. Chez Exentax, nous concevons votre structure fiscale et bancaire internationale de manière légale, transparente et stratégique. Fiscalité optimisée, tarifs clairs, accompagnement humain. Réservez votre consultation gratuite."
     },
     "servicios": {
-      "title": "Services et tarifs | Exentax",
-      "description": "Découvrez nos forfaits de création de LLC dans New Mexico, Wyoming et Delaware. Tarification transparente à partir de 899 €."
+      "title": "Services de Fiscalité Internationale et Structures LLC | Exentax",
+      "description": "Nous concevons votre structure fiscale internationale avec des LLC aux États-Unis. Création, maintenance annuelle, déclarations IRS 1120 et 5472, renouvellement d'agent enregistré, stratégie bancaire et conformité complète. Tarification transparente, tout inclus."
     },
     "faq": {
-      "title": "Questions fréquentes | Exentax",
-      "description": "Trouvez les réponses à toutes vos questions sur la création d'une LLC aux États-Unis. Centre d'aide complet."
+      "title": "FAQ — Fiscalité Internationale et Structures LLC | Exentax",
+      "description": "Trouvez les réponses à vos questions sur la fiscalité internationale, l'optimisation fiscale, les structures LLC, les déclarations IRS, la conformité et la stratégie bancaire. Parlons-en clairement."
     },
     "contacto": {
-      "title": "Contact | Exentax",
-      "description": "Contactez notre équipe d'experts en création de LLC aux États-Unis."
+      "title": "Parlons — Consultation Gratuite en Fiscalité Internationale | Exentax",
+      "description": "Réservez votre consultation gratuite avec notre équipe de fiscalité internationale. Conseil personnalisé sur votre structure fiscale et stratégie bancaire. Accompagnement humain, toujours disponible."
     },
     "dashboard": {
-      "title": "Mon Dashboard | Exentax",
-      "description": "Gérez votre LLC, vos documents et services depuis votre dashboard personnel."
+      "title": "Votre Tableau de Bord Fiscal | Exentax",
+      "description": "Gérez votre structure fiscale, documents, calendrier de conformité et services depuis votre tableau de bord personnalisé."
     },
     "formation": {
-      "title": "Créer une LLC | Exentax",
-      "description": "Démarrez le processus de création de votre LLC aux États-Unis. Formulaire simple et sécurisé."
+      "title": "Concevez Votre Structure Fiscale Internationale | Exentax",
+      "description": "Nous vous guidons étape par étape dans la conception de votre structure fiscale avec une LLC aux États-Unis. Création, EIN, stratégie bancaire et plan fiscal personnalisé."
     },
     "maintenance": {
-      "title": "Maintenance de LLC | Exentax",
-      "description": "Renouvelez la maintenance annuelle de votre LLC. Registered Agent et conformité inclus."
+      "title": "Gestion et Maintenance Annuelle de votre LLC | Exentax",
+      "description": "Nous maintenons votre LLC en conformité : renouvellement d'agent, déclarations IRS 1120 et 5472, extension fiscale, rapports annuels et conformité complète."
     },
     "login": {
-      "title": "Connexion | Exentax",
-      "description": "Accédez à votre compte Exentax pour gérer votre activité."
+      "title": "Connexion | Exentax — Fiscalité Internationale",
+      "description": "Accédez à votre plateforme de gestion fiscale internationale."
     },
     "register": {
-      "title": "Créer un compte | Exentax",
-      "description": "Créez votre compte Exentax gratuit."
+      "title": "Créer un Compte Gratuit | Exentax — Fiscalité Internationale",
+      "description": "Inscrivez-vous gratuitement et accédez à votre plateforme de fiscalité internationale."
     },
     "forgotPassword": {
-      "title": "Réinitialiser le mot de passe | Exentax",
+      "title": "Réinitialiser le Mot de Passe | Exentax",
       "description": "Récupérez l'accès à votre compte Exentax."
     },
     "invoice": {
-      "title": "Générateur de factures | Exentax",
-      "description": "Créez des factures professionnelles pour votre LLC gratuitement."
+      "title": "Générateur de Factures Professionnel Gratuit | Exentax",
+      "description": "Créez des factures professionnelles pour votre structure internationale gratuitement."
     },
     "calculator": {
-      "title": "Calculateur de Rentabilité | Exentax",
-      "description": "Calculez combien vous pouvez économiser en impôts avec une LLC aux États-Unis."
+      "title": "Calculateur d'Économies Fiscales | Exentax",
+      "description": "Découvrez combien vous pouvez économiser en optimisant votre fiscalité avec une structure internationale."
     },
     "operatingAgreement": {
       "title": "Générateur d'Operating Agreement | Exentax",
@@ -3283,29 +3283,29 @@
     },
     "legal": {
       "terminos": {
-        "title": "Conditions générales | Exentax",
+        "title": "Conditions Générales | Exentax — Fiscalité Internationale",
         "description": "Consultez les conditions générales d'utilisation d'Exentax."
       },
       "privacidad": {
-        "title": "Politique de confidentialité | Exentax",
+        "title": "Politique de Confidentialité | Exentax",
         "description": "Consultez notre politique de confidentialité et de protection des données."
       },
       "reembolsos": {
-        "title": "Politique de remboursement | Exentax",
-        "description": "Consultez notre politique de remboursement et de retour."
+        "title": "Politique de Remboursement | Exentax",
+        "description": "Consultez notre politique de remboursement pour les services de fiscalité internationale."
       },
       "cookies": {
-        "title": "Politique de cookies | Exentax",
-        "description": "Informations sur l'utilisation des cookies sur Exentax."
+        "title": "Politique de Cookies | Exentax",
+        "description": "Informations sur l'utilisation des cookies sur exentax.com."
       }
     },
     "csvGenerator": {
       "title": "Générateur CSV de Transactions | Exentax",
-      "description": "Générez des fichiers CSV de transactions bancaires pour votre LLC gratuitement."
+      "description": "Générez des fichiers CSV de transactions bancaires pour votre structure internationale."
     },
     "asesoriaGratis": {
-      "title": "Consultation Gratuite | Exentax",
-      "description": "Réservez une consultation gratuite de 30 minutes avec nos experts en création de LLC aux États-Unis."
+      "title": "Consultation Gratuite — Faisons Connaissance | Exentax",
+      "description": "Réservez une consultation gratuite avec notre équipe de fiscalité internationale. Sans engagement. Parlons de votre situation de manière humaine et professionnelle."
     }
   },
   "consultations": {

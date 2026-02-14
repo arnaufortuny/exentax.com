@@ -3230,82 +3230,82 @@
   },
   "seo": {
     "home": {
-      "title": "ExenTax - Optimize Your Tax Structure with a US LLC | LLC Formation",
-      "description": "Form your US LLC with international tax optimization, efficient legal structure, and expert support. At ExenTax we manage the entire process including regulatory compliance, business banking, and strategic advisory for digital businesses and global entrepreneurs."
+      "title": "Exentax | International Tax Strategy — Optimize Your Tax Structure Legally",
+      "description": "If you invoice online, you're probably paying more taxes than you need to. At Exentax we design your international tax and banking structure legally, transparently, and strategically. Optimized taxation, clear pricing, human support. Book your free consultation."
     },
     "servicios": {
-      "title": "Our Services - LLC Formation, Maintenance & Consulting | ExenTax",
-      "description": "Discover our all-inclusive LLC formation packages in New Mexico, Wyoming and Delaware. Transparent pricing, no hidden fees. Includes EIN, Registered Agent, US bank account setup, and full first-year tax compliance."
+      "title": "International Tax Services & LLC Structures | Exentax",
+      "description": "We design your international tax structure with US LLCs. Formation, annual maintenance, IRS 1120 & 5472 filings, registered agent renewal, banking strategy and full compliance. Transparent pricing, all-inclusive, no surprises."
     },
     "faq": {
-      "title": "Frequently Asked Questions about US LLC Formation | ExenTax",
-      "description": "Find answers to all your questions about US LLC formation for non-residents. Learn about taxes, EIN, banking, Stripe access, and more. Complete help center by ExenTax."
+      "title": "FAQ — International Tax Optimization & LLC Structures | Exentax",
+      "description": "Get answers about international tax optimization, US LLC structures, IRS filings, compliance, banking strategy and more. We explain everything clearly, no jargon. Let's talk."
     },
     "contacto": {
-      "title": "Contact Us - Free Consultation | ExenTax",
-      "description": "Contact our team of US LLC formation experts. Get a free consultation about forming your LLC in the United States. We respond within 24 hours."
+      "title": "Let's Talk — Free International Tax Consultation | Exentax",
+      "description": "Book your free consultation with our international tax team. Personalized advice on your tax structure, optimized taxation and banking strategy. Human support, always ready."
     },
     "dashboard": {
-      "title": "Dashboard | ExenTax",
-      "description": "Manage your LLC, documents and services from your personal ExenTax dashboard."
+      "title": "Your Tax Management Dashboard | Exentax",
+      "description": "Manage your tax structure, documents, compliance calendar and services from your personalized dashboard. Transparent and simple management."
     },
     "formation": {
-      "title": "Create Your US LLC - Start Now | ExenTax",
-      "description": "Start the process of creating your US LLC. Simple, secure form. Your LLC ready in 2-3 business days with full support."
+      "title": "Design Your International Tax Structure — Start Now | Exentax",
+      "description": "We guide you step by step in designing your international tax structure with a US LLC. Formation, EIN, banking strategy and personalized tax plan. Your structure ready in 2 days, all-inclusive."
     },
     "maintenance": {
-      "title": "LLC Annual Maintenance & Renewal | ExenTax",
-      "description": "Renew your LLC annual maintenance. Registered agent, annual report filing, and full tax compliance included."
+      "title": "Annual LLC Management & Compliance | Exentax",
+      "description": "We keep your LLC compliant: registered agent renewal, IRS 1120 & 5472 filings, tax extension, annual reports and full compliance. We handle everything so you focus on your business."
     },
     "login": {
-      "title": "Sign In | ExenTax",
-      "description": "Access your ExenTax account to manage your LLC and business services."
+      "title": "Sign In | Exentax — International Tax Strategy",
+      "description": "Access your international tax management platform. Tax calendar, documents, services and human support."
     },
     "register": {
-      "title": "Create Account | ExenTax",
-      "description": "Create your free ExenTax account and start your US LLC formation journey."
+      "title": "Create Your Free Account | Exentax — International Tax Strategy",
+      "description": "Sign up for free and access your international tax platform. Professional tools, document management and personalized support."
     },
     "forgotPassword": {
-      "title": "Reset Password | ExenTax",
-      "description": "Recover access to your ExenTax account."
+      "title": "Reset Password | Exentax",
+      "description": "Recover access to your Exentax account."
     },
     "invoice": {
-      "title": "Free Invoice Generator for Your LLC | ExenTax",
-      "description": "Create professional invoices for your US LLC for free. Customizable templates with your company details."
+      "title": "Free Professional Invoice Generator | Exentax",
+      "description": "Create professional invoices for your international structure for free. Customizable templates adapted to your LLC and digital business."
     },
     "calculator": {
-      "title": "LLC Tax Savings Calculator | ExenTax",
-      "description": "Calculate how much you can save on taxes with a US LLC. Compare tax structures and see your potential savings."
+      "title": "Tax Savings Calculator — How Much Can You Optimize? | Exentax",
+      "description": "Discover how much you can save by optimizing your taxation with an international structure. Compare your current tax burden and calculate your potential savings."
     },
     "operatingAgreement": {
-      "title": "Operating Agreement Generator | ExenTax",
-      "description": "Generate your LLC Operating Agreement automatically. Professional legal document tailored to your business."
+      "title": "LLC Operating Agreement Generator | Exentax",
+      "description": "Generate your LLC Operating Agreement automatically. Professional legal document tailored to your international tax structure."
     },
     "legal": {
       "terminos": {
-        "title": "Terms and Conditions | ExenTax",
-        "description": "Review ExenTax's terms and conditions of use for our LLC formation services."
+        "title": "Terms and Conditions | Exentax — International Tax Strategy",
+        "description": "Review Exentax's terms and conditions for our international tax and LLC management services."
       },
       "privacidad": {
-        "title": "Privacy Policy | ExenTax",
-        "description": "Review our privacy and data protection policy. Learn how ExenTax protects your personal information."
+        "title": "Privacy Policy | Exentax — International Tax Strategy",
+        "description": "Review our privacy and data protection policy. At Exentax we protect your information with the highest security standards."
       },
       "reembolsos": {
-        "title": "Refund Policy | ExenTax",
-        "description": "Review our refund and return policy for LLC formation and maintenance services."
+        "title": "Refund Policy | Exentax",
+        "description": "Review our refund policy for international tax and LLC management services."
       },
       "cookies": {
-        "title": "Cookie Policy | ExenTax",
-        "description": "Information about the use of cookies on the ExenTax website."
+        "title": "Cookie Policy | Exentax",
+        "description": "Information about the use of cookies on exentax.com."
       }
     },
     "csvGenerator": {
-      "title": "Transaction CSV Generator | ExenTax",
-      "description": "Generate bank transaction CSV files for your LLC bookkeeping for free."
+      "title": "Bank Transaction CSV Generator | Exentax",
+      "description": "Generate transaction CSV files for your international structure's bookkeeping. Free professional tool."
     },
     "asesoriaGratis": {
-      "title": "Free LLC Consultation - Book Now | ExenTax",
-      "description": "Book a free 30-minute consultation with our US LLC formation experts. No commitment required. Get personalized advice for your business."
+      "title": "Book Your Free Consultation — Let's Meet | Exentax",
+      "description": "Book a free consultation with our international tax team. No commitment, no pressure. Let's discuss your situation — we advise you in a human and professional way. Always ready."
     }
   },
   "consultations": {
