@@ -76,7 +76,7 @@ build = ["npm", "run", "build"]
 
 [userenv.shared]
 ADMIN_EMAIL = "arnau@easyusllc.com"
-TRUSTPILOT_BCC_EMAIL = "easyusllc.com+62fb280c0a@invite.trustpilot.com"
+TRUSTPILOT_BCC_EMAIL = "exentax.com+1dc60fd1a2@invite.trustpilot.com"
 VAPID_PUBLIC_KEY = "BI6cqP7xBPgDeYTQf2r78ceH7OSK5W-R2gWX9XawIHtK9t7Tu8NLmAmCH1NIhaNDrgLWJnGty0Jb1_x0v-3IriM"
 VAPID_PRIVATE_KEY = "TnrDf6Yv3Zii6ZdiwSmN3pP8fzvrpsqUssxdG5PvBVQ"
 
