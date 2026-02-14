@@ -581,7 +581,7 @@ export function registerLlcRoutes(app: Express) {
   // PROTECTED: Only admin can manually mark orders as paid
   app.post("/api/llc/:id/pay", isAdmin, asyncHandler(async (req: any, res: Response) => {
     try {
-      const appId = parseInt(req.params.id);
+      const appId = parseIdParam(req);
       const application = await storage.getLlcApplication(appId);
       if (!application) {
         return res.status(404).json({ message: "Application not found" });

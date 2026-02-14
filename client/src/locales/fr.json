@@ -3306,6 +3306,14 @@
     "asesoriaGratis": {
       "title": "Consultation Gratuite — Faisons Connaissance | Exentax",
       "description": "Réservez une consultation gratuite avec notre équipe de fiscalité internationale. Sans engagement. Parlons de votre situation de manière humaine et professionnelle."
+    },
+    "start": {
+      "title": "Démarrez Votre Structure Fiscale Internationale | Exentax",
+      "description": "Commencez à concevoir votre structure fiscale internationale avec une LLC aux États-Unis. Processus guidé, étape par étape, avec conseil professionnel."
+    },
+    "links": {
+      "title": "Liens et Ressources | Exentax — Fiscalité Internationale",
+      "description": "Accédez à toutes les ressources, réseaux et liens d'Exentax. Votre porte d'entrée vers une fiscalité internationale optimisée."
     }
   },
   "consultations": {

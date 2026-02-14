@@ -1,6 +1,6 @@
 import type { Express, Response } from "express";
 import { z } from "zod";
-import { db, isAdmin, logAudit , asyncHandler } from "./shared";
+import { db, isAdmin, logAudit, asyncHandler, parseIdParam } from "./shared";
 import { createLogger } from "../lib/logger";
 import { staffRoles, STAFF_PERMISSIONS, users as usersTable } from "@shared/schema";
 import { eq, desc } from "drizzle-orm";
@@ -69,7 +69,7 @@ export function registerAdminRoleRoutes(app: Express) {
 
   app.patch("/api/admin/roles/:id", isAdmin, asyncHandler(async (req: any, res: Response) => {
     try {
-      const roleId = parseInt(req.params.id);
+      const roleId = parseIdParam(req);
       const schema = z.object({
         name: z.string().min(1).max(100).optional(),
         description: z.string().max(500).optional().nullable(),
@@ -116,7 +116,7 @@ export function registerAdminRoleRoutes(app: Express) {
 
   app.delete("/api/admin/roles/:id", isAdmin, asyncHandler(async (req: any, res: Response) => {
     try {
-      const roleId = parseInt(req.params.id);
+      const roleId = parseIdParam(req);
 
       const usersWithRole = await db.select({ id: usersTable.id })
         .from(usersTable)

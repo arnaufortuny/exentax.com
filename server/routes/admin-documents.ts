@@ -1,7 +1,7 @@
 import type { Express, Response } from "express";
 import { z } from "zod";
 import { and, eq, desc, inArray, or, sql } from "drizzle-orm";
-import { db, storage, isAdmin, isAdminOrSupport, asyncHandler, logAudit, getClientIp } from "./shared";
+import { db, storage, isAdmin, isAdminOrSupport, asyncHandler, logAudit, getClientIp, parseIdParam } from "./shared";
 import { createLogger } from "../lib/logger";
 import { compressImage } from "../lib/image-compress";
 import { sanitizeHtml } from "../lib/security";
@@ -260,7 +260,7 @@ export function registerAdminDocumentsRoutes(app: Express) {
 
   app.patch("/api/admin/documents/:id/review", isAdminOrSupport, asyncHandler(async (req: any, res: Response) => {
     try {
-      const docId = Number(req.params.id);
+      const docId = parseIdParam(req);
       const { reviewStatus, rejectionReason } = z.object({ 
         reviewStatus: z.enum(["pending", "approved", "rejected", "action_required"]),
         rejectionReason: z.string().optional()
@@ -415,7 +415,7 @@ export function registerAdminDocumentsRoutes(app: Express) {
 
   app.delete("/api/admin/documents/:id", isAdmin, asyncHandler(async (req: any, res: Response) => {
     try {
-      const docId = Number(req.params.id);
+      const docId = parseIdParam(req);
       await db.delete(applicationDocumentsTable).where(eq(applicationDocumentsTable.id, docId));
       res.json({ success: true });
     } catch (error) {
@@ -425,7 +425,7 @@ export function registerAdminDocumentsRoutes(app: Express) {
 
   app.post("/api/admin/applications/:id/set-formation-date", isAdmin, asyncHandler(async (req: any, res: Response) => {
     try {
-      const applicationId = parseInt(req.params.id);
+      const applicationId = parseIdParam(req);
       const { formationDate, state } = z.object({
         formationDate: z.string(),
         state: z.string().optional()
@@ -655,7 +655,7 @@ export function registerAdminDocumentsRoutes(app: Express) {
   // Update document request
   app.patch("/api/admin/document-requests/:id", isAdminOrSupport, asyncHandler(async (req: any, res: Response) => {
     try {
-      const id = Number(req.params.id);
+      const id = parseIdParam(req);
       const { notes, status } = z.object({
         notes: z.string().optional(),
         status: z.enum(["sent", "pending_upload", "uploaded", "approved", "rejected", "completed", "cancelled"]).optional(),
@@ -704,7 +704,7 @@ export function registerAdminDocumentsRoutes(app: Express) {
   // Delete document request
   app.delete("/api/admin/document-requests/:id", isAdmin, asyncHandler(async (req: any, res: Response) => {
     try {
-      const id = Number(req.params.id);
+      const id = parseIdParam(req);
       const [deleted] = await db.delete(documentRequestsTable)
         .where(eq(documentRequestsTable.id, id))
         .returning();
@@ -728,7 +728,7 @@ export function registerAdminDocumentsRoutes(app: Express) {
   // Admin invoice preview
   app.get("/api/admin/invoice/:id", isAdmin, asyncHandler(async (req: any, res: Response) => {
     try {
-      const orderId = Number(req.params.id);
+      const orderId = parseIdParam(req);
       const order = await storage.getOrder(orderId);
       if (!order) return res.status(404).json({ message: "Order not found" });
       
@@ -743,7 +743,7 @@ export function registerAdminDocumentsRoutes(app: Express) {
   // Add order event (admin only)
   app.post("/api/admin/orders/:id/events", isAdmin, asyncHandler(async (req: any, res: Response) => {
     try {
-      const orderId = Number(req.params.id);
+      const orderId = parseIdParam(req);
       const { eventType: rawEventType, description: rawDescription } = req.body;
       
       if (!rawEventType || !rawDescription) {
@@ -800,7 +800,7 @@ export function registerAdminDocumentsRoutes(app: Express) {
   // Generate invoice for order
   app.post("/api/admin/orders/:id/generate-invoice", isAdmin, asyncHandler(async (req: any, res: Response) => {
     try {
-      const orderId = Number(req.params.id);
+      const orderId = parseIdParam(req);
       
       // Get existing order data
       const [order] = await db.select().from(ordersTable).where(eq(ordersTable.id, orderId)).limit(1);

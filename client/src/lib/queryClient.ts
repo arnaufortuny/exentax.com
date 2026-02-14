@@ -1,5 +1,6 @@
 import { QueryClient, QueryFunction, QueryCache, MutationCache } from "@tanstack/react-query";
 import { toast } from "@/hooks/use-toast";
+import i18n from "@/lib/i18n";
 
 class ApiError extends Error {
   status: number;
@@ -210,8 +211,8 @@ export const queryClient = new QueryClient({
     onError: (error) => {
       if (isNetworkError(error)) {
         toast({
-          title: 'Connection error',
-          description: 'Please check your internet connection and try again.',
+          title: i18n.t('toast.connectionError'),
+          description: i18n.t('errors.networkError'),
           variant: 'destructive',
         });
       }
@@ -221,8 +222,8 @@ export const queryClient = new QueryClient({
     onError: (error) => {
       if (isNetworkError(error)) {
         toast({
-          title: 'Connection error',
-          description: 'Please check your internet connection and try again.',
+          title: i18n.t('toast.connectionError'),
+          description: i18n.t('errors.networkError'),
           variant: 'destructive',
         });
       }

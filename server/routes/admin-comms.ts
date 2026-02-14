@@ -2,7 +2,7 @@ import type { Express } from "express";
 import type { Request, Response } from "express";
 import { z } from "zod";
 import { desc, eq, sql } from "drizzle-orm";
-import { db, storage, isAdmin, isAdminOrSupport, getClientIp, asyncHandler } from "./shared";
+import { db, storage, isAdmin, isAdminOrSupport, getClientIp, asyncHandler, parseIdParam } from "./shared";
 import { checkRateLimit, sanitizeHtml } from "../lib/security";
 import { createLogger } from "../lib/logger";
 
@@ -159,7 +159,7 @@ export function registerAdminCommsRoutes(app: Express) {
 
   app.delete("/api/admin/guests/:id", isAdmin, asyncHandler(async (req: Request, res: Response) => {
     try {
-      await storage.deleteGuestVisitor(parseInt(req.params.id));
+      await storage.deleteGuestVisitor(parseIdParam(req));
       res.json({ success: true });
     } catch (error) {
       log.error("Error deleting guest", error);
@@ -180,8 +180,7 @@ export function registerAdminCommsRoutes(app: Express) {
   // Admin: Delete calculator consultation
   app.delete("/api/admin/calculator-consultations/:id", isAdmin, asyncHandler(async (req: Request, res: Response) => {
     try {
-      const { id } = req.params;
-      await db.delete(calculatorConsultations).where(eq(calculatorConsultations.id, parseInt(id)));
+      await db.delete(calculatorConsultations).where(eq(calculatorConsultations.id, parseIdParam(req)));
       res.json({ success: true });
     } catch (error) {
       log.error("Error deleting consultation", error);
@@ -266,7 +265,7 @@ export function registerAdminCommsRoutes(app: Express) {
 
   app.patch("/api/admin/messages/:id/archive", isAdminOrSupport, asyncHandler(async (req: Request, res: Response) => {
     try {
-      const updated = await storage.updateMessageStatus(Number(req.params.id), 'archived');
+      const updated = await storage.updateMessageStatus(parseIdParam(req), 'archived');
       res.json(updated);
     } catch (error) {
       log.error("Error archiving message", error);
@@ -276,7 +275,7 @@ export function registerAdminCommsRoutes(app: Express) {
 
   app.delete("/api/admin/messages/:id", isAdmin, asyncHandler(async (req: Request, res: Response) => {
     try {
-      const msgId = Number(req.params.id);
+      const msgId = parseIdParam(req);
       await db.delete(messageReplies).where(eq(messageReplies.messageId, msgId));
       await db.delete(messagesTable).where(eq(messagesTable.id, msgId));
       res.json({ success: true });

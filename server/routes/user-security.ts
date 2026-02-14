@@ -125,6 +125,11 @@ export function registerUserSecurityRoutes(app: Express) {
   // Request OTP for password change
   app.post("/api/user/request-password-otp", isAuthenticated, asyncHandler(async (req: any, res: Response) => {
     try {
+      const ip = getClientIp(req);
+      const rateCheck = await checkRateLimit("otp", ip);
+      if (!rateCheck.allowed) {
+        return res.status(429).json({ message: "Too many requests. Please wait before trying again.", retryAfter: rateCheck.retryAfter });
+      }
       const [user] = await db.select().from(usersTable).where(eq(usersTable.id, req.session.userId));
       if (!user?.email) {
         return res.status(400).json({ message: "User not found" });

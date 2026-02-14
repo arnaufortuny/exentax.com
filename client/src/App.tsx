@@ -117,7 +117,7 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
               </button>
               <button
                 onClick={this.handleReload}
-                className="px-4 py-2 bg-accent text-white rounded-md font-medium"
+                className="px-4 py-2 bg-accent text-accent-foreground rounded-md font-medium"
                 data-testid="button-reload"
               >
                 {i18n.t("common.reloadPage")}

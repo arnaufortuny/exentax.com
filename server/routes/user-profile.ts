@@ -722,7 +722,7 @@ export function registerUserProfileRoutes(app: Express) {
       invoices: userInvoices,
     };
 
-    await logActivity(userId, "gdpr_data_export", getClientIp(req));
+    await logActivity("gdpr_data_export", { userId, ip: getClientIp(req) });
 
     res.setHeader("Content-Type", "application/json");
     res.setHeader("Content-Disposition", `attachment; filename="exentax-data-export-${new Date().toISOString().slice(0, 10)}.json"`);

@@ -161,7 +161,7 @@ export default function FAQ() {
                 className="w-full h-12 sm:h-14 pl-10 sm:pl-14 pr-6 rounded-full border-2 border-accent/30 focus:border-accent focus:outline-none text-primary font-medium shadow-sm transition-all text-xs sm:text-base appearance-none bg-background"
                 data-testid="input-faq-search"
               />
-              <div className="absolute left-3.5 sm:left-5 top-1/2 -translate-y-1/2 text-[#00C48C]">
+              <div className="absolute left-3.5 sm:left-5 top-1/2 -translate-y-1/2 text-accent">
                 <svg className="w-4 h-4 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                 </svg>
@@ -197,7 +197,7 @@ export default function FAQ() {
                               {item.q}
                             </span>
                             <span className={`text-xl sm:text-2xl shrink-0 ${
-                              openItems[category.key] === i ? "rotate-45 text-[#00C48C]" : "text-primary/30"
+                              openItems[category.key] === i ? "rotate-45 text-accent" : "text-primary/30"
                             }`}>
                               +
                             </span>

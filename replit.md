@@ -49,13 +49,6 @@ Exentax is a full-stack SaaS platform designed to simplify US LLC formation for 
 - **Modes:** Light, Dark, Forest, implemented with CSS custom properties and HSL values.
 - **Persistence:** Theme preference saved to localStorage, with dynamic `theme-color` for mobile browsers.
 
-### Security Features
-- **Auth & AuthZ:** bcrypt hashing, secure httpOnly cookies, RBAC, OTP, account lockout.
-- **Data Protection:** AES-256-GCM encryption, file hashing, TLS/HTTPS, token expirations.
-- **Request Security:** CSRF token validation, rate limiting on sensitive endpoints, input sanitization, Zod validation.
-- **Audit & Logging:** Comprehensive audit logs for admin actions, document access, and IP tracking.
-- **Compliance:** GDPR-compliant data handling, user consent tracking, environment variable for secrets.
-
 ### Performance Optimizations
 - **Server-Side Caching:** In-memory TTL cache (`server/lib/cache.ts`) for products (5 min), consultation types (5 min), consultation settings (2 min), admin consultation types/availability/blocked-dates/settings (2 min). Cache auto-invalidated on admin mutations.
 - **Image Compression:** Uploaded images (JPG/PNG) are compressed via `sharp` before storage — max 2048px width, JPEG quality 80, PNG level 8. PDFs pass through unchanged.

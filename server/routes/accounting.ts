@@ -1,6 +1,6 @@
 import type { Express, Response } from "express";
 import { z } from "zod";
-import { db, isAdmin, logAudit , asyncHandler } from "./shared";
+import { db, isAdmin, logAudit, asyncHandler, parseIdParam } from "./shared";
 import { createLogger } from "../lib/logger";
 
 const log = createLogger('accounting');
@@ -150,10 +150,7 @@ export function registerAccountingRoutes(app: Express) {
   // Update transaction
   app.patch("/api/admin/accounting/transactions/:id", isAdmin, asyncHandler(async (req: any, res: Response) => {
     try {
-      const txId = Number(req.params.id);
-      if (isNaN(txId) || txId <= 0) {
-        return res.status(400).json({ message: "Invalid transaction ID" });
-      }
+      const txId = parseIdParam(req);
       const parsed = updateTransactionSchema.safeParse(req.body);
       if (!parsed.success) {
         return res.status(400).json({ message: "Invalid data", errors: parsed.error.flatten().fieldErrors });
@@ -201,10 +198,7 @@ export function registerAccountingRoutes(app: Express) {
   // Delete transaction
   app.delete("/api/admin/accounting/transactions/:id", isAdmin, asyncHandler(async (req: any, res: Response) => {
     try {
-      const txId = Number(req.params.id);
-      if (isNaN(txId) || txId <= 0) {
-        return res.status(400).json({ message: "Invalid transaction ID" });
-      }
+      const txId = parseIdParam(req);
       
       const [existing] = await db.select({ id: accountingTransactions.id }).from(accountingTransactions).where(eq(accountingTransactions.id, txId)).limit(1);
       if (!existing) {

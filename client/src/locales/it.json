@@ -670,7 +670,7 @@
       "support": "Supporto prioritario"
     },
     "currency": "€",
-    "startFrom": "A partire da",
+    "startFrom": "Da",
     "selectPlan": "Seleziona piano",
     "mostPopular": "Più Popolare"
   },
@@ -822,7 +822,7 @@
       "weak": "Debole",
       "fair": "Discreta",
       "good": "Buona",
-      "strong": "Sicura",
+      "strong": "Forte",
       "minLength": "Minimo 8 caratteri",
       "hasUppercase": "Una maiuscola (A-Z)",
       "hasLowercase": "Una minuscola (a-z)",
@@ -856,7 +856,7 @@
       "sendErrorDesc": "Non è stato possibile inviare il codice"
     },
     "forgotPassword": {
-      "title": "Reset",
+      "title": "Recupera",
       "titleHighlight": "Password",
       "descriptionEmail": "Ti invieremo un codice di verifica per ripristinare l'accesso al tuo account in modo sicuro.",
       "descriptionOtp": "Inserisci il codice di 6 cifre che abbiamo inviato alla tua email",
@@ -1377,7 +1377,7 @@
       "calendar": "Calendario",
       "calendarMobile": "Date",
       "tools": "Strumenti",
-      "toolsMobile": "Tools",
+      "toolsMobile": "Strumenti",
       "notifications": "Notifiche",
       "notificationsMobile": "Notif.",
       "profile": "Il Mio Profilo",
@@ -2873,11 +2873,26 @@
     "vat": "IVA",
     "vatNote": "Sei un esattore, non è denaro perso",
     "structures": {
-      "spain": { "autonomo": "Autónomo", "company": "Società (SL)" },
-      "uk": { "autonomo": "Sole Trader", "company": "Limited (Ltd)" },
-      "germany": { "autonomo": "Freiberufler", "company": "GmbH" },
-      "france": { "autonomo": "Auto-entrepreneur", "company": "SARL / SAS" },
-      "bulgaria": { "autonomo": "Lavoratore autonomo", "company": "EOOD" }
+      "spain": {
+        "autonomo": "Autónomo",
+        "company": "Società (SL)"
+      },
+      "uk": {
+        "autonomo": "Sole Trader",
+        "company": "Limited (Ltd)"
+      },
+      "germany": {
+        "autonomo": "Freiberufler",
+        "company": "GmbH"
+      },
+      "france": {
+        "autonomo": "Auto-entrepreneur",
+        "company": "SARL / SAS"
+      },
+      "bulgaria": {
+        "autonomo": "Lavoratore autonomo",
+        "company": "EOOD"
+      }
     },
     "countries": {
       "spain": {
@@ -3306,6 +3321,14 @@
     "asesoriaGratis": {
       "title": "Consulenza Gratuita | Exentax",
       "description": "Prenota una consulenza gratuita di 30 minuti con i nostri esperti in formazione LLC negli Stati Uniti."
+    },
+    "start": {
+      "title": "Inizia la Tua Struttura Fiscale Internazionale | Exentax",
+      "description": "Inizia a progettare la tua struttura fiscale internazionale con una LLC negli Stati Uniti. Processo guidato, passo dopo passo, con consulenza professionale."
+    },
+    "links": {
+      "title": "Link e Risorse | Exentax — Fiscalità Internazionale",
+      "description": "Accedi a tutte le risorse, reti e link di Exentax. La tua porta d'accesso alla fiscalità internazionale ottimizzata."
     }
   },
   "consultations": {

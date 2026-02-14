@@ -1448,7 +1448,7 @@ export default function LlcFormation() {
                 <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight">{t("maintenance.login.title")}</h2>
                 <p className="text-sm text-muted-foreground">{t("maintenance.login.description")}</p>
                 
-                <div className="bg-accent/10 border border-[#00C48C]/30 rounded-2xl p-5 text-center">
+                <div className="bg-accent/10 border border-accent/30 rounded-2xl p-5 text-center">
                   <p className="text-sm font-bold text-foreground mb-1">
                     {t("maintenance.login.hello")}{existingUserName ? `, ${existingUserName}` : ""}!
                   </p>

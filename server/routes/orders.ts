@@ -75,12 +75,13 @@ export function registerOrderRoutes(app: Express) {
     }
   }));
   app.post(api.orders.create.path, asyncHandler(async (req: any, res: Response) => {
+    let idempotencyKey = '';
     try {
       let { productId, email, password, ownerFullName, paymentMethod, discountCode, discountAmount } = req.body;
       if (email) email = normalizeEmail(email);
       if (ownerFullName) ownerFullName = sanitizeHtml(ownerFullName);
       
-      const idempotencyKey = `${req.session?.userId || email || ''}_${productId}_${Date.now().toString().slice(0, -3)}`;
+      idempotencyKey = `${req.session?.userId || email || ''}_${productId}_${Date.now().toString().slice(0, -3)}`;
       if (pendingOrderCreations.has(idempotencyKey)) {
         return res.status(409).json({ message: "Order creation already in progress. Please wait." });
       }

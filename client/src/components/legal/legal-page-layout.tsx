@@ -63,7 +63,7 @@ export function LegalPageLayout({ title, titleHighlight, lastUpdated, pdfUrl, ch
               <button 
                 onClick={handleDownload}
                 className="inline-flex items-center justify-center rounded-full px-6 h-11 font-bold text-sm shadow-md transition-all gap-2 hover:opacity-90 active:scale-[0.98]"
-                style={{ backgroundColor: '#00C48C', color: '#0A1F17' }}
+                style={{ backgroundColor: 'hsl(var(--accent))', color: 'hsl(var(--accent-foreground))' }}
                 data-testid="button-download-pdf"
               >
                 <Download className="w-4 h-4" />

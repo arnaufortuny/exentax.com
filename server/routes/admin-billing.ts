@@ -3,7 +3,7 @@ import type { Request, Response } from "express";
 import { z } from "zod";
 import { and, or, eq, desc, sql } from "drizzle-orm";
 import { alias } from "drizzle-orm/pg-core";
-import { asyncHandler, db, storage, isAdmin, logAudit, getCachedData, setCachedData, getClientIp } from "./shared";
+import { asyncHandler, db, storage, isAdmin, logAudit, getCachedData, setCachedData, getClientIp, parseIdParam } from "./shared";
 import { checkRateLimit } from "../lib/security";
 import { createLogger } from "../lib/logger";
 import { captureServerError } from "../lib/sentry";
@@ -661,7 +661,7 @@ export function registerAdminBillingRoutes(app: Express) {
   // Update discount code (admin)
   app.patch("/api/admin/discount-codes/:id", isAdmin, asyncHandler(async (req: Request, res: Response) => {
     try {
-      const id = parseInt(req.params.id);
+      const id = parseIdParam(req);
       const { code, description, discountType, discountValue, minOrderAmount, maxUses, validFrom, validUntil, isActive } = req.body;
 
       const updateData: any = {};
@@ -685,7 +685,7 @@ export function registerAdminBillingRoutes(app: Express) {
   // Delete discount code (admin)
   app.delete("/api/admin/discount-codes/:id", isAdmin, asyncHandler(async (req: Request, res: Response) => {
     try {
-      const id = parseInt(req.params.id);
+      const id = parseIdParam(req);
       await db.delete(discountCodes).where(eq(discountCodes.id, id));
       res.json({ success: true });
     } catch (error) {
@@ -728,7 +728,7 @@ export function registerAdminBillingRoutes(app: Express) {
 
   app.patch("/api/admin/payment-accounts/:id", isAdmin, asyncHandler(async (req: Request, res: Response) => {
     try {
-      const id = parseInt(req.params.id);
+      const id = parseIdParam(req);
       const account = await storage.updatePaymentAccount(id, req.body);
       res.json(account);
     } catch (error) {
@@ -738,7 +738,7 @@ export function registerAdminBillingRoutes(app: Express) {
 
   app.delete("/api/admin/payment-accounts/:id", isAdmin, asyncHandler(async (req: Request, res: Response) => {
     try {
-      const id = parseInt(req.params.id);
+      const id = parseIdParam(req);
       await storage.deletePaymentAccount(id);
       res.json({ success: true });
     } catch (error) {
@@ -851,7 +851,7 @@ export function registerAdminBillingRoutes(app: Express) {
 
   app.delete("/api/admin/invoices/:id", isAdmin, asyncHandler(async (req: Request, res: Response) => {
     try {
-      const invoiceId = parseInt(req.params.id);
+      const invoiceId = parseIdParam(req);
       const [deletedInvoice] = await db.select({ invoiceNumber: standaloneInvoices.invoiceNumber }).from(standaloneInvoices).where(eq(standaloneInvoices.id, invoiceId)).limit(1);
       await db.delete(standaloneInvoices).where(eq(standaloneInvoices.id, invoiceId));
 
@@ -873,7 +873,7 @@ export function registerAdminBillingRoutes(app: Express) {
 
   app.patch("/api/admin/invoices/:id/status", isAdmin, asyncHandler(async (req: Request, res: Response) => {
     try {
-      const invoiceId = parseInt(req.params.id);
+      const invoiceId = parseIdParam(req);
       const { status } = z.object({
         status: z.enum(['pending', 'paid', 'completed', 'cancelled', 'refunded'])
       }).parse(req.body);
@@ -904,7 +904,7 @@ export function registerAdminBillingRoutes(app: Express) {
 
   app.get("/api/admin/invoices/:id/download", isAdmin, asyncHandler(async (req: Request, res: Response) => {
     try {
-      const invoiceId = parseInt(req.params.id);
+      const invoiceId = parseIdParam(req);
       const [invoice] = await db.select().from(standaloneInvoices).where(eq(standaloneInvoices.id, invoiceId)).limit(1);
       if (!invoice || !invoice.fileUrl) {
         return res.status(404).json({ message: "Invoice not found" });

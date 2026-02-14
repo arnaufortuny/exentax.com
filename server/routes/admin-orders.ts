@@ -2,7 +2,7 @@ import type { Express } from "express";
 import type { Request, Response } from "express";
 import { z } from "zod";
 import { and, eq, desc, sql, inArray, or, ilike } from "drizzle-orm";
-import { asyncHandler, db, storage, isAdmin, isAdminOrSupport, logAudit } from "./shared";
+import { asyncHandler, db, storage, isAdmin, isAdminOrSupport, logAudit, parseIdParam } from "./shared";
 import { createLogger } from "../lib/logger";
 import { sanitizeHtml } from "../lib/security";
 
@@ -97,7 +97,7 @@ export function registerAdminOrderRoutes(app: Express) {
 
   app.patch("/api/admin/orders/:id/status", isAdminOrSupport, asyncHandler(async (req: Request, res: Response) => {
     try {
-    const orderId = Number(req.params.id);
+    const orderId = parseIdParam(req);
     const { status } = z.object({ status: z.enum(VALID_ORDER_STATUSES) }).parse(req.body);
     
     const existingOrder = await storage.getOrder(orderId);
@@ -237,7 +237,7 @@ export function registerAdminOrderRoutes(app: Express) {
 
   app.patch("/api/admin/orders/:id/inline", isAdminOrSupport, asyncHandler(async (req: Request, res: Response) => {
     try {
-    const orderId = Number(req.params.id);
+    const orderId = parseIdParam(req);
     const body = z.object({
       amount: z.number().optional(),
       companyName: z.string().optional(),
@@ -301,7 +301,7 @@ export function registerAdminOrderRoutes(app: Express) {
 
   app.patch("/api/admin/orders/:id/payment-link", isAdminOrSupport, asyncHandler(async (req: Request, res: Response) => {
     try {
-    const orderId = Number(req.params.id);
+    const orderId = parseIdParam(req);
     const { paymentLink, paymentStatus, paymentDueDate } = z.object({
       paymentLink: z.string().url().optional().nullable(),
       paymentStatus: z.enum(['pending', 'paid', 'overdue', 'cancelled']).optional(),
@@ -355,7 +355,7 @@ export function registerAdminOrderRoutes(app: Express) {
 
   app.delete("/api/admin/orders/:id", isAdmin, asyncHandler(async (req: Request, res: Response) => {
     try {
-    const orderId = Number(req.params.id);
+    const orderId = parseIdParam(req);
     
     const order = await storage.getOrder(orderId);
     if (!order) {
@@ -525,7 +525,7 @@ export function registerAdminOrderRoutes(app: Express) {
 
   // Update LLC important dates with automatic calculation
   app.patch("/api/admin/llc/:appId/dates", isAdminOrSupport, asyncHandler(async (req: Request, res: Response) => {
-    const appId = Number(req.params.appId);
+    const appId = parseIdParam(req, 'appId');
     const { field, value } = z.object({ 
       field: z.enum(['llcCreatedDate', 'agentRenewalDate', 'irs1120DueDate', 'irs5472DueDate', 'annualReportDueDate', 'ein', 'registrationNumber', 'llcAddress', 'ownerSharePercentage', 'agentStatus', 'boiStatus', 'boiFiledDate']),
       value: z.string()
@@ -616,7 +616,7 @@ export function registerAdminOrderRoutes(app: Express) {
 
   // Toggle tax extension for LLC application (6 months: Apr 15 -> Oct 15)
   app.patch("/api/admin/llc/:appId/tax-extension", isAdminOrSupport, asyncHandler(async (req: Request, res: Response) => {
-    const appId = Number(req.params.appId);
+    const appId = parseIdParam(req, 'appId');
     const { hasTaxExtension } = z.object({ 
       hasTaxExtension: z.boolean()
     }).parse(req.body);

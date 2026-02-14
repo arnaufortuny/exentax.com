@@ -7,7 +7,7 @@
     "idNumberMin": "O número de ID deve ter pelo menos 5 caracteres",
     "verifiedField": "Verificado - contacte o admin para modificar",
     "notProvided": "Não fornecido",
-    "verifyEmail": "Verificar email",
+    "verifyEmail": "Verificar e-mail",
     "saveChanges": "Guardar alterações",
     "reviewNote": "A nossa equipa irá rever qualquer alteração antes de avançar, para garantir que está tudo correto.",
     "currentPassword": "Palavra-passe atual",
@@ -81,14 +81,14 @@
       "title": "Idioma preferido",
       "description": "Seleciona o idioma da plataforma e documentos."
     },
-    "clientId": "ID Cliente",
+    "clientId": "ID de Cliente",
     "otpSentTitle": "Código enviado",
     "otpSentDesc": "Enviámos um código de verificação para o teu email para confirmar as alterações.",
     "otpRequired": "Verificação necessária",
     "otpRequiredDesc": "Enviámos um código de 6 dígitos para o teu email para confirmar as alterações.",
     "actionRequired": "Ação necessária",
     "pendingChanges": "Alterações pendentes",
-    "expiresIn": "Expira",
+    "expiresIn": "Expira em",
     "cancelChanges": "Cancelar alterações",
     "confirmChanges": "Confirmar alterações",
     "resendCode": "Reenviar código",
@@ -160,7 +160,7 @@
     "openMenu": "Abrir menu",
     "closeMenu": "Fechar menu",
     "logout": "Terminar sessão",
-    "freeConsultation": "Consulta grátis"
+    "freeConsultation": "Consulta gratuita"
   },
   "hero": {
     "title": "OTIMIZA A ESTRUTURA FISCAL DO TEU NEGÓCIO DIGITAL",
@@ -682,7 +682,7 @@
       "titleHighlight": "de volta",
       "subtitle": "Acede ao teu espaço pessoal e gere a tua LLC com total tranquilidade.",
       "email": "Email",
-      "emailPlaceholder": "tu@email.com",
+      "emailPlaceholder": "o-teu@email.com",
       "password": "Palavra-passe",
       "passwordPlaceholder": "A tua palavra-passe",
       "forgotPassword": "Esqueceste a tua palavra-passe?",
@@ -822,7 +822,7 @@
       "weak": "Fraca",
       "fair": "Regular",
       "good": "Boa",
-      "strong": "Segura",
+      "strong": "Forte",
       "minLength": "Mínimo 8 caracteres",
       "hasUppercase": "Uma maiúscula (A-Z)",
       "hasLowercase": "Uma minúscula (a-z)",
@@ -844,7 +844,7 @@
       "resending": "A enviar...",
       "verifyLaterDesc": "Podes verificá-lo mais tarde a partir da tua área de cliente",
       "verifyLaterBtn": "Ir para a minha nova área de cliente",
-      "verified": "Email verificado",
+      "verified": "E-mail verificado",
       "verifiedDesc": "Perfeito. Já podes continuar",
       "codeMissing": "Falta o código",
       "codeMissingDesc": "Introduz o código de 6 dígitos",
@@ -856,8 +856,8 @@
       "sendErrorDesc": "Não foi possível enviar o código"
     },
     "forgotPassword": {
-      "title": "Reset",
-      "titleHighlight": "Password",
+      "title": "Recuperar",
+      "titleHighlight": "Palavra-passe",
       "descriptionEmail": "Enviaremos-te um código de verificação para restabelecer o acesso à tua conta de forma segura.",
       "descriptionOtp": "Introduz o código de 6 dígitos que enviámos para o teu email",
       "descriptionPassword": "Cria uma nova palavra-passe segura para a tua conta",
@@ -900,7 +900,7 @@
       "contactTeam": "Contactar a nossa equipa"
     },
     "otp": {
-      "title": "Verificar Email",
+      "title": "Verificar E-mail",
       "description": "Introduz o código que te enviámos para o teu correio",
       "sendCode": "Enviar código de verificação",
       "verifyCode": "Verificar código",
@@ -927,9 +927,9 @@
   },
   "validation": {
     "required": "Este campo é obrigatório",
-    "invalidEmail": "Email inválido",
-    "email": "Email inválido",
-    "emailInvalid": "Email inválido",
+    "invalidEmail": "E-mail inválido",
+    "email": "E-mail inválido",
+    "emailInvalid": "E-mail inválido",
     "invalidPhone": "Telefone inválido",
     "minLength": "Mínimo {{min}} caracteres",
     "maxLength": "Máximo {{max}} caracteres",
@@ -1003,7 +1003,7 @@
       "whereToFormDesc": "Escolhe o estado onde será registada a tua empresa",
       "whatsYourName": "Como te chamas?",
       "whatsYourNameDesc": "Vamos usá-lo nos documentos oficiais",
-      "contactEmail": "Email de contacto",
+      "contactEmail": "E-mail de contacto",
       "contactEmailDesc": "Aqui te enviaremos os progressos e documentos da tua LLC",
       "contactPhone": "Telefone de contacto",
       "contactPhoneDesc": "Podemos ligar-te para assuntos importantes da tua LLC",
@@ -1113,7 +1113,7 @@
     },
     "validation": {
       "required": "Este campo é obrigatório",
-      "invalidEmail": "Email inválido",
+      "invalidEmail": "E-mail inválido",
       "invalidPhone": "Telefone inválido",
       "minLength": "Mínimo {{min}} caracteres",
       "maxLength": "Máximo {{max}} caracteres",
@@ -1143,7 +1143,7 @@
       "tryAgainSeconds": "Tenta novamente em alguns segundos",
       "codeMissing": "Falta o código",
       "enter6DigitCode": "Introduz o código de 6 dígitos",
-      "emailVerified": "Email verificado",
+      "emailVerified": "E-mail verificado",
       "canContinue": "Perfeito. Já podes continuar",
       "incorrectCode": "Código incorreto",
       "codeInvalidOrExpired": "O código não é válido ou expirou",
@@ -1174,7 +1174,7 @@
       "verifyOtp": "Verificar código",
       "verifyingOtp": "A verificar...",
       "resendOtp": "Reenviar código",
-      "emailVerified": "Email verificado",
+      "emailVerified": "E-mail verificado",
       "passwordLabel": "Palavra-passe",
       "confirmPasswordLabel": "Confirmar palavra-passe",
       "alreadyAuthenticated": "Já tens uma conta ativa",
@@ -1249,7 +1249,7 @@
       "verifyCode": "Verificar código",
       "verifying": "A verificar...",
       "resendCode": "Reenviar código",
-      "emailVerified": "Email verificado",
+      "emailVerified": "E-mail verificado",
       "password": "Palavra-passe",
       "confirmPassword": "Confirmar Palavra-passe",
       "notes": "Notas adicionais",
@@ -1377,7 +1377,7 @@
       "calendar": "Calendário",
       "calendarMobile": "Datas",
       "tools": "Ferramentas",
-      "toolsMobile": "Tools",
+      "toolsMobile": "Ferramentas",
       "notifications": "Notificações",
       "notificationsMobile": "Notif.",
       "profile": "O Meu Perfil",
@@ -2873,11 +2873,26 @@
     "vat": "IVA",
     "vatNote": "És cobrador, não é dinheiro perdido",
     "structures": {
-      "spain": { "autonomo": "Autónomo", "company": "Sociedade (SL)" },
-      "uk": { "autonomo": "Sole Trader", "company": "Limited (Ltd)" },
-      "germany": { "autonomo": "Freiberufler", "company": "GmbH" },
-      "france": { "autonomo": "Auto-entrepreneur", "company": "SARL / SAS" },
-      "bulgaria": { "autonomo": "Trabalhador independente", "company": "EOOD" }
+      "spain": {
+        "autonomo": "Autónomo",
+        "company": "Sociedade (SL)"
+      },
+      "uk": {
+        "autonomo": "Sole Trader",
+        "company": "Limited (Ltd)"
+      },
+      "germany": {
+        "autonomo": "Freiberufler",
+        "company": "GmbH"
+      },
+      "france": {
+        "autonomo": "Auto-entrepreneur",
+        "company": "SARL / SAS"
+      },
+      "bulgaria": {
+        "autonomo": "Trabalhador independente",
+        "company": "EOOD"
+      }
     },
     "countries": {
       "spain": {
@@ -3306,6 +3321,14 @@
     "asesoriaGratis": {
       "title": "Consulta Gratuita | Exentax",
       "description": "Reserve uma consulta gratuita de 30 minutos com os nossos especialistas em formação de LLC nos Estados Unidos."
+    },
+    "start": {
+      "title": "Comece a Sua Estrutura Fiscal Internacional | Exentax",
+      "description": "Comece a desenhar a sua estrutura fiscal internacional com LLC nos Estados Unidos. Processo guiado, passo a passo, com aconselhamento profissional."
+    },
+    "links": {
+      "title": "Links e Recursos | Exentax — Fiscalidade Internacional",
+      "description": "Aceda a todos os recursos, redes e links da Exentax. A sua porta de entrada para a fiscalidade internacional otimizada."
     }
   },
   "consultations": {

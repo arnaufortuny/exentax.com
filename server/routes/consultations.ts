@@ -1,8 +1,8 @@
 import type { Express, Response } from "express";
 import { z } from "zod";
-import { db, isAuthenticated, isNotUnderReview, isAdmin, isAdminOrSupport, logAudit, getClientIp , asyncHandler } from "./shared";
+import { db, isAuthenticated, isNotUnderReview, isAdmin, isAdminOrSupport, logAudit, getClientIp, asyncHandler, parseIdParam } from "./shared";
 import { createLogger } from "../lib/logger";
-import { checkRateLimit } from "../lib/security";
+import { checkRateLimit, sanitizeHtml } from "../lib/security";
 import { DateTime } from "luxon";
 import { getCached, setCache, invalidateCache } from "../lib/cache";
 
@@ -406,18 +406,18 @@ export function registerConsultationRoutes(app: Express) {
         scheduledTime: data.scheduledTime,
         duration: 30,
         status: 'confirmed',
-        guestFirstName: data.firstName,
-        guestLastName: data.lastName,
+        guestFirstName: sanitizeHtml(data.firstName),
+        guestLastName: sanitizeHtml(data.lastName),
         guestEmail: email,
         guestPhone: data.phone || null,
-        countryOfResidence: data.countryOfResidence || null,
-        mainTopic: data.mainTopic || null,
-        activity: data.businessActivity || data.activity || null,
-        aboutYou: data.aboutYou || null,
+        countryOfResidence: data.countryOfResidence ? sanitizeHtml(data.countryOfResidence) : null,
+        mainTopic: data.mainTopic ? sanitizeHtml(data.mainTopic) : null,
+        activity: data.businessActivity || data.activity ? sanitizeHtml(data.businessActivity || data.activity || '') : null,
+        aboutYou: data.aboutYou ? sanitizeHtml(data.aboutYou) : null,
         hasSL: data.hasExistingBusiness || data.hasSL || null,
         isAutonomo: data.isAutonomo || null,
         approximateRevenue: data.estimatedRevenue || data.approximateRevenue || null,
-        additionalNotes: data.additionalNotes || null,
+        additionalNotes: data.additionalNotes ? sanitizeHtml(data.additionalNotes) : null,
         preferredLanguage: data.preferredLanguage || 'es',
       }).returning();
       
@@ -708,7 +708,7 @@ export function registerConsultationRoutes(app: Express) {
   app.patch("/api/consultations/:id/cancel", isAuthenticated, isNotUnderReview, asyncHandler(async (req: any, res: Response) => {
     try {
       const userId = req.session.userId!;
-      const bookingId = parseInt(req.params.id);
+      const bookingId = parseIdParam(req);
       
       const [booking] = await db.select().from(consultationBookings)
         .where(and(
@@ -808,10 +808,25 @@ export function registerConsultationRoutes(app: Express) {
   // Update consultation type (admin)
   app.patch("/api/admin/consultations/types/:id", isAdmin, asyncHandler(async (req: any, res: Response) => {
     try {
-      const typeId = parseInt(req.params.id);
+      const typeId = parseIdParam(req);
+      
+      const updateSchema = z.object({
+        name: z.string().min(1).optional(),
+        nameEs: z.string().min(1).optional(),
+        nameEn: z.string().min(1).optional(),
+        nameCa: z.string().min(1).optional(),
+        description: z.string().optional().nullable(),
+        descriptionEs: z.string().optional().nullable(),
+        descriptionEn: z.string().optional().nullable(),
+        descriptionCa: z.string().optional().nullable(),
+        duration: z.number().min(15).max(180).optional(),
+        price: z.number().min(0).optional(),
+        isActive: z.boolean().optional(),
+      });
+      const data = updateSchema.parse(req.body);
       
       const [updated] = await db.update(consultationTypes)
-        .set(req.body)
+        .set(data)
         .where(eq(consultationTypes.id, typeId))
         .returning();
       
@@ -822,8 +837,9 @@ export function registerConsultationRoutes(app: Express) {
       invalidateCache('consultation_types');
       invalidateCache('admin_consultation_types');
       res.json(updated);
-    } catch (err) {
+    } catch (err: any) {
       log.error("Error updating consultation type", err);
+      if (err.errors) return res.status(400).json({ message: err.errors[0]?.message || "Validation error" });
       res.status(500).json({ message: "Error updating type" });
     }
   }));
@@ -831,7 +847,7 @@ export function registerConsultationRoutes(app: Express) {
   // Delete consultation type (admin)
   app.delete("/api/admin/consultations/types/:id", isAdmin, asyncHandler(async (req: any, res: Response) => {
     try {
-      const typeId = parseInt(req.params.id);
+      const typeId = parseIdParam(req);
       await db.delete(consultationTypes).where(eq(consultationTypes.id, typeId));
       invalidateCache('consultation_types');
       invalidateCache('admin_consultation_types');
@@ -881,17 +897,26 @@ export function registerConsultationRoutes(app: Express) {
   // Update availability slot (admin)
   app.patch("/api/admin/consultations/availability/:id", isAdmin, asyncHandler(async (req: any, res: Response) => {
     try {
-      const slotId = parseInt(req.params.id);
+      const slotId = parseIdParam(req);
+      
+      const updateSchema = z.object({
+        dayOfWeek: z.number().min(0).max(6).optional(),
+        startTime: z.string().regex(/^\d{2}:\d{2}$/).optional(),
+        endTime: z.string().regex(/^\d{2}:\d{2}$/).optional(),
+        isActive: z.boolean().optional(),
+      });
+      const data = updateSchema.parse(req.body);
       
       const [updated] = await db.update(consultationAvailability)
-        .set(req.body)
+        .set(data)
         .where(eq(consultationAvailability.id, slotId))
         .returning();
       
       invalidateCache('admin_consultation_availability');
       res.json(updated);
-    } catch (err) {
+    } catch (err: any) {
       log.error("Error updating availability", err);
+      if (err.errors) return res.status(400).json({ message: err.errors[0]?.message || "Validation error" });
       res.status(500).json({ message: "Error updating schedule" });
     }
   }));
@@ -899,7 +924,7 @@ export function registerConsultationRoutes(app: Express) {
   // Delete availability slot (admin)
   app.delete("/api/admin/consultations/availability/:id", isAdmin, asyncHandler(async (req: any, res: Response) => {
     try {
-      const slotId = parseInt(req.params.id);
+      const slotId = parseIdParam(req);
       await db.delete(consultationAvailability).where(eq(consultationAvailability.id, slotId));
       invalidateCache('admin_consultation_availability');
       res.json({ success: true });
@@ -951,7 +976,7 @@ export function registerConsultationRoutes(app: Express) {
   // Delete blocked date (admin)
   app.delete("/api/admin/consultations/blocked-dates/:id", isAdmin, asyncHandler(async (req: any, res: Response) => {
     try {
-      const dateId = parseInt(req.params.id);
+      const dateId = parseIdParam(req);
       await db.delete(consultationBlockedDates).where(eq(consultationBlockedDates.id, dateId));
       invalidateCache('consultation_settings');
       invalidateCache('admin_consultation_blocked_dates');
@@ -992,7 +1017,7 @@ export function registerConsultationRoutes(app: Express) {
   // Update booking status (admin)
   app.patch("/api/admin/consultations/bookings/:id", isAdminOrSupport, asyncHandler(async (req: any, res: Response) => {
     try {
-      const bookingId = parseInt(req.params.id);
+      const bookingId = parseIdParam(req);
       const { status, adminNotes, meetingLink } = req.body;
       
       const updateData: any = { updatedAt: new Date() };
@@ -1034,8 +1059,11 @@ export function registerConsultationRoutes(app: Express) {
   // Reschedule booking (admin)
   app.patch("/api/admin/consultations/bookings/:id/reschedule", isAdminOrSupport, asyncHandler(async (req: any, res: Response) => {
     try {
-      const bookingId = parseInt(req.params.id);
-      const { scheduledDate, scheduledTime } = req.body;
+      const bookingId = parseIdParam(req);
+      const { scheduledDate, scheduledTime } = z.object({
+        scheduledDate: z.string().min(1),
+        scheduledTime: z.string().regex(/^\d{2}:\d{2}$/)
+      }).parse(req.body);
       
       // Check new slot availability
       const newDate = new Date(scheduledDate);

@@ -160,7 +160,7 @@
     "openMenu": "Obrir menú",
     "closeMenu": "Tancar menú",
     "logout": "Tancar sessió",
-    "freeConsultation": "Consulta gratis"
+    "freeConsultation": "Consulta gratuïta"
   },
   "hero": {
     "title": "OPTIMITZA L'ESTRUCTURA FISCAL DEL TEU NEGOCI DIGITAL",
@@ -463,7 +463,7 @@
       }
     },
     "packs": {
-      "badge": "PAQUETS",
+      "badge": "PACKS",
       "title": "ELS NOSTRES PACKS",
       "subtitle": "(Tria el pla que millor s'adapti a tu)"
     },
@@ -822,7 +822,7 @@
       "weak": "Feble",
       "fair": "Regular",
       "good": "Bona",
-      "strong": "Segura",
+      "strong": "Forta",
       "minLength": "Mínim 8 caràcters",
       "hasUppercase": "Una majúscula (A-Z)",
       "hasLowercase": "Una minúscula (a-z)",
@@ -856,8 +856,8 @@
       "sendErrorDesc": "No s'ha pogut enviar el codi"
     },
     "forgotPassword": {
-      "title": "Reset",
-      "titleHighlight": "Password",
+      "title": "Recuperar",
+      "titleHighlight": "Contrasenya",
       "descriptionEmail": "T'enviarem un codi de verificació per restablir l'accés al teu compte de forma segura.",
       "descriptionOtp": "Introdueix el codi de 6 dígits que hem enviat al teu email",
       "descriptionPassword": "Crea una nova contrasenya segura per al teu compte",
@@ -2873,11 +2873,26 @@
     "vat": "IVA",
     "vatNote": "Ets recaptador, no és diners perduts",
     "structures": {
-      "spain": { "autonomo": "Autònom", "company": "Societat (SL)" },
-      "uk": { "autonomo": "Sole Trader", "company": "Limited (Ltd)" },
-      "germany": { "autonomo": "Freiberufler", "company": "GmbH" },
-      "france": { "autonomo": "Auto-entrepreneur", "company": "SARL / SAS" },
-      "bulgaria": { "autonomo": "Treballador autònom", "company": "EOOD" }
+      "spain": {
+        "autonomo": "Autònom",
+        "company": "Societat (SL)"
+      },
+      "uk": {
+        "autonomo": "Sole Trader",
+        "company": "Limited (Ltd)"
+      },
+      "germany": {
+        "autonomo": "Freiberufler",
+        "company": "GmbH"
+      },
+      "france": {
+        "autonomo": "Auto-entrepreneur",
+        "company": "SARL / SAS"
+      },
+      "bulgaria": {
+        "autonomo": "Treballador autònom",
+        "company": "EOOD"
+      }
     },
     "countries": {
       "spain": {
@@ -3306,6 +3321,14 @@
     "asesoriaGratis": {
       "title": "Consulta Gratuïta | Exentax",
       "description": "Reserva una consulta gratuïta de 30 minuts amb els nostres experts en formació de LLC als Estats Units."
+    },
+    "start": {
+      "title": "Comença la Teva Estructura Fiscal Internacional | Exentax",
+      "description": "Comença a dissenyar la teva estructura fiscal internacional amb LLC als Estats Units. Procés guiat, pas a pas, amb assessorament professional."
+    },
+    "links": {
+      "title": "Enllaços i Recursos | Exentax — Fiscalitat Internacional",
+      "description": "Accedeix a tots els recursos, xarxes i enllaços d'Exentax. La teva porta d'entrada a la fiscalitat internacional optimitzada."
     }
   },
   "consultations": {

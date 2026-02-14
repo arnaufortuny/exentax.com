@@ -14,7 +14,7 @@ export default function NotFound() {
       
       <main className="flex-1 flex items-center justify-center p-4">
         <div className="text-center max-w-lg mx-auto flex flex-col items-center justify-center">
-          <div className="text-[120px] sm:text-[180px] font-black text-[#00C48C]/30 leading-none mb-4">404</div>
+          <div className="text-[120px] sm:text-[180px] font-black text-accent/30 leading-none mb-4">404</div>
           
           <h1 className="text-3xl sm:text-4xl font-black text-foreground mb-4 tracking-tight">
             {t("notFound.title")}

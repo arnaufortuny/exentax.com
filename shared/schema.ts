@@ -17,7 +17,7 @@ export const orders = pgTable("orders", {
   id: serial("id").primaryKey(),
   userId: varchar("user_id").notNull().references(() => users.id),
   productId: integer("product_id").notNull().references(() => products.id),
-  status: text("status").notNull().default("pending"), // pending, paid, processing, documents_ready, completed, cancelled
+  status: text("status").notNull().default("pending"), // pending, paid, processing, filed, documents_ready, completed, cancelled
   stripeSessionId: text("stripe_session_id"),
   amount: integer("amount").notNull(),
   originalAmount: integer("original_amount"), // original amount before discount
