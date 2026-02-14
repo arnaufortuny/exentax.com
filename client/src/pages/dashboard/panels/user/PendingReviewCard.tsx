@@ -23,12 +23,12 @@ export function PendingReviewCard({ user }: { user: any }) {
         </div>
       )}
       <Card className="rounded-2xl border-0 shadow-xl overflow-hidden bg-white dark:bg-card">
-        <div className="h-1.5 w-full bg-accent" />
+        <div className="h-1.5 w-full bg-orange-500" />
         <CardContent className="p-5 sm:p-6">
-          <div className="flex items-center gap-4 mb-4 pb-4 border-b border-zinc-900/10 dark:border-accent/30">
+          <div className="flex items-center gap-4 mb-4 pb-4 border-b border-zinc-900/10 dark:border-orange-500/30">
             <div className="flex items-center justify-center shrink-0">
-              <div className="w-16 h-16 rounded-full bg-accent/10 dark:bg-accent/15 flex items-center justify-center">
-                <Clock className="w-8 h-8 text-accent" />
+              <div className="w-16 h-16 rounded-full bg-orange-500/10 dark:bg-orange-500/15 flex items-center justify-center">
+                <Clock className="w-8 h-8 text-orange-500" />
               </div>
             </div>
             <div>
@@ -42,17 +42,17 @@ export function PendingReviewCard({ user }: { user: any }) {
           </div>
 
           {!user?.emailVerified ? (
-            <div className="bg-accent/5 dark:bg-accent/10 border border-accent/30 dark:border-accent/30 rounded-xl p-4">
+            <div className="bg-orange-50 dark:bg-orange-500/10 border border-orange-300 dark:border-orange-500/30 rounded-xl p-4">
               <div className="flex items-center gap-2 mb-3">
-                <Mail className="w-4 h-4 text-accent" />
-                <span className="font-black text-sm text-accent dark:text-accent">{t("dashboard.pendingAccount.verifyEmailStep")}</span>
+                <Mail className="w-4 h-4 text-orange-600 dark:text-orange-400" />
+                <span className="font-black text-sm text-orange-600 dark:text-orange-400">{t("dashboard.pendingAccount.verifyEmailStep")}</span>
               </div>
-              <p className="text-xs text-accent dark:text-accent mb-3">
+              <p className="text-xs text-orange-600 dark:text-orange-400 mb-3">
                 {t("dashboard.pendingAccount.codeSentTo")} <strong>{user?.email}</strong>
               </p>
               <Input value={emailVerificationCode}
                 onChange={(e: any) => setEmailVerificationCode(e.target.value.replace(/\D/g, ""))}
-                className="rounded-full text-center text-xl font-black border-accent/30 focus:border-accent tracking-[0.4em] h-12 mb-4"
+                className="rounded-full text-center text-xl font-black border-orange-300 focus:border-orange-500 tracking-[0.4em] h-12 mb-4"
                 maxLength={6}
                 inputMode="numeric"
                 data-testid="input-pending-verification-code"
@@ -79,7 +79,7 @@ export function PendingReviewCard({ user }: { user: any }) {
                     }
                   }}
                   disabled={isVerifyingEmail || emailVerificationCode.length < 6}
-                  className="flex-1 bg-accent text-accent-foreground font-black rounded-full h-11"
+                  className="flex-1 bg-orange-500 hover:bg-orange-600 text-white font-black rounded-full h-11"
                   data-testid="button-pending-verify"
                 >
                   {isVerifyingEmail ? <Loader2 className="w-5 h-5 animate-spin" /> : t("dashboard.pendingAccount.verifyButton")}
@@ -97,7 +97,7 @@ export function PendingReviewCard({ user }: { user: any }) {
                     }
                   }}
                   disabled={isResendingCode}
-                  className="flex-1 rounded-full h-11 font-black"
+                  className="flex-1 rounded-full h-11 font-black border-orange-300 text-orange-600 hover:bg-orange-50 dark:border-orange-500/30 dark:text-orange-400 dark:hover:bg-orange-500/10"
                   data-testid="button-pending-resend"
                 >
                   {isResendingCode ? <Loader2 className="w-5 h-5 animate-spin" /> : t("dashboard.pendingAccount.resendCode")}
@@ -108,9 +108,9 @@ export function PendingReviewCard({ user }: { user: any }) {
             <div className="space-y-4">
               {((user as any).identityVerificationStatus === 'requested' || (user as any).identityVerificationStatus === 'rejected') ? (
                 <div className="space-y-4">
-                  <div className={`border rounded-xl p-4 ${(user as any).identityVerificationStatus === 'rejected' ? 'bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-800' : 'bg-accent/5 dark:bg-accent/10 border-accent/30 dark:border-accent/30'}`}>
+                  <div className={`border rounded-xl p-4 ${(user as any).identityVerificationStatus === 'rejected' ? 'bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-800' : 'bg-orange-50 dark:bg-orange-500/10 border-orange-300 dark:border-orange-500/30'}`}>
                     <div className="flex items-center gap-2 mb-2">
-                      <ShieldCheck className={`w-5 h-5 ${(user as any).identityVerificationStatus === 'rejected' ? 'text-red-600' : 'text-accent'}`} />
+                      <ShieldCheck className={`w-5 h-5 ${(user as any).identityVerificationStatus === 'rejected' ? 'text-red-600' : 'text-orange-600 dark:text-orange-400'}`} />
                       <span className="font-black text-sm text-foreground">
                         {(user as any).identityVerificationStatus === 'rejected' ? t("dashboard.pendingAccount.idvRejectedTitle") : t("dashboard.pendingAccount.idvRequestedTitle")}
                       </span>
@@ -139,7 +139,7 @@ export function PendingReviewCard({ user }: { user: any }) {
                         />
                         {idvUploadFile ? (
                           <div className="flex items-center gap-2 bg-white dark:bg-card border border-border rounded-full px-4 py-2 mb-3">
-                            <FileText className="w-4 h-4 text-accent shrink-0" />
+                            <FileText className="w-4 h-4 text-orange-500 shrink-0" />
                             <span className="text-sm text-foreground truncate flex-1">{idvUploadFile.name}</span>
                             <Button variant="ghost" size="icon" className="h-6 w-6 rounded-full" onClick={() => setIdvUploadFile(null)}>
                               <X className="w-3 h-3" />
@@ -184,7 +184,7 @@ export function PendingReviewCard({ user }: { user: any }) {
                                 setIsUploadingIdv(false);
                               }
                             }}
-                            className="w-full bg-accent text-accent-foreground font-black rounded-full h-11 mt-3"
+                            className="w-full bg-orange-500 hover:bg-orange-600 text-white font-black rounded-full h-11 mt-3"
                             data-testid="button-idv-upload-dashboard"
                           >
                             {isUploadingIdv ? <Loader2 className="w-5 h-5 animate-spin" /> : t("dashboard.pendingAccount.idvUploadButton")}
@@ -195,22 +195,22 @@ export function PendingReviewCard({ user }: { user: any }) {
                   </div>
                 </div>
               ) : (user as any).identityVerificationStatus === 'uploaded' ? (
-                <div className="bg-accent/5 dark:bg-accent/10 border border-accent/30 dark:border-accent/30 rounded-xl p-4">
+                <div className="bg-orange-50 dark:bg-orange-500/10 border border-orange-300 dark:border-orange-500/30 rounded-xl p-4">
                   <div className="flex items-center gap-2 mb-2">
-                    <Clock className="w-5 h-5 text-accent" />
-                    <span className="font-black text-sm text-accent dark:text-accent">{t("dashboard.pendingAccount.idvUploadedTitle")}</span>
+                    <Clock className="w-5 h-5 text-orange-600 dark:text-orange-400" />
+                    <span className="font-black text-sm text-orange-600 dark:text-orange-400">{t("dashboard.pendingAccount.idvUploadedTitle")}</span>
                   </div>
-                  <p className="text-xs text-accent dark:text-accent leading-relaxed">
+                  <p className="text-xs text-orange-600 dark:text-orange-400 leading-relaxed">
                     {t("dashboard.pendingAccount.idvUploadedDesc")}
                   </p>
                 </div>
               ) : (
-                <div className="bg-accent/5 dark:bg-accent/10 border border-accent/30 dark:border-accent/30 rounded-xl p-4">
+                <div className="bg-orange-50 dark:bg-orange-500/10 border border-orange-300 dark:border-orange-500/30 rounded-xl p-4">
                   <div className="flex items-center gap-2 mb-2">
-                    <Shield className="w-5 h-5 text-accent" />
-                    <span className="font-black text-sm text-accent dark:text-accent">{t("dashboard.pendingAccount.adminReviewTitle")}</span>
+                    <Shield className="w-5 h-5 text-orange-600 dark:text-orange-400" />
+                    <span className="font-black text-sm text-orange-600 dark:text-orange-400">{t("dashboard.pendingAccount.adminReviewTitle")}</span>
                   </div>
-                  <p className="text-xs text-accent dark:text-accent leading-relaxed">
+                  <p className="text-xs text-orange-600 dark:text-orange-400 leading-relaxed">
                     {t("dashboard.pendingAccount.adminReviewMessage")}
                   </p>
                 </div>
