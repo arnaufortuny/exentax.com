@@ -123,9 +123,9 @@ export function DashboardSidebar({
               <span>{t("nav.logout")}</span>
             </button>
 
-            <div className="flex items-center gap-3 px-4 py-3 mt-1 rounded-xl bg-secondary/30">
-              <div className="w-8 h-8 rounded-full bg-accent/20 flex items-center justify-center shrink-0">
-                <span className="text-accent font-black text-sm">
+            <div className="flex items-center gap-3 px-4 py-3 mt-1 rounded-xl">
+              <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center shrink-0">
+                <span className="text-muted-foreground font-black text-sm">
                   {(user?.firstName || '?').charAt(0).toUpperCase()}
                 </span>
               </div>
