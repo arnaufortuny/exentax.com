@@ -997,7 +997,13 @@ export default function Dashboard() {
                     setPasswordOtp={setPasswordOtp}
                     requestPasswordOtpMutation={requestPasswordOtpMutation}
                     changePasswordMutation={changePasswordMutation}
-                    setShowEmailVerification={() => setActiveTab('services')}
+                    setShowEmailVerification={() => {
+                      setActiveTab('services');
+                      setTimeout(() => {
+                        const scrollContainer = document.querySelector('.flex-1.min-w-0.overflow-y-auto');
+                        if (scrollContainer) scrollContainer.scrollTop = 0;
+                      }, 50);
+                    }}
                     setDeleteOwnAccountDialog={setDeleteOwnAccountDialog}
                     profileOtpStep={profileOtpStep}
                     setProfileOtpStep={setProfileOtpStep}
