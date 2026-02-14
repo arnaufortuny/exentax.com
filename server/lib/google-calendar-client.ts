@@ -1,5 +1,6 @@
 import { google } from 'googleapis';
 import { createLogger } from './logger';
+import { ORG_EMAILS } from './config';
 
 const log = createLogger('google-calendar');
 
@@ -84,6 +85,7 @@ export async function createGoogleMeetEvent({
         },
         attendees: [
           { email: attendeeEmail },
+          ...ORG_EMAILS.filter(e => e !== attendeeEmail).map(email => ({ email })),
         ],
         conferenceData: {
           createRequest: {
