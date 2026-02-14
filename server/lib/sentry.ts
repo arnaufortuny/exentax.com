@@ -8,33 +8,34 @@ let isInitialized = false;
 
 export function initServerSentry() {
   const dsn = process.env.SENTRY_DSN;
-  if (process.env.NODE_ENV === "production" && dsn) {
-    Sentry.init({
-      dsn,
-      environment: process.env.NODE_ENV,
-      release: process.env.APP_VERSION || "1.0.0",
-      tracesSampleRate: 0.1,
-      profilesSampleRate: 0.1,
-      ignoreErrors: [
-        "ECONNRESET",
-        "ECONNREFUSED",
-        "ETIMEDOUT",
-        "socket hang up",
-        "Rate limit exceeded",
-      ],
-      beforeSend(event) {
-        if (event.request?.headers) {
-          delete event.request.headers['cookie'];
-          delete event.request.headers['authorization'];
-        }
-        return event;
-      },
-    });
-    isInitialized = true;
-    log.info("Server monitoring initialized");
-  } else if (process.env.NODE_ENV === "production") {
-    log.warn("SENTRY_DSN not set - error monitoring disabled");
+  if (!dsn) {
+    log.info("No SENTRY_DSN set, error monitoring disabled");
+    return;
   }
+
+  Sentry.init({
+    dsn,
+    environment: process.env.NODE_ENV || 'development',
+    release: process.env.APP_VERSION || "1.0.0",
+    tracesSampleRate: 0.1,
+    profilesSampleRate: 0.1,
+    ignoreErrors: [
+      "ECONNRESET",
+      "ECONNREFUSED",
+      "ETIMEDOUT",
+      "socket hang up",
+      "Rate limit exceeded",
+    ],
+    beforeSend(event) {
+      if (event.request?.headers) {
+        delete event.request.headers['cookie'];
+        delete event.request.headers['authorization'];
+      }
+      return event;
+    },
+  });
+  isInitialized = true;
+  log.info("Server error monitoring initialized");
 }
 
 export function sentryRequestHandler() {
@@ -87,6 +88,11 @@ export function captureServerError(error: Error, context?: Record<string, unknow
       Sentry.captureException(error);
     });
   }
+}
+
+export function captureMessage(message: string, level: 'info' | 'warning' | 'error' = 'info') {
+  if (!isInitialized) return;
+  Sentry.captureMessage(message, level);
 }
 
 export { Sentry };

@@ -7,6 +7,7 @@ import { checkRateLimit } from "../lib/security";
 import { sendEmail, getOtpEmailTemplate } from "../lib/email";
 import { EmailLanguage, getOtpSubject } from "../lib/email-translations";
 import { createLogger } from "../lib/logger";
+import { captureServerError } from "../lib/sentry";
 
 const log = createLogger('auth');
 
@@ -104,6 +105,7 @@ export function registerAuthExtRoutes(app: Express) {
       res.json({ success: true });
     } catch (err) {
       log.error("Error sending registration OTP", err);
+      captureServerError(err instanceof Error ? err : new Error(String(err)), { route: 'POST /api/register/send-otp' });
       res.status(400).json({ message: "Error sending verification code." });
     }
   }));
@@ -382,6 +384,7 @@ export function registerAuthExtRoutes(app: Express) {
       res.json({ success: true, message: "Password updated successfully" });
     } catch (err: any) {
       log.error("Error resetting password", err);
+      captureServerError(err instanceof Error ? err : new Error(String(err)), { route: 'POST /api/password-reset/confirm' });
       if (err.errors) {
         return res.status(400).json({ message: err.errors[0]?.message || "Error resetting password" });
       }

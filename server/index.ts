@@ -67,12 +67,16 @@ async function initializeApp() {
 
     const serverLog = createLogger('server');
 
+    const { captureServerError } = await import("./lib/sentry");
+
     process.on('unhandledRejection', (reason, promise) => {
       serverLog.error('Unhandled Promise Rejection', reason, { promise: String(promise) });
+      captureServerError(reason instanceof Error ? reason : new Error(String(reason)), { type: 'unhandledRejection' });
     });
 
     process.on('uncaughtException', (error) => {
       serverLog.error('Uncaught Exception - server will continue', error);
+      captureServerError(error, { type: 'uncaughtException' });
     });
 
     const app = express();

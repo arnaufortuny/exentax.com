@@ -8,6 +8,7 @@ import { sendEmail, getWelcomeEmailTemplate, getConfirmationEmailTemplate, getAd
 import { EmailLanguage, getWelcomeEmailSubject } from "../lib/email-translations";
 import { validateEmail, normalizeEmail, checkRateLimit, sanitizeObject } from "../lib/security";
 import { createLogger } from "../lib/logger";
+import { captureServerError } from "../lib/sentry";
 
 const log = createLogger('llc');
 
@@ -138,6 +139,7 @@ export function registerLlcRoutes(app: Express) {
       res.json({ success: true, userId: newUser.id });
     } catch (error) {
       log.error("Error claiming order", error);
+      captureServerError(error instanceof Error ? error : new Error(String(error)), { route: 'POST /api/llc/claim-order' });
       res.status(500).json({ message: "Error creating account." });
     }
   }));
@@ -598,6 +600,7 @@ export function registerLlcRoutes(app: Express) {
       res.json({ success: true, message: "Payment successful" });
     } catch (error) {
       log.error("Payment error", error);
+      captureServerError(error instanceof Error ? error : new Error(String(error)), { route: 'POST /api/llc/payment' });
       res.status(500).json({ message: "Payment processing failed" });
     }
   }));

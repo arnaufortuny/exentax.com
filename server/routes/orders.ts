@@ -9,6 +9,7 @@ import { EmailLanguage, getWelcomeEmailSubject } from "../lib/email-translations
 import { generateOrderInvoice } from "../lib/pdf-generator";
 import { validateEmail, normalizeEmail } from "../lib/security";
 import { createLogger } from "../lib/logger";
+import { captureServerError } from "../lib/sentry";
 
 const log = createLogger('orders');
 
@@ -70,6 +71,7 @@ export function registerOrderRoutes(app: Express) {
       res.send(pdfBuffer);
     } catch (error) {
       log.error("Invoice error", error);
+      captureServerError(error instanceof Error ? error : new Error(String(error)), { route: 'GET /api/orders/:id/invoice' });
       res.status(500).send("Error generating invoice");
     }
   }));
@@ -263,6 +265,7 @@ export function registerOrderRoutes(app: Express) {
         return res.status(400).json({ message: err.errors[0].message });
       }
       log.error("Error creating order", err);
+      captureServerError(err instanceof Error ? err : new Error(String(err)), { route: 'POST /api/orders', userId: req.session?.userId });
       return res.status(500).json({ message: "Error creating order" });
     }
   }));

@@ -6,6 +6,7 @@ import { alias } from "drizzle-orm/pg-core";
 import { asyncHandler, db, storage, isAdmin, logAudit, getCachedData, setCachedData, getClientIp } from "./shared";
 import { checkRateLimit } from "../lib/security";
 import { createLogger } from "../lib/logger";
+import { captureServerError } from "../lib/sentry";
 import { getTaskHealthStatus } from "../lib/task-watchdog";
 import { getApiMetrics } from "../lib/api-metrics";
 
@@ -86,6 +87,7 @@ export function registerAdminBillingRoutes(app: Express) {
     res.json({ success: true, orderId: order.id, invoiceNumber });
     } catch (err: any) {
       log.error("Error creating order", err);
+      captureServerError(err instanceof Error ? err : new Error(String(err)), { route: 'POST /api/admin/orders/create' });
       if (err.errors) return res.status(400).json({ message: err.errors[0]?.message || "Validation error" });
       res.status(500).json({ message: "Error creating order" });
     }
