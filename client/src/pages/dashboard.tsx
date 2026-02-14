@@ -822,7 +822,7 @@ export default function Dashboard() {
         <div className="flex-1 min-w-0 overflow-y-auto overflow-x-hidden" style={{ WebkitOverflowScrolling: 'touch' }}>
       <main className={`pt-6 sm:pt-10 pb-20 !min-h-0 ${isAdmin ? 'px-3 md:px-4 lg:px-4 xl:px-5' : 'px-5 md:px-8 max-w-7xl mx-auto lg:mx-0 lg:max-w-none lg:px-10'}`}>
 
-        <header className="mb-2 md:mb-4 animate-fade-in-up">
+        <header className="mb-4 md:mb-6 animate-fade-in-up">
           {!user?.emailVerified && (
             <Card className="mt-4 p-4 rounded-2xl border-2 border-accent/30 bg-accent/5 dark:bg-accent/10 dark:border-accent/30">
               <div className="flex items-center gap-3">
