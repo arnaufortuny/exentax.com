@@ -182,7 +182,7 @@ export function registerLlcRoutes(app: Express) {
       res.status(500).json({ message: "Error updating application" });
     }
   }));
-  app.get(api.llc.get.path, asyncHandler(async (req: any, res: Response) => {
+  app.get(api.llc.get.path, isAuthenticated, asyncHandler(async (req: any, res: Response) => {
     const appId = parseIdParam(req);
     
     const application = await storage.getLlcApplication(appId);
@@ -206,7 +206,7 @@ export function registerLlcRoutes(app: Express) {
     res.json(application);
   }));
 
-  app.put(api.llc.update.path, asyncHandler(async (req: any, res: Response) => {
+  app.put(api.llc.update.path, isAuthenticated, asyncHandler(async (req: any, res: Response) => {
     try {
       const appId = parseIdParam(req);
       const updates = api.llc.update.input.parse(req.body);
@@ -214,6 +214,11 @@ export function registerLlcRoutes(app: Express) {
       const application = await storage.getLlcApplication(appId);
       if (!application) {
         return res.status(404).json({ message: "Application not found" });
+      }
+
+      // Security: Check if EIN has been assigned - if so, data is locked
+      if (application.ein && !req.session.isAdmin) {
+        return res.status(403).json({ message: "Data cannot be modified after EIN assignment. Contact support." });
       }
 
       // Security: Verify ownership for non-admin users
@@ -291,7 +296,7 @@ export function registerLlcRoutes(app: Express) {
 }));
 
   // Lookup by request code - requires authentication
-  app.get(api.llc.getByCode.path, asyncHandler(async (req: any, res: Response) => {
+  app.get(api.llc.getByCode.path, isAuthenticated, asyncHandler(async (req: any, res: Response) => {
     const code = req.params.code;
     
     const application = await storage.getLlcApplicationByRequestCode(code);

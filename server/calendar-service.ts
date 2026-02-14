@@ -185,7 +185,8 @@ export async function checkAndSendReminders() {
 
   for (const { application, order } of applicationsWithAnnualReport) {
     const daysUntilDue = Math.ceil((application.annualReportDueDate!.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
-    const stateLabel = application.state === "wyoming" || application.state === "WY" ? "Wyoming" : "New Mexico";
+    const stateLabel = application.state === "wyoming" || application.state === "WY" ? "Wyoming" 
+      : application.state === "delaware" || application.state === "DE" || application.state === "Delaware" ? "Delaware" : "New Mexico";
     await createComplianceNotification(
       order.userId,
       order.id,
@@ -509,7 +510,8 @@ export function getUpcomingDeadlinesForUser(applications: any[]): any[] {
       if (app.annualReportDueDate) {
         const daysUntil = Math.ceil((new Date(app.annualReportDueDate).getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
         if (daysUntil > 0 && daysUntil <= 365) {
-          const stateLabel = app.state === "wyoming" || app.state === "WY" ? "Wyoming" : "Nuevo México";
+          const stateLabel = app.state === "wyoming" || app.state === "WY" ? "Wyoming" 
+            : app.state === "delaware" || app.state === "DE" || app.state === "Delaware" ? "Delaware" : "Nuevo México";
           deadlines.push({
             type: "annual_report",
             title: `Informe Anual (${stateLabel})`,

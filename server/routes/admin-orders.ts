@@ -1,12 +1,12 @@
 import type { Express } from "express";
 import type { Request, Response } from "express";
 import { z } from "zod";
-import { and, eq, desc, sql } from "drizzle-orm";
+import { and, eq, desc, sql, inArray } from "drizzle-orm";
 import { asyncHandler, db, storage, isAdmin, isAdminOrSupport, logAudit } from "./shared";
 import { createLogger } from "../lib/logger";
 
 const log = createLogger('admin-orders');
-import { orders as ordersTable, users as usersTable, maintenanceApplications, orderEvents, userNotifications, llcApplications as llcApplicationsTable, applicationDocuments as applicationDocumentsTable } from "@shared/schema";
+import { orders as ordersTable, users as usersTable, maintenanceApplications, orderEvents, userNotifications, llcApplications as llcApplicationsTable, applicationDocuments as applicationDocumentsTable, documentRequests as documentRequestsTable } from "@shared/schema";
 import { sendEmail, sendTrustpilotEmail, getOrderUpdateTemplate } from "../lib/email";
 import { updateApplicationDeadlines } from "../calendar-service";
 
@@ -330,6 +330,17 @@ export function registerAdminOrderRoutes(app: Express) {
     await db.transaction(async (tx) => {
       // Delete order events
       await tx.delete(orderEvents).where(eq(orderEvents.orderId, orderId));
+      
+      // Delete document requests linked to documents from this order (before deleting docs)
+      const orderDocs = await tx.select({ id: applicationDocumentsTable.id })
+        .from(applicationDocumentsTable)
+        .where(eq(applicationDocumentsTable.orderId, orderId));
+      const docIds = orderDocs.map(d => d.id);
+      if (docIds.length > 0) {
+        await tx.delete(documentRequestsTable).where(
+          inArray(documentRequestsTable.linkedDocumentId, docIds)
+        );
+      }
       
       // Delete application documents
       await tx.delete(applicationDocumentsTable).where(eq(applicationDocumentsTable.orderId, orderId));
